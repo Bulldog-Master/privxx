@@ -17,7 +17,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[hsl(216,15%,14%)] to-[hsl(216,15%,9%)]">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[hsl(216,14%,15%)] to-[hsl(216,14%,11%)]">
       <PrivxxHeader />
       
       <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8 relative">
