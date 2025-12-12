@@ -8,13 +8,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTranslations, getSupportedLanguages, setLanguage } from "@/lib/i18n";
 
-// Sorted alphabetically by English name
+// English first, then sorted alphabetically by English name
 const languages = [
+  { code: 'en', label: 'English' },
   { code: 'ar', label: 'العربية' },
   { code: 'bn', label: 'বাংলা' },
   { code: 'zh', label: '中文' },
   { code: 'nl', label: 'Nederlands' },
-  { code: 'en', label: 'English' },
   { code: 'fr', label: 'Français' },
   { code: 'de', label: 'Deutsch' },
   { code: 'hi', label: 'हिन्दी' },
