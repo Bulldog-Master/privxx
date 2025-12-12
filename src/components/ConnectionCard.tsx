@@ -57,7 +57,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
       {/* Subtle card glow */}
       <div className="absolute -inset-1 bg-primary/8 blur-2xl rounded-3xl pointer-events-none opacity-60" />
       
-      <div className="relative w-full p-8 bg-card rounded-2xl border border-border shadow-2xl shadow-black/40 space-y-5">
+      <div className="relative w-full p-8 bg-card rounded-2xl border border-primary/20 shadow-xl shadow-primary/10 space-y-5">
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="text"
@@ -65,7 +65,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             onChange={(e) => setUrl(e.target.value)}
             placeholder={t("urlPlaceholder")}
             disabled={connectionState === "connecting"}
-            className="w-full h-14 bg-[hsl(172_40%_35%)] border-primary/60 text-white placeholder:text-white/70 rounded-xl text-base px-4 focus:bg-[hsl(172_45%_38%)] focus:border-primary"
+            className="w-full h-14 bg-white border-primary/30 text-slate-700 placeholder:text-slate-500 rounded-xl text-base px-4 focus:bg-white focus:border-primary"
           />
           
           <Button
@@ -90,10 +90,10 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
         <div className="flex items-center justify-center gap-2 pt-1">
           <span className={`text-sm font-medium ${
             connectionState === "connected" 
-              ? "text-status-connected" 
+              ? "text-emerald-600" 
               : connectionState === "connecting"
-              ? "text-status-connecting"
-              : "text-muted-foreground"
+              ? "text-amber-600"
+              : "text-slate-600"
           }`}>
             {connectionState === "connecting" ? "" : getStatusText()}
           </span>
