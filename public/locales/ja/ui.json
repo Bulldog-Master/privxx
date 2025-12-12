@@ -1,0 +1,21 @@
+{
+  "appTitle": "Privxx",
+  "subtitle": "プライベートブラウジング＆決済トンネル",
+  "urlPlaceholder": "https://銀行または店舗.com",
+  "connect": "Privxxで接続",
+  "idle": "待機中",
+  "connecting": "Privxxで接続中...",
+  "connected": "接続済み（シミュレーション）",
+  "requestedUrl": "リクエストされたURL",
+  "simulatedLatency": "シミュレーション遅延",
+  "privacy": "プライバシー",
+  "privacyDrawerTitle": "Privxxプライバシー原則",
+  "privacyDrawerIntro": "Privxxはコンテンツの暗号化だけでなく、メタデータを保護するために設計されています。",
+  "privacyDrawerPoint1": "PrivxxはIPアドレスと位置情報を隠します（設計目標）。",
+  "privacyDrawerPoint2": "Privxxはネットワークメタデータを削除するためにmixnet技術（cMixx）を使用します。",
+  "privacyDrawerPoint3": "Privxxはポスト量子暗号を使用するように構築されています。",
+  "privacyDrawerPoint4": "Privxxは閲覧履歴や永続的な識別子を保存しません。",
+  "privacyDrawerPoint5": "Privxxは分析やトラッキングを使用しません。",
+  "proxyPlaceholder": "プロキシコンテンツは将来のバージョンでここに表示されます。",
+  "simulationNotice": "これはPrivxxのシミュレーションプロトタイプです。実際のcMixx統合は後のフェーズで追加されます。"
+}

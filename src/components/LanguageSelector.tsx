@@ -9,15 +9,22 @@ import {
 import { useTranslations, getSupportedLanguages, setLanguage } from "@/lib/i18n";
 
 const languageLabels: Record<string, string> = {
-  en: "EN",
-  es: "ES",
-  fr: "FR",
-  pt: "PT",
-  de: "DE",
-  ar: "AR",
-  ru: "RU",
-  bn: "BN",
-  zh: "ZH",
+  en: "English",
+  zh: "中文",
+  hi: "हिन्दी",
+  es: "Español",
+  fr: "Français",
+  ar: "العربية",
+  bn: "বাংলা",
+  ru: "Русский",
+  pt: "Português",
+  ur: "اردو",
+  id: "Indonesia",
+  de: "Deutsch",
+  ja: "日本語",
+  nl: "Nederlands",
+  tr: "Türkçe",
+  ko: "한국어",
 };
 
 const LanguageSelector = () => {
@@ -29,10 +36,10 @@ const LanguageSelector = () => {
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="border-border text-foreground hover:bg-secondary gap-1">
           <Globe className="h-4 w-4" />
-          <span>{languageLabels[currentLanguage] || "EN"}</span>
+          <span className="hidden sm:inline">{languageLabels[currentLanguage] || "English"}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-card border-border z-50 max-h-64 overflow-y-auto">
+      <DropdownMenuContent align="end" className="bg-card border-border z-50 max-h-80 overflow-y-auto">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang}

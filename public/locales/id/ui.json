@@ -1,0 +1,21 @@
+{
+  "appTitle": "Privxx",
+  "subtitle": "Terowongan Penjelajahan & Pembayaran Pribadi",
+  "urlPlaceholder": "https://bank-atau-toko.com",
+  "connect": "Hubungkan melalui Privxx",
+  "idle": "Menganggur",
+  "connecting": "Menghubungkan melalui Privxx...",
+  "connected": "Terhubung (simulasi)",
+  "requestedUrl": "URL yang Diminta",
+  "simulatedLatency": "Latensi Simulasi",
+  "privacy": "Privasi",
+  "privacyDrawerTitle": "Prinsip Privasi Privxx",
+  "privacyDrawerIntro": "Privxx dirancang untuk melindungi metadata Anda, bukan hanya mengenkripsi konten.",
+  "privacyDrawerPoint1": "Privxx menyembunyikan alamat IP dan lokasi Anda (tujuan desain).",
+  "privacyDrawerPoint2": "Privxx menggunakan teknologi mixnet (cMixx) untuk menghapus metadata jaringan.",
+  "privacyDrawerPoint3": "Privxx dibangun untuk menggunakan kriptografi pasca-kuantum.",
+  "privacyDrawerPoint4": "Privxx tidak akan menyimpan riwayat penjelajahan atau pengenal permanen Anda.",
+  "privacyDrawerPoint5": "Privxx tidak akan pernah menggunakan analitik atau pelacakan.",
+  "proxyPlaceholder": "Konten proxy akan muncul di sini di versi mendatang.",
+  "simulationNotice": "Ini adalah prototipe simulasi Privxx. Integrasi cMixx nyata akan ditambahkan di fase selanjutnya."
+}

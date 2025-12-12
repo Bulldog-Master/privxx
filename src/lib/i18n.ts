@@ -10,6 +10,13 @@ import ar from '../../public/locales/ar/ui.json';
 import ru from '../../public/locales/ru/ui.json';
 import bn from '../../public/locales/bn/ui.json';
 import zh from '../../public/locales/zh/ui.json';
+import hi from '../../public/locales/hi/ui.json';
+import ur from '../../public/locales/ur/ui.json';
+import id from '../../public/locales/id/ui.json';
+import ja from '../../public/locales/ja/ui.json';
+import nl from '../../public/locales/nl/ui.json';
+import tr from '../../public/locales/tr/ui.json';
+import ko from '../../public/locales/ko/ui.json';
 
 type TranslationKey = keyof typeof en;
 type Translations = Record<string, string>;
@@ -24,6 +31,13 @@ const translations: Record<string, Translations> = {
   ru,
   bn,
   zh,
+  hi,
+  ur,
+  id,
+  ja,
+  nl,
+  tr,
+  ko,
 };
 
 // Detect browser language and map to supported locale
@@ -47,7 +61,9 @@ export const setLanguage = (lang: string) => {
 
 export const getLanguage = () => currentLanguage;
 
-export const getSupportedLanguages = () => ['en', 'es', 'fr', 'pt', 'de', 'ar', 'ru', 'bn', 'zh'];
+export const getSupportedLanguages = () => [
+  'en', 'zh', 'hi', 'es', 'fr', 'ar', 'bn', 'ru', 'pt', 'ur', 'id', 'de', 'ja', 'nl', 'tr', 'ko'
+];
 
 // Translation function
 export const t = (key: TranslationKey): string => {
