@@ -1,0 +1,21 @@
+{
+  "appTitle": "Privxx",
+  "subtitle": "نفق خاص للتصفح والمدفوعات",
+  "urlPlaceholder": "https://بنك-او-متجر.com",
+  "connect": "الاتصال عبر Privxx",
+  "idle": "خامل",
+  "connecting": "جاري الاتصال عبر Privxx...",
+  "connected": "متصل (محاكاة)",
+  "requestedUrl": "الرابط المطلوب",
+  "simulatedLatency": "زمن الاستجابة المحاكى",
+  "privacy": "الخصوصية",
+  "privacyDrawerTitle": "مبادئ خصوصية Privxx",
+  "privacyDrawerIntro": "تم تصميم Privxx لحماية بياناتك الوصفية، وليس فقط تشفير المحتوى.",
+  "privacyDrawerPoint1": "Privxx يخفي عنوان IP الخاص بك وموقعك (هدف التصميم).",
+  "privacyDrawerPoint2": "Privxx يستخدم تقنية mixnet (cMixx) لإزالة البيانات الوصفية للشبكة.",
+  "privacyDrawerPoint3": "Privxx مبني لاستخدام تشفير مقاوم للهجمات الكمومية.",
+  "privacyDrawerPoint4": "Privxx لن يخزن سجل التصفح أو المعرفات الدائمة.",
+  "privacyDrawerPoint5": "Privxx لن يستخدم أبداً التحليلات أو التتبع.",
+  "proxyPlaceholder": "سيظهر محتوى الوكيل هنا في إصدار مستقبلي.",
+  "simulationNotice": "هذا نموذج أولي محاكى لـ Privxx. سيتم إضافة تكامل cMixx الحقيقي في مرحلة لاحقة."
+}

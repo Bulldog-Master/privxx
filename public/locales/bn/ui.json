@@ -1,0 +1,21 @@
+{
+  "appTitle": "Privxx",
+  "subtitle": "ব্যক্তিগত ব্রাউজিং এবং পেমেন্ট টানেল",
+  "urlPlaceholder": "https://ব্যাংক-বা-দোকান.com",
+  "connect": "Privxx এর মাধ্যমে সংযোগ করুন",
+  "idle": "নিষ্ক্রিয়",
+  "connecting": "Privxx এর মাধ্যমে সংযোগ হচ্ছে...",
+  "connected": "সংযুক্ত (সিমুলেটেড)",
+  "requestedUrl": "অনুরোধকৃত URL",
+  "simulatedLatency": "সিমুলেটেড লেটেন্সি",
+  "privacy": "গোপনীয়তা",
+  "privacyDrawerTitle": "Privxx গোপনীয়তা নীতিমালা",
+  "privacyDrawerIntro": "Privxx শুধু কন্টেন্ট এনক্রিপ্ট করার জন্য নয়, আপনার মেটাডেটা রক্ষা করার জন্য ডিজাইন করা হয়েছে।",
+  "privacyDrawerPoint1": "Privxx আপনার IP ঠিকানা এবং অবস্থান লুকায় (ডিজাইন লক্ষ্য)।",
+  "privacyDrawerPoint2": "Privxx নেটওয়ার্ক মেটাডেটা অপসারণ করতে mixnet প্রযুক্তি (cMixx) ব্যবহার করে।",
+  "privacyDrawerPoint3": "Privxx পোস্ট-কোয়ান্টাম ক্রিপ্টোগ্রাফি ব্যবহার করার জন্য তৈরি।",
+  "privacyDrawerPoint4": "Privxx আপনার ব্রাউজিং ইতিহাস বা স্থায়ী শনাক্তকারী সংরক্ষণ করবে না।",
+  "privacyDrawerPoint5": "Privxx কখনই অ্যানালিটিক্স বা ট্র্যাকিং ব্যবহার করবে না।",
+  "proxyPlaceholder": "প্রক্সি কন্টেন্ট ভবিষ্যতের সংস্করণে এখানে প্রদর্শিত হবে।",
+  "simulationNotice": "এটি Privxx এর একটি সিমুলেটেড প্রোটোটাইপ। প্রকৃত cMixx ইন্টিগ্রেশন পরবর্তী পর্যায়ে যোগ করা হবে।"
+}

@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTranslations, getSupportedLanguages, getLanguage, setLanguage } from "@/lib/i18n";
+import { useTranslations, getSupportedLanguages, setLanguage } from "@/lib/i18n";
 
 const languageLabels: Record<string, string> = {
   en: "EN",
@@ -14,6 +14,10 @@ const languageLabels: Record<string, string> = {
   fr: "FR",
   pt: "PT",
   de: "DE",
+  ar: "AR",
+  ru: "RU",
+  bn: "BN",
+  zh: "ZH",
 };
 
 const LanguageSelector = () => {
@@ -28,7 +32,7 @@ const LanguageSelector = () => {
           <span>{languageLabels[currentLanguage] || "EN"}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-card border-border z-50">
+      <DropdownMenuContent align="end" className="bg-card border-border z-50 max-h-64 overflow-y-auto">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang}
