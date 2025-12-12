@@ -97,11 +97,11 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             {connectionState === "connecting" ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
-                <span>Connecting via <PrivxxBrand /></span>
+                <span>Connecting through <PrivxxBrand /></span>
               </span>
             ) : (
-              <span className="flex items-center gap-1.5">
-                <span>Connect through</span>
+              <span className="flex items-center gap-0">
+                <span>Connect through&nbsp;&nbsp;</span>
                 <PrivxxBrand />
               </span>
             )}
