@@ -25,11 +25,11 @@ const Index = () => {
         style={{ backgroundImage: `url(${heroBackground})` }}
       />
       
-      {/* LIGHT overlay - soft white, low opacity */}
+      {/* Soft brand-tinted overlay - airy, not foggy */}
       <div 
         className="absolute inset-0"
         style={{ 
-          background: 'linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(245,245,250,0.25) 100%)' 
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(230,245,250,0.25) 50%, rgba(200,235,240,0.20) 100%)' 
         }}
       />
       
