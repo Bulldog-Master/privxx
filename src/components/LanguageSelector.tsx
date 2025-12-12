@@ -12,6 +12,8 @@ const languageLabels: Record<string, string> = {
   en: "EN",
   es: "ES",
   fr: "FR",
+  pt: "PT",
+  de: "DE",
 };
 
 const LanguageSelector = () => {
