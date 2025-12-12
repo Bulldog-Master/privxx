@@ -7,8 +7,11 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/lib/i18n";
 
 const PrivacyDrawer = () => {
+  const { t } = useTranslations();
+  
   const principles = [
     {
       icon: Eye,
@@ -41,7 +44,7 @@ const PrivacyDrawer = () => {
     <Drawer direction="right">
       <DrawerTrigger asChild>
         <Button variant="outline" className="border-border text-foreground hover:bg-secondary">
-          Privacy
+          {t("privacy")}
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full w-80 right-0 left-auto rounded-none">
