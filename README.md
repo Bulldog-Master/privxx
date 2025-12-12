@@ -100,6 +100,75 @@ This version is meant to **express the product vision and UX**, not to provide r
 
 ---
 
+## Internationalization (i18n)
+
+Privxx is designed for global reach and supports multiple languages through static JSON translation files.
+
+### Supported Languages
+
+| Code | Language   | Status |
+|------|------------|--------|
+| en   | English    | ✅ Complete |
+| es   | Spanish    | ✅ Complete |
+| fr   | French     | ✅ Complete |
+| pt   | Portuguese | ✅ Complete |
+| de   | German     | ✅ Complete |
+| ar   | Arabic     | ✅ Complete |
+| ru   | Russian    | ✅ Complete |
+| bn   | Bengali    | ✅ Complete |
+| zh   | Chinese    | ✅ Complete |
+
+### Adding a New Language
+
+1. Create a new folder: `public/locales/<iso-code>/`
+2. Add a `ui.json` file with all required keys
+3. Import the file in `src/lib/i18n.ts`
+4. Add the language code to `getSupportedLanguages()`
+5. Add the label to `LanguageSelector.tsx`
+
+### Translation Keys
+
+All language files use the same key structure:
+
+```json
+{
+  "appTitle": "...",
+  "subtitle": "...",
+  "urlPlaceholder": "...",
+  "connect": "...",
+  "idle": "...",
+  "connecting": "...",
+  "connected": "...",
+  "requestedUrl": "...",
+  "simulatedLatency": "...",
+  "privacy": "...",
+  "privacyDrawerTitle": "...",
+  "privacyDrawerIntro": "...",
+  "privacyDrawerPoint1": "...",
+  "privacyDrawerPoint2": "...",
+  "privacyDrawerPoint3": "...",
+  "privacyDrawerPoint4": "...",
+  "privacyDrawerPoint5": "...",
+  "proxyPlaceholder": "...",
+  "simulationNotice": "..."
+}
+```
+
+### Features
+
+- **Auto-detection**: Detects browser language on first load
+- **Manual switching**: Language selector in the header
+- **No persistence**: Language preference is session-only (privacy-first)
+- **Fallback**: Falls back to English if language not supported
+
+### Future Enhancements
+
+- RTL (right-to-left) support for Arabic, Urdu, Hebrew
+- Fallback fonts for CJK (Chinese, Japanese, Korean)
+- Region-specific compliance messages (GDPR, LGPD, CCPA)
+
+---
+
 ## Tech Stack
 
 - **Frontend**: React + Vite + TypeScript + Tailwind CSS
