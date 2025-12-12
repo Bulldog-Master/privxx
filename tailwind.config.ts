@@ -14,8 +14,33 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        // Privacy-safe system font stack - no external CDN requests
+        sans: [
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"SF Pro Text"',
+          '"Segoe UI"',
+          'Roboto',
+          '"Helvetica Neue"',
+          '"Noto Sans"',
+          '"Noto Sans CJK SC"',
+          '"Noto Sans CJK JP"',
+          '"Noto Sans CJK KR"',
+          '"Noto Sans Arabic"',
+          '"Noto Sans Devanagari"',
+          '"Noto Sans Bengali"',
+          'sans-serif',
+        ],
+        mono: [
+          'ui-monospace',
+          'SFMono-Regular',
+          '"SF Mono"',
+          'Menlo',
+          'Consolas',
+          '"Liberation Mono"',
+          'monospace',
+        ],
       },
       colors: {
         border: "hsl(var(--border))",
