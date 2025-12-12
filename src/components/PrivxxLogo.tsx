@@ -34,7 +34,7 @@ const logoVariants = cva(
 );
 
 const markVariants = cva(
-  "text-primary ml-0.5",
+  "ml-0.5",
   {
     variants: {
       size: {
@@ -42,21 +42,27 @@ const markVariants = cva(
         md: "w-[0.72em] h-[0.58em] -translate-y-[0.1em]",
         lg: "w-[0.75em] h-[0.6em] -translate-y-[0.15em]",
       },
+      variant: {
+        default: "text-primary",
+        inherit: "", // Inherits color from parent (for buttons)
+      },
     },
     defaultVariants: {
       size: "sm",
+      variant: "default",
     },
   }
 );
 
 interface PrivxxLogoProps extends VariantProps<typeof logoVariants> {
   className?: string;
+  variant?: "default" | "inherit";
 }
 
-const PrivxxLogo = ({ size, className }: PrivxxLogoProps) => (
+const PrivxxLogo = ({ size, variant = "default", className }: PrivxxLogoProps) => (
   <span className={cn(logoVariants({ size }), className)}>
-    <span className="text-foreground">Privx</span>
-    <PrivxxMark className={markVariants({ size })} />
+    <span className={variant === "default" ? "text-foreground" : ""}>Privx</span>
+    <PrivxxMark className={markVariants({ size, variant })} />
   </span>
 );
 
