@@ -51,13 +51,32 @@ Privxx operates as a tunnel, not a browser:
 
 ## 3. Phase 1 — Simulated Architecture (Current)
 
-In Phase 1, **no real networking occurs**. The UI simulates:
+In Phase 1, **no real networking occurs**. The current architecture is:
 
+```
+[ Privxx UI (React) ] 
+         |
+         |  Simulated delay
+         |
+         v
+[ Simulated Response Layer ]
+```
+
+The UI simulates:
 - Connection initialization delay (2-3 seconds)
 - PQ key negotiation status
 - Mixnet routing status
 - Simulated latency (500-2500ms)
 - Placeholder content display
+
+### Core Roles
+
+| Component | Purpose |
+|-----------|---------|
+| **Privxx Client** | UI shell, request generator, and decoder. Eventually integrates xxDK. |
+| **cMixx Mixnet** | Routes packets without metadata; destroys timing correlations. |
+| **Privxx Proxy** | Forwards HTTP/S requests to real websites, then returns content over cMixx. |
+| **Target Websites** | Banks, merchants, dApps, etc. |
 
 ### Phase 1 Data Flow
 
