@@ -1,73 +1,90 @@
-# Welcome to your Lovable project
+# Privxx
 
-## Project info
+Privxx is a **privacy-first browsing and payments tunnel**.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Its purpose is to hide user metadata (IP, location, timing patterns, device fingerprints) using the **xx network (cMixx)** and **post-quantum-safe cryptography**, so that:
 
-## How can I edit this code?
+- Websites, banks, and merchants see only a **proxy**, not the real user.
+- ISPs and on-path observers cannot see which sites the user is visiting.
+- Sessions are resistant to "harvest now, decrypt later" attacks.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## Phase 1 – Simulated UI Prototype
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Right now, Privxx is in a **simulation / prototype** phase.  
+There is **no real cMixx integration yet**.
 
-Changes made via Lovable will be committed automatically to this repo.
+The current web app (generated via Lovable and located in this repo) does:
 
-**Use your preferred IDE**
+- Let the user paste a URL.
+- Simulate a connection:
+  - Status changes from `Idle` → `Connecting through Privxx…` → `Connected (simulated)`.
+  - Adds a randomized 2–3 second delay.
+  - Shows a simulated latency between 500–2500 ms.
+- Displays:
+  - The requested URL.
+  - The simulated latency.
+  - A placeholder block: "Proxied content will appear here in a future version."
+- Shows a **Privacy** drawer with Privxx's core privacy principles:
+  - IP & location hidden (design goal).
+  - Metadata removal via mixnet (cMixx).
+  - Post-quantum-safe cryptography.
+  - No history or persistent IDs.
+  - No tracking or analytics.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+This version is meant to **express the product vision and UX**, not to provide real privacy yet.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## Future Architecture (High Level)
+
+Planned architecture:
+
+```text
+[ Privxx App (web/mobile) ]
+          |
+          |  xxDK + PQ Encryption
+          v
+[ cMixx Mixnet (xx network) ]
+          |
+          v
+[ Privxx Proxy Server ]
+          |
+          |  HTTPS
+          v
+[ Bank / Merchant / dApp / Any Website ]
+```
+
+---
+
+## Tech Stack
+
+- **Frontend**: React + Vite + TypeScript + Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Build Tool**: Vite
+- **Hosting**: Lovable
+
+---
+
+## Development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## License
 
-**Use GitHub Codespaces**
+TBD
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## Contact
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+For questions about Privxx or the xx network integration, reach out to the project maintainers.
