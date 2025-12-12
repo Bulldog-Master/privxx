@@ -8,10 +8,10 @@
     --background: 216 18% 8%;
     --foreground: 210 20% 98%;
 
-    --card: 215 18% 12%;
+    --card: 215 18% 14%;
     --card-foreground: 210 20% 98%;
 
-    --popover: 215 18% 12%;
+    --popover: 215 18% 14%;
     --popover-foreground: 210 20% 98%;
 
     --primary: 172 66% 50%;
@@ -37,7 +37,7 @@
 
     /* Custom Privxx tokens */
     --glow-primary: 172 66% 50%;
-    --surface-elevated: 215 18% 15%;
+    --surface-elevated: 215 18% 16%;
     --status-connecting: 45 90% 55%;
     --status-connected: 142 70% 50%;
     --status-error: 0 70% 55%;
@@ -55,9 +55,9 @@
   .dark {
     --background: 216 18% 8%;
     --foreground: 210 20% 98%;
-    --card: 215 18% 12%;
+    --card: 215 18% 14%;
     --card-foreground: 210 20% 98%;
-    --popover: 215 18% 12%;
+    --popover: 215 18% 14%;
     --popover-foreground: 210 20% 98%;
     --primary: 172 66% 50%;
     --primary-foreground: 220 20% 7%;
