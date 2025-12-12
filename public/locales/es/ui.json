@@ -12,10 +12,10 @@
   "privacyDrawerTitle": "Principios de privacidad de Privxx",
   "privacyDrawerIntro": "Privxx está diseñado para proteger tus metadatos, no solo cifrar el contenido.",
   "privacyDrawerPoint1": "Privxx oculta tu dirección IP y ubicación (objetivo de diseño).",
-  "privacyDrawerPoint2": "Privxx utiliza tecnología mixnet (cMixx) para eliminar metadatos de red.",
-  "privacyDrawerPoint3": "Privxx está construido para usar criptografía post-cuántica.",
+  "privacyDrawerPoint2": "Privxx utiliza tecnología de mixnet (cMixx) para eliminar metadatos de red.",
+  "privacyDrawerPoint3": "Privxx está construido para utilizar criptografía resistente a ataques poscuánticos.",
   "privacyDrawerPoint4": "Privxx no almacenará tu historial de navegación ni identificadores persistentes.",
-  "privacyDrawerPoint5": "Privxx nunca usará análisis ni rastreo.",
+  "privacyDrawerPoint5": "Privxx nunca utilizará análisis ni rastreo.",
   "proxyPlaceholder": "El contenido del proxy aparecerá aquí en una versión futura.",
-  "simulationNotice": "Este es un prototipo simulado de Privxx. La integración real de cMixx se añadirá en una fase posterior."
+  "simulationNotice": "Este es un prototipo simulado de Privxx. La integración real con cMixx se añadirá en una fase posterior."
 }
