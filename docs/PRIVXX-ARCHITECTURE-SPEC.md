@@ -124,22 +124,73 @@ This phase introduces **real privacy + real mixnet routing**.
 [ Privxx Client ] —xxDK→ [ cMixx ] —xxDK→ [ Privxx Proxy ] —HTTPS→ [ Website ]
 ```
 
-### 4.1 Client-Side Changes
+### 4.1 Privxx Client (Future Implementation)
 
-The Privxx client will integrate **xxDK** to:
-- Initialize cMixx client
-- Negotiate PQ-safe keys
-- Send requests through mixnet
-- Receive responses via mixnet
+**Responsibilities:**
+1. Initialize xxDK client
+2. Generate PQ-safe keypairs
+3. Wrap HTTP requests in an encrypted cMixx message
+4. Send request via mixnet
+5. Receive decrypted HTTP responses
+6. Display results via UI
 
-### 4.2 Privxx Proxy Server
+#### Internal Modules
 
-A dedicated backend (Go or Rust) will:
-- Listen for mixnet messages
-- Decrypt and validate requests
-- Fetch external content via HTTPS
-- Re-encrypt responses
-- Send back through mixnet
+| Module | Purpose |
+|--------|---------|
+| **xxDK Binding Layer** | Handles encryption, messaging, routing. |
+| **Request Encoder** | Turns user URL input into structured requests. |
+| **Response Decoder** | Parses responses from Proxy. |
+| **UI Controller** | Drives status messages. |
+
+#### Security Guarantees
+- No history
+- No identifiers
+- No persistent sessions
+- No browser fingerprint
+- Fixed UA string or UA obfuscation layer
+
+---
+
+### 4.2 cMixx Mixnet Layer
+
+Privxx relies on existing xx network nodes.
+
+**Functions provided:**
+- Metadata shredding
+- Timing protection
+- Unlinkable routing
+- IP removal
+- PQ-resistant routing security
+
+No changes or custom configs required.
+
+---
+
+### 4.3 Privxx Proxy Server (Future Implementation)
+
+The Proxy is the translation layer between Privxx and the external internet.
+
+**Responsibilities:**
+1. Receive encrypted messages over xxDK
+2. Parse the request object
+3. Perform HTTPS requests to target site
+4. Ensure no metadata leak occurs
+5. Return the response back through cMixx
+
+#### Proxy Workflow
+
+```
+Receive cMixx message
+→ Decrypt request
+→ Validate structure
+→ Forward via HTTPS to website
+→ Receive HTML/JSON/JS/CSS response
+→ Wrap and encrypt response
+→ Send response back via cMixx
+```
+
+---
 
 ### 4.3 Data Flow (Real)
 
