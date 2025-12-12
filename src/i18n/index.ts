@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+// Import translations
 import en from '../locales/en/translation.json';
 import es from '../locales/es/translation.json';
 import pt from '../locales/pt/translation.json';
@@ -18,6 +19,7 @@ const resources = {
   ja: { translation: ja },
 };
 
+// Initialize i18next without React integration first
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -30,6 +32,9 @@ i18n
     detection: {
       order: ['navigator', 'htmlTag', 'path', 'subdomain'],
       caches: [], // No caching - privacy first
+    },
+    react: {
+      useSuspense: false, // Prevent hydration issues
     },
   });
 
