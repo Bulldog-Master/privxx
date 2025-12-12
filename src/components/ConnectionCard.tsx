@@ -54,9 +54,9 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
   return (
     <div className="relative w-full max-w-md">
       {/* Subtle card glow */}
-      <div className="absolute -inset-1 bg-primary/10 blur-xl rounded-2xl pointer-events-none opacity-50" />
+      <div className="absolute -inset-1 bg-primary/8 blur-2xl rounded-3xl pointer-events-none opacity-60" />
       
-      <div className="relative w-full p-8 bg-gradient-to-b from-card to-card/80 rounded-2xl border border-border shadow-2xl shadow-black/30 space-y-6">
+      <div className="relative w-full p-8 bg-card rounded-2xl border border-border shadow-2xl shadow-black/40 space-y-5">
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="text"
@@ -64,22 +64,26 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             onChange={(e) => setUrl(e.target.value)}
             placeholder={t("urlPlaceholder")}
             disabled={connectionState === "connecting"}
-            className="w-full h-12 bg-input border-border text-foreground placeholder:text-muted-foreground rounded-xl"
+            className="w-full h-14 bg-input border-border text-foreground placeholder:text-muted-foreground rounded-xl text-base px-4"
           />
           
           <Button
             type="submit"
             disabled={!url.trim() || connectionState === "connecting"}
-            className="w-full h-12 bg-primary hover:bg-primary/85 text-primary-foreground font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all duration-200"
+            className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"
           >
-            {t("connect")}
+            {connectionState === "connecting" ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                {t("connecting")}
+              </span>
+            ) : (
+              t("connect")
+            )}
           </Button>
         </form>
 
-        <div className="flex items-center justify-center gap-2">
-          {connectionState === "connecting" && (
-            <Loader2 className="h-4 w-4 animate-spin text-status-connecting" />
-          )}
+        <div className="flex items-center justify-center gap-2 pt-1">
           <span className={`text-sm font-medium ${
             connectionState === "connected" 
               ? "text-status-connected" 
@@ -87,7 +91,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
               ? "text-status-connecting"
               : "text-muted-foreground"
           }`}>
-            {getStatusText()}
+            {connectionState === "connecting" ? "" : getStatusText()}
           </span>
         </div>
       </div>
