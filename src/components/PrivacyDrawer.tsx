@@ -38,7 +38,7 @@ const PrivacyDrawer = () => {
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>
-        <Button variant="outline" className="border-border text-foreground hover:bg-secondary">
+        <Button className="bg-primary/20 border border-primary/40 text-primary hover:bg-primary/30 font-medium">
           {t("privacy")}
         </Button>
       </DrawerTrigger>

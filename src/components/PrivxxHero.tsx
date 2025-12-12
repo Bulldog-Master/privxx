@@ -17,7 +17,7 @@ const PrivxxHero = () => {
       </div>
       
       {/* Tagline - dark text for bright background, centered */}
-      <p className="text-slate-600 text-sm sm:text-base max-w-xs pt-2 font-medium text-center mx-auto">
+      <p className="text-slate-600 text-sm sm:text-base pt-2 font-medium w-full text-center">
         {t("subtitle")}
       </p>
     </div>
