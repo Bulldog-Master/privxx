@@ -71,7 +71,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
           <Button
             type="submit"
             disabled={!url.trim() || connectionState === "connecting"}
-            className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"
+            className="w-full h-14 bg-primary/70 hover:bg-primary/80 text-slate-600 font-semibold text-base rounded-xl border-2 border-primary/40 shadow-lg shadow-primary/10 hover:shadow-xl transition-all duration-200"
           >
             {connectionState === "connecting" ? (
               <span className="flex items-center gap-2">
