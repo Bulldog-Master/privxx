@@ -1,19 +1,25 @@
 import { useTranslations } from "@/lib/i18n";
 
-// XX Network symbol component - stylized X mark
+// XX Network symbol - stylized curved X mark
 const XXSymbol = ({ className }: { className?: string }) => (
   <svg 
-    viewBox="0 0 24 24" 
+    viewBox="0 0 32 32" 
     fill="none" 
     className={className}
     aria-hidden="true"
   >
+    {/* Curved X shape inspired by xx Network */}
     <path 
-      d="M4 4L12 12M12 12L20 20M12 12L20 4M12 12L4 20" 
+      d="M8 8C12 12 14 14 16 16C18 18 20 20 24 24" 
       stroke="currentColor" 
-      strokeWidth="3.5" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
+      strokeWidth="4" 
+      strokeLinecap="round"
+    />
+    <path 
+      d="M24 8C20 12 18 14 16 16C14 18 12 20 8 24" 
+      stroke="currentColor" 
+      strokeWidth="4" 
+      strokeLinecap="round"
     />
   </svg>
 );
@@ -28,14 +34,15 @@ const PrivxxHero = () => {
       
       {/* Stylized Logo */}
       <div className="relative">
-        <h1 className="text-6xl sm:text-7xl font-bold tracking-tight flex items-center justify-center">
-          <span className="text-foreground">Priv</span>
-          <span className="text-primary drop-shadow-[0_0_20px_hsl(172,70%,52%,0.4)]">x</span>
-          <XXSymbol className="w-10 h-10 sm:w-12 sm:h-12 text-primary drop-shadow-[0_0_20px_hsl(172,70%,52%,0.5)] -ml-1" />
+        <h1 className="text-6xl sm:text-7xl font-bold tracking-tight flex items-baseline justify-center">
+          <span className="text-foreground">Privx</span>
+          <span className="inline-flex items-baseline">
+            <XXSymbol className="w-[0.85em] h-[0.85em] text-primary drop-shadow-[0_0_15px_hsl(172,70%,52%,0.35)] translate-y-[0.05em]" />
+          </span>
         </h1>
         
         {/* Accent underline */}
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
       </div>
       
       {/* Tagline */}
