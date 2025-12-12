@@ -8,11 +8,11 @@
     --background: 212 7% 40%;
     --foreground: 210 9% 96%;
 
-    --card: 213 11% 20%;
-    --card-foreground: 210 9% 96%;
+    --card: 200 45% 22%;
+    --card-foreground: 180 20% 98%;
 
-    --popover: 215 12% 20%;
-    --popover-foreground: 210 9% 96%;
+    --popover: 200 45% 22%;
+    --popover-foreground: 180 20% 98%;
 
     --primary: 172 70% 52%;
     --primary-foreground: 216 16% 8%;
@@ -30,7 +30,7 @@
     --destructive-foreground: 210 20% 98%;
 
     --border: 0 0% 0% / 0.2;
-    --input: 212 10% 25%;
+    --input: 200 40% 28%;
     --ring: 172 70% 52%;
 
     --radius: 0.75rem;
