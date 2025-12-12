@@ -1,0 +1,54 @@
+{
+  "common": {
+    "connect": "Connect through Privxx",
+    "disconnect": "Disconnect",
+    "cancel": "Cancel",
+    "settings": "Settings",
+    "privacy": "Privacy",
+    "close": "Close"
+  },
+  "status": {
+    "idle": "Idle",
+    "initializing": "Initializing cMixx tunnel...",
+    "negotiating": "Negotiating PQ keys...",
+    "routing": "Routing through mixnet...",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "error": "Connection failed"
+  },
+  "privacy": {
+    "title": "Privxx Privacy",
+    "subtitle": "How Privxx protects you",
+    "ipHidden": "Your IP and location are hidden",
+    "ipDescription": "Websites, banks, and merchants see only the Privxx proxy — never your real identity.",
+    "metadataRemoved": "Metadata removed via mixnet",
+    "metadataDescription": "cMixx destroys timing patterns, packet correlations, and behavioral fingerprints.",
+    "postQuantum": "Post-quantum-safe cryptography",
+    "postQuantumDescription": "All Privxx-controlled links use PQ-safe encryption to resist future quantum attacks.",
+    "noHistory": "No history or persistent IDs",
+    "noHistoryDescription": "Every session is unlinkable. Nothing survives after you disconnect.",
+    "noTracking": "No tracking or analytics",
+    "noTrackingDescription": "Privxx never tracks you. No cookies, no telemetry, no fingerprinting."
+  },
+  "header": {
+    "title": "Privxx",
+    "subtitle": "Private Browsing & Payments Tunnel"
+  },
+  "connection": {
+    "placeholder": "https://bank-or-merchant.com",
+    "simulatedLatency": "Simulated latency",
+    "requestedUrl": "Requested URL"
+  },
+  "content": {
+    "placeholder": "Proxied content will appear here in a future version.",
+    "simulationNotice": "This is a simulated prototype. Real cMixx integration will be added in a later phase."
+  },
+  "footer": {
+    "simulationNotice": "This is a simulated prototype of Privxx. Real cMixx integration will be added in a later phase."
+  },
+  "errors": {
+    "invalidUrl": "Please enter a valid URL",
+    "connectionFailed": "Connection failed. Please try again.",
+    "timeout": "Connection timed out"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "common": {
+    "connect": "Conectar a través de Privxx",
+    "disconnect": "Desconectar",
+    "cancel": "Cancelar",
+    "settings": "Configuración",
+    "privacy": "Privacidad",
+    "close": "Cerrar"
+  },
+  "status": {
+    "idle": "Inactivo",
+    "initializing": "Inicializando túnel cMixx...",
+    "negotiating": "Negociando claves PQ...",
+    "routing": "Enrutando a través de mixnet...",
+    "connected": "Conectado",
+    "disconnected": "Desconectado",
+    "error": "Conexión fallida"
+  },
+  "privacy": {
+    "title": "Privacidad de Privxx",
+    "subtitle": "Cómo Privxx te protege",
+    "ipHidden": "Tu IP y ubicación están ocultas",
+    "ipDescription": "Los sitios web, bancos y comerciantes solo ven el proxy de Privxx, nunca tu identidad real.",
+    "metadataRemoved": "Metadatos eliminados vía mixnet",
+    "metadataDescription": "cMixx destruye patrones de tiempo, correlaciones de paquetes y huellas de comportamiento.",
+    "postQuantum": "Criptografía post-cuántica",
+    "postQuantumDescription": "Todos los enlaces controlados por Privxx usan encriptación PQ para resistir futuros ataques cuánticos.",
+    "noHistory": "Sin historial ni IDs persistentes",
+    "noHistoryDescription": "Cada sesión es imposible de vincular. Nada sobrevive después de desconectarte.",
+    "noTracking": "Sin rastreo ni análisis",
+    "noTrackingDescription": "Privxx nunca te rastrea. Sin cookies, sin telemetría, sin huellas digitales."
+  },
+  "header": {
+    "title": "Privxx",
+    "subtitle": "Túnel Privado de Navegación y Pagos"
+  },
+  "connection": {
+    "placeholder": "https://banco-o-comercio.com",
+    "simulatedLatency": "Latencia simulada",
+    "requestedUrl": "URL solicitada"
+  },
+  "content": {
+    "placeholder": "El contenido proxy aparecerá aquí en una versión futura.",
+    "simulationNotice": "Este es un prototipo simulado. La integración real de cMixx se añadirá en una fase posterior."
+  },
+  "footer": {
+    "simulationNotice": "Este es un prototipo simulado de Privxx. La integración real de cMixx se añadirá en una fase posterior."
+  },
+  "errors": {
+    "invalidUrl": "Por favor ingresa una URL válida",
+    "connectionFailed": "Conexión fallida. Por favor intenta de nuevo.",
+    "timeout": "Tiempo de conexión agotado"
+  }
+}
