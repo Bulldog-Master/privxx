@@ -1,0 +1,85 @@
+import { useState, FormEvent } from "react";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+export type ConnectionState = "idle" | "connecting" | "connected";
+
+interface ConnectionCardProps {
+  onConnect: (url: string, latency: number) => void;
+  connectionState: ConnectionState;
+  onStateChange: (state: ConnectionState) => void;
+}
+
+const ConnectionCard = ({ onConnect, connectionState, onStateChange }: ConnectionCardProps) => {
+  const [url, setUrl] = useState("");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!url.trim() || connectionState === "connecting") return;
+
+    onStateChange("connecting");
+
+    // Randomized delay between 2-3 seconds
+    const delay = 2000 + Math.random() * 1000;
+    await new Promise((resolve) => setTimeout(resolve, delay));
+
+    // Generate simulated latency between 500-2500ms
+    const latency = Math.floor(500 + Math.random() * 2000);
+
+    onStateChange("connected");
+    
+    // Process URL
+    let processedUrl = url.trim();
+    if (!processedUrl.startsWith("http://") && !processedUrl.startsWith("https://")) {
+      processedUrl = "https://" + processedUrl;
+    }
+    
+    onConnect(processedUrl, latency);
+  };
+
+  const getStatusText = () => {
+    switch (connectionState) {
+      case "idle":
+        return "Idle";
+      case "connecting":
+        return "Connecting through Privxx…";
+      case "connected":
+        return "Connected (simulated)";
+    }
+  };
+
+  return (
+    <div className="w-full max-w-md p-6 bg-card rounded-xl border border-border space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <Input
+          type="text"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="https://bank-or-merchant.com"
+          disabled={connectionState === "connecting"}
+          className="w-full h-12 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground"
+        />
+        
+        <Button
+          type="submit"
+          disabled={!url.trim() || connectionState === "connecting"}
+          className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+        >
+          Connect through Privxx
+        </Button>
+      </form>
+
+      <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+        {connectionState === "connecting" && (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        )}
+        <span className={connectionState === "connected" ? "text-status-connected" : ""}>
+          {getStatusText()}
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export default ConnectionCard;
