@@ -19,7 +19,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <PrivxxHeader />
       
-      <main className="flex-1 flex flex-col items-center justify-center gap-6 p-6">
+      <main className="flex-1 flex flex-col items-center pt-12 sm:pt-20 px-4 sm:px-6 gap-6">
         <ConnectionCard 
           onConnect={handleConnect}
           connectionState={connectionState}
@@ -29,7 +29,7 @@ const Index = () => {
         <ContentArea url={connectedUrl} latency={latency} />
       </main>
 
-      <footer className="text-center py-4 px-6 text-xs text-muted-foreground">
+      <footer className="text-center py-3 px-4 text-[10px] text-muted-foreground/60">
         {t("simulationNotice")}
       </footer>
     </div>
