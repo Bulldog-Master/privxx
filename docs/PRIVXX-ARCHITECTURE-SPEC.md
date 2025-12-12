@@ -190,9 +190,23 @@ Receive cMixx message
 → Send response back via cMixx
 ```
 
+#### Security Rules for Proxy
+- No logging full URLs with parameters
+- No logging IP addresses
+- No analytics
+- No storage of session data
+- Headers sanitized
+
+#### Proxy Tech Options
+
+Recommended languages:
+- **Go** (best balance)
+- **Rust** (strong safety)
+- **Node.js** (easy but less performant)
+
 ---
 
-### 4.3 Data Flow (Real)
+### 4.4 Data Flow (Real)
 
 ```
 [ Privxx Client ]
@@ -230,7 +244,27 @@ Receive cMixx message
 
 ---
 
-## 5. Security Architecture
+## 5. Message Format Specification
+
+### 5.1 Client → Proxy
+
+```json
+{
+  "version": 1,
+  "type": "http_request",
+  "request_id": "<random>",
+  "method": "GET",
+  "url": "https://example.com",
+  "headers": {
+    "User-Agent": "Privxx/0.1"
+  },
+  "body": ""
+}
+```
+
+---
+
+## 6. Security Architecture
 
 ### 5.1 Encryption Layers
 
