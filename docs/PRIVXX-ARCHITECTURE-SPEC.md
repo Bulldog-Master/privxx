@@ -277,11 +277,27 @@ Recommended languages:
 }
 ```
 
+> **Note:** Body may use Base64 encoding for binary responses.
+
 ---
 
-## 6. Security Architecture
+## 6. End-to-End Flow (Real Integration)
 
-### 6.1 Encryption Layers
+1. User enters URL
+2. Privxx Client creates encoded request
+3. xxDK encrypts and sends via cMixx
+4. cMixx anonymizes routing
+5. Proxy receives request
+6. Proxy performs real HTTPS call
+7. Proxy returns encrypted result
+8. Client decrypts
+9. UI displays content (Phase 2+)
+
+---
+
+## 7. Security Architecture
+
+### 7.1 Encryption Layers
 
 | Layer | Protection |
 |-------|------------|
@@ -290,7 +306,7 @@ Recommended languages:
 | **Layer 3: Exit Encryption** | Exit node ↔ Privxx Proxy |
 | **Layer 4: TLS** | Privxx Proxy ↔ Target website |
 
-### 5.2 Metadata Protection
+### 7.2 Metadata Protection
 
 | Metadata Type | Protection Method |
 |---------------|-------------------|
@@ -302,9 +318,28 @@ Recommended languages:
 
 ---
 
-## 6. Technology Stack
+## 8. Threat Model
 
-### 6.1 Frontend (Privxx Client)
+Privxx is designed to resist:
+- Global passive adversaries
+- Local network observers
+- ISPs tracking behavior
+- Website/device fingerprinting
+- Timing correlation attacks
+- Metadata collection
+- Post-quantum decryption attempts
+
+Privxx mitigates but does not fully eliminate (Phase 2+):
+- Active endpoint attacks
+- Website-level JS fingerprinting
+- CAPTCHA challenges
+- Uncooperative merchant anti-proxy systems
+
+---
+
+## 9. Technology Stack
+
+### 9.1 Frontend (Privxx Client)
 
 | Technology | Purpose |
 |------------|---------|
@@ -315,7 +350,7 @@ Recommended languages:
 | shadcn/ui | Component library |
 | react-i18next | Internationalization |
 
-### 6.2 Backend (Privxx Proxy — Phase 2+)
+### 9.2 Backend (Privxx Proxy — Phase 2+)
 
 | Technology | Purpose |
 |------------|---------|
@@ -323,7 +358,7 @@ Recommended languages:
 | xxDK | cMixx mixnet integration |
 | TLS 1.3 | Secure external connections |
 
-### 6.3 Infrastructure
+### 9.3 Infrastructure
 
 | Component | Purpose |
 |-----------|---------|
@@ -333,7 +368,7 @@ Recommended languages:
 
 ---
 
-## 7. Privacy Constraints (Non-Negotiable)
+## 10. Privacy Constraints (Non-Negotiable)
 
 These constraints apply to ALL phases:
 
@@ -346,32 +381,19 @@ These constraints apply to ALL phases:
 
 ---
 
-## 8. Future Considerations
+## 11. Long-Term Extensions
 
-### 8.1 Payments Integration
-
-Privxx will support privacy-preserving payments:
-- Merchant checkout without tracking
-- Wallet integration (post-quantum compatible)
-- No payment correlation across sessions
-
-### 8.2 Mobile Native
-
-Native mobile clients (iOS/Android) will:
-- Use native xxDK bindings
-- Provide system-level privacy protection
-- Integrate with secure enclaves
-
-### 8.3 Browser Extension
-
-A browser extension may:
-- Intercept and route requests
-- Provide one-click privacy mode
-- Work alongside existing browsers
+- PQ wallet integration
+- Private merchant payments
+- Private checkout flows
+- Proxxy-like EVM privacy routing
+- Mobile applications (Capacitor or native)
+- Encrypted app-to-merchant messaging
+- Domain isolation for enhanced privacy
 
 ---
 
-## 9. Compliance Targets
+## 12. Compliance Targets
 
 | Standard | Description |
 |----------|-------------|
@@ -382,7 +404,20 @@ A browser extension may:
 
 ---
 
-## 10. Revision History
+## 13. Summary
+
+Privxx's architecture is:
+- **Simple enough** to prototype quickly
+- **Strong enough** to extend into a real privacy product
+- **Modular**
+- **Backed by solid privacy laws**
+- **Future-proof** via PQ cryptography
+
+This document defines the long-term technical map for Privxx.
+
+---
+
+## Revision History
 
 | Version | Date | Changes |
 |---------|------|---------|
