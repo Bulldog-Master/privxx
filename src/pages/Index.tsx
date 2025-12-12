@@ -4,6 +4,7 @@ import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
 import ContentArea from "@/components/ContentArea";
 import { useTranslations } from "@/lib/i18n";
+import heroBackground from "@/assets/hero-background.jpg";
 
 const Index = () => {
   const [connectionState, setConnectionState] = useState<ConnectionState>("idle");
@@ -17,25 +18,41 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <PrivxxHeader />
+    <div className="min-h-screen flex flex-col relative overflow-hidden">
+      {/* Hero background image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBackground})` }}
+      />
       
-      <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8">
+      {/* Gradient overlay for readability */}
+      <div 
+        className="absolute inset-0"
+        style={{ 
+          background: 'linear-gradient(135deg, hsl(220 15% 12% / 0.88) 0%, hsl(200 20% 15% / 0.80) 50%, hsl(172 30% 15% / 0.85) 100%)' 
+        }}
+      />
+      
+      {/* Content layer */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        <PrivxxHeader />
         
-        <PrivxxHero />
-        
-        <ConnectionCard 
-          onConnect={handleConnect}
-          connectionState={connectionState}
-          onStateChange={setConnectionState}
-        />
-        
-        <ContentArea url={connectedUrl} latency={latency} />
-      </main>
+        <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8">
+          <PrivxxHero />
+          
+          <ConnectionCard 
+            onConnect={handleConnect}
+            connectionState={connectionState}
+            onStateChange={setConnectionState}
+          />
+          
+          <ContentArea url={connectedUrl} latency={latency} />
+        </main>
 
-      <footer className="text-center py-4 px-4 text-xs text-muted-foreground">
-        {t("simulationNotice")}
-      </footer>
+        <footer className="text-center py-4 px-4 text-xs text-foreground/70">
+          {t("simulationNotice")}
+        </footer>
+      </div>
     </div>
   );
 };
