@@ -78,6 +78,29 @@ The UI simulates:
 | **Privxx Proxy** | Forwards HTTP/S requests to real websites, then returns content over cMixx. |
 | **Target Websites** | Banks, merchants, dApps, etc. |
 
+### 3.1 Privxx UI
+
+Already implemented in Lovable. Includes:
+- URL input
+- Connect button
+- Status indicator
+- Simulated latency
+- Placeholder content
+- Privacy principles drawer
+
+### 3.2 Simulated Connection Logic
+
+- Randomized delay (2–3 seconds)
+- Randomized RTT (500–2500 ms)
+- No network traffic
+- No backend requests
+
+**Purpose:**
+- Express product UX
+- Support demo and understanding
+- UI always stays privacy-preserving
+- Avoid premature backend complexity
+
 ### Phase 1 Data Flow
 
 ```
@@ -94,6 +117,12 @@ User Input → Simulated Delay → Status Updates → Mock Content
 ---
 
 ## 4. Phase 2 — Real cMixx Integration
+
+This phase introduces **real privacy + real mixnet routing**.
+
+```
+[ Privxx Client ] —xxDK→ [ cMixx ] —xxDK→ [ Privxx Proxy ] —HTTPS→ [ Website ]
+```
 
 ### 4.1 Client-Side Changes
 
