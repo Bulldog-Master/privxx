@@ -9,27 +9,29 @@ import {
 import { useTranslations, getSupportedLanguages, setLanguage } from "@/lib/i18n";
 
 const languageLabels: Record<string, string> = {
-  en: "English",
-  zh: "中文",
-  hi: "हिन्दी",
-  es: "Español",
-  fr: "Français",
   ar: "العربية",
   bn: "বাংলা",
-  ru: "Русский",
-  pt: "Português",
-  ur: "اردو",
-  id: "Indonesia",
   de: "Deutsch",
+  en: "English",
+  es: "Español",
+  fr: "Français",
+  hi: "हिन्दी",
+  id: "Indonesia",
   ja: "日本語",
-  nl: "Nederlands",
-  tr: "Türkçe",
   ko: "한국어",
+  nl: "Nederlands",
+  pt: "Português",
+  ru: "Русский",
+  tr: "Türkçe",
+  ur: "اردو",
+  zh: "中文",
 };
+
+// Alphabetical order by English name
+const sortedLanguages = ['ar', 'bn', 'zh', 'nl', 'en', 'fr', 'de', 'hi', 'id', 'ja', 'ko', 'pt', 'ru', 'es', 'tr', 'ur'];
 
 const LanguageSelector = () => {
   const { currentLanguage } = useTranslations();
-  const languages = getSupportedLanguages();
 
   return (
     <DropdownMenu>
@@ -47,7 +49,7 @@ const LanguageSelector = () => {
         align="end" 
         className="bg-card border-border z-50 max-h-80 overflow-y-auto min-w-[140px]"
       >
-        {languages.map((lang) => (
+        {sortedLanguages.map((lang) => (
           <DropdownMenuItem
             key={lang}
             onClick={() => setLanguage(lang)}
