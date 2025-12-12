@@ -2,6 +2,7 @@ import { useState, FormEvent } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "@/lib/i18n";
 
 export type ConnectionState = "idle" | "connecting" | "connected";
 
@@ -13,6 +14,7 @@ interface ConnectionCardProps {
 
 const ConnectionCard = ({ onConnect, connectionState, onStateChange }: ConnectionCardProps) => {
   const [url, setUrl] = useState("");
+  const { t } = useTranslations();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,11 +43,11 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
   const getStatusText = () => {
     switch (connectionState) {
       case "idle":
-        return "Idle";
+        return t("idle");
       case "connecting":
-        return "Connecting through Privxx…";
+        return t("connecting");
       case "connected":
-        return "Connected (simulated)";
+        return t("connected");
     }
   };
 
@@ -56,7 +58,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
           type="text"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://bank-or-merchant.com"
+          placeholder={t("urlPlaceholder")}
           disabled={connectionState === "connecting"}
           className="w-full h-12 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground"
         />
@@ -66,7 +68,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
           disabled={!url.trim() || connectionState === "connecting"}
           className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
         >
-          Connect through Privxx
+          {t("connect")}
         </Button>
       </form>
 
