@@ -1,0 +1,43 @@
+# Privxx Backend Placeholder
+
+This file exists to ensure the backend/ directory is tracked in Git.
+
+---
+
+## Status: Phase 1 (Simulated)
+
+The Privxx backend does not exist yet. The frontend UI uses simulated 
+behavior to demonstrate the user experience.
+
+---
+
+## What Will Go Here (Phase 2+)
+
+- Privxx Proxy Server (Go or Rust)
+- xxDK integration code
+- cMixx message handlers
+- Configuration files
+- Docker/deployment configs
+
+---
+
+## When to Build
+
+Build the backend AFTER:
+1. cMixx integration is tested separately
+2. xxDK bindings are verified
+3. Proxy prototype works in isolation
+4. Frontend UI is finalized
+
+---
+
+## Privacy Reminder
+
+All backend code must follow Privxx Privacy Laws:
+- No logging
+- No analytics  
+- No persistent identifiers
+- No trust in intermediaries
+- Zero retention
+
+See: docs/PRIVXX-PRIVACY-LAWS.md
