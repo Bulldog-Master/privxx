@@ -52,7 +52,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
   };
 
   return (
-    <div className="w-full max-w-md p-6 bg-card rounded-xl border border-border space-y-6">
+    <div className="w-full max-w-lg p-8 bg-surface-elevated rounded-xl border border-border shadow-lg shadow-black/20 space-y-6">
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
           type="text"
@@ -72,11 +72,17 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
         </Button>
       </form>
 
-      <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+      <div className="flex items-center justify-center gap-2 text-sm">
         {connectionState === "connecting" && (
-          <Loader2 className="h-4 w-4 animate-spin" />
+          <Loader2 className="h-4 w-4 animate-spin text-status-connecting" />
         )}
-        <span className={connectionState === "connected" ? "text-status-connected" : ""}>
+        <span className={`font-medium ${
+          connectionState === "connected" 
+            ? "text-status-connected" 
+            : connectionState === "connecting"
+            ? "text-status-connecting"
+            : "text-muted-foreground"
+        }`}>
           {getStatusText()}
         </span>
       </div>

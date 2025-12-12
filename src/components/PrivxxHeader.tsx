@@ -6,13 +6,13 @@ const PrivxxHeader = () => {
   const { t } = useTranslations();
   
   return (
-    <header className="w-full flex flex-col gap-3 px-6 py-4 border-b border-border bg-card/50">
-      <div className="flex items-center justify-between">
+    <header className="w-full px-4 sm:px-6 py-3 border-b border-border bg-card/30">
+      <div className="flex items-center justify-between mb-2">
         <div className="flex flex-col">
-          <h1 className="text-2xl font-semibold text-foreground">
+          <h1 className="text-xl font-semibold text-foreground">
             {t("appTitle")}
           </h1>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-xs text-muted-foreground">
             {t("subtitle")}
           </span>
         </div>
