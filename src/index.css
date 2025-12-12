@@ -30,7 +30,7 @@
     --destructive-foreground: 210 20% 98%;
 
     --border: 0 0% 100% / 0.06;
-    --input: 215 15% 16%;
+    --input: 215 18% 11%;
     --ring: 172 70% 52%;
 
     --radius: 0.75rem;
@@ -70,7 +70,7 @@
     --destructive: 0 70% 50%;
     --destructive-foreground: 210 20% 98%;
     --border: 0 0% 100% / 0.06;
-    --input: 215 15% 16%;
+    --input: 215 18% 11%;
     --ring: 172 70% 52%;
   }
 }
