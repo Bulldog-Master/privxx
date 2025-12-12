@@ -1,54 +1,21 @@
 {
-  "common": {
-    "connect": "Über Privxx verbinden",
-    "disconnect": "Trennen",
-    "cancel": "Abbrechen",
-    "settings": "Einstellungen",
-    "privacy": "Datenschutz",
-    "close": "Schließen"
-  },
-  "status": {
-    "idle": "Bereit",
-    "initializing": "Initialisiere cMixx-Tunnel...",
-    "negotiating": "Verhandle PQ-Schlüssel...",
-    "routing": "Routing über Mixnet...",
-    "connected": "Verbunden",
-    "disconnected": "Getrennt",
-    "error": "Verbindung fehlgeschlagen"
-  },
-  "privacy": {
-    "title": "Privxx Datenschutz",
-    "subtitle": "Wie Privxx Sie schützt",
-    "ipHidden": "Ihre IP und Standort sind verborgen",
-    "ipDescription": "Websites, Banken und Händler sehen nur den Privxx-Proxy — niemals Ihre echte Identität.",
-    "metadataRemoved": "Metadaten über Mixnet entfernt",
-    "metadataDescription": "cMixx zerstört Zeitmuster, Paketkorrelationen und Verhaltensfingerabdrücke.",
-    "postQuantum": "Post-Quanten-Kryptographie",
-    "postQuantumDescription": "Alle von Privxx kontrollierten Verbindungen verwenden PQ-sichere Verschlüsselung gegen zukünftige Quantenangriffe.",
-    "noHistory": "Kein Verlauf oder persistente IDs",
-    "noHistoryDescription": "Jede Sitzung ist nicht verknüpfbar. Nichts überlebt nach Ihrer Trennung.",
-    "noTracking": "Kein Tracking oder Analyse",
-    "noTrackingDescription": "Privxx verfolgt Sie niemals. Keine Cookies, keine Telemetrie, kein Fingerprinting."
-  },
-  "header": {
-    "title": "Privxx",
-    "subtitle": "Privater Surf- und Zahlungstunnel"
-  },
-  "connection": {
-    "placeholder": "https://bank-oder-haendler.com",
-    "simulatedLatency": "Simulierte Latenz",
-    "requestedUrl": "Angeforderte URL"
-  },
-  "content": {
-    "placeholder": "Proxy-Inhalte werden hier in einer zukünftigen Version erscheinen.",
-    "simulationNotice": "Dies ist ein simulierter Prototyp. Die echte cMixx-Integration wird in einer späteren Phase hinzugefügt."
-  },
-  "footer": {
-    "simulationNotice": "Dies ist ein simulierter Prototyp von Privxx. Die echte cMixx-Integration wird in einer späteren Phase hinzugefügt."
-  },
-  "errors": {
-    "invalidUrl": "Bitte geben Sie eine gültige URL ein",
-    "connectionFailed": "Verbindung fehlgeschlagen. Bitte versuchen Sie es erneut.",
-    "timeout": "Verbindungszeitüberschreitung"
-  }
+  "appTitle": "Privxx",
+  "subtitle": "Privater Tunnel für Surfen und Zahlungen",
+  "urlPlaceholder": "https://bank-oder-haendler.com",
+  "connect": "Über Privxx verbinden",
+  "idle": "Bereit",
+  "connecting": "Verbindung über Privxx...",
+  "connected": "Verbunden (simuliert)",
+  "requestedUrl": "Angeforderte URL",
+  "simulatedLatency": "Simulierte Latenz",
+  "privacy": "Datenschutz",
+  "privacyDrawerTitle": "Privxx Datenschutzprinzipien",
+  "privacyDrawerIntro": "Privxx wurde entwickelt, um Ihre Metadaten zu schützen, nicht nur Inhalte zu verschlüsseln.",
+  "privacyDrawerPoint1": "Privxx verbirgt Ihre IP-Adresse und Ihren Standort (Designziel).",
+  "privacyDrawerPoint2": "Privxx verwendet Mixnet-Technologie (cMixx), um Netzwerk-Metadaten zu entfernen.",
+  "privacyDrawerPoint3": "Privxx ist für post-quantensichere Kryptographie konzipiert.",
+  "privacyDrawerPoint4": "Privxx speichert weder Ihren Browserverlauf noch persistente Kennungen.",
+  "privacyDrawerPoint5": "Privxx wird niemals Analysen oder Tracking verwenden.",
+  "proxyPlaceholder": "Proxy-Inhalte werden hier in einer zukünftigen Version erscheinen.",
+  "simulationNotice": "Dies ist ein simulierter Prototyp von Privxx. Die echte cMixx-Integration wird in einer späteren Phase hinzugefügt."
 }

@@ -1,54 +1,21 @@
 {
-  "common": {
-    "connect": "Conectar através do Privxx",
-    "disconnect": "Desconectar",
-    "cancel": "Cancelar",
-    "settings": "Configurações",
-    "privacy": "Privacidade",
-    "close": "Fechar"
-  },
-  "status": {
-    "idle": "Inativo",
-    "initializing": "Inicializando túnel cMixx...",
-    "negotiating": "Negociando chaves PQ...",
-    "routing": "Roteando através da mixnet...",
-    "connected": "Conectado",
-    "disconnected": "Desconectado",
-    "error": "Conexão falhou"
-  },
-  "privacy": {
-    "title": "Privacidade Privxx",
-    "subtitle": "Como o Privxx te protege",
-    "ipHidden": "Seu IP e localização estão ocultos",
-    "ipDescription": "Sites, bancos e comerciantes veem apenas o proxy Privxx — nunca sua identidade real.",
-    "metadataRemoved": "Metadados removidos via mixnet",
-    "metadataDescription": "cMixx destrói padrões de tempo, correlações de pacotes e impressões digitais comportamentais.",
-    "postQuantum": "Criptografia pós-quântica",
-    "postQuantumDescription": "Todos os links controlados pelo Privxx usam criptografia PQ para resistir a futuros ataques quânticos.",
-    "noHistory": "Sem histórico ou IDs persistentes",
-    "noHistoryDescription": "Cada sessão é impossível de vincular. Nada sobrevive após você desconectar.",
-    "noTracking": "Sem rastreamento ou análise",
-    "noTrackingDescription": "Privxx nunca te rastreia. Sem cookies, sem telemetria, sem impressões digitais."
-  },
-  "header": {
-    "title": "Privxx",
-    "subtitle": "Túnel Privado de Navegação e Pagamentos"
-  },
-  "connection": {
-    "placeholder": "https://banco-ou-comercio.com",
-    "simulatedLatency": "Latência simulada",
-    "requestedUrl": "URL solicitada"
-  },
-  "content": {
-    "placeholder": "O conteúdo proxy aparecerá aqui em uma versão futura.",
-    "simulationNotice": "Este é um protótipo simulado. A integração real do cMixx será adicionada em uma fase posterior."
-  },
-  "footer": {
-    "simulationNotice": "Este é um protótipo simulado do Privxx. A integração real do cMixx será adicionada em uma fase posterior."
-  },
-  "errors": {
-    "invalidUrl": "Por favor insira uma URL válida",
-    "connectionFailed": "Conexão falhou. Por favor tente novamente.",
-    "timeout": "Tempo de conexão esgotado"
-  }
+  "appTitle": "Privxx",
+  "subtitle": "Túnel privado de navegação e pagamentos",
+  "urlPlaceholder": "https://banco-ou-comercio.com",
+  "connect": "Conectar via Privxx",
+  "idle": "Inativo",
+  "connecting": "Conectando via Privxx...",
+  "connected": "Conectado (simulado)",
+  "requestedUrl": "URL solicitada",
+  "simulatedLatency": "Latência simulada",
+  "privacy": "Privacidade",
+  "privacyDrawerTitle": "Princípios de privacidade do Privxx",
+  "privacyDrawerIntro": "Privxx foi projetado para proteger seus metadados, não apenas criptografar o conteúdo.",
+  "privacyDrawerPoint1": "Privxx oculta seu endereço IP e localização (objetivo de design).",
+  "privacyDrawerPoint2": "Privxx usa tecnologia mixnet (cMixx) para remover metadados de rede.",
+  "privacyDrawerPoint3": "Privxx foi construído para usar criptografia resistente a ataques pós-quânticos.",
+  "privacyDrawerPoint4": "Privxx não armazenará seu histórico de navegação nem identificadores persistentes.",
+  "privacyDrawerPoint5": "Privxx nunca usará análise ou rastreamento.",
+  "proxyPlaceholder": "O conteúdo do proxy aparecerá aqui em uma versão futura.",
+  "simulationNotice": "Este é um protótipo simulado do Privxx. A integração real com cMixx será adicionada em uma fase posterior."
 }
