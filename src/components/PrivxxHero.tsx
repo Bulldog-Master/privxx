@@ -1,5 +1,23 @@
 import { useTranslations } from "@/lib/i18n";
 
+// XX Network symbol component - stylized X mark
+const XXSymbol = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={className}
+    aria-hidden="true"
+  >
+    <path 
+      d="M4 4L12 12M12 12L20 20M12 12L20 4M12 12L4 20" 
+      stroke="currentColor" 
+      strokeWidth="3.5" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 const PrivxxHero = () => {
   const { t } = useTranslations();
 
@@ -10,9 +28,10 @@ const PrivxxHero = () => {
       
       {/* Stylized Logo */}
       <div className="relative">
-        <h1 className="text-6xl sm:text-7xl font-bold tracking-tight">
+        <h1 className="text-6xl sm:text-7xl font-bold tracking-tight flex items-center justify-center">
           <span className="text-foreground">Priv</span>
-          <span className="text-primary drop-shadow-[0_0_20px_hsl(172,70%,52%,0.4)]">xx</span>
+          <span className="text-primary drop-shadow-[0_0_20px_hsl(172,70%,52%,0.4)]">x</span>
+          <XXSymbol className="w-10 h-10 sm:w-12 sm:h-12 text-primary drop-shadow-[0_0_20px_hsl(172,70%,52%,0.5)] -ml-1" />
         </h1>
         
         {/* Accent underline */}
