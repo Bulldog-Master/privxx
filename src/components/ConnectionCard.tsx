@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "@/lib/i18n";
+import PrivxxLogo from "@/components/PrivxxLogo";
 
 export type ConnectionState = "idle" | "connecting" | "connected";
 
@@ -11,28 +12,6 @@ interface ConnectionCardProps {
   connectionState: ConnectionState;
   onStateChange: (state: ConnectionState) => void;
 }
-
-// Inline Privxx mark for button (smaller version)
-const PrivxxMark = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 40 32" 
-    fill="none" 
-    className={className}
-    aria-hidden="true"
-  >
-    <path d="M4 4L20 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-    <path d="M20 4L4 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-    <path d="M36 4L20 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-  </svg>
-);
-
-// Styled Privxx brand for button (matches hero logo, scaled down, no glow)
-const PrivxxBrand = ({ className }: { className?: string }) => (
-  <span className={`inline-flex items-baseline font-bold ${className}`}>
-    <span>Privx</span>
-    <PrivxxMark className="w-[0.7em] h-[0.55em] text-primary ml-0.5 -translate-y-[0.05em]" />
-  </span>
-);
 
 const ConnectionCard = ({ onConnect, connectionState, onStateChange }: ConnectionCardProps) => {
   const [url, setUrl] = useState("");
@@ -97,12 +76,12 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             {connectionState === "connecting" ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
-                <span>Connecting through <PrivxxBrand /></span>
+                <span className="flex items-center">Connecting through&nbsp;&nbsp;<PrivxxLogo size="sm" /></span>
               </span>
             ) : (
               <span className="flex items-center gap-0">
                 <span>Connect through&nbsp;&nbsp;</span>
-                <PrivxxBrand />
+                <PrivxxLogo size="sm" />
               </span>
             )}
           </Button>
