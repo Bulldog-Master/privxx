@@ -4,7 +4,7 @@ import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
 import ContentArea from "@/components/ContentArea";
 import { useTranslations } from "@/lib/i18n";
-import heroBackground from "@/assets/hero-background.jpg";
+import heroBackground from "@/assets/hero-background-bright.jpg";
 
 const Index = () => {
   const [connectionState, setConnectionState] = useState<ConnectionState>("idle");
@@ -19,17 +19,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Hero background image */}
+      {/* Hero background image - bright and airy */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroBackground})` }}
       />
       
-      {/* Gradient overlay for readability */}
+      {/* LIGHT overlay - soft white, low opacity */}
       <div 
         className="absolute inset-0"
         style={{ 
-          background: 'linear-gradient(135deg, hsl(220 15% 12% / 0.88) 0%, hsl(200 20% 15% / 0.80) 50%, hsl(172 30% 15% / 0.85) 100%)' 
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(245,245,250,0.25) 100%)' 
         }}
       />
       
@@ -49,7 +49,7 @@ const Index = () => {
           <ContentArea url={connectedUrl} latency={latency} />
         </main>
 
-        <footer className="text-center py-4 px-4 text-xs text-foreground/70">
+        <footer className="text-center py-4 px-4 text-xs text-slate-600">
           {t("simulationNotice")}
         </footer>
       </div>
