@@ -34,20 +34,27 @@ const LanguageSelector = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="border-border text-foreground hover:bg-secondary gap-1">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="text-muted-foreground hover:text-foreground hover:bg-muted/50"
+          aria-label="Select language"
+        >
           <Globe className="h-4 w-4" />
-          <span className="hidden sm:inline">{languageLabels[currentLanguage] || "English"}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-card border-border z-50 max-h-80 overflow-y-auto">
+      <DropdownMenuContent 
+        align="end" 
+        className="bg-card border-border z-50 max-h-80 overflow-y-auto min-w-[140px]"
+      >
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang}
             onClick={() => setLanguage(lang)}
-            className={`cursor-pointer ${
+            className={`cursor-pointer text-sm ${
               lang === currentLanguage 
                 ? "bg-primary/10 text-primary font-medium" 
-                : "text-foreground hover:bg-secondary"
+                : "text-foreground hover:bg-muted/50"
             }`}
           >
             {languageLabels[lang]}

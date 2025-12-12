@@ -52,39 +52,44 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
   };
 
   return (
-    <div className="w-full max-w-lg p-8 bg-surface-elevated rounded-xl border border-border shadow-lg shadow-black/20 space-y-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          type="text"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder={t("urlPlaceholder")}
-          disabled={connectionState === "connecting"}
-          className="w-full h-12 bg-secondary/50 border-border text-foreground placeholder:text-muted-foreground"
-        />
-        
-        <Button
-          type="submit"
-          disabled={!url.trim() || connectionState === "connecting"}
-          className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
-        >
-          {t("connect")}
-        </Button>
-      </form>
+    <div className="relative w-full max-w-md">
+      {/* Subtle card glow */}
+      <div className="absolute -inset-1 bg-primary/10 blur-xl rounded-2xl pointer-events-none opacity-50" />
+      
+      <div className="relative w-full p-8 bg-gradient-to-b from-card to-card/80 rounded-2xl border border-border shadow-2xl shadow-black/30 space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            type="text"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder={t("urlPlaceholder")}
+            disabled={connectionState === "connecting"}
+            className="w-full h-12 bg-input border-border text-foreground placeholder:text-muted-foreground rounded-xl"
+          />
+          
+          <Button
+            type="submit"
+            disabled={!url.trim() || connectionState === "connecting"}
+            className="w-full h-12 bg-primary hover:bg-primary/85 text-primary-foreground font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all duration-200"
+          >
+            {t("connect")}
+          </Button>
+        </form>
 
-      <div className="flex items-center justify-center gap-2 text-sm">
-        {connectionState === "connecting" && (
-          <Loader2 className="h-4 w-4 animate-spin text-status-connecting" />
-        )}
-        <span className={`font-medium ${
-          connectionState === "connected" 
-            ? "text-status-connected" 
-            : connectionState === "connecting"
-            ? "text-status-connecting"
-            : "text-muted-foreground"
-        }`}>
-          {getStatusText()}
-        </span>
+        <div className="flex items-center justify-center gap-2">
+          {connectionState === "connecting" && (
+            <Loader2 className="h-4 w-4 animate-spin text-status-connecting" />
+          )}
+          <span className={`text-sm font-medium ${
+            connectionState === "connected" 
+              ? "text-status-connected" 
+              : connectionState === "connecting"
+              ? "text-status-connecting"
+              : "text-muted-foreground"
+          }`}>
+            {getStatusText()}
+          </span>
+        </div>
       </div>
     </div>
   );
