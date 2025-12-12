@@ -17,10 +17,15 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[hsl(216,15%,14%)] to-[hsl(216,15%,9%)]">
       <PrivxxHeader />
       
-      <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8">
+      <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8 relative">
+        {/* Ambient center glow */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-[600px] h-[400px] bg-[hsl(216,15%,16%)] blur-[120px] opacity-50 rounded-full" />
+        </div>
+        
         <PrivxxHero />
         
         <ConnectionCard 
@@ -32,7 +37,7 @@ const Index = () => {
         <ContentArea url={connectedUrl} latency={latency} />
       </main>
 
-      <footer className="text-center py-3 px-4 text-[10px] text-muted-foreground/50">
+      <footer className="text-center py-4 px-4 text-xs text-muted-foreground/70">
         {t("simulationNotice")}
       </footer>
     </div>
