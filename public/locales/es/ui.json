@@ -1,7 +1,7 @@
 {
   "appTitle": "Privxx",
   "subtitle": "Túnel privado de navegación y pagos",
-  "urlPlaceholder": "Ingrese la URL del sitio web",
+  "urlPlaceholder": "https://banco-o-comercio.com",
   "connect": "Conectar mediante Privxx",
   "idle": "Inactivo",
   "connecting": "Conectando mediante Privxx...",
@@ -9,5 +9,13 @@
   "requestedUrl": "URL solicitada",
   "simulatedLatency": "Latencia simulada",
   "privacy": "Privacidad",
-  "proxyPlaceholder": "El contenido del proxy aparecerá aquí en una versión futura."
+  "privacyDrawerTitle": "Principios de privacidad de Privxx",
+  "privacyDrawerIntro": "Privxx está diseñado para proteger tus metadatos, no solo cifrar el contenido.",
+  "privacyDrawerPoint1": "Privxx oculta tu dirección IP y ubicación (objetivo de diseño).",
+  "privacyDrawerPoint2": "Privxx utiliza tecnología mixnet (cMixx) para eliminar metadatos de red.",
+  "privacyDrawerPoint3": "Privxx está construido para usar criptografía post-cuántica.",
+  "privacyDrawerPoint4": "Privxx no almacenará tu historial de navegación ni identificadores persistentes.",
+  "privacyDrawerPoint5": "Privxx nunca usará análisis ni rastreo.",
+  "proxyPlaceholder": "El contenido del proxy aparecerá aquí en una versión futura.",
+  "simulationNotice": "Este es un prototipo simulado de Privxx. La integración real de cMixx se añadirá en una fase posterior."
 }

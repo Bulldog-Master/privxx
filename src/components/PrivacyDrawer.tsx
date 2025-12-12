@@ -15,28 +15,23 @@ const PrivacyDrawer = () => {
   const principles = [
     {
       icon: Eye,
-      title: "IP & Location Hidden",
-      description: "Privxx hides your IP and location (design goal).",
+      title: t("privacyDrawerPoint1"),
     },
     {
       icon: Shield,
-      title: "Metadata Removal",
-      description: "Privxx removes metadata using mixnet technology (cMixx).",
+      title: t("privacyDrawerPoint2"),
     },
     {
       icon: Lock,
-      title: "Post-Quantum Security",
-      description: "Privxx uses post-quantum-safe cryptography for future-proof security.",
+      title: t("privacyDrawerPoint3"),
     },
     {
       icon: Database,
-      title: "No History Storage",
-      description: "Privxx will not store browsing history or persistent IDs.",
+      title: t("privacyDrawerPoint4"),
     },
     {
       icon: BarChart3,
-      title: "No Tracking",
-      description: "Privxx will never use analytics or tracking.",
+      title: t("privacyDrawerPoint5"),
     },
   ];
 
@@ -49,9 +44,12 @@ const PrivacyDrawer = () => {
       </DrawerTrigger>
       <DrawerContent className="h-full w-80 right-0 left-auto rounded-none">
         <DrawerHeader className="border-b border-border">
-          <DrawerTitle className="text-foreground">Privxx Privacy Principles</DrawerTitle>
+          <DrawerTitle className="text-foreground">{t("privacyDrawerTitle")}</DrawerTitle>
         </DrawerHeader>
         <div className="p-4 space-y-4">
+          <p className="text-sm text-muted-foreground">
+            {t("privacyDrawerIntro")}
+          </p>
           {principles.map((principle, index) => (
             <div 
               key={index} 
@@ -60,10 +58,7 @@ const PrivacyDrawer = () => {
               <div className="p-2 rounded-md bg-primary/10">
                 <principle.icon className="h-4 w-4 text-primary" />
               </div>
-              <div className="space-y-1">
-                <h3 className="text-sm font-medium text-foreground">{principle.title}</h3>
-                <p className="text-xs text-muted-foreground">{principle.description}</p>
-              </div>
+              <p className="text-sm text-foreground">{principle.title}</p>
             </div>
           ))}
         </div>
