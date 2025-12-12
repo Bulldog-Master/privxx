@@ -12,6 +12,28 @@ interface ConnectionCardProps {
   onStateChange: (state: ConnectionState) => void;
 }
 
+// Inline Privxx mark for button (smaller version)
+const PrivxxMark = ({ className }: { className?: string }) => (
+  <svg 
+    viewBox="0 0 40 32" 
+    fill="none" 
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M4 4L20 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+    <path d="M20 4L4 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+    <path d="M36 4L20 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+  </svg>
+);
+
+// Styled Privxx brand for button
+const PrivxxBrand = ({ className }: { className?: string }) => (
+  <span className={`inline-flex items-baseline font-bold ${className}`}>
+    <span>Privx</span>
+    <PrivxxMark className="w-[0.7em] h-[0.55em] -translate-y-[0.05em]" />
+  </span>
+);
+
 const ConnectionCard = ({ onConnect, connectionState, onStateChange }: ConnectionCardProps) => {
   const [url, setUrl] = useState("");
   const { t } = useTranslations();
@@ -75,10 +97,13 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             {connectionState === "connecting" ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
-                {t("connecting")}
+                <span>Connecting via <PrivxxBrand /></span>
               </span>
             ) : (
-              t("connect")
+              <span className="flex items-center gap-1.5">
+                <span>Connect through</span>
+                <PrivxxBrand />
+              </span>
             )}
           </Button>
         </form>
