@@ -65,7 +65,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             onChange={(e) => setUrl(e.target.value)}
             placeholder={t("urlPlaceholder")}
             disabled={connectionState === "connecting"}
-            className="w-full h-14 bg-white border-primary/30 text-slate-700 placeholder:text-slate-500 rounded-xl text-base px-4 focus:bg-white focus:border-primary"
+            className="w-full h-14 bg-primary hover:bg-primary/90 border-none text-primary-foreground placeholder:text-primary-foreground/70 rounded-xl text-base px-4 font-medium"
           />
           
           <Button
