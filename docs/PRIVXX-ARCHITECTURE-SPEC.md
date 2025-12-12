@@ -262,11 +262,26 @@ Recommended languages:
 }
 ```
 
+### 5.2 Proxy → Client
+
+```json
+{
+  "version": 1,
+  "type": "http_response",
+  "request_id": "<same-id>",
+  "status": 200,
+  "headers": {
+    "Content-Type": "text/html"
+  },
+  "body": "<html>...</html>"
+}
+```
+
 ---
 
 ## 6. Security Architecture
 
-### 5.1 Encryption Layers
+### 6.1 Encryption Layers
 
 | Layer | Protection |
 |-------|------------|
