@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PrivxxHeader from "@/components/PrivxxHeader";
+import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
 import ContentArea from "@/components/ContentArea";
 import { useTranslations } from "@/lib/i18n";
@@ -19,7 +20,9 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <PrivxxHeader />
       
-      <main className="flex-1 flex flex-col items-center pt-12 sm:pt-20 px-4 sm:px-6 gap-6">
+      <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8">
+        <PrivxxHero />
+        
         <ConnectionCard 
           onConnect={handleConnect}
           connectionState={connectionState}
@@ -29,7 +32,7 @@ const Index = () => {
         <ContentArea url={connectedUrl} latency={latency} />
       </main>
 
-      <footer className="text-center py-3 px-4 text-[10px] text-muted-foreground/60">
+      <footer className="text-center py-3 px-4 text-[10px] text-muted-foreground/50">
         {t("simulationNotice")}
       </footer>
     </div>
