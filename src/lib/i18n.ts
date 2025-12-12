@@ -65,6 +65,11 @@ export const getSupportedLanguages = () => [
   'en', 'zh', 'hi', 'es', 'fr', 'ar', 'bn', 'ru', 'pt', 'ur', 'id', 'de', 'ja', 'nl', 'tr', 'ko'
 ];
 
+// RTL language detection
+export const isRtlLanguage = (lang: string): boolean => {
+  return lang === 'ar' || lang === 'ur';
+};
+
 // Translation function
 export const t = (key: TranslationKey): string => {
   return translations[currentLanguage]?.[key] || translations.en[key] || key;

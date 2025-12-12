@@ -188,19 +188,20 @@ Then update:
 1. `src/lib/i18n.ts` — import and add to translations object
 2. `src/components/LanguageSelector.tsx` — add label
 
-### 🔜 Future Enhancements
+### Globalization & Script Support
 
-- RTL (right-to-left) support for Arabic, Urdu, Hebrew
-- Fallback fonts for CJK (Chinese, Japanese, Korean)
-- Region-specific compliance messages (GDPR, LGPD, CCPA)
-- **No persistence**: Language preference is session-only (privacy-first)
-- **Fallback**: Falls back to English if language not supported
+Privxx is designed to support multiple writing systems:
 
-### Future Enhancements
+- **LTR**: English, Spanish, French, Portuguese, German, Dutch, Turkish, Indonesian, Russian, etc.
+- **CJK**: Chinese (zh), Japanese (ja), Korean (ko)
+- **Indic scripts**: Hindi (hi), Bengali (bn)
+- **RTL**: Arabic (ar), Urdu (ur)
 
-- RTL (right-to-left) support for Arabic, Urdu, Hebrew
-- Fallback fonts for CJK (Chinese, Japanese, Korean)
-- Region-specific compliance messages (GDPR, LGPD, CCPA)
+The UI:
+- Switches `dir="rtl"` automatically for Arabic and Urdu.
+- Uses system font stacks for privacy and broad script coverage (no external font CDNs).
+- Loads all translations from local JSON files only (no external translation CDNs).
+- Language preference is session-only (privacy-first — no persistent storage).
 
 ---
 
