@@ -17,14 +17,10 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[hsl(216,14%,15%)] to-[hsl(216,14%,11%)]">
+    <div className="min-h-screen flex flex-col bg-background">
       <PrivxxHeader />
       
-      <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8 relative">
-        {/* Ambient center glow */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-[600px] h-[400px] bg-[hsl(216,15%,16%)] blur-[120px] opacity-50 rounded-full" />
-        </div>
+      <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8">
         
         <PrivxxHero />
         
