@@ -60,6 +60,24 @@ Privxx Proxy is responsible for:
 | **Rust** | Strong safety guarantees |
 | **Node.js** | Easy prototyping, less performant |
 
+## Implementation Notes
+
+- The proxy must not log sensitive information.
+- Only minimal metadata may be logged for troubleshooting (e.g. status codes).
+- The service must:
+  - Bind to xxDK endpoints
+  - Decrypt/Encrypt messages reliably
+  - Forward HTTPS with no leakage of client identity
+
+## Future Enhancements
+
+- Support for POST, PUT, PATCH, and other verbs
+- Handling of cookies (optional flags)
+- Error/error codes
+- Proxy caching (opt-in, privacy-protective)
+
+---
+
 ## Current Status
 
 🚧 **Not yet implemented** — This spec defines requirements for Phase 2.
