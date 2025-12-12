@@ -1,0 +1,21 @@
+{
+  "appTitle": "Privxx",
+  "subtitle": "निजी ब्राउज़िंग और भुगतान टनल",
+  "urlPlaceholder": "https://बैंक-या-व्यापारी.com",
+  "connect": "Privxx के माध्यम से कनेक्ट करें",
+  "idle": "निष्क्रिय",
+  "connecting": "Privxx के माध्यम से कनेक्ट हो रहा है...",
+  "connected": "कनेक्टेड (सिमुलेटेड)",
+  "requestedUrl": "अनुरोधित URL",
+  "simulatedLatency": "सिमुलेटेड लेटेंसी",
+  "privacy": "गोपनीयता",
+  "privacyDrawerTitle": "Privxx गोपनीयता सिद्धांत",
+  "privacyDrawerIntro": "Privxx को आपके मेटाडेटा की रक्षा के लिए डिज़ाइन किया गया है, न कि केवल सामग्री को एन्क्रिप्ट करने के लिए।",
+  "privacyDrawerPoint1": "Privxx आपका IP पता और स्थान छुपाता है (डिज़ाइन लक्ष्य)।",
+  "privacyDrawerPoint2": "Privxx नेटवर्क मेटाडेटा हटाने के लिए mixnet तकनीक (cMixx) का उपयोग करता है।",
+  "privacyDrawerPoint3": "Privxx पोस्ट-क्वांटम सुरक्षित क्रिप्टोग्राफी का उपयोग करने के लिए बनाया गया है।",
+  "privacyDrawerPoint4": "Privxx आपका ब्राउज़िंग इतिहास या स्थायी पहचानकर्ता संग्रहीत नहीं करेगा।",
+  "privacyDrawerPoint5": "Privxx कभी भी एनालिटिक्स या ट्रैकिंग का उपयोग नहीं करेगा।",
+  "proxyPlaceholder": "प्रॉक्सी सामग्री भविष्य के संस्करण में यहां दिखाई देगी।",
+  "simulationNotice": "यह Privxx का एक सिमुलेटेड प्रोटोटाइप है। वास्तविक cMixx एकीकरण बाद के चरण में जोड़ा जाएगा।"
+}

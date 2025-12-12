@@ -1,0 +1,21 @@
+{
+  "appTitle": "Privxx",
+  "subtitle": "Privé Browse- en Betalingstunnel",
+  "urlPlaceholder": "https://bank-of-winkel.com",
+  "connect": "Verbinden via Privxx",
+  "idle": "Inactief",
+  "connecting": "Verbinden via Privxx...",
+  "connected": "Verbonden (gesimuleerd)",
+  "requestedUrl": "Gevraagde URL",
+  "simulatedLatency": "Gesimuleerde Latentie",
+  "privacy": "Privacy",
+  "privacyDrawerTitle": "Privxx Privacy Principes",
+  "privacyDrawerIntro": "Privxx is ontworpen om uw metadata te beschermen, niet alleen om inhoud te versleutelen.",
+  "privacyDrawerPoint1": "Privxx verbergt uw IP-adres en locatie (ontwerpdoel).",
+  "privacyDrawerPoint2": "Privxx gebruikt mixnet-technologie (cMixx) om netwerkmetadata te verwijderen.",
+  "privacyDrawerPoint3": "Privxx is gebouwd om post-quantum cryptografie te gebruiken.",
+  "privacyDrawerPoint4": "Privxx slaat uw browsegeschiedenis of permanente identificatoren niet op.",
+  "privacyDrawerPoint5": "Privxx zal nooit analytics of tracking gebruiken.",
+  "proxyPlaceholder": "Proxy-inhoud verschijnt hier in een toekomstige versie.",
+  "simulationNotice": "Dit is een gesimuleerd prototype van Privxx. Echte cMixx-integratie wordt in een latere fase toegevoegd."
+}

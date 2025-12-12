@@ -1,0 +1,21 @@
+{
+  "appTitle": "Privxx",
+  "subtitle": "نجی براؤزنگ اور ادائیگی ٹنل",
+  "urlPlaceholder": "https://بینک-یا-دکان.com",
+  "connect": "Privxx کے ذریعے جڑیں",
+  "idle": "غیر فعال",
+  "connecting": "Privxx کے ذریعے جڑ رہا ہے...",
+  "connected": "جڑا ہوا (نقلی)",
+  "requestedUrl": "درخواست کردہ URL",
+  "simulatedLatency": "نقلی تاخیر",
+  "privacy": "رازداری",
+  "privacyDrawerTitle": "Privxx رازداری کے اصول",
+  "privacyDrawerIntro": "Privxx آپ کے میٹا ڈیٹا کی حفاظت کے لیے ڈیزائن کیا گیا ہے، نہ صرف مواد کو خفیہ کرنے کے لیے۔",
+  "privacyDrawerPoint1": "Privxx آپ کا IP پتہ اور مقام چھپاتا ہے (ڈیزائن کا مقصد)۔",
+  "privacyDrawerPoint2": "Privxx نیٹ ورک میٹا ڈیٹا ہٹانے کے لیے mixnet ٹیکنالوجی (cMixx) استعمال کرتا ہے۔",
+  "privacyDrawerPoint3": "Privxx پوسٹ کوانٹم محفوظ خفیہ نگاری استعمال کرنے کے لیے بنایا گیا ہے۔",
+  "privacyDrawerPoint4": "Privxx آپ کی براؤزنگ ہسٹری یا مستقل شناخت کنندگان ذخیرہ نہیں کرے گا۔",
+  "privacyDrawerPoint5": "Privxx کبھی بھی تجزیات یا ٹریکنگ استعمال نہیں کرے گا۔",
+  "proxyPlaceholder": "پراکسی مواد مستقبل کے ورژن میں یہاں ظاہر ہوگا۔",
+  "simulationNotice": "یہ Privxx کا ایک نقلی پروٹوٹائپ ہے۔ حقیقی cMixx انضمام بعد کے مرحلے میں شامل کیا جائے گا۔"
+}

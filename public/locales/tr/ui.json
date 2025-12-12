@@ -1,0 +1,21 @@
+{
+  "appTitle": "Privxx",
+  "subtitle": "Özel Tarama ve Ödeme Tüneli",
+  "urlPlaceholder": "https://banka-veya-magaza.com",
+  "connect": "Privxx ile Bağlan",
+  "idle": "Boşta",
+  "connecting": "Privxx ile bağlanıyor...",
+  "connected": "Bağlandı (simüle)",
+  "requestedUrl": "İstenen URL",
+  "simulatedLatency": "Simüle Gecikme",
+  "privacy": "Gizlilik",
+  "privacyDrawerTitle": "Privxx Gizlilik İlkeleri",
+  "privacyDrawerIntro": "Privxx, yalnızca içeriği şifrelemek için değil, meta verilerinizi korumak için tasarlanmıştır.",
+  "privacyDrawerPoint1": "Privxx IP adresinizi ve konumunuzu gizler (tasarım hedefi).",
+  "privacyDrawerPoint2": "Privxx ağ meta verilerini kaldırmak için mixnet teknolojisini (cMixx) kullanır.",
+  "privacyDrawerPoint3": "Privxx kuantum sonrası kriptografi kullanmak için inşa edilmiştir.",
+  "privacyDrawerPoint4": "Privxx tarama geçmişinizi veya kalıcı tanımlayıcıları saklamayacaktır.",
+  "privacyDrawerPoint5": "Privxx asla analitik veya izleme kullanmayacaktır.",
+  "proxyPlaceholder": "Proxy içeriği gelecek bir sürümde burada görünecektir.",
+  "simulationNotice": "Bu, Privxx'in simüle edilmiş bir prototipidir. Gerçek cMixx entegrasyonu daha sonraki bir aşamada eklenecektir."
+}
