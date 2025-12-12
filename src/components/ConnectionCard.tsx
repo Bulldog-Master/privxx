@@ -26,11 +26,11 @@ const PrivxxMark = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Styled Privxx brand for button
+// Styled Privxx brand for button (matches hero logo, scaled down, no glow)
 const PrivxxBrand = ({ className }: { className?: string }) => (
   <span className={`inline-flex items-baseline font-bold ${className}`}>
     <span>Privx</span>
-    <PrivxxMark className="w-[0.7em] h-[0.55em] -translate-y-[0.05em]" />
+    <PrivxxMark className="w-[0.7em] h-[0.55em] text-primary ml-0.5 -translate-y-[0.05em]" />
   </span>
 );
 
