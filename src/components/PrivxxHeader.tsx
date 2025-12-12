@@ -1,4 +1,5 @@
 import PrivacyDrawer from "./PrivacyDrawer";
+import LanguageSelector from "./LanguageSelector";
 import { useTranslations } from "@/lib/i18n";
 
 const PrivxxHeader = () => {
@@ -15,7 +16,10 @@ const PrivxxHeader = () => {
         </span>
       </div>
       
-      <PrivacyDrawer />
+      <div className="flex items-center gap-2">
+        <LanguageSelector />
+        <PrivacyDrawer />
+      </div>
     </header>
   );
 };

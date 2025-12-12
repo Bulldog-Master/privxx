@@ -1,7 +1,7 @@
 {
   "appTitle": "Privxx",
   "subtitle": "Private Browsing & Payments Tunnel",
-  "urlPlaceholder": "Enter website URL",
+  "urlPlaceholder": "https://bank-or-merchant.com",
   "connect": "Connect through Privxx",
   "idle": "Idle",
   "connecting": "Connecting through Privxx...",
@@ -9,5 +9,13 @@
   "requestedUrl": "Requested URL",
   "simulatedLatency": "Simulated latency",
   "privacy": "Privacy",
-  "proxyPlaceholder": "Proxied content will appear here in a future version."
+  "privacyDrawerTitle": "Privxx Privacy Principles",
+  "privacyDrawerIntro": "Privxx is designed to protect your metadata, not just encrypt content.",
+  "privacyDrawerPoint1": "Privxx hides your IP address and location (design goal).",
+  "privacyDrawerPoint2": "Privxx uses mixnet technology (cMixx) to remove network metadata.",
+  "privacyDrawerPoint3": "Privxx is built to use post-quantum-safe cryptography.",
+  "privacyDrawerPoint4": "Privxx will not store your browsing history or persistent identifiers.",
+  "privacyDrawerPoint5": "Privxx will never use analytics or tracking.",
+  "proxyPlaceholder": "Proxied content will appear here in a future version.",
+  "simulationNotice": "This is a simulated prototype of Privxx. Real cMixx integration will be added in a later phase."
 }
