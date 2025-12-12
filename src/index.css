@@ -4,73 +4,73 @@
 
 @layer base {
   :root {
-    /* Light charcoal theme - Apple/Proton style calm dark */
-    --background: 215 8% 28%;
-    --foreground: 210 9% 94%;
+    /* True light-gray dark mode - unmistakably lighter */
+    --background: 215 6% 42%;
+    --foreground: 210 9% 96%;
 
-    --card: 215 12% 18%;
-    --card-foreground: 210 9% 94%;
+    --card: 215 10% 22%;
+    --card-foreground: 210 9% 96%;
 
-    --popover: 215 12% 20%;
-    --popover-foreground: 210 9% 94%;
+    --popover: 215 10% 24%;
+    --popover-foreground: 210 9% 96%;
 
     --primary: 172 70% 52%;
     --primary-foreground: 216 16% 8%;
 
-    --secondary: 215 8% 34%;
-    --secondary-foreground: 210 9% 94%;
+    --secondary: 215 6% 48%;
+    --secondary-foreground: 210 9% 96%;
 
-    --muted: 215 8% 38%;
-    --muted-foreground: 210 8% 72%;
+    --muted: 215 6% 52%;
+    --muted-foreground: 210 6% 85%;
 
     --accent: 172 60% 45%;
-    --accent-foreground: 210 9% 94%;
+    --accent-foreground: 210 9% 96%;
 
     --destructive: 0 70% 50%;
     --destructive-foreground: 210 20% 98%;
 
-    --border: 0 0% 100% / 0.12;
-    --input: 215 10% 22%;
+    --border: 0 0% 0% / 0.15;
+    --input: 215 8% 28%;
     --ring: 172 70% 52%;
 
     --radius: 0.75rem;
 
     /* Custom Privxx tokens */
     --glow-primary: 172 70% 52%;
-    --surface-elevated: 215 12% 22%;
+    --surface-elevated: 215 10% 26%;
     --status-connecting: 45 90% 55%;
     --status-connected: 142 70% 50%;
     --status-error: 0 70% 55%;
 
-    --sidebar-background: 215 10% 24%;
-    --sidebar-foreground: 210 9% 92%;
+    --sidebar-background: 215 6% 38%;
+    --sidebar-foreground: 210 9% 94%;
     --sidebar-primary: 172 70% 52%;
     --sidebar-primary-foreground: 216 16% 8%;
-    --sidebar-accent: 215 8% 32%;
-    --sidebar-accent-foreground: 210 9% 92%;
-    --sidebar-border: 0 0% 100% / 0.12;
+    --sidebar-accent: 215 6% 46%;
+    --sidebar-accent-foreground: 210 9% 94%;
+    --sidebar-border: 0 0% 0% / 0.15;
     --sidebar-ring: 172 70% 52%;
   }
 
   .dark {
-    --background: 215 8% 28%;
-    --foreground: 210 9% 94%;
-    --card: 215 12% 18%;
-    --card-foreground: 210 9% 94%;
-    --popover: 215 12% 20%;
-    --popover-foreground: 210 9% 94%;
+    --background: 215 6% 42%;
+    --foreground: 210 9% 96%;
+    --card: 215 10% 22%;
+    --card-foreground: 210 9% 96%;
+    --popover: 215 10% 24%;
+    --popover-foreground: 210 9% 96%;
     --primary: 172 70% 52%;
     --primary-foreground: 216 16% 8%;
-    --secondary: 215 8% 34%;
-    --secondary-foreground: 210 9% 94%;
-    --muted: 215 8% 38%;
-    --muted-foreground: 210 8% 72%;
+    --secondary: 215 6% 48%;
+    --secondary-foreground: 210 9% 96%;
+    --muted: 215 6% 52%;
+    --muted-foreground: 210 6% 85%;
     --accent: 172 60% 45%;
-    --accent-foreground: 210 9% 94%;
+    --accent-foreground: 210 9% 96%;
     --destructive: 0 70% 50%;
     --destructive-foreground: 210 20% 98%;
-    --border: 0 0% 100% / 0.12;
-    --input: 215 10% 22%;
+    --border: 0 0% 0% / 0.15;
+    --input: 215 8% 28%;
     --ring: 172 70% 52%;
   }
 }
