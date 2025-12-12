@@ -1,48 +1,30 @@
-# Privxx Backend (Future)
+# Privxx Backend
 
-This directory is reserved for the **Privxx Proxy** backend implementation.
+This folder contains the future backend components of Privxx.
 
----
+## Phase 1 — Simulation Only
 
-## Planned Components
+The current front-end simulates behavior.  
+No actual networking or mixnet integration exists yet.
 
-### Privxx Proxy Server
-- **Language**: Go or Rust (TBD)
-- **Purpose**: 
-  - Receive HTTP-like requests over cMixx
-  - Forward to target websites via HTTPS
-  - Return responses through cMixx tunnel
+## Phase 2 — Real Mixnet Integration (Planned)
 
-### xxDK Integration
-- cMixx client library bindings
-- Post-quantum key negotiation
-- Mixnet message handling
+The backend will eventually include:
 
----
+- A **Privxx Proxy Server**
+  - Acts as an xxDK client
+  - Receives encrypted requests from the Privxx client
+  - Forwards requests to external HTTPS sites
+  - Sends responses back through the mixnet
 
-## Current Status
+- Message format specifications for:
+  - Client to Proxy
+  - Proxy to Client
 
-🚧 **Not implemented yet** – This is Phase 2+ work.
+- A privacy-first implementation
+  - No logging of metadata
+  - No analytics
+  - Minimal headers
+  - No persistent identifiers
 
-The frontend UI shell (in `src/`) currently uses simulated behavior only.
-
----
-
-## When This Gets Built
-
-1. Prototype Privxx Proxy in isolated environment
-2. Test xxDK/cMixx integration separately
-3. Wire real backend to the UI shell
-4. Replace simulated latency with actual mixnet timing
-
----
-
-## Privacy Requirements
-
-Any backend code must follow Privxx privacy principles:
-
-- No logging of user requests or destinations
-- No persistent session identifiers
-- No analytics or tracking
-- Post-quantum-safe cryptography for all Privxx-controlled links
-- Zero retention of browsing data
+This backend will be developed after initial concept validation.
