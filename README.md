@@ -102,33 +102,63 @@ This version is meant to **express the product vision and UX**, not to provide r
 
 ## Internationalization (i18n)
 
-Privxx is designed for global reach and supports multiple languages through static JSON translation files.
+Privxx is designed for global reach and supports multiple languages through static JSON translation files stored in:
 
-### Supported Languages
+```
+public/locales/<iso-code>/ui.json
+```
 
-| Code | Language   | Status |
-|------|------------|--------|
-| en   | English    | ✅ Complete |
-| es   | Spanish    | ✅ Complete |
-| fr   | French     | ✅ Complete |
-| pt   | Portuguese | ✅ Complete |
-| de   | German     | ✅ Complete |
-| ar   | Arabic     | ✅ Complete |
-| ru   | Russian    | ✅ Complete |
-| bn   | Bengali    | ✅ Complete |
-| zh   | Chinese    | ✅ Complete |
+### ✔ Current Supported Languages
 
-### Adding a New Language
+- English (`en`)
+- Spanish (`es`)
+- French (`fr`)
+- Portuguese (`pt`)
+- German (`de`)
+- Arabic (`ar`)
+- Russian (`ru`)
+- Bengali (`bn`)
+- Chinese (`zh`)
 
-1. Create a new folder: `public/locales/<iso-code>/`
-2. Add a `ui.json` file with all required keys
-3. Import the file in `src/lib/i18n.ts`
-4. Add the language code to `getSupportedLanguages()`
-5. Add the label to `LanguageSelector.tsx`
+### 🚀 Target Language Expansion
 
-### Translation Keys
+Privxx will progressively add support for the following high-impact global languages:
 
-All language files use the same key structure:
+1. English (`en`) ✅
+2. Mandarin Chinese (`zh`) ✅
+3. Hindi (`hi`)
+4. Spanish (`es`) ✅
+5. French (`fr`) ✅
+6. Modern Standard Arabic (`ar`) ✅
+7. Bengali (`bn`) ✅
+8. Russian (`ru`) ✅
+9. Portuguese (`pt`) ✅
+10. Urdu (`ur`)
+11. Indonesian (`id`)
+12. German (`de`) ✅
+13. Japanese (`ja`)
+14. Dutch (`nl`)
+15. Turkish (`tr`)
+16. Korean (`ko`)
+
+These languages represent over **6.7 billion** speakers worldwide.
+
+### 🌐 Detection & Switching
+
+- On initial load, Privxx auto-detects browser language.
+- If unsupported, it defaults to **English**.
+- Users may manually switch languages via the language selector in the header.
+- Language preference is session-only (privacy-first — no persistent storage).
+
+### 🧩 Developer Notes
+
+To add a new language, create:
+
+```
+public/locales/<iso-code>/ui.json
+```
+
+With this key structure:
 
 ```json
 {
@@ -154,10 +184,15 @@ All language files use the same key structure:
 }
 ```
 
-### Features
+Then update:
+1. `src/lib/i18n.ts` — import and add to translations object
+2. `src/components/LanguageSelector.tsx` — add label
 
-- **Auto-detection**: Detects browser language on first load
-- **Manual switching**: Language selector in the header
+### 🔜 Future Enhancements
+
+- RTL (right-to-left) support for Arabic, Urdu, Hebrew
+- Fallback fonts for CJK (Chinese, Japanese, Korean)
+- Region-specific compliance messages (GDPR, LGPD, CCPA)
 - **No persistence**: Language preference is session-only (privacy-first)
 - **Fallback**: Falls back to English if language not supported
 
