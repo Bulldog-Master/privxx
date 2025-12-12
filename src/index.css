@@ -29,7 +29,7 @@
     --destructive: 0 70% 50%;
     --destructive-foreground: 210 20% 98%;
 
-    --border: 0 0% 0% / 0.18;
+    --border: 0 0% 0% / 0.2;
     --input: 212 10% 25%;
     --ring: 172 70% 52%;
 
@@ -69,7 +69,7 @@
     --accent-foreground: 210 9% 96%;
     --destructive: 0 70% 50%;
     --destructive-foreground: 210 20% 98%;
-    --border: 0 0% 0% / 0.18;
+    --border: 0 0% 0% / 0.2;
     --input: 212 10% 25%;
     --ring: 172 70% 52%;
   }
