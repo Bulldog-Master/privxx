@@ -1,139 +1,160 @@
-# Privxx Roadmap
+# Privxx Roadmap (Full Project Timeline)
 
-**A phased approach to building a privacy-first, post-quantum-secure browsing and payments tunnel.**
-
----
-
-## Overview
-
-Privxx development follows a structured, privacy-first progression:
-
-| Phase | Name | Status | Focus |
-|-------|------|--------|-------|
-| 1 | Simulated Prototype | 🟢 Active | UI shell, UX validation, documentation |
-| 2 | Real cMixx Integration | 🔵 Planned | xxDK client, Privxx Proxy, real mixnet routing |
-| 3 | Payments & Extensions | ⚪ Future | Privacy-preserving payments, mobile apps, wallet integration |
+Privxx is structured into five phases, moving from simulation → real mixnet integration → full private payments functionality.
 
 ---
 
-## Phase 1 — Simulated Prototype
+## PHASE 1 — Simulation Prototype (NOW)
 
-**Status:** 🟢 Active (Current)
+**Status:** ✅ Completed / Under refinement
 
-**Goal:** Validate the Privxx concept, UX, and architecture before investing in backend development.
+### Goals
 
-### Completed
+- Validate product concept
+- Validate UI/UX
+- Enable demos and internal review
+- Avoid unnecessary backend development until validated
 
-- [x] Privxx UI shell (React + Vite + Tailwind)
-- [x] Simulated connection flow with realistic delays
-- [x] Privacy drawer with Privxx Privacy Laws
-- [x] Dark theme, privacy-first aesthetic
-- [x] Project documentation (README, Architecture, Privacy Laws)
-- [x] GitHub repository with proper structure
-- [x] Multi-language support structure (i18n)
+### Deliverables (Complete)
 
-### In Progress
+- UI Shell (React + Lovable)
+- Status states: Idle → Connecting → Connected (simulated)
+- Simulated latency (500–2500 ms)
+- URL echo + placeholder for proxied content
+- Privacy Laws document
+- Architecture Spec
+- Visual Walkthrough
+- Backend folder + specs for future integration
+- Multi-language support structure (i18n)
 
-- [ ] Refine UI copy to match privacy messaging
-- [ ] Add connection status animations
-- [ ] Improve mobile responsiveness
+### Future Enhancements
 
-### Remaining
-
-- [ ] Demo script for stakeholder presentations
-- [ ] Landing page explaining Privxx value proposition
-- [ ] User testing with privacy-conscious audience
-
----
-
-## Phase 2 — Real cMixx Integration
-
-**Status:** 🔵 Planned
-
-**Goal:** Replace simulated behavior with real cMixx mixnet routing and Privxx Proxy.
-
-### Prerequisites
-
-- Phase 1 UI finalized
-- xxDK bindings tested in isolation
-- Privxx Proxy prototype working standalone
-
-### Deliverables
-
-- [ ] xxDK client integration (Go or Rust)
-- [ ] Privxx Proxy server implementation
-- [ ] Real cMixx message routing
-- [ ] Post-quantum key negotiation
-- [ ] End-to-end encrypted request/response flow
-- [ ] Connection status reflecting real mixnet state
-- [ ] Latency display from actual routing
-
-### Architecture
-
-```
-[ Privxx App (React) ]
-        |
-        | xxDK + PQ Encryption
-        v
-[ cMixx Mixnet (xx network) ]
-        |
-        v
-[ Privxx Proxy Server ]
-        |
-        | HTTPS
-        v
-[ Target Website ]
-```
-
-### Privacy Requirements
-
-- No logging on Privxx Proxy
-- No persistent session identifiers
-- Minimal HTTP headers
-- Zero retention of request data
+- More realistic simulated responses
+- Fake merchant checkout simulation
+- Simulated "privacy score" or metadata breakdown
 
 ---
 
-## Phase 3 — Payments & Extensions
+## PHASE 2 — Real Mixnet Integration (cMixx + xxDK)
+
+**Status:** 🔵 Not started
+
+### Overview
+
+Privxx transitions from UI simulation to a real, privacy-preserving network layer using cMixx.
+
+### Tasks
+
+#### 2.1 Privxx Client Integration
+
+- Integrate xxDK WebAssembly/native bindings
+- Generate PQ-safe ephemeral keypairs
+- Encode/Encrypt outbound requests
+- Decrypt inbound responses
+- Implement request/response envelope formats
+
+#### 2.2 Privxx Proxy (Backend)
+
+- Implement xxDK client in backend
+- Decrypt requests received via cMixx
+- Forward HTTPS requests
+- Sanitize headers
+- Remove identifiers
+- Repackage responses
+- Enforce zero-logging guarantees
+
+#### 2.3 Security Testing
+
+- Metadata leak testing
+- Timing analysis
+- Traffic correlation testing
+- Endpoint sanitization review
+
+### Milestones
+
+- [ ] First real cMixx-routed request
+- [ ] First real website rendered inside Privxx
+- [ ] Reproducible clean anonymous browsing flow
+
+---
+
+## PHASE 3 — Private Payments (Optional Advanced Phase)
 
 **Status:** ⚪ Future
 
-**Goal:** Extend Privxx to privacy-preserving payments and additional platforms.
+Once private browsing is stable, Privxx extends into private financial flows, including:
 
-### Potential Features
+### 3.1 Private Checkout Flow
 
-- [ ] Privacy-preserving payment flows
-- [ ] Merchant checkout integration
-- [ ] Mobile applications (iOS, Android shells)
-- [ ] Desktop application (Electron or native)
-- [ ] xx Network wallet integration
-- [ ] Browser extension
+- Merchant checkout through Privxx
+- Bank/E-transfer tunnels
+- xx Coin payments
+- Multi-rail privacy abstraction layer
 
-### Research Areas
+### 3.2 Private Wallet Module
 
-- Payment metadata protection
-- Merchant-side integration patterns
-- Cross-platform mixnet clients
-- Hardware wallet support
+- Local secure-element keys
+- xx coin + optional EVM wallet
+- Proxxy-style RPC privacy
+- Onboard-without-KYC flows
+- Transaction metadata elimination
+
+### 3.3 Private Identity Layer (Optional)
+
+- Zero-knowledge login tokens
+- Anonymous merchant tokens
+- Private receipts
+
+---
+
+## PHASE 4 — Native Mobile Apps
+
+**Status:** ⚪ Future
+
+- Capacitor or native Swift/Kotlin
+- Local secure enclave wallet
+- Push notifications (privacy-preserving)
+- Private QR payments
+
+---
+
+## PHASE 5 — Commercialization Options
+
+**Status:** ⚪ Future
+
+- Freemium + Premium private rails
+- B2B: Privacy-as-a-service for merchants
+- SDK for 3rd-party payment apps
+- Browser extension (privacy injector)
+
+---
+
+## ONGOING
+
+Privacy-critical maintenance:
+
+- PQ crypto updates
+- Mixnet routing improvements
+- Zero-logging audits
+- Threat model revisions
+- Performance tuning
 
 ---
 
 ## Non-Negotiable Principles
 
-Every phase must adhere to the Privxx Privacy Laws:
+Every phase must adhere to the [Privxx Privacy Laws](./PRIVXX-PRIVACY-LAWS.md):
 
-1. **Privacy is default** — No opt-in required
-2. **Metadata minimized** — Obfuscate or destroy
-3. **Post-quantum cryptography** — On all Privxx-controlled links
-4. **No persistent identifiers** — Sessions are unlinkable
-5. **No trust in intermediaries** — Privacy from math, not promises
-6. **Zero retention** — Nothing survives a session
-7. **Transparency** — Clear about simulation vs. real phases
-8. **Progressive privacy** — Simple first, complex later
-9. **Privacy compatibility test** — All features must pass
-10. **User-aligned** — Never monetize behavior or data
-
-See: [PRIVXX-PRIVACY-LAWS.md](./PRIVXX-PRIVACY-LAWS.md)
+1. Privacy is default
+2. Metadata minimized, obfuscated, or destroyed
+3. Post-quantum cryptography on all Privxx-controlled links
+4. No persistent identifiers
+5. No trust in intermediaries
+6. Zero retention
+7. Transparency over obscurity
+8. Progressive privacy, not complexity
+9. Privacy compatibility test for all features
+10. User-aligned — never monetize behavior
 
 ---
 
@@ -145,19 +166,6 @@ Privxx welcomes privacy-focused contributors. Before building:
 2. Understand the [Architecture](./PRIVXX-ARCHITECTURE-SPEC.md)
 3. Review the current phase requirements
 4. Propose changes that pass the privacy compatibility test
-
----
-
-## Timeline
-
-| Milestone | Target |
-|-----------|--------|
-| Phase 1 Complete | Q1 2025 |
-| Phase 2 Prototype | Q2-Q3 2025 |
-| Phase 2 Production | Q4 2025 |
-| Phase 3 Planning | 2026 |
-
-*Timelines are estimates and may shift based on xx Network ecosystem development.*
 
 ---
 
