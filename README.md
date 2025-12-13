@@ -1,6 +1,6 @@
 # Privxx
 
-![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/Bulldog-Master/privxx/actions/workflows/ci.yml/badge.svg)
 
 **Private access to the internet and payments — without fear, friction, or exposure.**
 
