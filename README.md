@@ -1,23 +1,40 @@
 # Privxx
 
-Privxx is a **privacy-first browsing and payments tunnel**.
+**Private access to the internet and payments — without fear, friction, or exposure.**
 
-Its purpose is to hide user metadata (IP, location, timing patterns, device fingerprints) using the **xx network (cMixx)** and **post-quantum-safe cryptography**, so that:
-
-- Websites, banks, and merchants see only a **proxy**, not the real user.
-- ISPs and on-path observers cannot see which sites the user is visiting.
-- Sessions are resistant to "harvest now, decrypt later" attacks.
+Privxx is a privacy-first tunnel that hides your IP, location, timing patterns, and device fingerprints using the **xx network (cMixx)** and **post-quantum-safe cryptography**.
 
 ---
 
-## Architecture Overview
+## Current Status
 
-- **Privxx App (UI)** – React frontend (and later mobile shells) with no tracking, no persistent identifiers.
-- **Privxx Proxy** – Future backend that:
-  - Receives HTTP-like requests over cMixx.
-  - Forwards them to real websites via HTTPS.
-  - Sends responses back through cMixx.
-- **xx Network (cMixx)** – Provides unlinkable routing and metadata protection. No changes to validators or gateways required.
+✅ **UI + Demo Mode + i18n Complete**  
+🔜 **Phase D: cMixx Integration Next**
+
+The app demonstrates the full user experience with simulated routing. Real cMixx integration is the next milestone.
+
+---
+
+## Quick Links
+
+| Document | Description |
+|----------|-------------|
+| [Brand & UI Lock](docs/brand-ui-lock.md) | Approved visual style, what's allowed/banned |
+| [State Machine](docs/state-machine.md) | Connection states, triggers, UI behavior |
+| [Privacy Drawer Copy](docs/privacy-drawer-copy.md) | Final wording for privacy explanations |
+| [cMixx Integration Plan](docs/cmixx-integration-plan.md) | Phase D technical approach |
+
+---
+
+## What Privxx Does
+
+- **Browsing:** Routes requests through a privacy network that removes identifying metadata
+- **Payments:** Separates your identity from your transactions
+- **Protection:** Post-quantum-safe cryptography guards against future attacks
+
+---
+
+## Architecture
 
 ```text
 [ Privxx App (web/mobile) ]
@@ -38,41 +55,12 @@ Its purpose is to hide user metadata (IP, location, timing patterns, device fing
 
 ## Privacy Principles
 
-Privxx is governed by these rules:
-
 1. **Privacy is default.** No "enable privacy" switch.
-2. **Metadata must be minimized, obfuscated, or destroyed.**
-3. **All Privxx-controlled links use post-quantum-safe or hybrid crypto.**
-4. **No persistent identifiers** (no analytics IDs, tracking IDs, or durable session IDs).
-5. **No trust in intermediaries** – privacy from cryptography and mixnets, not promises.
-6. **Zero retention** – no browsing history or tracking cookies.
-
----
-
-## Phase 1 – Simulated UI Prototype
-
-Right now, Privxx is in a **simulation / prototype** phase.  
-There is **no real cMixx integration yet**.
-
-The current web app (generated via Lovable and located in this repo) does:
-
-- Let the user paste a URL.
-- Simulate a connection:
-  - Status changes from `Idle` → `Connecting through Privxx…` → `Connected (simulated)`.
-  - Adds a randomized 2–3 second delay.
-  - Shows a simulated latency between 500–2500 ms.
-- Displays:
-  - The requested URL.
-  - The simulated latency.
-  - A placeholder block: "Proxied content will appear here in a future version."
-- Shows a **Privacy** drawer with Privxx's core privacy principles:
-  - IP & location hidden (design goal).
-  - Metadata removal via mixnet (cMixx).
-  - Post-quantum-safe cryptography.
-  - No history or persistent IDs.
-  - No tracking or analytics.
-
-This version is meant to **express the product vision and UX**, not to provide real privacy yet.
+2. **Metadata minimized, obfuscated, or destroyed.**
+3. **Post-quantum-safe cryptography** on all Privxx-controlled links.
+4. **No persistent identifiers** — no analytics, tracking, or durable session IDs.
+5. **No trust in intermediaries** — privacy from cryptography, not promises.
+6. **Zero retention** — no browsing history or tracking cookies.
 
 ---
 
