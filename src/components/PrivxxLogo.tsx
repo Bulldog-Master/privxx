@@ -40,9 +40,9 @@ const markVariants = cva(
   {
     variants: {
       size: {
-        sm: "w-[1.1em] h-[0.9em] ml-[-0.3em] align-text-bottom",
-        md: "w-[1.15em] h-[1em] ml-[-0.35em] align-text-bottom",
-        lg: "w-[1.3em] h-[1.1em] ml-[-0.4em] align-text-bottom",
+        sm: "w-[1.1em] h-[0.9em] ml-[-0.2em] align-text-bottom",
+        md: "w-[1.15em] h-[1em] ml-[-0.25em] align-text-bottom",
+        lg: "w-[1.3em] h-[1.1em] ml-[-0.3em] align-text-bottom",
       },
     },
     defaultVariants: {
