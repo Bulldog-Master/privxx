@@ -70,11 +70,11 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             />
           </div>
           
-          {/* Connect Button */}
+          {/* Connect Button - translucent glass style matching idle state */}
           <Button
             type="submit"
             disabled={!url.trim() || connectionState === "connecting"}
-            className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"
+            className="w-full h-14 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 text-foreground font-semibold text-base rounded-xl shadow-lg transition-all duration-200"
           >
             {connectionState === "connecting" ? (
               <span className="flex items-center">
