@@ -1,13 +1,34 @@
 # Privxx — Brand & UI Lock (v1)
 
-## FINAL UI LOCK (v1)
+## UI STATUS: LOCKED
 
-The Privxx UI is now visually locked.
+This UI is considered visually final for the MVP.
 
-Key principles:
+Changes going forward must be:
+- Functional
+- Accessibility-related
+- Performance-related
+
+**No aesthetic changes without explicit design review.**
+
+---
+
+## What's Locked
+
+- Background system (layered gradients, circular forms)
+- Button styles (glass/translucent with gradient text)
+- Logo usage (Priv gradient text + xx mark)
+- Color relationships (warm-to-teal gradients)
+- Glass / translucency treatment
+- Input field styling
+
+---
+
+## Key Principles
+
 - Glass / translucent UI elements (buttons, cards, controls)
 - Abstract, layered gradient background with circular forms
-- Consistent Privxx logo usage everywhere (Priv + teal xx mark)
+- Consistent Privxx logo usage everywhere (Priv gradient + teal xx mark)
 - No solid CTA fills that compete with the logo
 - Non-regional, global design language
 - Calm, premium, privacy-first aesthetic
