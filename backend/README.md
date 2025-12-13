@@ -1,30 +1,41 @@
 # Privxx Backend
 
-This folder contains the future backend components of Privxx.
+This folder is a placeholder for Phase D bridge + server components.
 
-## Phase 1 — Simulation Only
+## Current Status
+**Placeholder only** — no active code yet.
 
-The current front-end simulates behavior.  
-No actual networking or mixnet integration exists yet.
+## Phase D Plan
 
-## Phase 2 — Real Mixnet Integration (Planned)
+### Local Bridge Service
+A companion service that runs on the user's machine:
+- Exposes HTTP API for the UI
+- Runs xxDK internally
+- Manages identity and cMixx sessions
 
-The backend will eventually include:
+### Endpoints
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/health` | GET | Health check |
+| `/connect` | POST | Initiate cMixx session |
+| `/status` | GET | Current session status |
 
-- A **Privxx Proxy Server**
-  - Acts as an xxDK client
-  - Receives encrypted requests from the Privxx client
-  - Forwards requests to external HTTPS sites
-  - Sends responses back through the mixnet
+### Message Format
+```json
+{
+  "type": "connect",
+  "targetUrl": "https://example.com",
+  "timestamp": 123456789
+}
+```
 
-- Message format specifications for:
-  - Client to Proxy
-  - Proxy to Client
+### Success Criteria
+- Server receives message over cMixx
+- Server replies successfully
+- UI transitions to Secure state
 
-- A privacy-first implementation
-  - No logging of metadata
-  - No analytics
-  - Minimal headers
-  - No persistent identifiers
-
-This backend will be developed after initial concept validation.
+## Privacy Rules
+- No logging of metadata
+- No analytics
+- No persistent identifiers
+- Minimal headers
