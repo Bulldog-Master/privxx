@@ -204,19 +204,39 @@ The UI:
 
 ## Development
 
+**Important:** Use npm only. Do not use bun or yarn.
+
 ```sh
 # Install dependencies
 npm install
 
 # Start development server
 npm run dev
+
+# Lint
+npm run lint
+
+# Build
+npm run build
 ```
 
 ---
 
 ## License
 
-TBD
+MIT — see [LICENSE](LICENSE)
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
 
 ---
 
