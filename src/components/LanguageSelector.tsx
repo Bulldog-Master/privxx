@@ -38,10 +38,10 @@ const LanguageSelector = () => {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="h-10 w-10 text-primary hover:text-white bg-primary/10 hover:bg-primary rounded-full transition-all duration-200"
+          className="text-primary hover:text-primary/80 hover:bg-primary/10 transition-colors"
           aria-label="Select language"
         >
-          <Globe className="h-6 w-6" />
+          <Globe className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 
