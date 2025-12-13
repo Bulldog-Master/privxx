@@ -1,40 +1,26 @@
 ---
 name: Bug Report
-about: Report a bug or unexpected behavior
-title: '[Bug] '
-labels: bug
-assignees: ''
+about: Report a problem or unexpected behavior
 ---
 
-## Describe the Bug
-
-A clear and concise description of what the bug is.
+## Description
+A clear description of the issue.
 
 ## Steps to Reproduce
-
-1. Go to '...'
-2. Click on '...'
-3. Scroll down to '...'
-4. See error
+1.
+2.
+3.
 
 ## Expected Behavior
-
 What you expected to happen.
 
 ## Actual Behavior
-
 What actually happened.
 
-## Screenshots
-
-If applicable, add screenshots to help explain the problem.
-
 ## Environment
-
-- Browser: [e.g., Chrome 120, Firefox 121]
-- OS: [e.g., macOS 14, Windows 11]
-- Language: [e.g., English, Spanish]
+- Browser:
+- OS:
+- Language selected:
 
 ## Additional Context
-
-Add any other context about the problem here.
+Screenshots or logs if applicable.
