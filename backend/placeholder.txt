@@ -1,4 +1,0 @@
-Privxx backend folder placeholder
-
-This folder is reserved for the future backend components
-once Phase 2 development begins.

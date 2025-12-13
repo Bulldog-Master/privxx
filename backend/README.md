@@ -1,40 +1,48 @@
 # Privxx Backend
 
-This folder is a placeholder for Phase D bridge + server components.
+This folder contains backend components for Privxx.
 
-## Current Status
-**Placeholder only** — no active code yet.
+## Structure
 
-## Phase D Plan
+```
+backend/
+├── bridge/              # Phase D: Local companion service
+│   ├── main.go          # HTTP server with /health, /connect, /status
+│   ├── go.mod           # Go module definition
+│   └── README.md        # Bridge documentation
+├── privxx-proxy-spec.md # Phase 2: Full proxy specification
+└── README.md            # This file
+```
 
-### Local Bridge Service
-A companion service that runs on the user's machine:
-- Exposes HTTP API for the UI
-- Runs xxDK internally
-- Manages identity and cMixx sessions
+## Phase D: Bridge (Current)
+
+The bridge is a local Go service that wraps xxDK and exposes HTTP endpoints for the UI.
+
+```bash
+cd bridge
+go run main.go
+# Runs on http://localhost:8090
+```
 
 ### Endpoints
+
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
 | `/health` | GET | Health check |
 | `/connect` | POST | Initiate cMixx session |
 | `/status` | GET | Current session status |
+| `/disconnect` | POST | Reset session |
 
-### Message Format
-```json
-{
-  "type": "connect",
-  "targetUrl": "https://example.com",
-  "timestamp": 123456789
-}
-```
+### Current Status
 
-### Success Criteria
-- Server receives message over cMixx
-- Server replies successfully
-- UI transitions to Secure state
+🚧 **Simulated** — xxDK calls are stubbed. Real integration next.
+
+## Phase 2: Proxy (Future)
+
+Full HTTP-like proxy over cMixx. See [privxx-proxy-spec.md](privxx-proxy-spec.md).
 
 ## Privacy Rules
+
 - No logging of metadata
 - No analytics
 - No persistent identifiers
