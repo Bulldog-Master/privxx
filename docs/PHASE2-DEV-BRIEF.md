@@ -1,5 +1,7 @@
 # Privxx Phase 2 – Dev Brief (Backend + Real Tunnel)
 
+> **Note:** Visual and UX decisions are governed by [brand-ui-lock.md](brand-ui-lock.md).
+
 ## Goal
 
 Turn the current **simulated** Privxx prototype into a **real** privacy tunnel for HTTP(S) using:

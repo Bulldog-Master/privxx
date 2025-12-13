@@ -1,5 +1,7 @@
 # Privxx Architecture Specification (Detailed)
 
+> **Note:** Visual and UX decisions are governed by [brand-ui-lock.md](brand-ui-lock.md).
+
 ## 1. Purpose of This Document
 
 This document defines the full technical architecture of Privxx, a privacy-first, post-quantum-secure browsing and payments tunnel.
