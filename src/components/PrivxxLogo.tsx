@@ -1,11 +1,11 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import xxLogo from "@/assets/xx-logo.png";
+import xxSymbol from "@/assets/xx-symbol.svg";
 
-// XX Logo image mark component - uses brightness filter for visibility on dark backgrounds
+// XX Logo SVG mark component - uses brightness filter for visibility on dark backgrounds
 const PrivxxMark = ({ className, brighten = false }: { className?: string; brighten?: boolean }) => (
   <img 
-    src={xxLogo} 
+    src={xxSymbol} 
     alt="" 
     className={`${className} ${brighten ? 'brightness-150' : ''}`}
     aria-hidden="true"
