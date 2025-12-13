@@ -2,10 +2,25 @@
 
 ## UI STATUS: LOCKED
 
-This UI is considered visually final for the MVP.
+**This document defines the only approved visual representation of Privxx.**
 
-Changes going forward must be:
-- Functional
+Any UI, demo, prototype, or integration must match this design unless explicitly approved and versioned.
+
+This lock applies to:
+- Logo usage
+- Colors & gradients
+- Background style
+- Button styles
+- Privacy controls
+- Status indicators
+
+This prevents:
+- "small improvements"
+- accidental redesigns
+- AI tools "getting creative"
+
+**Changes going forward must be:**
+- Functional only
 - Accessibility-related
 - Performance-related
 
@@ -25,6 +40,54 @@ Changes going forward must be:
 
 ---
 
+## Privxx Name & Logo Rules (Non-Negotiable)
+
+**"Privxx" is NEVER plain text in UI elements.**
+
+Always rendered as:
+- **Priv** (gradient text: pink → gold → teal)
+- **xx** (official xx Network logo mark, teal color)
+
+Never:
+- ❌ Different colors
+- ❌ Different spacing
+- ❌ Text-only fallback
+- ❌ Emoji substitutes
+- ❌ Icons replacing the xx
+- ❌ White/light background behind xx mark
+- ❌ Faded or low-contrast logos
+
+**This applies everywhere:** header, buttons, status text, CTAs, screenshots.
+
+---
+
+## UI Consistency Checklist
+
+Use this to verify any change:
+
+**Header**
+- ✅ Privxx logo matches locked design
+- ✅ No white background behind xx
+- ✅ Gradient preserved
+
+**Primary Action**
+- ✅ "Connect through Privxx" button
+- ✅ Same background style as card
+- ✅ Logo visible and legible
+
+**Status**
+- ✅ Idle uses same visual language
+- ✅ No color conflict with action button
+
+**Privacy Control**
+- ✅ Same gradient family
+- ✅ Same opacity / border radius
+- ✅ No standalone dark/flat button
+
+**If any item fails → reject change.**
+
+---
+
 ## Key Principles
 
 - Glass / translucent UI elements (buttons, cards, controls)
@@ -41,15 +104,8 @@ Any future UI changes must:
 
 ---
 
-## Status
-**LOCKED** — Do not deviate without explicit approval.
-
-## Purpose
-This document prevents visual and brand drift for Privxx.
-
----
-
 ## Approved Direction
+
 - Vibrant, modern, AI-futurist look
 - Layered background with depth
 - Glassmorphism central card
@@ -120,19 +176,6 @@ CTA button:
 
 ---
 
-## Logo Usage
-
-"Privxx" must always appear in official logo styling:
-- Same font, capitalization, spacing
-- Same accent on the "xx"
-
-Applies everywhere: header, buttons, status text, CTAs, screenshots.
-
-❌ Never render as plain text  
-❌ Never restyle per component
-
----
-
 ## xx Mark (FINAL)
 
 The xx mark is now the official teal xx Network logo asset.
@@ -196,6 +239,8 @@ The UI should feel like:
 ❌ "Simplify" further  
 ❌ Introduce cultural styling  
 ❌ Revert to previous rejected versions  
-❌ Experiment visually without approval
+❌ Experiment visually without approval  
+❌ Use plain text "Privxx" in buttons or headers  
+❌ Change logo spacing or colors  
 
 **This direction is approved and locked.**
