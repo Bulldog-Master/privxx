@@ -4,7 +4,6 @@ import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
 import ContentArea from "@/components/ContentArea";
 import { useTranslations } from "@/lib/i18n";
-import heroBackground from "@/assets/hero-background-bright.jpg";
 
 const Index = () => {
   const [connectionState, setConnectionState] = useState<ConnectionState>("idle");
@@ -18,18 +17,29 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Hero background image - bright and airy */}
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-[hsl(215_25%_27%)]">
+      {/* Large teal blob - top right */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroBackground})` }}
+        className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-90"
+        style={{ 
+          background: 'radial-gradient(circle, hsl(172 60% 45%) 0%, hsl(172 50% 35%) 70%, transparent 100%)' 
+        }}
       />
       
-      {/* Soft brand-tinted overlay - airy, not foggy */}
+      {/* Small teal sphere - left side */}
       <div 
-        className="absolute inset-0"
+        className="absolute top-[40%] -left-8 w-40 h-40 rounded-full opacity-80"
         style={{ 
-          background: 'linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(230,245,250,0.25) 50%, rgba(200,235,240,0.20) 100%)' 
+          background: 'radial-gradient(circle at 30% 30%, hsl(172 70% 55%) 0%, hsl(172 50% 40%) 50%, hsl(172 40% 30%) 100%)' 
+        }}
+      />
+      
+      {/* Colorful gradient glow at bottom */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-64 opacity-60"
+        style={{ 
+          background: 'linear-gradient(90deg, hsl(340 70% 50%) 0%, hsl(45 80% 55%) 50%, hsl(172 60% 45%) 100%)',
+          filter: 'blur(80px)'
         }}
       />
       
@@ -49,7 +59,7 @@ const Index = () => {
           <ContentArea url={connectedUrl} latency={latency} />
         </main>
 
-        <footer className="text-center py-4 px-4 text-xs text-slate-600">
+        <footer className="text-center py-4 px-4 text-xs text-foreground/50">
           {t("simulationNotice")}
         </footer>
       </div>

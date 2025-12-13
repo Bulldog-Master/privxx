@@ -9,15 +9,12 @@ const PrivxxHero = () => {
       {/* Stylized Logo with custom mark */}
       <div className="relative">
         <h1 className="flex items-baseline justify-center">
-          <PrivxxLogo size="lg" darkText />
+          <PrivxxLogo size="lg" />
         </h1>
-        
-        {/* Accent underline */}
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-70" />
       </div>
       
-      {/* Tagline - dark text for bright background, centered */}
-      <p className="text-slate-600 text-sm sm:text-base pt-2 font-medium w-full text-center">
+      {/* Tagline - light text for dark background */}
+      <p className="text-foreground/70 text-sm sm:text-base pt-2 font-medium w-full text-center">
         {t("subtitle")}
       </p>
     </div>
