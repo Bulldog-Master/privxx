@@ -2,6 +2,19 @@
 
 This folder contains the official documentation for the Privxx project.
 
+---
+
+### Design Status
+- UI: LOCKED ✅
+- Brand: LOCKED ✅
+- Background System: LOCKED ✅
+- Logo Usage: LOCKED ✅
+
+Next Phase: cMixx integration proof-of-concept
+(UI changes frozen during integration work)
+
+---
+
 ## Core References (Start Here)
 - **brand-ui-lock.md** — Locked visual and brand direction (authoritative)
 - **state-machine.md** — Connection states: Idle → Connecting → Secure
