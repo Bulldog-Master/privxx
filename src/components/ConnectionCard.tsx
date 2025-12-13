@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "@/lib/i18n";
@@ -59,14 +59,17 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
       
       <div className="relative w-full p-8 bg-card/90 backdrop-blur-xl rounded-2xl border border-foreground/10 shadow-xl shadow-black/20 space-y-5">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder={t("urlPlaceholder")}
-            disabled={connectionState === "connecting"}
-            className="w-full h-14 bg-[hsl(172_30%_22%)] hover:bg-[hsl(172_30%_25%)] border border-foreground/10 text-foreground placeholder:text-foreground/60 rounded-xl text-base px-4 font-medium"
-          />
+          <div className="relative">
+            <Globe className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-foreground/60" />
+            <Input
+              type="text"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder={t("urlPlaceholder")}
+              disabled={connectionState === "connecting"}
+              className="w-full h-14 bg-[hsl(172_30%_18%)] hover:bg-[hsl(172_30%_20%)] border-none text-foreground placeholder:text-foreground/50 rounded-xl text-base pl-12 pr-4 font-mono"
+            />
+          </div>
           
           <Button
             type="submit"
