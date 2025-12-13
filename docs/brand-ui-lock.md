@@ -1,5 +1,24 @@
 # Privxx — Brand & UI Lock (v1)
 
+## FINAL UI LOCK (v1)
+
+The Privxx UI is now visually locked.
+
+Key principles:
+- Glass / translucent UI elements (buttons, cards, controls)
+- Abstract, layered gradient background with circular forms
+- Consistent Privxx logo usage everywhere (Priv + teal xx mark)
+- No solid CTA fills that compete with the logo
+- Non-regional, global design language
+- Calm, premium, privacy-first aesthetic
+
+Any future UI changes must:
+- Preserve translucency
+- Preserve logo hierarchy
+- Avoid solid dominant colors
+
+---
+
 ## Status
 **LOCKED** — Do not deviate without explicit approval.
 
@@ -71,8 +90,10 @@ Required elements (in order):
 3. Status indicator (Idle / Connecting / Secure)
 
 CTA button:
-- Uses brand gradient
+- Glass / translucent style matching card
+- No solid teal fill
 - Includes Privxx logo styling
+- Logo must be clearly visible, not competing with background
 - Must feel confident and inviting
 
 ---
@@ -90,16 +111,18 @@ Applies everywhere: header, buttons, status text, CTAs, screenshots.
 
 ---
 
-## xx Mark (Provisional)
+## xx Mark (FINAL)
 
-The xx mark currently used is a placeholder.
-Final geometry will be swapped in once the official asset is finalized.
+The xx mark is now the official teal xx Network logo asset.
+Rendered as "Priv" text + xx logo image (transparent PNG).
 
-Rules until then:
+Rules:
 - Do NOT redesign the xx
 - Do NOT reinterpret the xx
 - Do NOT change its geometry
 - Do NOT animate or stylize it independently
+- Logo bottom aligns with text baseline
+- Tight spacing — must look like part of the word
 
 ---
 
