@@ -55,9 +55,9 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
   return (
     <div className="relative w-full max-w-md">
       {/* Subtle card glow */}
-      <div className="absolute -inset-1 bg-primary/8 blur-2xl rounded-3xl pointer-events-none opacity-60" />
+      <div className="absolute -inset-1 bg-primary/20 blur-2xl rounded-3xl pointer-events-none opacity-60" />
       
-      <div className="relative w-full p-8 bg-card rounded-2xl border border-primary/20 shadow-xl shadow-primary/10 space-y-5">
+      <div className="relative w-full p-8 bg-card/90 backdrop-blur-xl rounded-2xl border border-foreground/10 shadow-xl shadow-black/20 space-y-5">
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             type="text"
@@ -65,7 +65,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             onChange={(e) => setUrl(e.target.value)}
             placeholder={t("urlPlaceholder")}
             disabled={connectionState === "connecting"}
-            className="w-full h-14 bg-primary hover:bg-primary/90 border-none text-primary-foreground placeholder:text-primary-foreground/70 rounded-xl text-base px-4 font-medium"
+            className="w-full h-14 bg-[hsl(172_30%_22%)] hover:bg-[hsl(172_30%_25%)] border border-foreground/10 text-foreground placeholder:text-foreground/60 rounded-xl text-base px-4 font-medium"
           />
           
           <Button
@@ -90,10 +90,10 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
         <div className="flex items-center justify-center gap-2 pt-1">
           <span className={`text-sm font-medium ${
             connectionState === "connected" 
-              ? "text-emerald-600" 
+              ? "text-emerald-400" 
               : connectionState === "connecting"
-              ? "text-amber-600"
-              : "text-slate-600"
+              ? "text-amber-400"
+              : "text-foreground/70"
           }`}>
             {connectionState === "connecting" ? "" : getStatusText()}
           </span>
