@@ -2,15 +2,22 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import xxLogo from "@/assets/xx-logo.png";
 
-// XX Logo image mark component
-const PrivxxMark = ({ className }: { className?: string }) => (
+// XX Logo image mark component - uses brightness filter for visibility on dark backgrounds
+const PrivxxMark = ({ className, brighten = false }: { className?: string; brighten?: boolean }) => (
   <img 
     src={xxLogo} 
     alt="" 
-    className={className}
+    className={`${className} ${brighten ? 'brightness-150' : ''}`}
     aria-hidden="true"
   />
 );
+
+interface PrivxxLogoProps extends VariantProps<typeof logoVariants> {
+  className?: string;
+  variant?: "default" | "inherit";
+  darkText?: boolean;
+  brightenMark?: boolean; // For use in buttons where logo needs more visibility
+}
 
 const logoVariants = cva(
   "inline-flex items-baseline font-bold",
@@ -29,13 +36,13 @@ const logoVariants = cva(
 );
 
 const markVariants = cva(
-  "ml-0.5 object-contain",
+  "inline-block object-contain align-baseline translate-y-[0.15em]",
   {
     variants: {
       size: {
-        sm: "w-[1.2em] h-[1em]",
-        md: "w-[1.3em] h-[1.1em]",
-        lg: "w-[1.4em] h-[1.2em]",
+        sm: "w-[1.1em] h-[0.9em] ml-[-0.05em]",
+        md: "w-[1.2em] h-[1em] ml-[-0.05em]",
+        lg: "w-[1.3em] h-[1.1em] ml-[-0.08em]",
       },
     },
     defaultVariants: {
@@ -44,16 +51,10 @@ const markVariants = cva(
   }
 );
 
-interface PrivxxLogoProps extends VariantProps<typeof logoVariants> {
-  className?: string;
-  variant?: "default" | "inherit";
-  darkText?: boolean; // For use on bright backgrounds
-}
-
-const PrivxxLogo = ({ size, variant = "default", darkText = false, className }: PrivxxLogoProps) => (
+const PrivxxLogo = ({ size, variant = "default", darkText = false, brightenMark = false, className }: PrivxxLogoProps) => (
   <span className={cn(logoVariants({ size }), className)}>
     <span className={darkText ? "text-slate-800" : (variant === "default" ? "text-foreground" : "")}>Priv</span>
-    <PrivxxMark className={markVariants({ size })} />
+    <PrivxxMark className={markVariants({ size })} brighten={brightenMark} />
   </span>
 );
 

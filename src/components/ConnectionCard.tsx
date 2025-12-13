@@ -77,17 +77,14 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-base rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200"
           >
             {connectionState === "connecting" ? (
-              <span className="flex items-center gap-2">
-                <span className="flex items-center">{t("buttonConnecting")}&nbsp;&nbsp;<PrivxxLogo size="sm" variant="inherit" /></span>
+              <span className="flex items-center">
+                {t("buttonConnecting")}&nbsp;<PrivxxLogo size="sm" variant="inherit" brightenMark />
               </span>
             ) : connectionState === "connected" ? (
-              <span className="flex items-center gap-0">
-                <span>{t("buttonConnected")}</span>
-              </span>
+              <span>{t("buttonConnected")}</span>
             ) : (
-              <span className="flex items-center gap-0">
-                <span>{t("buttonConnect")}&nbsp;&nbsp;</span>
-                <PrivxxLogo size="sm" variant="inherit" />
+              <span className="flex items-center">
+                {t("buttonConnect")}&nbsp;<PrivxxLogo size="sm" variant="inherit" brightenMark />
               </span>
             )}
           </Button>
