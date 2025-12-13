@@ -2,94 +2,130 @@
 
 This is written as if you're speaking to someone.
 
----
-
-## 1. One-sentence opener
-
-> "Privxx is a privacy-first tunnel for browsing and payments that hides your metadata using mixnets and post-quantum crypto — this prototype shows how the user experience will feel."
+> **Important:** Today is a UI + flow prototype. The next milestone is real cMixx connectivity (control channel), then we expand into full proxy routing.
 
 ---
 
-## 2. Show the main screen
+## Demo Flow (5 Steps)
 
-1. Open the Privxx app.
-2. Point out:
-   - The title: **"Privxx"**
-   - The subtitle: **"Private Browsing & Payments Tunnel"**
-   - The URL bar
-   - The **'Connect through Privxx'** button
-   - The language selector (EN / ES / FR / PT / DE / etc.)
+### Step 1: What you're looking at
+
+Open the Privxx app.
 
 **Say:**
 
-> "The idea is simple: paste any bank, merchant, or website URL here and Privxx will route it through a privacy tunnel instead of a normal connection."
+> "This is Privxx: a privacy-first browsing + payments tunnel designed to remove metadata using mixnets and post-quantum cryptography."
+
+Point out:
+- The **Privxx** logo and branding
+- The URL input field with globe icon
+- The **Connect through Privxx** button
+- The language selector (globe icon in header)
 
 ---
 
-## 3. Show language support (very briefly)
+### Step 2: Paste a URL
 
-1. Click a few languages in the selector (e.g. ES, FR, ZH, AR).
-2. Let them see the whole UI switch (header, button, status, privacy drawer, footer disclaimer).
+Focus on the URL field.
 
 **Say:**
 
-> "Privxx is designed to be global from day one, so the interface works in the major world languages — including RTL ones like Arabic and Urdu."
+> "This is the endpoint intent. You paste any bank, merchant, or website URL here and Privxx will route it through a privacy tunnel instead of a normal connection."
 
-*(Then switch back to English for the rest of the demo unless they prefer otherwise.)*
+Type something like:
+- `https://yourbank.com`
+- or `https://amazon.com`
 
 ---
 
-## 4. Run a "fake" private connection
+### Step 3: Click Connect
 
-1. In the URL field, type something like:
-   - `https://yourbank.com`
-   - or `https://amazon.com`
-2. Click **"Connect through Privxx."**
+Click **"Connect through Privxx."**
 
-**Walk them through what happens:**
+**Say:**
 
-- Status changes from **"Idle"** → **"Connecting through Privxx…"**
-- Spinner shows, 2–3 second simulated delay
-- Then **"Connected (simulated)"**
+> "This triggers the connection flow. Right now it's demo mode — showing you the experience, not real network traffic yet."
+
+---
+
+### Step 4: State transition
+
+Watch the UI transition through states.
+
+**Walk them through:**
+
+- **Idle** → User ready to connect
+- **Connecting…** → Spinner, animated status, button disabled
+- **Secure/Connected (simulated)** → Final state
+
+**Say:**
+
+> "Here we're simulating what a real cMixx-based tunnel will feel like: a bit of latency, but with strong metadata protection. The simulated latency you see (500-2500ms) represents realistic mixnet timing."
+
+Point out:
 - **"Requested URL"** shows the URL they entered
 - **"Simulated latency: XXXX ms"** is displayed
 - Placeholder text: *"Proxied content will appear here in a future version."*
 
-**Say:**
-
-> "Here we're simulating what a real cMixx-based tunnel will feel like: a bit of latency, but with strong metadata protection. In the real version, this step will actually go through the xx Network."
-
 ---
 
-## 5. Open the Privacy drawer
+### Step 5: Privacy drawer
 
-1. Click the **Privacy** button.
-2. Read/point at the bullets (IP hiding, metadata removal, post-quantum crypto, no history, no tracking).
+Click the **Privacy** button.
 
 **Say:**
 
-> "Privxx isn't just 'encrypted'. It's designed around metadata: hiding IP and location, stripping network patterns via cMixx, and using post-quantum-safe cryptography. This drawer is basically the product's bill of rights."
+> "Here's the human explanation of what Privxx protects."
+
+Read/point at the privacy principles:
+- IP hiding
+- Metadata removal
+- Post-quantum crypto
+- No history
+- No tracking
+
+**Close with:**
+
+> "Privxx isn't just 'encrypted'. It's designed around metadata: hiding IP and location, stripping network patterns via cMixx, and using post-quantum-safe cryptography. Phase D integrates real cMixx control-channel connectivity."
 
 Close the drawer.
 
 ---
 
-## 6. Highlight the disclaimer (simulation vs real)
+## Language Support (Optional Quick Demo)
 
-Scroll/look at the footer where `simulationNotice` shows (in their language).
+If time allows:
+
+1. Click the globe icon in the header
+2. Switch languages (e.g. ES, FR, ZH, AR)
+3. Show the whole UI switches
 
 **Say:**
 
-> "Right now this is a simulated prototype. The flows, language, and UX are real, but the network path is still a placeholder. The next phase is to plug this into an actual cMixx + xxDK backend so this button really does route traffic privately."
+> "Privxx is designed to be global from day one, so the interface works in 16 languages — including RTL ones like Arabic and Urdu."
+
+*(Switch back to English for the rest of the demo.)*
 
 ---
 
-## 7. Close with what's next
+## Simulation Disclaimer
 
-> "Phase 2 is very simple:
-> – Build a small Privxx Proxy that talks to xxDK and forwards HTTPS
-> – Wire this front-end into that proxy over cMixx
-> Once that works even for a handful of sites — like one bank + one merchant — we'll know Privxx is technically viable as a privacy tunnel."
+Point at the footer where the simulation notice shows.
+
+**Say:**
+
+> "Right now this is a simulated prototype. The flows, language, and UX are real, but the network path is still a placeholder. The next phase is to plug this into an actual cMixx + xxDK backend."
+
+---
+
+## What's Next
+
+> "Phase D is very simple:
+> – Integrate real cMixx connectivity for the control channel (connect/status/target URL)
+> – Prove: reliability, round-trip latency, session stability
+> – Then expand to full private proxy routing in later phases
+> 
+> Once we click 'Connect' and get a real cMixx round-trip, we'll know Privxx is technically viable as a privacy tunnel."
 
 ---
 
@@ -97,11 +133,12 @@ Scroll/look at the footer where `simulationNotice` shows (in their language).
 
 | Section | Time |
 |---------|------|
-| Opener | 10 sec |
-| Main screen tour | 30 sec |
-| Language demo | 20 sec |
-| Fake connection | 45 sec |
-| Privacy drawer | 30 sec |
+| Step 1: What you're looking at | 30 sec |
+| Step 2: Paste a URL | 15 sec |
+| Step 3: Click Connect | 15 sec |
+| Step 4: State transition | 45 sec |
+| Step 5: Privacy drawer | 30 sec |
+| Language demo (optional) | 20 sec |
 | Disclaimer | 15 sec |
 | What's next | 30 sec |
 | **Total** | **~3 min** |
@@ -113,3 +150,4 @@ Scroll/look at the footer where `simulationNotice` shows (in their language).
 - Keep it under 3–4 minutes for a casual demo.
 - Let them click around themselves if they want.
 - Emphasize: **"This is the UX vision. The real privacy comes when we wire in xxDK."**
+- Key credibility line: **"Today is a UI prototype. Real cMixx connectivity is the next milestone."**
