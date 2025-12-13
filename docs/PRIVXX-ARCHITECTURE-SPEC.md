@@ -2,6 +2,8 @@
 
 > **Note:** Visual and UX decisions are governed by [brand-ui-lock.md](brand-ui-lock.md).
 
+> **Phase D note:** The first integration milestone uses cMixx as a private control channel (connect/status/target URL). Full "HTTP-like proxying over cMixx" is a later milestone.
+
 ## 1. Purpose of This Document
 
 This document defines the full technical architecture of Privxx, a privacy-first, post-quantum-secure browsing and payments tunnel.

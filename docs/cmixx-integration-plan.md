@@ -1,5 +1,7 @@
 # cMixx Integration Plan (Phase D)
 
+> **Phase D note:** The first integration milestone uses cMixx as a private control channel (connect/status/target URL). Full "HTTP-like proxying over cMixx" is a later milestone.
+
 ## Goal
 Prove real cMixx integration using a private control channel.
 
