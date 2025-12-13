@@ -1,70 +1,38 @@
 # Privxx — Brand & UI Lock (v1)
 
-**Status:** Locked  
-**Scope:** UI, visual identity, interaction tone
+## Status
+LOCKED
 
----
+## Purpose
+This document prevents visual and brand drift for Privxx.
 
-## Brand Meaning
-
-Privxx represents private, secure access to both:
-- the internet (browsing)
-- financial endpoints (payments, banking, merchants)
-
-It must feel:
-- global
-- human-first
-- modern
-- safe
-- confident
-- vibrant (never dark or sterile)
-
----
-
-## Design Lock
-
-The approved visual style is:
-- layered background
-- vibrant gradient spheres
-- glassmorphism central card
-- strong teal / aqua / cyan accents
-- deep blue base (not black, not grey)
-
-**All previous minimal, flat, grey, or dark designs are deprecated.**
-
----
+## Approved Direction
+- Vibrant, modern, AI-futurist look
+- Layered background with depth
+- Glassmorphism central card
+- Teal / aqua / cyan accents
+- Deep blue base (not black, not grey)
 
 ## Background Rules
+Background must visually represent two concepts:
+1. Browsing / network flow
+2. Payments / financial activity
 
-Background must always represent two layers:
-1. Browsing / network layer (globe, connections, web abstractions)
-2. Payments layer (cards, currency, transactions – abstract only)
+No people.
+No cultural or regional imagery.
+No stock photos.
 
-- No people.
-- No cultural motifs.
-- No stock-photo look.
+## What to Avoid
+- Flat white or grey designs
+- Dark or oppressive themes
+- Pastel wellness aesthetics
+- Literal illustrations (people, money piles)
 
----
+## Logo Usage
+- "Privxx" must always appear in official logo styling
+- Never render as plain text
+- Never restyle per component
 
-## Logo & Naming
-
-"Privxx" must always appear exactly like the main logo.  
-Never render as plain text.  
-Never restyle per component.
-
-The xx mark is provisional and will be replaced with the official xx Network asset once finalized.
-
----
-
-## Language Selector
-
-- Single globe icon
-- Dropdown list
-- Alphabetical
-- English pinned to top
-
-No flags.
-
----
-
-*This document is now your single source of truth.*
+## xx Mark (Provisional)
+The xx mark currently used is a placeholder.
+Final geometry will be swapped in once the official asset is finalized.
