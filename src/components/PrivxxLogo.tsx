@@ -36,13 +36,13 @@ const logoVariants = cva(
 );
 
 const markVariants = cva(
-  "inline-block object-contain align-baseline translate-y-[0.15em]",
+  "inline-block object-contain",
   {
     variants: {
       size: {
-        sm: "w-[1.1em] h-[0.9em] ml-[-0.05em]",
-        md: "w-[1.2em] h-[1em] ml-[-0.05em]",
-        lg: "w-[1.3em] h-[1.1em] ml-[-0.08em]",
+        sm: "w-[1em] h-[0.85em] ml-[-0.15em] align-text-bottom",
+        md: "w-[1.1em] h-[0.95em] ml-[-0.15em] align-text-bottom",
+        lg: "w-[1.2em] h-[1em] ml-[-0.2em] align-text-bottom",
       },
     },
     defaultVariants: {
