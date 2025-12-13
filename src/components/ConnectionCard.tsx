@@ -54,23 +54,23 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
 
   return (
     <div className="relative w-full max-w-md">
-      {/* Subtle card glow */}
-      <div className="absolute -inset-1 bg-primary/20 blur-2xl rounded-3xl pointer-events-none opacity-60" />
-      
-      <div className="relative w-full p-8 bg-card/90 backdrop-blur-xl rounded-2xl border border-foreground/10 shadow-xl shadow-black/20 space-y-5">
+      {/* Glassmorphic card */}
+      <div className="relative w-full p-6 bg-[hsl(172_30%_25%/0.6)] backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl space-y-4">
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* URL Input with globe icon */}
           <div className="relative">
-            <Globe className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-foreground/60" />
+            <Globe className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-foreground/50" />
             <Input
               type="text"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder={t("urlPlaceholder")}
               disabled={connectionState === "connecting"}
-              className="w-full h-14 bg-[hsl(172_30%_18%)] hover:bg-[hsl(172_30%_20%)] border-none text-foreground placeholder:text-foreground/50 rounded-xl text-base pl-12 pr-4 font-mono"
+              className="w-full h-14 bg-[hsl(172_25%_18%)] hover:bg-[hsl(172_25%_20%)] border-none text-foreground placeholder:text-foreground/40 rounded-xl text-base pl-12 pr-4 font-mono"
             />
           </div>
           
+          {/* Connect Button */}
           <Button
             type="submit"
             disabled={!url.trim() || connectionState === "connecting"}
@@ -90,16 +90,25 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
           </Button>
         </form>
 
-        <div className="flex items-center justify-center gap-2 pt-1">
-          <span className={`text-sm font-medium ${
-            connectionState === "connected" 
-              ? "text-emerald-400" 
-              : connectionState === "connecting"
-              ? "text-amber-400"
-              : "text-foreground/70"
-          }`}>
-            {connectionState === "connecting" ? "" : getStatusText()}
-          </span>
+        {/* Status bar with gradient background */}
+        <div 
+          className="relative h-12 rounded-xl overflow-hidden flex items-center justify-center"
+          style={{
+            background: 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
+          }}
+        >
+          <div className="flex items-center gap-2">
+            <span className={`w-2 h-2 rounded-full ${
+              connectionState === "connected" 
+                ? "bg-emerald-400" 
+                : connectionState === "connecting"
+                ? "bg-amber-400 animate-pulse"
+                : "bg-foreground/50"
+            }`} />
+            <span className="text-sm font-medium text-foreground/90">
+              {getStatusText()}
+            </span>
+          </div>
         </div>
       </div>
     </div>
