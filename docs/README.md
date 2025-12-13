@@ -1,49 +1,31 @@
-# Privxx Documentation
+# Privxx Documentation Index
 
-## Index
+This folder contains the official documentation for the Privxx project.
 
-### Core Documents (Locked)
+## Core References (Start Here)
+- **brand-ui-lock.md** — Locked visual and brand direction (authoritative)
+- **state-machine.md** — Connection states: Idle → Connecting → Secure
+- **privacy-drawer-copy.md** — Final user-facing privacy explanations
+- **cmixx-integration-plan.md** — Phase D plan for real cMixx integration
 
-| Document | Purpose |
-|----------|---------|
-| [brand-ui-lock.md](brand-ui-lock.md) | **Single source of truth** for visual direction, colors, logo rules |
-| [state-machine.md](state-machine.md) | Connection states (Idle → Connecting → Secure), triggers, demo rules |
-| [privacy-drawer-copy.md](privacy-drawer-copy.md) | Final privacy drawer wording + transparency note |
+## Product & Vision
+- **PRIVXX-VISION.md** — Long-term vision and positioning
+- **PRIVXX-MVP-BRIEF.md** — MVP scope and goals
+- **PRIVXX-ROADMAP.md** — Phased roadmap
 
-### Integration
+## Architecture & Engineering
+- **PRIVXX-ARCHITECTURE-SPEC.md** — System architecture
+- **PHASE2-DEV-BRIEF.md** — Phase 2 development brief
 
-| Document | Purpose |
-|----------|---------|
-| [cmixx-integration-plan.md](cmixx-integration-plan.md) | Phase D plan: MVP 1, Bridge A, endpoints, success criteria |
-| [PHASE2-DEV-BRIEF.md](PHASE2-DEV-BRIEF.md) | Developer brief for real Privxx Proxy + xxDK integration |
+## Demo & Presentation
+- **PRIVXX-DEMO-SCRIPT.md** — Demo walkthrough script
+- **PRIVXX-VISUAL-WALKTHROUGH.md** — Visual explanation of flows
+- **screenshots/** — Approved UI screenshots
 
-### Vision & Architecture
-
-| Document | Purpose |
-|----------|---------|
-| [PRIVXX-VISION.md](PRIVXX-VISION.md) | Product vision and goals |
-| [PRIVXX-ARCHITECTURE-SPEC.md](PRIVXX-ARCHITECTURE-SPEC.md) | Technical architecture overview |
-| [PRIVXX-MVP-BRIEF.md](PRIVXX-MVP-BRIEF.md) | MVP scope and deliverables |
-| [PRIVXX-ROADMAP.md](PRIVXX-ROADMAP.md) | Development phases and timeline |
-
-### Reference
-
-| Document | Purpose |
-|----------|---------|
-| [PRIVXX-PRIVACY-LAWS.md](PRIVXX-PRIVACY-LAWS.md) | Ten privacy laws governing all decisions |
-| [PRIVXX-DEMO-SCRIPT.md](PRIVXX-DEMO-SCRIPT.md) | 3-minute demo walkthrough script |
-| [PRIVXX-VISUAL-WALKTHROUGH.md](PRIVXX-VISUAL-WALKTHROUGH.md) | Visual guide to UI states |
-
-### Assets
-
-| Folder | Purpose |
-|--------|---------|
-| [screenshots/](screenshots/) | Approved UI screenshots for docs and presentations |
+## Compliance & Policy
+- **PRIVXX-PRIVACY-LAWS.md** — Regulatory and privacy considerations
 
 ---
 
-## Rules
-
-1. **brand-ui-lock.md is the single source of truth** for visual direction
-2. **state-machine.md defines the only valid connection states**
-3. **If it's not documented here, it's not a rule**
+**Note:**  
+If a document conflicts with `brand-ui-lock.md` or `state-machine.md`, those locked documents take precedence.
