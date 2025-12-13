@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react";
-import { Loader2, Globe } from "lucide-react";
+import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "@/lib/i18n";
@@ -44,11 +44,11 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
   const getStatusText = () => {
     switch (connectionState) {
       case "idle":
-        return t("idle");
+        return t("statusIdle");
       case "connecting":
-        return t("connecting");
+        return t("statusConnecting");
       case "connected":
-        return t("connected");
+        return t("statusSecure");
     }
   };
 
@@ -78,12 +78,15 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
           >
             {connectionState === "connecting" ? (
               <span className="flex items-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <span className="flex items-center">Connecting through&nbsp;&nbsp;<PrivxxLogo size="sm" variant="inherit" /></span>
+                <span className="flex items-center">{t("buttonConnecting")}&nbsp;&nbsp;<PrivxxLogo size="sm" variant="inherit" /></span>
+              </span>
+            ) : connectionState === "connected" ? (
+              <span className="flex items-center gap-0">
+                <span>{t("buttonConnected")}</span>
               </span>
             ) : (
               <span className="flex items-center gap-0">
-                <span>Connect through&nbsp;&nbsp;</span>
+                <span>{t("buttonConnect")}&nbsp;&nbsp;</span>
                 <PrivxxLogo size="sm" variant="inherit" />
               </span>
             )}
@@ -92,18 +95,22 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
 
         {/* Status bar with gradient background */}
         <div 
-          className="relative h-12 rounded-xl overflow-hidden flex items-center justify-center"
+          className={`relative h-12 rounded-xl overflow-hidden flex items-center justify-center transition-all duration-500 ${
+            connectionState === "connecting" ? "animate-pulse" : ""
+          }`}
           style={{
-            background: 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
+            background: connectionState === "connecting" 
+              ? 'linear-gradient(90deg, hsl(172 50% 35% / 0.8) 0%, hsl(190 60% 45% / 0.8) 50%, hsl(172 50% 35% / 0.8) 100%)'
+              : 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
           }}
         >
           <div className="flex items-center gap-2">
-            <span className={`w-2 h-2 rounded-full ${
+            <span className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               connectionState === "connected" 
-                ? "bg-emerald-400" 
+                ? "bg-emerald-400 shadow-lg shadow-emerald-400/50" 
                 : connectionState === "connecting"
-                ? "bg-amber-400 animate-pulse"
-                : "bg-foreground/50"
+                ? "bg-primary animate-pulse"
+                : "bg-foreground/40"
             }`} />
             <span className="text-sm font-medium text-foreground/90">
               {getStatusText()}

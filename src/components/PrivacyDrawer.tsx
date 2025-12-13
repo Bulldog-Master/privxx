@@ -1,4 +1,4 @@
-import { Shield, Eye, Lock, Database, BarChart3 } from "lucide-react";
+import { Globe, CreditCard, EyeOff, Info } from "lucide-react";
 import {
   Drawer,
   DrawerContent,
@@ -11,29 +11,6 @@ import { useTranslations } from "@/lib/i18n";
 
 const PrivacyDrawer = () => {
   const { t } = useTranslations();
-  
-  const principles = [
-    {
-      icon: Eye,
-      title: t("privacyDrawerPoint1"),
-    },
-    {
-      icon: Shield,
-      title: t("privacyDrawerPoint2"),
-    },
-    {
-      icon: Lock,
-      title: t("privacyDrawerPoint3"),
-    },
-    {
-      icon: Database,
-      title: t("privacyDrawerPoint4"),
-    },
-    {
-      icon: BarChart3,
-      title: t("privacyDrawerPoint5"),
-    },
-  ];
 
   return (
     <Drawer direction="right">
@@ -42,25 +19,65 @@ const PrivacyDrawer = () => {
           {t("privacy")}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-full w-80 right-0 left-auto rounded-none">
-        <DrawerHeader className="border-b border-border">
-          <DrawerTitle className="text-foreground">{t("privacyDrawerTitle")}</DrawerTitle>
+      <DrawerContent className="h-full w-80 sm:w-96 right-0 left-auto rounded-none bg-[hsl(215_25%_22%)] border-l border-white/10">
+        <DrawerHeader className="border-b border-white/10 pb-4">
+          <DrawerTitle className="text-foreground text-xl">{t("privacyDrawerTitle")}</DrawerTitle>
         </DrawerHeader>
-        <div className="p-4 space-y-4">
-          <p className="text-sm text-muted-foreground">
-            {t("privacyDrawerIntro")}
-          </p>
-          {principles.map((principle, index) => (
-            <div 
-              key={index} 
-              className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 border border-border"
-            >
-              <div className="p-2 rounded-md bg-primary/10">
-                <principle.icon className="h-4 w-4 text-primary" />
+        
+        <div className="p-5 space-y-6 overflow-y-auto">
+          {/* Section 1: Browsing */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-lg bg-primary/20">
+                <Globe className="h-5 w-5 text-primary" />
               </div>
-              <p className="text-sm text-foreground">{principle.title}</p>
+              <h3 className="font-semibold text-foreground">{t("privacySectionBrowsingTitle")}</h3>
             </div>
-          ))}
+            <p className="text-sm text-foreground/70 leading-relaxed">
+              {t("privacySectionBrowsingText")}
+            </p>
+          </section>
+
+          {/* Section 2: Payments */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-lg bg-primary/20">
+                <CreditCard className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="font-semibold text-foreground">{t("privacySectionPaymentsTitle")}</h3>
+            </div>
+            <p className="text-sm text-foreground/70 leading-relaxed">
+              {t("privacySectionPaymentsText")}
+            </p>
+          </section>
+
+          {/* Section 3: What we don't do */}
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-lg bg-primary/20">
+                <EyeOff className="h-5 w-5 text-primary" />
+              </div>
+              <h3 className="font-semibold text-foreground">{t("privacySectionNotTitle")}</h3>
+            </div>
+            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1">
+              <li>{t("privacySectionNotPoint1")}</li>
+              <li>{t("privacySectionNotPoint2")}</li>
+              <li>{t("privacySectionNotPoint3")}</li>
+            </ul>
+          </section>
+
+          {/* Section 4: Transparency */}
+          <section className="space-y-3 pt-2 border-t border-white/10">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-lg bg-amber-500/20">
+                <Info className="h-5 w-5 text-amber-400" />
+              </div>
+              <h3 className="font-semibold text-foreground">{t("privacySectionStatusTitle")}</h3>
+            </div>
+            <p className="text-sm text-foreground/60 leading-relaxed italic">
+              {t("privacySectionStatusText")}
+            </p>
+          </section>
         </div>
       </DrawerContent>
     </Drawer>

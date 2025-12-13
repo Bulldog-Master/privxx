@@ -59,8 +59,8 @@ const Index = () => {
           <ContentArea url={connectedUrl} latency={latency} />
         </main>
 
-        <footer className="text-center py-4 px-4 text-xs text-foreground/50">
-          {t("simulationNotice")}
+        <footer className="text-center py-4 px-4 text-xs text-foreground/40">
+          {t("demoModeNotice")}
         </footer>
       </div>
     </div>
