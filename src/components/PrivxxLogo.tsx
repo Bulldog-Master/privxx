@@ -52,7 +52,7 @@ interface PrivxxLogoProps extends VariantProps<typeof logoVariants> {
 
 const PrivxxLogo = ({ size, variant = "default", darkText = false, className }: PrivxxLogoProps) => (
   <span className={cn(logoVariants({ size }), className)}>
-    <span className={darkText ? "text-slate-800" : (variant === "default" ? "text-foreground" : "")}>Privx</span>
+    <span className={darkText ? "text-slate-800" : (variant === "default" ? "text-foreground" : "")}>Priv</span>
     <PrivxxMark className={markVariants({ size })} />
   </span>
 );
