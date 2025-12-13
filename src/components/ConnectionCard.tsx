@@ -66,7 +66,10 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
               onChange={(e) => setUrl(e.target.value)}
               placeholder={t("urlPlaceholder")}
               disabled={connectionState === "connecting"}
-              className="w-full h-14 bg-[hsl(172_25%_18%)] hover:bg-[hsl(172_25%_20%)] border-none text-foreground placeholder:text-foreground/40 rounded-xl text-base pl-12 pr-4 font-mono"
+              className="w-full h-14 border border-white/20 text-foreground placeholder:text-foreground/40 rounded-xl text-base pl-12 pr-4 font-mono"
+              style={{
+                background: 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
+              }}
             />
           </div>
           
