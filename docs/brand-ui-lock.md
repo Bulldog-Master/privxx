@@ -1,10 +1,12 @@
 # Privxx — Brand & UI Lock (v1)
 
 ## Status
-LOCKED
+**LOCKED** — Do not deviate without explicit approval.
 
 ## Purpose
 This document prevents visual and brand drift for Privxx.
+
+---
 
 ## Approved Direction
 - Vibrant, modern, AI-futurist look
@@ -13,26 +15,142 @@ This document prevents visual and brand drift for Privxx.
 - Teal / aqua / cyan accents
 - Deep blue base (not black, not grey)
 
-## Background Rules
-Background must visually represent two concepts:
-1. Browsing / network flow
-2. Payments / financial activity
+Privxx must feel:
+- Global
+- Human-first
+- Modern / AI-futurist
+- Trustworthy
+- Vibrant but controlled
 
-No people.
-No cultural or regional imagery.
-No stock photos.
+---
+
+## Background Rules
+
+Background must visually represent two conceptual layers:
+
+**Layer A — Browsing / Internet**
+- Globe, network nodes, connection paths
+- Soft abstract "web" geometry
+
+**Layer B — Payments / Finance**
+- Card shapes, currency symbols, transaction flows
+- Subtle financial nodes
+
+These elements must be abstract and tasteful, not literal illustrations.
+
+**Banned:**
+- No people
+- No cultural or regional imagery
+- No stock photos
+
+---
+
+## Color Palette
+
+Primary tones:
+- Teal / Aqua / Cyan gradients
+- Deep blue background base
+- Subtle warm accent gradients (pink / gold / green blend near bottom)
+
+Rules:
+- No grey-dominant UI
+- No pure white backgrounds
+- No black backgrounds
+- Maintain high contrast but soft edges
+
+---
+
+## UI Card (Center Panel)
+
+- Glassmorphism style with soft blur
+- Rounded corners, floating effect
+
+Required elements (in order):
+1. URL input with globe icon
+2. Primary CTA button
+3. Status indicator (Idle / Connecting / Secure)
+
+CTA button:
+- Uses brand gradient
+- Includes Privxx logo styling
+- Must feel confident and inviting
+
+---
+
+## Logo Usage
+
+"Privxx" must always appear in official logo styling:
+- Same font, capitalization, spacing
+- Same accent on the "xx"
+
+Applies everywhere: header, buttons, status text, CTAs, screenshots.
+
+❌ Never render as plain text  
+❌ Never restyle per component
+
+---
+
+## xx Mark (Provisional)
+
+The xx mark currently used is a placeholder.
+Final geometry will be swapped in once the official asset is finalized.
+
+Rules until then:
+- Do NOT redesign the xx
+- Do NOT reinterpret the xx
+- Do NOT change its geometry
+- Do NOT animate or stylize it independently
+
+---
+
+## Language Selector
+
+- Single globe icon
+- Dropdown list
+- Alphabetical order
+- English always pinned at the top
+
+No flag icons.
+
+---
+
+## Brand Principle
+
+Privxx is not:
+- Regional
+- Minimal for the sake of minimalism
+- Cold or sterile
+- Dark or oppressive
+
+**Privxx stands for:**
+
+> Private access to the internet and payments — without fear, friction, or exposure.
+
+The UI should feel like:
+- Safety
+- Confidence
+- Clarity
+- Momentum
+
+---
 
 ## What to Avoid
+
 - Flat white or grey designs
 - Dark or oppressive themes
 - Pastel wellness aesthetics
 - Literal illustrations (people, money piles)
+- Cultural styling
+- Reverting to previous rejected versions
+- Experimenting visually without approval
 
-## Logo Usage
-- "Privxx" must always appear in official logo styling
-- Never render as plain text
-- Never restyle per component
+---
 
-## xx Mark (Provisional)
-The xx mark currently used is a placeholder.
-Final geometry will be swapped in once the official asset is finalized.
+## What NOT to Do
+
+❌ "Simplify" further  
+❌ Introduce cultural styling  
+❌ Revert to previous rejected versions  
+❌ Experiment visually without approval
+
+**This direction is approved and locked.**
