@@ -15,7 +15,12 @@ const PrivacyDrawer = () => {
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>
-        <Button className="bg-white/10 backdrop-blur-sm border border-white/20 text-foreground hover:bg-white/15 font-medium">
+        <Button 
+          className="border border-white/20 text-foreground hover:brightness-110 font-medium"
+          style={{
+            background: 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
+          }}
+        >
           {t("privacy")}
         </Button>
       </DrawerTrigger>

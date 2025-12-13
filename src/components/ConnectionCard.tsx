@@ -70,11 +70,14 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             />
           </div>
           
-          {/* Connect Button - translucent glass style matching idle state */}
+          {/* Connect Button - matching idle gradient */}
           <Button
             type="submit"
             disabled={!url.trim() || connectionState === "connecting"}
-            className="w-full h-14 bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/15 text-foreground font-semibold text-base rounded-xl shadow-lg transition-all duration-200"
+            className="w-full h-14 border border-white/20 hover:brightness-110 text-foreground font-semibold text-base rounded-xl shadow-lg transition-all duration-200"
+            style={{
+              background: 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
+            }}
           >
             {connectionState === "connecting" ? (
               <span className="flex items-center">
