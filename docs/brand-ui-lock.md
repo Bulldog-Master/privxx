@@ -17,7 +17,8 @@ Changes going forward must be:
 
 - Background system (layered gradients, circular forms)
 - Button styles (glass/translucent with gradient text)
-- Logo usage (Priv gradient text + xx mark)
+- Logo usage (Priv gradient text + teal xx Network mark)
+- Logo spacing (tight kerning: sm=-0.2em, md=-0.25em, lg=-0.3em)
 - Color relationships (warm-to-teal gradients)
 - Glass / translucency treatment
 - Input field styling
