@@ -53,7 +53,14 @@ const markVariants = cva(
 
 const PrivxxLogo = ({ size, variant = "default", darkText = false, brightenMark = false, className }: PrivxxLogoProps) => (
   <span className={cn(logoVariants({ size }), className)}>
-    <span className={darkText ? "text-slate-800" : (variant === "default" ? "text-foreground" : "")}>Priv</span>
+    <span 
+      className={darkText ? "text-slate-800" : "bg-clip-text text-transparent"}
+      style={darkText ? undefined : {
+        backgroundImage: 'linear-gradient(90deg, hsl(340 50% 50%) 0%, hsl(45 60% 55%) 50%, hsl(172 50% 45%) 100%)'
+      }}
+    >
+      Priv
+    </span>
     <PrivxxMark className={markVariants({ size })} brighten={brightenMark} />
   </span>
 );
