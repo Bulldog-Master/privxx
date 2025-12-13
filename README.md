@@ -1,5 +1,7 @@
 # Privxx
 
+![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)
+
 **Private access to the internet and payments — without fear, friction, or exposure.**
 
 Privxx is a privacy-first tunnel that hides your IP, location, timing patterns, and device fingerprints using the **xx network (cMixx)** and **post-quantum-safe cryptography**.
