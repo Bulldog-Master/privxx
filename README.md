@@ -51,6 +51,8 @@ The app demonstrates the full user experience with simulated routing. Real cMixx
 [ Bank / Merchant / dApp / Any Website ]
 ```
 
+> **Phase D note:** The first integration milestone uses cMixx as a private control channel (connect/status/target URL). Full HTTP-like proxy routing comes later.
+
 ---
 
 ## Privacy Principles
