@@ -1,31 +1,13 @@
 ---
 name: Feature Request
-about: Suggest an idea for Privxx
-title: '[Feature] '
-labels: enhancement
-assignees: ''
+about: Suggest an idea or improvement
 ---
 
-## Problem Statement
+## Summary
+Brief description of the feature.
 
-What problem does this feature solve? Why is it needed?
-
-## Proposed Solution
-
-Describe the solution you'd like.
-
-## Alternatives Considered
-
-What other approaches did you consider?
-
-## Privacy Considerations
-
-Does this feature affect user privacy? If so, how does it align with Privxx's privacy principles?
-
-- [ ] No tracking or analytics
-- [ ] No persistent identifiers
-- [ ] No external network requests (in demo mode)
+## Motivation
+Why is this feature needed?
 
 ## Additional Context
-
-Add any other context, mockups, or examples here.
+Any supporting details or examples.
