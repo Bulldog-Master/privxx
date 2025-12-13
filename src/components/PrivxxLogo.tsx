@@ -4,16 +4,43 @@ import { cn } from "@/lib/utils";
 // Custom Privxx mark: 3 lines forming 2 overlapping Xs
 // Line 1 & 2 cross = first X, Line 2 & 3 cross = second X
 // Middle line (2) is shared — creates network/mixing symbolism
+// Curved xx mark inspired by official xx network geometry
 const PrivxxMark = ({ className }: { className?: string }) => (
   <svg 
-    viewBox="0 0 40 32" 
+    viewBox="0 0 48 40" 
     fill="none" 
     className={className}
     aria-hidden="true"
   >
-    <path d="M4 4L20 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-    <path d="M20 4L4 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-    <path d="M36 4L20 28" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+    {/* Two curved strokes forming the xx shape */}
+    <path 
+      d="M8 6C16 16 16 24 8 34" 
+      stroke="currentColor" 
+      strokeWidth="5" 
+      strokeLinecap="round"
+      fill="none"
+    />
+    <path 
+      d="M24 6C16 16 16 24 24 34" 
+      stroke="currentColor" 
+      strokeWidth="5" 
+      strokeLinecap="round"
+      fill="none"
+    />
+    <path 
+      d="M24 6C32 16 32 24 24 34" 
+      stroke="currentColor" 
+      strokeWidth="5" 
+      strokeLinecap="round"
+      fill="none"
+    />
+    <path 
+      d="M40 6C32 16 32 24 40 34" 
+      stroke="currentColor" 
+      strokeWidth="5" 
+      strokeLinecap="round"
+      fill="none"
+    />
   </svg>
 );
 

@@ -65,13 +65,13 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
             onChange={(e) => setUrl(e.target.value)}
             placeholder={t("urlPlaceholder")}
             disabled={connectionState === "connecting"}
-            className="w-full h-14 bg-primary hover:bg-primary/90 border-none text-primary-foreground placeholder:text-primary-foreground rounded-xl text-base px-4 font-semibold shadow-lg shadow-primary/20"
+            className="w-full h-14 bg-white border border-border/40 text-slate-700 placeholder:text-slate-400 rounded-xl text-base px-4 font-medium shadow-sm focus:ring-2 focus:ring-primary/30 focus:border-primary"
           />
           
           <Button
             type="submit"
             disabled={!url.trim() || connectionState === "connecting"}
-            className="w-full h-14 bg-primary/70 hover:bg-primary/80 text-slate-600 font-semibold text-base rounded-xl border-2 border-primary/40 shadow-lg shadow-primary/10 hover:shadow-xl transition-all duration-200"
+            className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-semibold text-base rounded-xl shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transition-all duration-200"
           >
             {connectionState === "connecting" ? (
               <span className="flex items-center gap-2">
