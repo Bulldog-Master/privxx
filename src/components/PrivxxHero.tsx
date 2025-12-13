@@ -13,8 +13,8 @@ const PrivxxHero = () => {
         </h1>
       </div>
       
-      {/* Tagline - light text for dark background */}
-      <p className="text-foreground/70 text-sm sm:text-base pt-2 font-medium w-full text-center">
+      {/* Tagline - same brightness as logo text */}
+      <p className="text-foreground text-sm sm:text-base pt-2 font-medium w-full text-center">
         {t("subtitle")}
       </p>
     </div>
