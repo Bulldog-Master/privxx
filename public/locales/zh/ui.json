@@ -9,23 +9,23 @@
   "buttonConnected": "已连接",
   
   "statusIdle": "空闲",
-  "statusIdleSubtext": "准备私密连接",
+  "statusIdleSubtext": "随时可私密连接",
   "statusConnecting": "正在连接…",
   "statusConnectingSubtext": "正在建立私密路由",
   "statusSecure": "安全",
-  "statusSecureSubtext": "私密路由已激活",
+  "statusSecureSubtext": "私密路由已启用",
   
   "requestedUrl": "请求的 URL",
   "simulatedLatency": "模拟延迟",
   
   "privacyDrawerTitle": "Privxx 如何保护您",
-  "privacyDrawerIntro": "Privxx 帮助减少元数据暴露——例如 IP 地址、位置和时间——当您浏览或在线互动时。",
-  "privacyDrawerIntroPreview": "此预览展示了完全启用后私密路由的体验。",
+  "privacyDrawerIntro": "Privxx 可在你浏览或在线交互时，帮助降低元数据暴露（例如 IP 地址、位置与时间关联）。",
+  "privacyDrawerIntroPreview": "此预览展示在完全启用后，私密路由将呈现的使用体验。",
   
-  "privacySectionDesignedTitle": "Privxx 旨在：",
-  "privacySectionDesignedPoint1": "减少元数据关联",
-  "privacySectionDesignedPoint2": "让私密路由变得简单熟悉",
-  "privacySectionDesignedPoint3": "默认避免跟踪",
+  "privacySectionDesignedTitle": "Privxx 的设计目标：",
+  "privacySectionDesignedPoint1": "降低元数据关联",
+  "privacySectionDesignedPoint2": "让私密路由简单、熟悉、易用",
+  "privacySectionDesignedPoint3": "默认减少被追踪",
   
   "privacySectionNotTitle": "Privxx 不会做的事",
   "privacySectionNotPoint1": "声称超出当前实际功能的内容",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "此版本的 Privxx 演示连接流程和界面。通过 cMixx 的完整加密路由将在下一阶段集成。",
   
   "proxyPlaceholder": "代理内容将在未来版本中显示。",
-  "demoModeNotice": "演示模式——安全路由模拟预览",
+  "demoModeNotice": "演示模式 — 为预览而模拟安全路由",
   
   "errorConnectionFailed": "目前无法建立私密路由。",
   "errorTryAgain": "请重试。"
