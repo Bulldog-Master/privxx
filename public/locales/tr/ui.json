@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "Gizli tarama ve ödeme tüneli",
   "urlPlaceholder": "https://banka-veya-satici.com",
-  "connect": "Privxx üzerinden bağlan",
-  "idle": "Boşta",
-  "connecting": "Privxx üzerinden bağlanılıyor…",
-  "connected": "Bağlandı (simülasyon)",
+  "privacy": "Gizlilik",
+  
+  "buttonConnect": "Üzerinden bağlan",
+  "buttonConnecting": "Üzerinden bağlanılıyor",
+  "buttonConnected": "Bağlandı",
+  
+  "statusIdle": "Boşta",
+  "statusIdleSubtext": "Gizli bağlantıya hazır",
+  "statusConnecting": "Bağlanıyor…",
+  "statusConnectingSubtext": "Gizli rota oluşturuluyor",
+  "statusSecure": "Güvenli",
+  "statusSecureSubtext": "Gizli yönlendirme aktif",
+  
   "requestedUrl": "İstenen URL",
   "simulatedLatency": "Simüle edilmiş gecikme",
-  "privacy": "Gizlilik",
-  "privacyDrawerTitle": "Privxx Gizlilik İlkeleri",
-  "privacyDrawerIntro": "Privxx, yalnızca içeriği şifrelemek için değil, metadata'nızı korumak için tasarlanmıştır.",
-  "privacyDrawerPoint1": "Privxx IP adresinizi ve konumunuzu gizler.",
-  "privacyDrawerPoint2": "Privxx, ağ metadata'sını kaldırmak için cMixx mixnet teknolojisini kullanır.",
-  "privacyDrawerPoint3": "Privxx, kuantum sonrası güvenli kriptografi kullanır.",
-  "privacyDrawerPoint4": "Privxx tarayıcı geçmişinizi veya kalıcı tanımlayıcıları saklamaz.",
-  "privacyDrawerPoint5": "Privxx hiçbir zaman analiz veya izleme araçları kullanmaz.",
+  
+  "privacyDrawerTitle": "Privxx sizi nasıl korur",
+  "privacyDrawerIntro": "Privxx, gezinirken veya çevrimiçi etkileşimde bulunurken IP adresi, konum ve zamanlama gibi metadata maruziyetini azaltmaya yardımcı olur.",
+  "privacyDrawerIntroPreview": "Bu önizleme, gizli yönlendirmenin tamamen etkinleştirildiğinde nasıl hissettireceğini gösterir.",
+  
+  "privacySectionDesignedTitle": "Privxx şunlar için tasarlandı:",
+  "privacySectionDesignedPoint1": "Metadata korelasyonunu azaltmak",
+  "privacySectionDesignedPoint2": "Gizli yönlendirmeyi basit ve tanıdık kılmak",
+  "privacySectionDesignedPoint3": "Varsayılan olarak izlemeden kaçınmak",
+  
+  "privacySectionNotTitle": "Privxx'in yapmadıkları",
+  "privacySectionNotPoint1": "Şu anda aktif olmayanlar hakkında iddiada bulunmak",
+  "privacySectionNotPoint2": "Kriptografiyi anlamanızı gerektirmek",
+  "privacySectionNotPoint3": "Normal gezinme şeklinizi değiştirmek",
+  
+  "privacySectionStatusTitle": "Mevcut durum",
+  "privacySectionStatusText": "Privxx'in bu sürümü bağlantı akışını ve arayüzü göstermektedir. cMixx aracılığıyla tam kriptografik yönlendirme bir sonraki aşamada entegre edilecektir.",
+  
   "proxyPlaceholder": "Proxy içeriği gelecekteki bir sürümde görünecektir.",
-  "simulationNotice": "Bu, Privxx'in simüle edilmiş bir prototipidir. Gerçek cMixx entegrasyonu daha sonraki bir aşamada eklenecektir."
+  "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle edildi",
+  
+  "errorConnectionFailed": "Şu anda gizli rota oluşturulamıyor.",
+  "errorTryAgain": "Lütfen tekrar deneyin."
 }

@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "Privétunnel voor browsen en betalingen",
   "urlPlaceholder": "https://bank-of-handelaar.nl",
-  "connect": "Verbinden via Privxx",
-  "idle": "Inactief",
-  "connecting": "Verbinden via Privxx…",
-  "connected": "Verbonden (gesimuleerd)",
+  "privacy": "Privacy",
+  
+  "buttonConnect": "Verbinden via",
+  "buttonConnecting": "Verbinden via",
+  "buttonConnected": "Verbonden",
+  
+  "statusIdle": "Inactief",
+  "statusIdleSubtext": "Klaar om privé te verbinden",
+  "statusConnecting": "Verbinden…",
+  "statusConnectingSubtext": "Privéroute wordt opgezet",
+  "statusSecure": "Beveiligd",
+  "statusSecureSubtext": "Privéroutering actief",
+  
   "requestedUrl": "Aangevraagde URL",
   "simulatedLatency": "Gesimuleerde latentie",
-  "privacy": "Privacy",
-  "privacyDrawerTitle": "Privxx Privacyprincipes",
-  "privacyDrawerIntro": "Privxx is ontworpen om uw metadata te beschermen — niet alleen om inhoud te versleutelen.",
-  "privacyDrawerPoint1": "Privxx verbergt uw IP-adres en locatie.",
-  "privacyDrawerPoint2": "Privxx gebruikt cMixx mixnet-technologie om netwerkmetadata te verwijderen.",
-  "privacyDrawerPoint3": "Privxx maakt gebruik van post-quantum veilige cryptografie.",
-  "privacyDrawerPoint4": "Privxx slaat uw browsegeschiedenis of permanente identificatoren niet op.",
-  "privacyDrawerPoint5": "Privxx zal nooit analyses of tracking gebruiken.",
+  
+  "privacyDrawerTitle": "Hoe Privxx u beschermt",
+  "privacyDrawerIntro": "Privxx helpt metadata-blootstelling te verminderen — zoals IP-adres, locatie en timing — terwijl u browst of online interacteert.",
+  "privacyDrawerIntroPreview": "Deze preview laat zien hoe privéroutering zal aanvoelen wanneer volledig ingeschakeld.",
+  
+  "privacySectionDesignedTitle": "Privxx is ontworpen om:",
+  "privacySectionDesignedPoint1": "Metadata-correlatie te verminderen",
+  "privacySectionDesignedPoint2": "Privéroutering eenvoudig en vertrouwd te maken",
+  "privacySectionDesignedPoint3": "Standaard tracking te vermijden",
+  
+  "privacySectionNotTitle": "Wat Privxx niet doet",
+  "privacySectionNotPoint1": "Claims maken buiten wat momenteel actief is",
+  "privacySectionNotPoint2": "Vereisen dat u cryptografie begrijpt",
+  "privacySectionNotPoint3": "Uw normale manier van browsen veranderen",
+  
+  "privacySectionStatusTitle": "Huidige status",
+  "privacySectionStatusText": "Deze versie van Privxx demonstreert de verbindingsstroom en interface. Volledige cryptografische routering via cMixx wordt hierna geïntegreerd.",
+  
   "proxyPlaceholder": "Proxy-inhoud verschijnt in een toekomstige versie.",
-  "simulationNotice": "Dit is een gesimuleerd prototype van Privxx. De echte cMixx-integratie wordt later toegevoegd."
+  "demoModeNotice": "Demomodus — beveiligde routering gesimuleerd voor preview",
+  
+  "errorConnectionFailed": "Kan momenteel geen privéroute tot stand brengen.",
+  "errorTryAgain": "Probeer het opnieuw."
 }
