@@ -246,3 +246,53 @@ The UI should feel like:
 ❌ Change logo spacing or colors  
 
 **This direction is approved and locked.**
+
+---
+
+## Canonical Screenshots
+
+The following screenshots in `docs/screenshots/` define the visual source of truth:
+
+| Screenshot | Description |
+|------------|-------------|
+| `home-idle.png` | Main screen, Idle state |
+| `privacy-drawer-open.png` | Privacy drawer open |
+| `connecting.png` | Connecting state (optional) |
+
+**If the live UI differs from these screenshots, the UI must be corrected.**
+
+See [`screenshots/README.md`](screenshots/README.md) for full specifications.
+
+---
+
+## Left-Side Controls (Added v1.1)
+
+Globe and Privacy controls are positioned on the **left side**, stacked vertically:
+
+- **Globe icon:** No background, teal color, opens language dropdown
+- **Privacy button:** Gradient background (matches idle bar), smaller size (h-6)
+- **Opacity:** 70% default, 95% on hover
+- **Position:** Fixed, top-left (top-6 left-6)
+
+This placement:
+- Feels "system-level" and trustworthy
+- Balances the large teal sphere on the right
+- Does not compete with the logo
+
+---
+
+## Ambient Dot (Added v1.1)
+
+A single teal ambient dot appears above-left of the Privxx logo:
+
+- **Size:** 16px diameter
+- **Position:** top: -4px, left: 40% (relative to logo container)
+- **Color:** rgba(64, 226, 198, 0.45)
+- **Glow:** 28px inner, 56px outer blur
+- **Animation:** 10s opacity breathe (0.45 → 0.53)
+- **Purpose:** Network presence indicator, not decoration
+
+**Rules:**
+- Only ONE dot (no particles, no secondary dots)
+- Must feel like "soft signal beacon", not "floating dust"
+- Must not overlap or compete with logo text
