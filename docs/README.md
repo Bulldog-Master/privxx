@@ -14,8 +14,15 @@ These documents define the immutable visual and interaction identity of Privxx.
 - **PRIVXX-DESIGN-CONSTITUTION.md**  
   Enforces non-negotiable design rules and prevents UI drift.
 
-- **screenshots/**  
-  Approved, canonical screenshots only.
+### UI Canonical (Screenshots)
+- **screenshots/README.md**  
+  Screenshot governance and requirements.
+
+- **screenshots/home-idle.png**  
+  Locked home screen (idle state).
+
+- **screenshots/privacy-drawer-open.png**  
+  Locked privacy drawer.
 
 ---
 
@@ -78,6 +85,10 @@ Technical planning and execution references.
 
 - **cmixx-integration-plan.md**  
   Phase D plan for cMixx control-channel integration.
+
+### Phase D
+- **PHASE-D-BRIDGE.md**  
+  UI-to-cMixx state mapping and UI invariants.
 
 - **PHASE-D-PLAIN-CHECKLIST.md**  
   Plain-English checklist defining Phase D success.
