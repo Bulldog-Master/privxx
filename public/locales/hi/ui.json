@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "निजी ब्राउजिंग और भुगतान सुरंग",
   "urlPlaceholder": "https://बैंक-या-व्यापारी.com",
-  "connect": "Privxx के माध्यम से कनेक्ट करें",
-  "idle": "निष्क्रिय",
-  "connecting": "Privxx के माध्यम से कनेक्ट किया जा रहा है…",
-  "connected": "कनेक्टेड (सिम्युलेटेड)",
+  "privacy": "गोपनीयता",
+  
+  "buttonConnect": "के माध्यम से कनेक्ट करें",
+  "buttonConnecting": "के माध्यम से कनेक्ट हो रहा है",
+  "buttonConnected": "कनेक्टेड",
+  
+  "statusIdle": "निष्क्रिय",
+  "statusIdleSubtext": "निजी तौर पर कनेक्ट करने के लिए तैयार",
+  "statusConnecting": "कनेक्ट हो रहा है…",
+  "statusConnectingSubtext": "निजी मार्ग स्थापित किया जा रहा है",
+  "statusSecure": "सुरक्षित",
+  "statusSecureSubtext": "निजी रूटिंग सक्रिय",
+  
   "requestedUrl": "अनुरोधित URL",
   "simulatedLatency": "सिम्युलेटेड विलंब",
-  "privacy": "गोपनीयता",
-  "privacyDrawerTitle": "Privxx गोपनीयता सिद्धांत",
-  "privacyDrawerIntro": "Privxx आपके मेटाडाटा की सुरक्षा के लिए डिज़ाइन किया गया है—केवल सामग्री को एन्क्रिप्ट करने के लिए नहीं।",
-  "privacyDrawerPoint1": "Privxx आपका IP पता और स्थान छुपाता है (डिज़ाइन लक्ष्य)।",
-  "privacyDrawerPoint2": "Privxx मेटाडाटा हटाने के लिए cMixx मिक्सनेट तकनीक का उपयोग करता है।",
-  "privacyDrawerPoint3": "Privxx पोस्ट-क्वांटम सुरक्षित क्रिप्टोग्राफी का उपयोग करता है।",
-  "privacyDrawerPoint4": "Privxx आपका ब्राउज़िंग इतिहास या स्थायी पहचानकर्ता स्टोर नहीं करता।",
-  "privacyDrawerPoint5": "Privxx कभी भी एनालिटिक्स या ट्रैकिंग का उपयोग नहीं करेगा।",
+  
+  "privacyDrawerTitle": "Privxx आपकी कैसे रक्षा करता है",
+  "privacyDrawerIntro": "Privxx मेटाडेटा एक्सपोज़र को कम करने में मदद करता है — जैसे IP पता, स्थान और समय — जब आप ब्राउज़ करते हैं या ऑनलाइन इंटरैक्ट करते हैं।",
+  "privacyDrawerIntroPreview": "यह प्रीव्यू दिखाता है कि पूरी तरह सक्षम होने पर निजी रूटिंग कैसा महसूस होगा।",
+  
+  "privacySectionDesignedTitle": "Privxx के लिए डिज़ाइन किया गया है:",
+  "privacySectionDesignedPoint1": "मेटाडेटा सहसंबंध को कम करना",
+  "privacySectionDesignedPoint2": "निजी रूटिंग को सरल और परिचित बनाना",
+  "privacySectionDesignedPoint3": "डिफ़ॉल्ट रूप से ट्रैकिंग से बचना",
+  
+  "privacySectionNotTitle": "Privxx क्या नहीं करता",
+  "privacySectionNotPoint1": "वर्तमान में सक्रिय नहीं है उससे परे दावे करना",
+  "privacySectionNotPoint2": "आपको क्रिप्टोग्राफी समझने की आवश्यकता",
+  "privacySectionNotPoint3": "आपके सामान्य ब्राउज़िंग तरीके को बदलना",
+  
+  "privacySectionStatusTitle": "वर्तमान स्थिति",
+  "privacySectionStatusText": "Privxx का यह संस्करण कनेक्शन प्रवाह और इंटरफ़ेस प्रदर्शित करता है। cMixx के माध्यम से पूर्ण क्रिप्टोग्राफिक रूटिंग अगले चरण में एकीकृत की जाएगी।",
+  
   "proxyPlaceholder": "प्रॉक्सी की सामग्री भविष्य के संस्करण में दिखाई देगी।",
-  "simulationNotice": "यह Privxx का एक सिम्युलेटेड प्रोटोटाइप है। वास्तविक cMixx एकीकरण बाद के चरण में जोड़ा जाएगा।"
+  "demoModeNotice": "डेमो मोड — प्रीव्यू के लिए सुरक्षित रूटिंग सिम्युलेटेड",
+  
+  "errorConnectionFailed": "अभी निजी मार्ग स्थापित नहीं हो सका।",
+  "errorTryAgain": "कृपया पुनः प्रयास करें।"
 }

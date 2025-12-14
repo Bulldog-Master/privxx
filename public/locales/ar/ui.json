@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "نفق خاص للتصفح والدفع",
   "urlPlaceholder": "https://بنك-أو-تاجر.com",
-  "connect": "الاتصال عبر Privxx",
-  "idle": "خامل",
-  "connecting": "جارٍ الاتصال عبر Privxx…",
-  "connected": "متصل (محاكاة)",
+  "privacy": "الخصوصية",
+  
+  "buttonConnect": "الاتصال عبر",
+  "buttonConnecting": "جارٍ الاتصال عبر",
+  "buttonConnected": "متصل",
+  
+  "statusIdle": "خامل",
+  "statusIdleSubtext": "جاهز للاتصال بشكل خاص",
+  "statusConnecting": "جارٍ الاتصال…",
+  "statusConnectingSubtext": "إنشاء مسار خاص",
+  "statusSecure": "آمن",
+  "statusSecureSubtext": "التوجيه الخاص نشط",
+  
   "requestedUrl": "عنوان URL المطلوب",
   "simulatedLatency": "الكمون المحاكى",
-  "privacy": "الخصوصية",
-  "privacyDrawerTitle": "مبادئ الخصوصية في Privxx",
-  "privacyDrawerIntro": "تم تصميم Privxx لحماية بياناتك الوصفية، وليس فقط لتشفير المحتوى.",
-  "privacyDrawerPoint1": "Privxx يخفي عنوان الـ IP والموقع الجغرافي الخاص بك (هدف التصميم).",
-  "privacyDrawerPoint2": "Privxx يستخدم تقنية الميكس نت (cMixx) لإزالة بيانات الشبكة الوصفية.",
-  "privacyDrawerPoint3": "Privxx يعتمد على تشفير آمن ضد الحوسبة الكمومية.",
-  "privacyDrawerPoint4": "Privxx لا يخزن سجل التصفح أو أي معرفات دائمة.",
-  "privacyDrawerPoint5": "Privxx لا يستخدم أدوات التحليل أو التتبع مطلقاً.",
+  
+  "privacyDrawerTitle": "كيف يحميك Privxx",
+  "privacyDrawerIntro": "يساعد Privxx في تقليل تعرض البيانات الوصفية — مثل عنوان IP والموقع والتوقيت — أثناء التصفح أو التفاعل عبر الإنترنت.",
+  "privacyDrawerIntroPreview": "توضح هذه المعاينة كيف سيبدو التوجيه الخاص عند تفعيله بالكامل.",
+  
+  "privacySectionDesignedTitle": "تم تصميم Privxx من أجل:",
+  "privacySectionDesignedPoint1": "تقليل ارتباط البيانات الوصفية",
+  "privacySectionDesignedPoint2": "جعل التوجيه الخاص بسيطاً ومألوفاً",
+  "privacySectionDesignedPoint3": "تجنب التتبع بشكل افتراضي",
+  
+  "privacySectionNotTitle": "ما لا يفعله Privxx",
+  "privacySectionNotPoint1": "لا يدعي ما هو غير مفعل حالياً",
+  "privacySectionNotPoint2": "لا يتطلب منك فهم التشفير",
+  "privacySectionNotPoint3": "لا يغير طريقة تصفحك المعتادة",
+  
+  "privacySectionStatusTitle": "الحالة الحالية",
+  "privacySectionStatusText": "توضح هذه النسخة من Privxx تدفق الاتصال والواجهة. سيتم دمج التوجيه المشفر الكامل عبر cMixx لاحقاً.",
+  
   "proxyPlaceholder": "سيظهر محتوى الوكيل في إصدار لاحق.",
-  "simulationNotice": "هذه نسخة محاكاة من Privxx. سيتم إضافة التكامل الحقيقي مع cMixx في مرحلة لاحقة."
+  "demoModeNotice": "وضع العرض — التوجيه الآمن محاكى للمعاينة",
+  
+  "errorConnectionFailed": "تعذر إنشاء مسار خاص الآن.",
+  "errorTryAgain": "يرجى المحاولة مرة أخرى."
 }

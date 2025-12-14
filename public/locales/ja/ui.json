@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "プライベート閲覧と決済のトンネル",
   "urlPlaceholder": "https://銀行または商店.com",
-  "connect": "Privxx 経由で接続",
-  "idle": "待機中",
-  "connecting": "Privxx 経由で接続中…",
-  "connected": "接続完了（シミュレーション）",
+  "privacy": "プライバシー",
+  
+  "buttonConnect": "経由で接続",
+  "buttonConnecting": "経由で接続中",
+  "buttonConnected": "接続完了",
+  
+  "statusIdle": "待機中",
+  "statusIdleSubtext": "プライベート接続の準備完了",
+  "statusConnecting": "接続中…",
+  "statusConnectingSubtext": "プライベートルートを確立中",
+  "statusSecure": "セキュア",
+  "statusSecureSubtext": "プライベートルーティング有効",
+  
   "requestedUrl": "要求された URL",
   "simulatedLatency": "シミュレートされた遅延",
-  "privacy": "プライバシー",
-  "privacyDrawerTitle": "Privxx のプライバシー原則",
-  "privacyDrawerIntro": "Privxx は、コンテンツの暗号化だけでなく、メタデータの保護を目的として設計されています。",
-  "privacyDrawerPoint1": "Privxx はあなたの IP アドレスと位置情報を隠します。",
-  "privacyDrawerPoint2": "Privxx はネットワークメタデータを削除するために cMixx ミックスネット技術を使用します。",
-  "privacyDrawerPoint3": "Privxx はポスト量子耐性の暗号技術を採用しています。",
-  "privacyDrawerPoint4": "Privxx は閲覧履歴や永続的識別子を保存しません。",
-  "privacyDrawerPoint5": "Privxx は分析ツールやトラッキングを一切使用しません。",
+  
+  "privacyDrawerTitle": "Privxx があなたを守る方法",
+  "privacyDrawerIntro": "Privxx は、閲覧やオンラインでのやり取り中に、IP アドレス、位置情報、タイミングなどのメタデータ露出を減らすのに役立ちます。",
+  "privacyDrawerIntroPreview": "このプレビューは、完全に有効化されたときのプライベートルーティングの感覚を示しています。",
+  
+  "privacySectionDesignedTitle": "Privxx は以下のために設計されています：",
+  "privacySectionDesignedPoint1": "メタデータの相関を減らす",
+  "privacySectionDesignedPoint2": "プライベートルーティングをシンプルで身近に",
+  "privacySectionDesignedPoint3": "デフォルトでトラッキングを回避",
+  
+  "privacySectionNotTitle": "Privxx がしないこと",
+  "privacySectionNotPoint1": "現在有効でない機能について主張すること",
+  "privacySectionNotPoint2": "暗号技術の理解を求めること",
+  "privacySectionNotPoint3": "通常の閲覧方法を変えること",
+  
+  "privacySectionStatusTitle": "現在のステータス",
+  "privacySectionStatusText": "このバージョンの Privxx は接続フローとインターフェースをデモンストレーションしています。cMixx による完全な暗号化ルーティングは次のステップで統合されます。",
+  
   "proxyPlaceholder": "プロキシのコンテンツは今後のバージョンで表示されます。",
-  "simulationNotice": "これは Privxx のシミュレーションプロトタイプです。実際の cMixx 統合は後の段階で追加されます。"
+  "demoModeNotice": "デモモード — プレビュー用にセキュアルーティングをシミュレート",
+  
+  "errorConnectionFailed": "現在プライベートルートを確立できません。",
+  "errorTryAgain": "もう一度お試しください。"
 }

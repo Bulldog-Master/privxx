@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "Terowongan pribadi untuk browsing dan pembayaran",
   "urlPlaceholder": "https://bank-atau-merchant.com",
-  "connect": "Hubungkan melalui Privxx",
-  "idle": "Diam",
-  "connecting": "Menghubungkan melalui Privxx…",
-  "connected": "Terhubung (simulasi)",
+  "privacy": "Privasi",
+  
+  "buttonConnect": "Hubungkan melalui",
+  "buttonConnecting": "Menghubungkan melalui",
+  "buttonConnected": "Terhubung",
+  
+  "statusIdle": "Diam",
+  "statusIdleSubtext": "Siap terhubung secara pribadi",
+  "statusConnecting": "Menghubungkan…",
+  "statusConnectingSubtext": "Membangun rute pribadi",
+  "statusSecure": "Aman",
+  "statusSecureSubtext": "Routing pribadi aktif",
+  
   "requestedUrl": "URL diminta",
   "simulatedLatency": "Latensi simulasi",
-  "privacy": "Privasi",
-  "privacyDrawerTitle": "Prinsip Privasi Privxx",
-  "privacyDrawerIntro": "Privxx dirancang untuk melindungi metadata Anda — bukan hanya mengenkripsi konten.",
-  "privacyDrawerPoint1": "Privxx menyembunyikan alamat IP dan lokasi Anda.",
-  "privacyDrawerPoint2": "Privxx menggunakan teknologi mixnet (cMixx) untuk menghilangkan metadata jaringan.",
-  "privacyDrawerPoint3": "Privxx menggunakan kriptografi aman pasca-kuantum.",
-  "privacyDrawerPoint4": "Privxx tidak menyimpan riwayat penelusuran atau pengenal tetap.",
-  "privacyDrawerPoint5": "Privxx tidak akan menggunakan analitik atau pelacakan.",
+  
+  "privacyDrawerTitle": "Bagaimana Privxx melindungi Anda",
+  "privacyDrawerIntro": "Privxx membantu mengurangi paparan metadata — seperti alamat IP, lokasi, dan waktu — saat Anda menjelajah atau berinteraksi online.",
+  "privacyDrawerIntroPreview": "Pratinjau ini menunjukkan bagaimana routing pribadi akan terasa setelah sepenuhnya diaktifkan.",
+  
+  "privacySectionDesignedTitle": "Privxx dirancang untuk:",
+  "privacySectionDesignedPoint1": "Mengurangi korelasi metadata",
+  "privacySectionDesignedPoint2": "Membuat routing pribadi terasa sederhana dan familiar",
+  "privacySectionDesignedPoint3": "Menghindari pelacakan secara default",
+  
+  "privacySectionNotTitle": "Yang tidak dilakukan Privxx",
+  "privacySectionNotPoint1": "Membuat klaim di luar yang saat ini aktif",
+  "privacySectionNotPoint2": "Mengharuskan Anda memahami kriptografi",
+  "privacySectionNotPoint3": "Mengubah cara Anda biasa menjelajah",
+  
+  "privacySectionStatusTitle": "Status saat ini",
+  "privacySectionStatusText": "Versi Privxx ini mendemonstrasikan alur koneksi dan antarmuka. Routing kriptografi penuh via cMixx akan diintegrasikan selanjutnya.",
+  
   "proxyPlaceholder": "Konten proxy akan muncul di versi mendatang.",
-  "simulationNotice": "Ini adalah prototipe simulasi Privxx. Integrasi nyata dengan cMixx akan ditambahkan pada fase selanjutnya."
+  "demoModeNotice": "Mode demo — routing aman disimulasikan untuk pratinjau",
+  
+  "errorConnectionFailed": "Tidak dapat membuat rute pribadi saat ini.",
+  "errorTryAgain": "Silakan coba lagi."
 }

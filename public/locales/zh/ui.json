@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "隐私浏览和支付隧道",
   "urlPlaceholder": "https://银行或商家.com",
-  "connect": "通过 Privxx 连接",
-  "idle": "空闲",
-  "connecting": "正在通过 Privxx 连接…",
-  "connected": "已连接（模拟）",
+  "privacy": "隐私",
+  
+  "buttonConnect": "通过连接",
+  "buttonConnecting": "正在通过连接",
+  "buttonConnected": "已连接",
+  
+  "statusIdle": "空闲",
+  "statusIdleSubtext": "准备私密连接",
+  "statusConnecting": "正在连接…",
+  "statusConnectingSubtext": "正在建立私密路由",
+  "statusSecure": "安全",
+  "statusSecureSubtext": "私密路由已激活",
+  
   "requestedUrl": "请求的 URL",
   "simulatedLatency": "模拟延迟",
-  "privacy": "隐私",
-  "privacyDrawerTitle": "Privxx 隐私原则",
-  "privacyDrawerIntro": "Privxx 的设计是为了保护您的元数据，而不仅仅是加密内容。",
-  "privacyDrawerPoint1": "Privxx 隐藏您的 IP 地址和位置（设计目标）。",
-  "privacyDrawerPoint2": "Privxx 使用混合网络技术（cMixx）来删除网络元数据。",
-  "privacyDrawerPoint3": "Privxx 采用抗量子攻击的加密技术。",
-  "privacyDrawerPoint4": "Privxx 不会存储您的浏览历史或持久标识符。",
-  "privacyDrawerPoint5": "Privxx 永远不会使用分析或跟踪工具。",
+  
+  "privacyDrawerTitle": "Privxx 如何保护您",
+  "privacyDrawerIntro": "Privxx 帮助减少元数据暴露——例如 IP 地址、位置和时间——当您浏览或在线互动时。",
+  "privacyDrawerIntroPreview": "此预览展示了完全启用后私密路由的体验。",
+  
+  "privacySectionDesignedTitle": "Privxx 旨在：",
+  "privacySectionDesignedPoint1": "减少元数据关联",
+  "privacySectionDesignedPoint2": "让私密路由变得简单熟悉",
+  "privacySectionDesignedPoint3": "默认避免跟踪",
+  
+  "privacySectionNotTitle": "Privxx 不会做的事",
+  "privacySectionNotPoint1": "声称超出当前实际功能的内容",
+  "privacySectionNotPoint2": "要求您理解密码学",
+  "privacySectionNotPoint3": "改变您的正常浏览方式",
+  
+  "privacySectionStatusTitle": "当前状态",
+  "privacySectionStatusText": "此版本的 Privxx 演示连接流程和界面。通过 cMixx 的完整加密路由将在下一阶段集成。",
+  
   "proxyPlaceholder": "代理内容将在未来版本中显示。",
-  "simulationNotice": "这是 Privxx 的模拟原型。真正的 cMixx 集成将在未来阶段添加。"
+  "demoModeNotice": "演示模式——安全路由模拟预览",
+  
+  "errorConnectionFailed": "目前无法建立私密路由。",
+  "errorTryAgain": "请重试。"
 }

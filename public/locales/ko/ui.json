@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "프라이빗 브라우징 및 결제 터널",
   "urlPlaceholder": "https://은행-또는-상점.kr",
-  "connect": "Privxx로 연결",
-  "idle": "대기 중",
-  "connecting": "Privxx를 통해 연결 중…",
-  "connected": "연결됨 (시뮬레이션)",
+  "privacy": "프라이버시",
+  
+  "buttonConnect": "통해 연결",
+  "buttonConnecting": "통해 연결 중",
+  "buttonConnected": "연결됨",
+  
+  "statusIdle": "대기 중",
+  "statusIdleSubtext": "비공개 연결 준비 완료",
+  "statusConnecting": "연결 중…",
+  "statusConnectingSubtext": "비공개 경로 설정 중",
+  "statusSecure": "보안",
+  "statusSecureSubtext": "비공개 라우팅 활성화",
+  
   "requestedUrl": "요청된 URL",
   "simulatedLatency": "시뮬레이션 지연",
-  "privacy": "프라이버시",
-  "privacyDrawerTitle": "Privxx 프라이버시 원칙",
-  "privacyDrawerIntro": "Privxx는 콘텐츠 암호화뿐 아니라 메타데이터 보호를 위해 설계되었습니다.",
-  "privacyDrawerPoint1": "Privxx는 사용자의 IP 주소와 위치를 숨깁니다.",
-  "privacyDrawerPoint2": "Privxx는 cMixx 믹스넷 기술을 사용하여 네트워크 메타데이터를 제거합니다.",
-  "privacyDrawerPoint3": "Privxx는 포스트 양자 암호화를 사용합니다.",
-  "privacyDrawerPoint4": "Privxx는 사용자의 브라우징 기록 또는 지속적인 식별자를 저장하지 않습니다.",
-  "privacyDrawerPoint5": "Privxx는 분석 또는 추적 도구를 절대 사용하지 않습니다.",
+  
+  "privacyDrawerTitle": "Privxx가 당신을 보호하는 방법",
+  "privacyDrawerIntro": "Privxx는 브라우징이나 온라인 상호작용 시 IP 주소, 위치, 타이밍 등의 메타데이터 노출을 줄이는 데 도움을 줍니다.",
+  "privacyDrawerIntroPreview": "이 미리보기는 완전히 활성화되었을 때 비공개 라우팅이 어떤 느낌인지 보여줍니다.",
+  
+  "privacySectionDesignedTitle": "Privxx는 다음을 위해 설계되었습니다:",
+  "privacySectionDesignedPoint1": "메타데이터 상관관계 감소",
+  "privacySectionDesignedPoint2": "비공개 라우팅을 간단하고 친숙하게",
+  "privacySectionDesignedPoint3": "기본적으로 추적 방지",
+  
+  "privacySectionNotTitle": "Privxx가 하지 않는 것",
+  "privacySectionNotPoint1": "현재 활성화되지 않은 기능에 대한 주장",
+  "privacySectionNotPoint2": "암호학 이해 요구",
+  "privacySectionNotPoint3": "평소 브라우징 방식 변경",
+  
+  "privacySectionStatusTitle": "현재 상태",
+  "privacySectionStatusText": "이 버전의 Privxx는 연결 흐름과 인터페이스를 시연합니다. cMixx를 통한 완전한 암호화 라우팅은 다음 단계에서 통합될 예정입니다.",
+  
   "proxyPlaceholder": "프록시 콘텐츠는 향후 버전에서 표시될 예정입니다.",
-  "simulationNotice": "이것은 Privxx의 시뮬레이션 프로토타입입니다. 실제 cMixx 통합은 추후 단계에서 추가될 것입니다."
+  "demoModeNotice": "데모 모드 — 미리보기용 보안 라우팅 시뮬레이션",
+  
+  "errorConnectionFailed": "현재 비공개 경로를 설정할 수 없습니다.",
+  "errorTryAgain": "다시 시도해 주세요."
 }

@@ -2,20 +2,42 @@
   "appTitle": "Privxx",
   "subtitle": "Privater Tunnel für Surfen und Zahlungen",
   "urlPlaceholder": "https://bank-oder-haendler.com",
-  "connect": "Über Privxx verbinden",
-  "idle": "Bereit",
-  "connecting": "Verbindung über Privxx...",
-  "connected": "Verbunden (simuliert)",
+  "privacy": "Datenschutz",
+  
+  "buttonConnect": "Verbinden über",
+  "buttonConnecting": "Verbinde über",
+  "buttonConnected": "Verbunden",
+  
+  "statusIdle": "Bereit",
+  "statusIdleSubtext": "Bereit für private Verbindung",
+  "statusConnecting": "Verbinde…",
+  "statusConnectingSubtext": "Private Route wird aufgebaut",
+  "statusSecure": "Sicher",
+  "statusSecureSubtext": "Privates Routing aktiv",
+  
   "requestedUrl": "Angeforderte URL",
   "simulatedLatency": "Simulierte Latenz",
-  "privacy": "Datenschutz",
-  "privacyDrawerTitle": "Privxx Datenschutzprinzipien",
-  "privacyDrawerIntro": "Privxx wurde entwickelt, um Ihre Metadaten zu schützen, nicht nur Inhalte zu verschlüsseln.",
-  "privacyDrawerPoint1": "Privxx verbirgt Ihre IP-Adresse und Ihren Standort (Designziel).",
-  "privacyDrawerPoint2": "Privxx verwendet Mixnet-Technologie (cMixx), um Netzwerk-Metadaten zu entfernen.",
-  "privacyDrawerPoint3": "Privxx ist für post-quantensichere Kryptographie konzipiert.",
-  "privacyDrawerPoint4": "Privxx speichert weder Ihren Browserverlauf noch persistente Kennungen.",
-  "privacyDrawerPoint5": "Privxx wird niemals Analysen oder Tracking verwenden.",
+  
+  "privacyDrawerTitle": "Wie Privxx Sie schützt",
+  "privacyDrawerIntro": "Privxx hilft, die Metadaten-Exposition zu reduzieren — wie IP-Adresse, Standort und Timing — während Sie surfen oder online interagieren.",
+  "privacyDrawerIntroPreview": "Diese Vorschau zeigt, wie sich privates Routing anfühlen wird, wenn es vollständig aktiviert ist.",
+  
+  "privacySectionDesignedTitle": "Privxx ist dafür konzipiert:",
+  "privacySectionDesignedPoint1": "Metadaten-Korrelation zu reduzieren",
+  "privacySectionDesignedPoint2": "Privates Routing einfach und vertraut zu machen",
+  "privacySectionDesignedPoint3": "Tracking standardmäßig zu vermeiden",
+  
+  "privacySectionNotTitle": "Was Privxx nicht tut",
+  "privacySectionNotPoint1": "Behauptungen über nicht aktive Funktionen machen",
+  "privacySectionNotPoint2": "Erfordern, dass Sie Kryptographie verstehen",
+  "privacySectionNotPoint3": "Ihre normale Browsing-Weise ändern",
+  
+  "privacySectionStatusTitle": "Aktueller Status",
+  "privacySectionStatusText": "Diese Version von Privxx demonstriert den Verbindungsfluss und die Benutzeroberfläche. Vollständiges kryptographisches Routing über cMixx wird als nächstes integriert.",
+  
   "proxyPlaceholder": "Proxy-Inhalte werden hier in einer zukünftigen Version erscheinen.",
-  "simulationNotice": "Dies ist ein simulierter Prototyp von Privxx. Die echte cMixx-Integration wird in einer späteren Phase hinzugefügt."
+  "demoModeNotice": "Demo-Modus — sicheres Routing für Vorschau simuliert",
+  
+  "errorConnectionFailed": "Private Route konnte gerade nicht aufgebaut werden.",
+  "errorTryAgain": "Bitte versuchen Sie es erneut."
 }
