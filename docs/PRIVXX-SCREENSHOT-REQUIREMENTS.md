@@ -1,79 +1,172 @@
-# Privxx — Screenshot Requirements
+# Privxx — Screenshot Requirements (Canonical)
 
-**Purpose:** Define exactly what each screenshot must capture so visuals never drift from locked UI.  
-**Location:** Save all screenshots to `docs/screenshots/`
+---
+
+## Purpose
+
+Screenshots are authoritative artifacts used for:
+- documentation
+- demos
+- presentations
+- future development reference
+
+**Incorrect screenshots cause design drift.**  
+Only the screenshots defined here are valid.
+
+---
+
+## Required Screenshots (Must Have)
+
+### 1. Home / Idle State (Primary)
+
+**Filename:** `privxx-home-idle.png`
+
+**What it must show:**
+- Full viewport
+- Privxx hero logo (gradient "Priv" + teal xx mark)
+- Tagline: "Private Browsing & Payments Tunnel"
+- URL input field (empty, with globe icon)
+- "Connect through Privxx" button (idle state)
+- Status bar showing "Idle"
+- Background: deep blue base, teal spheres, gradient fog at bottom
+- Footer: "Demo mode — routing simulated"
+
+**What must NOT appear:**
+- Browser chrome
+- Dev tools
+- Cursor
+- Any non-English language
+
+---
+
+### 2. Connecting State
+
+**Filename:** `privxx-connecting.png`
+
+**What it must show:**
+- URL field with example URL entered (e.g., `https://my-bank.example.com`)
+- Button text: "Connecting through Privxx"
+- Status bar: "Connecting…" with pulse animation
+- Subtle animation state captured (pulse visible)
+
+---
+
+### 3. Secure / Connected State
+
+**Filename:** `privxx-secure.png`
+
+**What it must show:**
+- Button text: "Connected"
+- Status bar: "Secure" with green indicator dot
+- Green dot has subtle glow/shadow
+- Same URL still visible in input field
+
+---
+
+### 4. Privacy Drawer Open
+
+**Filename:** `privxx-privacy-drawer.png`
+
+**What it must show:**
+- Drawer slid in from right
+- Header: "How Privxx protects you"
+- All four sections visible:
+  - Private browsing, by design
+  - Private payments
+  - What we don't see
+  - Current status
+- Background slightly visible behind drawer
+
+---
+
+### 5. Language Dropdown Open
+
+**Filename:** `privxx-language-dropdown.png`
+
+**What it must show:**
+- Globe icon in header (clicked/active)
+- Dropdown menu open
+- English at top (pinned)
+- Divider below English
+- Remaining languages alphabetically sorted
+- At least 5-6 languages visible in dropdown
+
+---
+
+### 6. Footer Close-Up (Optional)
+
+**Filename:** `privxx-footer-detail.png`
+
+**What it must show:**
+- Footer text: "Demo mode — routing simulated"
+- Clear, readable against background
+- Cropped to show just bottom portion of screen
 
 ---
 
 ## Screenshot Specifications
 
-| # | Filename | What It Shows | Required Elements |
-|---|----------|---------------|-------------------|
-| 1 | `01-hero.png` | Full hero section at Idle state | Privxx logo (gradient text + teal xx mark), tagline, URL input field empty, Connect button visible, footer with demo notice |
-| 2 | `02-input-field.png` | URL input with example text | Globe icon visible, placeholder or typed URL (e.g., `https://my-bank.example.com`), input field gradient background |
-| 3 | `03-demo-footer.png` | Footer close-up | "Demo mode — routing simulated" text clearly readable |
-| 4 | `04-connecting.png` | Connecting state | Status bar with pulse animation, "Connecting…" text, button disabled state |
-| 5 | `05-secure.png` | Secure/Connected state | Green indicator dot, "Secure" status text, button showing "Connected" |
-| 6 | `06-privacy-drawer.png` | Privacy drawer open | All four sections visible (Browsing, Payments, What we don't see, Current status), drawer header |
-| 7 | `07-language-dropdown.png` | Language selector open | Globe icon, dropdown showing English at top, alphabetical list below divider |
+| Property | Requirement |
+|----------|-------------|
+| Format | PNG (lossless) |
+| Viewport | 1280×800 minimum |
+| Browser | Chrome or Safari, incognito |
+| Zoom | 100% |
+| Language | English |
+| DevTools | Closed |
+| Cursor | Hidden |
 
 ---
 
-## Capture Guidelines
+## File Location
 
-### Browser Setup
-- **Browser:** Chrome or Safari (incognito)
-- **Window size:** 1280×800 minimum (desktop viewport)
-- **Zoom:** 100% (no scaling)
-- **DevTools:** Closed
-- **Extensions:** Hidden or disabled
+All screenshots saved to:
 
-### Visual Requirements
-- **No cursor** in final screenshots (or cursor positioned intentionally)
-- **No browser chrome** unless specifically showing URL bar
-- **Clean background** — no desktop icons, notifications, or other apps visible
-- **Consistent lighting** — if using macOS, disable Night Shift
-
-### File Format
-- **Format:** PNG (lossless)
-- **Naming:** Exactly as specified in table (lowercase, numbered prefix)
-- **Location:** `docs/screenshots/`
-
----
-
-## What Must NOT Appear
-
-- ❌ Developer tools or console
-- ❌ Browser bookmarks bar
-- ❌ System notifications
-- ❌ Mouse cursor (unless intentional)
-- ❌ Other browser tabs
-- ❌ Lovable editor UI (screenshots must be production/preview only)
+```
+docs/screenshots/
+├── privxx-home-idle.png
+├── privxx-connecting.png
+├── privxx-secure.png
+├── privxx-privacy-drawer.png
+├── privxx-language-dropdown.png
+└── privxx-footer-detail.png (optional)
+```
 
 ---
 
 ## Validation Checklist
 
-Before finalizing any screenshot, verify:
+Before any screenshot is accepted:
 
-- [ ] Privxx logo renders correctly (gradient "Priv" + teal xx mark)
-- [ ] No white box around xx mark
-- [ ] Background shows teal spheres + gradient fog
-- [ ] All text is readable (proper contrast)
-- [ ] Footer demo notice visible (if full-page shot)
-- [ ] Language is set to English
-- [ ] Connection state matches intended screenshot
+- [ ] Privxx logo correct (gradient + teal mark, no white box)
+- [ ] Background elements visible (spheres, gradient fog)
+- [ ] All text readable (proper contrast)
+- [ ] Correct connection state shown
+- [ ] English language active
+- [ ] No browser UI, dev tools, or cursor
+- [ ] Footer demo notice visible (full-page shots)
+- [ ] Filename matches specification exactly
+
+---
+
+## Do Not Capture
+
+- ❌ Partial states or transitions mid-animation
+- ❌ Non-English UI
+- ❌ Editor/Lovable interface
+- ❌ Mobile viewport (save for separate mobile spec)
+- ❌ Any state not defined above
 
 ---
 
 ## Future Screenshots (Phase D)
 
-When cMixx integration is live, capture additional screenshots:
+When cMixx integration is live:
 
-| # | Filename | What It Shows |
-|---|----------|---------------|
-| 8 | `08-real-routing.png` | Connected state without demo notice |
-| 9 | `09-latency-display.png` | Real cMixx latency metrics (if displayed) |
+| Filename | Shows |
+|----------|-------|
+| `privxx-real-routing.png` | Connected state, no demo notice |
+| `privxx-cmixx-latency.png` | Real latency metrics displayed |
 
 ---
 
