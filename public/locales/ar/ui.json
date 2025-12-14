@@ -11,7 +11,7 @@
   "statusIdle": "خامل",
   "statusIdleSubtext": "جاهز للاتصال بشكل خاص",
   "statusConnecting": "جارٍ الاتصال…",
-  "statusConnectingSubtext": "إنشاء مسار خاص",
+  "statusConnectingSubtext": "جارٍ إنشاء مسار خاص",
   "statusSecure": "آمن",
   "statusSecureSubtext": "التوجيه الخاص نشط",
   
@@ -19,13 +19,13 @@
   "simulatedLatency": "الكمون المحاكى",
   
   "privacyDrawerTitle": "كيف يحميك Privxx",
-  "privacyDrawerIntro": "يساعد Privxx في تقليل تعرض البيانات الوصفية — مثل عنوان IP والموقع والتوقيت — أثناء التصفح أو التفاعل عبر الإنترنت.",
-  "privacyDrawerIntroPreview": "توضح هذه المعاينة كيف سيبدو التوجيه الخاص عند تفعيله بالكامل.",
+  "privacyDrawerIntro": "يساعد Privxx على تقليل تعرّض البيانات الوصفية مثل عنوان IP والموقع والتوقيت أثناء التصفح أو التفاعل عبر الإنترنت.",
+  "privacyDrawerIntroPreview": "تُظهر هذه المعاينة كيف سيبدو التوجيه الخاص عند تفعيله بالكامل.",
   
   "privacySectionDesignedTitle": "تم تصميم Privxx من أجل:",
-  "privacySectionDesignedPoint1": "تقليل ارتباط البيانات الوصفية",
-  "privacySectionDesignedPoint2": "جعل التوجيه الخاص بسيطاً ومألوفاً",
-  "privacySectionDesignedPoint3": "تجنب التتبع بشكل افتراضي",
+  "privacySectionDesignedPoint1": "تقليل ترابط البيانات الوصفية",
+  "privacySectionDesignedPoint2": "جعل التوجيه الخاص بسيطًا ومألوفًا",
+  "privacySectionDesignedPoint3": "تجنّب التتبع افتراضيًا",
   
   "privacySectionNotTitle": "ما لا يفعله Privxx",
   "privacySectionNotPoint1": "لا يدعي ما هو غير مفعل حالياً",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "توضح هذه النسخة من Privxx تدفق الاتصال والواجهة. سيتم دمج التوجيه المشفر الكامل عبر cMixx لاحقاً.",
   
   "proxyPlaceholder": "سيظهر محتوى الوكيل في إصدار لاحق.",
-  "demoModeNotice": "وضع العرض — التوجيه الآمن محاكى للمعاينة",
+  "demoModeNotice": "وضع العرض — محاكاة للتوجيه الآمن لأغراض المعاينة",
   
   "errorConnectionFailed": "تعذر إنشاء مسار خاص الآن.",
   "errorTryAgain": "يرجى المحاولة مرة أخرى."
