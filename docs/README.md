@@ -82,6 +82,27 @@ Technical planning and execution references.
 - **PHASE-D-PLAIN-CHECKLIST.md**  
   Plain-English checklist defining Phase D success.
 
+- **PHASE-D-CONCEPT-DIAGRAM.md**  
+  Conceptual architecture diagram for Phase D control-channel proof.
+
+- **PHASE-D-MESSAGE-SCHEMA.md**  
+  Message formats for connect_intent and connect_ack.
+
+- **PHASE-D-ENDPOINT-SPEC.md**  
+  Minimal HTTP endpoints for observability and debugging.
+
+- **PHASE-D-GLOSSARY.md**  
+  Plain-English definitions of Phase D terms.
+
+- **PHASE-D-DECISIONS.md**  
+  Locked architectural decisions for Phase D.
+
+- **PHASE-D-SUCCESS-LOG-TEMPLATE.md**  
+  Template for recording Phase D test results.
+
+- **LAPTOP-DAY1-CHECKLIST.md**  
+  First-day execution checklist for Phase D.
+
 - **PHASE2-DEV-BRIEF.md**  
   Future development brief (post–Phase D).
 
