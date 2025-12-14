@@ -1,150 +1,121 @@
-# Privxx Full Demo Script
+# Privxx — Full Demo Script (Locked UI Version)
 
-**Duration:** 3 minutes  
+**Duration:** ~3 minutes  
 **Audience:** XX Network Foundation, partners, investors, press  
-**Version:** Phase 1 (Simulation Mode)
+**Version:** Phase 1 (Demo Mode)
 
 ---
 
-## Pre-Demo Checklist
+## 1. Opening (Context — 15–20 seconds)
 
-- [ ] Browser: Chrome or Safari, incognito mode
-- [ ] URL: Production or staging deploy
-- [ ] Language: Set to English (default)
-- [ ] Screen: Clean desktop, no notifications
-- [ ] Connection state: Reset to Idle before starting
+> "Privxx is a privacy-first tunnel for browsing and payments.  
+> It's designed to remove metadata — like IP address, location, and timing correlation — without forcing users to understand cryptography."
 
----
-
-## Demo Script (3 Minutes)
-
-### OPENING (0:00 – 0:20)
-
-**[Screen: App loads, showing Privxx hero with logo]**
-
-> "This is Privxx — a privacy-first tunnel for browsing and payments, built on the XX Network's cMixx mixnet technology."
-
-**[Pause on the hero logo]**
-
-> "When you use Privxx, your IP address, location, timing patterns, and device fingerprints are protected using post-quantum-safe cryptography."
+> "What you're seeing here is the locked UI and flow.  
+> The interface is final. What evolves next is the privacy layer underneath."
 
 ---
 
-### LANGUAGE SUPPORT (0:20 – 0:40)
+## 2. Interface Orientation (10 seconds)
 
-**[Click the globe icon in the top-right header]**
+> "At the top, this is the Privxx identity.  
+> Everything you see — branding, buttons, background — is intentionally calm and consistent. Privacy should feel trustworthy, not intimidating."
 
-> "Privxx is designed for global use. We currently support 16 languages."
-
-**[Scroll through the dropdown — show Arabic, Japanese, Portuguese]**
-
-> "The interface adapts automatically, including right-to-left support for languages like Arabic and Urdu."
-
-**[Select English to continue demo]**
+> "This field is where the user enters a destination — a website, service, or endpoint."
 
 ---
 
-### CONNECTION FLOW (0:40 – 1:40)
+## 3. Demo Mode Disclosure (Credibility Moment — critical)
 
-**[Click into the URL input field]**
+> "This is currently running in demo mode.  
+> The flow is real, the states are real, but routing is simulated until cMixx integration is completed."
 
-> "Let's see how it works. Imagine you want to connect to your bank — or any merchant — privately."
-
-**[Type: `https://my-bank.example.com`]**
-
-> "You enter the URL here."
-
-**[Click the "Connect through Privxx" button]**
-
-**[Screen: Status changes to "Connecting…" with animated pulse]**
-
-> "When you click Connect, Privxx begins negotiating a secure route through the cMixx mixnet. Your request is split, shuffled, and re-encrypted at every node."
-
-**[Wait 2-3 seconds for the Secure state]**
-
-**[Screen: Status shows "Secure" with green indicator]**
-
-> "Now you're connected. The destination sees a request — but it has no idea who you are, where you are, or what device you're using."
+*(Pause briefly — this builds trust.)*
 
 ---
 
-### PRIVACY PRINCIPLES (1:40 – 2:20)
+## 4. Action: Connect (Core Flow)
 
-**[Click the "Privacy" button in the top-right]**
+**Action:** Enter a URL (example.com or similar)
 
-**[Screen: Privacy drawer slides in from the right]**
+> "The user clicks Connect through Privxx."
 
-> "Privxx is built on non-negotiable privacy principles."
+**Action:** Click Connect
 
-**[Scroll through the sections]**
+> "Notice the transition:  
+> Idle → Connecting."
 
-> "We protect your browsing by stripping metadata. We protect your payments by separating identity from transactions."
-
-**[Pause on "What we don't see" section]**
-
-> "And critically — Privxx does not track you, does not store your history, and does not profile your activity. Privacy isn't a feature we added. It's the architecture."
+> "The UI does not change dramatically — that's intentional.  
+> Privacy shouldn't feel chaotic or noisy."
 
 ---
 
-### TRANSPARENCY & ROADMAP (2:20 – 2:50)
+## 5. Secure State (Outcome)
 
-**[Scroll to "Current status" section in drawer, or point to footer]**
+**Action:** Connection completes
 
-> "We believe in transparency. This version demonstrates the connection flow and interface — routing is currently simulated."
+> "Now we're in the Secure state."
 
-**[Close drawer, show footer: "Demo mode — routing simulated"]**
-
-> "The next phase integrates real cMixx routing via the xxDK. When that's live, the demo notice disappears — and you're protected by cryptography, not promises."
+> "In Phase D, this transition will be driven by a real cMixx event — not a timer.  
+> The UI is already prepared for that."
 
 ---
 
-### CLOSING (2:50 – 3:00)
+## 6. Privacy Drawer (Human Explanation)
 
-**[Return to Idle state or hero view]**
+**Action:** Open Privacy drawer
 
-> "Privxx: private browsing and payments, powered by the XX Network. No tracking. No trust required. Just math."
+> "This drawer explains privacy in human terms."
+
+> "No jargon. No crypto language.  
+> Just a clear explanation of what Privxx does — and what it doesn't do."
+
+> "This is important. Privacy products fail when users don't trust the explanation."
+
+---
+
+## 7. Closing (What Comes Next)
+
+> "The UI you see here is locked."
+
+> "The next milestone is cMixx integration:
+> - control-channel routing first
+> - then full privacy routing"
+
+> "Nothing about the user experience needs to change.  
+> Only the guarantees underneath become real."
+
+---
+
+## 8. One-Sentence Close (Optional)
+
+> "Privxx makes advanced privacy feel normal."
 
 ---
 
 ## Screenshot Moments
 
-| Timestamp | Screenshot | Filename |
-|-----------|------------|----------|
-| 0:10 | Hero with Privxx logo | `screenshot-01-hero.png` |
-| 0:30 | Language dropdown open | `screenshot-02-languages.png` |
-| 1:00 | Connecting state (pulse animation) | `screenshot-03-connecting.png` |
-| 1:30 | Secure state (green indicator) | `screenshot-04-secure.png` |
-| 1:50 | Privacy drawer open | `screenshot-05-privacy-drawer.png` |
-| 2:40 | Footer showing demo notice | `screenshot-06-demo-footer.png` |
+| Section | Screenshot | Filename |
+|---------|------------|----------|
+| Opening | Hero with Privxx logo | `01-hero.png` |
+| Orientation | URL input field focused | `02-input-field.png` |
+| Demo Disclosure | Footer showing demo notice | `03-demo-footer.png` |
+| Connect | Connecting state (pulse) | `04-connecting.png` |
+| Secure | Secure state (green dot) | `05-secure.png` |
+| Privacy | Drawer open | `06-privacy-drawer.png` |
 
 ---
 
 ## Q&A Preparation
 
 **Q: Is this real encryption?**  
-A: Phase 1 is a simulation demonstrating the UX. Phase 2 integrates real cMixx routing via xxDK — same UI, real cryptographic protection.
+A: Phase 1 is a simulation demonstrating the UX. Phase D integrates real cMixx routing — same UI, real cryptographic protection.
 
 **Q: What makes this different from a VPN?**  
-A: VPNs hide your IP but the VPN provider sees everything. Privxx uses mixnet technology — even we can't see your traffic or correlate it.
-
-**Q: What about quantum computers?**  
-A: The XX Network uses post-quantum-safe cryptography. Privxx inherits this protection for all routed traffic.
+A: VPNs hide your IP but the VPN provider sees everything. Privxx uses mixnet technology — even we can't see your traffic.
 
 **Q: When is the real version launching?**  
-A: We're currently in Phase D trials — proving cMixx integration. Production release follows successful trials.
-
-**Q: Can I use this today?**  
-A: The demo is live. Real private routing is coming in the next phase.
-
----
-
-## Technical Notes (Internal Only)
-
-- Connection delay: 2-3 seconds (simulated)
-- Latency display: 500-2500ms (randomized)
-- No actual HTTP requests made during simulation
-- All state transitions map 1:1 to future cMixx session lifecycle
-- Footer disclaimer is mandatory until real routing is live
+A: We're in Phase D trials — proving cMixx integration. Production release follows successful trials.
 
 ---
 
