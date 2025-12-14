@@ -36,11 +36,14 @@ Incorrect or outdated screenshots cause confusion and UI drift.
 `privxx-home-idle.png`
 
 **Must show:**
-- Privxx logo with correct styling (no white box, no fallback text)
-- URL input field
-- "Connect through Privxx" button (Idle background style)
-- Status: Idle
-- Full background visible
+- Privxx logo with correct styling (gradient text + teal xx mark)
+- Single ambient teal dot above-left of logo
+- Left-side controls: globe icon (no background) + privacy button (gradient)
+- URL input field with globe icon inside
+- "Connect through Privxx" button (gradient background)
+- Status bar: "Idle / Ready to connect privately"
+- Footer demo disclaimer
+- Full background visible (teal spheres, bottom gradient glow)
 
 ---
 
@@ -50,7 +53,8 @@ Incorrect or outdated screenshots cause confusion and UI drift.
 
 **Must show:**
 - Identical layout to Idle
-- Status: Connecting
+- Status bar: "Connecting… / Establishing private route"
+- Animated pulse on status bar
 - No color, layout, or branding changes
 
 ---
@@ -60,7 +64,8 @@ Incorrect or outdated screenshots cause confusion and UI drift.
 `privxx-secure.png`
 
 **Must show:**
-- Status: Secure
+- Status bar: "Secure / Private routing active"
+- Green dot indicator
 - Calm, stable appearance
 - No dramatic visual differences from other states
 
@@ -71,10 +76,23 @@ Incorrect or outdated screenshots cause confusion and UI drift.
 `privxx-privacy-drawer.png`
 
 **Must show:**
-- Privacy drawer fully open
-- Human-readable privacy explanation
+- Privacy drawer open from right side
+- Dark overlay on main content
+- Header: "How Privxx protects you"
+- Three sections: intro, "designed to" (3 points), "does not" (3 points), status
 - Consistent Privxx branding
 - No overlapping or clipped UI elements
+
+---
+
+### 5) Language Dropdown (Optional)
+**Filename:**  
+`privxx-language-dropdown.png`
+
+**Must show:**
+- Globe icon clicked, dropdown open
+- English pinned at top with separator
+- Remaining languages alphabetical by native name
 
 ---
 
