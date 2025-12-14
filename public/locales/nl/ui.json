@@ -11,21 +11,21 @@
   "statusIdle": "Inactief",
   "statusIdleSubtext": "Klaar om privé te verbinden",
   "statusConnecting": "Verbinden…",
-  "statusConnectingSubtext": "Privéroute wordt opgezet",
+  "statusConnectingSubtext": "Privérouting wordt opgezet",
   "statusSecure": "Beveiligd",
-  "statusSecureSubtext": "Privéroutering actief",
+  "statusSecureSubtext": "Privérouting actief",
   
   "requestedUrl": "Aangevraagde URL",
   "simulatedLatency": "Gesimuleerde latentie",
   
   "privacyDrawerTitle": "Hoe Privxx u beschermt",
-  "privacyDrawerIntro": "Privxx helpt metadata-blootstelling te verminderen — zoals IP-adres, locatie en timing — terwijl u browst of online interacteert.",
-  "privacyDrawerIntroPreview": "Deze preview laat zien hoe privéroutering zal aanvoelen wanneer volledig ingeschakeld.",
+  "privacyDrawerIntro": "Privxx helpt de blootstelling van metadata te verminderen — zoals IP-adres, locatie en timing — terwijl je surft of online interacteert.",
+  "privacyDrawerIntroPreview": "Deze preview laat zien hoe privérouting aanvoelt zodra het volledig is ingeschakeld.",
   
   "privacySectionDesignedTitle": "Privxx is ontworpen om:",
-  "privacySectionDesignedPoint1": "Metadata-correlatie te verminderen",
-  "privacySectionDesignedPoint2": "Privéroutering eenvoudig en vertrouwd te maken",
-  "privacySectionDesignedPoint3": "Standaard tracking te vermijden",
+  "privacySectionDesignedPoint1": "metadata-correlatie te verminderen",
+  "privacySectionDesignedPoint2": "privérouting eenvoudig en vertrouwd te laten voelen",
+  "privacySectionDesignedPoint3": "standaard tracking te vermijden",
   
   "privacySectionNotTitle": "Wat Privxx niet doet",
   "privacySectionNotPoint1": "Claims maken buiten wat momenteel actief is",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "Deze versie van Privxx demonstreert de verbindingsstroom en interface. Volledige cryptografische routering via cMixx wordt hierna geïntegreerd.",
   
   "proxyPlaceholder": "Proxy-inhoud verschijnt in een toekomstige versie.",
-  "demoModeNotice": "Demomodus — beveiligde routering gesimuleerd voor preview",
+  "demoModeNotice": "Demomodus — veilige routing gesimuleerd voor preview",
   
   "errorConnectionFailed": "Kan momenteel geen privéroute tot stand brengen.",
   "errorTryAgain": "Probeer het opnieuw."
