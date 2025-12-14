@@ -1,12 +1,19 @@
-# Privxx — Screenshot Governance
+# Privxx Screenshot Governance
 
 This folder contains the **only approved screenshots** of the Privxx UI.
 
-Screenshots are treated as **canonical visual artifacts** and must always reflect the
-current locked UI defined in:
+Screenshots are treated as **canonical visual artifacts** and must always
+reflect the currently locked UI and brand.
 
+If a screenshot does not comply with these rules, it must not be used.
+
+---
+
+## Authoritative References
+All screenshots must conform to:
 - `docs/brand-ui-lock.md`
 - `docs/PRIVXX-DESIGN-CONSTITUTION.md`
+- `docs/PRIVXX-WHAT-CHANGES-WHAT-DOESNT.md`
 
 ---
 
@@ -22,14 +29,14 @@ Incorrect or outdated screenshots cause confusion and UI drift.
 
 ---
 
-## Approved Screenshots (Required)
+## Required Screenshots
 
 ### 1) Home — Idle State
 **Filename:**  
 `privxx-home-idle.png`
 
 **Must show:**
-- Privxx logo (correct styling, no white box)
+- Privxx logo with correct styling (no white box, no fallback text)
 - URL input field
 - "Connect through Privxx" button (Idle background style)
 - Status: Idle
@@ -44,7 +51,7 @@ Incorrect or outdated screenshots cause confusion and UI drift.
 **Must show:**
 - Identical layout to Idle
 - Status: Connecting
-- No color or layout changes
+- No color, layout, or branding changes
 
 ---
 
@@ -54,8 +61,8 @@ Incorrect or outdated screenshots cause confusion and UI drift.
 
 **Must show:**
 - Status: Secure
-- No dramatic visual change
 - Calm, stable appearance
+- No dramatic visual differences from other states
 
 ---
 
@@ -66,25 +73,25 @@ Incorrect or outdated screenshots cause confusion and UI drift.
 **Must show:**
 - Privacy drawer fully open
 - Human-readable privacy explanation
-- Privxx branding consistent
-- No overlapping UI elements
+- Consistent Privxx branding
+- No overlapping or clipped UI elements
 
 ---
 
 ## Rules (Non-Negotiable)
 
 - Screenshots must be taken from the **actual running app**
-- No mockups, Figma exports, or edited composites
+- No mockups, design tools, or edited composites
 - No experimental or unreleased UI states
 - No cropping that removes context
-- No dark-mode or alternative themes unless explicitly approved
+- No alternative themes or modes unless explicitly approved
 
 ---
 
 ## Enforcement
 
-If a screenshot does not match the locked UI:
-- It must not be used
-- It must be replaced or removed
+Only screenshots in this folder are valid references.
 
-Only screenshots in this folder are considered valid references.
+If a screenshot does not match the locked UI:
+- It must be replaced
+- Or removed entirely
