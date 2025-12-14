@@ -99,6 +99,24 @@ Before any screenshot is accepted:
 
 ---
 
+## Reference Rules
+
+Only screenshots in `docs/screenshots/` may be referenced in:
+- README
+- Architecture docs
+- Demo scripts
+- Presentations
+
+---
+
+## Enforcement Rule
+
+If a screenshot does not match the locked UI:
+- **It must not be used**
+- **It must be deleted or replaced**
+
+---
+
 ## Future Screenshots (Phase D)
 
 When cMixx integration is live:
