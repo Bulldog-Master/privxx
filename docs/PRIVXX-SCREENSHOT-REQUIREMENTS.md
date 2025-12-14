@@ -21,21 +21,12 @@ Only the screenshots defined here are valid.
 
 **Filename:** `privxx-home-idle.png`
 
-**What it must show:**
-- Full viewport
-- Privxx hero logo (gradient "Priv" + teal xx mark)
-- Tagline: "Private Browsing & Payments Tunnel"
-- URL input field (empty, with globe icon)
-- "Connect through Privxx" button (idle state)
-- Status bar showing "Idle"
-- Background: deep blue base, teal spheres, gradient fog at bottom
-- Footer: "Demo mode — routing simulated"
-
-**What must NOT appear:**
-- Browser chrome
-- Dev tools
-- Cursor
-- Any non-English language
+**Must show:**
+- Privxx logo (correct styling, no white box)
+- URL input field
+- "Connect through Privxx" button (Idle background style)
+- Status: Idle
+- Full background visible
 
 ---
 
@@ -43,23 +34,21 @@ Only the screenshots defined here are valid.
 
 **Filename:** `privxx-connecting.png`
 
-**What it must show:**
-- URL field with example URL entered (e.g., `https://my-bank.example.com`)
-- Button text: "Connecting through Privxx"
-- Status bar: "Connecting…" with pulse animation
-- Subtle animation state captured (pulse visible)
+**Must show:**
+- Same layout as Idle
+- Status: Connecting…
+- No color or layout changes
 
 ---
 
-### 3. Secure / Connected State
+### 3. Secure State
 
 **Filename:** `privxx-secure.png`
 
-**What it must show:**
-- Button text: "Connected"
-- Status bar: "Secure" with green indicator dot
-- Green dot has subtle glow/shadow
-- Same URL still visible in input field
+**Must show:**
+- Status: Secure
+- No dramatic visual change from Idle/Connecting
+- Calm, stable appearance
 
 ---
 
@@ -67,69 +56,31 @@ Only the screenshots defined here are valid.
 
 **Filename:** `privxx-privacy-drawer.png`
 
-**What it must show:**
-- Drawer slid in from right
-- Header: "How Privxx protects you"
-- All four sections visible:
-  - Private browsing, by design
-  - Private payments
-  - What we don't see
-  - Current status
-- Background slightly visible behind drawer
+**Must show:**
+- Privacy drawer fully open
+- Human-readable privacy explanation
+- Privxx name used consistently
+- No overlapping UI elements
 
 ---
 
-### 5. Language Dropdown Open
+## Screenshot Rules (Non-Negotiable)
 
-**Filename:** `privxx-language-dropdown.png`
-
-**What it must show:**
-- Globe icon in header (clicked/active)
-- Dropdown menu open
-- English at top (pinned)
-- Divider below English
-- Remaining languages alphabetically sorted
-- At least 5-6 languages visible in dropdown
+- Use the locked UI version only
+- No mockups, no Figma exports
+- Capture from the live app preview
+- No cropping that removes context
+- No dark mode variants unless explicitly approved
+- No experimental UI states
 
 ---
 
-### 6. Footer Close-Up (Optional)
+## Storage Location
 
-**Filename:** `privxx-footer-detail.png`
-
-**What it must show:**
-- Footer text: "Demo mode — routing simulated"
-- Clear, readable against background
-- Cropped to show just bottom portion of screen
-
----
-
-## Screenshot Specifications
-
-| Property | Requirement |
-|----------|-------------|
-| Format | PNG (lossless) |
-| Viewport | 1280×800 minimum |
-| Browser | Chrome or Safari, incognito |
-| Zoom | 100% |
-| Language | English |
-| DevTools | Closed |
-| Cursor | Hidden |
-
----
-
-## File Location
-
-All screenshots saved to:
+All approved screenshots must live in:
 
 ```
 docs/screenshots/
-├── privxx-home-idle.png
-├── privxx-connecting.png
-├── privxx-secure.png
-├── privxx-privacy-drawer.png
-├── privxx-language-dropdown.png
-└── privxx-footer-detail.png (optional)
 ```
 
 ---
@@ -143,19 +94,8 @@ Before any screenshot is accepted:
 - [ ] All text readable (proper contrast)
 - [ ] Correct connection state shown
 - [ ] English language active
-- [ ] No browser UI, dev tools, or cursor
-- [ ] Footer demo notice visible (full-page shots)
+- [ ] Footer demo notice visible
 - [ ] Filename matches specification exactly
-
----
-
-## Do Not Capture
-
-- ❌ Partial states or transitions mid-animation
-- ❌ Non-English UI
-- ❌ Editor/Lovable interface
-- ❌ Mobile viewport (save for separate mobile spec)
-- ❌ Any state not defined above
 
 ---
 
@@ -166,7 +106,6 @@ When cMixx integration is live:
 | Filename | Shows |
 |----------|-------|
 | `privxx-real-routing.png` | Connected state, no demo notice |
-| `privxx-cmixx-latency.png` | Real latency metrics displayed |
 
 ---
 
