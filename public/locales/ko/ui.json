@@ -9,23 +9,23 @@
   "buttonConnected": "연결됨",
   
   "statusIdle": "대기 중",
-  "statusIdleSubtext": "비공개 연결 준비 완료",
+  "statusIdleSubtext": "개인적으로 연결할 준비 완료",
   "statusConnecting": "연결 중…",
-  "statusConnectingSubtext": "비공개 경로 설정 중",
+  "statusConnectingSubtext": "개인 경로를 설정하는 중",
   "statusSecure": "보안",
-  "statusSecureSubtext": "비공개 라우팅 활성화",
+  "statusSecureSubtext": "개인 라우팅 활성화됨",
   
   "requestedUrl": "요청된 URL",
   "simulatedLatency": "시뮬레이션 지연",
   
   "privacyDrawerTitle": "Privxx가 당신을 보호하는 방법",
-  "privacyDrawerIntro": "Privxx는 브라우징이나 온라인 상호작용 시 IP 주소, 위치, 타이밍 등의 메타데이터 노출을 줄이는 데 도움을 줍니다.",
-  "privacyDrawerIntroPreview": "이 미리보기는 완전히 활성화되었을 때 비공개 라우팅이 어떤 느낌인지 보여줍니다.",
+  "privacyDrawerIntro": "Privxx는 브라우징 또는 온라인 상호작용 중 IP 주소, 위치, 타이밍 같은 메타데이터 노출을 줄이는 데 도움을 줍니다.",
+  "privacyDrawerIntroPreview": "이 미리보기는 완전히 활성화되었을 때 개인 라우팅이 어떻게 느껴지는지 보여줍니다.",
   
   "privacySectionDesignedTitle": "Privxx는 다음을 위해 설계되었습니다:",
-  "privacySectionDesignedPoint1": "메타데이터 상관관계 감소",
-  "privacySectionDesignedPoint2": "비공개 라우팅을 간단하고 친숙하게",
-  "privacySectionDesignedPoint3": "기본적으로 추적 방지",
+  "privacySectionDesignedPoint1": "메타데이터 상관관계를 줄이기",
+  "privacySectionDesignedPoint2": "개인 라우팅을 쉽고 익숙하게 느끼도록 만들기",
+  "privacySectionDesignedPoint3": "기본적으로 추적을 피하기",
   
   "privacySectionNotTitle": "Privxx가 하지 않는 것",
   "privacySectionNotPoint1": "현재 활성화되지 않은 기능에 대한 주장",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "이 버전의 Privxx는 연결 흐름과 인터페이스를 시연합니다. cMixx를 통한 완전한 암호화 라우팅은 다음 단계에서 통합될 예정입니다.",
   
   "proxyPlaceholder": "프록시 콘텐츠는 향후 버전에서 표시될 예정입니다.",
-  "demoModeNotice": "데모 모드 — 미리보기용 보안 라우팅 시뮬레이션",
+  "demoModeNotice": "데모 모드 — 미리보기를 위해 안전 라우팅을 시뮬레이션합니다",
   
   "errorConnectionFailed": "현재 비공개 경로를 설정할 수 없습니다.",
   "errorTryAgain": "다시 시도해 주세요."
