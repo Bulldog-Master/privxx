@@ -1,6 +1,6 @@
 {
   "appTitle": "Privxx",
-  "subtitle": "निजी ब्राउजिंग और भुगतान सुरंग",
+  "subtitle": "निजी ब्राउज़िंग और भुगतान टनल",
   "urlPlaceholder": "https://बैंक-या-व्यापारी.com",
   "privacy": "गोपनीयता",
   
@@ -11,33 +11,33 @@
   "statusIdle": "निष्क्रिय",
   "statusIdleSubtext": "निजी रूप से कनेक्ट करने के लिए तैयार",
   "statusConnecting": "कनेक्ट हो रहा है…",
-  "statusConnectingSubtext": "निजी रूट स्थापित किया जा रहा है",
+  "statusConnectingSubtext": "निजी मार्ग स्थापित हो रहा है",
   "statusSecure": "सुरक्षित",
-  "statusSecureSubtext": "निजी रूटिंग सक्रिय है",
+  "statusSecureSubtext": "निजी रूटिंग सक्रिय",
   
   "requestedUrl": "अनुरोधित URL",
-  "simulatedLatency": "सिम्युलेटेड विलंब",
+  "simulatedLatency": "सिम्युलेटेड विलंबता",
   
   "privacyDrawerTitle": "Privxx आपकी कैसे रक्षा करता है",
-  "privacyDrawerIntro": "Privxx ब्राउज़िंग या ऑनलाइन इंटरैक्शन के दौरान IP पता, लोकेशन और टाइमिंग जैसी मेटाडेटा एक्सपोज़र को कम करने में मदद करता है।",
-  "privacyDrawerIntroPreview": "यह प्रीव्यू दिखाता है कि पूरी तरह सक्षम होने पर निजी रूटिंग कैसी लगेगी।",
+  "privacyDrawerIntro": "Privxx मेटाडेटा एक्सपोज़र को कम करने में मदद करता है — जैसे IP पता, स्थान और समय — जब आप ब्राउज़ करते हैं या ऑनलाइन इंटरैक्ट करते हैं।",
+  "privacyDrawerIntroPreview": "यह पूर्वावलोकन दिखाता है कि पूरी तरह सक्रिय होने पर निजी रूटिंग कैसा लगेगा।",
   
-  "privacySectionDesignedTitle": "Privxx को इस तरह डिज़ाइन किया गया है:",
-  "privacySectionDesignedPoint1": "मेटाडेटा कोरिलेशन कम करने के लिए",
-  "privacySectionDesignedPoint2": "निजी रूटिंग को सरल और परिचित बनाने के लिए",
-  "privacySectionDesignedPoint3": "डिफ़ॉल्ट रूप से ट्रैकिंग से बचने के लिए",
+  "privacySectionDesignedTitle": "Privxx इसके लिए डिज़ाइन किया गया है:",
+  "privacySectionDesignedPoint1": "मेटाडेटा सहसंबंध कम करना",
+  "privacySectionDesignedPoint2": "निजी रूटिंग को सरल और परिचित बनाना",
+  "privacySectionDesignedPoint3": "डिफ़ॉल्ट रूप से ट्रैकिंग से बचना",
   
-  "privacySectionNotTitle": "Privxx क्या नहीं करता",
-  "privacySectionNotPoint1": "वर्तमान में सक्रिय नहीं है उससे परे दावे करना",
-  "privacySectionNotPoint2": "आपको क्रिप्टोग्राफी समझने की आवश्यकता",
-  "privacySectionNotPoint3": "आपके सामान्य ब्राउज़िंग तरीके को बदलना",
+  "privacySectionNotTitle": "Privxx यह नहीं करता:",
+  "privacySectionNotPoint1": "पूर्ण या संपूर्ण गोपनीयता का दावा नहीं करता",
+  "privacySectionNotPoint2": "आपके सामान्य ब्राउज़िंग या ऑनलाइन इंटरैक्शन तरीके को नहीं बदलता",
+  "privacySectionNotPoint3": "क्रिप्टोग्राफी या नेटवर्किंग समझने की आवश्यकता नहीं",
   
   "privacySectionStatusTitle": "वर्तमान स्थिति",
-  "privacySectionStatusText": "Privxx का यह संस्करण कनेक्शन प्रवाह और इंटरफ़ेस प्रदर्शित करता है। cMixx के माध्यम से पूर्ण क्रिप्टोग्राफिक रूटिंग अगले चरण में एकीकृत की जाएगी।",
+  "privacySectionStatusText": "Privxx का यह संस्करण कनेक्शन प्रवाह और इंटरफ़ेस प्रदर्शित करता है। cMixx के माध्यम से पूर्ण क्रिप्टोग्राफ़िक रूटिंग अगले चरण में एकीकृत होगी।",
   
-  "proxyPlaceholder": "प्रॉक्सी की सामग्री भविष्य के संस्करण में दिखाई देगी।",
-  "demoModeNotice": "डेमो मोड — प्रीव्यू के लिए सुरक्षित रूटिंग सिमुलेट की गई है",
+  "proxyPlaceholder": "प्रॉक्सी सामग्री भविष्य के संस्करण में यहाँ दिखाई देगी।",
+  "demoModeNotice": "डेमो मोड — पूर्वावलोकन के लिए सुरक्षित रूटिंग सिम्युलेटेड",
   
-  "errorConnectionFailed": "अभी निजी मार्ग स्थापित नहीं हो सका।",
+  "errorConnectionFailed": "अभी निजी मार्ग स्थापित करने में असमर्थ।",
   "errorTryAgain": "कृपया पुनः प्रयास करें।"
 }

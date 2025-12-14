@@ -1,43 +1,43 @@
 {
   "appTitle": "Privxx",
-  "subtitle": "ব্যক্তিগত ব্রাউজিং ও পেমেন্ট টানেল",
-  "urlPlaceholder": "https://ব্যাংক-অথবা-ব্যবসায়ী.com",
+  "subtitle": "প্রাইভেট ব্রাউজিং এবং পেমেন্ট টানেল",
+  "urlPlaceholder": "https://ব্যাংক-বা-ব্যবসায়ী.com",
   "privacy": "গোপনীয়তা",
   
-  "buttonConnect": "এর মাধ্যমে সংযোগ করুন",
-  "buttonConnecting": "এর মাধ্যমে সংযোগ হচ্ছে",
+  "buttonConnect": "এর মাধ্যমে সংযুক্ত করুন",
+  "buttonConnecting": "এর মাধ্যমে সংযুক্ত হচ্ছে",
   "buttonConnected": "সংযুক্ত",
   
   "statusIdle": "নিষ্ক্রিয়",
-  "statusIdleSubtext": "ব্যক্তিগতভাবে সংযোগের জন্য প্রস্তুত",
-  "statusConnecting": "সংযোগ হচ্ছে…",
-  "statusConnectingSubtext": "ব্যক্তিগত রুট স্থাপন করা হচ্ছে",
-  "statusSecure": "সুরক্ষিত",
-  "statusSecureSubtext": "ব্যক্তিগত রাউটিং সক্রিয়",
+  "statusIdleSubtext": "প্রাইভেটলি সংযুক্ত হতে প্রস্তুত",
+  "statusConnecting": "সংযুক্ত হচ্ছে…",
+  "statusConnectingSubtext": "প্রাইভেট রুট স্থাপন করা হচ্ছে",
+  "statusSecure": "নিরাপদ",
+  "statusSecureSubtext": "প্রাইভেট রাউটিং সক্রিয়",
   
   "requestedUrl": "অনুরোধ করা URL",
-  "simulatedLatency": "সিমুলেটেড লেটেন্সি",
+  "simulatedLatency": "সিমুলেটেড বিলম্ব",
   
   "privacyDrawerTitle": "Privxx কীভাবে আপনাকে রক্ষা করে",
-  "privacyDrawerIntro": "Privxx ব্রাউজিং বা অনলাইনে ইন্টারঅ্যাকশনের সময় IP ঠিকানা, অবস্থান ও টাইমিং-এর মতো মেটাডেটা এক্সপোজার কমাতে সাহায্য করে।",
-  "privacyDrawerIntroPreview": "সম্পূর্ণভাবে সক্রিয় হলে ব্যক্তিগত রাউটিং কেমন অনুভব হবে, এই প্রিভিউ তা দেখায়।",
+  "privacyDrawerIntro": "Privxx মেটাডেটা এক্সপোজার কমাতে সাহায্য করে — যেমন IP ঠিকানা, অবস্থান এবং সময় — যখন আপনি ব্রাউজ করেন বা অনলাইনে ইন্টারঅ্যাক্ট করেন।",
+  "privacyDrawerIntroPreview": "এই প্রিভিউ দেখায় যে সম্পূর্ণ সক্রিয় হলে প্রাইভেট রাউটিং কেমন অনুভূত হবে।",
   
-  "privacySectionDesignedTitle": "Privxx যেভাবে ডিজাইন করা হয়েছে:",
-  "privacySectionDesignedPoint1": "মেটাডেটা কোরিলেশন কমাতে",
-  "privacySectionDesignedPoint2": "ব্যক্তিগত রাউটিংকে সহজ ও পরিচিত করতে",
-  "privacySectionDesignedPoint3": "ডিফল্টভাবে ট্র্যাকিং এড়াতে",
+  "privacySectionDesignedTitle": "Privxx এর জন্য ডিজাইন করা হয়েছে:",
+  "privacySectionDesignedPoint1": "মেটাডেটা সম্পর্ক কমানো",
+  "privacySectionDesignedPoint2": "প্রাইভেট রাউটিংকে সহজ এবং পরিচিত করা",
+  "privacySectionDesignedPoint3": "ডিফল্টভাবে ট্র্যাকিং এড়ানো",
   
-  "privacySectionNotTitle": "Privxx যা করে না",
-  "privacySectionNotPoint1": "বর্তমানে সক্রিয় নয় এমন দাবি করা",
-  "privacySectionNotPoint2": "আপনাকে ক্রিপ্টোগ্রাফি বুঝতে হবে",
-  "privacySectionNotPoint3": "আপনার স্বাভাবিক ব্রাউজিং পরিবর্তন করা",
+  "privacySectionNotTitle": "Privxx যা করে না:",
+  "privacySectionNotPoint1": "পরিপূর্ণ বা সম্পূর্ণ গোপনীয়তার দাবি করে না",
+  "privacySectionNotPoint2": "আপনার সাধারণ ব্রাউজিং বা অনলাইন ইন্টারঅ্যাকশন পদ্ধতি পরিবর্তন করে না",
+  "privacySectionNotPoint3": "ক্রিপ্টোগ্রাফি বা নেটওয়ার্কিং বোঝার প্রয়োজন নেই",
   
   "privacySectionStatusTitle": "বর্তমান অবস্থা",
-  "privacySectionStatusText": "Privxx এর এই সংস্করণ সংযোগ প্রবাহ এবং ইন্টারফেস প্রদর্শন করে। cMixx এর মাধ্যমে সম্পূর্ণ ক্রিপ্টোগ্রাফিক রাউটিং পরবর্তীতে সংযুক্ত করা হবে।",
+  "privacySectionStatusText": "Privxx এর এই সংস্করণ সংযোগ প্রবাহ এবং ইন্টারফেস প্রদর্শন করে। cMixx এর মাধ্যমে সম্পূর্ণ ক্রিপ্টোগ্রাফিক রাউটিং পরবর্তীতে একীভূত হবে।",
   
-  "proxyPlaceholder": "প্রক্সির বিষয়বস্তু ভবিষ্যতের সংস্করণে প্রদর্শিত হবে।",
-  "demoModeNotice": "ডেমো মোড — প্রিভিউর জন্য নিরাপদ রাউটিং সিমুলেট করা হয়েছে",
+  "proxyPlaceholder": "প্রক্সি বিষয়বস্তু ভবিষ্যতের সংস্করণে এখানে প্রদর্শিত হবে।",
+  "demoModeNotice": "ডেমো মোড — প্রিভিউয়ের জন্য নিরাপদ রাউটিং সিমুলেটেড",
   
-  "errorConnectionFailed": "এই মুহূর্তে ব্যক্তিগত রুট স্থাপন করা যায়নি।",
+  "errorConnectionFailed": "এই মুহূর্তে প্রাইভেট রুট স্থাপন করা সম্ভব হয়নি।",
   "errorTryAgain": "অনুগ্রহ করে আবার চেষ্টা করুন।"
 }

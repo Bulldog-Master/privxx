@@ -1,43 +1,43 @@
 {
   "appTitle": "Privxx",
-  "subtitle": "プライベート閲覧と決済のトンネル",
+  "subtitle": "プライベートブラウジング＆決済トンネル",
   "urlPlaceholder": "https://銀行または商店.com",
   "privacy": "プライバシー",
   
   "buttonConnect": "経由で接続",
   "buttonConnecting": "経由で接続中",
-  "buttonConnected": "接続完了",
+  "buttonConnected": "接続済み",
   
   "statusIdle": "待機中",
   "statusIdleSubtext": "プライベート接続の準備完了",
   "statusConnecting": "接続中…",
-  "statusConnectingSubtext": "プライベート経路を確立中",
-  "statusSecure": "セキュア",
+  "statusConnectingSubtext": "プライベートルートを確立中",
+  "statusSecure": "安全",
   "statusSecureSubtext": "プライベートルーティング有効",
   
-  "requestedUrl": "要求された URL",
-  "simulatedLatency": "シミュレートされた遅延",
+  "requestedUrl": "リクエストURL",
+  "simulatedLatency": "シミュレート遅延",
   
-  "privacyDrawerTitle": "Privxx があなたを守る方法",
-  "privacyDrawerIntro": "Privxx は、閲覧やオンラインでのやり取りの際に、IP アドレス・位置情報・タイミングなどのメタデータ露出を減らすことを目指します。",
-  "privacyDrawerIntroPreview": "このプレビューは、完全に有効化された場合のプライベートルーティングの体験を示します。",
+  "privacyDrawerTitle": "Privxxがあなたを守る方法",
+  "privacyDrawerIntro": "Privxxは、ブラウジングやオンラインでのやり取り中に、IPアドレス、位置情報、タイミングなどのメタデータの露出を軽減します。",
+  "privacyDrawerIntroPreview": "このプレビューは、完全に有効化された際のプライベートルーティングの体験を示しています。",
   
-  "privacySectionDesignedTitle": "Privxx の設計目的：",
-  "privacySectionDesignedPoint1": "メタデータの相関を減らす",
-  "privacySectionDesignedPoint2": "プライベートルーティングをシンプルで馴染みやすくする",
-  "privacySectionDesignedPoint3": "既定で追跡を避ける",
+  "privacySectionDesignedTitle": "Privxxの設計目的：",
+  "privacySectionDesignedPoint1": "メタデータの関連付けを軽減",
+  "privacySectionDesignedPoint2": "プライベートルーティングをシンプルで身近に",
+  "privacySectionDesignedPoint3": "デフォルトで追跡を回避",
   
-  "privacySectionNotTitle": "Privxx がしないこと",
-  "privacySectionNotPoint1": "現在有効でない機能について主張すること",
-  "privacySectionNotPoint2": "暗号技術の理解を求めること",
-  "privacySectionNotPoint3": "通常の閲覧方法を変えること",
+  "privacySectionNotTitle": "Privxxがしないこと：",
+  "privacySectionNotPoint1": "完全または絶対的なプライバシーを主張しない",
+  "privacySectionNotPoint2": "通常のブラウジングやオンラインでのやり取り方法を変えない",
+  "privacySectionNotPoint3": "暗号技術やネットワークの理解を求めない",
   
   "privacySectionStatusTitle": "現在のステータス",
-  "privacySectionStatusText": "このバージョンの Privxx は接続フローとインターフェースをデモンストレーションしています。cMixx による完全な暗号化ルーティングは次のステップで統合されます。",
+  "privacySectionStatusText": "このバージョンのPrivxxは接続フローとインターフェースをデモンストレーションしています。cMixxによる完全な暗号化ルーティングは次に統合されます。",
   
-  "proxyPlaceholder": "プロキシのコンテンツは今後のバージョンで表示されます。",
-  "demoModeNotice": "デモモード — プレビュー用に安全なルーティングをシミュレーションしています",
+  "proxyPlaceholder": "プロキシコンテンツは将来のバージョンでここに表示されます。",
+  "demoModeNotice": "デモモード — プレビュー用に安全なルーティングをシミュレート中",
   
-  "errorConnectionFailed": "現在プライベートルートを確立できません。",
+  "errorConnectionFailed": "現在、プライベートルートを確立できません。",
   "errorTryAgain": "もう一度お試しください。"
 }
