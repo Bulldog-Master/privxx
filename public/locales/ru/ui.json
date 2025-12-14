@@ -9,9 +9,9 @@
   "buttonConnected": "Подключено",
   
   "statusIdle": "Ожидание",
-  "statusIdleSubtext": "Готов к приватному подключению",
+  "statusIdleSubtext": "Готово к приватному подключению",
   "statusConnecting": "Подключение…",
-  "statusConnectingSubtext": "Установка приватного маршрута",
+  "statusConnectingSubtext": "Устанавливается приватный маршрут",
   "statusSecure": "Защищено",
   "statusSecureSubtext": "Приватная маршрутизация активна",
   
@@ -19,13 +19,13 @@
   "simulatedLatency": "Симулированная задержка",
   
   "privacyDrawerTitle": "Как Privxx защищает вас",
-  "privacyDrawerIntro": "Privxx помогает снизить раскрытие метаданных — таких как IP-адрес, местоположение и время — пока вы просматриваете веб или взаимодействуете онлайн.",
-  "privacyDrawerIntroPreview": "Этот предварительный просмотр демонстрирует, как будет ощущаться приватная маршрутизация после полной активации.",
+  "privacyDrawerIntro": "Privxx помогает снизить утечку метаданных — таких как IP-адрес, местоположение и временные корреляции — во время просмотра или онлайн-взаимодействий.",
+  "privacyDrawerIntroPreview": "Этот предварительный просмотр показывает, как будет ощущаться приватная маршрутизация после полного включения.",
   
-  "privacySectionDesignedTitle": "Privxx разработан для:",
-  "privacySectionDesignedPoint1": "Снижения корреляции метаданных",
-  "privacySectionDesignedPoint2": "Простой и знакомой приватной маршрутизации",
-  "privacySectionDesignedPoint3": "Предотвращения отслеживания по умолчанию",
+  "privacySectionDesignedTitle": "Privxx разработан для того, чтобы:",
+  "privacySectionDesignedPoint1": "снижать корреляцию метаданных",
+  "privacySectionDesignedPoint2": "делать приватную маршрутизацию простой и привычной",
+  "privacySectionDesignedPoint3": "избегать отслеживания по умолчанию",
   
   "privacySectionNotTitle": "Чего Privxx не делает",
   "privacySectionNotPoint1": "Не делает заявлений о неактивных функциях",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "Эта версия Privxx демонстрирует поток подключения и интерфейс. Полная криптографическая маршрутизация через cMixx будет интегрирована далее.",
   
   "proxyPlaceholder": "Содержимое прокси появится в будущей версии.",
-  "demoModeNotice": "Демо-режим — безопасная маршрутизация симулирована для предпросмотра",
+  "demoModeNotice": "Демо-режим — безопасная маршрутизация смоделирована для предварительного просмотра",
   
   "errorConnectionFailed": "Не удалось установить приватный маршрут сейчас.",
   "errorTryAgain": "Пожалуйста, попробуйте снова."
