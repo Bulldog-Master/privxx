@@ -9,7 +9,7 @@
   "buttonConnected": "সংযুক্ত",
   
   "statusIdle": "নিষ্ক্রিয়",
-  "statusIdleSubtext": "ব্যক্তিগতভাবে সংযোগ করতে প্রস্তুত",
+  "statusIdleSubtext": "ব্যক্তিগতভাবে সংযোগের জন্য প্রস্তুত",
   "statusConnecting": "সংযোগ হচ্ছে…",
   "statusConnectingSubtext": "ব্যক্তিগত রুট স্থাপন করা হচ্ছে",
   "statusSecure": "সুরক্ষিত",
@@ -19,13 +19,13 @@
   "simulatedLatency": "সিমুলেটেড লেটেন্সি",
   
   "privacyDrawerTitle": "Privxx কীভাবে আপনাকে রক্ষা করে",
-  "privacyDrawerIntro": "Privxx মেটাডেটা এক্সপোজার কমাতে সাহায্য করে — যেমন IP ঠিকানা, অবস্থান এবং সময় — যখন আপনি ব্রাউজ বা অনলাইনে ইন্টারঅ্যাক্ট করেন।",
-  "privacyDrawerIntroPreview": "এই প্রিভিউ দেখায় সম্পূর্ণ সক্রিয় হলে ব্যক্তিগত রাউটিং কেমন অনুভব হবে।",
+  "privacyDrawerIntro": "Privxx ব্রাউজিং বা অনলাইনে ইন্টারঅ্যাকশনের সময় IP ঠিকানা, অবস্থান ও টাইমিং-এর মতো মেটাডেটা এক্সপোজার কমাতে সাহায্য করে।",
+  "privacyDrawerIntroPreview": "সম্পূর্ণভাবে সক্রিয় হলে ব্যক্তিগত রাউটিং কেমন অনুভব হবে, এই প্রিভিউ তা দেখায়।",
   
-  "privacySectionDesignedTitle": "Privxx এর জন্য ডিজাইন করা হয়েছে:",
-  "privacySectionDesignedPoint1": "মেটাডেটা সম্পর্ক কমানো",
-  "privacySectionDesignedPoint2": "ব্যক্তিগত রাউটিং সহজ ও পরিচিত করা",
-  "privacySectionDesignedPoint3": "ডিফল্টভাবে ট্র্যাকিং এড়ানো",
+  "privacySectionDesignedTitle": "Privxx যেভাবে ডিজাইন করা হয়েছে:",
+  "privacySectionDesignedPoint1": "মেটাডেটা কোরিলেশন কমাতে",
+  "privacySectionDesignedPoint2": "ব্যক্তিগত রাউটিংকে সহজ ও পরিচিত করতে",
+  "privacySectionDesignedPoint3": "ডিফল্টভাবে ট্র্যাকিং এড়াতে",
   
   "privacySectionNotTitle": "Privxx যা করে না",
   "privacySectionNotPoint1": "বর্তমানে সক্রিয় নয় এমন দাবি করা",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "Privxx এর এই সংস্করণ সংযোগ প্রবাহ এবং ইন্টারফেস প্রদর্শন করে। cMixx এর মাধ্যমে সম্পূর্ণ ক্রিপ্টোগ্রাফিক রাউটিং পরবর্তীতে সংযুক্ত করা হবে।",
   
   "proxyPlaceholder": "প্রক্সির বিষয়বস্তু ভবিষ্যতের সংস্করণে প্রদর্শিত হবে।",
-  "demoModeNotice": "ডেমো মোড — প্রিভিউয়ের জন্য সুরক্ষিত রাউটিং সিমুলেটেড",
+  "demoModeNotice": "ডেমো মোড — প্রিভিউর জন্য নিরাপদ রাউটিং সিমুলেট করা হয়েছে",
   
   "errorConnectionFailed": "এই মুহূর্তে ব্যক্তিগত রুট স্থাপন করা যায়নি।",
   "errorTryAgain": "অনুগ্রহ করে আবার চেষ্টা করুন।"
