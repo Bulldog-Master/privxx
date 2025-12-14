@@ -43,19 +43,37 @@ Prove Privxx can trigger Secure state from a real cMixx event (not a timer).
 ## Evidence
 Attach or reference:
 - Screenshot: Connecting
-- Screenshot: Secure
+- Screenshot: Secure (must match `docs/screenshots/connected-secure-demo.png`)
 - Server log snippet:
 - Client log snippet:
 
 ---
 
 ## Pass/Fail Criteria
-PASS if:
-- UI Secure state is triggered by real cMixx event
-- No visual/brand changes occur
-- Logs show send + receive
 
-FAIL if:
+### PASS if:
+- UI Secure state is triggered by real cMixx event (not timer)
+- No visual/brand changes occur
+- Secure screen matches canonical `connected-secure-demo.png` exactly
+- Logs show send + receive
+- Latency reflects real round-trip (not simulated random value)
+
+### FAIL if:
 - Secure state still driven by timer
-- UI changed
-- Logs incomplete
+- UI changed from canonical screenshot
+- Logs incomplete or missing cMixx handshake
+
+---
+
+## Phase D Completion Criteria
+
+Phase D is considered **successful** when:
+1. The canonical `connected-secure-demo.png` screen:
+   - Shows **Connected** button state
+   - Shows **Secure / Private routing active** status
+   - Uses **real cMixx routing** (not simulation)
+   - Displays **real latency** (not random 500-2500ms)
+2. The footer disclaimer is either:
+   - Removed entirely, OR
+   - Replaced with "Live private routing active"
+3. **UI must remain visually unchanged** unless explicitly approved and screenshots updated
