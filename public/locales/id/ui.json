@@ -9,23 +9,23 @@
   "buttonConnected": "Terhubung",
   
   "statusIdle": "Diam",
-  "statusIdleSubtext": "Siap terhubung secara pribadi",
+  "statusIdleSubtext": "Siap terhubung secara privat",
   "statusConnecting": "Menghubungkan…",
-  "statusConnectingSubtext": "Membangun rute pribadi",
+  "statusConnectingSubtext": "Membangun rute privat",
   "statusSecure": "Aman",
-  "statusSecureSubtext": "Routing pribadi aktif",
+  "statusSecureSubtext": "Perutean privat aktif",
   
   "requestedUrl": "URL diminta",
   "simulatedLatency": "Latensi simulasi",
   
   "privacyDrawerTitle": "Bagaimana Privxx melindungi Anda",
-  "privacyDrawerIntro": "Privxx membantu mengurangi paparan metadata — seperti alamat IP, lokasi, dan waktu — saat Anda menjelajah atau berinteraksi online.",
-  "privacyDrawerIntroPreview": "Pratinjau ini menunjukkan bagaimana routing pribadi akan terasa setelah sepenuhnya diaktifkan.",
+  "privacyDrawerIntro": "Privxx membantu mengurangi paparan metadata — seperti IP, lokasi, dan timing — saat Anda menjelajah atau berinteraksi online.",
+  "privacyDrawerIntroPreview": "Pratinjau ini menunjukkan seperti apa perutean privat saat sudah aktif sepenuhnya.",
   
   "privacySectionDesignedTitle": "Privxx dirancang untuk:",
-  "privacySectionDesignedPoint1": "Mengurangi korelasi metadata",
-  "privacySectionDesignedPoint2": "Membuat routing pribadi terasa sederhana dan familiar",
-  "privacySectionDesignedPoint3": "Menghindari pelacakan secara default",
+  "privacySectionDesignedPoint1": "mengurangi korelasi metadata",
+  "privacySectionDesignedPoint2": "membuat perutean privat terasa sederhana dan familiar",
+  "privacySectionDesignedPoint3": "menghindari pelacakan secara default",
   
   "privacySectionNotTitle": "Yang tidak dilakukan Privxx",
   "privacySectionNotPoint1": "Membuat klaim di luar yang saat ini aktif",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "Versi Privxx ini mendemonstrasikan alur koneksi dan antarmuka. Routing kriptografi penuh via cMixx akan diintegrasikan selanjutnya.",
   
   "proxyPlaceholder": "Konten proxy akan muncul di versi mendatang.",
-  "demoModeNotice": "Mode demo — routing aman disimulasikan untuk pratinjau",
+  "demoModeNotice": "Mode demo — perutean aman disimulasikan untuk pratinjau",
   
   "errorConnectionFailed": "Tidak dapat membuat rute pribadi saat ini.",
   "errorTryAgain": "Silakan coba lagi."
