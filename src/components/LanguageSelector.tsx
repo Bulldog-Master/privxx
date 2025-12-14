@@ -38,15 +38,15 @@ const LanguageSelector = () => {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="text-primary hover:text-primary/80 hover:bg-primary/10 transition-colors"
+          className="h-10 w-10 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 text-foreground/70 hover:text-foreground hover:bg-white/10 transition-all"
           aria-label="Select language"
         >
           <Globe className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 
-        align="end" 
-        className="bg-card border-border z-50 max-h-80 overflow-y-auto min-w-[140px]"
+        align="start" 
+        className="bg-card/95 backdrop-blur-sm border-border z-50 max-h-80 overflow-y-auto min-w-[140px]"
       >
         {languages.map(({ code, label, pinned }) => (
           <div key={code}>
