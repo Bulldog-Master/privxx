@@ -93,6 +93,16 @@ Rules governing what may and may not change.
 - **PRIVXX-WHAT-CHANGES-WHAT-DOESNT.md**  
   Explicit separation between frozen UI and evolving internals.
 
+- **PRIVXX-VERSIONING.md**  
+  Versioning rules and phase-to-version mapping.
+
+---
+
+## 📦 Onboarding & Handoff
+
+- **PRIVXX-HANDOFF.md**  
+  Drop-in onboarding artifact for contributors, advisors, and reviewers.
+
 ---
 
 ## 📌 Precedence Rule
