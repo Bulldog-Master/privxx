@@ -4,88 +4,90 @@
 
 ---
 
-## Authority
+## Purpose
 
-This document is the single source of truth for Privxx visual identity and UI design.
+This document defines the immutable visual and interaction identity of Privxx.
 
-All implementations — demos, prototypes, integrations, contributor PRs, AI-generated code — must conform to this constitution.
-
-No exceptions without explicit versioned approval.
+Its purpose is to prevent UI drift, ensure brand consistency, and protect the trust model of the product.
 
 ---
 
-## Core Identity
+## Core Principle
 
-**Privxx = Privacy + Payments**
+**Privxx is a trust surface.**
 
-The UI must communicate:
-- Safety without fear
-- Confidence without aggression
-- Clarity without sterility
-- Momentum without chaos
+Anything that looks inconsistent, improvised, or decorative erodes confidence.
 
 ---
 
-## The Privxx Logo (Non-Negotiable)
+## Non-Negotiables (Hard Rules)
 
-| Element | Rule |
-|---------|------|
-| **"Priv"** | Gradient text (pink → gold → teal) |
-| **"xx"** | Official xx Network logo mark, teal color |
-| **Spacing** | Tight kerning: sm=-0.2em, md=-0.25em, lg=-0.3em |
-| **Context** | Used everywhere the brand appears in UI |
+### Brand & Logo
 
-**Never:**
-- Plain text "Privxx"
-- Different colors or fonts
-- Text-only fallbacks
-- White/light boxes behind the mark
-- Emoji or icon substitutes
+- **"Privxx" is never plain text**
+- Must always appear as:
+  - **Priv** (gradient text: pink → gold → teal)
+  - **xx** (official xx Network symbol)
+- The xx symbol:
+  - Uses the official teal version
+  - Has no background box
+  - No white square
+  - No alternative icon
 
----
-
-## Visual Language
-
-| Principle | Implementation |
-|-----------|----------------|
-| **Glassmorphism** | Translucent cards, buttons, controls |
-| **Layered depth** | Gradient background with circular forms |
-| **Warm-to-teal** | Color flows from pink/gold to teal/cyan |
-| **No solid fills** | CTAs use glass style, not competing blocks |
-| **Global neutrality** | No regional, cultural, or demographic imagery |
+❌ No substitutions  
+❌ No monochrome fallback  
+❌ No icon-only usage  
 
 ---
 
-## Permitted Changes
+### Color & Background
 
-✅ Functional behavior  
-✅ Accessibility improvements  
-✅ Performance optimization  
-✅ Bug fixes  
+- Background is **two-layered**:
+  - **Base:** deep slate/blue
+  - **Overlay:** vibrant gradient field (teal → green → amber → red)
+- This represents:
+  - Browsing layer
+  - Financial routing layer
+
+**Flat, white, grey, or "minimal" backgrounds are not permitted.**
 
 ---
 
-## Prohibited Changes
+### Buttons & Status
 
-❌ Color palette modifications  
-❌ Logo redesigns or reinterpretations  
-❌ Background style changes  
-❌ Button opacity or gradient changes  
-❌ "Simplifications" or "cleanups"  
-❌ AI-suggested visual improvements  
+- Primary action and Idle state must share the **same background family**
+- The difference is **state**, not color
+- This avoids visual hierarchy confusion
+
+---
+
+### Privacy Control
+
+- Privacy button uses:
+  - Same gradient language
+  - Same opacity logic
+- No dark, flat, or outline-only privacy controls
 
 ---
 
 ## Enforcement
 
-Before merging any UI change:
+Any UI change must:
+1. Match this document
+2. Update `docs/brand-ui-lock.md`
 
-1. Does it match `docs/brand-ui-lock.md`?
-2. Is the Privxx logo rendered correctly?
-3. Are glass/translucency styles preserved?
-4. Does it feel: safe, confident, clear, premium?
+**Violations must be reverted immediately.**
 
-**If any answer is NO → reject the change.**
+---
+
+## Scope
+
+Applies to:
+- Demo
+- MVP
+- Marketing previews
+- Documentation screenshots
+- Future cMixx integrations
 
 ---
 
