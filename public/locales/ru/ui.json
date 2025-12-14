@@ -1,17 +1,17 @@
 {
   "appTitle": "Privxx",
-  "subtitle": "Приватный туннель для просмотра и платежей",
-  "urlPlaceholder": "https://банк-или-магазин.ru",
-  "privacy": "Конфиденциальность",
+  "subtitle": "Приватный туннель для браузинга и платежей",
+  "urlPlaceholder": "https://банк-или-магазин.com",
+  "privacy": "Приватность",
   
   "buttonConnect": "Подключиться через",
   "buttonConnecting": "Подключение через",
   "buttonConnected": "Подключено",
   
   "statusIdle": "Ожидание",
-  "statusIdleSubtext": "Готово к приватному подключению",
+  "statusIdleSubtext": "Готов к приватному подключению",
   "statusConnecting": "Подключение…",
-  "statusConnectingSubtext": "Устанавливается приватный маршрут",
+  "statusConnectingSubtext": "Создание приватного маршрута",
   "statusSecure": "Защищено",
   "statusSecureSubtext": "Приватная маршрутизация активна",
   
@@ -19,25 +19,25 @@
   "simulatedLatency": "Симулированная задержка",
   
   "privacyDrawerTitle": "Как Privxx защищает вас",
-  "privacyDrawerIntro": "Privxx помогает снизить утечку метаданных — таких как IP-адрес, местоположение и временные корреляции — во время просмотра или онлайн-взаимодействий.",
-  "privacyDrawerIntroPreview": "Этот предварительный просмотр показывает, как будет ощущаться приватная маршрутизация после полного включения.",
+  "privacyDrawerIntro": "Privxx помогает снизить раскрытие метаданных — таких как IP-адрес, местоположение и время — когда вы просматриваете или взаимодействуете онлайн.",
+  "privacyDrawerIntroPreview": "Этот предпросмотр показывает, как будет работать приватная маршрутизация после полной активации.",
   
-  "privacySectionDesignedTitle": "Privxx разработан для того, чтобы:",
-  "privacySectionDesignedPoint1": "снижать корреляцию метаданных",
-  "privacySectionDesignedPoint2": "делать приватную маршрутизацию простой и привычной",
-  "privacySectionDesignedPoint3": "избегать отслеживания по умолчанию",
+  "privacySectionDesignedTitle": "Privxx создан для:",
+  "privacySectionDesignedPoint1": "снижения корреляции метаданных",
+  "privacySectionDesignedPoint2": "простой и привычной приватной маршрутизации",
+  "privacySectionDesignedPoint3": "предотвращения отслеживания по умолчанию",
   
-  "privacySectionNotTitle": "Чего Privxx не делает",
-  "privacySectionNotPoint1": "Не делает заявлений о неактивных функциях",
-  "privacySectionNotPoint2": "Не требует понимания криптографии",
-  "privacySectionNotPoint3": "Не меняет ваш обычный способ просмотра",
+  "privacySectionNotTitle": "Privxx не:",
+  "privacySectionNotPoint1": "заявляет о совершенной или абсолютной приватности",
+  "privacySectionNotPoint2": "меняет ваш обычный способ просмотра или взаимодействия онлайн",
+  "privacySectionNotPoint3": "требует понимания криптографии или сетей",
   
   "privacySectionStatusTitle": "Текущий статус",
-  "privacySectionStatusText": "Эта версия Privxx демонстрирует поток подключения и интерфейс. Полная криптографическая маршрутизация через cMixx будет интегрирована далее.",
+  "privacySectionStatusText": "Эта версия Privxx демонстрирует процесс подключения и интерфейс. Полная криптографическая маршрутизация через cMixx будет интегрирована далее.",
   
-  "proxyPlaceholder": "Содержимое прокси появится в будущей версии.",
-  "demoModeNotice": "Демо-режим — безопасная маршрутизация смоделирована для предварительного просмотра",
+  "proxyPlaceholder": "Прокси-контент появится здесь в будущей версии.",
+  "demoModeNotice": "Демо-режим — безопасная маршрутизация симулирована для предпросмотра",
   
-  "errorConnectionFailed": "Не удалось установить приватный маршрут сейчас.",
+  "errorConnectionFailed": "Не удалось установить приватный маршрут.",
   "errorTryAgain": "Пожалуйста, попробуйте снова."
 }

@@ -1,17 +1,17 @@
 {
   "appTitle": "Privxx",
   "subtitle": "Gizli tarama ve ödeme tüneli",
-  "urlPlaceholder": "https://banka-veya-satici.com",
+  "urlPlaceholder": "https://banka-veya-magaza.com",
   "privacy": "Gizlilik",
   
   "buttonConnect": "Üzerinden bağlan",
-  "buttonConnecting": "Üzerinden bağlanılıyor",
+  "buttonConnecting": "Üzerinden bağlanıyor",
   "buttonConnected": "Bağlandı",
   
   "statusIdle": "Boşta",
   "statusIdleSubtext": "Özel olarak bağlanmaya hazır",
   "statusConnecting": "Bağlanıyor…",
-  "statusConnectingSubtext": "Özel rota kuruluyor",
+  "statusConnectingSubtext": "Özel rota oluşturuluyor",
   "statusSecure": "Güvenli",
   "statusSecureSubtext": "Özel yönlendirme aktif",
   
@@ -22,22 +22,22 @@
   "privacyDrawerIntro": "Privxx, gezinirken veya çevrimiçi etkileşimde bulunurken IP adresi, konum ve zamanlama gibi üstveri (metadata) maruziyetini azaltmaya yardımcı olur.",
   "privacyDrawerIntroPreview": "Bu önizleme, tamamen etkinleştirildiğinde özel yönlendirmenin nasıl hissedileceğini gösterir.",
   
-  "privacySectionDesignedTitle": "Privxx şu amaçlarla tasarlanmıştır:",
-  "privacySectionDesignedPoint1": "üstveri korelasyonunu azaltmak",
-  "privacySectionDesignedPoint2": "özel yönlendirmeyi basit ve tanıdık hale getirmek",
-  "privacySectionDesignedPoint3": "varsayılan olarak takibi önlemek",
+  "privacySectionDesignedTitle": "Privxx şunlar için tasarlanmıştır:",
+  "privacySectionDesignedPoint1": "üstveri ilişkilendirmesini azaltmak",
+  "privacySectionDesignedPoint2": "özel yönlendirmeyi basit ve tanıdık hissettirmek",
+  "privacySectionDesignedPoint3": "varsayılan olarak izlemeyi önlemek",
   
-  "privacySectionNotTitle": "Privxx'in yapmadıkları",
-  "privacySectionNotPoint1": "Şu anda aktif olmayanlar hakkında iddiada bulunmak",
-  "privacySectionNotPoint2": "Kriptografiyi anlamanızı gerektirmek",
-  "privacySectionNotPoint3": "Normal gezinme şeklinizi değiştirmek",
+  "privacySectionNotTitle": "Privxx şunları yapmaz:",
+  "privacySectionNotPoint1": "mükemmel veya mutlak gizlilik iddiasında bulunmaz",
+  "privacySectionNotPoint2": "normal gezinme veya çevrimiçi etkileşim şeklinizi değiştirmez",
+  "privacySectionNotPoint3": "kriptografi veya ağ bilgisi anlamanızı gerektirmez",
   
   "privacySectionStatusTitle": "Mevcut durum",
-  "privacySectionStatusText": "Privxx'in bu sürümü bağlantı akışını ve arayüzü göstermektedir. cMixx aracılığıyla tam kriptografik yönlendirme bir sonraki aşamada entegre edilecektir.",
+  "privacySectionStatusText": "Privxx'in bu sürümü bağlantı akışını ve arayüzü göstermektedir. cMixx üzerinden tam kriptografik yönlendirme bir sonraki aşamada entegre edilecektir.",
   
-  "proxyPlaceholder": "Proxy içeriği gelecekteki bir sürümde görünecektir.",
-  "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle ediliyor",
+  "proxyPlaceholder": "Proxy içeriği gelecek sürümde burada görünecek.",
+  "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle edildi",
   
-  "errorConnectionFailed": "Şu anda gizli rota oluşturulamıyor.",
+  "errorConnectionFailed": "Şu anda özel rota oluşturulamıyor.",
   "errorTryAgain": "Lütfen tekrar deneyin."
 }

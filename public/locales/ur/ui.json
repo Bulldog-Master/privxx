@@ -1,43 +1,43 @@
 {
   "appTitle": "Privxx",
-  "subtitle": "نجی براؤزنگ اور ادائیگی کا ٹنل",
+  "subtitle": "نجی براؤزنگ اور ادائیگی کی سرنگ",
   "urlPlaceholder": "https://بینک-یا-تاجر.com",
   "privacy": "رازداری",
   
-  "buttonConnect": "کے ذریعے کنیکٹ کریں",
-  "buttonConnecting": "کے ذریعے کنیکٹ ہو رہا ہے",
-  "buttonConnected": "کنیکٹڈ",
+  "buttonConnect": "کے ذریعے منسلک کریں",
+  "buttonConnecting": "کے ذریعے منسلک ہو رہا ہے",
+  "buttonConnected": "منسلک",
   
   "statusIdle": "غیر فعال",
-  "statusIdleSubtext": "پرائیویٹ طور پر کنیکٹ کرنے کے لیے تیار",
-  "statusConnecting": "کنیکٹ ہو رہا ہے…",
-  "statusConnectingSubtext": "پرائیویٹ روٹ قائم کیا جا رہا ہے",
+  "statusIdleSubtext": "نجی طور پر جڑنے کے لیے تیار",
+  "statusConnecting": "منسلک ہو رہا ہے…",
+  "statusConnectingSubtext": "نجی راستہ قائم ہو رہا ہے",
   "statusSecure": "محفوظ",
-  "statusSecureSubtext": "پرائیویٹ روٹنگ فعال ہے",
+  "statusSecureSubtext": "نجی روٹنگ فعال",
   
   "requestedUrl": "درخواست کردہ URL",
-  "simulatedLatency": "سیمیولیٹڈ لیٹنسی",
+  "simulatedLatency": "مصنوعی تاخیر",
   
   "privacyDrawerTitle": "Privxx آپ کی حفاظت کیسے کرتا ہے",
-  "privacyDrawerIntro": "Privxx براؤزنگ یا آن لائن تعامل کے دوران IP ایڈریس، لوکیشن اور ٹائمنگ جیسے میٹا ڈیٹا کی نمائش کم کرنے میں مدد کرتا ہے۔",
-  "privacyDrawerIntroPreview": "یہ پری ویو دکھاتا ہے کہ مکمل طور پر فعال ہونے پر پرائیویٹ روٹنگ کیسی محسوس ہوگی۔",
+  "privacyDrawerIntro": "Privxx میٹا ڈیٹا کی نمائش کو کم کرنے میں مدد کرتا ہے — جیسے IP ایڈریس، مقام اور وقت — جب آپ براؤز کرتے ہیں یا آن لائن تعامل کرتے ہیں۔",
+  "privacyDrawerIntroPreview": "یہ پیش نظارہ دکھاتا ہے کہ مکمل طور پر فعال ہونے پر نجی روٹنگ کیسی محسوس ہوگی۔",
   
-  "privacySectionDesignedTitle": "Privxx اس مقصد کے لیے ڈیزائن کیا گیا ہے:",
-  "privacySectionDesignedPoint1": "میٹا ڈیٹا کی کورلیشن کم کرنے کے لیے",
-  "privacySectionDesignedPoint2": "پرائیویٹ روٹنگ کو سادہ اور مانوس بنانے کے لیے",
-  "privacySectionDesignedPoint3": "ڈیفالٹ طور پر ٹریکنگ سے بچنے کے لیے",
+  "privacySectionDesignedTitle": "Privxx اس کے لیے ڈیزائن کیا گیا ہے:",
+  "privacySectionDesignedPoint1": "میٹا ڈیٹا کی باہمی ربط کو کم کرنا",
+  "privacySectionDesignedPoint2": "نجی روٹنگ کو آسان اور مانوس بنانا",
+  "privacySectionDesignedPoint3": "بطور ڈیفالٹ ٹریکنگ سے بچنا",
   
-  "privacySectionNotTitle": "Privxx کیا نہیں کرتا",
-  "privacySectionNotPoint1": "اس سے زیادہ دعوے کرنا جو فی الحال فعال ہے",
-  "privacySectionNotPoint2": "آپ سے کرپٹوگرافی سمجھنے کا مطالبہ کرنا",
-  "privacySectionNotPoint3": "آپ کے عام براؤزنگ کے طریقے کو تبدیل کرنا",
+  "privacySectionNotTitle": "Privxx یہ نہیں کرتا:",
+  "privacySectionNotPoint1": "کامل یا مکمل رازداری کا دعویٰ نہیں کرتا",
+  "privacySectionNotPoint2": "آپ کے عام براؤزنگ یا آن لائن تعامل کے طریقے کو نہیں بدلتا",
+  "privacySectionNotPoint3": "کرپٹوگرافی یا نیٹ ورکنگ سمجھنے کی ضرورت نہیں",
   
   "privacySectionStatusTitle": "موجودہ حیثیت",
-  "privacySectionStatusText": "Privxx کا یہ ورژن کنکشن فلو اور انٹرفیس کا مظاہرہ کرتا ہے۔ cMixx کے ذریعے مکمل کرپٹوگرافک روٹنگ اگلے مرحلے میں شامل کی جائے گی۔",
+  "privacySectionStatusText": "Privxx کا یہ ورژن کنکشن کے بہاؤ اور انٹرفیس کا مظاہرہ کرتا ہے۔ cMixx کے ذریعے مکمل کرپٹوگرافک روٹنگ آگے ضم کی جائے گی۔",
   
-  "proxyPlaceholder": "پراکسی مواد مستقبل کے ورژن میں ظاہر ہوگا۔",
-  "demoModeNotice": "ڈیمو موڈ — پری ویو کے لیے محفوظ روٹنگ سمولیٹ کی گئی ہے",
+  "proxyPlaceholder": "پراکسی مواد مستقبل کے ورژن میں یہاں ظاہر ہوگا۔",
+  "demoModeNotice": "ڈیمو موڈ — پیش نظارہ کے لیے محفوظ روٹنگ کی نقل",
   
-  "errorConnectionFailed": "ابھی نجی راستہ قائم نہیں ہو سکا۔",
+  "errorConnectionFailed": "ابھی نجی راستہ قائم کرنے سے قاصر۔",
   "errorTryAgain": "براہ کرم دوبارہ کوشش کریں۔"
 }

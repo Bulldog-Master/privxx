@@ -1,7 +1,7 @@
 {
   "appTitle": "Privxx",
   "subtitle": "Privater Tunnel für Surfen und Zahlungen",
-  "urlPlaceholder": "https://bank-oder-haendler.com",
+  "urlPlaceholder": "https://bank-oder-haendler.de",
   "privacy": "Datenschutz",
   
   "buttonConnect": "Verbinden über",
@@ -9,35 +9,35 @@
   "buttonConnected": "Verbunden",
   
   "statusIdle": "Bereit",
-  "statusIdleSubtext": "Bereit für eine private Verbindung",
+  "statusIdleSubtext": "Bereit für private Verbindung",
   "statusConnecting": "Verbinde…",
   "statusConnectingSubtext": "Private Route wird aufgebaut",
   "statusSecure": "Sicher",
-  "statusSecureSubtext": "Private Weiterleitung aktiv",
+  "statusSecureSubtext": "Privates Routing aktiv",
   
   "requestedUrl": "Angeforderte URL",
   "simulatedLatency": "Simulierte Latenz",
   
   "privacyDrawerTitle": "Wie Privxx Sie schützt",
-  "privacyDrawerIntro": "Privxx hilft dabei, die Preisgabe von Metadaten — wie IP-Adresse, Standort und Timing — beim Surfen oder bei Online-Interaktionen zu reduzieren.",
-  "privacyDrawerIntroPreview": "Diese Vorschau zeigt, wie sich private Weiterleitung anfühlt, sobald sie vollständig aktiviert ist.",
+  "privacyDrawerIntro": "Privxx hilft, die Exposition von Metadaten — wie IP-Adresse, Standort und Timing — zu reduzieren, während Sie surfen oder online interagieren.",
+  "privacyDrawerIntroPreview": "Diese Vorschau zeigt, wie sich privates Routing anfühlen wird, wenn es vollständig aktiviert ist.",
   
-  "privacySectionDesignedTitle": "Privxx ist darauf ausgelegt:",
-  "privacySectionDesignedPoint1": "Metadaten-Korrelation zu reduzieren",
-  "privacySectionDesignedPoint2": "private Weiterleitung einfach und vertraut wirken zu lassen",
-  "privacySectionDesignedPoint3": "Tracking standardmäßig zu vermeiden",
+  "privacySectionDesignedTitle": "Privxx ist konzipiert für:",
+  "privacySectionDesignedPoint1": "Reduzierung der Metadaten-Korrelation",
+  "privacySectionDesignedPoint2": "Privates Routing einfach und vertraut gestalten",
+  "privacySectionDesignedPoint3": "Standardmäßig Tracking vermeiden",
   
-  "privacySectionNotTitle": "Was Privxx nicht tut",
-  "privacySectionNotPoint1": "Behauptungen über nicht aktive Funktionen machen",
-  "privacySectionNotPoint2": "Erfordern, dass Sie Kryptographie verstehen",
-  "privacySectionNotPoint3": "Ihre normale Browsing-Weise ändern",
+  "privacySectionNotTitle": "Privxx tut Folgendes nicht:",
+  "privacySectionNotPoint1": "Behaupten, perfekte oder absolute Privatsphäre zu bieten",
+  "privacySectionNotPoint2": "Ihre gewohnte Art zu surfen oder online zu interagieren ändern",
+  "privacySectionNotPoint3": "Verlangen, dass Sie Kryptographie oder Netzwerke verstehen",
   
   "privacySectionStatusTitle": "Aktueller Status",
-  "privacySectionStatusText": "Diese Version von Privxx demonstriert den Verbindungsfluss und die Benutzeroberfläche. Vollständiges kryptographisches Routing über cMixx wird als nächstes integriert.",
+  "privacySectionStatusText": "Diese Version von Privxx demonstriert den Verbindungsablauf und die Benutzeroberfläche. Vollständiges kryptographisches Routing über cMixx wird als nächstes integriert.",
   
-  "proxyPlaceholder": "Proxy-Inhalte werden hier in einer zukünftigen Version erscheinen.",
-  "demoModeNotice": "Demo-Modus — sichere Weiterleitung für die Vorschau simuliert",
+  "proxyPlaceholder": "Proxy-Inhalte werden in einer zukünftigen Version hier erscheinen.",
+  "demoModeNotice": "Demo-Modus — sicheres Routing für Vorschau simuliert",
   
-  "errorConnectionFailed": "Private Route konnte gerade nicht aufgebaut werden.",
-  "errorTryAgain": "Bitte versuchen Sie es erneut."
+  "errorConnectionFailed": "Derzeit kann keine private Route hergestellt werden.",
+  "errorTryAgain": "Bitte erneut versuchen."
 }
