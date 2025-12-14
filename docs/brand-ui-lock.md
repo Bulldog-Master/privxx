@@ -8,6 +8,18 @@
 
 Any UI, demo, prototype, or integration must match this design unless explicitly approved and versioned.
 
+---
+
+## Canonical UI Reference (Screenshots)
+
+The canonical UI is defined by the screenshots in `docs/screenshots/`:
+
+- `docs/screenshots/home-idle.png` — locked home screen (idle)
+- `docs/screenshots/privacy-drawer-open.png` — locked privacy drawer
+
+If implementation differs from these screenshots, it is out of spec.
+No visual changes are permitted without explicit approval.
+
 This lock applies to:
 - Logo usage
 - Colors & gradients
