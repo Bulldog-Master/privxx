@@ -1,4 +1,4 @@
-import { Globe, CreditCard, EyeOff, Info } from "lucide-react";
+import { Globe, EyeOff, Info } from "lucide-react";
 import {
   Drawer,
   DrawerContent,
@@ -30,33 +30,32 @@ const PrivacyDrawer = () => {
         </DrawerHeader>
         
         <div className="p-5 space-y-6 overflow-y-auto">
-          {/* Section 1: Browsing */}
+          {/* Opening intro */}
+          <section className="space-y-3">
+            <p className="text-sm text-foreground/80 leading-relaxed">
+              {t("privacyDrawerIntro")}
+            </p>
+            <p className="text-sm text-foreground/60 leading-relaxed italic">
+              {t("privacyDrawerIntroPreview")}
+            </p>
+          </section>
+
+          {/* Section 1: What Privxx is designed to do */}
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-primary/20">
                 <Globe className="h-5 w-5 text-primary" />
               </div>
-              <h3 className="font-semibold text-foreground">{t("privacySectionBrowsingTitle")}</h3>
+              <h3 className="font-semibold text-foreground">{t("privacySectionDesignedTitle")}</h3>
             </div>
-            <p className="text-sm text-foreground/70 leading-relaxed">
-              {t("privacySectionBrowsingText")}
-            </p>
+            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1 list-disc list-inside">
+              <li>{t("privacySectionDesignedPoint1")}</li>
+              <li>{t("privacySectionDesignedPoint2")}</li>
+              <li>{t("privacySectionDesignedPoint3")}</li>
+            </ul>
           </section>
 
-          {/* Section 2: Payments */}
-          <section className="space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="p-2 rounded-lg bg-primary/20">
-                <CreditCard className="h-5 w-5 text-primary" />
-              </div>
-              <h3 className="font-semibold text-foreground">{t("privacySectionPaymentsTitle")}</h3>
-            </div>
-            <p className="text-sm text-foreground/70 leading-relaxed">
-              {t("privacySectionPaymentsText")}
-            </p>
-          </section>
-
-          {/* Section 3: What we don't do */}
+          {/* Section 2: What Privxx does NOT do */}
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-primary/20">
@@ -64,7 +63,7 @@ const PrivacyDrawer = () => {
               </div>
               <h3 className="font-semibold text-foreground">{t("privacySectionNotTitle")}</h3>
             </div>
-            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1">
+            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1 list-disc list-inside">
               <li>{t("privacySectionNotPoint1")}</li>
               <li>{t("privacySectionNotPoint2")}</li>
               <li>{t("privacySectionNotPoint3")}</li>

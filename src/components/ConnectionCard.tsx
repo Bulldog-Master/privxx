@@ -44,13 +44,15 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
   const getStatusText = () => {
     switch (connectionState) {
       case "idle":
-        return t("statusIdle");
+        return { main: t("statusIdle"), sub: t("statusIdleSubtext") };
       case "connecting":
-        return t("statusConnecting");
+        return { main: t("statusConnecting"), sub: t("statusConnectingSubtext") };
       case "connected":
-        return t("statusSecure");
+        return { main: t("statusSecure"), sub: t("statusSecureSubtext") };
     }
   };
+
+  const status = getStatusText();
 
   return (
     <div className="relative w-full max-w-md">
@@ -107,7 +109,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
               : 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
           }}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <span className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
               connectionState === "connected" 
                 ? "bg-emerald-400 shadow-lg shadow-emerald-400/50" 
@@ -115,9 +117,14 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
                 ? "bg-primary animate-pulse"
                 : "bg-foreground/40"
             }`} />
-            <span className="text-sm font-medium text-foreground/90">
-              {getStatusText()}
-            </span>
+            <div className="flex flex-col items-start">
+              <span className="text-sm font-medium text-foreground/90">
+                {status.main}
+              </span>
+              <span className="text-xs text-foreground/60">
+                {status.sub}
+              </span>
+            </div>
           </div>
         </div>
       </div>
