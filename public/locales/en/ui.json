@@ -9,24 +9,40 @@
   "buttonConnected": "Connected",
   
   "statusIdle": "Idle",
+  "statusIdleSubtext": "Ready to connect privately",
   "statusConnecting": "Connecting…",
+  "statusConnectingSubtext": "Establishing private route",
   "statusSecure": "Secure",
+  "statusSecureSubtext": "Private routing active",
   
   "requestedUrl": "Requested URL",
   "simulatedLatency": "Simulated latency",
   
   "privacyDrawerTitle": "How Privxx protects you",
+  "privacyDrawerIntro": "Privxx helps reduce metadata exposure — such as IP address, location, and timing — while you browse or interact online.",
+  "privacyDrawerIntroPreview": "This preview demonstrates how private routing will feel once fully enabled.",
+  
+  "privacySectionDesignedTitle": "Privxx is designed to",
+  "privacySectionDesignedPoint1": "Reduce metadata correlation",
+  "privacySectionDesignedPoint2": "Make private routing feel simple and familiar",
+  "privacySectionDesignedPoint3": "Avoid tracking by default",
+  
   "privacySectionBrowsingTitle": "Private browsing, by design",
   "privacySectionBrowsingText": "When you connect through Privxx, your web requests are routed through a privacy network that removes identifying metadata. This prevents tracking based on IP address, location, or browsing patterns.",
   "privacySectionPaymentsTitle": "Private payments",
   "privacySectionPaymentsText": "Privxx separates your identity from your transactions. Whether you're connecting to a merchant or a payment endpoint, Privxx prevents observers from linking payments back to you.",
-  "privacySectionNotTitle": "What we don't see",
-  "privacySectionNotPoint1": "Privxx does not track you.",
-  "privacySectionNotPoint2": "Privxx does not store browsing history.",
-  "privacySectionNotPoint3": "Privxx does not profile your activity.",
+  
+  "privacySectionNotTitle": "What Privxx does not do",
+  "privacySectionNotPoint1": "Make claims beyond what is currently active",
+  "privacySectionNotPoint2": "Require you to understand cryptography",
+  "privacySectionNotPoint3": "Change how you normally browse",
+  
   "privacySectionStatusTitle": "Current status",
   "privacySectionStatusText": "This version of Privxx demonstrates the connection flow and interface. Full cryptographic routing via cMixx will be integrated next.",
   
   "proxyPlaceholder": "Proxied content will appear here in a future version.",
-  "demoModeNotice": "Demo mode — routing simulated"
+  "demoModeNotice": "Demo mode — secure routing simulated for preview",
+  
+  "errorConnectionFailed": "Unable to establish a private route right now.",
+  "errorTryAgain": "Please try again."
 }
