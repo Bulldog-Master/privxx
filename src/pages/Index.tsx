@@ -34,6 +34,14 @@ const Index = () => {
         }}
       />
       
+      {/* Subtle atmospheric dot - above logo area */}
+      <div 
+        className="absolute top-24 left-1/2 -translate-x-[120px] w-8 h-8 rounded-full opacity-40"
+        style={{ 
+          background: 'radial-gradient(circle, hsl(172 60% 50%) 0%, transparent 70%)' 
+        }}
+      />
+      
       {/* Colorful gradient glow at bottom */}
       <div 
         className="absolute bottom-0 left-0 right-0 h-64 opacity-60"
