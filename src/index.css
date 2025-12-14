@@ -142,6 +142,28 @@
   }
 }
 
+/* Hero ambient dot */
+.hero {
+  position: relative;
+}
+
+.hero-ambient-dot {
+  position: absolute;
+  top: -10px;
+  left: 42%;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(64, 226, 198, 0.75);
+  box-shadow:
+    0 0 18px rgba(64, 226, 198, 0.55),
+    0 0 42px rgba(64, 226, 198, 0.25);
+  filter: blur(0.2px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+
 @keyframes pulse-glow {
   0%, 100% {
     box-shadow: 0 0 20px hsl(var(--glow-primary) / 0.3),
