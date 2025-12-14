@@ -35,7 +35,7 @@
   "privacySectionStatusTitle": "Status saat ini",
   "privacySectionStatusText": "Versi Privxx ini mendemonstrasikan alur koneksi dan antarmuka. Routing kriptografi penuh via cMixx akan diintegrasikan selanjutnya.",
   
-  "proxyPlaceholder": "Konten proxy akan muncul di versi mendatang.",
+  "proxyPlaceholder": "Konten proxy akan muncul di sini setelah routing privat penuh diaktifkan.",
   "demoModeNotice": "Mode demo — routing aman disimulasikan untuk pratinjau",
   
   "errorConnectionFailed": "Tidak dapat membuat rute privat saat ini.",

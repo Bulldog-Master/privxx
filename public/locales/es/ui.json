@@ -35,7 +35,7 @@
   "privacySectionStatusTitle": "Estado actual",
   "privacySectionStatusText": "Esta versión de Privxx demuestra el flujo de conexión y la interfaz. El enrutamiento criptográfico completo vía cMixx se integrará próximamente.",
   
-  "proxyPlaceholder": "El contenido proxy aparecerá aquí en una versión futura.",
+  "proxyPlaceholder": "El contenido proxy aparecerá aquí una vez que el enrutamiento privado completo esté habilitado.",
   "demoModeNotice": "Modo demo — enrutamiento seguro simulado para vista previa",
   
   "errorConnectionFailed": "No se pudo establecer una ruta privada en este momento.",
