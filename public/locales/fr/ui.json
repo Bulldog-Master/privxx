@@ -19,13 +19,13 @@
   "simulatedLatency": "Latence simulée",
   
   "privacyDrawerTitle": "Comment Privxx vous protège",
-  "privacyDrawerIntro": "Privxx aide à réduire l'exposition des métadonnées — comme l'adresse IP, la localisation et le timing — pendant que vous naviguez ou interagissez en ligne.",
-  "privacyDrawerIntroPreview": "Cet aperçu montre comment le routage privé fonctionnera une fois pleinement activé.",
+  "privacyDrawerIntro": "Privxx aide à réduire l'exposition des métadonnées — comme l'adresse IP, la localisation et le timing — pendant la navigation ou les interactions en ligne.",
+  "privacyDrawerIntroPreview": "Cet aperçu montre à quoi ressemblera le routage privé une fois pleinement activé.",
   
   "privacySectionDesignedTitle": "Privxx est conçu pour :",
-  "privacySectionDesignedPoint1": "Réduire la corrélation des métadonnées",
-  "privacySectionDesignedPoint2": "Rendre le routage privé simple et familier",
-  "privacySectionDesignedPoint3": "Éviter le pistage par défaut",
+  "privacySectionDesignedPoint1": "réduire la corrélation des métadonnées",
+  "privacySectionDesignedPoint2": "rendre le routage privé simple et familier",
+  "privacySectionDesignedPoint3": "éviter le suivi par défaut",
   
   "privacySectionNotTitle": "Ce que Privxx ne fait pas",
   "privacySectionNotPoint1": "Faire des déclarations au-delà de ce qui est actuellement actif",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "Cette version de Privxx démontre le flux de connexion et l'interface. Le routage cryptographique complet via cMixx sera intégré ensuite.",
   
   "proxyPlaceholder": "Le contenu du proxy apparaîtra ici dans une version future.",
-  "demoModeNotice": "Mode démo — routage sécurisé simulé pour aperçu",
+  "demoModeNotice": "Mode démo — routage sécurisé simulé pour l'aperçu",
   
   "errorConnectionFailed": "Impossible d'établir une route privée pour le moment.",
   "errorTryAgain": "Veuillez réessayer."
