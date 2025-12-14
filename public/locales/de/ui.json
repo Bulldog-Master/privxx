@@ -9,22 +9,22 @@
   "buttonConnected": "Verbunden",
   
   "statusIdle": "Bereit",
-  "statusIdleSubtext": "Bereit für private Verbindung",
+  "statusIdleSubtext": "Bereit für eine private Verbindung",
   "statusConnecting": "Verbinde…",
   "statusConnectingSubtext": "Private Route wird aufgebaut",
   "statusSecure": "Sicher",
-  "statusSecureSubtext": "Privates Routing aktiv",
+  "statusSecureSubtext": "Private Weiterleitung aktiv",
   
   "requestedUrl": "Angeforderte URL",
   "simulatedLatency": "Simulierte Latenz",
   
   "privacyDrawerTitle": "Wie Privxx Sie schützt",
-  "privacyDrawerIntro": "Privxx hilft, die Metadaten-Exposition zu reduzieren — wie IP-Adresse, Standort und Timing — während Sie surfen oder online interagieren.",
-  "privacyDrawerIntroPreview": "Diese Vorschau zeigt, wie sich privates Routing anfühlen wird, wenn es vollständig aktiviert ist.",
+  "privacyDrawerIntro": "Privxx hilft dabei, die Preisgabe von Metadaten — wie IP-Adresse, Standort und Timing — beim Surfen oder bei Online-Interaktionen zu reduzieren.",
+  "privacyDrawerIntroPreview": "Diese Vorschau zeigt, wie sich private Weiterleitung anfühlt, sobald sie vollständig aktiviert ist.",
   
-  "privacySectionDesignedTitle": "Privxx ist dafür konzipiert:",
+  "privacySectionDesignedTitle": "Privxx ist darauf ausgelegt:",
   "privacySectionDesignedPoint1": "Metadaten-Korrelation zu reduzieren",
-  "privacySectionDesignedPoint2": "Privates Routing einfach und vertraut zu machen",
+  "privacySectionDesignedPoint2": "private Weiterleitung einfach und vertraut wirken zu lassen",
   "privacySectionDesignedPoint3": "Tracking standardmäßig zu vermeiden",
   
   "privacySectionNotTitle": "Was Privxx nicht tut",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "Diese Version von Privxx demonstriert den Verbindungsfluss und die Benutzeroberfläche. Vollständiges kryptographisches Routing über cMixx wird als nächstes integriert.",
   
   "proxyPlaceholder": "Proxy-Inhalte werden hier in einer zukünftigen Version erscheinen.",
-  "demoModeNotice": "Demo-Modus — sicheres Routing für Vorschau simuliert",
+  "demoModeNotice": "Demo-Modus — sichere Weiterleitung für die Vorschau simuliert",
   
   "errorConnectionFailed": "Private Route konnte gerade nicht aufgebaut werden.",
   "errorTryAgain": "Bitte versuchen Sie es erneut."
