@@ -9,23 +9,23 @@
   "buttonConnected": "Bağlandı",
   
   "statusIdle": "Boşta",
-  "statusIdleSubtext": "Gizli bağlantıya hazır",
+  "statusIdleSubtext": "Özel olarak bağlanmaya hazır",
   "statusConnecting": "Bağlanıyor…",
-  "statusConnectingSubtext": "Gizli rota oluşturuluyor",
+  "statusConnectingSubtext": "Özel rota kuruluyor",
   "statusSecure": "Güvenli",
-  "statusSecureSubtext": "Gizli yönlendirme aktif",
+  "statusSecureSubtext": "Özel yönlendirme aktif",
   
   "requestedUrl": "İstenen URL",
   "simulatedLatency": "Simüle edilmiş gecikme",
   
   "privacyDrawerTitle": "Privxx sizi nasıl korur",
-  "privacyDrawerIntro": "Privxx, gezinirken veya çevrimiçi etkileşimde bulunurken IP adresi, konum ve zamanlama gibi metadata maruziyetini azaltmaya yardımcı olur.",
-  "privacyDrawerIntroPreview": "Bu önizleme, gizli yönlendirmenin tamamen etkinleştirildiğinde nasıl hissettireceğini gösterir.",
+  "privacyDrawerIntro": "Privxx, gezinirken veya çevrimiçi etkileşimde bulunurken IP adresi, konum ve zamanlama gibi üstveri (metadata) maruziyetini azaltmaya yardımcı olur.",
+  "privacyDrawerIntroPreview": "Bu önizleme, tamamen etkinleştirildiğinde özel yönlendirmenin nasıl hissedileceğini gösterir.",
   
-  "privacySectionDesignedTitle": "Privxx şunlar için tasarlandı:",
-  "privacySectionDesignedPoint1": "Metadata korelasyonunu azaltmak",
-  "privacySectionDesignedPoint2": "Gizli yönlendirmeyi basit ve tanıdık kılmak",
-  "privacySectionDesignedPoint3": "Varsayılan olarak izlemeden kaçınmak",
+  "privacySectionDesignedTitle": "Privxx şu amaçlarla tasarlanmıştır:",
+  "privacySectionDesignedPoint1": "üstveri korelasyonunu azaltmak",
+  "privacySectionDesignedPoint2": "özel yönlendirmeyi basit ve tanıdık hale getirmek",
+  "privacySectionDesignedPoint3": "varsayılan olarak takibi önlemek",
   
   "privacySectionNotTitle": "Privxx'in yapmadıkları",
   "privacySectionNotPoint1": "Şu anda aktif olmayanlar hakkında iddiada bulunmak",
@@ -36,7 +36,7 @@
   "privacySectionStatusText": "Privxx'in bu sürümü bağlantı akışını ve arayüzü göstermektedir. cMixx aracılığıyla tam kriptografik yönlendirme bir sonraki aşamada entegre edilecektir.",
   
   "proxyPlaceholder": "Proxy içeriği gelecekteki bir sürümde görünecektir.",
-  "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle edildi",
+  "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle ediliyor",
   
   "errorConnectionFailed": "Şu anda gizli rota oluşturulamıyor.",
   "errorTryAgain": "Lütfen tekrar deneyin."
