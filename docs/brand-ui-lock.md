@@ -1,5 +1,7 @@
 # Privxx — Brand & UI Lock (v1)
 
+> **Enforced by:** [`PRIVXX-DESIGN-CONSTITUTION.md`](PRIVXX-DESIGN-CONSTITUTION.md)
+
 ## UI STATUS: LOCKED
 
 **This document defines the only approved visual representation of Privxx.**
