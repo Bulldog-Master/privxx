@@ -87,7 +87,7 @@ Technical planning and execution references.
 
 ---
 
-## 🚦 Change Control
+## 🚦 Change Control & Governance
 Rules governing what may and may not change.
 
 - **PRIVXX-WHAT-CHANGES-WHAT-DOESNT.md**  
@@ -96,9 +96,8 @@ Rules governing what may and may not change.
 - **PRIVXX-VERSIONING.md**  
   Versioning rules and phase-to-version mapping.
 
----
-
-## 📦 Onboarding & Handoff
+- **../CHANGELOG.md**  
+  Historical changelog and release notes.
 
 - **PRIVXX-HANDOFF.md**  
   Drop-in onboarding artifact for contributors, advisors, and reviewers.
