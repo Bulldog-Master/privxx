@@ -19,13 +19,13 @@
   "simulatedLatency": "Latencia simulada",
   
   "privacyDrawerTitle": "Cómo Privxx te protege",
-  "privacyDrawerIntro": "Privxx ayuda a reducir la exposición de metadatos — como dirección IP, ubicación y tiempo — mientras navegas o interactúas en línea.",
-  "privacyDrawerIntroPreview": "Esta vista previa muestra cómo se sentirá el enrutamiento privado una vez completamente habilitado.",
+  "privacyDrawerIntro": "Privxx ayuda a reducir la exposición de metadatos — como IP, ubicación y tiempos — mientras navegas o interactúas en línea.",
+  "privacyDrawerIntroPreview": "Esta vista previa muestra cómo se sentirá el enrutamiento privado cuando esté completamente habilitado.",
   
   "privacySectionDesignedTitle": "Privxx está diseñado para:",
-  "privacySectionDesignedPoint1": "Reducir la correlación de metadatos",
-  "privacySectionDesignedPoint2": "Hacer que el enrutamiento privado sea simple y familiar",
-  "privacySectionDesignedPoint3": "Evitar el rastreo por defecto",
+  "privacySectionDesignedPoint1": "reducir la correlación de metadatos",
+  "privacySectionDesignedPoint2": "hacer que el enrutamiento privado sea simple y familiar",
+  "privacySectionDesignedPoint3": "evitar el rastreo de forma predeterminada",
   
   "privacySectionNotTitle": "Lo que Privxx no hace",
   "privacySectionNotPoint1": "Hacer afirmaciones más allá de lo actualmente activo",
