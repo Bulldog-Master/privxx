@@ -123,6 +123,19 @@ Rules governing what may and may not change.
 - **PRIVXX-HANDOFF.md**  
   Drop-in onboarding artifact for contributors, advisors, and reviewers.
 
+- **PHASE-D-DECISIONS.md**  
+  Locked architectural decisions for Phase D.
+
+- **PHASE-D-SUCCESS-LOG-TEMPLATE.md**  
+  Template for recording Phase D test results.
+
+- **LAPTOP-DAY1-CHECKLIST.md**  
+  First-day execution checklist for Phase D.
+  Historical changelog and release notes.
+
+- **PRIVXX-HANDOFF.md**  
+  Drop-in onboarding artifact for contributors, advisors, and reviewers.
+
 ---
 
 ## 📌 Precedence Rule
