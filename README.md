@@ -12,12 +12,13 @@ Privxx is a privacy-first tunnel that hides your IP, location, timing patterns, 
 
 Privxx has a **locked visual identity**.
 
-- The current UI is **final for demo and MVP**
-- No visual changes are permitted without updating `docs/brand-ui-lock.md`
-- This applies to all environments: demo, prototype, integrations
-- "Privxx" must always use the official logo (gradient text + xx mark) — never plain text
+The current UI is final for demo and MVP stages.  
+No visual changes are permitted without updating:
+- `docs/brand-ui-lock.md`
+- `docs/PRIVXX-DESIGN-CONSTITUTION.md`
 
-See: [`docs/brand-ui-lock.md`](docs/brand-ui-lock.md)
+**Functional changes are allowed.**  
+**Visual reinterpretation is not.**
 
 ---
 
