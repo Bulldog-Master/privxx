@@ -35,7 +35,7 @@
   "privacySectionStatusTitle": "当前状态",
   "privacySectionStatusText": "此版本的 Privxx 展示连接流程和界面。通过 cMixx 的完整加密路由将在下一阶段集成。",
   
-  "proxyPlaceholder": "代理内容将在未来版本中显示。",
+  "proxyPlaceholder": "启用完整私密路由后，代理内容将在此处显示。",
   "demoModeNotice": "演示模式 — 为预览模拟安全路由",
   
   "errorConnectionFailed": "目前无法建立私密路由。",

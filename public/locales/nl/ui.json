@@ -35,7 +35,7 @@
   "privacySectionStatusTitle": "Huidige status",
   "privacySectionStatusText": "Deze versie van Privxx demonstreert de verbindingsstroom en interface. Volledige cryptografische routering via cMixx wordt hierna geïntegreerd.",
   
-  "proxyPlaceholder": "Proxy-inhoud verschijnt in een toekomstige versie.",
+  "proxyPlaceholder": "Proxy-inhoud verschijnt hier zodra volledige privéroutering is ingeschakeld.",
   "demoModeNotice": "Demomodus — veilige routering gesimuleerd voor preview",
   
   "errorConnectionFailed": "Kan momenteel geen privéroute tot stand brengen.",

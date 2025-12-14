@@ -35,7 +35,7 @@
   "privacySectionStatusTitle": "現在のステータス",
   "privacySectionStatusText": "このバージョンのPrivxxは接続フローとインターフェースをデモンストレーションしています。cMixxによる完全な暗号化ルーティングは次に統合されます。",
   
-  "proxyPlaceholder": "プロキシコンテンツは将来のバージョンでここに表示されます。",
+  "proxyPlaceholder": "完全なプライベートルーティングが有効になると、プロキシコンテンツがここに表示されます。",
   "demoModeNotice": "デモモード — プレビュー用に安全なルーティングをシミュレート中",
   
   "errorConnectionFailed": "現在、プライベートルートを確立できません。",

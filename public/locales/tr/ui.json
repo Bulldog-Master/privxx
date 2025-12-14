@@ -35,7 +35,7 @@
   "privacySectionStatusTitle": "Mevcut durum",
   "privacySectionStatusText": "Privxx'in bu sürümü bağlantı akışını ve arayüzü göstermektedir. cMixx üzerinden tam kriptografik yönlendirme bir sonraki aşamada entegre edilecektir.",
   
-  "proxyPlaceholder": "Proxy içeriği gelecek sürümde burada görünecek.",
+  "proxyPlaceholder": "Tam özel yönlendirme etkinleştirildiğinde proxy içeriği burada görünecektir.",
   "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle edildi",
   
   "errorConnectionFailed": "Şu anda özel rota oluşturulamıyor.",

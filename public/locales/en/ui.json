@@ -35,7 +35,7 @@
   "privacySectionStatusTitle": "Current status",
   "privacySectionStatusText": "This version of Privxx demonstrates the connection flow and interface. Full cryptographic routing via cMixx will be integrated next.",
   
-  "proxyPlaceholder": "Proxied content will appear here in a future version.",
+  "proxyPlaceholder": "Proxied content will appear here once full private routing is enabled.",
   "demoModeNotice": "Demo mode — secure routing simulated for preview",
   
   "errorConnectionFailed": "Unable to establish a private route right now.",
