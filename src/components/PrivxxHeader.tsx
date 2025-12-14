@@ -3,7 +3,7 @@ import LanguageSelector from "./LanguageSelector";
 
 const PrivxxHeader = () => {
   return (
-    <header className="fixed top-4 left-4 z-20 flex flex-col gap-2">
+    <header className="fixed top-6 left-6 z-20 flex flex-col gap-3 opacity-80 hover:opacity-100 transition-opacity">
       <LanguageSelector />
       <PrivacyDrawer />
     </header>
