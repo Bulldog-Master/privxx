@@ -9,7 +9,7 @@
   "buttonConnected": "Conectado",
   
   "statusIdle": "Inativo",
-  "statusIdleSubtext": "Pronto para conectar em privado",
+  "statusIdleSubtext": "Pronto para conectar com privacidade",
   "statusConnecting": "Conectando…",
   "statusConnectingSubtext": "Estabelecendo rota privada",
   "statusSecure": "Seguro",
@@ -19,13 +19,13 @@
   "simulatedLatency": "Latência simulada",
   
   "privacyDrawerTitle": "Como o Privxx te protege",
-  "privacyDrawerIntro": "O Privxx ajuda a reduzir a exposição de metadados — como endereço IP, localização e tempo — enquanto você navega ou interage online.",
-  "privacyDrawerIntroPreview": "Esta prévia demonstra como o roteamento privado funcionará quando totalmente ativado.",
+  "privacyDrawerIntro": "O Privxx ajuda a reduzir a exposição de metadados — como IP, localização e tempo — enquanto você navega ou interage online.",
+  "privacyDrawerIntroPreview": "Esta prévia mostra como o roteamento privado vai parecer quando estiver totalmente habilitado.",
   
   "privacySectionDesignedTitle": "O Privxx foi projetado para:",
-  "privacySectionDesignedPoint1": "Reduzir a correlação de metadados",
-  "privacySectionDesignedPoint2": "Tornar o roteamento privado simples e familiar",
-  "privacySectionDesignedPoint3": "Evitar rastreamento por padrão",
+  "privacySectionDesignedPoint1": "reduzir a correlação de metadados",
+  "privacySectionDesignedPoint2": "tornar o roteamento privado simples e familiar",
+  "privacySectionDesignedPoint3": "evitar rastreamento por padrão",
   
   "privacySectionNotTitle": "O que o Privxx não faz",
   "privacySectionNotPoint1": "Fazer afirmações além do que está atualmente ativo",
