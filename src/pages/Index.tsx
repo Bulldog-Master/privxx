@@ -3,6 +3,7 @@ import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
 import ContentArea from "@/components/ContentArea";
+import BackendHealthIndicator from "@/components/BackendHealthIndicator";
 import { useTranslations } from "@/lib/i18n";
 
 const Index = () => {
@@ -67,8 +68,9 @@ const Index = () => {
           <ContentArea url={connectedUrl} latency={latency} />
         </main>
 
-        <footer className="text-center py-4 px-4 text-xs text-foreground/40">
-          {t("demoModeNotice")}
+        <footer className="flex flex-col items-center gap-2 py-4 px-4">
+          <BackendHealthIndicator />
+          <span className="text-xs text-foreground/40">{t("demoModeNotice")}</span>
         </footer>
       </div>
     </div>
