@@ -1,0 +1,37 @@
+# /etc/systemd/system/privxx-bridge.service
+# Template — adjust paths and user as needed
+
+[Unit]
+Description=Privxx Bridge (HTTP API for xxdk)
+After=network.target xx-backend.service
+Wants=xx-backend.service
+
+[Service]
+Type=simple
+User=xxuser
+Group=xxuser
+WorkingDirectory=/opt/xx/bridge
+ExecStart=/opt/xx/bridge/bin/privxx-bridge \
+    --listen 127.0.0.1:8090 \
+    --state /opt/xx/bridge/state \
+    --log /opt/xx/bridge/logs/bridge.log
+Restart=on-failure
+RestartSec=5
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/xx/bridge/state
+ReadWritePaths=/opt/xx/bridge/logs
+
+# IMPORTANT: Bridge binds to localhost ONLY
+# Cloudflare tunnel handles public access
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=privxx-bridge
+
+[Install]
+WantedBy=multi-user.target
