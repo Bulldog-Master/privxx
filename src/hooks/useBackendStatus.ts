@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { status, type StatusRes, isMockMode } from "@/lib/privxx-api";
 
-export interface BackendStatus {
-  state: StatusRes["state"];
-  detail?: string;
+export interface BackendStatus extends StatusRes {
   isMock: boolean;
 }
 
-export function useBackendStatus(pollMs: number = 30_000) {
+export function useBackendStatus(pollMs = 30000) {
   const [data, setData] = useState<BackendStatus>({ 
     state: "starting",
     isMock: isMockMode()
@@ -24,10 +22,10 @@ export function useBackendStatus(pollMs: number = 30_000) {
         if (!alive) return;
         setData({ ...s, isMock: isMockMode() });
         setError(null);
-      } catch (e: any) {
+      } catch {
         if (!alive) return;
-        setError(e?.message || "Status check failed");
         setData({ state: "error", detail: "Backend unavailable", isMock: isMockMode() });
+        setError("unavailable");
       } finally {
         if (alive) setIsLoading(false);
       }
