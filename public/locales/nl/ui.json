@@ -38,6 +38,11 @@
   "proxyPlaceholder": "Proxy-inhoud verschijnt hier zodra volledige privéroutering is ingeschakeld.",
   "demoModeNotice": "Demomodus — veilige routering gesimuleerd voor preview",
   
+  "installApp": "Privxx installeren",
+  "installAppDescription": "Toevoegen aan startscherm voor snelle toegang",
+  "install": "Installeren",
+  "notNow": "Nu niet",
+  
   "errorConnectionFailed": "Kan momenteel geen privéroute tot stand brengen.",
   "errorTryAgain": "Probeer het opnieuw."
 }

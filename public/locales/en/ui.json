@@ -46,6 +46,11 @@
   "sendComingSoon": "Send coming soon",
   "identityActive": "Identity active",
   
+  "installApp": "Install Privxx",
+  "installAppDescription": "Add to home screen for quick access",
+  "install": "Install",
+  "notNow": "Not now",
+  
   "errorConnectionFailed": "Unable to establish a private route right now.",
   "errorTryAgain": "Please try again."
 }

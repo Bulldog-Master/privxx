@@ -38,6 +38,11 @@
   "proxyPlaceholder": "Tam özel yönlendirme etkinleştirildiğinde proxy içeriği burada görünecektir.",
   "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle edildi",
   
+  "installApp": "Privxx'i Yükle",
+  "installAppDescription": "Hızlı erişim için ana ekrana ekle",
+  "install": "Yükle",
+  "notNow": "Şimdi değil",
+  
   "errorConnectionFailed": "Şu anda özel rota oluşturulamıyor.",
   "errorTryAgain": "Lütfen tekrar deneyin."
 }

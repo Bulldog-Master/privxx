@@ -38,6 +38,11 @@
   "proxyPlaceholder": "启用完整私密路由后，代理内容将在此处显示。",
   "demoModeNotice": "演示模式 — 为预览模拟安全路由",
   
+  "installApp": "安装 Privxx",
+  "installAppDescription": "添加到主屏幕以快速访问",
+  "install": "安装",
+  "notNow": "暂不",
+  
   "errorConnectionFailed": "目前无法建立私密路由。",
   "errorTryAgain": "请重试。"
 }

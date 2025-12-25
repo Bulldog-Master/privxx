@@ -38,6 +38,11 @@
   "proxyPlaceholder": "전체 개인 라우팅이 활성화되면 프록시 콘텐츠가 여기에 표시됩니다.",
   "demoModeNotice": "데모 모드 — 미리보기를 위해 보안 라우팅 시뮬레이션됨",
   
+  "installApp": "Privxx 설치",
+  "installAppDescription": "빠른 접근을 위해 홈 화면에 추가",
+  "install": "설치",
+  "notNow": "나중에",
+  
   "errorConnectionFailed": "현재 개인 경로를 설정할 수 없습니다.",
   "errorTryAgain": "다시 시도해 주세요."
 }

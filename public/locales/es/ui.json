@@ -38,6 +38,11 @@
   "proxyPlaceholder": "El contenido proxy aparecerá aquí una vez que el enrutamiento privado completo esté habilitado.",
   "demoModeNotice": "Modo demo — enrutamiento seguro simulado para vista previa",
   
+  "installApp": "Instalar Privxx",
+  "installAppDescription": "Añadir a la pantalla de inicio para acceso rápido",
+  "install": "Instalar",
+  "notNow": "Ahora no",
+  
   "errorConnectionFailed": "No se pudo establecer una ruta privada en este momento.",
   "errorTryAgain": "Por favor, inténtalo de nuevo."
 }

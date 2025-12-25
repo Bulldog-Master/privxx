@@ -38,6 +38,11 @@
   "proxyPlaceholder": "O conteúdo do proxy aparecerá aqui assim que o roteamento privado completo estiver ativado.",
   "demoModeNotice": "Modo demo — roteamento seguro simulado para prévia",
   
+  "installApp": "Instalar Privxx",
+  "installAppDescription": "Adicionar à tela inicial para acesso rápido",
+  "install": "Instalar",
+  "notNow": "Agora não",
+  
   "errorConnectionFailed": "Não foi possível estabelecer uma rota privada agora.",
   "errorTryAgain": "Por favor, tente novamente."
 }
