@@ -1,106 +1,45 @@
-import { useState, useEffect, useCallback } from 'react';
-import { getCmixxStatus, getXxdkClient, CmixxStatusResponse, XxdkClientResponse, isApiError } from '@/lib/privxx-api';
+import { useEffect, useState } from "react";
+import { status, type StatusRes, isMockMode } from "@/lib/privxx-api";
 
 export interface BackendStatus {
-  connected: boolean;
-  ready: boolean;
-  phase: string;
-  uptimeSec: number;
-  inboxCount: number;
-  mode: 'real' | 'simulated' | 'offline';
-  lastChecked: number;
-  error: string | null;
+  state: StatusRes["state"];
+  detail?: string;
+  isMock: boolean;
 }
 
-export interface Identity {
-  transmissionId: string;
-  receptionId: string;
-  loaded: boolean;
-  error: string | null;
-}
-
-interface UseBackendStatusReturn {
-  status: BackendStatus;
-  identity: Identity;
-  refresh: () => Promise<void>;
-  isLoading: boolean;
-}
-
-const POLL_INTERVAL = 30000; // 30 seconds
-
-export function useBackendStatus(): UseBackendStatusReturn {
+export function useBackendStatus(pollMs: number = 30_000) {
+  const [data, setData] = useState<BackendStatus>({ 
+    state: "starting",
+    isMock: isMockMode()
+  });
+  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [status, setStatus] = useState<BackendStatus>({
-    connected: false,
-    ready: false,
-    phase: 'unknown',
-    uptimeSec: 0,
-    inboxCount: 0,
-    mode: 'offline',
-    lastChecked: 0,
-    error: null,
-  });
-  const [identity, setIdentity] = useState<Identity>({
-    transmissionId: '',
-    receptionId: '',
-    loaded: false,
-    error: null,
-  });
-
-  const refresh = useCallback(async () => {
-    setIsLoading(true);
-    
-    // Fetch status
-    const statusResult = await getCmixxStatus();
-    
-    if (isApiError(statusResult)) {
-      setStatus(prev => ({
-        ...prev,
-        connected: false,
-        mode: 'offline',
-        error: statusResult.error,
-        lastChecked: Date.now(),
-      }));
-    } else {
-      setStatus({
-        connected: true,
-        ready: statusResult.ready,
-        phase: statusResult.phase,
-        uptimeSec: statusResult.uptimeSec,
-        inboxCount: statusResult.inboxCount,
-        mode: statusResult.mode,
-        lastChecked: Date.now(),
-        error: null,
-      });
-    }
-
-    // Fetch identity
-    const clientResult = await getXxdkClient();
-    
-    if (isApiError(clientResult)) {
-      setIdentity(prev => ({
-        ...prev,
-        loaded: false,
-        error: clientResult.error,
-      }));
-    } else {
-      setIdentity({
-        transmissionId: clientResult.transmissionId,
-        receptionId: clientResult.receptionId,
-        loaded: true,
-        error: null,
-      });
-    }
-
-    setIsLoading(false);
-  }, []);
 
   useEffect(() => {
-    refresh();
-    
-    const interval = setInterval(refresh, POLL_INTERVAL);
-    return () => clearInterval(interval);
-  }, [refresh]);
+    let alive = true;
 
-  return { status, identity, refresh, isLoading };
+    async function tick() {
+      try {
+        const s = await status();
+        if (!alive) return;
+        setData({ ...s, isMock: isMockMode() });
+        setError(null);
+      } catch (e: any) {
+        if (!alive) return;
+        setError(e?.message || "Status check failed");
+        setData({ state: "error", detail: "Backend unavailable", isMock: isMockMode() });
+      } finally {
+        if (alive) setIsLoading(false);
+      }
+    }
+
+    tick();
+    const t = setInterval(tick, pollMs);
+    return () => {
+      alive = false;
+      clearInterval(t);
+    };
+  }, [pollMs]);
+
+  return { status: data, error, isLoading };
 }
