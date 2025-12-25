@@ -30,7 +30,9 @@ export type MessagesRes = { messages: MessageItem[] };
 
 const MOCK_MODE =
   (typeof import.meta !== "undefined" &&
-    import.meta.env?.VITE_USE_MOCKS === "true") ||
+    (import.meta as any).env?.VITE_USE_MOCKS === "true") ||
+  (typeof process !== "undefined" &&
+    (process as any).env?.NEXT_PUBLIC_USE_MOCKS === "true") ||
   true; // Default to mock mode until real proxy is deployed
 
 function sleep(ms: number) {
@@ -40,98 +42,80 @@ function sleep(ms: number) {
 async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, {
     ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...(init?.headers || {}),
-    },
+    headers: { "Content-Type": "application/json" },
   });
-
-  if (!res.ok) {
-    let detail = "";
-    try {
-      detail = await res.text();
-    } catch {}
-    throw new Error(`API ${res.status} ${res.statusText}${detail ? `: ${detail}` : ""}`);
-  }
-
+  if (!res.ok) throw new Error("Backend unavailable");
   return (await res.json()) as T;
 }
 
 // ============= Mocks (UI-Safe) =============
 
 async function mockHealth(): Promise<HealthRes> {
-  await sleep(150);
+  await sleep(100);
   return { ok: true };
 }
 
 let mockState: StatusRes["state"] = "starting";
-let mockCallCount = 0;
 
 async function mockStatus(): Promise<StatusRes> {
   await sleep(200);
-  mockCallCount++;
-  // Simulate startup → ready after 2 polls
-  if (mockState === "starting" && mockCallCount >= 2) {
-    mockState = "ready";
-  }
+  if (mockState === "starting") mockState = "ready";
   return mockState === "ready"
     ? { state: "ready" }
-    : { state: "starting", detail: "Initializing cMixx tunnel..." };
+    : { state: "starting", detail: "Starting…" };
 }
 
 async function mockMessages(): Promise<MessagesRes> {
-  await sleep(250);
+  await sleep(200);
   return {
     messages: [
       {
         id: "mock-1",
-        from: "contact-id",
-        body: "Welcome to Privxx (demo mode).",
-        timestamp: Date.now() - 60_000,
+        from: "contact",
+        body: "Welcome to Privxx (demo)",
+        timestamp: Date.now(),
       },
     ],
   };
 }
 
 async function mockSend(_: SendReq): Promise<SendRes> {
-  await sleep(250);
-  return { messageId: `mock-${Math.random().toString(16).slice(2)}`, queued: true };
+  await sleep(200);
+  return { messageId: "mock-msg", queued: true };
 }
 
 // ============= Public API =============
 
 export async function health(): Promise<HealthRes> {
-  if (MOCK_MODE) return mockHealth();
-  return fetchJson<HealthRes>("/api/backend/health");
+  return MOCK_MODE ? mockHealth() : fetchJson<HealthRes>("/api/backend/health");
 }
 
 export async function status(): Promise<StatusRes> {
-  if (MOCK_MODE) return mockStatus();
-  return fetchJson<StatusRes>("/api/backend/status");
+  return MOCK_MODE ? mockStatus() : fetchJson<StatusRes>("/api/backend/status");
 }
 
 export async function messages(): Promise<MessagesRes> {
-  if (MOCK_MODE) return mockMessages();
-  return fetchJson<MessagesRes>("/api/backend/messages");
+  return MOCK_MODE ? mockMessages() : fetchJson<MessagesRes>("/api/backend/messages");
 }
 
 export async function sendMessage(req: SendReq): Promise<SendRes> {
-  if (MOCK_MODE) return mockSend(req);
-  return fetchJson<SendRes>("/api/backend/send", {
-    method: "POST",
-    body: JSON.stringify(req),
-  });
+  return MOCK_MODE
+    ? mockSend(req)
+    : fetchJson<SendRes>("/api/backend/send", {
+        method: "POST",
+        body: JSON.stringify(req),
+      });
 }
 
 // ============= Utility Functions =============
+
+export function isMockMode(): boolean {
+  return MOCK_MODE;
+}
 
 export function formatUptime(seconds: number): string {
   if (seconds < 60) return `${seconds}s`;
   if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
   if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;
   return `${Math.floor(seconds / 86400)}d`;
-}
-
-export function isMockMode(): boolean {
-  return MOCK_MODE;
 }
