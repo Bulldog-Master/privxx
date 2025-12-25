@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"sync"
 	"time"
 )
@@ -134,7 +135,12 @@ func handleConnect(w http.ResponseWriter, r *http.Request) {
 	session.StartedAt = &now
 	session.mu.Unlock()
 
-	log.Printf("[CONNECT] Target: %s", req.TargetURL)
+	// Privacy-preserving logging: only log domain, not full URL with parameters
+	if parsedURL, err := url.Parse(req.TargetURL); err == nil {
+		log.Printf("[CONNECT] Domain: %s", parsedURL.Host)
+	} else {
+		log.Printf("[CONNECT] Request received (URL parse error)")
+	}
 
 	// TODO: Replace with real xxDK/cMixx integration
 	// For now, simulate connection delay
