@@ -1,5 +1,4 @@
 import { useBackendStatus } from '@/hooks/useBackendStatus';
-import { formatUptime } from '@/lib/privxx-api';
 import { useTranslations } from '@/lib/i18n';
 
 const BackendHealthIndicator = () => {
@@ -15,30 +14,32 @@ const BackendHealthIndicator = () => {
     );
   }
 
-  if (!status.connected) {
+  // Show demo mode indicator when using mocks
+  const modeLabel = status.isMock ? ' (Demo)' : '';
+
+  if (status.state === "error") {
     return (
       <div className="flex items-center gap-2 text-xs text-foreground/50">
         <span className="w-2 h-2 rounded-full bg-amber-400/70" />
-        <span>{t('backendOffline')}</span>
+        <span>{t('backendOffline')}{modeLabel}</span>
       </div>
     );
   }
 
+  if (status.state === "starting") {
+    return (
+      <div className="flex items-center gap-2 text-xs text-foreground/50">
+        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+        <span>{t('backendConnecting')}{modeLabel}</span>
+      </div>
+    );
+  }
+
+  // state === "ready"
   return (
     <div className="flex items-center gap-2 text-xs text-foreground/60">
-      <span className={`w-2 h-2 rounded-full ${
-        status.ready 
-          ? 'bg-emerald-400 shadow-sm shadow-emerald-400/50' 
-          : 'bg-amber-400'
-      }`} />
-      <span>
-        {status.ready ? t('backendLive') : t('backendConnecting')}
-        {status.uptimeSec > 0 && (
-          <span className="text-foreground/40 ml-1">
-            · {formatUptime(status.uptimeSec)}
-          </span>
-        )}
-      </span>
+      <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/50" />
+      <span>{t('backendLive')}{modeLabel}</span>
     </div>
   );
 };
