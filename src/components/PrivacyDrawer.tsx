@@ -16,7 +16,7 @@ const PrivacyDrawer = () => {
     <Drawer direction="right">
       <DrawerTrigger asChild>
         <Button 
-          className="h-6 px-2 rounded-md border border-white/20 text-foreground hover:brightness-110 font-medium text-[10px] transition-all"
+          className="min-h-[44px] px-3 py-2 rounded-md border border-white/20 text-foreground hover:brightness-110 font-medium text-xs transition-all"
           style={{
             background: 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
           }}
