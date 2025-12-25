@@ -38,6 +38,11 @@
   "proxyPlaceholder": "Proxy-Inhalte werden hier erscheinen, sobald vollständiges privates Routing aktiviert ist.",
   "demoModeNotice": "Demo-Modus — sicheres Routing für Vorschau simuliert",
   
+  "installApp": "Privxx installieren",
+  "installAppDescription": "Zum Startbildschirm hinzufügen",
+  "install": "Installieren",
+  "notNow": "Nicht jetzt",
+  
   "errorConnectionFailed": "Derzeit kann keine private Route hergestellt werden.",
   "errorTryAgain": "Bitte erneut versuchen."
 }

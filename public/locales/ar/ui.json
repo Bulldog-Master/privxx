@@ -38,6 +38,11 @@
   "proxyPlaceholder": "سيظهر محتوى البروكسي هنا بمجرد تفعيل التوجيه الخاص الكامل.",
   "demoModeNotice": "وضع العرض — التوجيه الآمن محاكى للمعاينة",
   
+  "installApp": "تثبيت Privxx",
+  "installAppDescription": "إضافة إلى الشاشة الرئيسية للوصول السريع",
+  "install": "تثبيت",
+  "notNow": "ليس الآن",
+  
   "errorConnectionFailed": "تعذر إنشاء مسار خاص في الوقت الحالي.",
   "errorTryAgain": "يرجى المحاولة مرة أخرى."
 }

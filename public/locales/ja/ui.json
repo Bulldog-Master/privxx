@@ -38,6 +38,11 @@
   "proxyPlaceholder": "完全なプライベートルーティングが有効になると、プロキシコンテンツがここに表示されます。",
   "demoModeNotice": "デモモード — プレビュー用に安全なルーティングをシミュレート中",
   
+  "installApp": "Privxxをインストール",
+  "installAppDescription": "ホーム画面に追加して素早くアクセス",
+  "install": "インストール",
+  "notNow": "後で",
+  
   "errorConnectionFailed": "現在、プライベートルートを確立できません。",
   "errorTryAgain": "もう一度お試しください。"
 }

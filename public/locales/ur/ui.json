@@ -38,6 +38,11 @@
   "proxyPlaceholder": "مکمل پرائیویٹ روٹنگ فعال ہونے پر پراکسی مواد یہاں ظاہر ہوگا۔",
   "demoModeNotice": "ڈیمو موڈ — پیش نظارہ کے لیے محفوظ روٹنگ کی نقل",
   
+  "installApp": "Privxx انسٹال کریں",
+  "installAppDescription": "فوری رسائی کے لیے ہوم اسکرین پر شامل کریں",
+  "install": "انسٹال کریں",
+  "notNow": "ابھی نہیں",
+  
   "errorConnectionFailed": "ابھی نجی راستہ قائم کرنے سے قاصر۔",
   "errorTryAgain": "براہ کرم دوبارہ کوشش کریں۔"
 }
