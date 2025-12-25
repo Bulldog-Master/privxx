@@ -77,15 +77,25 @@ export const t = (key: TranslationKey): string => {
 
 // React hook for translations with reactivity
 export const useTranslations = () => {
-  const [, setTick] = useState(0);
+  const [lang, setLang] = useState(() => currentLanguage);
   
   useEffect(() => {
-    const listener = () => setTick(tick => tick + 1);
+    // Sync initial state
+    if (lang !== currentLanguage) {
+      setLang(currentLanguage);
+    }
+    
+    const listener = () => setLang(currentLanguage);
     listeners.push(listener);
     return () => {
       listeners = listeners.filter(l => l !== listener);
     };
   }, []);
   
-  return { t, currentLanguage, setLanguage, getSupportedLanguages };
+  // Use local lang state for translations to ensure consistency
+  const translate = (key: TranslationKey): string => {
+    return translations[lang]?.[key] || translations.en[key] || key;
+  };
+  
+  return { t: translate, currentLanguage: lang, setLanguage, getSupportedLanguages };
 };
