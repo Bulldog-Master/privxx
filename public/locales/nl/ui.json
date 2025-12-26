@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "Gebruiksvoorwaarden",
+  "termsUpdated": "Laatst bijgewerkt: December 2025",
+  "termsUseTitle": "Gebruik van Privxx",
+  "termsUseBody": "Privxx wordt geleverd om metadata-blootstelling te helpen verminderen. U stemt ermee in de app verantwoordelijk te gebruiken en in overeenstemming met de toepasselijke wetgeving.",
+  "termsNoGuaranteesTitle": "Geen Garanties",
+  "termsNoGuaranteesBody": "Privxx belooft geen perfecte of absolute anonimiteit. Beschikbaarheid en prestaties kunnen variëren, vooral tijdens de preview-modus.",
+  "termsPrivacyTitle": "Privacy",
+  "termsPrivacyBody": "Privxx volgt geen gebruikers en verkoopt geen persoonlijke gegevens. Zie het Privacybeleid voor details.",
+  "termsChangesTitle": "Wijzigingen",
+  "termsChangesBody": "We kunnen deze voorwaarden bijwerken naarmate het product evolueert. Voortgezet gebruik betekent dat u de bijgewerkte voorwaarden accepteert.",
+  "termsContactTitle": "Contact",
+  "termsContactBody": "Als u vragen heeft over deze voorwaarden, neem dan contact op met het Privxx-team.",
+  
+  "footerTagline": "Privacy by Design",
+  "queued": "In wachtrij",
+  "sent": "Verzonden",
+  "retry": "Opnieuw proberen",
   "subtitle": "Privétunnel voor browsen en betalingen",
   "urlPlaceholder": "https://bank-of-handelaar.nl",
   "privacy": "Privacy",

@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "Términos de uso",
+  "termsUpdated": "Última actualización: Diciembre 2025",
+  "termsUseTitle": "Uso de Privxx",
+  "termsUseBody": "Privxx se proporciona para ayudar a reducir la exposición de metadatos. Usted acepta usar la aplicación de manera responsable y de acuerdo con las leyes aplicables.",
+  "termsNoGuaranteesTitle": "Sin garantías",
+  "termsNoGuaranteesBody": "Privxx no promete anonimato perfecto o absoluto. La disponibilidad y el rendimiento pueden variar, especialmente durante el modo de vista previa.",
+  "termsPrivacyTitle": "Privacidad",
+  "termsPrivacyBody": "Privxx no rastrea usuarios ni vende datos personales. Para más detalles, consulte la Política de Privacidad.",
+  "termsChangesTitle": "Cambios",
+  "termsChangesBody": "Podemos actualizar estos términos a medida que el producto evoluciona. El uso continuado significa que acepta los términos actualizados.",
+  "termsContactTitle": "Contacto",
+  "termsContactBody": "Si tiene preguntas sobre estos términos, por favor contacte al equipo de Privxx.",
+  
+  "footerTagline": "Privacidad por diseño",
+  "queued": "En cola",
+  "sent": "Enviado",
+  "retry": "Reintentar",
   "subtitle": "Túnel privado de navegación y pagos",
   "urlPlaceholder": "https://banco-o-comercio.com",
   "privacy": "Privacidad",

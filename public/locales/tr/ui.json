@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "Kullanım Şartları",
+  "termsUpdated": "Son güncelleme: Aralık 2025",
+  "termsUseTitle": "Privxx Kullanımı",
+  "termsUseBody": "Privxx, üstveri maruziyetini azaltmaya yardımcı olmak için sağlanmaktadır. Uygulamayı sorumlu bir şekilde ve geçerli yasalara uygun olarak kullanmayı kabul ediyorsunuz.",
+  "termsNoGuaranteesTitle": "Garanti Yok",
+  "termsNoGuaranteesBody": "Privxx mükemmel veya mutlak anonimlik vaat etmez. Özellikle önizleme modu sırasında kullanılabilirlik ve performans değişebilir.",
+  "termsPrivacyTitle": "Gizlilik",
+  "termsPrivacyBody": "Privxx kullanıcıları izlemez ve kişisel verileri satmaz. Ayrıntılar için Gizlilik Politikası'na bakın.",
+  "termsChangesTitle": "Değişiklikler",
+  "termsChangesBody": "Ürün geliştikçe bu şartları güncelleyebiliriz. Kullanmaya devam etmek, güncellenmiş şartları kabul ettiğiniz anlamına gelir.",
+  "termsContactTitle": "İletişim",
+  "termsContactBody": "Bu şartlar hakkında sorularınız varsa, lütfen Privxx ekibiyle iletişime geçin.",
+  
+  "footerTagline": "Tasarımla Gizlilik",
+  "queued": "Sırada",
+  "sent": "Gönderildi",
+  "retry": "Tekrar dene",
   "subtitle": "Gizli tarama ve ödeme tüneli",
   "urlPlaceholder": "https://banka-veya-magaza.com",
   "privacy": "Gizlilik",

@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "شروط الاستخدام",
+  "termsUpdated": "آخر تحديث: ديسمبر 2025",
+  "termsUseTitle": "استخدام Privxx",
+  "termsUseBody": "يتم توفير Privxx للمساعدة في تقليل تعرض البيانات الوصفية. أنت توافق على استخدام التطبيق بمسؤولية ووفقاً للقوانين المعمول بها.",
+  "termsNoGuaranteesTitle": "لا ضمانات",
+  "termsNoGuaranteesBody": "لا يعد Privxx بإخفاء الهوية المثالي أو المطلق. قد تختلف التوفر والأداء، خاصة أثناء وضع المعاينة.",
+  "termsPrivacyTitle": "الخصوصية",
+  "termsPrivacyBody": "لا يتتبع Privxx المستخدمين ولا يبيع البيانات الشخصية. للتفاصيل، راجع سياسة الخصوصية.",
+  "termsChangesTitle": "التغييرات",
+  "termsChangesBody": "قد نقوم بتحديث هذه الشروط مع تطور المنتج. الاستمرار في الاستخدام يعني أنك توافق على الشروط المحدثة.",
+  "termsContactTitle": "التواصل",
+  "termsContactBody": "إذا كانت لديك أسئلة حول هذه الشروط، يرجى الاتصال بفريق Privxx.",
+  
+  "footerTagline": "الخصوصية بالتصميم",
+  "queued": "في الانتظار",
+  "sent": "مرسل",
+  "retry": "إعادة المحاولة",
   "subtitle": "نفق خاص للتصفح والمدفوعات",
   "urlPlaceholder": "https://بنك-او-تاجر.com",
   "privacy": "الخصوصية",
