@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "कनेक्ट हो रहा है",
   "diagnosticsChecking": "जाँच हो रही है…",
   "diagnosticsRefresh": "स्थिति रिफ्रेश करें",
+  "diagnosticsRetry": "पुनः प्रयास करें",
   "diagnosticsCopy": "स्थिति कॉपी करें",
   "diagnosticsVersion": "Privxx v0.2.0 • फ्रंटएंड पूर्ण",
   "copied": "कॉपी किया गया"

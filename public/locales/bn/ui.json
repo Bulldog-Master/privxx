@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "সংযুক্ত হচ্ছে",
   "diagnosticsChecking": "পরীক্ষা করা হচ্ছে…",
   "diagnosticsRefresh": "স্ট্যাটাস রিফ্রেশ করুন",
+  "diagnosticsRetry": "পুনরায় চেষ্টা করুন",
   "diagnosticsCopy": "স্ট্যাটাস কপি করুন",
   "diagnosticsVersion": "Privxx v0.2.0 • ফ্রন্টএন্ড সম্পূর্ণ",
   "copied": "কপি করা হয়েছে"

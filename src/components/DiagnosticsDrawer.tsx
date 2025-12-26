@@ -134,22 +134,36 @@ const DiagnosticsDrawer = () => {
               <Skeleton className="h-4 w-14" />
             </div>
           ) : (
-            <div 
-              className={`flex items-center justify-between p-4 rounded-lg ${backendStatus.bgColor} animate-fade-in`}
-              role="status"
-              aria-live="polite"
-            >
-              <div className="flex items-center gap-3">
-                <backendStatus.icon className={`h-5 w-5 ${backendStatus.color}`} aria-hidden="true" />
-                <div>
-                  <p className="text-sm font-medium text-foreground">{t("diagnosticsBackend")}</p>
-                  <p className="text-xs text-muted-foreground">{t("diagnosticsBackendSubtext")}</p>
-                </div>
+          <div 
+            className={`flex items-center justify-between p-4 rounded-lg ${backendStatus.bgColor} animate-fade-in`}
+            role="status"
+            aria-live="polite"
+          >
+            <div className="flex items-center gap-3">
+              <backendStatus.icon className={`h-5 w-5 ${backendStatus.color}`} aria-hidden="true" />
+              <div>
+                <p className="text-sm font-medium text-foreground">{t("diagnosticsBackend")}</p>
+                <p className="text-xs text-muted-foreground">{t("diagnosticsBackendSubtext")}</p>
               </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {status.state === "error" && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-3 text-xs"
+                  onClick={refetch}
+                  disabled={isLoading}
+                >
+                  <RefreshCw className={`h-3 w-3 mr-1.5 ${isLoading ? "animate-spin" : ""}`} aria-hidden="true" />
+                  {t("diagnosticsRetry")}
+                </Button>
+              )}
               <span className={`text-sm font-semibold ${backendStatus.color}`}>
                 {backendStatus.label}
               </span>
             </div>
+          </div>
           )}
 
           {/* Mode Status */}

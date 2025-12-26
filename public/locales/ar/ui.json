@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "جاري الاتصال",
   "diagnosticsChecking": "جاري الفحص…",
   "diagnosticsRefresh": "تحديث الحالة",
+  "diagnosticsRetry": "إعادة المحاولة",
   "diagnosticsCopy": "نسخ الحالة",
   "diagnosticsVersion": "Privxx v0.2.0 • الواجهة مكتملة",
   "copied": "تم النسخ"

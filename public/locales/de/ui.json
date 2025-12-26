@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "Verbinde",
   "diagnosticsChecking": "Prüfe…",
   "diagnosticsRefresh": "Status aktualisieren",
+  "diagnosticsRetry": "Erneut versuchen",
   "diagnosticsCopy": "Status kopieren",
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend fertig",
   "copied": "Kopiert"

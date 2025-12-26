@@ -73,6 +73,7 @@
   "diagnosticsConnecting": "Connecting",
   "diagnosticsChecking": "Checking…",
   "diagnosticsRefresh": "Refresh status",
+  "diagnosticsRetry": "Retry",
   "diagnosticsCopy": "Copy status to clipboard",
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend Complete",
   "copied": "Copied to clipboard",

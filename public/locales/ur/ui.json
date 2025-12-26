@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "منسلک ہو رہا ہے",
   "diagnosticsChecking": "جانچ ہو رہی ہے…",
   "diagnosticsRefresh": "حیثیت تازہ کریں",
+  "diagnosticsRetry": "دوبارہ کوشش کریں",
   "diagnosticsCopy": "حیثیت کاپی کریں",
   "diagnosticsVersion": "Privxx v0.2.0 • فرنٹ اینڈ مکمل",
   "copied": "کاپی ہو گیا"
