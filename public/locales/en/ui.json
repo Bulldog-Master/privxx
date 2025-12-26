@@ -19,21 +19,21 @@
   "simulatedLatency": "Simulated latency",
   
   "privacyDrawerTitle": "How Privxx protects you",
-  "privacyDrawerIntro": "Privxx helps reduce metadata exposure — such as IP address, location, and timing — while you browse or interact online.",
-  "privacyDrawerIntroPreview": "This preview demonstrates how private routing will feel once fully enabled.",
+  "privacyDrawerIntro": "Privxx helps reduce metadata exposure — such as IP address, location, and timing — when you browse or interact online.",
+  "privacyDrawerIntroPreview": "This preview shows how private routing will feel once fully enabled.",
   
   "privacySectionDesignedTitle": "Privxx is designed to:",
-  "privacySectionDesignedPoint1": "reduce metadata correlation",
+  "privacySectionDesignedPoint1": "reduce metadata correlation across your activity",
   "privacySectionDesignedPoint2": "make private routing feel simple and familiar",
   "privacySectionDesignedPoint3": "avoid tracking by default",
   
   "privacySectionNotTitle": "Privxx does not:",
-  "privacySectionNotPoint1": "claim perfect or absolute anonymity",
-  "privacySectionNotPoint2": "change how you normally browse or interact online",
-  "privacySectionNotPoint3": "require you to understand cryptography or networking",
+  "privacySectionNotPoint1": "promise perfect or absolute anonymity",
+  "privacySectionNotPoint2": "change how you normally browse or use the web",
+  "privacySectionNotPoint3": "require technical knowledge to use",
   
   "privacySectionStatusTitle": "Current status",
-  "privacySectionStatusText": "This version of Privxx demonstrates the connection flow and interface. Full cryptographic routing via cMixx will be integrated next.",
+  "privacySectionStatusText": "This version demonstrates the interface and connection flow. Full cryptographic routing via the XX Network mixnet will be integrated next.",
   
   "proxyPlaceholder": "Proxied content will appear here once full private routing is enabled.",
   "demoModeNotice": "Preview — Backend live, messaging coming soon",
@@ -48,17 +48,17 @@
   
   "installApp": "Install Privxx",
   "installAppDescription": "Add to home screen for quick access",
-  "installAppDescriptionIOS": "Use Safari to add Privxx to your home screen",
+  "installAppDescriptionIOS": "Install Privxx on your home screen for quick access.",
   "install": "Install",
   "notNow": "Not now",
   "close": "Close",
   "share": "Share",
   "addToHomeScreen": "Add to Home Screen",
   
-  "iosInstallTitle": "Add Privxx to Home Screen",
-  "iosInstallStep1": "Tap the Share button",
-  "iosInstallStep2": "Scroll and tap \"Add to Home Screen\"",
-  "iosInstallStep3": "Tap \"Add\" to confirm",
+  "iosInstallTitle": "Add Privxx to your Home Screen",
+  "iosInstallStep1": "Tap the Share button in Safari",
+  "iosInstallStep2": "Scroll down and tap \"Add to Home Screen\"",
+  "iosInstallStep3": "Tap \"Add\" to finish installing",
   
   "errorConnectionFailed": "Unable to establish a private route right now.",
   "errorTryAgain": "Please try again."
