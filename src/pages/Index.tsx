@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
@@ -74,7 +75,13 @@ const Index = () => {
             <BackendHealthIndicator />
             <DiagnosticsDrawer />
           </div>
-          <span className="text-xs text-foreground/40">{t("demoModeNotice")}</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-foreground/40">{t("demoModeNotice")}</span>
+            <span className="text-foreground/20">·</span>
+            <Link to="/privacy" className="text-xs text-foreground/40 hover:text-foreground/60 transition-colors">
+              {t("privacyPolicyLink")}
+            </Link>
+          </div>
         </footer>
       </div>
     </div>
