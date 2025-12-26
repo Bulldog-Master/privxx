@@ -31,7 +31,11 @@ const DiagnosticsDrawer = () => {
         navigator.vibrate([50, 30, 50]); // Short success pattern
       }
       toast.success(t("backendReconnected"));
-      setTimeout(() => setShowSuccess(false), 1500);
+      // Auto-dismiss drawer after success animation
+      setTimeout(() => {
+        setShowSuccess(false);
+        setOpen(false);
+      }, 1500);
     }
     prevStateRef.current = status.state;
   }, [status.state, isRetrying, t]);
