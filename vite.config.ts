@@ -53,6 +53,11 @@ export default defineConfig(({ mode }) => ({
         globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
         runtimeCaching: [
           {
+            // Never cache API responses - always fetch fresh
+            urlPattern: ({ url }) => url.pathname.startsWith("/api/backend/"),
+            handler: "NetworkOnly"
+          },
+          {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: "CacheFirst",
             options: {

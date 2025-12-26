@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RtlProvider from "@/components/RtlProvider";
+import { AppErrorBoundary } from "@/components/AppErrorBoundary";
 import InstallPrompt from "@/components/InstallPrompt";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -23,32 +24,34 @@ const PageLoader = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <RtlProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/privacy" element={
-              <Suspense fallback={<PageLoader />}>
-                <Privacy />
-              </Suspense>
-            } />
-            <Route path="/whats-new" element={
-              <Suspense fallback={<PageLoader />}>
-                <ReleaseNotes />
-              </Suspense>
-            } />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <InstallPrompt />
-        </BrowserRouter>
-      </RtlProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <AppErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <RtlProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/privacy" element={
+                <Suspense fallback={<PageLoader />}>
+                  <Privacy />
+                </Suspense>
+              } />
+              <Route path="/whats-new" element={
+                <Suspense fallback={<PageLoader />}>
+                  <ReleaseNotes />
+                </Suspense>
+              } />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <InstallPrompt />
+          </BrowserRouter>
+        </RtlProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </AppErrorBoundary>
 );
 
 export default App;

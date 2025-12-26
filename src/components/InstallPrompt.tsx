@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { Download, X, Share, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/lib/i18n";
@@ -43,6 +43,10 @@ export default function InstallPrompt() {
   const [showChromePrompt, setShowChromePrompt] = useState(false);
   const [showIOSGuide, setShowIOSGuide] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  
+  // Ref for focus management
+  const installBtnRef = useRef<HTMLButtonElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
   const ios = useMemo(() => {
     try {
@@ -127,6 +131,15 @@ export default function InstallPrompt() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [showChromePrompt, showIOSGuide, dismiss]);
 
+  // Focus management - focus primary action when prompt opens
+  useEffect(() => {
+    if (showChromePrompt) {
+      installBtnRef.current?.focus();
+    } else if (showIOSGuide) {
+      closeBtnRef.current?.focus();
+    }
+  }, [showChromePrompt, showIOSGuide]);
+
   const installChrome = async () => {
     if (!deferredPrompt) return;
     try {
@@ -190,7 +203,12 @@ export default function InstallPrompt() {
         </div>
 
         <div className="mt-3 flex justify-end">
-          <Button className="min-h-[44px]" variant="outline" onClick={dismiss}>
+          <Button 
+            ref={closeBtnRef}
+            className="min-h-[44px]" 
+            variant="outline" 
+            onClick={dismiss}
+          >
             {t("notNow")}
           </Button>
         </div>
@@ -234,7 +252,11 @@ export default function InstallPrompt() {
           <Button className="min-h-[44px]" variant="outline" onClick={dismiss}>
             {t("notNow")}
           </Button>
-          <Button className="min-h-[44px]" onClick={installChrome}>
+          <Button 
+            ref={installBtnRef}
+            className="min-h-[44px]" 
+            onClick={installChrome}
+          >
             {t("install")}
           </Button>
         </div>

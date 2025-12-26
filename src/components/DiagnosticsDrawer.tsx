@@ -55,7 +55,7 @@ const DiagnosticsDrawer = () => {
   const getModeDisplay = () => {
     if (status.isMock) {
       return {
-        label: "Demo",
+        label: t("previewModeLabel"),
         sublabel: "Simulated routing",
         icon: Info,
         color: "text-blue-500",
@@ -64,7 +64,7 @@ const DiagnosticsDrawer = () => {
     }
 
     return {
-      label: "Live",
+      label: t("liveModeLabel"),
       sublabel: "Real network routing",
       icon: CheckCircle2,
       color: "text-emerald-500",
