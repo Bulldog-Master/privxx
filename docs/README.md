@@ -1,155 +1,137 @@
 # Privxx Documentation Index
 
+> Privacy-first tunnel for browsing and payments using XX Network's cMixx mixnet technology.
+
 This directory contains the authoritative documentation for the Privxx project.
 Documents are grouped by purpose and **should be read in the order below** where applicable.
 
 ---
 
+## 🚀 Quick Start
+
+| Document | Description |
+|----------|-------------|
+| [PRIVXX-HANDOFF.md](./PRIVXX-HANDOFF.md) | Authoritative frontend handoff & rules |
+| [PRIVXX-MVP-BRIEF.md](./PRIVXX-MVP-BRIEF.md) | MVP scope and requirements |
+| [PRIVXX-EXECUTIVE-SUMMARY.md](./PRIVXX-EXECUTIVE-SUMMARY.md) | High-level project overview |
+
+---
+
 ## 🔒 Brand, UI & Design (LOCKED)
+
 These documents define the immutable visual and interaction identity of Privxx.
 
-- **brand-ui-lock.md**  
-  Canonical UI and brand lock. Single source of truth for visuals.
-
-- **PRIVXX-DESIGN-CONSTITUTION.md**  
-  Enforces non-negotiable design rules and prevents UI drift.
-
-### UI Canonical (Screenshots)
-- **screenshots/README.md**  
-  Screenshot governance and requirements.
-
-- **screenshots/home-idle.png**  
-  Locked home screen (idle state).
-
-- **screenshots/privacy-drawer-open.png**  
-  Locked privacy drawer.
+| Document | Description |
+|----------|-------------|
+| [brand-ui-lock.md](./brand-ui-lock.md) | Canonical UI and brand lock — single source of truth |
+| [PRIVXX-DESIGN-CONSTITUTION.md](./PRIVXX-DESIGN-CONSTITUTION.md) | Non-negotiable design rules |
+| [PRIVXX-DIAGNOSTICS-VIEW.md](./PRIVXX-DIAGNOSTICS-VIEW.md) | Read-only status view specification |
+| [privacy-drawer-copy.md](./privacy-drawer-copy.md) | Privacy drawer content |
+| [screenshots/README.md](./screenshots/README.md) | Screenshot governance and requirements |
 
 ---
 
 ## 🔁 User Flow & Demo
-These documents explain how Privxx is presented and demonstrated.
 
-- **state-machine.md**  
-  Connection states: Idle → Connecting → Secure.
+| Document | Description |
+|----------|-------------|
+| [state-machine.md](./state-machine.md) | Connection states: Idle → Connecting → Secure |
+| [PRIVXX-FULL-DEMO-SCRIPT.md](./PRIVXX-FULL-DEMO-SCRIPT.md) | Complete spoken demo script |
+| [PRIVXX-DEMO-SCRIPT.md](./PRIVXX-DEMO-SCRIPT.md) | Short-form demo walkthrough |
+| [PRIVXX-VISUAL-WALKTHROUGH.md](./PRIVXX-VISUAL-WALKTHROUGH.md) | Visual explanation of user journey |
+| [PRIVXX-DEMO-VS-LIVE-UX.md](./PRIVXX-DEMO-VS-LIVE-UX.md) | Preview vs live behavior |
 
-- **PRIVXX-FULL-DEMO-SCRIPT.md**  
-  Complete, spoken demo script for live or recorded demos.
+---
 
-- **PRIVXX-DEMO-SCRIPT.md**  
-  Short-form demo walkthrough (legacy / reference).
+## 📱 PWA & Mobile
 
-- **PRIVXX-VISUAL-WALKTHROUGH.md**  
-  Visual explanation of the user journey.
+| Document | Description |
+|----------|-------------|
+| [PRIVXX-PWA-SETUP.md](./PRIVXX-PWA-SETUP.md) | PWA configuration and install UX |
+| [PRIVXX-CAPACITOR-SETUP.md](./PRIVXX-CAPACITOR-SETUP.md) | Capacitor native wrapper setup |
+| [PRIVXX-CAPACITOR-MIGRATION.md](./PRIVXX-CAPACITOR-MIGRATION.md) | Future native wrapper migration plan |
+| [PRIVXX-APP-STORE-METADATA.md](./PRIVXX-APP-STORE-METADATA.md) | App store listing content |
+| [PRIVXX-SCREENSHOT-REQUIREMENTS.md](./PRIVXX-SCREENSHOT-REQUIREMENTS.md) | Screenshot specs for stores |
 
 ---
 
 ## 🧭 Product, Vision & Stakeholders
-High-level context and positioning documents.
 
-- **PRIVXX-VISION.md**  
-  Long-term vision and intent.
-
-- **PRIVXX-MVP-BRIEF.md**  
-  MVP scope and boundaries.
-
-- **PRIVXX-ROADMAP.md**  
-  Phased roadmap for future development.
-
-- **PRIVXX-ONE-PAGER.md**  
-  Non-technical, shareable explainer.
-
-- **PRIVXX-FOUNDATION-PITCH.md**  
-  Concise pitch for xx Foundation and stakeholders.
+| Document | Description |
+|----------|-------------|
+| [PRIVXX-VISION.md](./PRIVXX-VISION.md) | Long-term vision and intent |
+| [PRIVXX-ROADMAP.md](./PRIVXX-ROADMAP.md) | Phased roadmap for future development |
+| [PRIVXX-ONE-PAGER.md](./PRIVXX-ONE-PAGER.md) | Non-technical, shareable explainer |
+| [PRIVXX-FOUNDATION-PITCH.md](./PRIVXX-FOUNDATION-PITCH.md) | Pitch for xx Foundation and stakeholders |
 
 ---
 
 ## 🛡 Privacy, Policy & Compliance
-Legal, ethical, and transparency-related materials.
 
-- **privacy-drawer-copy.md**  
-  Human-readable privacy explanations shown in the UI.
-
-- **PRIVXX-PRIVACY-LAWS.md**  
-  Regulatory and legal considerations.
-
-- **SECURITY.md**  
-  Security disclosure policy.
+| Document | Description |
+|----------|-------------|
+| [PRIVXX-PRIVACY-POLICY.md](./PRIVXX-PRIVACY-POLICY.md) | User-facing privacy policy |
+| [PRIVXX-PRIVACY-LAWS.md](./PRIVXX-PRIVACY-LAWS.md) | Regulatory and legal considerations |
+| [LANGUAGE-RULES.md](./LANGUAGE-RULES.md) | Privacy-conscious language guidelines |
+| [../SECURITY.md](../SECURITY.md) | Security disclosure policy |
 
 ---
 
 ## 🔧 Architecture & Integration
-Technical planning and execution references.
 
-- **PRIVXX-ARCHITECTURE-SPEC.md**  
-  Overall system architecture (end-state).
-
-- **cmixx-integration-plan.md**  
-  Phase D plan for cMixx control-channel integration.
-
-### Phase D
-- **PHASE-D-BRIDGE.md**  
-  UI-to-cMixx state mapping and UI invariants.
-
-- **PHASE-D-PLAIN-CHECKLIST.md**  
-  Plain-English checklist defining Phase D success.
-
-- **PHASE-D-CONCEPT-DIAGRAM.md**  
-  Conceptual architecture diagram for Phase D control-channel proof.
-
-- **PHASE-D-MESSAGE-SCHEMA.md**  
-  Message formats for connect_intent and connect_ack.
-
-- **PHASE-D-ENDPOINT-SPEC.md**  
-  Minimal HTTP endpoints for observability and debugging.
-
-- **PHASE-D-GLOSSARY.md**  
-  Plain-English definitions of Phase D terms.
-
-- **PHASE-D-DECISIONS.md**  
-  Locked architectural decisions for Phase D.
-
-- **PHASE-D-SUCCESS-LOG-TEMPLATE.md**  
-  Template for recording Phase D test results.
-
-- **LAPTOP-DAY1-CHECKLIST.md**  
-  First-day execution checklist for Phase D.
-
-- **PHASE2-DEV-BRIEF.md**  
-  Future development brief (post–Phase D).
+| Document | Description |
+|----------|-------------|
+| [PRIVXX-ARCHITECTURE-SPEC.md](./PRIVXX-ARCHITECTURE-SPEC.md) | Overall system architecture |
+| [PRIVXX-EDGE-FUNCTION-SPEC.md](./PRIVXX-EDGE-FUNCTION-SPEC.md) | Proxy/BFF contract and transforms |
+| [PRIVXX-BACKEND-HANDOFF-LOCKED.md](./PRIVXX-BACKEND-HANDOFF-LOCKED.md) | Backend handoff documentation |
+| [PRIVXX-BACKEND-LIVE-RELEASE.md](./PRIVXX-BACKEND-LIVE-RELEASE.md) | Backend live release notes |
+| [PRIVXX-FRONTEND-EXECUTION-PLAYBOOK.md](./PRIVXX-FRONTEND-EXECUTION-PLAYBOOK.md) | Frontend implementation guide |
+| [cmixx-integration-plan.md](./cmixx-integration-plan.md) | cMixx mixnet integration plan |
 
 ---
 
-## 🚦 Change Control & Governance
-Rules governing what may and may not change.
+## 🔬 Phase D (cMixx Demo)
 
-- **PRIVXX-WHAT-CHANGES-WHAT-DOESNT.md**  
-  Explicit separation between frozen UI and evolving internals.
+| Document | Description |
+|----------|-------------|
+| [PHASE-D-BRIDGE.md](./PHASE-D-BRIDGE.md) | UI-to-cMixx state mapping and UI invariants |
+| [PHASE-D-CMIXX-DEMO.md](./PHASE-D-CMIXX-DEMO.md) | cMixx demo specification |
+| [PHASE-D-CONCEPT-DIAGRAM.md](./PHASE-D-CONCEPT-DIAGRAM.md) | Conceptual architecture diagram |
+| [PHASE-D-DECISIONS.md](./PHASE-D-DECISIONS.md) | Locked architectural decisions |
+| [PHASE-D-ENDPOINT-SPEC.md](./PHASE-D-ENDPOINT-SPEC.md) | Minimal HTTP endpoints for observability |
+| [PHASE-D-GLOSSARY.md](./PHASE-D-GLOSSARY.md) | Plain-English definitions |
+| [PHASE-D-MESSAGE-SCHEMA.md](./PHASE-D-MESSAGE-SCHEMA.md) | Message formats for connect_intent/ack |
+| [PHASE-D-PLAIN-CHECKLIST.md](./PHASE-D-PLAIN-CHECKLIST.md) | Plain-English success checklist |
+| [PHASE-D-SUCCESS-LOG-TEMPLATE.md](./PHASE-D-SUCCESS-LOG-TEMPLATE.md) | Test results template |
+| [PHASE2-DEV-BRIEF.md](./PHASE2-DEV-BRIEF.md) | Phase 2 development brief |
 
-- **PRIVXX-VERSIONING.md**  
-  Versioning rules and phase-to-version mapping.
+---
 
-- **../CHANGELOG.md**  
-  Historical changelog and release notes.
+## 🚦 Release & Governance
 
-- **PRIVXX-HANDOFF.md**  
-  Drop-in onboarding artifact for contributors, advisors, and reviewers.
+| Document | Description |
+|----------|-------------|
+| [PRIVXX-PUBLISH-ANNOUNCEMENT.md](./PRIVXX-PUBLISH-ANNOUNCEMENT.md) | Release announcement content |
+| [PRIVXX-VERSIONING.md](./PRIVXX-VERSIONING.md) | Version numbering scheme |
+| [PRIVXX-STATUS-UPDATE-2025-12-26.md](./PRIVXX-STATUS-UPDATE-2025-12-26.md) | Latest status update |
+| [PRIVXX-WHAT-CHANGES-WHAT-DOESNT.md](./PRIVXX-WHAT-CHANGES-WHAT-DOESNT.md) | Change scope documentation |
+| [FOUNDATION-UPDATE.md](./FOUNDATION-UPDATE.md) | Foundation updates |
+| [../CHANGELOG.md](../CHANGELOG.md) | Historical changelog and release notes |
 
-- **PHASE-D-DECISIONS.md**  
-  Locked architectural decisions for Phase D.
+---
 
-- **PHASE-D-SUCCESS-LOG-TEMPLATE.md**  
-  Template for recording Phase D test results.
+## 🛠 Development & Troubleshooting
 
-- **LAPTOP-DAY1-CHECKLIST.md**  
-  First-day execution checklist for Phase D.
-  Historical changelog and release notes.
-
-- **PRIVXX-HANDOFF.md**  
-  Drop-in onboarding artifact for contributors, advisors, and reviewers.
+| Document | Description |
+|----------|-------------|
+| [troubleshooting.md](./troubleshooting.md) | Common issues and fixes |
+| [verification.md](./verification.md) | Testing and verification |
+| [LAPTOP-DAY1-CHECKLIST.md](./LAPTOP-DAY1-CHECKLIST.md) | Developer onboarding checklist |
 
 ---
 
 ## 📌 Precedence Rule
+
 If any document conflicts with:
 - **brand-ui-lock.md**, or
 - **PRIVXX-DESIGN-CONSTITUTION.md**
@@ -159,7 +141,15 @@ Those documents take precedence.
 ---
 
 ## ✅ Status Summary
-- UI & brand: **LOCKED**
-- Demo flow: **LOCKED**
-- Documentation: **COMPLETE**
-- Next phase: **Phase D – cMixx integration**
+
+| Area | Status |
+|------|--------|
+| UI & brand | **LOCKED** |
+| Demo flow | **LOCKED** |
+| i18n | **16 languages** |
+| Documentation | **COMPLETE** |
+| Next phase | **Phase D – cMixx integration** |
+
+---
+
+*Privxx — Privacy by Design*
