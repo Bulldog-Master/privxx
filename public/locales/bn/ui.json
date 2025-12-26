@@ -111,5 +111,20 @@
   "releasePrivacy2": "কোনো কুকিজ বা ব্যবহারকারী ডেটার স্থানীয় সঞ্চয় নেই",
   "releasePrivacy3": "নেটওয়ার্ক অভ্যন্তরীণ প্রকাশ নেই",
   "releasePrivacy4": "রক্ষণশীল, সৎ গোপনীয়তা দাবি",
-  "releaseFooter": "Privxx টিম — ডিজাইনে গোপনীয়তা"
+  "releaseFooter": "Privxx টিম — ডিজাইনে গোপনীয়তা",
+  
+  "diagnosticsTitle": "সিস্টেম স্ট্যাটাস",
+  "diagnosticsBackend": "ব্যাকএন্ড",
+  "diagnosticsBackendSubtext": "সংযোগ স্ট্যাটাস",
+  "diagnosticsMode": "মোড",
+  "diagnosticsModeSimulated": "সিমুলেটেড রাউটিং",
+  "diagnosticsModeLive": "প্রকৃত নেটওয়ার্ক রাউটিং",
+  "diagnosticsOnline": "অনলাইন",
+  "diagnosticsOffline": "অফলাইন",
+  "diagnosticsConnecting": "সংযুক্ত হচ্ছে",
+  "diagnosticsChecking": "পরীক্ষা করা হচ্ছে…",
+  "diagnosticsRefresh": "স্ট্যাটাস রিফ্রেশ করুন",
+  "diagnosticsCopy": "স্ট্যাটাস কপি করুন",
+  "diagnosticsVersion": "Privxx v0.2.0 • ফ্রন্টএন্ড সম্পূর্ণ",
+  "copied": "কপি করা হয়েছে"
 }

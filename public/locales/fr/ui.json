@@ -111,5 +111,20 @@
   "releasePrivacy2": "Pas de cookies ni de stockage local des données utilisateur",
   "releasePrivacy3": "Pas d'exposition des internes du réseau",
   "releasePrivacy4": "Affirmations de confidentialité conservatrices et honnêtes",
-  "releaseFooter": "Équipe Privxx — Confidentialité par conception"
+  "releaseFooter": "Équipe Privxx — Confidentialité par conception",
+  
+  "diagnosticsTitle": "État du système",
+  "diagnosticsBackend": "Backend",
+  "diagnosticsBackendSubtext": "État de connexion",
+  "diagnosticsMode": "Mode",
+  "diagnosticsModeSimulated": "Routage simulé",
+  "diagnosticsModeLive": "Routage réseau réel",
+  "diagnosticsOnline": "En ligne",
+  "diagnosticsOffline": "Hors ligne",
+  "diagnosticsConnecting": "Connexion",
+  "diagnosticsChecking": "Vérification…",
+  "diagnosticsRefresh": "Actualiser l'état",
+  "diagnosticsCopy": "Copier l'état",
+  "diagnosticsVersion": "Privxx v0.2.0 • Frontend complet",
+  "copied": "Copié"
 }

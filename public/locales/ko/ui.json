@@ -111,5 +111,20 @@
   "releasePrivacy2": "쿠키 또는 사용자 데이터의 로컬 저장 없음",
   "releasePrivacy3": "네트워크 내부 노출 없음",
   "releasePrivacy4": "보수적이고 정직한 프라이버시 주장",
-  "releaseFooter": "Privxx 팀 — 설계에 의한 프라이버시"
+  "releaseFooter": "Privxx 팀 — 설계에 의한 프라이버시",
+  
+  "diagnosticsTitle": "시스템 상태",
+  "diagnosticsBackend": "백엔드",
+  "diagnosticsBackendSubtext": "연결 상태",
+  "diagnosticsMode": "모드",
+  "diagnosticsModeSimulated": "시뮬레이션 라우팅",
+  "diagnosticsModeLive": "실제 네트워크 라우팅",
+  "diagnosticsOnline": "온라인",
+  "diagnosticsOffline": "오프라인",
+  "diagnosticsConnecting": "연결 중",
+  "diagnosticsChecking": "확인 중…",
+  "diagnosticsRefresh": "상태 새로고침",
+  "diagnosticsCopy": "상태 복사",
+  "diagnosticsVersion": "Privxx v0.2.0 • 프론트엔드 완료",
+  "copied": "복사됨"
 }

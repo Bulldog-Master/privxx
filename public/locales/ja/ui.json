@@ -111,5 +111,20 @@
   "releasePrivacy2": "Cookieやユーザーデータのローカル保存なし",
   "releasePrivacy3": "ネットワーク内部の露出なし",
   "releasePrivacy4": "控えめで正直なプライバシー主張",
-  "releaseFooter": "Privxxチーム — プライバシー・バイ・デザイン"
+  "releaseFooter": "Privxxチーム — プライバシー・バイ・デザイン",
+  
+  "diagnosticsTitle": "システム状態",
+  "diagnosticsBackend": "バックエンド",
+  "diagnosticsBackendSubtext": "接続状態",
+  "diagnosticsMode": "モード",
+  "diagnosticsModeSimulated": "シミュレートルーティング",
+  "diagnosticsModeLive": "実際のネットワークルーティング",
+  "diagnosticsOnline": "オンライン",
+  "diagnosticsOffline": "オフライン",
+  "diagnosticsConnecting": "接続中",
+  "diagnosticsChecking": "確認中…",
+  "diagnosticsRefresh": "状態を更新",
+  "diagnosticsCopy": "状態をコピー",
+  "diagnosticsVersion": "Privxx v0.2.0 • フロントエンド完了",
+  "copied": "コピーしました"
 }

@@ -111,5 +111,20 @@
   "releasePrivacy2": "Без cookies и локального хранения данных пользователя",
   "releasePrivacy3": "Без раскрытия внутренней структуры сети",
   "releasePrivacy4": "Консервативные, честные заявления о конфиденциальности",
-  "releaseFooter": "Команда Privxx — Конфиденциальность по замыслу"
+  "releaseFooter": "Команда Privxx — Конфиденциальность по замыслу",
+  
+  "diagnosticsTitle": "Состояние системы",
+  "diagnosticsBackend": "Бэкенд",
+  "diagnosticsBackendSubtext": "Состояние подключения",
+  "diagnosticsMode": "Режим",
+  "diagnosticsModeSimulated": "Симуляция маршрутизации",
+  "diagnosticsModeLive": "Реальная сетевая маршрутизация",
+  "diagnosticsOnline": "Онлайн",
+  "diagnosticsOffline": "Офлайн",
+  "diagnosticsConnecting": "Подключение",
+  "diagnosticsChecking": "Проверка…",
+  "diagnosticsRefresh": "Обновить статус",
+  "diagnosticsCopy": "Скопировать статус",
+  "diagnosticsVersion": "Privxx v0.2.0 • Фронтенд готов",
+  "copied": "Скопировано"
 }

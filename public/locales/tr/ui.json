@@ -111,5 +111,20 @@
   "releasePrivacy2": "Çerez veya kullanıcı verilerinin yerel depolaması yok",
   "releasePrivacy3": "Ağ iç yapısının ifşası yok",
   "releasePrivacy4": "Tutarlı, dürüst gizlilik iddiaları",
-  "releaseFooter": "Privxx Ekibi — Tasarımla Gizlilik"
+  "releaseFooter": "Privxx Ekibi — Tasarımla Gizlilik",
+  
+  "diagnosticsTitle": "Sistem Durumu",
+  "diagnosticsBackend": "Backend",
+  "diagnosticsBackendSubtext": "Bağlantı durumu",
+  "diagnosticsMode": "Mod",
+  "diagnosticsModeSimulated": "Simüle yönlendirme",
+  "diagnosticsModeLive": "Gerçek ağ yönlendirmesi",
+  "diagnosticsOnline": "Çevrimiçi",
+  "diagnosticsOffline": "Çevrimdışı",
+  "diagnosticsConnecting": "Bağlanıyor",
+  "diagnosticsChecking": "Kontrol ediliyor…",
+  "diagnosticsRefresh": "Durumu yenile",
+  "diagnosticsCopy": "Durumu kopyala",
+  "diagnosticsVersion": "Privxx v0.2.0 • Frontend tamamlandı",
+  "copied": "Kopyalandı"
 }

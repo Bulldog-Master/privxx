@@ -111,5 +111,20 @@
   "releasePrivacy2": "Keine Cookies oder lokale Speicherung von Benutzerdaten",
   "releasePrivacy3": "Keine Offenlegung von Netzwerk-Interna",
   "releasePrivacy4": "Konservative, ehrliche Datenschutzaussagen",
-  "releaseFooter": "Privxx Team — Datenschutz durch Design"
+  "releaseFooter": "Privxx Team — Datenschutz durch Design",
+  
+  "diagnosticsTitle": "Systemstatus",
+  "diagnosticsBackend": "Backend",
+  "diagnosticsBackendSubtext": "Verbindungsstatus",
+  "diagnosticsMode": "Modus",
+  "diagnosticsModeSimulated": "Simuliertes Routing",
+  "diagnosticsModeLive": "Echtes Netzwerk-Routing",
+  "diagnosticsOnline": "Online",
+  "diagnosticsOffline": "Offline",
+  "diagnosticsConnecting": "Verbinde",
+  "diagnosticsChecking": "Prüfe…",
+  "diagnosticsRefresh": "Status aktualisieren",
+  "diagnosticsCopy": "Status kopieren",
+  "diagnosticsVersion": "Privxx v0.2.0 • Frontend fertig",
+  "copied": "Kopiert"
 }
