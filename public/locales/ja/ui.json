@@ -149,5 +149,13 @@
   "diagnosticsRetry": "再試行",
   "diagnosticsCopy": "状態をコピー",
   "diagnosticsVersion": "Privxx v0.2.0 • フロントエンド完了",
-  "copied": "コピーしました"
+  "copied": "コピーしました",
+  
+  "continuePreview": "プレビューを続行",
+  "readinessTitle": "準備状況",
+  "readinessProxy": "プロキシ到達可能",
+  "readinessBackend": "バックエンド準備完了",
+  "readinessMode": "モード",
+  "yes": "はい",
+  "no": "いいえ"
 }

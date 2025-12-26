@@ -149,5 +149,13 @@
   "diagnosticsRetry": "Повторить",
   "diagnosticsCopy": "Скопировать статус",
   "diagnosticsVersion": "Privxx v0.2.0 • Фронтенд готов",
-  "copied": "Скопировано"
+  "copied": "Скопировано",
+  
+  "continuePreview": "Продолжить в предпросмотре",
+  "readinessTitle": "Готовность",
+  "readinessProxy": "Прокси доступен",
+  "readinessBackend": "Бэкенд готов",
+  "readinessMode": "Режим",
+  "yes": "Да",
+  "no": "Нет"
 }

@@ -149,5 +149,13 @@
   "diagnosticsRetry": "Erneut versuchen",
   "diagnosticsCopy": "Status kopieren",
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend fertig",
-  "copied": "Kopiert"
+  "copied": "Kopiert",
+  
+  "continuePreview": "Im Vorschau-Modus fortfahren",
+  "readinessTitle": "Bereitschaft",
+  "readinessProxy": "Proxy erreichbar",
+  "readinessBackend": "Backend bereit",
+  "readinessMode": "Modus",
+  "yes": "Ja",
+  "no": "Nein"
 }

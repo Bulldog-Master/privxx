@@ -149,5 +149,13 @@
   "diagnosticsRetry": "重试",
   "diagnosticsCopy": "复制状态",
   "diagnosticsVersion": "Privxx v0.2.0 • 前端完成",
-  "copied": "已复制"
+  "copied": "已复制",
+  
+  "continuePreview": "继续预览",
+  "readinessTitle": "就绪状态",
+  "readinessProxy": "代理可达",
+  "readinessBackend": "后端就绪",
+  "readinessMode": "模式",
+  "yes": "是",
+  "no": "否"
 }

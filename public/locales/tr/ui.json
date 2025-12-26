@@ -149,5 +149,13 @@
   "diagnosticsRetry": "Tekrar dene",
   "diagnosticsCopy": "Durumu kopyala",
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend tamamlandı",
-  "copied": "Kopyalandı"
+  "copied": "Kopyalandı",
+  
+  "continuePreview": "Önizlemede devam et",
+  "readinessTitle": "Hazırlık",
+  "readinessProxy": "Proxy erişilebilir",
+  "readinessBackend": "Backend hazır",
+  "readinessMode": "Mod",
+  "yes": "Evet",
+  "no": "Hayır"
 }

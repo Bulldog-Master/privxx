@@ -149,5 +149,13 @@
   "diagnosticsRetry": "পুনরায় চেষ্টা করুন",
   "diagnosticsCopy": "স্ট্যাটাস কপি করুন",
   "diagnosticsVersion": "Privxx v0.2.0 • ফ্রন্টএন্ড সম্পূর্ণ",
-  "copied": "কপি করা হয়েছে"
+  "copied": "কপি করা হয়েছে",
+  
+  "continuePreview": "প্রিভিউতে চালিয়ে যান",
+  "readinessTitle": "প্রস্তুতি",
+  "readinessProxy": "প্রক্সি উপলব্ধ",
+  "readinessBackend": "ব্যাকএন্ড প্রস্তুত",
+  "readinessMode": "মোড",
+  "yes": "হ্যাঁ",
+  "no": "না"
 }

@@ -149,5 +149,13 @@
   "diagnosticsRetry": "पुनः प्रयास करें",
   "diagnosticsCopy": "स्थिति कॉपी करें",
   "diagnosticsVersion": "Privxx v0.2.0 • फ्रंटएंड पूर्ण",
-  "copied": "कॉपी किया गया"
+  "copied": "कॉपी किया गया",
+  
+  "continuePreview": "प्रीव्यू में जारी रखें",
+  "readinessTitle": "तैयारी",
+  "readinessProxy": "प्रॉक्सी उपलब्ध",
+  "readinessBackend": "बैकएंड तैयार",
+  "readinessMode": "मोड",
+  "yes": "हाँ",
+  "no": "नहीं"
 }

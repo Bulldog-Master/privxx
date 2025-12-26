@@ -149,5 +149,13 @@
   "diagnosticsRetry": "Opnieuw proberen",
   "diagnosticsCopy": "Status kopiëren",
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend compleet",
-  "copied": "Gekopieerd"
+  "copied": "Gekopieerd",
+  
+  "continuePreview": "Doorgaan in voorvertoning",
+  "readinessTitle": "Gereedheid",
+  "readinessProxy": "Proxy bereikbaar",
+  "readinessBackend": "Backend gereed",
+  "readinessMode": "Modus",
+  "yes": "Ja",
+  "no": "Nee"
 }
