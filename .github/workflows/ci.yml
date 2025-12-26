@@ -61,5 +61,8 @@ jobs:
             echo "No privacy check script found, skipping."
           fi
 
+      - name: Run language guard
+        run: node scripts/check-language.js
+
       - name: Run tests
         run: npx vitest run
