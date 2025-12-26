@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Info, CheckCircle2, XCircle, AlertCircle, Copy, Check } from "lucide-react";
+import { Info, CheckCircle2, XCircle, AlertCircle, Copy, Check, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -16,7 +16,7 @@ import { toast } from "sonner";
 const DiagnosticsDrawer = () => {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const { status, isLoading } = useBackendStatus();
+  const { status, isLoading, refetch } = useBackendStatus();
   const { t } = useTranslations();
 
   const copyStatus = async () => {
@@ -182,19 +182,31 @@ const DiagnosticsDrawer = () => {
             <p className="text-xs text-muted-foreground">
               Privxx v0.2.0 • Frontend Complete
             </p>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2 text-xs"
-              onClick={copyStatus}
-              aria-label="Copy status to clipboard"
-            >
-              {copied ? (
-                <Check className="h-3.5 w-3.5 text-emerald-500" aria-hidden="true" />
-              ) : (
-                <Copy className="h-3.5 w-3.5" aria-hidden="true" />
-              )}
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 px-2 text-xs"
+                onClick={refetch}
+                disabled={isLoading}
+                aria-label="Refresh status"
+              >
+                <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} aria-hidden="true" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 px-2 text-xs"
+                onClick={copyStatus}
+                aria-label="Copy status to clipboard"
+              >
+                {copied ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-500" aria-hidden="true" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+                )}
+              </Button>
+            </div>
           </div>
         </div>
       </SheetContent>

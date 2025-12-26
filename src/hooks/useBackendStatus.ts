@@ -23,6 +23,20 @@ export function useBackendStatus(pollMs = 30000) {
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
   }, []);
 
+  const fetchStatus = async () => {
+    setIsLoading(true);
+    try {
+      const s = await status();
+      setData({ ...s, isMock: isMockMode() });
+      setError(null);
+    } catch {
+      setData({ state: "error", detail: "Backend unavailable", isMock: isMockMode() });
+      setError("unavailable");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     let alive = true;
 
@@ -51,5 +65,5 @@ export function useBackendStatus(pollMs = 30000) {
     };
   }, [pollMs, isActive]);
 
-  return { status: data, error, isLoading };
+  return { status: data, error, isLoading, refetch: fetchStatus };
 }
