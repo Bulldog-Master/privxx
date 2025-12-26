@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "سيظهر محتوى البروكسي هنا بمجرد تفعيل التوجيه الخاص الكامل.",
   "demoModeNotice": "وضع العرض — التوجيه الآمن محاكى للمعاينة",
-  
+  "backendReconnected": "تم إعادة الاتصال بالخادم",
+
   "installApp": "تثبيت Privxx",
   "installAppDescription": "إضافة إلى الشاشة الرئيسية للوصول السريع",
   "installAppDescriptionIOS": "ثبّت Privxx على شاشتك الرئيسية للوصول السريع.",

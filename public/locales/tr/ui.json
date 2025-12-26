@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "Tam özel yönlendirme etkinleştirildiğinde proxy içeriği burada görünecektir.",
   "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle edildi",
-  
+  "backendReconnected": "Backend yeniden bağlandı",
+
   "installApp": "Privxx'i Yükle",
   "installAppDescription": "Hızlı erişim için ana ekrana ekle",
   "installAppDescriptionIOS": "Hızlı erişim için Privxx'i ana ekranınıza yükleyin.",

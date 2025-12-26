@@ -30,10 +30,11 @@ const DiagnosticsDrawer = () => {
       if (navigator.vibrate) {
         navigator.vibrate([50, 30, 50]); // Short success pattern
       }
+      toast.success(t("backendReconnected"));
       setTimeout(() => setShowSuccess(false), 1500);
     }
     prevStateRef.current = status.state;
-  }, [status.state, isRetrying]);
+  }, [status.state, isRetrying, t]);
 
   const handleRetry = async () => {
     setIsRetrying(true);

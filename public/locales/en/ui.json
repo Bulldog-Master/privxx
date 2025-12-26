@@ -39,6 +39,7 @@
   "demoModeNotice": "Preview — Backend live, messaging coming soon",
   
   "backendLive": "Backend live",
+  "backendReconnected": "Backend reconnected",
   "backendOffline": "Backend unavailable",
   "backendOfflineHint": "Connection will retry automatically",
   "backendConnecting": "Connecting to backend",

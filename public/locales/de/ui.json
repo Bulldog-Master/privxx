@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "Proxy-Inhalte werden hier erscheinen, sobald vollständiges privates Routing aktiviert ist.",
   "demoModeNotice": "Demo-Modus — sicheres Routing für Vorschau simuliert",
-  
+  "backendReconnected": "Backend wieder verbunden",
+
   "installApp": "Privxx installieren",
   "installAppDescription": "Zum Startbildschirm hinzufügen",
   "installAppDescriptionIOS": "Installieren Sie Privxx auf Ihrem Startbildschirm für schnellen Zugriff.",
