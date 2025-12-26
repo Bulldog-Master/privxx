@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,11 +7,20 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RtlProvider from "@/components/RtlProvider";
 import InstallPrompt from "@/components/InstallPrompt";
 import Index from "./pages/Index";
-import Privacy from "./pages/Privacy";
-import ReleaseNotes from "./pages/ReleaseNotes";
 import NotFound from "./pages/NotFound";
 
+// Lazy load secondary pages for better initial bundle size
+const Privacy = lazy(() => import("./pages/Privacy"));
+const ReleaseNotes = lazy(() => import("./pages/ReleaseNotes"));
+
 const queryClient = new QueryClient();
+
+// Minimal loading fallback for route transitions
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-[hsl(215_25%_27%)]">
+    <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -21,8 +31,16 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/whats-new" element={<ReleaseNotes />} />
+            <Route path="/privacy" element={
+              <Suspense fallback={<PageLoader />}>
+                <Privacy />
+              </Suspense>
+            } />
+            <Route path="/whats-new" element={
+              <Suspense fallback={<PageLoader />}>
+                <ReleaseNotes />
+              </Suspense>
+            } />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
