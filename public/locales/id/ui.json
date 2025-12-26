@@ -40,8 +40,12 @@
   
   "installApp": "Instal Privxx",
   "installAppDescription": "Tambahkan ke layar utama untuk akses cepat",
+  "installAppDescriptionIOS": "Gunakan Safari untuk menambahkan Privxx ke layar utama",
   "install": "Instal",
   "notNow": "Nanti saja",
+  "close": "Tutup",
+  "share": "Bagikan",
+  "addToHomeScreen": "Tambahkan ke Layar Utama",
   
   "iosInstallTitle": "Tambahkan Privxx ke layar utama",
   "iosInstallStep1": "Ketuk tombol Bagikan",

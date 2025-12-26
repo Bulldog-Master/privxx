@@ -40,8 +40,12 @@
   
   "installApp": "تثبيت Privxx",
   "installAppDescription": "إضافة إلى الشاشة الرئيسية للوصول السريع",
+  "installAppDescriptionIOS": "استخدم Safari لإضافة Privxx إلى شاشتك الرئيسية",
   "install": "تثبيت",
   "notNow": "ليس الآن",
+  "close": "إغلاق",
+  "share": "مشاركة",
+  "addToHomeScreen": "إضافة للشاشة الرئيسية",
   
   "iosInstallTitle": "إضافة Privxx للشاشة الرئيسية",
   "iosInstallStep1": "اضغط على زر المشاركة",

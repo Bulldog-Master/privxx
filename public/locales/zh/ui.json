@@ -40,8 +40,12 @@
   
   "installApp": "安装 Privxx",
   "installAppDescription": "添加到主屏幕以快速访问",
+  "installAppDescriptionIOS": "使用 Safari 将 Privxx 添加到主屏幕",
   "install": "安装",
   "notNow": "暂不",
+  "close": "关闭",
+  "share": "分享",
+  "addToHomeScreen": "添加到主屏幕",
   
   "iosInstallTitle": "添加 Privxx 到主屏幕",
   "iosInstallStep1": "点击分享按钮",

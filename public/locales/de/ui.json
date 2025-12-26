@@ -40,8 +40,12 @@
   
   "installApp": "Privxx installieren",
   "installAppDescription": "Zum Startbildschirm hinzufügen",
+  "installAppDescriptionIOS": "Verwenden Sie Safari, um Privxx zum Startbildschirm hinzuzufügen",
   "install": "Installieren",
   "notNow": "Nicht jetzt",
+  "close": "Schließen",
+  "share": "Teilen",
+  "addToHomeScreen": "Zum Home-Bildschirm",
   
   "iosInstallTitle": "Privxx zum Home-Bildschirm",
   "iosInstallStep1": "Tippen Sie auf die Teilen-Taste",

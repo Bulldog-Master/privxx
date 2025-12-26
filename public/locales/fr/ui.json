@@ -40,8 +40,12 @@
   
   "installApp": "Installer Privxx",
   "installAppDescription": "Ajouter à l'écran d'accueil pour un accès rapide",
+  "installAppDescriptionIOS": "Utilisez Safari pour ajouter Privxx à votre écran d'accueil",
   "install": "Installer",
   "notNow": "Pas maintenant",
+  "close": "Fermer",
+  "share": "Partager",
+  "addToHomeScreen": "Sur l'écran d'accueil",
   
   "iosInstallTitle": "Ajouter Privxx à l'écran",
   "iosInstallStep1": "Appuyez sur le bouton Partager",
