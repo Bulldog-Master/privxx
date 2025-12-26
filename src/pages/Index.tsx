@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
 import ContentArea from "@/components/ContentArea";
 import BackendHealthIndicator from "@/components/BackendHealthIndicator";
-import DiagnosticsDrawer from "@/components/DiagnosticsDrawer";
 import { useTranslations } from "@/lib/i18n";
+
+// Lazy load the diagnostics drawer - only loaded when user interacts
+const DiagnosticsDrawer = lazy(() => import("@/components/DiagnosticsDrawer"));
 
 const Index = () => {
   const [connectionState, setConnectionState] = useState<ConnectionState>("idle");
@@ -73,7 +75,9 @@ const Index = () => {
         <footer className="flex flex-col items-center gap-2 py-4 px-4">
           <div className="flex items-center gap-3">
             <BackendHealthIndicator />
-            <DiagnosticsDrawer />
+            <Suspense fallback={<div className="h-8 w-16" />}>
+              <DiagnosticsDrawer />
+            </Suspense>
           </div>
           <div className="flex items-center gap-3">
             <span className="text-xs text-foreground/40">{t("demoModeNotice")}</span>
