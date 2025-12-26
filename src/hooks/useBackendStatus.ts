@@ -12,11 +12,23 @@ export function useBackendStatus(pollMs = 30000) {
   });
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isActive, setIsActive] = useState(!document.hidden);
+
+  // Pause polling when app is backgrounded (privacy + performance)
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      setIsActive(!document.hidden);
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
 
   useEffect(() => {
     let alive = true;
 
     async function tick() {
+      if (!isActive) return; // Skip polling when backgrounded
+      
       try {
         const s = await status();
         if (!alive) return;
@@ -37,7 +49,7 @@ export function useBackendStatus(pollMs = 30000) {
       alive = false;
       clearInterval(t);
     };
-  }, [pollMs]);
+  }, [pollMs, isActive]);
 
   return { status: data, error, isLoading };
 }

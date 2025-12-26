@@ -50,6 +50,18 @@
   "retryConnection": "Retry",
   "connectionTimeout": "Connection timed out. Please try again.",
   
+  "inboxTitle": "Messages",
+  "inboxEmptyTitle": "No messages yet",
+  "inboxEmptyBody": "Messaging will appear here once enabled.",
+  
+  "offlineTitle": "Backend unavailable",
+  "offlineBody": "Privxx cannot reach the backend right now. Please try again.",
+  "startingTitle": "Starting…",
+  "startingBody": "Preparing your private connection.",
+  
+  "previewModeLabel": "Preview",
+  "liveModeLabel": "Live",
+  
   "installApp": "Install Privxx",
   "installAppDescription": "Add to home screen for quick access",
   "installAppDescriptionIOS": "Install Privxx on your home screen for quick access.",
