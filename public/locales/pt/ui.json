@@ -43,6 +43,11 @@
   "install": "Instalar",
   "notNow": "Agora não",
   
+  "iosInstallTitle": "Adicionar Privxx à tela",
+  "iosInstallStep1": "Toque no botão Compartilhar",
+  "iosInstallStep2": "Role e toque em \"Tela de Início\"",
+  "iosInstallStep3": "Toque em \"Adicionar\" para confirmar",
+  
   "errorConnectionFailed": "Não foi possível estabelecer uma rota privada agora.",
   "errorTryAgain": "Por favor, tente novamente."
 }

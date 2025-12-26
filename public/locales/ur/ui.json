@@ -43,6 +43,11 @@
   "install": "انسٹال کریں",
   "notNow": "ابھی نہیں",
   
+  "iosInstallTitle": "Privxx کو ہوم اسکرین پر شامل کریں",
+  "iosInstallStep1": "شیئر بٹن پر ٹیپ کریں",
+  "iosInstallStep2": "سکرول کریں اور \"ہوم اسکرین میں شامل کریں\" پر ٹیپ کریں",
+  "iosInstallStep3": "تصدیق کے لیے \"شامل کریں\" پر ٹیپ کریں",
+  
   "errorConnectionFailed": "ابھی نجی راستہ قائم کرنے سے قاصر۔",
   "errorTryAgain": "براہ کرم دوبارہ کوشش کریں۔"
 }

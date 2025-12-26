@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Download, X } from 'lucide-react';
+import { Download, X, Share, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from '@/lib/i18n';
 
@@ -8,10 +8,19 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+// Detect iOS Safari
+const isIOSSafari = (): boolean => {
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream;
+  const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|OPiOS|EdgiOS/.test(ua);
+  return isIOS && isSafari;
+};
+
 const InstallPrompt = () => {
   const { t } = useTranslations();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [showIOSGuide, setShowIOSGuide] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
@@ -25,6 +34,21 @@ const InstallPrompt = () => {
       // Ignore storage errors
     }
 
+    // Check if already in standalone mode
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      return;
+    }
+
+    // iOS Safari - show custom guide
+    if (isIOSSafari()) {
+      // Small delay to not show immediately on page load
+      const timer = setTimeout(() => {
+        setShowIOSGuide(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+
+    // Android/Desktop Chrome - use beforeinstallprompt
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
@@ -52,6 +76,7 @@ const InstallPrompt = () => {
 
   const handleDismiss = () => {
     setShowPrompt(false);
+    setShowIOSGuide(false);
     setDismissed(true);
     try {
       sessionStorage.setItem('pwa-dismissed', 'true');
@@ -60,11 +85,72 @@ const InstallPrompt = () => {
     }
   };
 
-  // Don't show if:
-  // - No prompt available
-  // - User dismissed
-  // - Already installed (standalone mode)
-  if (!showPrompt || dismissed || window.matchMedia('(display-mode: standalone)').matches) {
+  // Don't show if dismissed or already installed
+  if (dismissed || window.matchMedia('(display-mode: standalone)').matches) {
+    return null;
+  }
+
+  // iOS Safari Guide
+  if (showIOSGuide) {
+    return (
+      <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50">
+        <div className="bg-card border border-border rounded-lg shadow-lg p-4">
+          <div className="flex items-start justify-between gap-3 mb-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Download className="w-5 h-5 text-primary" />
+              </div>
+              <p className="font-medium text-sm text-foreground">
+                {t('iosInstallTitle')}
+              </p>
+            </div>
+            <button
+              onClick={handleDismiss}
+              className="text-muted-foreground hover:text-foreground p-1"
+              aria-label="Dismiss"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          
+          <div className="space-y-2 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Share className="w-3 h-3 text-primary" />
+              </div>
+              <span>1. {t('iosInstallStep1')}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Plus className="w-3 h-3 text-primary" />
+              </div>
+              <span>2. {t('iosInstallStep2')}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <span className="text-xs font-medium text-primary">✓</span>
+              </div>
+              <span>3. {t('iosInstallStep3')}</span>
+            </div>
+          </div>
+          
+          <div className="mt-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDismiss}
+              className="w-full"
+            >
+              {t('notNow')}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Android/Desktop Chrome prompt
+  if (!showPrompt) {
     return null;
   }
 
