@@ -40,8 +40,12 @@
   
   "installApp": "Privxxをインストール",
   "installAppDescription": "ホーム画面に追加して素早くアクセス",
+  "installAppDescriptionIOS": "Safariを使用してPrivxxをホーム画面に追加",
   "install": "インストール",
   "notNow": "後で",
+  "close": "閉じる",
+  "share": "共有",
+  "addToHomeScreen": "ホーム画面に追加",
   
   "iosInstallTitle": "Privxxをホーム画面に追加",
   "iosInstallStep1": "共有ボタンをタップ",

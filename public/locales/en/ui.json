@@ -48,8 +48,12 @@
   
   "installApp": "Install Privxx",
   "installAppDescription": "Add to home screen for quick access",
+  "installAppDescriptionIOS": "Use Safari to add Privxx to your home screen",
   "install": "Install",
   "notNow": "Not now",
+  "close": "Close",
+  "share": "Share",
+  "addToHomeScreen": "Add to Home Screen",
   
   "iosInstallTitle": "Add Privxx to Home Screen",
   "iosInstallStep1": "Tap the Share button",

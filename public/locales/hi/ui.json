@@ -40,8 +40,12 @@
   
   "installApp": "Privxx इंस्टॉल करें",
   "installAppDescription": "त्वरित पहुँच के लिए होम स्क्रीन पर जोड़ें",
+  "installAppDescriptionIOS": "Privxx को होम स्क्रीन पर जोड़ने के लिए Safari का उपयोग करें",
   "install": "इंस्टॉल करें",
   "notNow": "अभी नहीं",
+  "close": "बंद करें",
+  "share": "शेयर करें",
+  "addToHomeScreen": "होम स्क्रीन पर जोड़ें",
   
   "iosInstallTitle": "Privxx को होम स्क्रीन पर जोड़ें",
   "iosInstallStep1": "शेयर बटन पर टैप करें",

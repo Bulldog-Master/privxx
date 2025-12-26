@@ -1,204 +1,215 @@
-import { useState, useEffect } from 'react';
-import { Download, X, Share, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useTranslations } from '@/lib/i18n';
+import { useEffect, useMemo, useState } from "react";
+import { Download, X, Share, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/lib/i18n";
+
+type BIPOutcome = "accepted" | "dismissed";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+  userChoice: Promise<{ outcome: BIPOutcome }>;
 }
 
-// Detect iOS Safari
+// Detect iOS Safari (NOT Chrome/Firefox/Edge/Opera wrappers)
 const isIOSSafari = (): boolean => {
+  if (typeof navigator === "undefined") return false;
   const ua = navigator.userAgent;
-  const isIOS = /iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream;
+
+  const isIOS = /iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream?: unknown }).MSStream;
   const isSafari = /Safari/.test(ua) && !/CriOS|FxiOS|OPiOS|EdgiOS/.test(ua);
+
   return isIOS && isSafari;
 };
 
-const InstallPrompt = () => {
+// Detect "installed/standalone" mode across platforms
+const isStandalone = (): boolean => {
+  // Chrome/Edge/etc.
+  if (typeof window !== "undefined" && window.matchMedia?.("(display-mode: standalone)")?.matches) {
+    return true;
+  }
+  // iOS Safari uses navigator.standalone
+  if (typeof navigator !== "undefined" && (navigator as unknown as { standalone?: boolean }).standalone) {
+    return true;
+  }
+  return false;
+};
+
+const SESSION_KEY = "pwa-dismissed";
+
+export default function InstallPrompt() {
   const { t } = useTranslations();
+
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [showPrompt, setShowPrompt] = useState(false);
+  const [showChromePrompt, setShowChromePrompt] = useState(false);
   const [showIOSGuide, setShowIOSGuide] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
-  useEffect(() => {
-    // Check if already dismissed this session
+  const ios = useMemo(() => {
     try {
-      if (sessionStorage.getItem('pwa-dismissed') === 'true') {
+      return isIOSSafari();
+    } catch {
+      return false;
+    }
+  }, []);
+
+  useEffect(() => {
+    // Session dismissal gate
+    try {
+      if (sessionStorage.getItem(SESSION_KEY) === "true") {
         setDismissed(true);
         return;
       }
     } catch {
-      // Ignore storage errors
+      // ignore
     }
 
-    // Check if already in standalone mode
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      return;
+    // Installed gate
+    if (isStandalone()) return;
+
+    // If installed during session, hide prompt
+    const onAppInstalled = () => {
+      setShowChromePrompt(false);
+      setShowIOSGuide(false);
+      setDeferredPrompt(null);
+    };
+    window.addEventListener("appinstalled", onAppInstalled);
+
+    // iOS Safari: show guide after short delay
+    if (ios) {
+      const timer = window.setTimeout(() => setShowIOSGuide(true), 2000);
+      return () => {
+        window.removeEventListener("appinstalled", onAppInstalled);
+        window.clearTimeout(timer);
+      };
     }
 
-    // iOS Safari - show custom guide
-    if (isIOSSafari()) {
-      // Small delay to not show immediately on page load
-      const timer = setTimeout(() => {
-        setShowIOSGuide(true);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-
-    // Android/Desktop Chrome - use beforeinstallprompt
-    const handleBeforeInstall = (e: Event) => {
+    // Chrome/Edge/Android: beforeinstallprompt
+    const onBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setShowPrompt(true);
+      setShowChromePrompt(true);
     };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+      window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", onAppInstalled);
     };
-  }, []);
+  }, [ios]);
 
-  const handleInstall = async () => {
-    if (!deferredPrompt) return;
-
-    await deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-
-    if (outcome === 'accepted') {
-      setShowPrompt(false);
-    }
-    setDeferredPrompt(null);
-  };
-
-  const handleDismiss = () => {
-    setShowPrompt(false);
+  const dismiss = () => {
+    setShowChromePrompt(false);
     setShowIOSGuide(false);
+    setDeferredPrompt(null);
     setDismissed(true);
     try {
-      sessionStorage.setItem('pwa-dismissed', 'true');
+      sessionStorage.setItem(SESSION_KEY, "true");
     } catch {
-      // Ignore storage errors
+      // ignore
     }
   };
 
-  // Don't show if dismissed or already installed
-  if (dismissed || window.matchMedia('(display-mode: standalone)').matches) {
-    return null;
-  }
+  const installChrome = async () => {
+    if (!deferredPrompt) return;
+    try {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      // Either way, hide after choice; user can re-trigger via browser UI later.
+      setShowChromePrompt(false);
+      setDeferredPrompt(null);
+      if (outcome === "dismissed") {
+        // Don't persist across sessions (privacy-first); session-only is fine.
+      }
+    } catch {
+      // If prompt fails, fall back to hiding it (no noisy errors)
+      setShowChromePrompt(false);
+      setDeferredPrompt(null);
+    }
+  };
 
-  // iOS Safari Guide
-  if (showIOSGuide) {
+  // Don't render if dismissed or installed
+  if (dismissed || isStandalone()) return null;
+
+  // iOS guide UI (Safari)
+  if (showIOSGuide && ios) {
     return (
-      <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50">
-        <div className="bg-card border border-border rounded-lg shadow-lg p-4">
-          <div className="flex items-start justify-between gap-3 mb-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Download className="w-5 h-5 text-primary" />
+      <div className="fixed bottom-4 left-4 right-4 z-50 rounded-lg border border-border bg-card p-4 shadow-lg">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <Share className="mt-0.5 h-5 w-5 text-primary" />
+            <div className="space-y-1">
+              <div className="text-sm font-semibold text-foreground">{t("installApp")}</div>
+              <div className="text-sm text-muted-foreground">
+                {t("installAppDescriptionIOS")}
               </div>
-              <p className="font-medium text-sm text-foreground">
-                {t('iosInstallTitle')}
-              </p>
-            </div>
-            <button
-              onClick={handleDismiss}
-              className="text-muted-foreground hover:text-foreground p-1"
-              aria-label="Dismiss"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-          
-          <div className="space-y-2 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Share className="w-3 h-3 text-primary" />
+              <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                <span className="inline-flex items-center gap-1">
+                  <Share className="h-4 w-4" /> {t("share")}
+                </span>
+                <span>→</span>
+                <span className="inline-flex items-center gap-1">
+                  <Plus className="h-4 w-4" /> {t("addToHomeScreen")}
+                </span>
               </div>
-              <span>1. {t('iosInstallStep1')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <Plus className="w-3 h-3 text-primary" />
-              </div>
-              <span>2. {t('iosInstallStep2')}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                <span className="text-xs font-medium text-primary">✓</span>
-              </div>
-              <span>3. {t('iosInstallStep3')}</span>
             </div>
           </div>
-          
-          <div className="mt-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleDismiss}
-              className="w-full"
-            >
-              {t('notNow')}
-            </Button>
-          </div>
+
+          <Button
+            variant="ghost"
+            className="min-h-[44px] min-w-[44px] p-2"
+            onClick={dismiss}
+            aria-label={t("close")}
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+
+        <div className="mt-3 flex justify-end">
+          <Button className="min-h-[44px]" variant="outline" onClick={dismiss}>
+            {t("notNow")}
+          </Button>
         </div>
       </div>
     );
   }
 
-  // Android/Desktop Chrome prompt
-  if (!showPrompt) {
-    return null;
-  }
-
-  return (
-    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50">
-      <div className="bg-card border border-border rounded-lg shadow-lg p-4">
+  // Chrome/Android prompt UI
+  if (showChromePrompt && deferredPrompt) {
+    return (
+      <div className="fixed bottom-4 left-4 right-4 z-50 rounded-lg border border-border bg-card p-4 shadow-lg">
         <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-              <Download className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <p className="font-medium text-sm text-foreground">
-                {t('installApp')}
-              </p>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {t('installAppDescription')}
-              </p>
+          <div className="flex items-start gap-3">
+            <Download className="mt-0.5 h-5 w-5 text-primary" />
+            <div className="space-y-1">
+              <div className="text-sm font-semibold text-foreground">{t("installApp")}</div>
+              <div className="text-sm text-muted-foreground">
+                {t("installAppDescription")}
+              </div>
             </div>
           </div>
-          <button
-            onClick={handleDismiss}
-            className="text-muted-foreground hover:text-foreground p-1"
-            aria-label="Dismiss"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="flex gap-2 mt-3">
+
           <Button
-            variant="outline"
-            size="sm"
-            onClick={handleDismiss}
-            className="flex-1"
+            variant="ghost"
+            className="min-h-[44px] min-w-[44px] p-2"
+            onClick={dismiss}
+            aria-label={t("close")}
           >
-            {t('notNow')}
+            <X className="h-5 w-5" />
           </Button>
-          <Button
-            size="sm"
-            onClick={handleInstall}
-            className="flex-1"
-          >
-            {t('install')}
+        </div>
+
+        <div className="mt-3 flex justify-end gap-2">
+          <Button className="min-h-[44px]" variant="outline" onClick={dismiss}>
+            {t("notNow")}
+          </Button>
+          <Button className="min-h-[44px]" onClick={installChrome}>
+            {t("install")}
           </Button>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
 
-export default InstallPrompt;
+  return null;
+}

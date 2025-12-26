@@ -40,8 +40,12 @@
   
   "installApp": "Установить Privxx",
   "installAppDescription": "Добавить на главный экран для быстрого доступа",
+  "installAppDescriptionIOS": "Используйте Safari для добавления Privxx на главный экран",
   "install": "Установить",
   "notNow": "Не сейчас",
+  "close": "Закрыть",
+  "share": "Поделиться",
+  "addToHomeScreen": "На экран Домой",
   
   "iosInstallTitle": "Добавить Privxx на экран",
   "iosInstallStep1": "Нажмите кнопку «Поделиться»",

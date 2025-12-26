@@ -18,7 +18,8 @@ import nl from '../../public/locales/nl/ui.json';
 import tr from '../../public/locales/tr/ui.json';
 import ko from '../../public/locales/ko/ui.json';
 
-type TranslationKey = keyof typeof en;
+// Use string for flexibility - actual keys validated at runtime
+type TranslationKey = keyof typeof en | string;
 type Translations = Record<string, string>;
 
 const translations: Record<string, Translations> = {

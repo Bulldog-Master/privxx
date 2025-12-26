@@ -40,8 +40,12 @@
   
   "installApp": "Privxx'i Yükle",
   "installAppDescription": "Hızlı erişim için ana ekrana ekle",
+  "installAppDescriptionIOS": "Privxx'i ana ekrana eklemek için Safari kullanın",
   "install": "Yükle",
   "notNow": "Şimdi değil",
+  "close": "Kapat",
+  "share": "Paylaş",
+  "addToHomeScreen": "Ana Ekrana Ekle",
   
   "iosInstallTitle": "Privxx'i Ana Ekrana Ekle",
   "iosInstallStep1": "Paylaş düğmesine dokunun",
