@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "Konten proxy akan muncul di sini setelah routing privat penuh diaktifkan.",
   "demoModeNotice": "Mode demo — routing aman disimulasikan untuk pratinjau",
-  
+  "backendReconnected": "Backend terhubung kembali",
+
   "installApp": "Instal Privxx",
   "installAppDescription": "Tambahkan ke layar utama untuk akses cepat",
   "installAppDescriptionIOS": "Instal Privxx di layar utama Anda untuk akses cepat.",

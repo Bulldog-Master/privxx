@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "Le contenu proxy apparaîtra ici une fois le routage privé complet activé.",
   "demoModeNotice": "Mode démo — routage sécurisé simulé pour aperçu",
-  
+  "backendReconnected": "Backend reconnecté",
+
   "installApp": "Installer Privxx",
   "installAppDescription": "Ajouter à l'écran d'accueil pour un accès rapide",
   "installAppDescriptionIOS": "Installez Privxx sur votre écran d'accueil pour un accès rapide.",

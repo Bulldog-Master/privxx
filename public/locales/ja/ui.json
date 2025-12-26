@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "完全なプライベートルーティングが有効になると、プロキシコンテンツがここに表示されます。",
   "demoModeNotice": "デモモード — プレビュー用に安全なルーティングをシミュレート中",
-  
+  "backendReconnected": "バックエンド再接続完了",
+
   "installApp": "Privxxをインストール",
   "installAppDescription": "ホーム画面に追加して素早くアクセス",
   "installAppDescriptionIOS": "ホーム画面にPrivxxをインストールして素早くアクセス。",

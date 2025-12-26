@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "El contenido proxy aparecerá aquí una vez que el enrutamiento privado completo esté habilitado.",
   "demoModeNotice": "Modo demo — enrutamiento seguro simulado para vista previa",
-  
+  "backendReconnected": "Backend reconectado",
+
   "installApp": "Instalar Privxx",
   "installAppDescription": "Añadir a la pantalla de inicio para acceso rápido",
   "installAppDescriptionIOS": "Instala Privxx en tu pantalla de inicio para acceso rápido.",

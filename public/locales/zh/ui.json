@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "启用完整私密路由后，代理内容将在此处显示。",
   "demoModeNotice": "演示模式 — 为预览模拟安全路由",
-  
+  "backendReconnected": "后端已重新连接",
+
   "installApp": "安装 Privxx",
   "installAppDescription": "添加到主屏幕以快速访问",
   "installAppDescriptionIOS": "将 Privxx 安装到主屏幕以快速访问。",

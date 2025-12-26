@@ -37,7 +37,8 @@
   
   "proxyPlaceholder": "Proxy-inhoud verschijnt hier zodra volledige privéroutering is ingeschakeld.",
   "demoModeNotice": "Demomodus — veilige routering gesimuleerd voor preview",
-  
+  "backendReconnected": "Backend opnieuw verbonden",
+
   "installApp": "Privxx installeren",
   "installAppDescription": "Toevoegen aan startscherm voor snelle toegang",
   "installAppDescriptionIOS": "Installeer Privxx op uw startscherm voor snelle toegang.",
