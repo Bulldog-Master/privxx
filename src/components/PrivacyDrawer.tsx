@@ -44,11 +44,11 @@ const PrivacyDrawer = () => {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-primary/20">
-                <Globe className="h-5 w-5 text-primary" />
+                <Globe className="h-5 w-5 text-primary" aria-hidden="true" />
               </div>
               <h3 className="font-semibold text-foreground">{t("privacySectionDesignedTitle")}</h3>
             </div>
-            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1 list-disc list-inside">
+            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1 list-disc list-inside" role="list">
               <li>{t("privacySectionDesignedPoint1")}</li>
               <li>{t("privacySectionDesignedPoint2")}</li>
               <li>{t("privacySectionDesignedPoint3")}</li>
@@ -59,11 +59,11 @@ const PrivacyDrawer = () => {
           <section className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-primary/20">
-                <EyeOff className="h-5 w-5 text-primary" />
+                <EyeOff className="h-5 w-5 text-primary" aria-hidden="true" />
               </div>
               <h3 className="font-semibold text-foreground">{t("privacySectionNotTitle")}</h3>
             </div>
-            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1 list-disc list-inside">
+            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1 list-disc list-inside" role="list">
               <li>{t("privacySectionNotPoint1")}</li>
               <li>{t("privacySectionNotPoint2")}</li>
               <li>{t("privacySectionNotPoint3")}</li>
@@ -74,7 +74,7 @@ const PrivacyDrawer = () => {
           <section className="space-y-3 pt-2 border-t border-white/10">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-amber-500/20">
-                <Info className="h-5 w-5 text-amber-400" />
+                <Info className="h-5 w-5 text-amber-400" aria-hidden="true" />
               </div>
               <h3 className="font-semibold text-foreground">{t("privacySectionStatusTitle")}</h3>
             </div>

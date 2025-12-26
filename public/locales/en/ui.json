@@ -35,16 +35,20 @@
   "privacySectionStatusTitle": "Current status",
   "privacySectionStatusText": "This version demonstrates the interface and connection flow. Full cryptographic routing via the XX Network mixnet will be integrated next.",
   
-  "proxyPlaceholder": "Proxied content will appear here once full private routing is enabled.",
+  "proxyPlaceholder": "Private content will appear here once routing is fully enabled.",
   "demoModeNotice": "Preview — Backend live, messaging coming soon",
   
   "backendLive": "Backend live",
-  "backendOffline": "Backend offline",
+  "backendOffline": "Backend unavailable",
+  "backendOfflineHint": "Connection will retry automatically",
   "backendConnecting": "Connecting to backend",
   "backendChecking": "Checking backend…",
   
   "sendComingSoon": "Send coming soon",
   "identityActive": "Identity active",
+  
+  "retryConnection": "Retry",
+  "connectionTimeout": "Connection timed out. Please try again.",
   
   "installApp": "Install Privxx",
   "installAppDescription": "Add to home screen for quick access",

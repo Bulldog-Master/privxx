@@ -13,8 +13,13 @@ const PrivxxHeader = () => {
       <LanguageSelector />
       <PrivacyDrawer />
       <Link to="/whats-new">
-        <Button variant="ghost" size="sm" className="justify-start gap-2 text-foreground/70 hover:text-foreground">
-          <Sparkles className="w-4 h-4" />
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px]"
+          aria-label={t("whatsNew")}
+        >
+          <Sparkles className="w-4 h-4" aria-hidden="true" />
           {t("whatsNew")}
         </Button>
       </Link>
