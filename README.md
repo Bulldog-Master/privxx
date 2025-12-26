@@ -24,10 +24,13 @@ No visual changes are permitted without updating:
 
 ## Current Status
 
-✅ **UI + Demo Mode + i18n Complete**  
-🔜 **Phase D: cMixx Integration Next**
+> **Privxx is currently running in preview mode while network routing is finalized.**
 
-The app demonstrates the full user experience with simulated routing. Real cMixx integration is the next milestone.
+✅ **Frontend Complete** — UI, PWA install, 16 languages, privacy copy locked  
+✅ **App Store Ready** — Reviewer-safe language, no over-claims  
+🔜 **Backend Integration** — Awaiting xx team backend + cMixx connection
+
+The app demonstrates the full user experience with simulated routing. Real cryptographic routing via the XX Network mixnet will be integrated once the backend is confirmed stable.
 
 ---
 
@@ -114,40 +117,11 @@ Privxx is designed for global reach and supports multiple languages through stat
 public/locales/<iso-code>/ui.json
 ```
 
-### ✔ Current Supported Languages
+### ✔ Supported Languages (16)
 
-- English (`en`)
-- Spanish (`es`)
-- French (`fr`)
-- Portuguese (`pt`)
-- German (`de`)
-- Arabic (`ar`)
-- Russian (`ru`)
-- Bengali (`bn`)
-- Chinese (`zh`)
+English, Spanish, French, Portuguese, German, Arabic, Russian, Bengali, Chinese, Hindi, Urdu, Indonesian, Japanese, Dutch, Turkish, Korean
 
-### 🚀 Target Language Expansion
-
-Privxx will progressively add support for the following high-impact global languages:
-
-1. English (`en`) ✅
-2. Mandarin Chinese (`zh`) ✅
-3. Hindi (`hi`)
-4. Spanish (`es`) ✅
-5. French (`fr`) ✅
-6. Modern Standard Arabic (`ar`) ✅
-7. Bengali (`bn`) ✅
-8. Russian (`ru`) ✅
-9. Portuguese (`pt`) ✅
-10. Urdu (`ur`)
-11. Indonesian (`id`)
-12. German (`de`) ✅
-13. Japanese (`ja`)
-14. Dutch (`nl`)
-15. Turkish (`tr`)
-16. Korean (`ko`)
-
-These languages represent over **6.7 billion** speakers worldwide.
+All translations are privacy-safe and reviewer-compliant. No anonymity guarantees are made in any language.
 
 ### 🌐 Detection & Switching
 
