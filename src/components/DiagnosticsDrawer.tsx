@@ -8,6 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useBackendStatus } from "@/hooks/useBackendStatus";
 import { useTranslations } from "@/lib/i18n";
 import { toast } from "sonner";
@@ -115,40 +116,66 @@ const DiagnosticsDrawer = () => {
 
         <div className="space-y-4 pb-6" role="region" aria-label="System status information">
           {/* Backend Status */}
-          <div 
-            className={`flex items-center justify-between p-4 rounded-lg ${backendStatus.bgColor}`}
-            role="status"
-            aria-live="polite"
-          >
-            <div className="flex items-center gap-3">
-              <backendStatus.icon className={`h-5 w-5 ${backendStatus.color}`} aria-hidden="true" />
-              <div>
-                <p className="text-sm font-medium text-foreground">Backend</p>
-                <p className="text-xs text-muted-foreground">Connection status</p>
+          {isLoading ? (
+            <div className="flex items-center justify-between p-4 rounded-lg bg-muted animate-fade-in">
+              <div className="flex items-center gap-3">
+                <Skeleton className="h-5 w-5 rounded-full" />
+                <div className="space-y-1.5">
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-3 w-24" />
+                </div>
               </div>
+              <Skeleton className="h-4 w-14" />
             </div>
-            <span className={`text-sm font-semibold ${backendStatus.color}`}>
-              {backendStatus.label}
-            </span>
-          </div>
+          ) : (
+            <div 
+              className={`flex items-center justify-between p-4 rounded-lg ${backendStatus.bgColor} animate-fade-in`}
+              role="status"
+              aria-live="polite"
+            >
+              <div className="flex items-center gap-3">
+                <backendStatus.icon className={`h-5 w-5 ${backendStatus.color}`} aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Backend</p>
+                  <p className="text-xs text-muted-foreground">Connection status</p>
+                </div>
+              </div>
+              <span className={`text-sm font-semibold ${backendStatus.color}`}>
+                {backendStatus.label}
+              </span>
+            </div>
+          )}
 
           {/* Mode Status */}
-          <div 
-            className={`flex items-center justify-between p-4 rounded-lg ${modeStatus.bgColor}`}
-            role="status"
-            aria-live="polite"
-          >
-            <div className="flex items-center gap-3">
-              <modeStatus.icon className={`h-5 w-5 ${modeStatus.color}`} aria-hidden="true" />
-              <div>
-                <p className="text-sm font-medium text-foreground">Mode</p>
-                <p className="text-xs text-muted-foreground">{modeStatus.sublabel}</p>
+          {isLoading ? (
+            <div className="flex items-center justify-between p-4 rounded-lg bg-muted animate-fade-in">
+              <div className="flex items-center gap-3">
+                <Skeleton className="h-5 w-5 rounded-full" />
+                <div className="space-y-1.5">
+                  <Skeleton className="h-4 w-12" />
+                  <Skeleton className="h-3 w-28" />
+                </div>
               </div>
+              <Skeleton className="h-4 w-16" />
             </div>
-            <span className={`text-sm font-semibold ${modeStatus.color}`}>
-              {modeStatus.label}
-            </span>
-          </div>
+          ) : (
+            <div 
+              className={`flex items-center justify-between p-4 rounded-lg ${modeStatus.bgColor} animate-fade-in`}
+              role="status"
+              aria-live="polite"
+            >
+              <div className="flex items-center gap-3">
+                <modeStatus.icon className={`h-5 w-5 ${modeStatus.color}`} aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-medium text-foreground">Mode</p>
+                  <p className="text-xs text-muted-foreground">{modeStatus.sublabel}</p>
+                </div>
+              </div>
+              <span className={`text-sm font-semibold ${modeStatus.color}`}>
+                {modeStatus.label}
+              </span>
+            </div>
+          )}
 
           {/* Version Info */}
           <div className="pt-2 border-t border-border flex items-center justify-between">
