@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Info, CheckCircle2, XCircle, AlertCircle, Copy, Check, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,8 +17,19 @@ const DiagnosticsDrawer = () => {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isRetrying, setIsRetrying] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const prevStateRef = useRef<string | null>(null);
   const { status, isLoading, refetch } = useBackendStatus();
   const { t } = useTranslations();
+
+  // Detect successful connection after retry
+  useEffect(() => {
+    if (prevStateRef.current === "error" && status.state === "ready" && isRetrying === false) {
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 1500);
+    }
+    prevStateRef.current = status.state;
+  }, [status.state, isRetrying]);
 
   const handleRetry = async () => {
     setIsRetrying(true);
@@ -151,7 +162,7 @@ const DiagnosticsDrawer = () => {
             aria-live="polite"
           >
             <div className="flex items-center gap-3">
-              <backendStatus.icon className={`h-5 w-5 ${backendStatus.color} ${backendStatus.pulse ? 'animate-pulse' : ''}`} aria-hidden="true" />
+              <backendStatus.icon className={`h-5 w-5 ${backendStatus.color} ${backendStatus.pulse ? 'animate-pulse' : ''} ${showSuccess ? 'animate-scale-in' : ''}`} aria-hidden="true" />
               <div>
                 <p className="text-sm font-medium text-foreground">{t("diagnosticsBackend")}</p>
                 <p className="text-xs text-muted-foreground">{t("diagnosticsBackendSubtext")}</p>
