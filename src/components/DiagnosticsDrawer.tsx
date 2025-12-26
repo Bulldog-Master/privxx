@@ -54,6 +54,7 @@ const DiagnosticsDrawer = () => {
         icon: AlertCircle,
         color: "text-muted-foreground",
         bgColor: "bg-muted",
+        pulse: true,
       };
     }
 
@@ -63,6 +64,7 @@ const DiagnosticsDrawer = () => {
         icon: XCircle,
         color: "text-amber-500",
         bgColor: "bg-amber-500/10",
+        pulse: false,
       };
     }
 
@@ -72,6 +74,7 @@ const DiagnosticsDrawer = () => {
         icon: AlertCircle,
         color: "text-amber-500",
         bgColor: "bg-amber-500/10",
+        pulse: true,
       };
     }
 
@@ -80,6 +83,7 @@ const DiagnosticsDrawer = () => {
       icon: CheckCircle2,
       color: "text-emerald-500",
       bgColor: "bg-emerald-500/10",
+      pulse: false,
     };
   };
 
@@ -147,7 +151,7 @@ const DiagnosticsDrawer = () => {
             aria-live="polite"
           >
             <div className="flex items-center gap-3">
-              <backendStatus.icon className={`h-5 w-5 ${backendStatus.color}`} aria-hidden="true" />
+              <backendStatus.icon className={`h-5 w-5 ${backendStatus.color} ${backendStatus.pulse ? 'animate-pulse' : ''}`} aria-hidden="true" />
               <div>
                 <p className="text-sm font-medium text-foreground">{t("diagnosticsBackend")}</p>
                 <p className="text-xs text-muted-foreground">{t("diagnosticsBackendSubtext")}</p>
