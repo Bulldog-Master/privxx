@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 // Lazy load secondary pages for better initial bundle size
 const Privacy = lazy(() => import("./pages/Privacy"));
 const ReleaseNotes = lazy(() => import("./pages/ReleaseNotes"));
+const Terms = lazy(() => import("./pages/Terms"));
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,11 @@ const App = () => (
               <Route path="/whats-new" element={
                 <Suspense fallback={<PageLoader />}>
                   <ReleaseNotes />
+                </Suspense>
+              } />
+              <Route path="/terms" element={
+                <Suspense fallback={<PageLoader />}>
+                  <Terms />
                 </Suspense>
               } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
