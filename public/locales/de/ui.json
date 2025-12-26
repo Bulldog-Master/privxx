@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "Nutzungsbedingungen",
+  "termsUpdated": "Zuletzt aktualisiert: Dezember 2025",
+  "termsUseTitle": "Nutzung von Privxx",
+  "termsUseBody": "Privxx wird bereitgestellt, um die Metadaten-Exposition zu reduzieren. Sie stimmen zu, die App verantwortungsvoll und in Übereinstimmung mit den geltenden Gesetzen zu nutzen.",
+  "termsNoGuaranteesTitle": "Keine Garantien",
+  "termsNoGuaranteesBody": "Privxx verspricht keine perfekte oder absolute Anonymität. Verfügbarkeit und Leistung können variieren, insbesondere im Vorschau-Modus.",
+  "termsPrivacyTitle": "Datenschutz",
+  "termsPrivacyBody": "Privxx verfolgt keine Benutzer und verkauft keine persönlichen Daten. Einzelheiten finden Sie in der Datenschutzrichtlinie.",
+  "termsChangesTitle": "Änderungen",
+  "termsChangesBody": "Wir können diese Bedingungen aktualisieren, wenn sich das Produkt weiterentwickelt. Die fortgesetzte Nutzung bedeutet, dass Sie die aktualisierten Bedingungen akzeptieren.",
+  "termsContactTitle": "Kontakt",
+  "termsContactBody": "Bei Fragen zu diesen Bedingungen wenden Sie sich bitte an das Privxx-Team.",
+  
+  "footerTagline": "Datenschutz durch Design",
+  "queued": "In Warteschlange",
+  "sent": "Gesendet",
+  "retry": "Erneut versuchen",
   "subtitle": "Privater Tunnel für Surfen und Zahlungen",
   "urlPlaceholder": "https://bank-oder-haendler.de",
   "privacy": "Datenschutz",

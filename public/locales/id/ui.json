@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "Ketentuan Penggunaan",
+  "termsUpdated": "Terakhir diperbarui: Desember 2025",
+  "termsUseTitle": "Penggunaan Privxx",
+  "termsUseBody": "Privxx disediakan untuk membantu mengurangi paparan metadata. Anda setuju untuk menggunakan aplikasi secara bertanggung jawab dan sesuai dengan hukum yang berlaku.",
+  "termsNoGuaranteesTitle": "Tanpa Jaminan",
+  "termsNoGuaranteesBody": "Privxx tidak menjanjikan anonimitas sempurna atau mutlak. Ketersediaan dan kinerja dapat bervariasi, terutama selama mode pratinjau.",
+  "termsPrivacyTitle": "Privasi",
+  "termsPrivacyBody": "Privxx tidak melacak pengguna atau menjual data pribadi. Untuk detailnya, lihat Kebijakan Privasi.",
+  "termsChangesTitle": "Perubahan",
+  "termsChangesBody": "Kami dapat memperbarui ketentuan ini seiring perkembangan produk. Penggunaan berkelanjutan berarti Anda menerima ketentuan yang diperbarui.",
+  "termsContactTitle": "Kontak",
+  "termsContactBody": "Jika Anda memiliki pertanyaan tentang ketentuan ini, silakan hubungi tim Privxx.",
+  
+  "footerTagline": "Privasi berdasarkan Desain",
+  "queued": "Dalam antrean",
+  "sent": "Terkirim",
+  "retry": "Coba lagi",
   "subtitle": "Terowongan privat untuk browsing dan pembayaran",
   "urlPlaceholder": "https://bank-atau-merchant.com",
   "privacy": "Privasi",

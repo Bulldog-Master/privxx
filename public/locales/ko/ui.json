@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "이용 약관",
+  "termsUpdated": "최종 업데이트: 2025년 12월",
+  "termsUseTitle": "Privxx 사용",
+  "termsUseBody": "Privxx는 메타데이터 노출을 줄이는 데 도움을 주기 위해 제공됩니다. 귀하는 앱을 책임감 있게 그리고 관련 법률을 준수하여 사용하는 데 동의합니다.",
+  "termsNoGuaranteesTitle": "보증 없음",
+  "termsNoGuaranteesBody": "Privxx는 완전하거나 절대적인 익명성을 약속하지 않습니다. 특히 미리보기 모드 중에는 가용성과 성능이 달라질 수 있습니다.",
+  "termsPrivacyTitle": "개인정보",
+  "termsPrivacyBody": "Privxx는 사용자를 추적하거나 개인 데이터를 판매하지 않습니다. 자세한 내용은 개인정보처리방침을 참조하세요.",
+  "termsChangesTitle": "변경사항",
+  "termsChangesBody": "제품이 발전함에 따라 이 약관을 업데이트할 수 있습니다. 계속 사용하면 업데이트된 약관에 동의하는 것으로 간주됩니다.",
+  "termsContactTitle": "문의",
+  "termsContactBody": "이 약관에 대해 질문이 있으시면 Privxx 팀에 문의해 주세요.",
+  
+  "footerTagline": "설계에 의한 프라이버시",
+  "queued": "대기 중",
+  "sent": "전송됨",
+  "retry": "다시 시도",
   "subtitle": "개인 브라우징 및 결제 터널",
   "urlPlaceholder": "https://은행-또는-상점.com",
   "privacy": "개인정보",

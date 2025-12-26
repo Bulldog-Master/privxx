@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "使用条款",
+  "termsUpdated": "最后更新：2025年12月",
+  "termsUseTitle": "使用 Privxx",
+  "termsUseBody": "Privxx 旨在帮助减少元数据暴露。您同意负责任地使用该应用程序，并遵守适用法律。",
+  "termsNoGuaranteesTitle": "无保证",
+  "termsNoGuaranteesBody": "Privxx 不承诺完全或绝对的匿名性。特别是在预览模式期间，可用性和性能可能会有所不同。",
+  "termsPrivacyTitle": "隐私",
+  "termsPrivacyBody": "Privxx 不会跟踪用户或出售个人数据。详情请参阅隐私政策。",
+  "termsChangesTitle": "变更",
+  "termsChangesBody": "随着产品的发展，我们可能会更新这些条款。继续使用即表示您接受更新后的条款。",
+  "termsContactTitle": "联系方式",
+  "termsContactBody": "如果您对这些条款有任何疑问，请联系 Privxx 团队。",
+  
+  "footerTagline": "隐私设计",
+  "queued": "排队中",
+  "sent": "已发送",
+  "retry": "重试",
   "subtitle": "隐私浏览与支付隧道",
   "urlPlaceholder": "https://银行或商家.com",
   "privacy": "隐私",

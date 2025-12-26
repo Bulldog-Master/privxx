@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "Conditions d'utilisation",
+  "termsUpdated": "Dernière mise à jour : Décembre 2025",
+  "termsUseTitle": "Utilisation de Privxx",
+  "termsUseBody": "Privxx est fourni pour aider à réduire l'exposition des métadonnées. Vous acceptez d'utiliser l'application de manière responsable et conformément aux lois applicables.",
+  "termsNoGuaranteesTitle": "Aucune garantie",
+  "termsNoGuaranteesBody": "Privxx ne promet pas un anonymat parfait ou absolu. La disponibilité et les performances peuvent varier, notamment pendant le mode aperçu.",
+  "termsPrivacyTitle": "Confidentialité",
+  "termsPrivacyBody": "Privxx ne suit pas les utilisateurs et ne vend pas de données personnelles. Pour plus de détails, consultez la Politique de confidentialité.",
+  "termsChangesTitle": "Modifications",
+  "termsChangesBody": "Nous pouvons mettre à jour ces conditions au fur et à mesure que le produit évolue. L'utilisation continue signifie que vous acceptez les conditions mises à jour.",
+  "termsContactTitle": "Contact",
+  "termsContactBody": "Si vous avez des questions sur ces conditions, veuillez contacter l'équipe Privxx.",
+  
+  "footerTagline": "Confidentialité par conception",
+  "queued": "En file d'attente",
+  "sent": "Envoyé",
+  "retry": "Réessayer",
   "subtitle": "Tunnel privé de navigation et paiements",
   "urlPlaceholder": "https://banque-ou-marchand.com",
   "privacy": "Confidentialité",
