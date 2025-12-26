@@ -82,8 +82,9 @@ const DiagnosticsDrawer = () => {
           variant="ghost"
           size="sm"
           className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground"
+          aria-label="View system status"
         >
-          <Info className="h-3.5 w-3.5 mr-1" />
+          <Info className="h-3.5 w-3.5 mr-1" aria-hidden="true" />
           Status
         </Button>
       </SheetTrigger>
@@ -95,11 +96,15 @@ const DiagnosticsDrawer = () => {
           </SheetTitle>
         </SheetHeader>
 
-        <div className="space-y-4 pb-6">
+        <div className="space-y-4 pb-6" role="region" aria-label="System status information">
           {/* Backend Status */}
-          <div className={`flex items-center justify-between p-4 rounded-lg ${backendStatus.bgColor}`}>
+          <div 
+            className={`flex items-center justify-between p-4 rounded-lg ${backendStatus.bgColor}`}
+            role="status"
+            aria-live="polite"
+          >
             <div className="flex items-center gap-3">
-              <backendStatus.icon className={`h-5 w-5 ${backendStatus.color}`} />
+              <backendStatus.icon className={`h-5 w-5 ${backendStatus.color}`} aria-hidden="true" />
               <div>
                 <p className="text-sm font-medium text-foreground">Backend</p>
                 <p className="text-xs text-muted-foreground">Connection status</p>
@@ -111,9 +116,13 @@ const DiagnosticsDrawer = () => {
           </div>
 
           {/* Mode Status */}
-          <div className={`flex items-center justify-between p-4 rounded-lg ${modeStatus.bgColor}`}>
+          <div 
+            className={`flex items-center justify-between p-4 rounded-lg ${modeStatus.bgColor}`}
+            role="status"
+            aria-live="polite"
+          >
             <div className="flex items-center gap-3">
-              <modeStatus.icon className={`h-5 w-5 ${modeStatus.color}`} />
+              <modeStatus.icon className={`h-5 w-5 ${modeStatus.color}`} aria-hidden="true" />
               <div>
                 <p className="text-sm font-medium text-foreground">Mode</p>
                 <p className="text-xs text-muted-foreground">{modeStatus.sublabel}</p>

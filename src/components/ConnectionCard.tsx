@@ -61,7 +61,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* URL Input with globe icon */}
           <div className="relative">
-            <Globe className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-foreground/50" />
+            <Globe className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-foreground/50" aria-hidden="true" />
             <Input
               type="text"
               value={url}
@@ -72,6 +72,7 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
               style={{
                 background: 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
               }}
+              aria-label={t("urlPlaceholder")}
             />
           </div>
           
@@ -108,15 +109,21 @@ const ConnectionCard = ({ onConnect, connectionState, onStateChange }: Connectio
               ? 'linear-gradient(90deg, hsl(172 50% 35% / 0.8) 0%, hsl(190 60% 45% / 0.8) 50%, hsl(172 50% 35% / 0.8) 100%)'
               : 'linear-gradient(90deg, hsl(340 50% 40% / 0.6) 0%, hsl(45 60% 45% / 0.6) 50%, hsl(172 50% 35% / 0.6) 100%)'
           }}
+          role="status"
+          aria-live="polite"
+          aria-label={`${status.main}: ${status.sub}`}
         >
           <div className="flex items-center gap-3">
-            <span className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              connectionState === "connected" 
-                ? "bg-emerald-400 shadow-lg shadow-emerald-400/50" 
-                : connectionState === "connecting"
-                ? "bg-primary animate-pulse"
-                : "bg-foreground/40"
-            }`} />
+            <span 
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                connectionState === "connected" 
+                  ? "bg-emerald-400 shadow-lg shadow-emerald-400/50" 
+                  : connectionState === "connecting"
+                  ? "bg-primary animate-pulse"
+                  : "bg-foreground/40"
+              }`}
+              aria-hidden="true"
+            />
             <div className="flex flex-col items-start">
               <span className="text-sm font-medium text-foreground/90">
                 {status.main}

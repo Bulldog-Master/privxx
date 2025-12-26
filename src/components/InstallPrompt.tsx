@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { Download, X, Share, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/lib/i18n";
@@ -49,6 +49,18 @@ export default function InstallPrompt() {
       return isIOSSafari();
     } catch {
       return false;
+    }
+  }, []);
+
+  const dismiss = useCallback(() => {
+    setShowChromePrompt(false);
+    setShowIOSGuide(false);
+    setDeferredPrompt(null);
+    setDismissed(true);
+    try {
+      sessionStorage.setItem(SESSION_KEY, "true");
+    } catch {
+      // ignore
     }
   }, []);
 
@@ -103,17 +115,17 @@ export default function InstallPrompt() {
     };
   }, [ios]);
 
-  const dismiss = () => {
-    setShowChromePrompt(false);
-    setShowIOSGuide(false);
-    setDeferredPrompt(null);
-    setDismissed(true);
-    try {
-      sessionStorage.setItem(SESSION_KEY, "true");
-    } catch {
-      // ignore
-    }
-  };
+  // Keyboard handler for Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && (showChromePrompt || showIOSGuide)) {
+        dismiss();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [showChromePrompt, showIOSGuide, dismiss]);
 
   const installChrome = async () => {
     if (!deferredPrompt) return;
@@ -139,22 +151,29 @@ export default function InstallPrompt() {
   // iOS guide UI (Safari)
   if (showIOSGuide && ios) {
     return (
-      <div className="fixed bottom-4 left-4 right-4 z-50 rounded-lg border border-border bg-card p-4 shadow-lg">
+      <div 
+        className="fixed bottom-4 left-4 right-4 z-50 rounded-lg border border-border bg-card p-4 shadow-lg"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="install-prompt-title-ios"
+      >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-            <Share className="mt-0.5 h-5 w-5 text-primary" />
+            <Share className="mt-0.5 h-5 w-5 text-primary" aria-hidden="true" />
             <div className="space-y-1">
-              <div className="text-sm font-semibold text-foreground">{t("installApp")}</div>
+              <div id="install-prompt-title-ios" className="text-sm font-semibold text-foreground">
+                {t("installApp")}
+              </div>
               <div className="text-sm text-muted-foreground">
                 {t("installAppDescriptionIOS")}
               </div>
               <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
-                  <Share className="h-4 w-4" /> {t("share")}
+                  <Share className="h-4 w-4" aria-hidden="true" /> {t("share")}
                 </span>
-                <span>→</span>
+                <span aria-hidden="true">→</span>
                 <span className="inline-flex items-center gap-1">
-                  <Plus className="h-4 w-4" /> {t("addToHomeScreen")}
+                  <Plus className="h-4 w-4" aria-hidden="true" /> {t("addToHomeScreen")}
                 </span>
               </div>
             </div>
@@ -166,7 +185,7 @@ export default function InstallPrompt() {
             onClick={dismiss}
             aria-label={t("close")}
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" aria-hidden="true" />
           </Button>
         </div>
 
@@ -182,12 +201,19 @@ export default function InstallPrompt() {
   // Chrome/Android prompt UI
   if (showChromePrompt && deferredPrompt) {
     return (
-      <div className="fixed bottom-4 left-4 right-4 z-50 rounded-lg border border-border bg-card p-4 shadow-lg">
+      <div 
+        className="fixed bottom-4 left-4 right-4 z-50 rounded-lg border border-border bg-card p-4 shadow-lg"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="install-prompt-title-chrome"
+      >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
-            <Download className="mt-0.5 h-5 w-5 text-primary" />
+            <Download className="mt-0.5 h-5 w-5 text-primary" aria-hidden="true" />
             <div className="space-y-1">
-              <div className="text-sm font-semibold text-foreground">{t("installApp")}</div>
+              <div id="install-prompt-title-chrome" className="text-sm font-semibold text-foreground">
+                {t("installApp")}
+              </div>
               <div className="text-sm text-muted-foreground">
                 {t("installAppDescription")}
               </div>
@@ -200,7 +226,7 @@ export default function InstallPrompt() {
             onClick={dismiss}
             aria-label={t("close")}
           >
-            <X className="h-5 w-5" />
+            <X className="h-5 w-5" aria-hidden="true" />
           </Button>
         </div>
 
