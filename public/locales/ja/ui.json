@@ -23,24 +23,24 @@
   "privacyDrawerIntroPreview": "このプレビューは、完全に有効化された際のプライベートルーティングの体験を示しています。",
   
   "privacySectionDesignedTitle": "Privxxの設計目的：",
-  "privacySectionDesignedPoint1": "メタデータの関連付けを軽減",
+  "privacySectionDesignedPoint1": "あなたの活動全体でメタデータの関連付けを軽減",
   "privacySectionDesignedPoint2": "プライベートルーティングをシンプルで身近に",
   "privacySectionDesignedPoint3": "デフォルトで追跡を回避",
   
   "privacySectionNotTitle": "Privxxがしないこと：",
-  "privacySectionNotPoint1": "完全または絶対的なプライバシーを主張しない",
-  "privacySectionNotPoint2": "通常のブラウジングやオンラインでのやり取り方法を変えない",
-  "privacySectionNotPoint3": "暗号技術やネットワークの理解を求めない",
+  "privacySectionNotPoint1": "完全または絶対的なプライバシーを約束しない",
+  "privacySectionNotPoint2": "通常のブラウジングやウェブの使い方を変えない",
+  "privacySectionNotPoint3": "使用に技術的知識を必要としない",
   
   "privacySectionStatusTitle": "現在のステータス",
-  "privacySectionStatusText": "このバージョンのPrivxxは接続フローとインターフェースをデモンストレーションしています。cMixxによる完全な暗号化ルーティングは次に統合されます。",
+  "privacySectionStatusText": "このバージョンはインターフェースと接続フローをデモンストレーションしています。XX Network mixnetによる完全な暗号化ルーティングは次に統合されます。",
   
   "proxyPlaceholder": "完全なプライベートルーティングが有効になると、プロキシコンテンツがここに表示されます。",
   "demoModeNotice": "デモモード — プレビュー用に安全なルーティングをシミュレート中",
   
   "installApp": "Privxxをインストール",
   "installAppDescription": "ホーム画面に追加して素早くアクセス",
-  "installAppDescriptionIOS": "Safariを使用してPrivxxをホーム画面に追加",
+  "installAppDescriptionIOS": "ホーム画面にPrivxxをインストールして素早くアクセス。",
   "install": "インストール",
   "notNow": "後で",
   "close": "閉じる",
@@ -48,9 +48,9 @@
   "addToHomeScreen": "ホーム画面に追加",
   
   "iosInstallTitle": "Privxxをホーム画面に追加",
-  "iosInstallStep1": "共有ボタンをタップ",
-  "iosInstallStep2": "「ホーム画面に追加」をタップ",
-  "iosInstallStep3": "「追加」をタップして完了",
+  "iosInstallStep1": "Safariで共有ボタンをタップ",
+  "iosInstallStep2": "下にスクロールして「ホーム画面に追加」をタップ",
+  "iosInstallStep3": "「追加」をタップしてインストール完了",
   
   "errorConnectionFailed": "現在、プライベートルートを確立できません。",
   "errorTryAgain": "もう一度お試しください。"

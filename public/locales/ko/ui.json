@@ -23,24 +23,24 @@
   "privacyDrawerIntroPreview": "이 미리보기는 완전히 활성화되었을 때 개인 라우팅이 어떻게 느껴지는지 보여줍니다.",
   
   "privacySectionDesignedTitle": "Privxx는 다음을 위해 설계되었습니다:",
-  "privacySectionDesignedPoint1": "메타데이터 상관관계 감소",
+  "privacySectionDesignedPoint1": "활동 전반에 걸친 메타데이터 상관관계 감소",
   "privacySectionDesignedPoint2": "개인 라우팅을 간단하고 익숙하게 느끼도록 함",
   "privacySectionDesignedPoint3": "기본적으로 추적 방지",
   
   "privacySectionNotTitle": "Privxx는 다음을 하지 않습니다:",
-  "privacySectionNotPoint1": "완벽하거나 절대적인 개인정보 보호를 주장하지 않음",
-  "privacySectionNotPoint2": "평소 브라우징이나 온라인 상호작용 방식을 바꾸지 않음",
-  "privacySectionNotPoint3": "암호학이나 네트워킹 이해를 요구하지 않음",
+  "privacySectionNotPoint1": "완벽하거나 절대적인 개인정보 보호를 약속하지 않음",
+  "privacySectionNotPoint2": "평소 브라우징이나 웹 사용 방식을 바꾸지 않음",
+  "privacySectionNotPoint3": "사용에 기술적 지식을 요구하지 않음",
   
   "privacySectionStatusTitle": "현재 상태",
-  "privacySectionStatusText": "이 버전의 Privxx는 연결 흐름과 인터페이스를 시연합니다. cMixx를 통한 완전한 암호화 라우팅이 다음에 통합됩니다.",
+  "privacySectionStatusText": "이 버전은 인터페이스와 연결 흐름을 시연합니다. XX Network 믹스넷을 통한 완전한 암호화 라우팅이 다음에 통합됩니다.",
   
   "proxyPlaceholder": "전체 개인 라우팅이 활성화되면 프록시 콘텐츠가 여기에 표시됩니다.",
   "demoModeNotice": "데모 모드 — 미리보기를 위해 보안 라우팅 시뮬레이션됨",
   
   "installApp": "Privxx 설치",
   "installAppDescription": "빠른 접근을 위해 홈 화면에 추가",
-  "installAppDescriptionIOS": "Safari를 사용하여 Privxx를 홈 화면에 추가하세요",
+  "installAppDescriptionIOS": "빠른 접근을 위해 홈 화면에 Privxx를 설치하세요.",
   "install": "설치",
   "notNow": "나중에",
   "close": "닫기",
@@ -48,9 +48,9 @@
   "addToHomeScreen": "홈 화면에 추가",
   
   "iosInstallTitle": "Privxx를 홈 화면에 추가",
-  "iosInstallStep1": "공유 버튼을 탭하세요",
-  "iosInstallStep2": "스크롤하여 \"홈 화면에 추가\"를 탭하세요",
-  "iosInstallStep3": "\"추가\"를 탭하여 확인하세요",
+  "iosInstallStep1": "Safari에서 공유 버튼을 탭하세요",
+  "iosInstallStep2": "아래로 스크롤하여 \"홈 화면에 추가\"를 탭하세요",
+  "iosInstallStep3": "\"추가\"를 탭하여 설치 완료",
   
   "errorConnectionFailed": "현재 개인 경로를 설정할 수 없습니다.",
   "errorTryAgain": "다시 시도해 주세요."

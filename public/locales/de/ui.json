@@ -19,38 +19,38 @@
   "simulatedLatency": "Simulierte Latenz",
   
   "privacyDrawerTitle": "Wie Privxx Sie schützt",
-  "privacyDrawerIntro": "Privxx hilft, die Exposition von Metadaten — wie IP-Adresse, Standort und Timing — zu reduzieren, während Sie surfen oder online interagieren.",
+  "privacyDrawerIntro": "Privxx hilft, die Exposition von Metadaten — wie IP-Adresse, Standort und Timing — zu reduzieren, wenn Sie surfen oder online interagieren.",
   "privacyDrawerIntroPreview": "Diese Vorschau zeigt, wie sich privates Routing anfühlen wird, wenn es vollständig aktiviert ist.",
   
   "privacySectionDesignedTitle": "Privxx ist konzipiert für:",
-  "privacySectionDesignedPoint1": "Reduzierung der Metadaten-Korrelation",
+  "privacySectionDesignedPoint1": "Reduzierung der Metadaten-Korrelation über Ihre Aktivität",
   "privacySectionDesignedPoint2": "Privates Routing einfach und vertraut gestalten",
   "privacySectionDesignedPoint3": "Standardmäßig Tracking vermeiden",
   
   "privacySectionNotTitle": "Privxx tut Folgendes nicht:",
-  "privacySectionNotPoint1": "Behaupten, perfekte oder absolute Privatsphäre zu bieten",
-  "privacySectionNotPoint2": "Ihre gewohnte Art zu surfen oder online zu interagieren ändern",
-  "privacySectionNotPoint3": "Verlangen, dass Sie Kryptographie oder Netzwerke verstehen",
+  "privacySectionNotPoint1": "Versprechen perfekter oder absoluter Privatsphäre",
+  "privacySectionNotPoint2": "Ihre gewohnte Art zu surfen oder das Web zu nutzen ändern",
+  "privacySectionNotPoint3": "Technisches Wissen für die Nutzung voraussetzen",
   
   "privacySectionStatusTitle": "Aktueller Status",
-  "privacySectionStatusText": "Diese Version von Privxx demonstriert den Verbindungsablauf und die Benutzeroberfläche. Vollständiges kryptographisches Routing über cMixx wird als nächstes integriert.",
+  "privacySectionStatusText": "Diese Version demonstriert die Benutzeroberfläche und den Verbindungsablauf. Vollständiges kryptographisches Routing über das XX Network Mixnet wird als nächstes integriert.",
   
   "proxyPlaceholder": "Proxy-Inhalte werden hier erscheinen, sobald vollständiges privates Routing aktiviert ist.",
   "demoModeNotice": "Demo-Modus — sicheres Routing für Vorschau simuliert",
   
   "installApp": "Privxx installieren",
   "installAppDescription": "Zum Startbildschirm hinzufügen",
-  "installAppDescriptionIOS": "Verwenden Sie Safari, um Privxx zum Startbildschirm hinzuzufügen",
+  "installAppDescriptionIOS": "Installieren Sie Privxx auf Ihrem Startbildschirm für schnellen Zugriff.",
   "install": "Installieren",
   "notNow": "Nicht jetzt",
   "close": "Schließen",
   "share": "Teilen",
   "addToHomeScreen": "Zum Home-Bildschirm",
   
-  "iosInstallTitle": "Privxx zum Home-Bildschirm",
-  "iosInstallStep1": "Tippen Sie auf die Teilen-Taste",
-  "iosInstallStep2": "Scrollen und \"Zum Home-Bildschirm\" tippen",
-  "iosInstallStep3": "Tippen Sie auf \"Hinzufügen\"",
+  "iosInstallTitle": "Privxx zu Ihrem Home-Bildschirm hinzufügen",
+  "iosInstallStep1": "Tippen Sie auf die Teilen-Taste in Safari",
+  "iosInstallStep2": "Scrollen Sie nach unten und tippen Sie auf \"Zum Home-Bildschirm\"",
+  "iosInstallStep3": "Tippen Sie auf \"Hinzufügen\" zum Abschließen",
   
   "errorConnectionFailed": "Derzeit kann keine private Route hergestellt werden.",
   "errorTryAgain": "Bitte erneut versuchen."

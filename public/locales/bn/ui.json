@@ -23,34 +23,34 @@
   "privacyDrawerIntroPreview": "এই প্রিভিউ দেখায় যে সম্পূর্ণ সক্রিয় হলে প্রাইভেট রাউটিং কেমন অনুভূত হবে।",
   
   "privacySectionDesignedTitle": "Privxx এর জন্য ডিজাইন করা হয়েছে:",
-  "privacySectionDesignedPoint1": "মেটাডেটা সম্পর্ক কমানো",
+  "privacySectionDesignedPoint1": "আপনার কার্যকলাপ জুড়ে মেটাডেটা সম্পর্ক কমানো",
   "privacySectionDesignedPoint2": "প্রাইভেট রাউটিংকে সহজ এবং পরিচিত করা",
   "privacySectionDesignedPoint3": "ডিফল্টভাবে ট্র্যাকিং এড়ানো",
   
   "privacySectionNotTitle": "Privxx যা করে না:",
-  "privacySectionNotPoint1": "পরিপূর্ণ বা সম্পূর্ণ গোপনীয়তার দাবি করে না",
-  "privacySectionNotPoint2": "আপনার সাধারণ ব্রাউজিং বা অনলাইন ইন্টারঅ্যাকশন পদ্ধতি পরিবর্তন করে না",
-  "privacySectionNotPoint3": "ক্রিপ্টোগ্রাফি বা নেটওয়ার্কিং বোঝার প্রয়োজন নেই",
+  "privacySectionNotPoint1": "পরিপূর্ণ বা সম্পূর্ণ গোপনীয়তার প্রতিশ্রুতি দেয় না",
+  "privacySectionNotPoint2": "আপনার সাধারণ ব্রাউজিং বা ওয়েব ব্যবহার পদ্ধতি পরিবর্তন করে না",
+  "privacySectionNotPoint3": "ব্যবহারের জন্য প্রযুক্তিগত জ্ঞান প্রয়োজন নেই",
   
   "privacySectionStatusTitle": "বর্তমান অবস্থা",
-  "privacySectionStatusText": "Privxx এর এই সংস্করণ সংযোগ প্রবাহ এবং ইন্টারফেস প্রদর্শন করে। cMixx এর মাধ্যমে সম্পূর্ণ ক্রিপ্টোগ্রাফিক রাউটিং পরবর্তীতে একীভূত হবে।",
+  "privacySectionStatusText": "এই সংস্করণ ইন্টারফেস এবং সংযোগ প্রবাহ প্রদর্শন করে। XX Network mixnet এর মাধ্যমে সম্পূর্ণ ক্রিপ্টোগ্রাফিক রাউটিং পরবর্তীতে একীভূত হবে।",
   
   "proxyPlaceholder": "সম্পূর্ণ প্রাইভেট রাউটিং সক্ষম হলে প্রক্সি বিষয়বস্তু এখানে প্রদর্শিত হবে।",
   "demoModeNotice": "ডেমো মোড — প্রিভিউয়ের জন্য নিরাপদ রাউটিং সিমুলেটেড",
   
   "installApp": "Privxx ইনস্টল করুন",
   "installAppDescription": "দ্রুত অ্যাক্সেসের জন্য হোম স্ক্রিনে যোগ করুন",
-  "installAppDescriptionIOS": "Privxx হোম স্ক্রিনে যোগ করতে Safari ব্যবহার করুন",
+  "installAppDescriptionIOS": "দ্রুত অ্যাক্সেসের জন্য আপনার হোম স্ক্রিনে Privxx ইনস্টল করুন।",
   "install": "ইনস্টল",
   "notNow": "এখন না",
   "close": "বন্ধ করুন",
   "share": "শেয়ার করুন",
   "addToHomeScreen": "হোম স্ক্রিনে যোগ করুন",
   
-  "iosInstallTitle": "Privxx হোম স্ক্রিনে যোগ করুন",
-  "iosInstallStep1": "শেয়ার বাটনে ট্যাপ করুন",
-  "iosInstallStep2": "স্ক্রল করুন এবং \"হোম স্ক্রিনে যোগ করুন\" ট্যাপ করুন",
-  "iosInstallStep3": "নিশ্চিত করতে \"যোগ করুন\" ট্যাপ করুন",
+  "iosInstallTitle": "আপনার হোম স্ক্রিনে Privxx যোগ করুন",
+  "iosInstallStep1": "Safari-তে শেয়ার বাটনে ট্যাপ করুন",
+  "iosInstallStep2": "নিচে স্ক্রল করুন এবং \"হোম স্ক্রিনে যোগ করুন\" ট্যাপ করুন",
+  "iosInstallStep3": "ইনস্টল সম্পূর্ণ করতে \"যোগ করুন\" ট্যাপ করুন",
   
   "errorConnectionFailed": "এই মুহূর্তে প্রাইভেট রুট স্থাপন করা সম্ভব হয়নি।",
   "errorTryAgain": "অনুগ্রহ করে আবার চেষ্টা করুন।"

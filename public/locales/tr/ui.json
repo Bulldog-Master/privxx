@@ -19,38 +19,38 @@
   "simulatedLatency": "Simüle edilmiş gecikme",
   
   "privacyDrawerTitle": "Privxx sizi nasıl korur",
-  "privacyDrawerIntro": "Privxx, gezinirken veya çevrimiçi etkileşimde bulunurken IP adresi, konum ve zamanlama gibi üstveri (metadata) maruziyetini azaltmaya yardımcı olur.",
+  "privacyDrawerIntro": "Privxx, gezinirken veya çevrimiçi etkileşimde bulunurken IP adresi, konum ve zamanlama gibi üstveri maruziyetini azaltmaya yardımcı olur.",
   "privacyDrawerIntroPreview": "Bu önizleme, tamamen etkinleştirildiğinde özel yönlendirmenin nasıl hissedileceğini gösterir.",
   
   "privacySectionDesignedTitle": "Privxx şunlar için tasarlanmıştır:",
-  "privacySectionDesignedPoint1": "üstveri ilişkilendirmesini azaltmak",
+  "privacySectionDesignedPoint1": "etkinlikleriniz genelinde üstveri ilişkilendirmesini azaltmak",
   "privacySectionDesignedPoint2": "özel yönlendirmeyi basit ve tanıdık hissettirmek",
   "privacySectionDesignedPoint3": "varsayılan olarak izlemeyi önlemek",
   
   "privacySectionNotTitle": "Privxx şunları yapmaz:",
-  "privacySectionNotPoint1": "mükemmel veya mutlak gizlilik iddiasında bulunmaz",
-  "privacySectionNotPoint2": "normal gezinme veya çevrimiçi etkileşim şeklinizi değiştirmez",
-  "privacySectionNotPoint3": "kriptografi veya ağ bilgisi anlamanızı gerektirmez",
+  "privacySectionNotPoint1": "mükemmel veya mutlak gizlilik vaadi vermez",
+  "privacySectionNotPoint2": "normal gezinme veya web kullanım şeklinizi değiştirmez",
+  "privacySectionNotPoint3": "kullanmak için teknik bilgi gerektirmez",
   
   "privacySectionStatusTitle": "Mevcut durum",
-  "privacySectionStatusText": "Privxx'in bu sürümü bağlantı akışını ve arayüzü göstermektedir. cMixx üzerinden tam kriptografik yönlendirme bir sonraki aşamada entegre edilecektir.",
+  "privacySectionStatusText": "Bu sürüm arayüzü ve bağlantı akışını göstermektedir. XX Network mixnet üzerinden tam kriptografik yönlendirme bir sonraki aşamada entegre edilecektir.",
   
   "proxyPlaceholder": "Tam özel yönlendirme etkinleştirildiğinde proxy içeriği burada görünecektir.",
   "demoModeNotice": "Demo modu — önizleme için güvenli yönlendirme simüle edildi",
   
   "installApp": "Privxx'i Yükle",
   "installAppDescription": "Hızlı erişim için ana ekrana ekle",
-  "installAppDescriptionIOS": "Privxx'i ana ekrana eklemek için Safari kullanın",
+  "installAppDescriptionIOS": "Hızlı erişim için Privxx'i ana ekranınıza yükleyin.",
   "install": "Yükle",
   "notNow": "Şimdi değil",
   "close": "Kapat",
   "share": "Paylaş",
   "addToHomeScreen": "Ana Ekrana Ekle",
   
-  "iosInstallTitle": "Privxx'i Ana Ekrana Ekle",
-  "iosInstallStep1": "Paylaş düğmesine dokunun",
-  "iosInstallStep2": "Kaydırın ve \"Ana Ekrana Ekle\"ye dokunun",
-  "iosInstallStep3": "Onaylamak için \"Ekle\"ye dokunun",
+  "iosInstallTitle": "Privxx'i Ana Ekranınıza Ekleyin",
+  "iosInstallStep1": "Safari'de Paylaş düğmesine dokunun",
+  "iosInstallStep2": "Aşağı kaydırın ve \"Ana Ekrana Ekle\"ye dokunun",
+  "iosInstallStep3": "Yüklemeyi tamamlamak için \"Ekle\"ye dokunun",
   
   "errorConnectionFailed": "Şu anda özel rota oluşturulamıyor.",
   "errorTryAgain": "Lütfen tekrar deneyin."

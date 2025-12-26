@@ -19,38 +19,38 @@
   "simulatedLatency": "Gesimuleerde latentie",
   
   "privacyDrawerTitle": "Hoe Privxx u beschermt",
-  "privacyDrawerIntro": "Privxx helpt metadata-blootstelling te verminderen — zoals IP-adres, locatie en timing — terwijl u surft of online interacteert.",
+  "privacyDrawerIntro": "Privxx helpt metadata-blootstelling te verminderen — zoals IP-adres, locatie en timing — wanneer u surft of online interacteert.",
   "privacyDrawerIntroPreview": "Deze preview toont hoe privéroutering zal aanvoelen wanneer volledig geactiveerd.",
   
   "privacySectionDesignedTitle": "Privxx is ontworpen om:",
-  "privacySectionDesignedPoint1": "metadata-correlatie te verminderen",
+  "privacySectionDesignedPoint1": "metadata-correlatie over uw activiteit te verminderen",
   "privacySectionDesignedPoint2": "privéroutering eenvoudig en vertrouwd te laten aanvoelen",
   "privacySectionDesignedPoint3": "standaard tracking te vermijden",
   
   "privacySectionNotTitle": "Privxx doet niet:",
-  "privacySectionNotPoint1": "claims maken over perfecte of absolute privacy",
-  "privacySectionNotPoint2": "uw normale manier van browsen of online interactie veranderen",
-  "privacySectionNotPoint3": "vereisen dat u cryptografie of netwerken begrijpt",
+  "privacySectionNotPoint1": "perfecte of absolute privacy beloven",
+  "privacySectionNotPoint2": "uw normale manier van browsen of webgebruik veranderen",
+  "privacySectionNotPoint3": "technische kennis vereisen om te gebruiken",
   
   "privacySectionStatusTitle": "Huidige status",
-  "privacySectionStatusText": "Deze versie van Privxx demonstreert de verbindingsstroom en interface. Volledige cryptografische routering via cMixx wordt hierna geïntegreerd.",
+  "privacySectionStatusText": "Deze versie demonstreert de interface en verbindingsstroom. Volledige cryptografische routering via het XX Network mixnet wordt hierna geïntegreerd.",
   
   "proxyPlaceholder": "Proxy-inhoud verschijnt hier zodra volledige privéroutering is ingeschakeld.",
   "demoModeNotice": "Demomodus — veilige routering gesimuleerd voor preview",
   
   "installApp": "Privxx installeren",
   "installAppDescription": "Toevoegen aan startscherm voor snelle toegang",
-  "installAppDescriptionIOS": "Gebruik Safari om Privxx toe te voegen aan je beginscherm",
+  "installAppDescriptionIOS": "Installeer Privxx op uw startscherm voor snelle toegang.",
   "install": "Installeren",
   "notNow": "Nu niet",
   "close": "Sluiten",
   "share": "Deel",
   "addToHomeScreen": "Zet op beginscherm",
   
-  "iosInstallTitle": "Voeg Privxx toe aan beginscherm",
-  "iosInstallStep1": "Tik op de Deel-knop",
-  "iosInstallStep2": "Scroll en tik op \"Zet op beginscherm\"",
-  "iosInstallStep3": "Tik op \"Voeg toe\" om te bevestigen",
+  "iosInstallTitle": "Voeg Privxx toe aan uw startscherm",
+  "iosInstallStep1": "Tik op de Deel-knop in Safari",
+  "iosInstallStep2": "Scroll naar beneden en tik op \"Zet op beginscherm\"",
+  "iosInstallStep3": "Tik op \"Voeg toe\" om de installatie te voltooien",
   
   "errorConnectionFailed": "Kan momenteel geen privéroute tot stand brengen.",
   "errorTryAgain": "Probeer het opnieuw."

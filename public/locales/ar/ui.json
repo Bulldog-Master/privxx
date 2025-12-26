@@ -19,38 +19,38 @@
   "simulatedLatency": "زمن الاستجابة المحاكى",
   
   "privacyDrawerTitle": "كيف يحميك Privxx",
-  "privacyDrawerIntro": "يساعد Privxx على تقليل تعرض البيانات الوصفية — مثل عنوان IP والموقع والتوقيت — أثناء تصفحك أو تفاعلك عبر الإنترنت.",
-  "privacyDrawerIntroPreview": "توضح هذه المعاينة كيف سيبدو التوجيه الخاص عند تفعيله بالكامل.",
+  "privacyDrawerIntro": "يساعد Privxx على تقليل تعرض البيانات الوصفية — مثل عنوان IP والموقع والتوقيت — عند تصفحك أو تفاعلك عبر الإنترنت.",
+  "privacyDrawerIntroPreview": "يوضح هذا المعاينة كيف سيبدو التوجيه الخاص عند تفعيله بالكامل.",
   
   "privacySectionDesignedTitle": "صُمم Privxx من أجل:",
-  "privacySectionDesignedPoint1": "تقليل ارتباط البيانات الوصفية",
+  "privacySectionDesignedPoint1": "تقليل ارتباط البيانات الوصفية عبر نشاطك",
   "privacySectionDesignedPoint2": "جعل التوجيه الخاص بسيطاً ومألوفاً",
   "privacySectionDesignedPoint3": "تجنب التتبع افتراضياً",
   
   "privacySectionNotTitle": "لا يقوم Privxx بـ:",
-  "privacySectionNotPoint1": "الادعاء بتوفير خصوصية كاملة أو مطلقة",
-  "privacySectionNotPoint2": "تغيير طريقتك المعتادة في التصفح أو التفاعل عبر الإنترنت",
-  "privacySectionNotPoint3": "يتطلب فهم التشفير أو الشبكات",
+  "privacySectionNotPoint1": "الوعد بخصوصية كاملة أو مطلقة",
+  "privacySectionNotPoint2": "تغيير طريقتك المعتادة في التصفح أو استخدام الويب",
+  "privacySectionNotPoint3": "يتطلب معرفة تقنية للاستخدام",
   
   "privacySectionStatusTitle": "الحالة الحالية",
-  "privacySectionStatusText": "يوضح هذا الإصدار من Privxx تدفق الاتصال والواجهة. سيتم دمج التوجيه المشفر الكامل عبر cMixx في المرحلة التالية.",
+  "privacySectionStatusText": "يوضح هذا الإصدار الواجهة وتدفق الاتصال. سيتم دمج التوجيه المشفر الكامل عبر شبكة XX Network mixnet في المرحلة التالية.",
   
   "proxyPlaceholder": "سيظهر محتوى البروكسي هنا بمجرد تفعيل التوجيه الخاص الكامل.",
   "demoModeNotice": "وضع العرض — التوجيه الآمن محاكى للمعاينة",
   
   "installApp": "تثبيت Privxx",
   "installAppDescription": "إضافة إلى الشاشة الرئيسية للوصول السريع",
-  "installAppDescriptionIOS": "استخدم Safari لإضافة Privxx إلى شاشتك الرئيسية",
+  "installAppDescriptionIOS": "ثبّت Privxx على شاشتك الرئيسية للوصول السريع.",
   "install": "تثبيت",
   "notNow": "ليس الآن",
   "close": "إغلاق",
   "share": "مشاركة",
   "addToHomeScreen": "إضافة للشاشة الرئيسية",
   
-  "iosInstallTitle": "إضافة Privxx للشاشة الرئيسية",
-  "iosInstallStep1": "اضغط على زر المشاركة",
-  "iosInstallStep2": "مرر واضغط على \"إضافة للشاشة الرئيسية\"",
-  "iosInstallStep3": "اضغط على \"إضافة\" للتأكيد",
+  "iosInstallTitle": "إضافة Privxx إلى شاشتك الرئيسية",
+  "iosInstallStep1": "اضغط على زر المشاركة في Safari",
+  "iosInstallStep2": "مرر لأسفل واضغط على \"إضافة للشاشة الرئيسية\"",
+  "iosInstallStep3": "اضغط على \"إضافة\" لإنهاء التثبيت",
   
   "errorConnectionFailed": "تعذر إنشاء مسار خاص في الوقت الحالي.",
   "errorTryAgain": "يرجى المحاولة مرة أخرى."
