@@ -62,9 +62,4 @@ jobs:
           fi
 
       - name: Run tests
-        run: |
-          if npm run | grep -q "test"; then
-            npm run test -- --run
-          else
-            echo "No test script found, skipping."
-          fi
+        run: npx vitest run
