@@ -149,5 +149,13 @@
   "diagnosticsRetry": "다시 시도",
   "diagnosticsCopy": "상태 복사",
   "diagnosticsVersion": "Privxx v0.2.0 • 프론트엔드 완료",
-  "copied": "복사됨"
+  "copied": "복사됨",
+  
+  "continuePreview": "미리보기 계속",
+  "readinessTitle": "준비 상태",
+  "readinessProxy": "프록시 연결 가능",
+  "readinessBackend": "백엔드 준비됨",
+  "readinessMode": "모드",
+  "yes": "예",
+  "no": "아니오"
 }

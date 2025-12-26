@@ -149,5 +149,13 @@
   "diagnosticsRetry": "دوبارہ کوشش کریں",
   "diagnosticsCopy": "حیثیت کاپی کریں",
   "diagnosticsVersion": "Privxx v0.2.0 • فرنٹ اینڈ مکمل",
-  "copied": "کاپی ہو گیا"
+  "copied": "کاپی ہو گیا",
+  
+  "continuePreview": "پیش نظارہ میں جاری رکھیں",
+  "readinessTitle": "تیاری",
+  "readinessProxy": "پراکسی دستیاب",
+  "readinessBackend": "بیک اینڈ تیار",
+  "readinessMode": "موڈ",
+  "yes": "ہاں",
+  "no": "نہیں"
 }

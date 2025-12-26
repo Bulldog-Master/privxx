@@ -149,5 +149,13 @@
   "diagnosticsRetry": "Coba lagi",
   "diagnosticsCopy": "Salin status",
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend selesai",
-  "copied": "Disalin"
+  "copied": "Disalin",
+  
+  "continuePreview": "Lanjutkan di pratinjau",
+  "readinessTitle": "Kesiapan",
+  "readinessProxy": "Proxy dapat dijangkau",
+  "readinessBackend": "Backend siap",
+  "readinessMode": "Mode",
+  "yes": "Ya",
+  "no": "Tidak"
 }
