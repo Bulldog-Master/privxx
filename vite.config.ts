@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -67,6 +68,15 @@ export default defineConfig(({ mode }) => ({
           }
         ]
       }
+    }),
+    // Bundle analyzer - generates stats.html after build
+    // Run: npm run build && open stats.html
+    mode === "production" && visualizer({
+      filename: "stats.html",
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+      template: "treemap" // sunburst, treemap, network
     })
   ].filter(Boolean),
   resolve: {
@@ -74,4 +84,18 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Manual chunk splitting for better caching
+        manualChunks: {
+          // Vendor chunks - rarely change
+          "vendor-react": ["react", "react-dom"],
+          "vendor-router": ["react-router-dom"],
+          "vendor-ui": ["@radix-ui/react-dialog", "@radix-ui/react-dropdown-menu", "@radix-ui/react-slot"],
+          "vendor-i18n": ["i18next", "react-i18next", "i18next-browser-languagedetector"],
+        }
+      }
+    }
+  }
 }));
