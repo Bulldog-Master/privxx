@@ -66,11 +66,16 @@ export default function InstallPrompt() {
     // Installed gate
     if (isStandalone()) return;
 
-    // If installed during session, hide prompt
+    // If installed during session, hide prompt and persist dismissal
     const onAppInstalled = () => {
       setShowChromePrompt(false);
       setShowIOSGuide(false);
       setDeferredPrompt(null);
+      try {
+        sessionStorage.setItem(SESSION_KEY, "true");
+      } catch {
+        // ignore
+      }
     };
     window.addEventListener("appinstalled", onAppInstalled);
 
