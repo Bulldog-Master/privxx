@@ -4,6 +4,7 @@ import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
 import ContentArea from "@/components/ContentArea";
 import BackendHealthIndicator from "@/components/BackendHealthIndicator";
+import DiagnosticsDrawer from "@/components/DiagnosticsDrawer";
 import { useTranslations } from "@/lib/i18n";
 
 const Index = () => {
@@ -69,7 +70,10 @@ const Index = () => {
         </main>
 
         <footer className="flex flex-col items-center gap-2 py-4 px-4">
-          <BackendHealthIndicator />
+          <div className="flex items-center gap-3">
+            <BackendHealthIndicator />
+            <DiagnosticsDrawer />
+          </div>
           <span className="text-xs text-foreground/40">{t("demoModeNotice")}</span>
         </footer>
       </div>
