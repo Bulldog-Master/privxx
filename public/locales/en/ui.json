@@ -97,6 +97,14 @@
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend Complete",
   "copied": "Copied to clipboard",
   
+  "continuePreview": "Continue in Preview",
+  "readinessTitle": "Readiness",
+  "readinessProxy": "Proxy reachable",
+  "readinessBackend": "Backend ready",
+  "readinessMode": "Mode",
+  "yes": "Yes",
+  "no": "No",
+  
   "installApp": "Install Privxx",
   "installAppDescription": "Add to home screen for quick access",
   "installAppDescriptionIOS": "Install Privxx on your home screen for quick access.",

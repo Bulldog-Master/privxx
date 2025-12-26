@@ -15,6 +15,7 @@ import {
   getBackendStatusDisplay,
   getModeDisplay,
 } from "@/components/diagnostics";
+import ReadinessPanel from "@/components/diagnostics/ReadinessPanel";
 
 const DiagnosticsDrawer = () => {
   const {
@@ -106,6 +107,9 @@ const DiagnosticsDrawer = () => {
                 labelColor={modeStatus.color}
               />
             )}
+
+            {/* Readiness Panel (for cutover verification) */}
+            {!isLoading && <ReadinessPanel />}
 
             {/* Version & Actions */}
             <DiagnosticsFooter
