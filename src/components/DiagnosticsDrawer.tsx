@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Info, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import { Info, CheckCircle2, XCircle, AlertCircle, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -10,11 +10,28 @@ import {
 } from "@/components/ui/sheet";
 import { useBackendStatus } from "@/hooks/useBackendStatus";
 import { useTranslations } from "@/lib/i18n";
+import { toast } from "sonner";
 
 const DiagnosticsDrawer = () => {
   const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const { status, isLoading } = useBackendStatus();
   const { t } = useTranslations();
+
+  const copyStatus = async () => {
+    const modeLabel = status.isMock ? t("previewModeLabel") : t("liveModeLabel");
+    const backendLabel = isLoading ? "Checking" : status.state === "error" ? "Offline" : status.state === "starting" ? "Connecting" : "Online";
+    const statusText = `Mode: ${modeLabel}, Backend: ${backendLabel}`;
+    
+    try {
+      await navigator.clipboard.writeText(statusText);
+      setCopied(true);
+      toast.success(t("copied") || "Copied to clipboard");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Failed to copy");
+    }
+  };
 
   const getBackendStatusDisplay = () => {
     if (isLoading) {
@@ -134,10 +151,23 @@ const DiagnosticsDrawer = () => {
           </div>
 
           {/* Version Info */}
-          <div className="pt-2 border-t border-border">
-            <p className="text-xs text-muted-foreground text-center">
+          <div className="pt-2 border-t border-border flex items-center justify-between">
+            <p className="text-xs text-muted-foreground">
               Privxx v0.2.0 • Frontend Complete
             </p>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 text-xs"
+              onClick={copyStatus}
+              aria-label="Copy status to clipboard"
+            >
+              {copied ? (
+                <Check className="h-3.5 w-3.5 text-emerald-500" aria-hidden="true" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+              )}
+            </Button>
           </div>
         </div>
       </SheetContent>
