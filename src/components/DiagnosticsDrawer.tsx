@@ -16,8 +16,15 @@ import { toast } from "sonner";
 const DiagnosticsDrawer = () => {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isRetrying, setIsRetrying] = useState(false);
   const { status, isLoading, refetch } = useBackendStatus();
   const { t } = useTranslations();
+
+  const handleRetry = async () => {
+    setIsRetrying(true);
+    await refetch();
+    setTimeout(() => setIsRetrying(false), 600);
+  };
 
   const copyStatus = async () => {
     const modeLabel = status.isMock ? t("previewModeLabel") : t("liveModeLabel");
@@ -151,11 +158,14 @@ const DiagnosticsDrawer = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="h-7 px-3 text-xs"
-                  onClick={refetch}
-                  disabled={isLoading}
+                  className={`h-7 px-3 text-xs transition-all duration-300 ${isRetrying ? 'scale-95 opacity-70' : ''}`}
+                  onClick={handleRetry}
+                  disabled={isLoading || isRetrying}
                 >
-                  <RefreshCw className={`h-3 w-3 mr-1.5 ${isLoading ? "animate-spin" : ""}`} aria-hidden="true" />
+                  <RefreshCw 
+                    className={`h-3 w-3 mr-1.5 transition-transform duration-300 ${isRetrying ? "animate-spin" : ""}`} 
+                    aria-hidden="true" 
+                  />
                   {t("diagnosticsRetry")}
                 </Button>
               )}
