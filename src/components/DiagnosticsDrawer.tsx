@@ -26,6 +26,10 @@ const DiagnosticsDrawer = () => {
   useEffect(() => {
     if (prevStateRef.current === "error" && status.state === "ready" && isRetrying === false) {
       setShowSuccess(true);
+      // Haptic feedback on mobile devices
+      if (navigator.vibrate) {
+        navigator.vibrate([50, 30, 50]); // Short success pattern
+      }
       setTimeout(() => setShowSuccess(false), 1500);
     }
     prevStateRef.current = status.state;
