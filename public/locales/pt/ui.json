@@ -19,38 +19,38 @@
   "simulatedLatency": "Latência simulada",
   
   "privacyDrawerTitle": "Como o Privxx te protege",
-  "privacyDrawerIntro": "O Privxx ajuda a reduzir a exposição de metadados — como endereço IP, localização e tempo — enquanto você navega ou interage online.",
-  "privacyDrawerIntroPreview": "Esta prévia demonstra como o roteamento privado vai funcionar quando estiver totalmente habilitado.",
+  "privacyDrawerIntro": "O Privxx ajuda a reduzir a exposição de metadados — como endereço IP, localização e tempo — quando você navega ou interage online.",
+  "privacyDrawerIntroPreview": "Esta prévia mostra como o roteamento privado vai funcionar quando estiver totalmente habilitado.",
   
   "privacySectionDesignedTitle": "O Privxx foi projetado para:",
-  "privacySectionDesignedPoint1": "reduzir a correlação de metadados",
+  "privacySectionDesignedPoint1": "reduzir a correlação de metadados em sua atividade",
   "privacySectionDesignedPoint2": "tornar o roteamento privado simples e familiar",
   "privacySectionDesignedPoint3": "evitar rastreamento por padrão",
   
   "privacySectionNotTitle": "O Privxx não:",
-  "privacySectionNotPoint1": "afirma privacidade perfeita ou absoluta",
-  "privacySectionNotPoint2": "muda sua forma habitual de navegar ou interagir online",
-  "privacySectionNotPoint3": "exige que você entenda criptografia ou redes",
+  "privacySectionNotPoint1": "promete privacidade perfeita ou absoluta",
+  "privacySectionNotPoint2": "muda sua forma habitual de navegar ou usar a web",
+  "privacySectionNotPoint3": "requer conhecimento técnico para usar",
   
   "privacySectionStatusTitle": "Status atual",
-  "privacySectionStatusText": "Esta versão do Privxx demonstra o fluxo de conexão e a interface. O roteamento criptográfico completo via cMixx será integrado em seguida.",
+  "privacySectionStatusText": "Esta versão demonstra a interface e o fluxo de conexão. O roteamento criptográfico completo via mixnet XX Network será integrado em seguida.",
   
   "proxyPlaceholder": "O conteúdo do proxy aparecerá aqui assim que o roteamento privado completo estiver ativado.",
   "demoModeNotice": "Modo demo — roteamento seguro simulado para prévia",
   
   "installApp": "Instalar Privxx",
   "installAppDescription": "Adicionar à tela inicial para acesso rápido",
-  "installAppDescriptionIOS": "Use o Safari para adicionar Privxx à sua tela inicial",
+  "installAppDescriptionIOS": "Instale o Privxx na sua tela inicial para acesso rápido.",
   "install": "Instalar",
   "notNow": "Agora não",
   "close": "Fechar",
   "share": "Compartilhar",
   "addToHomeScreen": "Tela de Início",
   
-  "iosInstallTitle": "Adicionar Privxx à tela",
-  "iosInstallStep1": "Toque no botão Compartilhar",
-  "iosInstallStep2": "Role e toque em \"Tela de Início\"",
-  "iosInstallStep3": "Toque em \"Adicionar\" para confirmar",
+  "iosInstallTitle": "Adicionar Privxx à sua Tela de Início",
+  "iosInstallStep1": "Toque no botão Compartilhar no Safari",
+  "iosInstallStep2": "Role para baixo e toque em \"Tela de Início\"",
+  "iosInstallStep3": "Toque em \"Adicionar\" para finalizar a instalação",
   
   "errorConnectionFailed": "Não foi possível estabelecer uma rota privada agora.",
   "errorTryAgain": "Por favor, tente novamente."

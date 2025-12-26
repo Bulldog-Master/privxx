@@ -23,34 +23,34 @@
   "privacyDrawerIntroPreview": "Pratinjau ini menunjukkan bagaimana routing privat akan terasa saat diaktifkan sepenuhnya.",
   
   "privacySectionDesignedTitle": "Privxx dirancang untuk:",
-  "privacySectionDesignedPoint1": "mengurangi korelasi metadata",
+  "privacySectionDesignedPoint1": "mengurangi korelasi metadata di seluruh aktivitas Anda",
   "privacySectionDesignedPoint2": "membuat routing privat terasa sederhana dan familiar",
   "privacySectionDesignedPoint3": "menghindari pelacakan secara default",
   
   "privacySectionNotTitle": "Privxx tidak:",
-  "privacySectionNotPoint1": "mengklaim privasi sempurna atau mutlak",
-  "privacySectionNotPoint2": "mengubah cara Anda biasa menjelajah atau berinteraksi online",
-  "privacySectionNotPoint3": "mengharuskan Anda memahami kriptografi atau jaringan",
+  "privacySectionNotPoint1": "menjanjikan privasi sempurna atau mutlak",
+  "privacySectionNotPoint2": "mengubah cara Anda biasa menjelajah atau menggunakan web",
+  "privacySectionNotPoint3": "mengharuskan pengetahuan teknis untuk digunakan",
   
   "privacySectionStatusTitle": "Status saat ini",
-  "privacySectionStatusText": "Versi Privxx ini mendemonstrasikan alur koneksi dan antarmuka. Routing kriptografi penuh via cMixx akan diintegrasikan selanjutnya.",
+  "privacySectionStatusText": "Versi ini mendemonstrasikan antarmuka dan alur koneksi. Routing kriptografi penuh via mixnet XX Network akan diintegrasikan selanjutnya.",
   
   "proxyPlaceholder": "Konten proxy akan muncul di sini setelah routing privat penuh diaktifkan.",
   "demoModeNotice": "Mode demo — routing aman disimulasikan untuk pratinjau",
   
   "installApp": "Instal Privxx",
   "installAppDescription": "Tambahkan ke layar utama untuk akses cepat",
-  "installAppDescriptionIOS": "Gunakan Safari untuk menambahkan Privxx ke layar utama",
+  "installAppDescriptionIOS": "Instal Privxx di layar utama Anda untuk akses cepat.",
   "install": "Instal",
   "notNow": "Nanti saja",
   "close": "Tutup",
   "share": "Bagikan",
   "addToHomeScreen": "Tambahkan ke Layar Utama",
   
-  "iosInstallTitle": "Tambahkan Privxx ke layar utama",
-  "iosInstallStep1": "Ketuk tombol Bagikan",
-  "iosInstallStep2": "Gulir dan ketuk \"Tambahkan ke Layar Utama\"",
-  "iosInstallStep3": "Ketuk \"Tambahkan\" untuk konfirmasi",
+  "iosInstallTitle": "Tambahkan Privxx ke Layar Utama Anda",
+  "iosInstallStep1": "Ketuk tombol Bagikan di Safari",
+  "iosInstallStep2": "Gulir ke bawah dan ketuk \"Tambahkan ke Layar Utama\"",
+  "iosInstallStep3": "Ketuk \"Tambahkan\" untuk menyelesaikan instalasi",
   
   "errorConnectionFailed": "Tidak dapat membuat rute privat saat ini.",
   "errorTryAgain": "Silakan coba lagi."

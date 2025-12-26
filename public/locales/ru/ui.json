@@ -23,34 +23,34 @@
   "privacyDrawerIntroPreview": "Этот предпросмотр показывает, как будет работать приватная маршрутизация после полной активации.",
   
   "privacySectionDesignedTitle": "Privxx создан для:",
-  "privacySectionDesignedPoint1": "снижения корреляции метаданных",
+  "privacySectionDesignedPoint1": "снижения корреляции метаданных по вашей активности",
   "privacySectionDesignedPoint2": "простой и привычной приватной маршрутизации",
   "privacySectionDesignedPoint3": "предотвращения отслеживания по умолчанию",
   
   "privacySectionNotTitle": "Privxx не:",
-  "privacySectionNotPoint1": "заявляет о совершенной или абсолютной приватности",
-  "privacySectionNotPoint2": "меняет ваш обычный способ просмотра или взаимодействия онлайн",
-  "privacySectionNotPoint3": "требует понимания криптографии или сетей",
+  "privacySectionNotPoint1": "обещает совершенную или абсолютную приватность",
+  "privacySectionNotPoint2": "меняет ваш обычный способ просмотра или использования веба",
+  "privacySectionNotPoint3": "требует технических знаний для использования",
   
   "privacySectionStatusTitle": "Текущий статус",
-  "privacySectionStatusText": "Эта версия Privxx демонстрирует процесс подключения и интерфейс. Полная криптографическая маршрутизация через cMixx будет интегрирована далее.",
+  "privacySectionStatusText": "Эта версия демонстрирует интерфейс и процесс подключения. Полная криптографическая маршрутизация через миксерную сеть XX Network будет интегрирована далее.",
   
   "proxyPlaceholder": "Прокси-контент появится здесь после активации полной приватной маршрутизации.",
   "demoModeNotice": "Демо-режим — безопасная маршрутизация симулирована для предпросмотра",
   
   "installApp": "Установить Privxx",
   "installAppDescription": "Добавить на главный экран для быстрого доступа",
-  "installAppDescriptionIOS": "Используйте Safari для добавления Privxx на главный экран",
+  "installAppDescriptionIOS": "Установите Privxx на главный экран для быстрого доступа.",
   "install": "Установить",
   "notNow": "Не сейчас",
   "close": "Закрыть",
   "share": "Поделиться",
   "addToHomeScreen": "На экран Домой",
   
-  "iosInstallTitle": "Добавить Privxx на экран",
-  "iosInstallStep1": "Нажмите кнопку «Поделиться»",
-  "iosInstallStep2": "Прокрутите и нажмите «На экран Домой»",
-  "iosInstallStep3": "Нажмите «Добавить» для подтверждения",
+  "iosInstallTitle": "Добавить Privxx на Ваш экран",
+  "iosInstallStep1": "Нажмите кнопку «Поделиться» в Safari",
+  "iosInstallStep2": "Прокрутите вниз и нажмите «На экран Домой»",
+  "iosInstallStep3": "Нажмите «Добавить» для завершения установки",
   
   "errorConnectionFailed": "Не удалось установить приватный маршрут.",
   "errorTryAgain": "Пожалуйста, попробуйте снова."

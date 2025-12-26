@@ -19,38 +19,38 @@
   "simulatedLatency": "Latencia simulada",
   
   "privacyDrawerTitle": "Cómo te protege Privxx",
-  "privacyDrawerIntro": "Privxx ayuda a reducir la exposición de metadatos — como dirección IP, ubicación y tiempos — mientras navegas o interactúas en línea.",
+  "privacyDrawerIntro": "Privxx ayuda a reducir la exposición de metadatos — como dirección IP, ubicación y tiempos — cuando navegas o interactúas en línea.",
   "privacyDrawerIntroPreview": "Esta vista previa muestra cómo se sentirá el enrutamiento privado cuando esté completamente habilitado.",
   
   "privacySectionDesignedTitle": "Privxx está diseñado para:",
-  "privacySectionDesignedPoint1": "reducir la correlación de metadatos",
+  "privacySectionDesignedPoint1": "reducir la correlación de metadatos en tu actividad",
   "privacySectionDesignedPoint2": "hacer que el enrutamiento privado sea simple y familiar",
   "privacySectionDesignedPoint3": "evitar el seguimiento por defecto",
   
   "privacySectionNotTitle": "Privxx no:",
-  "privacySectionNotPoint1": "afirma privacidad perfecta o absoluta",
-  "privacySectionNotPoint2": "cambia tu forma habitual de navegar o interactuar en línea",
-  "privacySectionNotPoint3": "requiere que entiendas criptografía o redes",
+  "privacySectionNotPoint1": "promete privacidad perfecta o absoluta",
+  "privacySectionNotPoint2": "cambia tu forma habitual de navegar o usar la web",
+  "privacySectionNotPoint3": "requiere conocimientos técnicos para usarlo",
   
   "privacySectionStatusTitle": "Estado actual",
-  "privacySectionStatusText": "Esta versión de Privxx demuestra el flujo de conexión y la interfaz. El enrutamiento criptográfico completo vía cMixx se integrará próximamente.",
+  "privacySectionStatusText": "Esta versión demuestra la interfaz y el flujo de conexión. El enrutamiento criptográfico completo vía la red mixnet XX Network se integrará próximamente.",
   
   "proxyPlaceholder": "El contenido proxy aparecerá aquí una vez que el enrutamiento privado completo esté habilitado.",
   "demoModeNotice": "Modo demo — enrutamiento seguro simulado para vista previa",
   
   "installApp": "Instalar Privxx",
   "installAppDescription": "Añadir a la pantalla de inicio para acceso rápido",
-  "installAppDescriptionIOS": "Usa Safari para añadir Privxx a tu pantalla de inicio",
+  "installAppDescriptionIOS": "Instala Privxx en tu pantalla de inicio para acceso rápido.",
   "install": "Instalar",
   "notNow": "Ahora no",
   "close": "Cerrar",
   "share": "Compartir",
   "addToHomeScreen": "Añadir a inicio",
   
-  "iosInstallTitle": "Añadir Privxx a inicio",
-  "iosInstallStep1": "Toca el botón Compartir",
-  "iosInstallStep2": "Desplaza y toca \"Añadir a inicio\"",
-  "iosInstallStep3": "Toca \"Añadir\" para confirmar",
+  "iosInstallTitle": "Añadir Privxx a tu pantalla de inicio",
+  "iosInstallStep1": "Toca el botón Compartir en Safari",
+  "iosInstallStep2": "Desplázate hacia abajo y toca \"Añadir a inicio\"",
+  "iosInstallStep3": "Toca \"Añadir\" para finalizar la instalación",
   
   "errorConnectionFailed": "No se pudo establecer una ruta privada en este momento.",
   "errorTryAgain": "Por favor, inténtalo de nuevo."

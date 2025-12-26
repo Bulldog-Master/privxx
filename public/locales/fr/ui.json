@@ -19,38 +19,38 @@
   "simulatedLatency": "Latence simulée",
   
   "privacyDrawerTitle": "Comment Privxx vous protège",
-  "privacyDrawerIntro": "Privxx aide à réduire l'exposition des métadonnées — telles que l'adresse IP, la localisation et le timing — lorsque vous naviguez ou interagissez en ligne.",
+  "privacyDrawerIntro": "Privxx aide à réduire l'exposition des métadonnées — telles que l'adresse IP, la localisation et le timing — quand vous naviguez ou interagissez en ligne.",
   "privacyDrawerIntroPreview": "Cet aperçu montre comment le routage privé fonctionnera une fois pleinement activé.",
   
   "privacySectionDesignedTitle": "Privxx est conçu pour :",
-  "privacySectionDesignedPoint1": "réduire la corrélation des métadonnées",
+  "privacySectionDesignedPoint1": "réduire la corrélation des métadonnées sur votre activité",
   "privacySectionDesignedPoint2": "rendre le routage privé simple et familier",
   "privacySectionDesignedPoint3": "éviter le pistage par défaut",
   
   "privacySectionNotTitle": "Privxx ne :",
-  "privacySectionNotPoint1": "prétend pas offrir une confidentialité parfaite ou absolue",
-  "privacySectionNotPoint2": "change pas votre façon habituelle de naviguer ou d'interagir en ligne",
-  "privacySectionNotPoint3": "nécessite pas de comprendre la cryptographie ou les réseaux",
+  "privacySectionNotPoint1": "promet pas une confidentialité parfaite ou absolue",
+  "privacySectionNotPoint2": "change pas votre façon habituelle de naviguer ou d'utiliser le web",
+  "privacySectionNotPoint3": "nécessite pas de connaissances techniques pour être utilisé",
   
   "privacySectionStatusTitle": "Statut actuel",
-  "privacySectionStatusText": "Cette version de Privxx présente le flux de connexion et l'interface. Le routage cryptographique complet via cMixx sera intégré ensuite.",
+  "privacySectionStatusText": "Cette version présente l'interface et le flux de connexion. Le routage cryptographique complet via le mixnet XX Network sera intégré ensuite.",
   
   "proxyPlaceholder": "Le contenu proxy apparaîtra ici une fois le routage privé complet activé.",
   "demoModeNotice": "Mode démo — routage sécurisé simulé pour aperçu",
   
   "installApp": "Installer Privxx",
   "installAppDescription": "Ajouter à l'écran d'accueil pour un accès rapide",
-  "installAppDescriptionIOS": "Utilisez Safari pour ajouter Privxx à votre écran d'accueil",
+  "installAppDescriptionIOS": "Installez Privxx sur votre écran d'accueil pour un accès rapide.",
   "install": "Installer",
   "notNow": "Pas maintenant",
   "close": "Fermer",
   "share": "Partager",
   "addToHomeScreen": "Sur l'écran d'accueil",
   
-  "iosInstallTitle": "Ajouter Privxx à l'écran",
-  "iosInstallStep1": "Appuyez sur le bouton Partager",
-  "iosInstallStep2": "Faites défiler et appuyez sur \"Sur l'écran d'accueil\"",
-  "iosInstallStep3": "Appuyez sur \"Ajouter\" pour confirmer",
+  "iosInstallTitle": "Ajouter Privxx à votre écran d'accueil",
+  "iosInstallStep1": "Appuyez sur le bouton Partager dans Safari",
+  "iosInstallStep2": "Faites défiler vers le bas et appuyez sur \"Sur l'écran d'accueil\"",
+  "iosInstallStep3": "Appuyez sur \"Ajouter\" pour terminer l'installation",
   
   "errorConnectionFailed": "Impossible d'établir une route privée pour le moment.",
   "errorTryAgain": "Veuillez réessayer."

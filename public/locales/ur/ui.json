@@ -23,34 +23,34 @@
   "privacyDrawerIntroPreview": "یہ پیش نظارہ دکھاتا ہے کہ مکمل طور پر فعال ہونے پر نجی روٹنگ کیسی محسوس ہوگی۔",
   
   "privacySectionDesignedTitle": "Privxx اس کے لیے ڈیزائن کیا گیا ہے:",
-  "privacySectionDesignedPoint1": "میٹا ڈیٹا کی باہمی ربط کو کم کرنا",
+  "privacySectionDesignedPoint1": "آپ کی سرگرمی میں میٹا ڈیٹا کی باہمی ربط کو کم کرنا",
   "privacySectionDesignedPoint2": "نجی روٹنگ کو آسان اور مانوس بنانا",
   "privacySectionDesignedPoint3": "بطور ڈیفالٹ ٹریکنگ سے بچنا",
   
   "privacySectionNotTitle": "Privxx یہ نہیں کرتا:",
-  "privacySectionNotPoint1": "کامل یا مکمل رازداری کا دعویٰ نہیں کرتا",
-  "privacySectionNotPoint2": "آپ کے عام براؤزنگ یا آن لائن تعامل کے طریقے کو نہیں بدلتا",
-  "privacySectionNotPoint3": "کرپٹوگرافی یا نیٹ ورکنگ سمجھنے کی ضرورت نہیں",
+  "privacySectionNotPoint1": "کامل یا مکمل رازداری کا وعدہ نہیں کرتا",
+  "privacySectionNotPoint2": "آپ کے عام براؤزنگ یا ویب استعمال کے طریقے کو نہیں بدلتا",
+  "privacySectionNotPoint3": "استعمال کے لیے تکنیکی علم کی ضرورت نہیں",
   
   "privacySectionStatusTitle": "موجودہ حیثیت",
-  "privacySectionStatusText": "Privxx کا یہ ورژن کنکشن کے بہاؤ اور انٹرفیس کا مظاہرہ کرتا ہے۔ cMixx کے ذریعے مکمل کرپٹوگرافک روٹنگ آگے ضم کی جائے گی۔",
+  "privacySectionStatusText": "یہ ورژن انٹرفیس اور کنکشن کے بہاؤ کا مظاہرہ کرتا ہے۔ XX Network mixnet کے ذریعے مکمل کرپٹوگرافک روٹنگ آگے ضم کی جائے گی۔",
   
   "proxyPlaceholder": "مکمل پرائیویٹ روٹنگ فعال ہونے پر پراکسی مواد یہاں ظاہر ہوگا۔",
   "demoModeNotice": "ڈیمو موڈ — پیش نظارہ کے لیے محفوظ روٹنگ کی نقل",
   
   "installApp": "Privxx انسٹال کریں",
   "installAppDescription": "فوری رسائی کے لیے ہوم اسکرین پر شامل کریں",
-  "installAppDescriptionIOS": "Privxx کو ہوم اسکرین پر شامل کرنے کے لیے Safari استعمال کریں",
+  "installAppDescriptionIOS": "فوری رسائی کے لیے اپنی ہوم اسکرین پر Privxx انسٹال کریں۔",
   "install": "انسٹال کریں",
   "notNow": "ابھی نہیں",
   "close": "بند کریں",
   "share": "شیئر کریں",
   "addToHomeScreen": "ہوم اسکرین میں شامل کریں",
   
-  "iosInstallTitle": "Privxx کو ہوم اسکرین پر شامل کریں",
-  "iosInstallStep1": "شیئر بٹن پر ٹیپ کریں",
-  "iosInstallStep2": "سکرول کریں اور \"ہوم اسکرین میں شامل کریں\" پر ٹیپ کریں",
-  "iosInstallStep3": "تصدیق کے لیے \"شامل کریں\" پر ٹیپ کریں",
+  "iosInstallTitle": "اپنی ہوم اسکرین پر Privxx شامل کریں",
+  "iosInstallStep1": "Safari میں شیئر بٹن پر ٹیپ کریں",
+  "iosInstallStep2": "نیچے سکرول کریں اور \"ہوم اسکرین میں شامل کریں\" پر ٹیپ کریں",
+  "iosInstallStep3": "انسٹال مکمل کرنے کے لیے \"شامل کریں\" پر ٹیپ کریں",
   
   "errorConnectionFailed": "ابھی نجی راستہ قائم کرنے سے قاصر۔",
   "errorTryAgain": "براہ کرم دوبارہ کوشش کریں۔"

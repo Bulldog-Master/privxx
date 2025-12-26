@@ -23,34 +23,34 @@
   "privacyDrawerIntroPreview": "此预览展示完全启用后私密路由的体验。",
   
   "privacySectionDesignedTitle": "Privxx 的设计目的：",
-  "privacySectionDesignedPoint1": "减少元数据关联",
+  "privacySectionDesignedPoint1": "减少您活动中的元数据关联",
   "privacySectionDesignedPoint2": "让私密路由变得简单熟悉",
   "privacySectionDesignedPoint3": "默认避免追踪",
   
   "privacySectionNotTitle": "Privxx 不会：",
-  "privacySectionNotPoint1": "声称提供完美或绝对的隐私",
-  "privacySectionNotPoint2": "改变您正常的浏览或在线互动方式",
-  "privacySectionNotPoint3": "要求您理解密码学或网络技术",
+  "privacySectionNotPoint1": "承诺完美或绝对的隐私",
+  "privacySectionNotPoint2": "改变您正常的浏览或网络使用方式",
+  "privacySectionNotPoint3": "需要技术知识才能使用",
   
   "privacySectionStatusTitle": "当前状态",
-  "privacySectionStatusText": "此版本的 Privxx 展示连接流程和界面。通过 cMixx 的完整加密路由将在下一阶段集成。",
+  "privacySectionStatusText": "此版本展示界面和连接流程。通过 XX Network 混合网络的完整加密路由将在下一阶段集成。",
   
   "proxyPlaceholder": "启用完整私密路由后，代理内容将在此处显示。",
   "demoModeNotice": "演示模式 — 为预览模拟安全路由",
   
   "installApp": "安装 Privxx",
   "installAppDescription": "添加到主屏幕以快速访问",
-  "installAppDescriptionIOS": "使用 Safari 将 Privxx 添加到主屏幕",
+  "installAppDescriptionIOS": "将 Privxx 安装到主屏幕以快速访问。",
   "install": "安装",
   "notNow": "暂不",
   "close": "关闭",
   "share": "分享",
   "addToHomeScreen": "添加到主屏幕",
   
-  "iosInstallTitle": "添加 Privxx 到主屏幕",
-  "iosInstallStep1": "点击分享按钮",
-  "iosInstallStep2": "滚动并点击「添加到主屏幕」",
-  "iosInstallStep3": "点击「添加」确认",
+  "iosInstallTitle": "将 Privxx 添加到您的主屏幕",
+  "iosInstallStep1": "在 Safari 中点击分享按钮",
+  "iosInstallStep2": "向下滚动并点击「添加到主屏幕」",
+  "iosInstallStep3": "点击「添加」完成安装",
   
   "errorConnectionFailed": "目前无法建立私密路由。",
   "errorTryAgain": "请重试。"
