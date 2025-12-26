@@ -1,5 +1,23 @@
 {
   "appTitle": "Privxx",
+  
+  "termsTitle": "Terms of Use",
+  "termsUpdated": "Last updated: December 2025",
+  "termsUseTitle": "Using Privxx",
+  "termsUseBody": "Privxx is provided to help reduce metadata exposure. You agree to use the app responsibly and in compliance with applicable laws.",
+  "termsNoGuaranteesTitle": "No Guarantees",
+  "termsNoGuaranteesBody": "Privxx does not promise perfect or absolute anonymity. Availability and performance may vary, especially during preview mode.",
+  "termsPrivacyTitle": "Privacy",
+  "termsPrivacyBody": "Privxx does not track users or sell personal data. For details, see the Privacy Policy.",
+  "termsChangesTitle": "Changes",
+  "termsChangesBody": "We may update these terms as the product evolves. Continued use means you accept the updated terms.",
+  "termsContactTitle": "Contact",
+  "termsContactBody": "If you have questions about these terms, please contact the Privxx team.",
+  
+  "footerTagline": "Privacy-first by design",
+  "queued": "Queued",
+  "sent": "Sent",
+  "retry": "Retry",
   "subtitle": "Private Browsing & Payments Tunnel",
   "urlPlaceholder": "https://bank-or-merchant.com",
   "privacy": "Privacy",

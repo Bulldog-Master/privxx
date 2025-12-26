@@ -79,11 +79,19 @@ const Index = () => {
               <DiagnosticsDrawer />
             </Suspense>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-foreground/40">{t("demoModeNotice")}</span>
+          <div className="flex items-center gap-3 text-xs text-foreground/40">
+            <span>{t("demoModeNotice")}</span>
             <span className="text-foreground/20">·</span>
-            <Link to="/privacy" className="text-xs text-foreground/40 hover:text-foreground/60 transition-colors">
+            <Link to="/privacy" className="hover:text-foreground/60 transition-colors">
               {t("privacyPolicyLink")}
+            </Link>
+            <span className="text-foreground/20">·</span>
+            <Link to="/terms" className="hover:text-foreground/60 transition-colors">
+              {t("termsTitle")}
+            </Link>
+            <span className="text-foreground/20">·</span>
+            <Link to="/whats-new" className="hover:text-foreground/60 transition-colors">
+              {t("whatsNew")}
             </Link>
           </div>
         </footer>
