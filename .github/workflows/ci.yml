@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -34,5 +37,34 @@ jobs:
             echo "No typecheck script found, skipping."
           fi
 
+      - name: Set build version environment variables
+        run: |
+          # Extract version from package.json
+          VERSION=$(node -p "require('./package.json').version")
+          # Get short git hash
+          BUILD=$(git rev-parse --short HEAD)
+          echo "VITE_APP_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "VITE_APP_BUILD=$BUILD" >> $GITHUB_ENV
+          echo "Building Privxx v$VERSION ($BUILD)"
+
       - name: Build
         run: npm run build
+        env:
+          VITE_APP_VERSION: ${{ env.VITE_APP_VERSION }}
+          VITE_APP_BUILD: ${{ env.VITE_APP_BUILD }}
+
+      - name: Run privacy checks
+        run: |
+          if [ -f "scripts/check-privacy.js" ]; then
+            node scripts/check-privacy.js
+          else
+            echo "No privacy check script found, skipping."
+          fi
+
+      - name: Run tests
+        run: |
+          if npm run | grep -q "test"; then
+            npm run test -- --run
+          else
+            echo "No test script found, skipping."
+          fi
