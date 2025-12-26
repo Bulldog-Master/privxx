@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "연결 중",
   "diagnosticsChecking": "확인 중…",
   "diagnosticsRefresh": "상태 새로고침",
+  "diagnosticsRetry": "다시 시도",
   "diagnosticsCopy": "상태 복사",
   "diagnosticsVersion": "Privxx v0.2.0 • 프론트엔드 완료",
   "copied": "복사됨"

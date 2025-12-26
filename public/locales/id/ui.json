@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "Menghubungkan",
   "diagnosticsChecking": "Memeriksa…",
   "diagnosticsRefresh": "Refresh status",
+  "diagnosticsRetry": "Coba lagi",
   "diagnosticsCopy": "Salin status",
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend selesai",
   "copied": "Disalin"

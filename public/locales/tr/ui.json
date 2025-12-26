@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "Bağlanıyor",
   "diagnosticsChecking": "Kontrol ediliyor…",
   "diagnosticsRefresh": "Durumu yenile",
+  "diagnosticsRetry": "Tekrar dene",
   "diagnosticsCopy": "Durumu kopyala",
   "diagnosticsVersion": "Privxx v0.2.0 • Frontend tamamlandı",
   "copied": "Kopyalandı"

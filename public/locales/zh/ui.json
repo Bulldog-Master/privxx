@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "连接中",
   "diagnosticsChecking": "检查中…",
   "diagnosticsRefresh": "刷新状态",
+  "diagnosticsRetry": "重试",
   "diagnosticsCopy": "复制状态",
   "diagnosticsVersion": "Privxx v0.2.0 • 前端完成",
   "copied": "已复制"

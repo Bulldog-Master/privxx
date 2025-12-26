@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "接続中",
   "diagnosticsChecking": "確認中…",
   "diagnosticsRefresh": "状態を更新",
+  "diagnosticsRetry": "再試行",
   "diagnosticsCopy": "状態をコピー",
   "diagnosticsVersion": "Privxx v0.2.0 • フロントエンド完了",
   "copied": "コピーしました"

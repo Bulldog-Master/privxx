@@ -127,6 +127,7 @@
   "diagnosticsConnecting": "Подключение",
   "diagnosticsChecking": "Проверка…",
   "diagnosticsRefresh": "Обновить статус",
+  "diagnosticsRetry": "Повторить",
   "diagnosticsCopy": "Скопировать статус",
   "diagnosticsVersion": "Privxx v0.2.0 • Фронтенд готов",
   "copied": "Скопировано"
