@@ -18,6 +18,7 @@ const DiagnosticsDrawer = () => {
   const [copied, setCopied] = useState(false);
   const [isRetrying, setIsRetrying] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isDismissing, setIsDismissing] = useState(false);
   const prevStateRef = useRef<string | null>(null);
   const { status, isLoading, refetch } = useBackendStatus();
   const { t } = useTranslations();
@@ -31,11 +32,16 @@ const DiagnosticsDrawer = () => {
         navigator.vibrate([50, 30, 50]); // Short success pattern
       }
       toast.success(t("backendReconnected"));
-      // Auto-dismiss drawer after success animation
+      // Start dismiss animation after success
+      setTimeout(() => {
+        setIsDismissing(true);
+      }, 1200);
+      // Auto-dismiss drawer after animation completes
       setTimeout(() => {
         setShowSuccess(false);
+        setIsDismissing(false);
         setOpen(false);
-      }, 1500);
+      }, 1800);
     }
     prevStateRef.current = status.state;
   }, [status.state, isRetrying, t]);
@@ -145,13 +151,14 @@ const DiagnosticsDrawer = () => {
       </SheetTrigger>
 
       <SheetContent side="bottom" className="h-auto max-h-[50vh]">
-        <SheetHeader className="pb-4">
-          <SheetTitle className="text-lg font-semibold">
-            {t("diagnosticsTitle")}
-          </SheetTitle>
-        </SheetHeader>
+        <div className={`transition-all duration-300 ease-out ${isDismissing ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+          <SheetHeader className="pb-4">
+            <SheetTitle className="text-lg font-semibold">
+              {t("diagnosticsTitle")}
+            </SheetTitle>
+          </SheetHeader>
 
-        <div className="space-y-4 pb-6" role="region" aria-label="System status information">
+          <div className="space-y-4 pb-6" role="region" aria-label="System status information">
           {/* Backend Status */}
           {isLoading ? (
             <div className="flex items-center justify-between p-4 rounded-lg bg-muted animate-fade-in">
@@ -262,6 +269,7 @@ const DiagnosticsDrawer = () => {
               </Button>
             </div>
           </div>
+        </div>
         </div>
       </SheetContent>
     </Sheet>
