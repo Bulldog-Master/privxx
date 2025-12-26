@@ -7,6 +7,7 @@ import RtlProvider from "@/components/RtlProvider";
 import InstallPrompt from "@/components/InstallPrompt";
 import Index from "./pages/Index";
 import Privacy from "./pages/Privacy";
+import ReleaseNotes from "./pages/ReleaseNotes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/whats-new" element={<ReleaseNotes />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
