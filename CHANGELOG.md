@@ -15,21 +15,30 @@ early-stage protocol and product development.
 ---
 
 ## [0.2.0] — Frontend Complete (Preview Mode)
+**Released:** December 26, 2025
+
 ### Added
 - PWA install prompt (Chrome/Android + iOS Safari guide)
 - 16-language internationalization with RTL support
 - Refined privacy copy (reviewer-safe, no anonymity claims)
 - Backend health indicator (mock mode)
 - Session-only language preference (privacy-first)
+- Diagnostics drawer (Status view) with backend/mode visibility
+- Stakeholder status update documentation
 
 ### Changed
 - Privacy drawer wording aligned with App Store/Play Store requirements
 - iOS install instructions enhanced with Apple-style phrasing
 - All translations verified for semantic safety
+- README updated to public-facing preview mode copy
 
 ### Fixed
 - Install prompt persistence via sessionStorage
 - iOS standalone detection via navigator.standalone
+
+### Documentation
+- `docs/PRIVXX-DIAGNOSTICS-VIEW.md` — Read-only diagnostics spec
+- `docs/PRIVXX-STATUS-UPDATE-2025-12-26.md` — Stakeholder update
 
 ### Notes
 Frontend is now **locked and release-ready**.  
