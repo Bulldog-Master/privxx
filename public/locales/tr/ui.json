@@ -43,6 +43,11 @@
   "install": "Yükle",
   "notNow": "Şimdi değil",
   
+  "iosInstallTitle": "Privxx'i Ana Ekrana Ekle",
+  "iosInstallStep1": "Paylaş düğmesine dokunun",
+  "iosInstallStep2": "Kaydırın ve \"Ana Ekrana Ekle\"ye dokunun",
+  "iosInstallStep3": "Onaylamak için \"Ekle\"ye dokunun",
+  
   "errorConnectionFailed": "Şu anda özel rota oluşturulamıyor.",
   "errorTryAgain": "Lütfen tekrar deneyin."
 }

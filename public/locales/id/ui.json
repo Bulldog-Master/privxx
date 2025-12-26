@@ -43,6 +43,11 @@
   "install": "Instal",
   "notNow": "Nanti saja",
   
+  "iosInstallTitle": "Tambahkan Privxx ke layar utama",
+  "iosInstallStep1": "Ketuk tombol Bagikan",
+  "iosInstallStep2": "Gulir dan ketuk \"Tambahkan ke Layar Utama\"",
+  "iosInstallStep3": "Ketuk \"Tambahkan\" untuk konfirmasi",
+  
   "errorConnectionFailed": "Tidak dapat membuat rute privat saat ini.",
   "errorTryAgain": "Silakan coba lagi."
 }

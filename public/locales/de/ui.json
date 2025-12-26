@@ -43,6 +43,11 @@
   "install": "Installieren",
   "notNow": "Nicht jetzt",
   
+  "iosInstallTitle": "Privxx zum Home-Bildschirm",
+  "iosInstallStep1": "Tippen Sie auf die Teilen-Taste",
+  "iosInstallStep2": "Scrollen und \"Zum Home-Bildschirm\" tippen",
+  "iosInstallStep3": "Tippen Sie auf \"Hinzufügen\"",
+  
   "errorConnectionFailed": "Derzeit kann keine private Route hergestellt werden.",
   "errorTryAgain": "Bitte erneut versuchen."
 }

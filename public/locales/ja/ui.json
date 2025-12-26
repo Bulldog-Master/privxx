@@ -43,6 +43,11 @@
   "install": "インストール",
   "notNow": "後で",
   
+  "iosInstallTitle": "Privxxをホーム画面に追加",
+  "iosInstallStep1": "共有ボタンをタップ",
+  "iosInstallStep2": "「ホーム画面に追加」をタップ",
+  "iosInstallStep3": "「追加」をタップして完了",
+  
   "errorConnectionFailed": "現在、プライベートルートを確立できません。",
   "errorTryAgain": "もう一度お試しください。"
 }

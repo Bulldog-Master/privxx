@@ -51,6 +51,11 @@
   "install": "Install",
   "notNow": "Not now",
   
+  "iosInstallTitle": "Add Privxx to Home Screen",
+  "iosInstallStep1": "Tap the Share button",
+  "iosInstallStep2": "Scroll and tap \"Add to Home Screen\"",
+  "iosInstallStep3": "Tap \"Add\" to confirm",
+  
   "errorConnectionFailed": "Unable to establish a private route right now.",
   "errorTryAgain": "Please try again."
 }

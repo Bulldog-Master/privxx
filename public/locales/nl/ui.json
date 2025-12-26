@@ -43,6 +43,11 @@
   "install": "Installeren",
   "notNow": "Nu niet",
   
+  "iosInstallTitle": "Voeg Privxx toe aan beginscherm",
+  "iosInstallStep1": "Tik op de Deel-knop",
+  "iosInstallStep2": "Scroll en tik op \"Zet op beginscherm\"",
+  "iosInstallStep3": "Tik op \"Voeg toe\" om te bevestigen",
+  
   "errorConnectionFailed": "Kan momenteel geen privéroute tot stand brengen.",
   "errorTryAgain": "Probeer het opnieuw."
 }

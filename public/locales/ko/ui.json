@@ -43,6 +43,11 @@
   "install": "설치",
   "notNow": "나중에",
   
+  "iosInstallTitle": "Privxx를 홈 화면에 추가",
+  "iosInstallStep1": "공유 버튼을 탭하세요",
+  "iosInstallStep2": "스크롤하여 \"홈 화면에 추가\"를 탭하세요",
+  "iosInstallStep3": "\"추가\"를 탭하여 확인하세요",
+  
   "errorConnectionFailed": "현재 개인 경로를 설정할 수 없습니다.",
   "errorTryAgain": "다시 시도해 주세요."
 }

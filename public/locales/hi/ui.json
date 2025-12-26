@@ -43,6 +43,11 @@
   "install": "इंस्टॉल करें",
   "notNow": "अभी नहीं",
   
+  "iosInstallTitle": "Privxx को होम स्क्रीन पर जोड़ें",
+  "iosInstallStep1": "शेयर बटन पर टैप करें",
+  "iosInstallStep2": "स्क्रॉल करें और \"होम स्क्रीन पर जोड़ें\" पर टैप करें",
+  "iosInstallStep3": "पुष्टि के लिए \"जोड़ें\" पर टैप करें",
+  
   "errorConnectionFailed": "अभी निजी मार्ग स्थापित करने में असमर्थ।",
   "errorTryAgain": "कृपया पुनः प्रयास करें।"
 }

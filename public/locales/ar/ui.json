@@ -43,6 +43,11 @@
   "install": "تثبيت",
   "notNow": "ليس الآن",
   
+  "iosInstallTitle": "إضافة Privxx للشاشة الرئيسية",
+  "iosInstallStep1": "اضغط على زر المشاركة",
+  "iosInstallStep2": "مرر واضغط على \"إضافة للشاشة الرئيسية\"",
+  "iosInstallStep3": "اضغط على \"إضافة\" للتأكيد",
+  
   "errorConnectionFailed": "تعذر إنشاء مسار خاص في الوقت الحالي.",
   "errorTryAgain": "يرجى المحاولة مرة أخرى."
 }
