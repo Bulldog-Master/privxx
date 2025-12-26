@@ -8,9 +8,32 @@ early-stage protocol and product development.
 ---
 
 ## [Unreleased]
-- Phase D: cMixx proof-of-integration (planned)
+- Backend proxy integration (pending xx team confirmation)
 - Replace simulated routing with real cMixx control-channel events
-- No UI or brand changes permitted
+- Native app packaging (Capacitor)
+
+---
+
+## [0.2.0] — Frontend Complete (Preview Mode)
+### Added
+- PWA install prompt (Chrome/Android + iOS Safari guide)
+- 16-language internationalization with RTL support
+- Refined privacy copy (reviewer-safe, no anonymity claims)
+- Backend health indicator (mock mode)
+- Session-only language preference (privacy-first)
+
+### Changed
+- Privacy drawer wording aligned with App Store/Play Store requirements
+- iOS install instructions enhanced with Apple-style phrasing
+- All translations verified for semantic safety
+
+### Fixed
+- Install prompt persistence via sessionStorage
+- iOS standalone detection via navigator.standalone
+
+### Notes
+Frontend is now **locked and release-ready**.  
+Backend integration will proceed once xx team confirms stable proxy.
 
 ---
 
