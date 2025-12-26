@@ -111,5 +111,20 @@
   "releasePrivacy2": "无cookies或用户数据本地存储",
   "releasePrivacy3": "不暴露网络内部信息",
   "releasePrivacy4": "保守、诚实的隐私声明",
-  "releaseFooter": "Privxx 团队 — 隐私设计"
+  "releaseFooter": "Privxx 团队 — 隐私设计",
+  
+  "diagnosticsTitle": "系统状态",
+  "diagnosticsBackend": "后端",
+  "diagnosticsBackendSubtext": "连接状态",
+  "diagnosticsMode": "模式",
+  "diagnosticsModeSimulated": "模拟路由",
+  "diagnosticsModeLive": "真实网络路由",
+  "diagnosticsOnline": "在线",
+  "diagnosticsOffline": "离线",
+  "diagnosticsConnecting": "连接中",
+  "diagnosticsChecking": "检查中…",
+  "diagnosticsRefresh": "刷新状态",
+  "diagnosticsCopy": "复制状态",
+  "diagnosticsVersion": "Privxx v0.2.0 • 前端完成",
+  "copied": "已复制"
 }

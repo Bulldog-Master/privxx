@@ -111,5 +111,20 @@
   "releasePrivacy2": "Tanpa cookie atau penyimpanan lokal data pengguna",
   "releasePrivacy3": "Tanpa pengungkapan internal jaringan",
   "releasePrivacy4": "Klaim privasi yang konservatif dan jujur",
-  "releaseFooter": "Tim Privxx — Privasi berdasarkan Desain"
+  "releaseFooter": "Tim Privxx — Privasi berdasarkan Desain",
+  
+  "diagnosticsTitle": "Status Sistem",
+  "diagnosticsBackend": "Backend",
+  "diagnosticsBackendSubtext": "Status koneksi",
+  "diagnosticsMode": "Mode",
+  "diagnosticsModeSimulated": "Routing simulasi",
+  "diagnosticsModeLive": "Routing jaringan nyata",
+  "diagnosticsOnline": "Online",
+  "diagnosticsOffline": "Offline",
+  "diagnosticsConnecting": "Menghubungkan",
+  "diagnosticsChecking": "Memeriksa…",
+  "diagnosticsRefresh": "Refresh status",
+  "diagnosticsCopy": "Salin status",
+  "diagnosticsVersion": "Privxx v0.2.0 • Frontend selesai",
+  "copied": "Disalin"
 }

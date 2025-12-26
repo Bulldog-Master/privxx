@@ -111,5 +111,20 @@
   "releasePrivacy2": "کوئی کوکیز یا صارف ڈیٹا کا مقامی ذخیرہ نہیں",
   "releasePrivacy3": "نیٹ ورک کے اندرونی حصوں کی کوئی نمائش نہیں",
   "releasePrivacy4": "محتاط، ایماندار رازداری کے دعوے",
-  "releaseFooter": "Privxx ٹیم — ڈیزائن کے ذریعے رازداری"
+  "releaseFooter": "Privxx ٹیم — ڈیزائن کے ذریعے رازداری",
+  
+  "diagnosticsTitle": "سسٹم کی حیثیت",
+  "diagnosticsBackend": "بیک اینڈ",
+  "diagnosticsBackendSubtext": "کنکشن کی حیثیت",
+  "diagnosticsMode": "موڈ",
+  "diagnosticsModeSimulated": "مصنوعی روٹنگ",
+  "diagnosticsModeLive": "حقیقی نیٹ ورک روٹنگ",
+  "diagnosticsOnline": "آن لائن",
+  "diagnosticsOffline": "آف لائن",
+  "diagnosticsConnecting": "منسلک ہو رہا ہے",
+  "diagnosticsChecking": "جانچ ہو رہی ہے…",
+  "diagnosticsRefresh": "حیثیت تازہ کریں",
+  "diagnosticsCopy": "حیثیت کاپی کریں",
+  "diagnosticsVersion": "Privxx v0.2.0 • فرنٹ اینڈ مکمل",
+  "copied": "کاپی ہو گیا"
 }

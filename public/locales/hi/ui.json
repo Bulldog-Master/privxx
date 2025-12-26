@@ -111,5 +111,20 @@
   "releasePrivacy2": "कोई कुकीज़ या उपयोगकर्ता डेटा का स्थानीय भंडारण नहीं",
   "releasePrivacy3": "नेटवर्क आंतरिक का कोई खुलासा नहीं",
   "releasePrivacy4": "रूढ़िवादी, ईमानदार गोपनीयता दावे",
-  "releaseFooter": "Privxx टीम — डिज़ाइन द्वारा गोपनीयता"
+  "releaseFooter": "Privxx टीम — डिज़ाइन द्वारा गोपनीयता",
+  
+  "diagnosticsTitle": "सिस्टम स्थिति",
+  "diagnosticsBackend": "बैकएंड",
+  "diagnosticsBackendSubtext": "कनेक्शन स्थिति",
+  "diagnosticsMode": "मोड",
+  "diagnosticsModeSimulated": "सिम्युलेटेड रूटिंग",
+  "diagnosticsModeLive": "वास्तविक नेटवर्क रूटिंग",
+  "diagnosticsOnline": "ऑनलाइन",
+  "diagnosticsOffline": "ऑफ़लाइन",
+  "diagnosticsConnecting": "कनेक्ट हो रहा है",
+  "diagnosticsChecking": "जाँच हो रही है…",
+  "diagnosticsRefresh": "स्थिति रिफ्रेश करें",
+  "diagnosticsCopy": "स्थिति कॉपी करें",
+  "diagnosticsVersion": "Privxx v0.2.0 • फ्रंटएंड पूर्ण",
+  "copied": "कॉपी किया गया"
 }

@@ -111,5 +111,20 @@
   "releasePrivacy2": "Geen cookies of lokale opslag van gebruikersgegevens",
   "releasePrivacy3": "Geen blootstelling van netwerk-interna",
   "releasePrivacy4": "Conservatieve, eerlijke privacyclaims",
-  "releaseFooter": "Privxx Team — Privacy by Design"
+  "releaseFooter": "Privxx Team — Privacy by Design",
+  
+  "diagnosticsTitle": "Systeemstatus",
+  "diagnosticsBackend": "Backend",
+  "diagnosticsBackendSubtext": "Verbindingsstatus",
+  "diagnosticsMode": "Modus",
+  "diagnosticsModeSimulated": "Gesimuleerde routering",
+  "diagnosticsModeLive": "Echte netwerkroutering",
+  "diagnosticsOnline": "Online",
+  "diagnosticsOffline": "Offline",
+  "diagnosticsConnecting": "Verbinden",
+  "diagnosticsChecking": "Controleren…",
+  "diagnosticsRefresh": "Status vernieuwen",
+  "diagnosticsCopy": "Status kopiëren",
+  "diagnosticsVersion": "Privxx v0.2.0 • Frontend compleet",
+  "copied": "Gekopieerd"
 }

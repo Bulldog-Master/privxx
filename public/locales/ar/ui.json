@@ -111,5 +111,20 @@
   "releasePrivacy2": "بدون ملفات تعريف الارتباط أو التخزين المحلي لبيانات المستخدم",
   "releasePrivacy3": "بدون كشف داخلية الشبكة",
   "releasePrivacy4": "ادعاءات خصوصية متحفظة وصادقة",
-  "releaseFooter": "فريق Privxx — الخصوصية بالتصميم"
+  "releaseFooter": "فريق Privxx — الخصوصية بالتصميم",
+  
+  "diagnosticsTitle": "حالة النظام",
+  "diagnosticsBackend": "الخادم الخلفي",
+  "diagnosticsBackendSubtext": "حالة الاتصال",
+  "diagnosticsMode": "الوضع",
+  "diagnosticsModeSimulated": "توجيه محاكى",
+  "diagnosticsModeLive": "توجيه الشبكة الحقيقي",
+  "diagnosticsOnline": "متصل",
+  "diagnosticsOffline": "غير متصل",
+  "diagnosticsConnecting": "جاري الاتصال",
+  "diagnosticsChecking": "جاري الفحص…",
+  "diagnosticsRefresh": "تحديث الحالة",
+  "diagnosticsCopy": "نسخ الحالة",
+  "diagnosticsVersion": "Privxx v0.2.0 • الواجهة مكتملة",
+  "copied": "تم النسخ"
 }
