@@ -1,220 +1,121 @@
 # Privxx
 
-![CI](https://github.com/Bulldog-Master/privxx/actions/workflows/ci.yml/badge.svg)
+Privxx is a privacy-first application designed to reduce metadata exposure during online interactions.
 
-**Private access to the internet and payments — without fear, friction, or exposure.**
-
-Privxx is a privacy-first tunnel that hides your IP, location, timing patterns, and device fingerprints using the **xx network (cMixx)** and **post-quantum-safe cryptography**.
+This project focuses on making privacy-preserving network routing feel simple, familiar, and accessible — without requiring users to understand cryptography or networking.
 
 ---
 
-## 🎨 UI & Brand Lock
+## 🔒 Privacy Philosophy
 
-Privxx has a **locked visual identity**.
+Privxx is designed to:
 
-The current UI is final for demo and MVP stages.  
-No visual changes are permitted without updating:
-- `docs/brand-ui-lock.md`
-- `docs/PRIVXX-DESIGN-CONSTITUTION.md`
+- Reduce metadata exposure (such as IP address, location, and timing)
+- Avoid tracking by default
+- Keep the user experience simple and transparent
 
-**Functional changes are allowed.**  
-**Visual reinterpretation is not.**
+Privxx does **not**:
 
----
-
-## Current Status
-
-> **Privxx is currently running in preview mode while network routing is finalized.**
-
-✅ **Frontend Complete** — UI, PWA install, 16 languages, privacy copy locked  
-✅ **App Store Ready** — Reviewer-safe language, no over-claims  
-🔜 **Backend Integration** — Awaiting xx team backend + cMixx connection
-
-The app demonstrates the full user experience with simulated routing. Real cryptographic routing via the XX Network mixnet will be integrated once the backend is confirmed stable.
+- Promise perfect or absolute anonymity
+- Track users or collect personal data
+- Require technical knowledge to use
 
 ---
 
-## Quick Links
+## 🚧 Current Status: Preview Mode
 
-| Document | Description |
-|----------|-------------|
-| [Brand & UI Lock](docs/brand-ui-lock.md) | Approved visual style, what's allowed/banned |
-| [State Machine](docs/state-machine.md) | Connection states, triggers, UI behavior |
-| [Privacy Drawer Copy](docs/privacy-drawer-copy.md) | Final wording for privacy explanations |
-| [cMixx Integration Plan](docs/cmixx-integration-plan.md) | Phase D technical approach |
+Privxx is currently running in **preview (demo) mode**.
 
----
+What this means:
 
-## What Privxx Does
+- The user interface and connection flow are fully implemented
+- Backend network routing is still being finalized
+- Messaging and full cryptographic routing are not yet enabled
 
-- **Browsing:** Routes requests through a privacy network that removes identifying metadata
-- **Payments:** Separates your identity from your transactions
-- **Protection:** Post-quantum-safe cryptography guards against future attacks
+You may see labels such as **"Demo"**, **"Preview"**, or **"Network initializing"** — these are intentional and indicate that backend integration is in progress.
 
 ---
 
-## Architecture
+## 🌐 Network Integration (Coming Next)
 
-```text
-[ Privxx App (web/mobile) ]
-          |
-          |  xxDK + PQ Encryption
-          v
-[ cMixx Mixnet (xx network) ]
-          |
-          v
-[ Privxx Proxy Server ]
-          |
-          |  HTTPS
-          v
-[ Bank / Merchant / dApp / Any Website ]
-```
+Privxx will integrate full cryptographic routing via the **XX Network mixnet** in a future update.
 
-> **Phase D note:** The first integration milestone uses cMixx as a private control channel (connect/status/target URL). Full HTTP-like proxy routing comes later.
+This routing layer is designed to further reduce metadata correlation at the network level. Once enabled, the frontend will transition seamlessly from preview to live mode.
 
 ---
 
-## Privacy Principles
+## 📱 Install as an App (PWA)
 
-1. **Privacy is default.** No "enable privacy" switch.
-2. **Metadata minimized, obfuscated, or destroyed.**
-3. **Post-quantum-safe cryptography** on all Privxx-controlled links.
-4. **No persistent identifiers** — no analytics, tracking, or durable session IDs.
-5. **No trust in intermediaries** — privacy from cryptography, not promises.
-6. **Zero retention** — no browsing history or tracking cookies.
+Privxx can be installed as an app on supported devices:
 
----
+- **Android / Desktop Chrome:** Use the "Install Privxx" prompt
+- **iOS Safari:** Share → Add to Home Screen
 
-## Repo Layout
-
-**Current files (Lovable default):**
-- `src/` – React + TypeScript frontend
-- `public/` – Static assets
-- `package.json` etc. – Tooling (Vite, Tailwind, shadcn-ui)
-- `docs/` – Vision, architecture, and protocol notes
-
-**Planned additions:**
-- `backend/` – Future Privxx Proxy + xxDK/cMixx integration
+No app store account is required during preview mode.
 
 ---
 
-## Phase 1 Roadmap
+## 🧪 No Tracking, No Telemetry
 
-- [x] Create Privxx repo and Lovable project
-- [x] Build simulated Privxx UI shell (this repo)
-- [x] Add privacy drawer and simulated latency
-- [x] Add docs with MVP brief and proxy spec
-- [ ] Implement real Privxx Proxy with xxDK (future)
-- [ ] Wire UI to backend + cMixx (future)
+Privxx does not use:
+
+- Analytics
+- Cookies
+- Tracking pixels
+- Persistent identifiers
+
+The application is privacy-first by design.
 
 ---
 
-## Internationalization (i18n)
+## 📌 Roadmap (High Level)
 
-Privxx is designed for global reach and supports multiple languages through static JSON translation files stored in:
+- ✅ Frontend UI & UX complete
+- ✅ PWA install support (16 languages)
+- ⏳ Backend routing integration
+- ⏳ Messaging enablement
+- ⏳ Native mobile apps (future phase)
 
-```
-public/locales/<iso-code>/ui.json
-```
+---
 
-### ✔ Supported Languages (16)
+## ℹ️ Transparency
+
+Privxx aims to be clear and honest about its capabilities at every stage.
+
+Features labeled as "coming soon" or "preview" are intentionally not represented as live.
+
+---
+
+## 🌍 Internationalization
+
+Privxx supports 16 languages with privacy-safe, reviewer-compliant translations:
 
 English, Spanish, French, Portuguese, German, Arabic, Russian, Bengali, Chinese, Hindi, Urdu, Indonesian, Japanese, Dutch, Turkish, Korean
 
-All translations are privacy-safe and reviewer-compliant. No anonymity guarantees are made in any language.
-
-### 🌐 Detection & Switching
-
-- On initial load, Privxx auto-detects browser language.
-- If unsupported, it defaults to **English**.
-- Users may manually switch languages via the language selector in the header.
-- Language preference is session-only (privacy-first — no persistent storage).
-
-### 🧩 Developer Notes
-
-To add a new language, create:
-
-```
-public/locales/<iso-code>/ui.json
-```
-
-With this key structure:
-
-```json
-{
-  "appTitle": "...",
-  "subtitle": "...",
-  "urlPlaceholder": "...",
-  "connect": "...",
-  "idle": "...",
-  "connecting": "...",
-  "connected": "...",
-  "requestedUrl": "...",
-  "simulatedLatency": "...",
-  "privacy": "...",
-  "privacyDrawerTitle": "...",
-  "privacyDrawerIntro": "...",
-  "privacyDrawerPoint1": "...",
-  "privacyDrawerPoint2": "...",
-  "privacyDrawerPoint3": "...",
-  "privacyDrawerPoint4": "...",
-  "privacyDrawerPoint5": "...",
-  "proxyPlaceholder": "...",
-  "simulationNotice": "..."
-}
-```
-
-Then update:
-1. `src/lib/i18n.ts` — import and add to translations object
-2. `src/components/LanguageSelector.tsx` — add label
-
-### Globalization & Script Support
-
-Privxx is designed to support multiple writing systems:
-
-- **LTR**: English, Spanish, French, Portuguese, German, Dutch, Turkish, Indonesian, Russian, etc.
-- **CJK**: Chinese (zh), Japanese (ja), Korean (ko)
-- **Indic scripts**: Hindi (hi), Bengali (bn)
-- **RTL**: Arabic (ar), Urdu (ur)
-
-The UI:
-- Switches `dir="rtl"` automatically for Arabic and Urdu.
-- Uses system font stacks for privacy and broad script coverage (no external font CDNs).
-- Loads all translations from local JSON files only (no external translation CDNs).
-- Language preference is session-only (privacy-first — no persistent storage).
-
 ---
 
-## Tech Stack
-
-- **Frontend**: React + Vite + TypeScript + Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Build Tool**: Vite
-- **Hosting**: Lovable
-
----
-
-## Development
-
-**Important:** Use npm only. Do not use bun or yarn.
+## 🛠️ Development
 
 ```sh
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
-
-# Lint
-npm run lint
-
-# Build
 npm run build
 ```
 
 ---
 
-## License
+## 📄 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Brand & UI Lock](docs/brand-ui-lock.md) | Visual identity rules |
+| [State Machine](docs/state-machine.md) | Connection states and triggers |
+| [Diagnostics View](docs/PRIVXX-DIAGNOSTICS-VIEW.md) | Status UI specification |
+| [Privacy Drawer Copy](docs/privacy-drawer-copy.md) | Privacy explanations |
+
+---
+
+## 📜 License
 
 MIT — see [LICENSE](LICENSE)
 
@@ -232,6 +133,4 @@ See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
 
 ---
 
-## Contact
-
-For questions about Privxx or the xx network integration, reach out to the project maintainers.
+**Status:** Frontend complete, backend integration in progress
