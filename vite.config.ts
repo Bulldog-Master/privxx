@@ -4,9 +4,26 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
 import { visualizer } from "rollup-plugin-visualizer";
+import { execSync } from "child_process";
+
+// Get git hash at build time (fallback to empty string if not in git repo)
+const getGitHash = () => {
+  try {
+    return execSync("git rev-parse --short HEAD").toString().trim();
+  } catch {
+    return "";
+  }
+};
+
+const gitHash = getGitHash();
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  define: {
+    // Inject build metadata at compile time
+    "import.meta.env.VITE_APP_VERSION": JSON.stringify(process.env.VITE_APP_VERSION || "0.2.0"),
+    "import.meta.env.VITE_APP_BUILD": JSON.stringify(process.env.VITE_APP_BUILD || gitHash),
+  },
   server: {
     host: "::",
     port: 8080,
