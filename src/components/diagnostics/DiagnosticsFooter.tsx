@@ -1,6 +1,7 @@
 import { RefreshCw, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/lib/i18n";
+import { buildInfo } from "@/lib/buildInfo";
 
 interface DiagnosticsFooterProps {
   isLoading: boolean;
@@ -17,10 +18,12 @@ const DiagnosticsFooter = ({
 }: DiagnosticsFooterProps) => {
   const { t } = useTranslations();
 
+  const versionLabel = `Privxx v${buildInfo.version}${buildInfo.build ? ` (${buildInfo.build})` : ""}`;
+
   return (
     <div className="pt-2 border-t border-border flex items-center justify-between">
       <p className="text-xs text-muted-foreground">
-        {t("diagnosticsVersion")}
+        {versionLabel}
       </p>
       <div className="flex items-center gap-1">
         <Button
