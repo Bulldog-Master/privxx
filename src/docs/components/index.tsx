@@ -29,8 +29,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { LockedState } from "@/components/shared";
-import { Shield, Lock, Loader2, Bell, Plus, Search, Mail, Eye, EyeOff, User, Settings, CreditCard } from "lucide-react";
+import { Shield, Lock, Loader2, Bell, Plus, Search, Mail, Eye, EyeOff, User, Settings, CreditCard, HelpCircle, Info, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 
 // Types
@@ -1152,6 +1169,353 @@ function MyPage() {
     notes: [
       "Applies consistent background gradient across all pages.",
       "Handles dark/light mode automatically.",
+    ],
+  },
+
+  // ============ MORE UI COMPONENTS ============
+  {
+    id: "tooltip",
+    name: "Tooltip",
+    description: "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    category: "UI",
+    importPath: 'import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"',
+    props: [
+      { name: "delayDuration", type: "number", default: "200", description: "Delay in ms before the tooltip opens" },
+      { name: "skipDelayDuration", type: "number", default: "300", description: "Time to skip delay when moving between tooltips" },
+      { name: "side", type: '"top" | "right" | "bottom" | "left"', default: '"top"', description: "The preferred side of the trigger to render against" },
+      { name: "sideOffset", type: "number", default: "4", description: "The distance in pixels from the trigger" },
+      { name: "align", type: '"start" | "center" | "end"', default: '"center"', description: "The preferred alignment against the trigger" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Simple tooltip on hover.",
+        code: `<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Button variant="outline" size="icon">
+        <HelpCircle className="h-4 w-4" />
+      </Button>
+    </TooltipTrigger>
+    <TooltipContent>
+      <p>Need help?</p>
+    </TooltipContent>
+  </Tooltip>
+</TooltipProvider>`,
+        preview: (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Need help?</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ),
+      },
+      {
+        id: "positions",
+        title: "Positions",
+        description: "Tooltips can appear on different sides.",
+        code: `<TooltipProvider>
+  <div className="flex gap-4">
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Top</Button>
+      </TooltipTrigger>
+      <TooltipContent side="top">
+        <p>Tooltip on top</p>
+      </TooltipContent>
+    </Tooltip>
+    
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Bottom</Button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom">
+        <p>Tooltip on bottom</p>
+      </TooltipContent>
+    </Tooltip>
+  </div>
+</TooltipProvider>`,
+        preview: (
+          <TooltipProvider>
+            <div className="flex gap-4">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline">Top</Button>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  <p>Tooltip on top</p>
+                </TooltipContent>
+              </Tooltip>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline">Bottom</Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>Tooltip on bottom</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </TooltipProvider>
+        ),
+      },
+    ],
+    notes: [
+      "Wrap your app or component tree with TooltipProvider for shared delay behavior.",
+      "Use the 'asChild' prop on TooltipTrigger to use your own button or element.",
+      "Tooltips are automatically accessible and support keyboard focus.",
+    ],
+  },
+
+  {
+    id: "popover",
+    name: "Popover",
+    description: "A floating panel with rich content, triggered by a button click. Useful for forms, menus, or additional information.",
+    category: "UI",
+    importPath: 'import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"',
+    props: [
+      { name: "open", type: "boolean", description: "Controlled open state" },
+      { name: "onOpenChange", type: "(open: boolean) => void", description: "Callback when open state changes" },
+      { name: "side", type: '"top" | "right" | "bottom" | "left"', default: '"bottom"', description: "The preferred side of the trigger to render against" },
+      { name: "sideOffset", type: "number", default: "4", description: "The distance in pixels from the trigger" },
+      { name: "align", type: '"start" | "center" | "end"', default: '"center"', description: "The preferred alignment against the trigger" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Simple popover with content.",
+        code: `<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">
+      <Info className="mr-2 h-4 w-4" />
+      More Info
+    </Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-80">
+    <div className="space-y-2">
+      <h4 className="font-medium">About Privxx</h4>
+      <p className="text-sm text-muted-foreground">
+        Privacy-first tunnel using quantum-safe cryptography.
+      </p>
+    </div>
+  </PopoverContent>
+</Popover>`,
+        preview: (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">
+                <Info className="mr-2 h-4 w-4" />
+                More Info
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="space-y-2">
+                <h4 className="font-medium">About Privxx</h4>
+                <p className="text-sm text-muted-foreground">
+                  Privacy-first tunnel using quantum-safe cryptography.
+                </p>
+              </div>
+            </PopoverContent>
+          </Popover>
+        ),
+      },
+      {
+        id: "with-form",
+        title: "With Form",
+        description: "Popover containing a small form.",
+        code: `<Popover>
+  <PopoverTrigger asChild>
+    <Button variant="outline">Set Dimensions</Button>
+  </PopoverTrigger>
+  <PopoverContent className="w-80">
+    <div className="grid gap-4">
+      <div className="space-y-2">
+        <h4 className="font-medium leading-none">Dimensions</h4>
+        <p className="text-sm text-muted-foreground">
+          Set the dimensions for the layer.
+        </p>
+      </div>
+      <div className="grid gap-2">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="width">Width</Label>
+          <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label htmlFor="height">Height</Label>
+          <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
+        </div>
+      </div>
+    </div>
+  </PopoverContent>
+</Popover>`,
+        preview: (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">Set Dimensions</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="grid gap-4">
+                <div className="space-y-2">
+                  <h4 className="font-medium leading-none">Dimensions</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Set the dimensions for the layer.
+                  </p>
+                </div>
+                <div className="grid gap-2">
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <Label htmlFor="width-demo">Width</Label>
+                    <Input id="width-demo" defaultValue="100%" className="col-span-2 h-8" />
+                  </div>
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <Label htmlFor="height-demo">Height</Label>
+                    <Input id="height-demo" defaultValue="25px" className="col-span-2 h-8" />
+                  </div>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+        ),
+      },
+    ],
+    notes: [
+      "Unlike tooltips, popovers are triggered by click and can contain interactive content.",
+      "Use for settings panels, mini forms, or detailed information.",
+      "Popovers automatically handle focus management and keyboard navigation.",
+    ],
+  },
+
+  {
+    id: "accordion",
+    name: "Accordion",
+    description: "A vertically stacked set of interactive headings that each reveal a section of content.",
+    category: "UI",
+    importPath: 'import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"',
+    props: [
+      { name: "type", type: '"single" | "multiple"', default: '"single"', description: "Whether one or multiple items can be opened at the same time" },
+      { name: "collapsible", type: "boolean", default: "false", description: "When type is 'single', allows closing content when clicking the open item" },
+      { name: "value", type: "string | string[]", description: "Controlled value(s) of the open item(s)" },
+      { name: "onValueChange", type: "(value: string | string[]) => void", description: "Callback when value changes" },
+      { name: "defaultValue", type: "string | string[]", description: "Default open item(s) for uncontrolled usage" },
+    ],
+    examples: [
+      {
+        id: "single",
+        title: "Single",
+        description: "Only one item open at a time.",
+        code: `<Accordion type="single" collapsible className="w-full">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>What is Privxx?</AccordionTrigger>
+    <AccordionContent>
+      Privxx is a privacy-first tunnel for browsing and payments
+      using XX Network's cMixx mixnet technology.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Is it quantum-safe?</AccordionTrigger>
+    <AccordionContent>
+      Yes. Privxx uses post-quantum cryptography to protect
+      your data against future quantum computing threats.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>How does it protect my privacy?</AccordionTrigger>
+    <AccordionContent>
+      Privxx hides your IP, location, timing, and device fingerprints
+      by routing traffic through the cMixx mixnet.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`,
+        preview: (
+          <Accordion type="single" collapsible className="w-full max-w-md">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>What is Privxx?</AccordionTrigger>
+              <AccordionContent>
+                Privxx is a privacy-first tunnel for browsing and payments
+                using XX Network's cMixx mixnet technology.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>Is it quantum-safe?</AccordionTrigger>
+              <AccordionContent>
+                Yes. Privxx uses post-quantum cryptography to protect
+                your data against future quantum computing threats.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>How does it protect my privacy?</AccordionTrigger>
+              <AccordionContent>
+                Privxx hides your IP, location, timing, and device fingerprints
+                by routing traffic through the cMixx mixnet.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ),
+      },
+      {
+        id: "multiple",
+        title: "Multiple",
+        description: "Multiple items can be open at the same time.",
+        code: `<Accordion type="multiple" className="w-full">
+  <AccordionItem value="features">
+    <AccordionTrigger>Features</AccordionTrigger>
+    <AccordionContent>
+      <ul className="list-disc pl-4 space-y-1">
+        <li>End-to-end encryption</li>
+        <li>Metadata protection</li>
+        <li>Anonymous payments</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="security">
+    <AccordionTrigger>Security</AccordionTrigger>
+    <AccordionContent>
+      <ul className="list-disc pl-4 space-y-1">
+        <li>Post-quantum cryptography</li>
+        <li>Zero-knowledge proofs</li>
+        <li>Decentralized infrastructure</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>`,
+        preview: (
+          <Accordion type="multiple" className="w-full max-w-md">
+            <AccordionItem value="features">
+              <AccordionTrigger>Features</AccordionTrigger>
+              <AccordionContent>
+                <ul className="list-disc pl-4 space-y-1 text-sm">
+                  <li>End-to-end encryption</li>
+                  <li>Metadata protection</li>
+                  <li>Anonymous payments</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="security">
+              <AccordionTrigger>Security</AccordionTrigger>
+              <AccordionContent>
+                <ul className="list-disc pl-4 space-y-1 text-sm">
+                  <li>Post-quantum cryptography</li>
+                  <li>Zero-knowledge proofs</li>
+                  <li>Decentralized infrastructure</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        ),
+      },
+    ],
+    notes: [
+      "Use type='single' with collapsible for FAQ-style accordions.",
+      "Use type='multiple' when users need to compare content across sections.",
+      "AccordionTrigger automatically includes an animated chevron icon.",
     ],
   },
 ];
