@@ -238,3 +238,40 @@
     opacity: 0.7;
   }
 }
+
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable specific animations */
+  .animate-pulse-glow,
+  .animate-connecting,
+  .animate-status-dot,
+  .hero-ambient-dot {
+    animation: none !important;
+  }
+
+  /* Keep essential visual states without animation */
+  .animate-spin {
+    animation: none !important;
+  }
+
+  /* Disable glow effects that may cause discomfort */
+  .glow-primary,
+  .glow-primary-subtle {
+    box-shadow: none !important;
+  }
+
+  /* Ensure focus states remain visible */
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary)) !important;
+    outline-offset: 2px !important;
+  }
+}
