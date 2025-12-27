@@ -181,5 +181,19 @@
   "connectThrough": "通过连接",
   "connectThroughPrivxx": "通过Privxx连接",
   "disconnect": "断开连接",
-  "unlockToAccess": "解锁您的身份以访问浏览器隧道。"
+  "unlockToAccess": "解锁您的身份以访问浏览器隧道。",
+  
+  "destination": "收款方",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "输入商户URL或支付目标（预览）。",
+  "amount": "金额",
+  "amountPlaceholder": "0.00",
+  "currency": "货币",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "支付",
+  "paying": "处理中…",
+  "paymentsLockedHint": "解锁身份以进行支付",
+  "paymentsComingSoon": "支付即将推出",
+  "paymentsDemoNote": "这是预览流程。一旦桥接支持支付，将启用实时结算。"
 }

@@ -181,5 +181,19 @@
   "connectThrough": "Hubungkan melalui",
   "connectThroughPrivxx": "Hubungkan melalui Privxx",
   "disconnect": "Putuskan",
-  "unlockToAccess": "Buka kunci identitas Anda untuk mengakses tunnel browser."
+  "unlockToAccess": "Buka kunci identitas Anda untuk mengakses tunnel browser.",
+  
+  "destination": "Tujuan",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "Masukkan URL merchant atau tujuan pembayaran (Pratinjau).",
+  "amount": "Jumlah",
+  "amountPlaceholder": "0,00",
+  "currency": "Mata Uang",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "Bayar",
+  "paying": "Memproses…",
+  "paymentsLockedHint": "Buka kunci identitas untuk melakukan pembayaran",
+  "paymentsComingSoon": "Pembayaran segera hadir",
+  "paymentsDemoNote": "Ini adalah alur pratinjau. Penyelesaian langsung akan diaktifkan setelah bridge mendukung pembayaran."
 }

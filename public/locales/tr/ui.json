@@ -181,5 +181,19 @@
   "connectThrough": "Üzerinden bağlan",
   "connectThroughPrivxx": "Privxx üzerinden bağlan",
   "disconnect": "Bağlantıyı kes",
-  "unlockToAccess": "Tarayıcı tüneline erişmek için kimliğinizi açın."
+  "unlockToAccess": "Tarayıcı tüneline erişmek için kimliğinizi açın.",
+  
+  "destination": "Hedef",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "Satıcı URL'si veya ödeme hedefi girin (Önizleme).",
+  "amount": "Tutar",
+  "amountPlaceholder": "0,00",
+  "currency": "Para Birimi",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "Öde",
+  "paying": "İşleniyor…",
+  "paymentsLockedHint": "Ödeme yapmak için kimliği açın",
+  "paymentsComingSoon": "Ödemeler yakında",
+  "paymentsDemoNote": "Bu bir önizleme akışıdır. Köprü ödemeleri desteklediğinde canlı ödeme etkinleştirilecektir."
 }

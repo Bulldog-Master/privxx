@@ -181,5 +181,19 @@
   "connectThrough": "Подключиться через",
   "connectThroughPrivxx": "Подключиться через Privxx",
   "disconnect": "Отключить",
-  "unlockToAccess": "Разблокируйте свою личность для доступа к туннелю браузера."
+  "unlockToAccess": "Разблокируйте свою личность для доступа к туннелю браузера.",
+  
+  "destination": "Получатель",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "Введите URL продавца или получателя платежа (Предпросмотр).",
+  "amount": "Сумма",
+  "amountPlaceholder": "0.00",
+  "currency": "Валюта",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "Оплатить",
+  "paying": "Обработка…",
+  "paymentsLockedHint": "Разблокируйте личность для платежей",
+  "paymentsComingSoon": "Платежи скоро",
+  "paymentsDemoNote": "Это предпросмотр. Реальные расчёты станут доступны после поддержки платежей мостом."
 }

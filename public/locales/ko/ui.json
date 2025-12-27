@@ -181,5 +181,19 @@
   "connectThrough": "를 통해 연결",
   "connectThroughPrivxx": "Privxx를 통해 연결",
   "disconnect": "연결 해제",
-  "unlockToAccess": "브라우저 터널에 액세스하려면 신원을 잠금 해제하세요."
+  "unlockToAccess": "브라우저 터널에 액세스하려면 신원을 잠금 해제하세요.",
+  
+  "destination": "수신자",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "가맹점 URL 또는 결제 대상을 입력하세요 (미리보기).",
+  "amount": "금액",
+  "amountPlaceholder": "0.00",
+  "currency": "통화",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "결제",
+  "paying": "처리 중…",
+  "paymentsLockedHint": "결제를 하려면 신원을 잠금 해제하세요",
+  "paymentsComingSoon": "결제 기능 곧 출시",
+  "paymentsDemoNote": "미리보기 흐름입니다. 브리지가 결제를 지원하면 실시간 정산이 활성화됩니다."
 }
