@@ -41,7 +41,7 @@ const LanguageSelector = () => {
           className="h-8 w-8 text-primary hover:text-primary/80 hover:bg-transparent transition-all"
           aria-label="Select language"
         >
-          <Globe className="h-5 w-5" />
+          <Globe className="h-5 w-5" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 
