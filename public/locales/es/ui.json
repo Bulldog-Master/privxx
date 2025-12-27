@@ -168,5 +168,6 @@
   "tunnelConnected": "Túnel Activo",
   "tunnelLatency": "Latencia",
   "tunnelTarget": "Destino",
-  "tunnelDemoNote": "Esta es una demostración simulada del túnel. El enrutamiento cMixx real se habilitará en una actualización futura."
+  "tunnelDemoNote": "Esta es una demostración simulada del túnel. El enrutamiento cMixx real se habilitará en una actualización futura.",
+  "unlockIdentity": "Desbloquear Identidad"
 }
