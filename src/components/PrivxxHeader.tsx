@@ -1,13 +1,20 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Sparkles, Settings, LogIn } from "lucide-react";
+import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIdentity } from "@/contexts/IdentityContext";
 import { supabase } from "@/integrations/supabase/client";
 import LanguageSelector from "./LanguageSelector";
-import { IdentityStatusCompact } from "./IdentityStatusCompact";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 // Lazy load the privacy drawer - only loaded when user interacts
 const PrivacyDrawer = lazy(() => import("./PrivacyDrawer"));
@@ -19,8 +26,10 @@ interface UserProfile {
 
 const PrivxxHeader = () => {
   const { t } = useTranslation("ui");
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, signOut } = useAuth();
+  const { isUnlocked, isLocked, lock } = useIdentity();
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   // Fetch user profile when authenticated
   useEffect(() => {
@@ -64,60 +73,121 @@ const PrivxxHeader = () => {
     return t("user", "User");
   };
 
+  const handleLock = async () => {
+    await lock();
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
-    <header className="fixed top-6 left-6 z-20 flex flex-col gap-3 opacity-70 hover:opacity-95 transition-opacity">
+    <header className="fixed top-6 left-6 z-20 flex items-center gap-3 opacity-70 hover:opacity-95 transition-opacity">
+      {/* Language Selector - stays separate */}
       <LanguageSelector />
-      <Suspense fallback={<div className="min-h-[44px] w-20" />}>
-        <PrivacyDrawer />
-      </Suspense>
-      {isAuthenticated ? (
-        <>
-          {/* User Profile Button */}
-          <Link to="/settings">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px] px-2"
-              aria-label={t("settings", "Settings")}
-            >
+
+      {/* User Menu Dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="gap-1.5 text-foreground/70 hover:text-foreground min-h-[44px] px-2"
+          >
+            {isAuthenticated ? (
               <Avatar className="h-6 w-6 border border-border/50">
                 <AvatarImage src={profile?.avatar_url || undefined} alt={getDisplayName()} />
                 <AvatarFallback className="text-xs bg-primary/10 text-primary">
                   {getInitials()}
                 </AvatarFallback>
               </Avatar>
-              <span className="sr-only sm:not-sr-only text-sm truncate max-w-[100px]">
-                {getDisplayName()}
-              </span>
-              <Settings className="w-3.5 h-3.5 opacity-60" aria-hidden="true" />
-            </Button>
-          </Link>
-          <IdentityStatusCompact />
-        </>
-      ) : (
-        <Link to="/auth">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px]"
-            aria-label={t("signIn", "Sign In")}
-          >
-            <LogIn className="w-4 h-4" aria-hidden="true" />
-            <span className="sr-only sm:not-sr-only">{t("signIn", "Sign In")}</span>
+            ) : (
+              <User className="w-5 h-5" />
+            )}
+            <ChevronDown className="w-3.5 h-3.5 opacity-60" />
           </Button>
-        </Link>
-      )}
-      <Link to="/whats-new">
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px]"
-          aria-label={t("whatsNew")}
-        >
-          <Sparkles className="w-4 h-4" aria-hidden="true" />
-          {t("whatsNew")}
-        </Button>
-      </Link>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start" className="w-48">
+          {isAuthenticated ? (
+            <>
+              {/* User info */}
+              <div className="px-2 py-1.5 text-sm">
+                <p className="font-medium truncate">{getDisplayName()}</p>
+                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+              </div>
+              <DropdownMenuSeparator />
+              
+              {/* Identity status */}
+              {isUnlocked && (
+                <DropdownMenuItem onClick={handleLock} className="gap-2 cursor-pointer">
+                  <Lock className="w-4 h-4" />
+                  {t("lock", "Lock")}
+                </DropdownMenuItem>
+              )}
+              {isLocked && (
+                <DropdownMenuItem disabled className="gap-2 opacity-60">
+                  <Unlock className="w-4 h-4" />
+                  {t("identityLocked", "Identity Locked")}
+                </DropdownMenuItem>
+              )}
+              
+              <DropdownMenuSeparator />
+            </>
+          ) : (
+            <>
+              <DropdownMenuItem asChild>
+                <Link to="/auth" className="gap-2 cursor-pointer">
+                  <LogIn className="w-4 h-4" />
+                  {t("signIn", "Sign In")}
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
+
+          {/* Privacy */}
+          <DropdownMenuItem 
+            onClick={() => setPrivacyOpen(true)} 
+            className="gap-2 cursor-pointer"
+          >
+            <Shield className="w-4 h-4" />
+            {t("privacy", "Privacy")}
+          </DropdownMenuItem>
+
+          {/* What's New */}
+          <DropdownMenuItem asChild>
+            <Link to="/whats-new" className="gap-2 cursor-pointer">
+              <Sparkles className="w-4 h-4" />
+              {t("whatsNew", "What's New")}
+            </Link>
+          </DropdownMenuItem>
+
+          {/* Settings (only when authenticated) */}
+          {isAuthenticated && (
+            <>
+              <DropdownMenuItem asChild>
+                <Link to="/settings" className="gap-2 cursor-pointer">
+                  <Settings className="w-4 h-4" />
+                  {t("settings", "Settings")}
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem 
+                onClick={handleSignOut} 
+                className="gap-2 cursor-pointer text-destructive focus:text-destructive"
+              >
+                <LogIn className="w-4 h-4 rotate-180" />
+                {t("signOut", "Sign Out")}
+              </DropdownMenuItem>
+            </>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {/* Privacy Drawer (controlled by dropdown) */}
+      <Suspense fallback={null}>
+        <PrivacyDrawer open={privacyOpen} onOpenChange={setPrivacyOpen} />
+      </Suspense>
     </header>
   );
 };
