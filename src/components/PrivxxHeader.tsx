@@ -88,26 +88,26 @@ const PrivxxHeader = () => {
 
       {/* User Menu Dropdown */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="gap-1.5 text-foreground/70 hover:text-foreground min-h-[44px] px-2"
-          >
+          <DropdownMenuTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="gap-1.5 text-primary/80 hover:text-primary min-h-[44px] px-2"
+            >
             {isAuthenticated ? (
-              <Avatar className="h-6 w-6 border border-border/50">
-                <AvatarImage src={profile?.avatar_url || undefined} alt={getDisplayName()} />
-                <AvatarFallback className="text-xs bg-primary/10 text-primary">
-                  {getInitials()}
-                </AvatarFallback>
-              </Avatar>
+                <Avatar className="h-6 w-6 border border-primary/40">
+                  <AvatarImage src={profile?.avatar_url || undefined} alt={getDisplayName()} />
+                  <AvatarFallback className="text-xs bg-primary/10 text-primary">
+                    {getInitials()}
+                  </AvatarFallback>
+                </Avatar>
             ) : (
-              <User className="w-5 h-5" />
+              <User className="w-5 h-5 text-primary/80" />
             )}
             <ChevronDown className="w-3.5 h-3.5 opacity-60" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="w-48">
+        <DropdownMenuContent align="start" className="w-48 border-primary/40 text-primary">
           {isAuthenticated ? (
             <>
               {/* User info */}
