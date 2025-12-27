@@ -275,3 +275,77 @@
     outline-offset: 2px !important;
   }
 }
+
+/* High contrast mode support for accessibility */
+@media (prefers-contrast: more) {
+  :root {
+    /* Increase contrast ratios */
+    --foreground: 0 0% 100%;
+    --background: 220 15% 10%;
+    
+    --card: 220 15% 8%;
+    --card-foreground: 0 0% 100%;
+    
+    --popover: 220 15% 8%;
+    --popover-foreground: 0 0% 100%;
+    
+    --primary: 172 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    
+    --secondary: 0 0% 30%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 85%;
+    
+    --accent: 172 100% 45%;
+    --accent-foreground: 0 0% 0%;
+    
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 0 0% 50%;
+    --input: 0 0% 20%;
+    --ring: 172 100% 50%;
+  }
+
+  /* Stronger borders for better definition */
+  *,
+  *::before,
+  *::after {
+    border-color: hsl(0 0% 50%) !important;
+  }
+
+  /* Enhanced focus indicators */
+  :focus-visible {
+    outline: 3px solid hsl(var(--primary)) !important;
+    outline-offset: 3px !important;
+  }
+
+  /* Ensure text has maximum contrast */
+  body {
+    color: hsl(0 0% 100%) !important;
+  }
+
+  /* Make buttons more visible */
+  button,
+  [role="button"] {
+    border: 2px solid currentColor !important;
+  }
+
+  /* Improve link visibility */
+  a {
+    text-decoration: underline !important;
+  }
+
+  /* Disable subtle effects that reduce contrast */
+  .glow-primary,
+  .glow-primary-subtle {
+    box-shadow: none !important;
+  }
+
+  /* Ensure muted text is still readable */
+  .text-muted-foreground {
+    color: hsl(0 0% 85%) !important;
+  }
+}
