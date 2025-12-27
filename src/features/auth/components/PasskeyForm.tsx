@@ -7,7 +7,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Mail, Loader2, Fingerprint } from "lucide-react";
-import { usePasskey } from "@/hooks/usePasskey";
+import { usePasskey } from "../hooks/usePasskey";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

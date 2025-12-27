@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PageBackground } from "@/components/layout/PageBackground";
-import PrivxxLogo from "@/components/PrivxxLogo";
+import { PrivxxLogo } from "@/components/brand";
 import { toast } from "sonner";
 
 export default function Profile() {

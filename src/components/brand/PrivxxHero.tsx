@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import PrivxxLogo from "@/components/PrivxxLogo";
+import PrivxxLogo from "./PrivxxLogo";
 
 const PrivxxHero = () => {
   const { t } = useTranslation();

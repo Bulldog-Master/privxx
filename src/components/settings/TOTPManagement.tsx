@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import QRCode from "qrcode";
 import { Shield, ShieldCheck, ShieldOff, Loader2, Copy, CheckCircle, AlertTriangle } from "lucide-react";
-import { useTOTP } from "@/hooks/useTOTP";
+import { useTOTP } from "@/features/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
