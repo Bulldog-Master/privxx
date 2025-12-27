@@ -157,5 +157,11 @@
   "readinessBackend": "Backend bereit",
   "readinessMode": "Modus",
   "yes": "Ja",
-  "no": "Nein"
+  "no": "Nein",
+  
+  "tunnelConnecting": "Routing über Mixnet…",
+  "tunnelConnected": "Tunnel Aktiv",
+  "tunnelLatency": "Latenz",
+  "tunnelTarget": "Ziel",
+  "tunnelDemoNote": "Dies ist eine simulierte Tunnel-Demo. Echtes cMixx-Routing wird in einem zukünftigen Update aktiviert."
 }

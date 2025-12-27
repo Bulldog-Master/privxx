@@ -157,5 +157,11 @@
   "readinessBackend": "Backend siap",
   "readinessMode": "Mode",
   "yes": "Ya",
-  "no": "Tidak"
+  "no": "Tidak",
+  
+  "tunnelConnecting": "Routing melalui mixnet…",
+  "tunnelConnected": "Tunnel Aktif",
+  "tunnelLatency": "Latensi",
+  "tunnelTarget": "Target",
+  "tunnelDemoNote": "Ini adalah demo tunnel simulasi. Routing cMixx nyata akan diaktifkan di pembaruan mendatang."
 }

@@ -157,5 +157,11 @@
   "readinessBackend": "后端就绪",
   "readinessMode": "模式",
   "yes": "是",
-  "no": "否"
+  "no": "否",
+  
+  "tunnelConnecting": "正在通过混合网络路由…",
+  "tunnelConnected": "隧道已激活",
+  "tunnelLatency": "延迟",
+  "tunnelTarget": "目标",
+  "tunnelDemoNote": "这是一个模拟的隧道演示。真正的cMixx路由将在未来的更新中启用。"
 }

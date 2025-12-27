@@ -157,5 +157,11 @@
   "readinessBackend": "Backend listo",
   "readinessMode": "Modo",
   "yes": "Sí",
-  "no": "No"
+  "no": "No",
+  
+  "tunnelConnecting": "Enrutando por mixnet…",
+  "tunnelConnected": "Túnel Activo",
+  "tunnelLatency": "Latencia",
+  "tunnelTarget": "Destino",
+  "tunnelDemoNote": "Esta es una demostración simulada del túnel. El enrutamiento cMixx real se habilitará en una actualización futura."
 }
