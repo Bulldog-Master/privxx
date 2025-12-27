@@ -138,6 +138,11 @@
   "composeLockedHint": "Unlock identity to send messages",
   "messageSent": "Message sent",
   "messageSendFailed": "Failed to send message",
+  
+  "connectionChecking": "Checking...",
+  "connectionConnected": "Connected",
+  "connectionDegraded": "Connecting...",
+  "connectionError": "Offline",
 
   "installApp": "Install Privxx",
   "installAppDescription": "Add to home screen for quick access",

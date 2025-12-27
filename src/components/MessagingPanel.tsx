@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageSquare } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,10 +12,17 @@ import type { Message } from "@/api/bridge";
 export function MessagingPanel() {
   const { t } = useTranslation();
   const { isUnlocked } = useIdentity();
-  const { messages, isLoading, error, refetch, addOptimistic } = useMessages({
+  const { messages, isLoading, error, refetch, addOptimistic, clear } = useMessages({
     enabled: isUnlocked,
-    pollIntervalMs: 5000,
+    pollIntervalMs: 3000, // 3 second polling for demo responsiveness
   });
+
+  // Clear inbox when identity is locked
+  useEffect(() => {
+    if (!isUnlocked) {
+      clear();
+    }
+  }, [isUnlocked, clear]);
 
   const handleMessageSent = (message: Message) => {
     addOptimistic(message);
