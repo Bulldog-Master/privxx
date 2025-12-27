@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useTranslations } from "@/lib/i18n";
+import { useTranslation } from "react-i18next";
 import PrivxxLogo from "@/components/PrivxxLogo";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShieldCheck } from "lucide-react";
@@ -7,7 +7,7 @@ import { Loader2, ShieldCheck } from "lucide-react";
 type ConnectionState = "idle" | "connecting" | "connected";
 
 const PrivxxHeroWithUrl = () => {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
   const [url, setUrl] = useState("https://");
   const [connectionState, setConnectionState] = useState<ConnectionState>("idle");
   const [latency, setLatency] = useState<number | null>(null);

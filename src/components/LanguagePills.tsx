@@ -1,4 +1,4 @@
-import { useTranslations, setLanguage, getSupportedLanguages } from "@/lib/i18n";
+import { useTranslation } from "react-i18next";
 
 const languageLabels: Record<string, string> = {
   en: "EN",
@@ -19,16 +19,20 @@ const languageLabels: Record<string, string> = {
   ko: "한",
 };
 
+const supportedLanguages = [
+  'en', 'zh', 'hi', 'es', 'fr', 'ar', 'bn', 'ru', 'pt', 'ur', 'id', 'de', 'ja', 'nl', 'tr', 'ko'
+];
+
 const LanguagePills = () => {
-  const { currentLanguage } = useTranslations();
-  const languages = getSupportedLanguages();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
 
   return (
     <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide py-0.5 max-w-full">
-      {languages.map((lang) => (
+      {supportedLanguages.map((lang) => (
         <button
           key={lang}
-          onClick={() => setLanguage(lang)}
+          onClick={() => i18n.changeLanguage(lang)}
           aria-label={`Switch language to ${lang.toUpperCase()}`}
           className={`
             px-1.5 py-0.5 text-[10px] font-medium rounded transition-all duration-200

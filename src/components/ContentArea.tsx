@@ -1,4 +1,4 @@
-import { useTranslations } from "@/lib/i18n";
+import { useTranslation } from "react-i18next";
 
 interface ContentAreaProps {
   url: string | null;
@@ -6,7 +6,7 @@ interface ContentAreaProps {
 }
 
 const ContentArea = ({ url, latency }: ContentAreaProps) => {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
   
   if (!url || latency === null) {
     return null;

@@ -1,6 +1,6 @@
+import { useTranslation } from "react-i18next";
 import { RefreshCw, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "@/lib/i18n";
 import { buildInfo } from "@/lib/buildInfo";
 
 interface DiagnosticsFooterProps {
@@ -16,7 +16,7 @@ const DiagnosticsFooter = ({
   onRefresh,
   onCopy,
 }: DiagnosticsFooterProps) => {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
 
   const versionLabel = `Privxx v${buildInfo.version}${buildInfo.build ? ` (${buildInfo.build})` : ""}`;
 

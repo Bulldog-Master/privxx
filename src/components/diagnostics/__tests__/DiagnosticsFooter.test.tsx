@@ -4,10 +4,11 @@ import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import DiagnosticsFooter from "../DiagnosticsFooter";
 
-// Mock useTranslations
-vi.mock("@/lib/i18n", () => ({
-  useTranslations: () => ({
+// Mock react-i18next
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({
     t: (key: string) => key,
+    i18n: { language: "en", changeLanguage: vi.fn() },
   }),
 }));
 
@@ -26,7 +27,7 @@ describe("DiagnosticsFooter", () => {
   it("renders version text", () => {
     const { getByText } = render(<DiagnosticsFooter {...defaultProps} />);
     
-    expect(getByText("diagnosticsVersion")).toBeInTheDocument();
+    expect(getByText(/Privxx v/)).toBeInTheDocument();
   });
 
   it("calls onRefresh when refresh button is clicked", async () => {

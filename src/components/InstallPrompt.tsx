@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Download, X, Share, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "@/lib/i18n";
 
 type BIPOutcome = "accepted" | "dismissed";
 
@@ -37,7 +37,7 @@ const isStandalone = (): boolean => {
 const SESSION_KEY = "pwa-dismissed";
 
 export default function InstallPrompt() {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
 
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showChromePrompt, setShowChromePrompt] = useState(false);

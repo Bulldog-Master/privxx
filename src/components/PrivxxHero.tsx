@@ -1,8 +1,8 @@
-import { useTranslations } from "@/lib/i18n";
+import { useTranslation } from "react-i18next";
 import PrivxxLogo from "@/components/PrivxxLogo";
 
 const PrivxxHero = () => {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col items-center text-center space-y-4 relative">

@@ -4,10 +4,10 @@
  * Shows real-time Bridge connection status with JWT validation state.
  */
 
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/contexts/IdentityContext";
 import { useTTLCountdown } from "@/hooks/useTTLCountdown";
-import { useTranslations } from "@/lib/i18n";
 import { 
   Shield, 
   ShieldCheck, 
@@ -43,7 +43,7 @@ const StatusRow = ({ icon, label, value, valueColor = "text-primary", subValue }
 );
 
 const BridgeStatusCard = () => {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
   const { isAuthenticated, session } = useAuth();
   const { state, unlockExpiresAt, isUnlocked } = useIdentity();
   

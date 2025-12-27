@@ -1,12 +1,12 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Sparkles } from "lucide-react";
 import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHeroWithUrl from "@/components/PrivxxHeroWithUrl";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/ConnectionBadge";
 import { PageBackground } from "@/components/layout/PageBackground";
-import { useTranslations } from "@/lib/i18n";
 import {
   Tooltip,
   TooltipContent,
@@ -17,7 +17,7 @@ import {
 const DiagnosticsDrawer = lazy(() => import("@/components/DiagnosticsDrawer"));
 
 const Index = () => {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
 
   return (
     <PageBackground>
