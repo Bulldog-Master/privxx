@@ -20,6 +20,7 @@ const ReleaseNotes = lazy(() => import("./pages/ReleaseNotes"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Auth = lazy(() => import("./pages/Auth"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Profile = lazy(() => import("./pages/Profile"));
 
 const queryClient = new QueryClient();
 
@@ -67,6 +68,11 @@ function AppRoutes() {
               <Route path="/settings" element={
                 <Suspense fallback={<PageLoader />}>
                   <Settings />
+                </Suspense>
+              } />
+              <Route path="/profile" element={
+                <Suspense fallback={<PageLoader />}>
+                  <Profile />
                 </Suspense>
               } />
               <Route path="/privacy" element={

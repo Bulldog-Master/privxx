@@ -7,7 +7,7 @@
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, User, ChevronRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -72,6 +72,24 @@ export default function Settings() {
         </div>
 
         <div className="space-y-6">
+          {/* Profile Link */}
+          <Card className="bg-card/90 backdrop-blur-sm border-border/50">
+            <Link to="/profile" className="block">
+              <CardContent className="flex items-center justify-between py-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <User className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium">{t("editProfile", "Edit Profile")}</p>
+                    <p className="text-sm text-muted-foreground">{t("editProfileDesc", "Change your display name and avatar")}</p>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              </CardContent>
+            </Link>
+          </Card>
+
           {/* Account Section */}
           <AccountSection />
 
