@@ -2,7 +2,10 @@
  * Alert utilities for mobile notifications
  * 
  * Provides haptic feedback and audio alerts for important events.
+ * Respects user preferences stored in localStorage.
  */
+
+import { getAlertPreferences } from "@/hooks/useAlertPreferences";
 
 // Vibration patterns (in milliseconds)
 export const VIBRATION_PATTERNS = {
@@ -12,9 +15,24 @@ export const VIBRATION_PATTERNS = {
 } as const;
 
 /**
- * Trigger device vibration if supported
+ * Check if alerts are enabled in user preferences
+ */
+function shouldPlaySound(): boolean {
+  return getAlertPreferences().soundEnabled;
+}
+
+function shouldVibrate(): boolean {
+  return getAlertPreferences().vibrationEnabled;
+}
+
+/**
+ * Trigger device vibration if supported and enabled
  */
 export function vibrate(pattern: keyof typeof VIBRATION_PATTERNS | number[] = "short"): boolean {
+  if (!shouldVibrate()) {
+    return false;
+  }
+
   if (!("vibrate" in navigator)) {
     return false;
   }
@@ -33,13 +51,17 @@ export function vibrate(pattern: keyof typeof VIBRATION_PATTERNS | number[] = "s
 }
 
 /**
- * Play a simple alert tone using Web Audio API
+ * Play a simple alert tone using Web Audio API (if enabled)
  */
 export function playAlertTone(
   frequency: number = 440,
   duration: number = 150,
   volume: number = 0.3
 ): boolean {
+  if (!shouldPlaySound()) {
+    return false;
+  }
+
   try {
     const AudioContext = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof window.AudioContext }).webkitAudioContext;
     if (!AudioContext) {
