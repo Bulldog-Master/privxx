@@ -1,189 +1,97 @@
-# Privxx Go/No-Go Checklist
+# Privxx Go/No-Go Checklist (Truth-Based)
 
-**Purpose:** Pre-launch verification for production readiness  
+**Purpose:** Decide objectively whether Privxx is usable beyond demo mode  
 **Last Updated:** 2025-12-27  
-**Status:** Active  
-**Last Verified:** 2025-12-27
+**Status:** AUTHORITATIVE
 
 ---
 
-## 🔐 Security Verification
+## Decision Rule
 
-### Database Layer
-- [x] RLS enabled on all user-data tables
-- [x] `passkey_challenges` — service-role only (USING false, deny anon)
-- [x] `passkey_credentials` — user can only access own records (auth.uid() = user_id)
-- [x] `totp_secrets` — user can only read own, no client write (deny INSERT/UPDATE/DELETE)
-- [x] `totp_backup_codes` — service-role only (deny authenticated + anon)
-- [x] `profiles` — user can only CRUD own profile (auth.uid() = user_id)
-- [x] `notification_preferences` — user can only CRUD own preferences
-- [x] `rate_limits` — service-role only (deny authenticated + anon)
-
-### Authentication
-- [x] Supabase JWT auth working (AuthContext with onAuthStateChange)
-- [x] Email signup with redirectUrl configured
-- [x] Session timeout configured (profiles.session_timeout_minutes, default: 15)
-- [x] No anonymous signups (standard email/password + magic link only)
-- [x] Passkey registration/authentication functional (usePasskey hook + edge function)
-- [x] TOTP setup/verification functional (useTOTP hook + edge function)
-
-### Bridge Security
-- [ ] Bridge binds to `127.0.0.1` only — **VERIFY ON SERVER**
-- [ ] No direct xx-backend internet exposure — **VERIFY ON SERVER**
-- [ ] Cloudflare tunnel configured correctly — **VERIFY DEPLOYMENT**
-- [x] JWT validation on protected endpoints (BridgeClient sets Authorization header)
-- [x] Unlock TTL enforced server-side (IdentityContext tracks unlockExpiresAt)
+- ✅ **ALL PASS** → GO (real product behavior)
+- ❌ **ANY FAIL** → NO-GO (remain demo)
 
 ---
 
-## 🌐 Infrastructure Verification
+## A. Architecture (MUST ALL BE TRUE)
 
-### Canonical Origin
-- [x] Single origin decided: `https://privxx.app` — **CONFIGURED**
-- [x] CORS configuration created (`supabase/functions/_shared/cors.ts`)
-- [x] Origin utility created (`src/lib/origin.ts`)
-- [ ] Frontend served from canonical origin — **VERIFY DEPLOYMENT**
-- [ ] Bridge API accessible from canonical origin — **VERIFY DEPLOYMENT**
-- [ ] No port numbers in production URLs — **VERIFY DEPLOYMENT**
-- [ ] HTTP → HTTPS redirect configured — **CLOUDFLARE CONFIG NEEDED**
-- [ ] www → non-www redirect configured — **CLOUDFLARE CONFIG NEEDED**
+| Requirement | Status | Verified |
+|-------------|--------|----------|
+| Frontend only calls Bridge endpoints | ⬜ | |
+| No browser calls to `:8090` directly | ⬜ | |
+| No browser calls to `/cmixx/*` or `/xxdk/*` | ⬜ | |
+| Bridge reachable at canonical origin (`https://privxx.app`) | ⬜ | |
+| Backend xxDK process is NOT internet-facing | ⬜ | |
+| Bridge → Backend is local/private only | ⬜ | |
 
-### Backend Services
-- [ ] xx-backend process running — **VERIFY ON SERVER**
-- [ ] Bridge process running — **VERIFY ON SERVER**
-- [ ] Bridge health endpoint responding (`/health`) — **VERIFY ON SERVER**
-- [ ] Cloudflare tunnel active — **VERIFY DEPLOYMENT**
-
-### DNS & SSL
-- [ ] A record pointing to correct IP — **VERIFY DNS**
-- [ ] SSL certificate valid and auto-renewing — **VERIFY DEPLOYMENT**
-- [ ] No mixed content warnings — **VERIFY IN BROWSER**
+**❌ FAIL if:** Any browser request bypasses the Bridge
 
 ---
 
-## 🔄 Functional Verification
+## B. Security (MUST ALL BE TRUE)
 
-### Identity Flow
-- [x] Identity status check implemented (`bridgeClient.getIdentityStatus()`)
-- [x] Identity creation implemented (`bridgeClient.createIdentity()`)
-- [x] Identity unlock implemented (`bridgeClient.unlockIdentity()`)
-- [x] Identity lock implemented (`bridgeClient.lockIdentity()`)
-- [x] Unlock TTL expiry tracked (unlockExpiresAt state)
+| Requirement | Status | Verified |
+|-------------|--------|----------|
+| Supabase JWT required on all Bridge routes (except `/health`) | ⬜ | |
+| JWT validated (`aud`, `exp`, `iss`, `sub`) | ⬜ | |
+| Identity unlock is session-based, not password-based | ⬜ | |
+| Unlock TTL enforced (15–30 min) | ⬜ | |
+| Message send/receive blocked when locked | ⬜ | |
+| Rate limits enabled (even basic) | ⬜ | |
 
-### Messaging Flow
-- [x] Message send implemented (`bridgeClient.sendMessage()`)
-- [x] Inbox retrieval implemented (`bridgeClient.getInbox()`)
-- [ ] Message round-trip verified through xxDK — **E2E TEST REQUIRED**
-- [ ] Inbox polling functional — **E2E TEST REQUIRED**
-
-### Connection States (UI)
-- [x] Idle state displays correctly (IdentityState: "none")
-- [x] Loading state shows progress (IdentityState: "loading")
-- [x] Locked/Unlocked states display (IdentityState: "locked"/"unlocked")
-- [x] Error states handled gracefully (error state with clearError)
-- [ ] Demo mode indicator visible — **VERIFY IN UI**
+**❌ FAIL if:** Messages can be sent while locked
 
 ---
 
-## 📱 Client Verification
+## C. Behavior (MUST ALL BE TRUE)
 
-### PWA
-- [x] Service worker registered (VitePWA with autoUpdate)
-- [x] App installable on mobile (manifest configured)
-- [x] Offline fallback configured (workbox globPatterns)
-- [x] Icons display correctly (192x192, 512x512, maskable)
+| Requirement | Status | Verified |
+|-------------|--------|----------|
+| Unlock → state becomes `unlocked` | ⬜ | |
+| Inbox polls only when unlocked | ⬜ | |
+| Send → message appears in inbox | ⬜ | |
+| Lock → inbox clears + polling stops | ⬜ | |
+| Reload app → locked state restored | ⬜ | |
 
-### Cross-Browser
-- [ ] Chrome desktop — functional — **MANUAL TEST**
-- [ ] Safari desktop — functional — **MANUAL TEST**
-- [ ] Chrome mobile (Android) — functional — **MANUAL TEST**
-- [ ] Safari mobile (iOS) — functional — **MANUAL TEST**
-- [ ] Firefox desktop — functional — **MANUAL TEST**
-
-### Accessibility
-- [x] Skip to content link (SkipToContent component exists)
-- [ ] Keyboard navigation functional — **MANUAL TEST**
-- [ ] Screen reader compatible — **MANUAL TEST**
-- [ ] Color contrast meets WCAG AA — **MANUAL TEST**
+**❌ FAIL if:** Reload keeps identity unlocked
 
 ---
 
-## 🎭 Demo Readiness
+## Current Reality Check
 
-### Demo Environment
-- [ ] Demo account created and tested — **ACTION REQUIRED**
-- [ ] Demo URL accessible — **VERIFY DEPLOYMENT**
-- [x] Demo script finalized (`PRIVXX-PUBLIC-DEMO-NARRATIVE.md`)
-- [ ] Backup demo flow prepared — **ACTION REQUIRED**
+### ✅ YES — REAL
+- [x] Supabase auth
+- [x] JWT validation
+- [x] Bridge isolation (code complete)
+- [x] Identity lifecycle (create/unlock/lock)
+- [ ] xxDK + cMixx (**if logs confirm**)
 
-### Observability
-- [ ] Bridge logs accessible via SSH — **VERIFY ON SERVER**
-- [ ] Key events logged — **VERIFY IN LOGS**
-- [ ] No sensitive data in logs — **SECURITY REVIEW**
+### ⏳ NOT YET REAL (AND THAT'S OK)
+- [ ] HTTPS interception
+- [ ] Payments routing
+- [ ] Browser anomaly cloaking
 
-### Documentation
-- [x] Demo script finalized (`PRIVXX-FULL-DEMO-SCRIPT.md`, `PRIVXX-PUBLIC-DEMO-NARRATIVE.md`)
-- [x] Q&A responses prepared (in demo narrative)
-- [x] Technical architecture diagram available (`PRIVXX-ARCHITECTURE-SPEC.md`)
+*These are Phase 2 products, not Phase 1 proof.*
 
 ---
 
-## ✅ Go/No-Go Decision Matrix
-
-| Category | Status | Blocker? | Notes |
-|----------|--------|----------|-------|
-| Security | ✅ PASS | Yes | All RLS policies verified, auth complete |
-| Infrastructure | ⬜ PENDING | Yes | Server deployment verification needed |
-| Functional | 🟡 PARTIAL | Yes | Code complete, E2E test required |
-| Client | 🟡 PARTIAL | No | PWA ready, manual browser tests needed |
-| Demo Readiness | 🟡 PARTIAL | No | Scripts ready, demo account needed |
-
-### Decision Criteria
-- **GO:** All "Blocker: Yes" categories pass
-- **NO-GO:** Any "Blocker: Yes" category fails
-- **CONDITIONAL GO:** All blockers pass, non-blockers have known issues with workarounds
-
----
-
-## 📊 Current Status Summary
-
-### ✅ Verified Complete (Code Level)
-- Database security (RLS policies)
-- Authentication system (JWT, passkeys, TOTP)
-- Bridge client SDK (retry, timeout, error handling)
-- Identity context (create, unlock, lock, status)
-- PWA configuration
-- Demo documentation
-
-### 🟡 Requires Server Verification
-- Bridge localhost binding
-- xx-backend process status
-- Cloudflare tunnel configuration
-- Bridge health endpoint
-
-### 🟡 Requires E2E Testing
-- Message round-trip through xxDK
-- Inbox polling with real messages
-- TTL expiry enforcement
-
-### ⬜ Action Items Before GO
-1. [ ] Lock canonical origin (`https://privxx.app`)
-2. [ ] Create demo account
-3. [ ] Run E2E live test (see `PRIVXX-E2E-TEST-GUIDE.md`)
-4. [ ] Verify server deployment
-5. [ ] Manual browser compatibility tests
-
----
-
-## 📋 Sign-Off
+## Sign-Off
 
 | Role | Name | Date | Decision |
 |------|------|------|----------|
 | Technical Lead | | | ⬜ GO / ⬜ NO-GO |
-| Security Review | | | ✅ PASS (RLS verified 2025-12-27) |
+| Security Review | | | ⬜ GO / ⬜ NO-GO |
 | Product Owner | | | ⬜ GO / ⬜ NO-GO |
 
 ---
 
-*This checklist should be completed before any production deployment or stakeholder demo.*
-*Last code verification: 2025-12-27*
+## Next Steps After GO
+
+1. Lock canonical origin (`https://privxx.app`) ✅ DONE
+2. Add minimal payment intent (not processing)
+3. Expand observability
+4. Prepare external beta
+
+---
+
+*You are past demo architecture. You are now validating real cryptographic behavior.*

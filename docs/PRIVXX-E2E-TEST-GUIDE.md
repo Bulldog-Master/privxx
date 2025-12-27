@@ -1,244 +1,205 @@
-# Privxx End-to-End Live Test Guide
+# Privxx Live End-to-End Test
 
-**Purpose:** Verify xxDK/cMixx is actually routing messages (not mock responses)  
+**Goal:** Prove cMixx + xxDK are actually being exercised  
 **Last Updated:** 2025-12-27  
-**Audience:** Developer / Technical QA
+**Status:** AUTHORITATIVE
 
 ---
 
-## 🎯 Test Objective
+## Test Setup
 
-Answer definitively: **"Is xxDK actually sending messages through cMixx?"**
-
-This test proves:
-1. Bridge connects to real xxDK backend
-2. Messages traverse the cMixx mixnet
-3. Inbox receives routed messages
-4. Unlock TTL enforcement works
+| Device | Purpose |
+|--------|---------|
+| Device A | Browser (desktop or Android Chrome) |
+| Device B | iPad / phone (optional, for cross-device) |
+| Backend | Terminal open with xxDK logs visible |
 
 ---
 
-## 📋 Prerequisites
+## Test Steps
 
-### Environment
-- SSH access to backend server
-- Two devices (or two browser sessions)
-- Production or staging URL accessible
+### STEP 1 — Health
 
-### Accounts
-- Two test accounts with verified email
-- Both accounts can authenticate successfully
-
-### Backend Services Running
 ```bash
-# Verify on server
-systemctl status xx-backend    # Should be active
-systemctl status privxx-bridge # Should be active
-ss -tlnp | grep 8090          # Bridge port listening
+GET https://privxx.app/health
+```
+
+**Expected:**
+```json
+{ "ok": true }
 ```
 
 ---
 
-## 🧪 Test Procedure
+### STEP 2 — Login
 
-### Phase 1: Backend Smoke Check
+1. Login via Supabase (magic link / passkey)
+2. Verify JWT present in frontend memory (not localStorage)
 
-**Step 1.1 — Verify Bridge Health**
+---
+
+### STEP 3 — Identity Status
+
 ```bash
-curl -s http://127.0.0.1:8090/health | jq
+GET /identity/status
+Authorization: Bearer <JWT>
 ```
 
-Expected:
+**Expected:**
+```json
+{ "exists": true, "state": "locked" }
+```
+
+---
+
+### STEP 4 — Unlock
+
+```bash
+POST /identity/unlock
+Authorization: Bearer <JWT>
+```
+
+**Expected:**
 ```json
 {
-  "status": "ok",
-  "xxdk": "connected",
-  "timestamp": "..."
+  "state": "unlocked",
+  "expiresAt": "ISO_TIMESTAMP"
 }
 ```
 
-🔴 **FAIL if:** `xxdk: "disconnected"` or no response
+**Backend MUST show:**
+- `xxDK identity unlocked`
+- `Session TTL set`
 
 ---
 
-**Step 1.2 — Tail Bridge Logs**
+### STEP 5 — Send Message (REAL TEST)
+
 ```bash
-# Keep this running in a separate terminal
-tail -f /opt/xx/bridge/logs/bridge.log
+POST /messages/send
+Authorization: Bearer <JWT>
+Content-Type: application/json
+
+{
+  "recipient": "self",
+  "message": "live test"
+}
 ```
 
-You will watch for activity during the test.
+**Backend MUST show activity.**
+
+⚠️ **If xxDK logs nothing → still demo mode**
 
 ---
 
-### Phase 2: Authentication & Identity
+### STEP 6 — Receive
 
-**Step 2.1 — Login (Device A)**
-1. Open `https://privxx.app` on Device A
-2. Sign in with test account A
-3. Verify: Auth succeeds, redirected to main view
+```bash
+GET /messages/inbox
+Authorization: Bearer <JWT>
+```
 
-**Step 2.2 — Check Identity Status**
-- UI should show identity status
-- If no identity: Create one
-
-**Step 2.3 — Unlock Identity**
-1. Click unlock / enter credentials
-2. Verify: Identity shows "Unlocked"
-3. Note the unlock TTL countdown
-
-🔴 **FAIL if:** Identity cannot unlock or TTL not displayed
+**Expected:**
+- Message appears
+- De-duped
+- Timestamp correct
 
 ---
 
-**Step 2.4 — Watch Backend Logs**
+### STEP 7 — Lock
 
-After unlock, you should see in bridge logs:
+```bash
+POST /identity/lock
+Authorization: Bearer <JWT>
+```
+
+**Expected:**
+- Inbox clears
+- Send blocked with:
+```json
+{ "error": "session_expired" }
+```
+
+---
+
+### STEP 8 — TTL Expiry (Optional)
+
+1. Wait until `expiresAt`
+2. Try sending
+3. **Must fail**
+
+---
+
+## Result Interpretation
+
+| Result | Meaning |
+|--------|---------|
+| Backend logs xxDK traffic | ✅ Real |
+| Messages loop via inbox | ✅ cMixx path active |
+| Send blocked when locked | ✅ Secure |
+| UI stays stable | ✅ Ready |
+
+---
+
+## Quick Verification Commands
+
+### SSH to Backend Server
+```bash
+# Check bridge is running
+systemctl status privxx-bridge
+
+# Check xx-backend is running
+systemctl status xx-backend
+
+# Tail bridge logs
+tail -f /opt/xx/bridge/logs/bridge.log
+
+# Tail xxDK logs (if separate)
+tail -f /opt/xx/backend/logs/xxdk.log
+```
+
+### Expected Log Patterns (Bridge)
 ```
 [INFO] auth validated user_id=<uuid>
 [INFO] identity unlocked user_id=<uuid> ttl=300
-```
-
-🔴 **FAIL if:** No log entries appear
-
----
-
-### Phase 3: Message Send (The Critical Test)
-
-**Step 3.1 — Compose Message**
-1. On Device A, go to compose/send
-2. Enter recipient (test account B's identity)
-3. Enter message body: `E2E-TEST-{timestamp}`
-4. Click Send
-
-**Step 3.2 — Watch Backend Logs**
-
-You MUST see:
-```
-[INFO] message queued user_id=<uuid> recipient=<recipient_id>
+[INFO] message queued user_id=<uuid> recipient=<id>
 [INFO] xxdk send initiated msg_id=<uuid>
 [INFO] cmixx routing started msg_id=<uuid>
 [INFO] message sent successfully msg_id=<uuid>
 ```
 
-🔴 **CRITICAL FAIL if:**
-- No `xxdk send initiated` log → Still in mock mode
-- `cmixx routing started` missing → xxDK not connected to network
-- Any error logs appear
-
-✅ **PASS if:** All 4 log entries appear in sequence
-
----
-
-### Phase 4: Message Receive
-
-**Step 4.1 — Login (Device B)**
-1. Open `https://privxx.app` on Device B
-2. Sign in with test account B
-3. Unlock identity
-
-**Step 4.2 — Check Inbox**
-1. Navigate to inbox/messages
-2. Wait for polling (or manual refresh)
-3. Look for message: `E2E-TEST-{timestamp}`
-
-**Step 4.3 — Watch Backend Logs**
-```
-[INFO] inbox poll user_id=<uuid>
-[INFO] messages retrieved count=1
-```
-
-🔴 **FAIL if:** Message never appears after 60 seconds  
-✅ **PASS if:** Message appears with correct content
-
----
-
-### Phase 5: Lock & Rejection Test
-
-**Step 5.1 — Lock Identity (Device A)**
-1. On Device A, click Lock identity
-2. Verify: UI shows "Locked"
-
-**Step 5.2 — Attempt Send While Locked**
-1. Try to send another message
-2. Expected: Send should be rejected
-
-**Step 5.3 — Watch Backend Logs**
+### Failure Indicators
 ```
 [WARN] send rejected: identity locked user_id=<uuid>
-```
-
-🔴 **FAIL if:** Message sends successfully while locked  
-✅ **PASS if:** Send rejected with appropriate error
-
----
-
-### Phase 6: TTL Expiry Test (Optional)
-
-**Step 6.1 — Wait for TTL**
-1. Unlock identity
-2. Wait for TTL countdown to reach 0
-3. Attempt action (send message)
-
-**Step 6.2 — Verify Expiry**
-Expected:
-- UI shows session expired
-- Backend returns `session_expired` error
-
-```
 [WARN] session expired user_id=<uuid>
+[ERROR] xxdk not connected
 ```
 
 ---
 
-## 📊 Results Summary
+## Test Results Template
 
-| Test | Status | Notes |
+| Step | Status | Notes |
 |------|--------|-------|
-| Backend Health | ⬜ PASS / ⬜ FAIL | |
-| Auth Flow | ⬜ PASS / ⬜ FAIL | |
-| Identity Unlock | ⬜ PASS / ⬜ FAIL | |
-| Message Send | ⬜ PASS / ⬜ FAIL | |
-| Backend xxDK Logs | ⬜ PASS / ⬜ FAIL | |
-| Message Receive | ⬜ PASS / ⬜ FAIL | |
-| Lock Rejection | ⬜ PASS / ⬜ FAIL | |
-| TTL Expiry | ⬜ PASS / ⬜ FAIL / ⬜ SKIPPED | |
+| 1. Health | ⬜ PASS / ⬜ FAIL | |
+| 2. Login | ⬜ PASS / ⬜ FAIL | |
+| 3. Identity Status | ⬜ PASS / ⬜ FAIL | |
+| 4. Unlock | ⬜ PASS / ⬜ FAIL | |
+| 5. Send (xxDK logs?) | ⬜ PASS / ⬜ FAIL | |
+| 6. Receive | ⬜ PASS / ⬜ FAIL | |
+| 7. Lock | ⬜ PASS / ⬜ FAIL | |
+| 8. TTL Expiry | ⬜ PASS / ⬜ FAIL / ⬜ SKIPPED | |
 
 ---
 
-## 🔍 Troubleshooting
+## Definition of Done
 
-### Message doesn't send
-1. Check bridge logs for errors
-2. Verify xxDK backend is connected to network
-3. Check recipient ID is valid
+All of the following must be true:
 
-### Message doesn't arrive
-1. Verify recipient identity is created
-2. Check inbox polling is working
-3. Look for cMixx delivery logs
-
-### "xxdk: disconnected" in health
-1. Restart xx-backend service
-2. Check NDF file is valid
-3. Verify network connectivity
-
-### No backend logs appearing
-1. Verify you're tailing the correct log file
-2. Check bridge is actually receiving requests
-3. Verify Cloudflare tunnel is routing correctly
-
----
-
-## ✅ Definition of Done
-
-The E2E test is complete when:
-
-1. ✅ Message sent from Device A
-2. ✅ Backend logs show xxDK activity (not mock)
-3. ✅ Message received on Device B
-4. ✅ Lock prevents send
-5. ✅ TTL expiry enforced
+- [ ] Backend logs xxDK traffic (not mock responses)
+- [ ] Message sent appears in inbox
+- [ ] Lock prevents send
+- [ ] TTL expiry enforced
 
 **If all pass:** xxDK/cMixx integration is LIVE, not demo mode.
 
