@@ -11,6 +11,7 @@ import { IdentityProvider } from "@/contexts/IdentityContext";
 import { SkipToContent } from "@/components/SkipToContent";
 import InstallPrompt from "@/components/InstallPrompt";
 import { EmailVerificationPending } from "@/components/EmailVerificationPending";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -66,14 +67,18 @@ function AppRoutes() {
                 </Suspense>
               } />
               <Route path="/settings" element={
-                <Suspense fallback={<PageLoader />}>
-                  <Settings />
-                </Suspense>
+                <ProtectedRoute>
+                  <Suspense fallback={<PageLoader />}>
+                    <Settings />
+                  </Suspense>
+                </ProtectedRoute>
               } />
               <Route path="/profile" element={
-                <Suspense fallback={<PageLoader />}>
-                  <Profile />
-                </Suspense>
+                <ProtectedRoute>
+                  <Suspense fallback={<PageLoader />}>
+                    <Profile />
+                  </Suspense>
+                </ProtectedRoute>
               } />
               <Route path="/privacy" element={
                 <Suspense fallback={<PageLoader />}>

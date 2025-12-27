@@ -4,13 +4,12 @@
  * Allows users to manage their account and passkeys.
  */
 
-import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Loader2, User, ChevronRight } from "lucide-react";
+import { ArrowLeft, User, ChevronRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import PrivxxLogo from "@/components/PrivxxLogo";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
@@ -18,24 +17,9 @@ import { AccountSection } from "@/components/settings/AccountSection";
 
 export default function Settings() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { isAuthenticated, isLoading, user } = useAuth();
+  const { user } = useAuth();
 
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      navigate("/auth");
-    }
-  }, [isAuthenticated, isLoading, navigate]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[hsl(215_25%_27%)]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
+  // ProtectedRoute handles auth check, but we need user for rendering
   if (!user) {
     return null;
   }
