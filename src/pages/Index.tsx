@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
+import { Sparkles } from "lucide-react";
 import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHeroWithUrl from "@/components/PrivxxHeroWithUrl";
-
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/ConnectionBadge";
 import { IdentityProvider } from "@/contexts/IdentityContext";
@@ -81,9 +81,8 @@ const Index = () => {
               <Link to="/terms" className="hover:text-foreground/60 transition-colors">
                 {t("termsTitle")}
               </Link>
-              <span className="text-foreground/20">·</span>
-              <Link to="/whats-new" className="hover:text-foreground/60 transition-colors">
-                {t("whatsNew")}
+              <Link to="/whats-new" className="hover:text-foreground/60 transition-colors" title={t("whatsNew")}>
+                <Sparkles className="h-3.5 w-3.5" />
               </Link>
             </div>
           </footer>
