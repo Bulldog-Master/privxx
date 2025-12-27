@@ -117,8 +117,9 @@ export function Inbox({
           size="icon" 
           onClick={onRefresh}
           className="h-8 w-8"
+          aria-label={t("refreshMessages", "Refresh messages")}
         >
-          <RefreshCw className="h-4 w-4" />
+          <RefreshCw className="h-4 w-4" aria-hidden="true" />
         </Button>
       </div>
 

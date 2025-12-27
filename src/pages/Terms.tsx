@@ -10,9 +10,9 @@ const Terms = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50 sticky top-0 bg-background/95 backdrop-blur z-10">
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" asChild aria-label={t("backToHome")}>
             <Link to="/">
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-5 w-5" aria-hidden="true" />
             </Link>
           </Button>
           <h1 className="text-lg font-semibold">{t("termsTitle")}</h1>
