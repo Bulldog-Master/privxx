@@ -47,14 +47,14 @@ export default function Settings() {
       <div className="relative z-10 max-w-2xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" asChild className="text-primary hover:text-primary/80">
             <Link to="/">
               <ArrowLeft className="h-5 w-5" />
             </Link>
           </Button>
           <div>
-            <h1 className="text-2xl font-bold">{t("settings", "Settings")}</h1>
-            <p className="text-sm text-muted-foreground">{user.email}</p>
+            <h1 className="text-2xl font-bold text-primary">{t("settings", "Settings")}</h1>
+            <p className="text-sm text-primary/70">{user.email}</p>
           </div>
         </div>
 
@@ -68,11 +68,11 @@ export default function Settings() {
                     <User className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium">{t("editProfile", "Edit Profile")}</p>
-                    <p className="text-sm text-muted-foreground">{t("editProfileDesc", "Change your display name and avatar")}</p>
+                    <p className="font-medium text-primary">{t("editProfile", "Edit Profile")}</p>
+                    <p className="text-sm text-primary/70">{t("editProfileDesc", "Change your display name and avatar")}</p>
                   </div>
                 </div>
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                <ChevronRight className="h-5 w-5 text-primary/70" />
               </CardContent>
             </Link>
           </Card>

@@ -57,11 +57,11 @@ export function AlertSettings() {
   return (
     <Card className="bg-card/90 backdrop-blur-sm border-border/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-primary">
           <Volume2 className="h-5 w-5" />
           {t("alertSettings", "Alert Settings")}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-primary/70">
           {t("alertSettingsDesc", "Control sound and vibration for session warnings")}
         </CardDescription>
       </CardHeader>
@@ -70,15 +70,15 @@ export function AlertSettings() {
         <div className="flex items-center justify-between py-2">
           <div className="flex items-start gap-3">
             {isSoundEnabled ? (
-              <Volume2 className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <Volume2 className="h-5 w-5 text-primary/70 mt-0.5" />
             ) : (
-              <VolumeX className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <VolumeX className="h-5 w-5 text-primary/70 mt-0.5" />
             )}
             <div className="space-y-0.5">
-              <Label htmlFor="sound-alerts" className="text-sm font-medium">
+              <Label htmlFor="sound-alerts" className="text-sm font-medium text-primary">
                 {t("soundAlerts", "Sound alerts")}
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-primary/70">
                 {t("soundAlertsDesc", "Play audio tone for session expiry warnings")}
               </p>
             </div>
@@ -94,15 +94,15 @@ export function AlertSettings() {
         <div className="flex items-center justify-between py-2">
           <div className="flex items-start gap-3">
             {isVibrationEnabled ? (
-              <Vibrate className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <Vibrate className="h-5 w-5 text-primary/70 mt-0.5" />
             ) : (
-              <SmartphoneNfc className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <SmartphoneNfc className="h-5 w-5 text-primary/70 mt-0.5" />
             )}
             <div className="space-y-0.5">
-              <Label htmlFor="vibration-alerts" className="text-sm font-medium">
+              <Label htmlFor="vibration-alerts" className="text-sm font-medium text-primary">
                 {t("vibrationAlerts", "Vibration alerts")}
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-primary/70">
                 {vibrationSupported 
                   ? t("vibrationAlertsDesc", "Vibrate device for session expiry warnings")
                   : t("vibrationNotSupported", "Vibration not supported on this device")}

@@ -55,11 +55,11 @@ export function NotificationSettings() {
   return (
     <Card className="bg-card/90 backdrop-blur-sm border-border/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-primary">
           <Bell className="h-5 w-5" />
           {t("notifications", "Notifications")}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-primary/70">
           {t("notificationsDesc", "Choose which notifications you want to receive")}
         </CardDescription>
       </CardHeader>
@@ -67,12 +67,12 @@ export function NotificationSettings() {
         {/* Session Warnings */}
         <div className="flex items-center justify-between py-2">
           <div className="flex items-start gap-3">
-            <Bell className="h-5 w-5 text-muted-foreground mt-0.5" />
+            <Bell className="h-5 w-5 text-primary/70 mt-0.5" />
             <div className="space-y-0.5">
-              <Label htmlFor="session-warnings" className="text-sm font-medium">
+              <Label htmlFor="session-warnings" className="text-sm font-medium text-primary">
                 {t("sessionWarnings", "Session warnings")}
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-primary/70">
                 {t("sessionWarningsDesc", "Get warned before your session expires")}
               </p>
             </div>
@@ -87,12 +87,12 @@ export function NotificationSettings() {
         {/* Security Alerts */}
         <div className="flex items-center justify-between py-2">
           <div className="flex items-start gap-3">
-            <Shield className="h-5 w-5 text-muted-foreground mt-0.5" />
+            <Shield className="h-5 w-5 text-primary/70 mt-0.5" />
             <div className="space-y-0.5">
-              <Label htmlFor="security-alerts" className="text-sm font-medium">
+              <Label htmlFor="security-alerts" className="text-sm font-medium text-primary">
                 {t("securityAlerts", "Security alerts")}
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-primary/70">
                 {t("securityAlertsDesc", "Get notified about security-related events")}
               </p>
             </div>
@@ -107,12 +107,12 @@ export function NotificationSettings() {
         {/* Connection Updates */}
         <div className="flex items-center justify-between py-2">
           <div className="flex items-start gap-3">
-            <Wifi className="h-5 w-5 text-muted-foreground mt-0.5" />
+            <Wifi className="h-5 w-5 text-primary/70 mt-0.5" />
             <div className="space-y-0.5">
-              <Label htmlFor="connection-updates" className="text-sm font-medium">
+              <Label htmlFor="connection-updates" className="text-sm font-medium text-primary">
                 {t("connectionUpdates", "Connection updates")}
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-primary/70">
                 {t("connectionUpdatesDesc", "Get notified when tunnel connection status changes")}
               </p>
             </div>
