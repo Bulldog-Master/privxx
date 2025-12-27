@@ -36,11 +36,11 @@ export function PaymentsPanel() {
   if (!isUnlocked) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <Lock className="h-8 w-8 text-muted-foreground mb-3" />
-        <h3 className="text-base font-semibold mb-1">
+        <Lock className="h-8 w-8 text-primary/60 mb-3" />
+        <h3 className="text-base font-semibold mb-1 text-primary/90">
           {t("identityLocked", "Identity Locked")}
         </h3>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-primary/60">
           {t("paymentsLockedHint", "Unlock identity to make payments")}
         </p>
       </div>
@@ -51,25 +51,25 @@ export function PaymentsPanel() {
     <div className="p-4 space-y-4">
       {/* Destination URL */}
       <div className="space-y-1">
-        <Label htmlFor="destination" className="text-sm font-medium">
+        <Label htmlFor="destination" className="text-sm font-medium text-primary/80">
           {t("destination", "Destination")}
         </Label>
         <div className="relative">
-          <ExternalLink className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <ExternalLink className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/60" />
           <Input
             id="destination"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
             placeholder={t("destinationPlaceholder", "https://merchant.com")}
             disabled={isSubmitting}
-            className="pl-9 h-10"
+            className="pl-9 h-10 border-primary/40 text-primary placeholder:text-primary/50"
             inputMode="url"
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
           />
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-primary/60">
           {t("destinationHint", "Enter a merchant URL or payment destination (Preview).")}
         </p>
       </div>
@@ -77,7 +77,7 @@ export function PaymentsPanel() {
       {/* Amount + Currency */}
       <div className="grid grid-cols-3 gap-3">
         <div className="col-span-2 space-y-1">
-          <Label htmlFor="amount" className="text-sm font-medium">
+          <Label htmlFor="amount" className="text-sm font-medium text-primary/80">
             {t("amount", "Amount")}
           </Label>
           <Input
@@ -87,17 +87,17 @@ export function PaymentsPanel() {
             placeholder={t("amountPlaceholder", "0.00")}
             disabled={isSubmitting}
             inputMode="decimal"
-            className="h-10"
+            className="h-10 border-primary/40 text-primary placeholder:text-primary/50"
           />
         </div>
 
         <div className="col-span-1 space-y-1">
-          <Label htmlFor="currency" className="text-sm font-medium">
+          <Label htmlFor="currency" className="text-sm font-medium text-primary/80">
             {t("currency", "Currency")}
           </Label>
           <select
             id="currency"
-            className="w-full rounded-md border border-input bg-background px-3 py-2 h-10 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            className="w-full rounded-md border-2 border-primary/40 bg-background px-3 py-2 h-10 text-sm text-primary ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             value={currency}
             onChange={(e) => setCurrency(e.target.value as "XX" | "USD")}
             disabled={isSubmitting}
@@ -128,11 +128,11 @@ export function PaymentsPanel() {
       </Button>
 
       {/* Coming soon notice */}
-      <div className="rounded-lg border bg-muted/30 p-3 space-y-1">
-        <div className="text-sm font-semibold">
+      <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 space-y-1">
+        <div className="text-sm font-semibold text-primary/90">
           {t("paymentsComingSoon", "Payments coming soon")}
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-primary/60">
           {t("paymentsDemoNote", "This is a preview flow. Live settlement will be enabled once the bridge supports payments.")}
         </p>
       </div>

@@ -24,7 +24,7 @@ export function ConnectionBadge() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-muted/50 text-muted-foreground text-xs">
+      <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-primary/10 text-primary/70 text-xs">
         <Loader2 className="h-3 w-3 animate-spin" />
         <span>{t("connectionChecking", "Checking...")}</span>
       </div>

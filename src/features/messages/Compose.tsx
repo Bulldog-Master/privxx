@@ -73,9 +73,9 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
   // Locked state hint
   if (!isUnlocked) {
     return (
-      <div className="flex flex-col items-center justify-center py-8 text-center border-t opacity-60">
-        <Send className="h-5 w-5 text-muted-foreground mb-2" />
-        <p className="text-xs text-muted-foreground">
+      <div className="flex flex-col items-center justify-center py-8 text-center border-t border-primary/20 opacity-60">
+        <Send className="h-5 w-5 text-primary/60 mb-2" />
+        <p className="text-xs text-primary/60">
           {t("composeLockedHint", "Unlock identity to send messages")}
         </p>
       </div>
@@ -83,28 +83,28 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
   }
 
   return (
-    <div className="border-t p-4 space-y-4">
+    <div className="border-t border-primary/20 p-4 space-y-4">
       {/* Recipient */}
       <div className="space-y-2">
-        <Label htmlFor="recipient" className="text-xs">
+        <Label htmlFor="recipient" className="text-xs text-primary/80">
           {t("composeRecipient", "Recipient")}
         </Label>
         <div className="relative">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/60" />
           <Input
             id="recipient"
             value={recipient}
             onChange={(e) => setRecipient(e.target.value)}
             placeholder={t("composeRecipientPlaceholder", "Enter recipient ID or 'self'")}
             disabled={isSending}
-            className="pl-9 h-10"
+            className="pl-9 h-10 border-primary/40 text-primary placeholder:text-primary/50"
           />
         </div>
       </div>
 
       {/* Message */}
       <div className="space-y-2">
-        <Label htmlFor="message" className="text-xs">
+        <Label htmlFor="message" className="text-xs text-primary/80">
           {t("composeMessage", "Message")}
         </Label>
         <Textarea
@@ -117,10 +117,10 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
           }}
           placeholder={t("composeMessagePlaceholder", "Type your message...")}
           disabled={isSending}
-          className="min-h-[100px] resize-none"
+          className="min-h-[100px] resize-none border-primary/40 text-primary placeholder:text-primary/50"
           maxLength={2000}
         />
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-primary/60">
           <span>{body.length}/2000</span>
           {error && (
             <span className="flex items-center gap-1 text-destructive">

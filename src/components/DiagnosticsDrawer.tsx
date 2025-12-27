@@ -46,11 +46,11 @@ const DiagnosticsDrawer = forwardRef<HTMLButtonElement>((_, ref) => {
           ref={ref}
           variant="ghost"
           size="sm"
-          className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground"
+          className="h-8 px-2 text-xs text-primary/70 hover:text-primary"
           aria-label="View system status"
         >
           <Info className="h-3.5 w-3.5 mr-1" aria-hidden="true" />
-          Status
+          <span className="text-primary/70">Status</span>
         </Button>
       </SheetTrigger>
 
