@@ -169,5 +169,6 @@
   "tunnelLatency": "Latenz",
   "tunnelTarget": "Ziel",
   "tunnelDemoNote": "Dies ist eine simulierte Tunnel-Demo. Echtes cMixx-Routing wird in einem zukünftigen Update aktiviert.",
-  "unlockIdentity": "Identität Entsperren"
+  "unlockIdentity": "Identität Entsperren",
+  "skipToContent": "Zum Hauptinhalt springen"
 }

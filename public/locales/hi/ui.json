@@ -169,5 +169,6 @@
   "tunnelLatency": "विलंबता",
   "tunnelTarget": "लक्ष्य",
   "tunnelDemoNote": "यह एक सिमुलेटेड टनल डेमो है। वास्तविक cMixx रूटिंग भविष्य के अपडेट में सक्षम होगी।",
-  "unlockIdentity": "पहचान अनलॉक करें"
+  "unlockIdentity": "पहचान अनलॉक करें",
+  "skipToContent": "मुख्य सामग्री पर जाएं"
 }

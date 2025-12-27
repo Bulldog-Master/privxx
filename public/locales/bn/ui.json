@@ -169,5 +169,6 @@
   "tunnelLatency": "বিলম্ব",
   "tunnelTarget": "লক্ষ্য",
   "tunnelDemoNote": "এটি একটি সিমুলেটেড টানেল ডেমো। প্রকৃত cMixx রাউটিং ভবিষ্যতের আপডেটে সক্ষম হবে।",
-  "unlockIdentity": "পরিচয় আনলক করুন"
+  "unlockIdentity": "পরিচয় আনলক করুন",
+  "skipToContent": "মূল বিষয়বস্তুতে যান"
 }

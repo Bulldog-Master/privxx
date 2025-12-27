@@ -169,5 +169,6 @@
   "tunnelLatency": "レイテンシ",
   "tunnelTarget": "ターゲット",
   "tunnelDemoNote": "これはシミュレートされたトンネルデモです。実際のcMixxルーティングは将来のアップデートで有効になります。",
-  "unlockIdentity": "IDをロック解除"
+  "unlockIdentity": "IDをロック解除",
+  "skipToContent": "メインコンテンツへスキップ"
 }

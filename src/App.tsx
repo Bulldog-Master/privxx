@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RtlProvider from "@/components/RtlProvider";
 import { AppErrorBoundary } from "@/components/AppErrorBoundary";
 import { IdentityProvider } from "@/contexts/IdentityContext";
+import { SkipToContent } from "@/components/SkipToContent";
 import InstallPrompt from "@/components/InstallPrompt";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -34,6 +35,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <SkipToContent />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/privacy" element={
