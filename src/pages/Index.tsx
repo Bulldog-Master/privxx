@@ -57,7 +57,7 @@ const Index = () => {
         <div className="relative z-10 min-h-screen flex flex-col">
           <PrivxxHeader />
           
-          <main className="flex-1 flex flex-col items-center pt-12 sm:pt-16 px-4 sm:px-6 gap-5 pb-8">
+          <main id="main-content" className="flex-1 flex flex-col items-center pt-12 sm:pt-16 px-4 sm:px-6 gap-5 pb-8" tabIndex={-1}>
             <PrivxxHeroWithUrl />
             
             

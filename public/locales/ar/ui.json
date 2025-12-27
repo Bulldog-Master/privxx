@@ -169,5 +169,6 @@
   "tunnelLatency": "زمن الاستجابة",
   "tunnelTarget": "الهدف",
   "tunnelDemoNote": "هذا عرض توضيحي محاكى للنفق. سيتم تفعيل توجيه cMixx الحقيقي في تحديث مستقبلي.",
-  "unlockIdentity": "فتح الهوية"
+  "unlockIdentity": "فتح الهوية",
+  "skipToContent": "انتقل إلى المحتوى الرئيسي"
 }
