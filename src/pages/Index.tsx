@@ -74,19 +74,19 @@ const Index = () => {
                 <DiagnosticsDrawer />
               </Suspense>
             </div>
-            <div className="flex items-center gap-3 text-xs text-foreground/40">
+            <div className="flex items-center gap-3 text-xs text-primary/70">
               <span>{t("demoModeNotice")}</span>
-              <span className="text-foreground/20">·</span>
-              <Link to="/privacy" className="hover:text-foreground/60 transition-colors">
+              <span className="text-primary/40">·</span>
+              <Link to="/privacy" className="hover:text-primary transition-colors">
                 {t("privacyPolicyLink")}
               </Link>
-              <span className="text-foreground/20">·</span>
-              <Link to="/terms" className="hover:text-foreground/60 transition-colors">
+              <span className="text-primary/40">·</span>
+              <Link to="/terms" className="hover:text-primary transition-colors">
                 {t("termsTitle")}
               </Link>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link to="/whats-new" className="hover:text-foreground/60 transition-colors">
+                  <Link to="/whats-new" className="hover:text-primary transition-colors">
                     <Sparkles className="h-3.5 w-3.5" />
                   </Link>
                 </TooltipTrigger>
