@@ -9,6 +9,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -73,6 +74,22 @@ type HealthResponse struct {
 	XXDKReady bool   `json:"xxdkReady"`
 }
 
+// JWTClaims represents the claims we validate from Supabase JWT
+type JWTClaims struct {
+	Sub string `json:"sub"` // User ID
+	Aud string `json:"aud"` // Audience
+	Iss string `json:"iss"` // Issuer
+	Exp int64  `json:"exp"` // Expiration time
+	Iat int64  `json:"iat"` // Issued at
+}
+
+// JWTError response for auth failures
+type JWTError struct {
+	Error   string `json:"error"`
+	Code    string `json:"code"`
+	Message string `json:"message,omitempty"`
+}
+
 // AllowedOrigins for CORS (production + development)
 var allowedOrigins = []string{
 	"https://privxx.app",
@@ -114,6 +131,166 @@ func isAllowedOrigin(origin string) bool {
 	}
 
 	return false
+}
+
+// extractJWTClaims extracts and validates claims from a JWT token
+// NOTE: This performs basic validation without signature verification.
+// For production, integrate with Supabase JWT secret for full verification.
+func extractJWTClaims(tokenString string) (*JWTClaims, error) {
+	// JWT format: header.payload.signature
+	parts := strings.Split(tokenString, ".")
+	if len(parts) != 3 {
+		return nil, fmt.Errorf("invalid token format")
+	}
+
+	// Decode payload (second part)
+	payload := parts[1]
+	// Add padding if needed for base64 decoding
+	switch len(payload) % 4 {
+	case 2:
+		payload += "=="
+	case 3:
+		payload += "="
+	}
+
+	decoded, err := base64.URLEncoding.DecodeString(payload)
+	if err != nil {
+		// Try standard encoding
+		decoded, err = base64.RawURLEncoding.DecodeString(parts[1])
+		if err != nil {
+			return nil, fmt.Errorf("failed to decode payload: %v", err)
+		}
+	}
+
+	var claims JWTClaims
+	if err := json.Unmarshal(decoded, &claims); err != nil {
+		return nil, fmt.Errorf("failed to parse claims: %v", err)
+	}
+
+	return &claims, nil
+}
+
+// validateJWT validates the JWT token from the Authorization header
+func validateJWT(r *http.Request) (*JWTClaims, *JWTError) {
+	authHeader := r.Header.Get("Authorization")
+	if authHeader == "" {
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "missing_token",
+			Message: "Authorization header required",
+		}
+	}
+
+	// Expect "Bearer <token>"
+	if !strings.HasPrefix(authHeader, "Bearer ") {
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "invalid_format",
+			Message: "Authorization header must be Bearer token",
+		}
+	}
+
+	token := strings.TrimPrefix(authHeader, "Bearer ")
+	if token == "" {
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "empty_token",
+			Message: "Token is empty",
+		}
+	}
+
+	claims, err := extractJWTClaims(token)
+	if err != nil {
+		log.Printf("[JWT] Parse error: %v", err)
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "invalid_token",
+			Message: "Failed to parse token",
+		}
+	}
+
+	// Validate expiration
+	now := time.Now().Unix()
+	if claims.Exp > 0 && claims.Exp < now {
+		log.Printf("[JWT] Token expired: exp=%d, now=%d, diff=%ds", claims.Exp, now, now-claims.Exp)
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "token_expired",
+			Message: "Token has expired",
+		}
+	}
+
+	// Validate issued at (reject tokens issued in the future)
+	if claims.Iat > 0 && claims.Iat > now+60 { // 60 second clock skew tolerance
+		log.Printf("[JWT] Token issued in future: iat=%d, now=%d", claims.Iat, now)
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "invalid_iat",
+			Message: "Token issued in the future",
+		}
+	}
+
+	// Validate subject (user ID) exists
+	if claims.Sub == "" {
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "missing_sub",
+			Message: "Token missing subject claim",
+		}
+	}
+
+	// Validate issuer (should be Supabase)
+	expectedIssuer := os.Getenv("JWT_ISSUER")
+	if expectedIssuer == "" {
+		expectedIssuer = "https://qgzoqsgfqmtcpgfgtfms.supabase.co/auth/v1"
+	}
+	if claims.Iss != "" && claims.Iss != expectedIssuer {
+		log.Printf("[JWT] Invalid issuer: got=%s, expected=%s", claims.Iss, expectedIssuer)
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "invalid_issuer",
+			Message: "Token issuer mismatch",
+		}
+	}
+
+	// Validate audience (should be "authenticated")
+	expectedAud := os.Getenv("JWT_AUDIENCE")
+	if expectedAud == "" {
+		expectedAud = "authenticated"
+	}
+	if claims.Aud != "" && claims.Aud != expectedAud {
+		log.Printf("[JWT] Invalid audience: got=%s, expected=%s", claims.Aud, expectedAud)
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "invalid_audience",
+			Message: "Token audience mismatch",
+		}
+	}
+
+	log.Printf("[JWT] Valid token for user: %s (exp in %ds)", claims.Sub, claims.Exp-now)
+	return claims, nil
+}
+
+// writeJWTError writes a JSON error response for JWT validation failures
+func writeJWTError(w http.ResponseWriter, jwtErr *JWTError) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusUnauthorized)
+	json.NewEncoder(w).Encode(jwtErr)
+}
+
+// authMiddleware validates JWT for protected routes
+func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		claims, jwtErr := validateJWT(r)
+		if jwtErr != nil {
+			writeJWTError(w, jwtErr)
+			return
+		}
+
+		// Add user ID to request context via header for downstream handlers
+		r.Header.Set("X-User-Id", claims.Sub)
+		next(w, r)
+	}
 }
 
 // corsMiddleware enforces canonical origin CORS policy
@@ -289,10 +466,12 @@ func main() {
 		bindAddr = "127.0.0.1"
 	}
 
+	// /health is public (no auth required)
 	http.HandleFunc("/health", corsMiddleware(handleHealth))
-	http.HandleFunc("/connect", corsMiddleware(handleConnect))
-	http.HandleFunc("/status", corsMiddleware(handleStatus))
-	http.HandleFunc("/disconnect", corsMiddleware(handleDisconnect))
+	// All other routes require JWT authentication
+	http.HandleFunc("/connect", corsMiddleware(authMiddleware(handleConnect)))
+	http.HandleFunc("/status", corsMiddleware(authMiddleware(handleStatus)))
+	http.HandleFunc("/disconnect", corsMiddleware(authMiddleware(handleDisconnect)))
 
 	listenAddr := fmt.Sprintf("%s:%s", bindAddr, port)
 
