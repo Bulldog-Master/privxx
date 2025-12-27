@@ -175,12 +175,19 @@ serve(async (req) => {
         const { data: userData, error: userError } = await supabase.auth.admin.listUsers();
         const user = userData?.users?.find(u => u.email === email);
 
+        // Generic error message to prevent user enumeration
+        const authFailedResponse = new Response(
+          JSON.stringify({ error: 'Authentication failed' }), 
+          {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          }
+        );
+
         if (!user) {
           console.error('[passkey-auth] User not found:', email);
-          return new Response(JSON.stringify({ error: 'User not found' }), {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
+          // Return same error as "no passkeys" to prevent enumeration
+          return authFailedResponse;
         }
 
         // Get user's passkeys
@@ -190,10 +197,8 @@ serve(async (req) => {
           .eq('user_id', user.id);
 
         if (!credentials || credentials.length === 0) {
-          return new Response(JSON.stringify({ error: 'No passkeys registered' }), {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
+          // Same generic error to prevent enumeration
+          return authFailedResponse;
         }
 
         const challenge = generateChallenge();
