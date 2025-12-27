@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { Info, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,10 +15,11 @@ import {
   useDiagnosticsState,
   getBackendStatusDisplay,
   getModeDisplay,
+  BridgeStatusCard,
 } from "@/components/diagnostics";
 import ReadinessPanel from "@/components/diagnostics/ReadinessPanel";
 
-const DiagnosticsDrawer = () => {
+const DiagnosticsDrawer = forwardRef<HTMLButtonElement>((_, ref) => {
   const {
     open,
     setOpen,
@@ -41,6 +43,7 @@ const DiagnosticsDrawer = () => {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
+          ref={ref}
           variant="ghost"
           size="sm"
           className="h-8 px-2 text-xs text-muted-foreground hover:text-foreground"
@@ -51,7 +54,7 @@ const DiagnosticsDrawer = () => {
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="bottom" className="h-auto max-h-[50vh]">
+      <SheetContent side="bottom" className="h-auto max-h-[70vh] overflow-y-auto">
         <div className={`transition-all duration-300 ease-out ${isDismissing ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
           <SheetHeader className="pb-4">
             <SheetTitle className="text-lg font-semibold">
@@ -60,6 +63,9 @@ const DiagnosticsDrawer = () => {
           </SheetHeader>
 
           <div className="space-y-4 pb-6" role="region" aria-label="System status information">
+            {/* Bridge Status Card (JWT, Identity, TTL) */}
+            <BridgeStatusCard />
+
             {/* Backend Status */}
             {isLoading ? (
               <StatusCardSkeleton titleWidth="w-16" subtitleWidth="w-24" labelWidth="w-14" />
@@ -124,6 +130,8 @@ const DiagnosticsDrawer = () => {
       </SheetContent>
     </Sheet>
   );
-};
+});
+
+DiagnosticsDrawer.displayName = "DiagnosticsDrawer";
 
 export default DiagnosticsDrawer;
