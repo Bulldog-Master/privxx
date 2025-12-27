@@ -22,7 +22,7 @@ import { toast } from "sonner";
 export default function Profile() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const { user } = useAuth();
   const { profile, isLoading, fetchProfile, updateProfile, uploadAvatar, removeAvatar } = useProfile();
   
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -31,19 +31,10 @@ export default function Profile() {
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      navigate("/auth");
-    }
-  }, [isAuthenticated, authLoading, navigate]);
-
   // Fetch profile on mount
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchProfile();
-    }
-  }, [isAuthenticated, fetchProfile]);
+    fetchProfile();
+  }, [fetchProfile]);
 
   // Update form when profile loads
   useEffect(() => {
@@ -123,7 +114,7 @@ export default function Profile() {
     return "U";
   };
 
-  if (authLoading || isLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[hsl(215_25%_27%)]">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
