@@ -168,5 +168,6 @@
   "tunnelConnected": "Tünel Aktif",
   "tunnelLatency": "Gecikme",
   "tunnelTarget": "Hedef",
-  "tunnelDemoNote": "Bu simüle edilmiş bir tünel demosu. Gerçek cMixx yönlendirmesi gelecek bir güncellemede etkinleştirilecektir."
+  "tunnelDemoNote": "Bu simüle edilmiş bir tünel demosu. Gerçek cMixx yönlendirmesi gelecek bir güncellemede etkinleştirilecektir.",
+  "unlockIdentity": "Kimliği Aç"
 }

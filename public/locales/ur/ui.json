@@ -168,5 +168,6 @@
   "tunnelConnected": "ٹنل فعال",
   "tunnelLatency": "تاخیر",
   "tunnelTarget": "ہدف",
-  "tunnelDemoNote": "یہ ایک مصنوعی ٹنل ڈیمو ہے۔ اصل cMixx روٹنگ مستقبل کی اپڈیٹ میں فعال ہوگی۔"
+  "tunnelDemoNote": "یہ ایک مصنوعی ٹنل ڈیمو ہے۔ اصل cMixx روٹنگ مستقبل کی اپڈیٹ میں فعال ہوگی۔",
+  "unlockIdentity": "شناخت کھولیں"
 }

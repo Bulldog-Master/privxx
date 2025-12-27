@@ -168,5 +168,6 @@
   "tunnelConnected": "Tunnel Aktif",
   "tunnelLatency": "Latensi",
   "tunnelTarget": "Target",
-  "tunnelDemoNote": "Ini adalah demo tunnel simulasi. Routing cMixx nyata akan diaktifkan di pembaruan mendatang."
+  "tunnelDemoNote": "Ini adalah demo tunnel simulasi. Routing cMixx nyata akan diaktifkan di pembaruan mendatang.",
+  "unlockIdentity": "Buka Kunci Identitas"
 }
