@@ -15,6 +15,7 @@ import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { AccountSection } from "@/components/settings/AccountSection";
 import { SessionSettings } from "@/components/settings/SessionSettings";
+import { NotificationSettings } from "@/components/settings/NotificationSettings";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -80,6 +81,9 @@ export default function Settings() {
 
           {/* Session Settings */}
           <SessionSettings />
+
+          {/* Notification Preferences */}
+          <NotificationSettings />
 
           {/* Two-Factor Authentication */}
           <TOTPManagement userId={user.id} />
