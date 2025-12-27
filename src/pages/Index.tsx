@@ -62,7 +62,7 @@ const Index = () => {
             
             
             {/* Messaging panel with inbox + compose */}
-            <div className="w-full max-w-md rounded-lg border bg-card/80 backdrop-blur-sm overflow-hidden h-[400px]">
+            <div className="w-full max-w-md rounded-lg border bg-card/80 backdrop-blur-sm overflow-hidden">
               <MessagesPanel />
             </div>
           </main>
