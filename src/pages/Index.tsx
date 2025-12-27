@@ -5,6 +5,7 @@ import PrivxxHero from "@/components/PrivxxHero";
 import ConnectionCard, { ConnectionState } from "@/components/ConnectionCard";
 import ContentArea from "@/components/ContentArea";
 import BackendHealthIndicator from "@/components/BackendHealthIndicator";
+import { IdentityStatus } from "@/components/IdentityStatus";
 import { useTranslations } from "@/lib/i18n";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
@@ -60,8 +61,13 @@ const Index = () => {
       <div className="relative z-10 min-h-screen flex flex-col">
         <PrivxxHeader />
         
-        <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-8">
+        <main className="flex-1 flex flex-col items-center pt-16 sm:pt-24 px-4 sm:px-6 gap-6">
           <PrivxxHero />
+          
+          {/* Identity unlock/lock */}
+          <div className="w-full max-w-md">
+            <IdentityStatus />
+          </div>
           
           <ConnectionCard 
             onConnect={handleConnect}
