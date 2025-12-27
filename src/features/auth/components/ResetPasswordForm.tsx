@@ -1,18 +1,21 @@
 /**
  * Reset Password Form Component
  * 
- * Allows user to set a new password after clicking reset link.
+ * Allows user to set a new password with Zod validation.
  */
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, Loader2, CheckCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { resetPasswordSchema, type ResetPasswordValues } from "../validation/schemas";
 import type { AuthMode } from "../hooks/useAuthMode";
 
 interface ResetPasswordFormProps {
@@ -23,39 +26,25 @@ export function ResetPasswordForm({ onModeChange }: ResetPasswordFormProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { updatePassword } = useAuth();
-
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
   const [updated, setUpdated] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+  const form = useForm<ResetPasswordValues>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: { password: "", confirmPassword: "" },
+    mode: "onSubmit",
+  });
 
-    if (password !== confirmPassword) {
-      setError(t("passwordsDoNotMatch", "Passwords do not match"));
-      return;
-    }
+  const { isSubmitting } = form.formState;
 
-    if (password.length < 6) {
-      setError(t("passwordTooShort", "Password must be at least 6 characters"));
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const result = await updatePassword(password);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setUpdated(true);
-        toast.success(t("passwordUpdated", "Password updated successfully"));
-      }
-    } finally {
-      setIsLoading(false);
+  const onSubmit = async (values: ResetPasswordValues) => {
+    setServerError(null);
+    const result = await updatePassword(values.password);
+    if (result.error) {
+      setServerError(result.error);
+    } else {
+      setUpdated(true);
+      toast.success(t("passwordUpdated", "Password updated successfully"));
     }
   };
 
@@ -82,7 +71,7 @@ export function ResetPasswordForm({ onModeChange }: ResetPasswordFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="new-password">{t("newPassword", "New Password")}</Label>
         <div className="relative">
@@ -90,15 +79,17 @@ export function ResetPasswordForm({ onModeChange }: ResetPasswordFormProps) {
           <Input
             id="new-password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...form.register("password")}
             placeholder={t("newPasswordPlaceholder", "Enter new password")}
             className="pl-10"
-            required
-            disabled={isLoading}
-            minLength={6}
+            disabled={isSubmitting}
           />
         </div>
+        {form.formState.errors.password && (
+          <p className="text-sm text-destructive" role="alert">
+            {form.formState.errors.password.message}
+          </p>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -108,23 +99,25 @@ export function ResetPasswordForm({ onModeChange }: ResetPasswordFormProps) {
           <Input
             id="confirm-password"
             type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            {...form.register("confirmPassword")}
             placeholder={t("confirmPasswordPlaceholder", "Confirm new password")}
             className="pl-10"
-            required
-            disabled={isLoading}
-            minLength={6}
+            disabled={isSubmitting}
           />
         </div>
+        {form.formState.errors.confirmPassword && (
+          <p className="text-sm text-destructive" role="alert">
+            {form.formState.errors.confirmPassword.message}
+          </p>
+        )}
       </div>
 
-      {error && (
-        <p className="text-sm text-destructive">{error}</p>
+      {serverError && (
+        <p className="text-sm text-destructive">{serverError}</p>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? (
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? (
           <Loader2 className="h-4 w-4 animate-spin mr-2" />
         ) : (
           <CheckCircle className="h-4 w-4 mr-2" />

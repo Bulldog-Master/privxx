@@ -1,16 +1,19 @@
 /**
  * Forgot Password Form Component
  * 
- * Sends password reset email.
+ * Sends password reset email with Zod validation.
  */
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Loader2, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { forgotPasswordSchema, type ForgotPasswordValues } from "../validation/schemas";
 import type { AuthMode } from "../hooks/useAuthMode";
 
 interface ForgotPasswordFormProps {
@@ -20,26 +23,26 @@ interface ForgotPasswordFormProps {
 export function ForgotPasswordForm({ onModeChange }: ForgotPasswordFormProps) {
   const { t } = useTranslation();
   const { resetPassword } = useAuth();
-
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
+  const [sentEmail, setSentEmail] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsLoading(true);
+  const form = useForm<ForgotPasswordValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: { email: "" },
+    mode: "onSubmit",
+  });
 
-    try {
-      const result = await resetPassword(email);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setSent(true);
-      }
-    } finally {
-      setIsLoading(false);
+  const { isSubmitting } = form.formState;
+
+  const onSubmit = async (values: ForgotPasswordValues) => {
+    setServerError(null);
+    const result = await resetPassword(values.email);
+    if (result.error) {
+      setServerError(result.error);
+    } else {
+      setSentEmail(values.email);
+      setSent(true);
     }
   };
 
@@ -49,7 +52,7 @@ export function ForgotPasswordForm({ onModeChange }: ForgotPasswordFormProps) {
         <Mail className="h-12 w-12 mx-auto text-primary" />
         <h3 className="font-medium">{t("checkYourEmail", "Check your email")}</h3>
         <p className="text-sm text-muted-foreground">
-          {t("resetLinkSent", "We've sent a password reset link to")} <strong>{email}</strong>
+          {t("resetLinkSent", "We've sent a password reset link to")} <strong>{sentEmail}</strong>
         </p>
         <Button 
           variant="outline" 
@@ -64,7 +67,7 @@ export function ForgotPasswordForm({ onModeChange }: ForgotPasswordFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="forgot-email">{t("email", "Email")}</Label>
         <div className="relative">
@@ -72,22 +75,25 @@ export function ForgotPasswordForm({ onModeChange }: ForgotPasswordFormProps) {
           <Input
             id="forgot-email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...form.register("email")}
             placeholder={t("emailPlaceholder", "you@example.com")}
             className="pl-10"
-            required
-            disabled={isLoading}
+            disabled={isSubmitting}
           />
         </div>
+        {form.formState.errors.email && (
+          <p className="text-sm text-destructive" role="alert">
+            {form.formState.errors.email.message}
+          </p>
+        )}
       </div>
 
-      {error && (
-        <p className="text-sm text-destructive">{error}</p>
+      {serverError && (
+        <p className="text-sm text-destructive">{serverError}</p>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? (
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? (
           <Loader2 className="h-4 w-4 animate-spin mr-2" />
         ) : (
           <Mail className="h-4 w-4 mr-2" />

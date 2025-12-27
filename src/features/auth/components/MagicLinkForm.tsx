@@ -1,40 +1,43 @@
 /**
  * Magic Link Form Component
  * 
- * Passwordless sign-in via email magic link.
+ * Passwordless sign-in via email magic link with Zod validation.
  */
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Loader2, ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { magicLinkSchema, type MagicLinkValues } from "../validation/schemas";
 
 export function MagicLinkForm() {
   const { t } = useTranslation();
   const { signInWithMagicLink } = useAuth();
-
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
+  const [sentEmail, setSentEmail] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsLoading(true);
+  const form = useForm<MagicLinkValues>({
+    resolver: zodResolver(magicLinkSchema),
+    defaultValues: { email: "" },
+    mode: "onSubmit",
+  });
 
-    try {
-      const result = await signInWithMagicLink(email);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setSent(true);
-      }
-    } finally {
-      setIsLoading(false);
+  const { isSubmitting } = form.formState;
+
+  const onSubmit = async (values: MagicLinkValues) => {
+    setServerError(null);
+    const result = await signInWithMagicLink(values.email);
+    if (result.error) {
+      setServerError(result.error);
+    } else {
+      setSentEmail(values.email);
+      setSent(true);
     }
   };
 
@@ -44,7 +47,7 @@ export function MagicLinkForm() {
         <Mail className="h-12 w-12 mx-auto text-primary" />
         <h3 className="font-medium">{t("checkYourEmail", "Check your email")}</h3>
         <p className="text-sm text-muted-foreground">
-          {t("magicLinkSent", "We've sent a magic link to")} <strong>{email}</strong>
+          {t("magicLinkSent", "We've sent a magic link to")} <strong>{sentEmail}</strong>
         </p>
         <p className="text-xs text-muted-foreground">
           {t("magicLinkHint", "Click the link in the email to sign in")}
@@ -61,7 +64,7 @@ export function MagicLinkForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="magic-email">{t("email", "Email")}</Label>
         <div className="relative">
@@ -69,26 +72,29 @@ export function MagicLinkForm() {
           <Input
             id="magic-email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...form.register("email")}
             placeholder={t("emailPlaceholder", "you@example.com")}
             className="pl-10"
-            required
-            disabled={isLoading}
+            disabled={isSubmitting}
           />
         </div>
+        {form.formState.errors.email && (
+          <p className="text-sm text-destructive" role="alert">
+            {form.formState.errors.email.message}
+          </p>
+        )}
       </div>
 
       <p className="text-xs text-muted-foreground">
         {t("magicLinkDescription", "We'll send you a link to sign in without a password")}
       </p>
 
-      {error && (
-        <p className="text-sm text-destructive">{error}</p>
+      {serverError && (
+        <p className="text-sm text-destructive">{serverError}</p>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? (
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? (
           <Loader2 className="h-4 w-4 animate-spin mr-2" />
         ) : (
           <ArrowRight className="h-4 w-4 mr-2" />
