@@ -5,6 +5,7 @@ import { Compose } from "./Compose";
 import { useInbox } from "./useInbox";
 import { useIdentity } from "@/contexts/IdentityContext";
 import { PaymentsPanel } from "@/features/payments";
+import { BrowserPanel } from "@/features/browser";
 
 export function MessagesPanel() {
   const { t } = useTranslation();
@@ -21,7 +22,7 @@ export function MessagesPanel() {
   return (
     <div className="flex flex-col h-full">
       <Tabs defaultValue="inbox" className="flex flex-col h-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="inbox">
             {t("inboxTab", "Inbox")}
             {messages.length > 0 && (
@@ -32,6 +33,9 @@ export function MessagesPanel() {
           </TabsTrigger>
           <TabsTrigger value="compose">
             {t("composeTab", "Compose")}
+          </TabsTrigger>
+          <TabsTrigger value="browser">
+            {t("tabBrowser", "Browser")}
           </TabsTrigger>
           <TabsTrigger value="payments">
             {t("tabPayments", "Payments")}
@@ -53,6 +57,10 @@ export function MessagesPanel() {
             onOptimistic={addOptimistic}
             onOptimisticRemove={removeOptimistic}
           />
+        </TabsContent>
+
+        <TabsContent value="browser" className="flex-1 mt-0 overflow-auto">
+          <BrowserPanel />
         </TabsContent>
 
         <TabsContent value="payments" className="flex-1 mt-0 overflow-auto">
