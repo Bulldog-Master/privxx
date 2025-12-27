@@ -6,38 +6,23 @@
  * Shows TTL countdown when unlocked.
  */
 
-import { useTranslation } from "react-i18next";
 import { Lock, Unlock, Loader2, Shield, Plus, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIdentity } from "@/contexts/IdentityContext";
-import { useCountdown } from "@/hooks/useCountdown";
-import { toast } from "sonner";
+import { useIdentityActions } from "./useIdentityActions";
 
 export function IdentityStatus() {
-  const { t } = useTranslation();
-  const { state, isNone, isLocked, isUnlocked, isLoading, unlockExpiresAt, createIdentity, unlock, lock } = useIdentity();
-  const { formatted, timeLeft, isExpired } = useCountdown(unlockExpiresAt);
-
-  const handleCreateIdentity = async () => {
-    const success = await createIdentity();
-    if (success) {
-      toast.success(t("identityCreated", "Secure identity created"));
-    }
-  };
-
-  const handleUnlock = async () => {
-    const success = await unlock();
-    if (success) {
-      toast.success(t("identityUnlocked", "Identity unlocked"));
-    }
-  };
-
-  const handleLock = async () => {
-    const success = await lock();
-    if (success) {
-      toast.success(t("identityLocked", "Identity locked"));
-    }
-  };
+  const {
+    isNone,
+    isUnlocked,
+    isLoading,
+    unlockExpiresAt,
+    formatted,
+    isExpiringSoon,
+    handleCreateIdentity,
+    handleUnlock,
+    handleLock,
+    t,
+  } = useIdentityActions();
 
   // No identity yet
   if (isNone) {
@@ -74,9 +59,6 @@ export function IdentityStatus() {
     );
   }
 
-  // Determine if session is expiring soon (under 2 minutes)
-  const isExpiringSoon = isUnlocked && timeLeft > 0 && timeLeft < 120;
-
   return (
     <div className="flex items-center gap-3 p-3 rounded-lg bg-card/50 border border-border/50">
       {/* Status indicator */}
@@ -110,7 +92,7 @@ export function IdentityStatus() {
             </span>
           )}
           {isUnlocked && !unlockExpiresAt && t("identityReady", "Ready to send messages")}
-          {isLocked && t("identityLockedStatus", "Unlock to send messages")}
+          {!isUnlocked && !isLoading && t("identityLockedStatus", "Unlock to send messages")}
         </div>
       </div>
 

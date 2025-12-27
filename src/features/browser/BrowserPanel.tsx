@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { useIdentity } from "@/contexts/IdentityContext";
-import { Loader2, Shield, Lock } from "lucide-react";
+import { Loader2, Shield } from "lucide-react";
+import { LockedState } from "@/components/shared";
 
 type ConnectionState = "idle" | "connecting" | "connected";
 
@@ -39,15 +40,7 @@ export function BrowserPanel() {
   };
 
   if (!isUnlocked) {
-    return (
-      <div className="p-4 space-y-3 text-center">
-        <Lock className="h-8 w-8 mx-auto text-primary/60" />
-        <div className="text-sm font-medium text-primary/90">{t("identityLocked", "Identity Locked")}</div>
-        <div className="text-sm text-primary/60">
-          {t("unlockToAccess", "Unlock your identity to access the browser tunnel.")}
-        </div>
-      </div>
-    );
+    return <LockedState hintKey="unlockToAccessBrowser" />;
   }
 
   return (
