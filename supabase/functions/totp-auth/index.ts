@@ -7,6 +7,12 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Rate limiting and lockout configuration
+const MAX_FAILED_ATTEMPTS = 5; // Lock after 5 failed attempts
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes lockout
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute window
+const MAX_REQUESTS_PER_WINDOW = 10; // 10 requests per minute
+
 // Simple base32 encoding/decoding for TOTP secrets
 const BASE32_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
@@ -119,6 +125,128 @@ async function hashCode(code: string): Promise<string> {
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+// Get client IP from request headers
+function getClientIP(req: Request): string {
+  return req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+         req.headers.get('x-real-ip') ||
+         'unknown';
+}
+
+// Check rate limit using rate_limits table
+async function checkRateLimit(
+  supabase: any,
+  identifier: string,
+  action: string
+): Promise<{ allowed: boolean; retryAfter?: number }> {
+  const now = new Date();
+  
+  const { data: existing } = await supabase
+    .from('rate_limits')
+    .select('*')
+    .eq('identifier', identifier)
+    .eq('action', action)
+    .maybeSingle();
+
+  if (existing) {
+    // Check if locked out
+    if (existing.locked_until && new Date(existing.locked_until) > now) {
+      const retryAfter = Math.ceil((new Date(existing.locked_until).getTime() - now.getTime()) / 1000);
+      return { allowed: false, retryAfter };
+    }
+
+    // Check if within rate limit window
+    const windowStart = new Date(now.getTime() - RATE_LIMIT_WINDOW_MS);
+    if (new Date(existing.first_attempt_at) > windowStart) {
+      if (existing.attempts >= MAX_REQUESTS_PER_WINDOW) {
+        const lockedUntil = new Date(now.getTime() + LOCKOUT_DURATION_MS);
+        await supabase
+          .from('rate_limits')
+          .update({ locked_until: lockedUntil.toISOString(), last_attempt_at: now.toISOString() })
+          .eq('id', existing.id);
+        
+        return { allowed: false, retryAfter: Math.ceil(LOCKOUT_DURATION_MS / 1000) };
+      }
+
+      await supabase
+        .from('rate_limits')
+        .update({ attempts: existing.attempts + 1, last_attempt_at: now.toISOString() })
+        .eq('id', existing.id);
+    } else {
+      await supabase
+        .from('rate_limits')
+        .update({ 
+          attempts: 1, 
+          first_attempt_at: now.toISOString(), 
+          last_attempt_at: now.toISOString(),
+          locked_until: null 
+        })
+        .eq('id', existing.id);
+    }
+  } else {
+    await supabase.from('rate_limits').insert({
+      identifier,
+      action,
+      attempts: 1,
+      first_attempt_at: now.toISOString(),
+      last_attempt_at: now.toISOString(),
+    });
+  }
+
+  return { allowed: true };
+}
+
+// Check TOTP-specific lockout (for brute force protection on verification)
+async function checkTOTPLockout(
+  supabase: any,
+  userId: string
+): Promise<{ locked: boolean; retryAfter?: number }> {
+  const { data } = await supabase
+    .from('totp_secrets')
+    .select('failed_attempts, locked_until')
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  if (!data) return { locked: false };
+
+  const now = new Date();
+  if (data.locked_until && new Date(data.locked_until) > now) {
+    const retryAfter = Math.ceil((new Date(data.locked_until).getTime() - now.getTime()) / 1000);
+    return { locked: true, retryAfter };
+  }
+
+  return { locked: false };
+}
+
+// Record failed TOTP attempt
+async function recordFailedAttempt(supabase: any, userId: string): Promise<void> {
+  const { data } = await supabase
+    .from('totp_secrets')
+    .select('failed_attempts')
+    .eq('user_id', userId)
+    .single();
+
+  const newAttempts = (data?.failed_attempts || 0) + 1;
+  const updates: any = { failed_attempts: newAttempts };
+
+  if (newAttempts >= MAX_FAILED_ATTEMPTS) {
+    updates.locked_until = new Date(Date.now() + LOCKOUT_DURATION_MS).toISOString();
+    console.log(`[totp-auth] Account locked for user: ${userId} after ${newAttempts} failed attempts`);
+  }
+
+  await supabase
+    .from('totp_secrets')
+    .update(updates)
+    .eq('user_id', userId);
+}
+
+// Reset failed attempts on successful verification
+async function resetFailedAttempts(supabase: any, userId: string): Promise<void> {
+  await supabase
+    .from('totp_secrets')
+    .update({ failed_attempts: 0, locked_until: null })
+    .eq('user_id', userId);
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -149,6 +277,24 @@ serve(async (req) => {
     }
 
     const { action, code } = await req.json();
+    const clientIP = getClientIP(req);
+
+    // Rate limit check for all actions
+    const rateLimitIdentifier = `${clientIP}_${user.id}`;
+    const rateLimit = await checkRateLimit(supabase, rateLimitIdentifier, `totp_${action}`);
+    
+    if (!rateLimit.allowed) {
+      console.log(`[totp-auth] Rate limit exceeded for: ${user.id}`);
+      return new Response(JSON.stringify({ error: 'Too many requests. Please try again later.' }), {
+        status: 429,
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'Retry-After': String(rateLimit.retryAfter || 60)
+        },
+      });
+    }
+
     console.log(`[totp-auth] Action: ${action}, User: ${user.id}`);
 
     switch (action) {
@@ -192,12 +338,12 @@ serve(async (req) => {
         if (existing) {
           await supabase
             .from('totp_secrets')
-            .update({ encrypted_secret: secret, enabled: false, verified_at: null })
+            .update({ encrypted_secret: secret, enabled: false, verified_at: null, failed_attempts: 0, locked_until: null })
             .eq('user_id', user.id);
         } else {
           await supabase
             .from('totp_secrets')
-            .insert({ user_id: user.id, encrypted_secret: secret, enabled: false });
+            .insert({ user_id: user.id, encrypted_secret: secret, enabled: false, failed_attempts: 0 });
         }
 
         console.log('[totp-auth] Setup initiated for:', user.email);
@@ -218,6 +364,21 @@ serve(async (req) => {
           });
         }
 
+        // Check TOTP-specific lockout
+        const lockoutCheck = await checkTOTPLockout(supabase, user.id);
+        if (lockoutCheck.locked) {
+          return new Response(JSON.stringify({ 
+            error: 'Account temporarily locked due to too many failed attempts. Please try again later.' 
+          }), {
+            status: 429,
+            headers: { 
+              ...corsHeaders, 
+              'Content-Type': 'application/json',
+              'Retry-After': String(lockoutCheck.retryAfter || 900)
+            },
+          });
+        }
+
         const { data: secretData, error: secretError } = await supabase
           .from('totp_secrets')
           .select('encrypted_secret, enabled')
@@ -234,12 +395,18 @@ serve(async (req) => {
         const isValid = await verifyTOTP(secretData.encrypted_secret, code);
         
         if (!isValid) {
+          // Record failed attempt for lockout tracking
+          await recordFailedAttempt(supabase, user.id);
+          
           console.log('[totp-auth] Invalid code for:', user.email);
           return new Response(JSON.stringify({ error: 'Invalid code' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
+
+        // Reset failed attempts on success
+        await resetFailedAttempts(supabase, user.id);
 
         // If this is first verification, enable 2FA and generate backup codes
         if (!secretData.enabled) {
@@ -285,6 +452,21 @@ serve(async (req) => {
           });
         }
 
+        // Check TOTP-specific lockout
+        const lockoutCheck = await checkTOTPLockout(supabase, user.id);
+        if (lockoutCheck.locked) {
+          return new Response(JSON.stringify({ 
+            error: 'Account temporarily locked due to too many failed attempts. Please try again later.' 
+          }), {
+            status: 429,
+            headers: { 
+              ...corsHeaders, 
+              'Content-Type': 'application/json',
+              'Retry-After': String(lockoutCheck.retryAfter || 900)
+            },
+          });
+        }
+
         const { data: secretData } = await supabase
           .from('totp_secrets')
           .select('encrypted_secret, enabled')
@@ -300,11 +482,15 @@ serve(async (req) => {
 
         const isValid = await verifyTOTP(secretData.encrypted_secret, code);
         if (!isValid) {
+          await recordFailedAttempt(supabase, user.id);
           return new Response(JSON.stringify({ error: 'Invalid code' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
+
+        // Reset failed attempts on success
+        await resetFailedAttempts(supabase, user.id);
 
         // Delete TOTP and backup codes
         await supabase.from('totp_backup_codes').delete().eq('user_id', user.id);
@@ -324,6 +510,21 @@ serve(async (req) => {
           });
         }
 
+        // Check TOTP-specific lockout (also applies to backup codes)
+        const lockoutCheck = await checkTOTPLockout(supabase, user.id);
+        if (lockoutCheck.locked) {
+          return new Response(JSON.stringify({ 
+            error: 'Account temporarily locked due to too many failed attempts. Please try again later.' 
+          }), {
+            status: 429,
+            headers: { 
+              ...corsHeaders, 
+              'Content-Type': 'application/json',
+              'Retry-After': String(lockoutCheck.retryAfter || 900)
+            },
+          });
+        }
+
         const codeHash = await hashCode(code);
         const { data: backupData } = await supabase
           .from('totp_backup_codes')
@@ -334,11 +535,15 @@ serve(async (req) => {
           .single();
 
         if (!backupData) {
+          await recordFailedAttempt(supabase, user.id);
           return new Response(JSON.stringify({ error: 'Invalid backup code' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
+
+        // Reset failed attempts on success
+        await resetFailedAttempts(supabase, user.id);
 
         // Mark backup code as used
         await supabase

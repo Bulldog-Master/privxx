@@ -7,6 +7,11 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Rate limiting configuration
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 10; // 10 requests per minute
+const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes lockout after too many attempts
+
 // Simple base64url encoding/decoding
 function base64UrlEncode(buffer: Uint8Array): string {
   let binary = '';
@@ -33,6 +38,82 @@ function generateChallenge(): string {
   return base64UrlEncode(bytes);
 }
 
+// Get client IP from request headers
+function getClientIP(req: Request): string {
+  return req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+         req.headers.get('x-real-ip') ||
+         'unknown';
+}
+
+// Check rate limit and return whether request is allowed
+async function checkRateLimit(
+  supabase: any,
+  identifier: string,
+  action: string
+): Promise<{ allowed: boolean; retryAfter?: number }> {
+  const now = new Date();
+  
+  // Check existing rate limit entry
+  const { data: existing } = await supabase
+    .from('rate_limits')
+    .select('*')
+    .eq('identifier', identifier)
+    .eq('action', action)
+    .maybeSingle();
+
+  if (existing) {
+    // Check if locked out
+    if (existing.locked_until && new Date(existing.locked_until) > now) {
+      const retryAfter = Math.ceil((new Date(existing.locked_until).getTime() - now.getTime()) / 1000);
+      return { allowed: false, retryAfter };
+    }
+
+    // Check if within rate limit window
+    const windowStart = new Date(now.getTime() - RATE_LIMIT_WINDOW_MS);
+    if (new Date(existing.first_attempt_at) > windowStart) {
+      // Still in window
+      if (existing.attempts >= MAX_REQUESTS_PER_WINDOW) {
+        // Lock out the user
+        const lockedUntil = new Date(now.getTime() + LOCKOUT_DURATION_MS);
+        await supabase
+          .from('rate_limits')
+          .update({ locked_until: lockedUntil.toISOString(), last_attempt_at: now.toISOString() })
+          .eq('id', existing.id);
+        
+        return { allowed: false, retryAfter: Math.ceil(LOCKOUT_DURATION_MS / 1000) };
+      }
+
+      // Increment attempts
+      await supabase
+        .from('rate_limits')
+        .update({ attempts: existing.attempts + 1, last_attempt_at: now.toISOString() })
+        .eq('id', existing.id);
+    } else {
+      // Window expired, reset
+      await supabase
+        .from('rate_limits')
+        .update({ 
+          attempts: 1, 
+          first_attempt_at: now.toISOString(), 
+          last_attempt_at: now.toISOString(),
+          locked_until: null 
+        })
+        .eq('id', existing.id);
+    }
+  } else {
+    // Create new rate limit entry
+    await supabase.from('rate_limits').insert({
+      identifier,
+      action,
+      attempts: 1,
+      first_attempt_at: now.toISOString(),
+      last_attempt_at: now.toISOString(),
+    });
+  }
+
+  return { allowed: true };
+}
+
 serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -47,6 +128,23 @@ serve(async (req) => {
     const { action, email, credential, userId } = await req.json();
     const rpId = new URL(req.headers.get('origin') || supabaseUrl).hostname;
     const rpName = 'Privxx';
+    const clientIP = getClientIP(req);
+
+    // Rate limit check for all actions
+    const rateLimitIdentifier = email ? `${clientIP}_${email}` : clientIP;
+    const rateLimit = await checkRateLimit(supabase, rateLimitIdentifier, `passkey_${action}`);
+    
+    if (!rateLimit.allowed) {
+      console.log(`[passkey-auth] Rate limit exceeded for: ${rateLimitIdentifier}`);
+      return new Response(JSON.stringify({ error: 'Too many requests. Please try again later.' }), {
+        status: 429,
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json',
+          'Retry-After': String(rateLimit.retryAfter || 60)
+        },
+      });
+    }
 
     console.log(`[passkey-auth] Action: ${action}, Email: ${email}, RP ID: ${rpId}`);
 
@@ -176,6 +274,10 @@ serve(async (req) => {
         const user = userData?.users?.find(u => u.email === email);
 
         // Generic error message to prevent user enumeration
+        // Add consistent delay to prevent timing attacks
+        const delay = 100 + Math.random() * 100; // 100-200ms random delay
+        await new Promise(resolve => setTimeout(resolve, delay));
+
         const authFailedResponse = new Response(
           JSON.stringify({ error: 'Authentication failed' }), 
           {

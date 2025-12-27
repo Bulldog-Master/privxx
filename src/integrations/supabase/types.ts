@@ -143,6 +143,36 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          action: string
+          attempts: number
+          first_attempt_at: string
+          id: string
+          identifier: string
+          last_attempt_at: string
+          locked_until: string | null
+        }
+        Insert: {
+          action: string
+          attempts?: number
+          first_attempt_at?: string
+          id?: string
+          identifier: string
+          last_attempt_at?: string
+          locked_until?: string | null
+        }
+        Update: {
+          action?: string
+          attempts?: number
+          first_attempt_at?: string
+          id?: string
+          identifier?: string
+          last_attempt_at?: string
+          locked_until?: string | null
+        }
+        Relationships: []
+      }
       totp_backup_codes: {
         Row: {
           code_hash: string
@@ -172,7 +202,9 @@ export type Database = {
           created_at: string
           enabled: boolean
           encrypted_secret: string
+          failed_attempts: number
           id: string
+          locked_until: string | null
           updated_at: string
           user_id: string
           verified_at: string | null
@@ -181,7 +213,9 @@ export type Database = {
           created_at?: string
           enabled?: boolean
           encrypted_secret: string
+          failed_attempts?: number
           id?: string
+          locked_until?: string | null
           updated_at?: string
           user_id: string
           verified_at?: string | null
@@ -190,7 +224,9 @@ export type Database = {
           created_at?: string
           enabled?: boolean
           encrypted_secret?: string
+          failed_attempts?: number
           id?: string
+          locked_until?: string | null
           updated_at?: string
           user_id?: string
           verified_at?: string | null
@@ -202,7 +238,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_rate_limits: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
