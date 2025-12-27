@@ -170,5 +170,16 @@
   "tunnelTarget": "Destino",
   "tunnelDemoNote": "Esta es una demostración simulada del túnel. El enrutamiento cMixx real se habilitará en una actualización futura.",
   "unlockIdentity": "Desbloquear Identidad",
-  "skipToContent": "Saltar al contenido principal"
+  "skipToContent": "Saltar al contenido principal",
+  
+  "inboxTab": "Bandeja de entrada",
+  "composeTab": "Redactar",
+  "tabBrowser": "Navegador",
+  "tabPayments": "Pagos",
+  "browserUrl": "URL de destino",
+  "browserHint": "Ingrese una URL para enrutar a través del túnel Privxx (Vista previa).",
+  "connectThrough": "Conectar a través de",
+  "connectThroughPrivxx": "Conectar a través de Privxx",
+  "disconnect": "Desconectar",
+  "unlockToAccess": "Desbloquea tu identidad para acceder al túnel del navegador."
 }

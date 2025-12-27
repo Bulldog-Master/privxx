@@ -170,5 +170,16 @@
   "tunnelTarget": "লক্ষ্য",
   "tunnelDemoNote": "এটি একটি সিমুলেটেড টানেল ডেমো। প্রকৃত cMixx রাউটিং ভবিষ্যতের আপডেটে সক্ষম হবে।",
   "unlockIdentity": "পরিচয় আনলক করুন",
-  "skipToContent": "মূল বিষয়বস্তুতে যান"
+  "skipToContent": "মূল বিষয়বস্তুতে যান",
+  
+  "inboxTab": "ইনবক্স",
+  "composeTab": "লিখুন",
+  "tabBrowser": "ব্রাউজার",
+  "tabPayments": "পেমেন্ট",
+  "browserUrl": "গন্তব্য URL",
+  "browserHint": "Privxx টানেলের মাধ্যমে রাউট করতে একটি URL লিখুন (প্রিভিউ)।",
+  "connectThrough": "এর মাধ্যমে সংযুক্ত করুন",
+  "connectThroughPrivxx": "Privxx এর মাধ্যমে সংযুক্ত করুন",
+  "disconnect": "সংযোগ বিচ্ছিন্ন করুন",
+  "unlockToAccess": "ব্রাউজার টানেল অ্যাক্সেস করতে আপনার পরিচয় আনলক করুন।"
 }

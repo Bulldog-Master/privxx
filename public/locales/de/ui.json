@@ -170,5 +170,16 @@
   "tunnelTarget": "Ziel",
   "tunnelDemoNote": "Dies ist eine simulierte Tunnel-Demo. Echtes cMixx-Routing wird in einem zukünftigen Update aktiviert.",
   "unlockIdentity": "Identität Entsperren",
-  "skipToContent": "Zum Hauptinhalt springen"
+  "skipToContent": "Zum Hauptinhalt springen",
+  
+  "inboxTab": "Posteingang",
+  "composeTab": "Verfassen",
+  "tabBrowser": "Browser",
+  "tabPayments": "Zahlungen",
+  "browserUrl": "Ziel-URL",
+  "browserHint": "Geben Sie eine URL ein, um sie durch den Privxx-Tunnel zu leiten (Vorschau).",
+  "connectThrough": "Verbinden über",
+  "connectThroughPrivxx": "Verbinden über Privxx",
+  "disconnect": "Trennen",
+  "unlockToAccess": "Entsperren Sie Ihre Identität, um auf den Browser-Tunnel zuzugreifen."
 }

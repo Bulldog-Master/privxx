@@ -170,5 +170,16 @@
   "tunnelTarget": "Destino",
   "tunnelDemoNote": "Esta é uma demonstração simulada do túnel. O roteamento cMixx real será habilitado em uma atualização futura.",
   "unlockIdentity": "Desbloquear Identidade",
-  "skipToContent": "Pular para o conteúdo principal"
+  "skipToContent": "Pular para o conteúdo principal",
+  
+  "inboxTab": "Caixa de entrada",
+  "composeTab": "Escrever",
+  "tabBrowser": "Navegador",
+  "tabPayments": "Pagamentos",
+  "browserUrl": "URL de destino",
+  "browserHint": "Digite uma URL para rotear pelo túnel Privxx (Prévia).",
+  "connectThrough": "Conectar via",
+  "connectThroughPrivxx": "Conectar via Privxx",
+  "disconnect": "Desconectar",
+  "unlockToAccess": "Desbloqueie sua identidade para acessar o túnel do navegador."
 }

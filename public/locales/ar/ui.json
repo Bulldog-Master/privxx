@@ -170,5 +170,16 @@
   "tunnelTarget": "الهدف",
   "tunnelDemoNote": "هذا عرض توضيحي محاكى للنفق. سيتم تفعيل توجيه cMixx الحقيقي في تحديث مستقبلي.",
   "unlockIdentity": "فتح الهوية",
-  "skipToContent": "انتقل إلى المحتوى الرئيسي"
+  "skipToContent": "انتقل إلى المحتوى الرئيسي",
+  
+  "inboxTab": "صندوق الوارد",
+  "composeTab": "إنشاء",
+  "tabBrowser": "المتصفح",
+  "tabPayments": "المدفوعات",
+  "browserUrl": "عنوان URL الوجهة",
+  "browserHint": "أدخل عنوان URL للتوجيه عبر نفق Privxx (معاينة).",
+  "connectThrough": "الاتصال عبر",
+  "connectThroughPrivxx": "الاتصال عبر Privxx",
+  "disconnect": "قطع الاتصال",
+  "unlockToAccess": "افتح هويتك للوصول إلى نفق المتصفح."
 }

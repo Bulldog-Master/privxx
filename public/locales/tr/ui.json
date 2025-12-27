@@ -170,5 +170,16 @@
   "tunnelTarget": "Hedef",
   "tunnelDemoNote": "Bu simüle edilmiş bir tünel demosu. Gerçek cMixx yönlendirmesi gelecek bir güncellemede etkinleştirilecektir.",
   "unlockIdentity": "Kimliği Aç",
-  "skipToContent": "Ana içeriğe geç"
+  "skipToContent": "Ana içeriğe geç",
+  
+  "inboxTab": "Gelen Kutusu",
+  "composeTab": "Oluştur",
+  "tabBrowser": "Tarayıcı",
+  "tabPayments": "Ödemeler",
+  "browserUrl": "Hedef URL",
+  "browserHint": "Privxx tüneli üzerinden yönlendirmek için bir URL girin (Önizleme).",
+  "connectThrough": "Üzerinden bağlan",
+  "connectThroughPrivxx": "Privxx üzerinden bağlan",
+  "disconnect": "Bağlantıyı kes",
+  "unlockToAccess": "Tarayıcı tüneline erişmek için kimliğinizi açın."
 }

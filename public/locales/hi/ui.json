@@ -170,5 +170,16 @@
   "tunnelTarget": "लक्ष्य",
   "tunnelDemoNote": "यह एक सिमुलेटेड टनल डेमो है। वास्तविक cMixx रूटिंग भविष्य के अपडेट में सक्षम होगी।",
   "unlockIdentity": "पहचान अनलॉक करें",
-  "skipToContent": "मुख्य सामग्री पर जाएं"
+  "skipToContent": "मुख्य सामग्री पर जाएं",
+  
+  "inboxTab": "इनबॉक्स",
+  "composeTab": "लिखें",
+  "tabBrowser": "ब्राउज़र",
+  "tabPayments": "भुगतान",
+  "browserUrl": "गंतव्य URL",
+  "browserHint": "Privxx टनल के माध्यम से रूट करने के लिए URL दर्ज करें (पूर्वावलोकन)।",
+  "connectThrough": "के माध्यम से कनेक्ट करें",
+  "connectThroughPrivxx": "Privxx के माध्यम से कनेक्ट करें",
+  "disconnect": "डिस्कनेक्ट",
+  "unlockToAccess": "ब्राउज़र टनल तक पहुंचने के लिए अपनी पहचान अनलॉक करें।"
 }

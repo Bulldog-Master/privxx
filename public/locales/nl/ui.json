@@ -170,5 +170,16 @@
   "tunnelTarget": "Doel",
   "tunnelDemoNote": "Dit is een gesimuleerde tunnel-demo. Echte cMixx-routering wordt in een toekomstige update ingeschakeld.",
   "unlockIdentity": "Identiteit Ontgrendelen",
-  "skipToContent": "Ga naar hoofdinhoud"
+  "skipToContent": "Ga naar hoofdinhoud",
+  
+  "inboxTab": "Inbox",
+  "composeTab": "Opstellen",
+  "tabBrowser": "Browser",
+  "tabPayments": "Betalingen",
+  "browserUrl": "Doel-URL",
+  "browserHint": "Voer een URL in om te routeren via de Privxx-tunnel (Voorbeeld).",
+  "connectThrough": "Verbinden via",
+  "connectThroughPrivxx": "Verbinden via Privxx",
+  "disconnect": "Verbreken",
+  "unlockToAccess": "Ontgrendel uw identiteit om toegang te krijgen tot de browsertunnel."
 }
