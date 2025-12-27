@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import PrivxxHeader from "@/components/PrivxxHeader";
-import PrivxxHero from "@/components/PrivxxHero";
+import PrivxxHeroWithUrl from "@/components/PrivxxHeroWithUrl";
 import { IdentityStatus } from "@/components/IdentityStatus";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/ConnectionBadge";
@@ -55,7 +55,7 @@ const Index = () => {
           <PrivxxHeader />
           
           <main className="flex-1 flex flex-col items-center pt-12 sm:pt-16 px-4 sm:px-6 gap-5 pb-8">
-            <PrivxxHero />
+            <PrivxxHeroWithUrl />
             
             {/* Identity unlock/lock */}
             <div className="w-full max-w-md">
