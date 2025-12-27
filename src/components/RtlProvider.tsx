@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { isRtlLanguage } from "@/lib/i18n-legacy";
+
+// RTL language detection
+const isRtlLanguage = (lang: string): boolean => {
+  return lang === 'ar' || lang === 'ur';
+};
 
 interface RtlProviderProps {
   children: React.ReactNode;
