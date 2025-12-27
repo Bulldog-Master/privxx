@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Lock, Unlock, Loader2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIdentity } from "@/hooks/useIdentity";
+import { useIdentity } from "@/contexts/IdentityContext";
 import { IdentityModal } from "./IdentityModal";
 import { toast } from "sonner";
 

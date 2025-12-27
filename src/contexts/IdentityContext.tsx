@@ -1,9 +1,22 @@
-import { useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import { bridgeClient } from "@/api/bridge";
 
 export type IdentityState = "locked" | "unlocking" | "unlocked" | "locking";
 
-export function useIdentity() {
+interface IdentityContextValue {
+  state: IdentityState;
+  isLocked: boolean;
+  isUnlocked: boolean;
+  isLoading: boolean;
+  error: string | null;
+  unlock: (password: string) => Promise<boolean>;
+  lock: () => Promise<boolean>;
+  clearError: () => void;
+}
+
+const IdentityContext = createContext<IdentityContextValue | null>(null);
+
+export function IdentityProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<IdentityState>("locked");
   const [error, setError] = useState<string | null>(null);
 
@@ -46,14 +59,28 @@ export function useIdentity() {
 
   const clearError = useCallback(() => setError(null), []);
 
-  return {
-    state,
-    isLocked: state === "locked",
-    isUnlocked: state === "unlocked",
-    isLoading: state === "unlocking" || state === "locking",
-    error,
-    unlock,
-    lock,
-    clearError,
-  };
+  return (
+    <IdentityContext.Provider
+      value={{
+        state,
+        isLocked: state === "locked",
+        isUnlocked: state === "unlocked",
+        isLoading: state === "unlocking" || state === "locking",
+        error,
+        unlock,
+        lock,
+        clearError,
+      }}
+    >
+      {children}
+    </IdentityContext.Provider>
+  );
+}
+
+export function useIdentity() {
+  const context = useContext(IdentityContext);
+  if (!context) {
+    throw new Error("useIdentity must be used within IdentityProvider");
+  }
+  return context;
 }
