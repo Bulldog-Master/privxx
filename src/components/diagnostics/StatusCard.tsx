@@ -37,8 +37,8 @@ const StatusCard = ({
           aria-hidden="true" 
         />
         <div>
-          <p className="text-sm font-medium text-foreground">{title}</p>
-          <p className="text-xs text-muted-foreground">{subtitle}</p>
+          <p className="text-sm font-medium text-primary">{title}</p>
+          <p className="text-xs text-primary/60">{subtitle}</p>
         </div>
       </div>
       <div className="flex items-center gap-2">

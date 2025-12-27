@@ -20,27 +20,27 @@ export default function ReadinessPanel() {
 
   return (
     <section 
-      className="space-y-1 text-sm text-muted-foreground border-t border-border/50 pt-3 mt-3"
+      className="space-y-1 text-sm text-primary/60 border-t border-primary/20 pt-3 mt-3"
       aria-label="Readiness status"
     >
-      <div className="text-xs font-medium text-foreground/70 mb-2">
+      <div className="text-xs font-medium text-primary/70 mb-2">
         {t("readinessTitle", "Readiness")}
       </div>
       <div className="flex justify-between">
         <span>{t("readinessBridge", "Bridge reachable")}</span>
-        <span className={data.bridgeReachable ? "text-green-500" : "text-muted-foreground"}>
+        <span className={data.bridgeReachable ? "text-green-500" : "text-primary/50"}>
           {data.bridgeReachable ? t("yes", "Yes") : t("no", "No")}
         </span>
       </div>
       <div className="flex justify-between">
         <span>{t("readinessBackend", "Backend ready")}</span>
-        <span className={data.backendReady ? "text-green-500" : "text-muted-foreground"}>
+        <span className={data.backendReady ? "text-green-500" : "text-primary/50"}>
           {data.backendReady ? t("yes", "Yes") : t("no", "No")}
         </span>
       </div>
       <div className="flex justify-between">
         <span>{t("readinessMode", "Mode")}</span>
-        <span>{data.mockMode ? t("previewModeLabel") : t("liveModeLabel")}</span>
+        <span className="text-primary/70">{data.mockMode ? t("previewModeLabel") : t("liveModeLabel")}</span>
       </div>
     </section>
   );

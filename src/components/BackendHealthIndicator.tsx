@@ -8,12 +8,12 @@ const BackendHealthIndicator = () => {
   if (isLoading) {
     return (
       <div 
-        className="flex items-center gap-2 text-xs text-foreground/50"
+        className="flex items-center gap-2 text-xs text-primary/50"
         role="status"
         aria-live="polite"
         aria-label={t('backendChecking')}
       >
-        <span className="w-2 h-2 rounded-full bg-foreground/30 animate-pulse" aria-hidden="true" />
+        <span className="w-2 h-2 rounded-full bg-primary/30 animate-pulse" aria-hidden="true" />
         <span>{t('backendChecking')}</span>
       </div>
     );
@@ -30,7 +30,7 @@ const BackendHealthIndicator = () => {
   if (isError) {
     return (
       <div 
-        className="flex items-center gap-2 text-xs text-foreground/50"
+        className="flex items-center gap-2 text-xs text-primary/50"
         role="status"
         aria-live="polite"
         aria-label={`${t('backendOffline')}${modeLabel}`}
@@ -44,7 +44,7 @@ const BackendHealthIndicator = () => {
   if (isConnecting) {
     return (
       <div 
-        className="flex items-center gap-2 text-xs text-foreground/50"
+        className="flex items-center gap-2 text-xs text-primary/50"
         role="status"
         aria-live="polite"
         aria-label={`${t('backendConnecting')}${modeLabel}`}
@@ -58,7 +58,7 @@ const BackendHealthIndicator = () => {
   // isReady
   return (
     <div 
-      className="flex items-center gap-2 text-xs text-foreground/60"
+      className="flex items-center gap-2 text-xs text-primary/60"
       role="status"
       aria-live="polite"
       aria-label={`${t('backendLive')}${modeLabel}`}

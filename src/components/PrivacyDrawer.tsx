@@ -38,18 +38,18 @@ const PrivacyDrawer = ({ open, onOpenChange, showTrigger }: PrivacyDrawerProps) 
           </Button>
         </DrawerTrigger>
       )}
-      <DrawerContent className="h-full w-80 sm:w-96 right-0 left-auto rounded-none bg-[hsl(215_25%_22%)] border-l border-white/10">
-        <DrawerHeader className="border-b border-white/10 pb-4">
-          <DrawerTitle className="text-foreground text-xl">{t("privacyDrawerTitle")}</DrawerTitle>
+      <DrawerContent className="h-full w-80 sm:w-96 right-0 left-auto rounded-none bg-[hsl(215_25%_22%)] border-l border-primary/20">
+        <DrawerHeader className="border-b border-primary/20 pb-4">
+          <DrawerTitle className="text-primary text-xl">{t("privacyDrawerTitle")}</DrawerTitle>
         </DrawerHeader>
         
         <div className="p-5 space-y-6 overflow-y-auto">
           {/* Opening intro */}
           <section className="space-y-3">
-            <p className="text-sm text-foreground/80 leading-relaxed">
+            <p className="text-sm text-primary/70 leading-relaxed">
               {t("privacyDrawerIntro")}
             </p>
-            <p className="text-sm text-foreground/60 leading-relaxed italic">
+            <p className="text-sm text-primary/50 leading-relaxed italic">
               {t("privacyDrawerIntroPreview")}
             </p>
           </section>
@@ -60,9 +60,9 @@ const PrivacyDrawer = ({ open, onOpenChange, showTrigger }: PrivacyDrawerProps) 
               <div className="p-2 rounded-lg bg-primary/20">
                 <Globe className="h-5 w-5 text-primary" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold text-foreground">{t("privacySectionDesignedTitle")}</h3>
+              <h3 className="font-semibold text-primary">{t("privacySectionDesignedTitle")}</h3>
             </div>
-            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1 list-disc list-inside" role="list">
+            <ul className="text-sm text-primary/60 leading-relaxed space-y-1 list-disc list-inside" role="list">
               <li>{t("privacySectionDesignedPoint1")}</li>
               <li>{t("privacySectionDesignedPoint2")}</li>
               <li>{t("privacySectionDesignedPoint3")}</li>
@@ -75,9 +75,9 @@ const PrivacyDrawer = ({ open, onOpenChange, showTrigger }: PrivacyDrawerProps) 
               <div className="p-2 rounded-lg bg-primary/20">
                 <EyeOff className="h-5 w-5 text-primary" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold text-foreground">{t("privacySectionNotTitle")}</h3>
+              <h3 className="font-semibold text-primary">{t("privacySectionNotTitle")}</h3>
             </div>
-            <ul className="text-sm text-foreground/70 leading-relaxed space-y-1 list-disc list-inside" role="list">
+            <ul className="text-sm text-primary/60 leading-relaxed space-y-1 list-disc list-inside" role="list">
               <li>{t("privacySectionNotPoint1")}</li>
               <li>{t("privacySectionNotPoint2")}</li>
               <li>{t("privacySectionNotPoint3")}</li>
@@ -85,14 +85,14 @@ const PrivacyDrawer = ({ open, onOpenChange, showTrigger }: PrivacyDrawerProps) 
           </section>
 
           {/* Section 4: Transparency */}
-          <section className="space-y-3 pt-2 border-t border-white/10">
+          <section className="space-y-3 pt-2 border-t border-primary/20">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-lg bg-amber-500/20">
                 <Info className="h-5 w-5 text-amber-400" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold text-foreground">{t("privacySectionStatusTitle")}</h3>
+              <h3 className="font-semibold text-primary">{t("privacySectionStatusTitle")}</h3>
             </div>
-            <p className="text-sm text-foreground/60 leading-relaxed italic">
+            <p className="text-sm text-primary/50 leading-relaxed italic">
               {t("privacySectionStatusText")}
             </p>
           </section>

@@ -145,7 +145,7 @@ export default function Profile() {
           <Button
             variant="ghost"
             onClick={() => navigate(-1)}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-primary/60 hover:text-primary"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             {t("back", "Back")}
