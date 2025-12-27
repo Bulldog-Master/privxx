@@ -12,6 +12,8 @@ import { SkipToContent } from "@/components/SkipToContent";
 import InstallPrompt from "@/components/InstallPrompt";
 import { EmailVerificationPending } from "@/components/EmailVerificationPending";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { SessionTimeoutWarning } from "@/components/SessionTimeoutWarning";
+import { useSessionTimeout } from "@/hooks/useSessionTimeout";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -49,6 +51,23 @@ function EmailVerificationGuard({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+// Session timeout manager component
+function SessionTimeoutManager() {
+  const { showWarning, secondsRemaining, extendSession, logoutNow } = useSessionTimeout({
+    timeoutMs: 15 * 60 * 1000, // 15 minutes
+    warningMs: 60 * 1000, // 1 minute warning
+  });
+
+  return (
+    <SessionTimeoutWarning
+      open={showWarning}
+      secondsRemaining={secondsRemaining}
+      onExtend={extendSession}
+      onLogout={logoutNow}
+    />
+  );
+}
+
 // Inner app component that uses auth context
 function AppRoutes() {
   return (
@@ -57,6 +76,7 @@ function AppRoutes() {
         <RtlProvider>
           <Toaster />
           <Sonner />
+          <SessionTimeoutManager />
           <BrowserRouter>
             <SkipToContent />
             <Routes>
