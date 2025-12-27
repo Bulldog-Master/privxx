@@ -13,6 +13,7 @@ import InstallPrompt from "@/components/InstallPrompt";
 import { EmailVerificationPending } from "@/components/EmailVerificationPending";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { SessionTimeoutWarning } from "@/components/SessionTimeoutWarning";
+import { UnlockExpiryDialog } from "@/components/UnlockExpiryDialog";
 import { useSessionTimeout } from "@/hooks/useSessionTimeout";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
@@ -100,6 +101,7 @@ function AppRoutes() {
           <Toaster />
           <Sonner />
           <SessionTimeoutManager />
+          <UnlockExpiryDialog />
           <BrowserRouter>
             <SkipToContent />
             <Routes>
