@@ -181,5 +181,19 @@
   "connectThrough": "Se connecter via",
   "connectThroughPrivxx": "Se connecter via Privxx",
   "disconnect": "Déconnecter",
-  "unlockToAccess": "Déverrouillez votre identité pour accéder au tunnel du navigateur."
+  "unlockToAccess": "Déverrouillez votre identité pour accéder au tunnel du navigateur.",
+  
+  "destination": "Destination",
+  "destinationPlaceholder": "https://marchand.com",
+  "destinationHint": "Entrez une URL de marchand ou une destination de paiement (Aperçu).",
+  "amount": "Montant",
+  "amountPlaceholder": "0,00",
+  "currency": "Devise",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "Payer",
+  "paying": "Traitement…",
+  "paymentsLockedHint": "Déverrouillez votre identité pour effectuer des paiements",
+  "paymentsComingSoon": "Paiements bientôt disponibles",
+  "paymentsDemoNote": "Ceci est un flux de prévisualisation. Le règlement en direct sera activé une fois que le pont prendra en charge les paiements."
 }

@@ -181,5 +181,19 @@
   "connectThrough": "के माध्यम से कनेक्ट करें",
   "connectThroughPrivxx": "Privxx के माध्यम से कनेक्ट करें",
   "disconnect": "डिस्कनेक्ट",
-  "unlockToAccess": "ब्राउज़र टनल तक पहुंचने के लिए अपनी पहचान अनलॉक करें।"
+  "unlockToAccess": "ब्राउज़र टनल तक पहुंचने के लिए अपनी पहचान अनलॉक करें।",
+  
+  "destination": "गंतव्य",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "व्यापारी URL या भुगतान गंतव्य दर्ज करें (पूर्वावलोकन)।",
+  "amount": "राशि",
+  "amountPlaceholder": "0.00",
+  "currency": "मुद्रा",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "भुगतान करें",
+  "paying": "प्रोसेसिंग…",
+  "paymentsLockedHint": "भुगतान करने के लिए पहचान अनलॉक करें",
+  "paymentsComingSoon": "भुगतान जल्द आ रहा है",
+  "paymentsDemoNote": "यह एक पूर्वावलोकन प्रवाह है। ब्रिज द्वारा भुगतान समर्थित होने पर लाइव निपटान सक्षम होगा।"
 }

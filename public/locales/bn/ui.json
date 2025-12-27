@@ -181,5 +181,19 @@
   "connectThrough": "এর মাধ্যমে সংযুক্ত করুন",
   "connectThroughPrivxx": "Privxx এর মাধ্যমে সংযুক্ত করুন",
   "disconnect": "সংযোগ বিচ্ছিন্ন করুন",
-  "unlockToAccess": "ব্রাউজার টানেল অ্যাক্সেস করতে আপনার পরিচয় আনলক করুন।"
+  "unlockToAccess": "ব্রাউজার টানেল অ্যাক্সেস করতে আপনার পরিচয় আনলক করুন।",
+  
+  "destination": "গন্তব্য",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "একটি ব্যবসায়ী URL বা পেমেন্ট গন্তব্য লিখুন (প্রিভিউ)।",
+  "amount": "পরিমাণ",
+  "amountPlaceholder": "0.00",
+  "currency": "মুদ্রা",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "পেমেন্ট করুন",
+  "paying": "প্রক্রিয়াকরণ…",
+  "paymentsLockedHint": "পেমেন্ট করতে পরিচয় আনলক করুন",
+  "paymentsComingSoon": "পেমেন্ট শীঘ্রই আসছে",
+  "paymentsDemoNote": "এটি একটি প্রিভিউ ফ্লো। ব্রিজ পেমেন্ট সমর্থন করলে লাইভ সেটেলমেন্ট সক্ষম হবে।"
 }

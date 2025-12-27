@@ -181,5 +181,19 @@
   "connectThrough": "الاتصال عبر",
   "connectThroughPrivxx": "الاتصال عبر Privxx",
   "disconnect": "قطع الاتصال",
-  "unlockToAccess": "افتح هويتك للوصول إلى نفق المتصفح."
+  "unlockToAccess": "افتح هويتك للوصول إلى نفق المتصفح.",
+  
+  "destination": "الوجهة",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "أدخل رابط التاجر أو وجهة الدفع (معاينة).",
+  "amount": "المبلغ",
+  "amountPlaceholder": "0.00",
+  "currency": "العملة",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "ادفع",
+  "paying": "جاري المعالجة…",
+  "paymentsLockedHint": "افتح الهوية لإجراء المدفوعات",
+  "paymentsComingSoon": "المدفوعات قريباً",
+  "paymentsDemoNote": "هذا تدفق معاينة. سيتم تفعيل التسوية المباشرة بمجرد أن يدعم الجسر المدفوعات."
 }

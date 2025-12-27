@@ -181,5 +181,19 @@
   "connectThrough": "Verbinden über",
   "connectThroughPrivxx": "Verbinden über Privxx",
   "disconnect": "Trennen",
-  "unlockToAccess": "Entsperren Sie Ihre Identität, um auf den Browser-Tunnel zuzugreifen."
+  "unlockToAccess": "Entsperren Sie Ihre Identität, um auf den Browser-Tunnel zuzugreifen.",
+  
+  "destination": "Ziel",
+  "destinationPlaceholder": "https://haendler.de",
+  "destinationHint": "Geben Sie eine Händler-URL oder ein Zahlungsziel ein (Vorschau).",
+  "amount": "Betrag",
+  "amountPlaceholder": "0,00",
+  "currency": "Währung",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "Bezahlen",
+  "paying": "Verarbeitung…",
+  "paymentsLockedHint": "Entsperren Sie Ihre Identität, um Zahlungen zu tätigen",
+  "paymentsComingSoon": "Zahlungen demnächst",
+  "paymentsDemoNote": "Dies ist ein Vorschau-Ablauf. Die Live-Abrechnung wird aktiviert, sobald die Bridge Zahlungen unterstützt."
 }

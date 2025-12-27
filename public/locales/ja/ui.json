@@ -181,5 +181,19 @@
   "connectThrough": "経由で接続",
   "connectThroughPrivxx": "Privxx経由で接続",
   "disconnect": "切断",
-  "unlockToAccess": "ブラウザトンネルにアクセスするにはIDをロック解除してください。"
+  "unlockToAccess": "ブラウザトンネルにアクセスするにはIDをロック解除してください。",
+  
+  "destination": "送金先",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "加盟店URLまたは支払い先を入力してください（プレビュー）。",
+  "amount": "金額",
+  "amountPlaceholder": "0.00",
+  "currency": "通貨",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "支払う",
+  "paying": "処理中…",
+  "paymentsLockedHint": "支払いを行うにはIDをロック解除してください",
+  "paymentsComingSoon": "決済機能は近日公開",
+  "paymentsDemoNote": "これはプレビューフローです。ブリッジが決済をサポートするとライブ決済が有効になります。"
 }

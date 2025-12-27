@@ -181,5 +181,19 @@
   "connectThrough": "کے ذریعے منسلک کریں",
   "connectThroughPrivxx": "Privxx کے ذریعے منسلک کریں",
   "disconnect": "منقطع کریں",
-  "unlockToAccess": "براؤزر ٹنل تک رسائی کے لیے اپنی شناخت کھولیں۔"
+  "unlockToAccess": "براؤزر ٹنل تک رسائی کے لیے اپنی شناخت کھولیں۔",
+  
+  "destination": "منزل",
+  "destinationPlaceholder": "https://merchant.com",
+  "destinationHint": "تاجر کا URL یا ادائیگی کی منزل درج کریں (پیش نظارہ)۔",
+  "amount": "رقم",
+  "amountPlaceholder": "0.00",
+  "currency": "کرنسی",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "ادائیگی کریں",
+  "paying": "پروسیسنگ…",
+  "paymentsLockedHint": "ادائیگی کرنے کے لیے شناخت کھولیں",
+  "paymentsComingSoon": "ادائیگیاں جلد آ رہی ہیں",
+  "paymentsDemoNote": "یہ پیش نظارہ فلو ہے۔ جب پل ادائیگیوں کی حمایت کرے گا تو براہ راست تصفیہ فعال ہو جائے گا۔"
 }

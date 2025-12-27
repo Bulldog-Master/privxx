@@ -181,5 +181,19 @@
   "connectThrough": "Conectar a través de",
   "connectThroughPrivxx": "Conectar a través de Privxx",
   "disconnect": "Desconectar",
-  "unlockToAccess": "Desbloquea tu identidad para acceder al túnel del navegador."
+  "unlockToAccess": "Desbloquea tu identidad para acceder al túnel del navegador.",
+  
+  "destination": "Destino",
+  "destinationPlaceholder": "https://comerciante.com",
+  "destinationHint": "Ingresa una URL de comerciante o destino de pago (Vista previa).",
+  "amount": "Monto",
+  "amountPlaceholder": "0.00",
+  "currency": "Moneda",
+  "currencyXX": "XX",
+  "currencyUSD": "USD",
+  "pay": "Pagar",
+  "paying": "Procesando…",
+  "paymentsLockedHint": "Desbloquea identidad para realizar pagos",
+  "paymentsComingSoon": "Pagos próximamente",
+  "paymentsDemoNote": "Este es un flujo de vista previa. La liquidación en vivo se habilitará una vez que el puente admita pagos."
 }
