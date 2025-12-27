@@ -3,13 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Inbox } from "./Inbox";
 import { Compose } from "./Compose";
 import { useInbox } from "./useInbox";
-import { useIdentity } from "@/contexts/IdentityContext";
 import { PaymentsPanel } from "@/features/payments";
 import { BrowserPanel } from "@/features/browser";
 
 export function MessagesPanel() {
   const { t } = useTranslation();
-  const { isUnlocked } = useIdentity();
   const { 
     messages, 
     isLoading, 
@@ -48,7 +46,7 @@ export function MessagesPanel() {
             isLoading={isLoading}
             error={error}
             onRefresh={refresh}
-            isUnlocked={isUnlocked}
+            isUnlocked={true}
           />
         </TabsContent>
 
