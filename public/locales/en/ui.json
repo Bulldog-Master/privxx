@@ -120,6 +120,7 @@
   "identityLockedStatus": "Unlock to send messages",
   "identityLocked": "Identity locked",
   "identityUnlocked": "Identity unlocked",
+  "unlockIdentity": "Unlock Identity",
   
   "inboxTab": "Inbox",
   "composeTab": "Compose",
