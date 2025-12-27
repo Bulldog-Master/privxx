@@ -170,5 +170,16 @@
   "tunnelTarget": "Target",
   "tunnelDemoNote": "Ini adalah demo tunnel simulasi. Routing cMixx nyata akan diaktifkan di pembaruan mendatang.",
   "unlockIdentity": "Buka Kunci Identitas",
-  "skipToContent": "Lewati ke konten utama"
+  "skipToContent": "Lewati ke konten utama",
+  
+  "inboxTab": "Kotak Masuk",
+  "composeTab": "Tulis",
+  "tabBrowser": "Browser",
+  "tabPayments": "Pembayaran",
+  "browserUrl": "URL Tujuan",
+  "browserHint": "Masukkan URL untuk dirouting melalui tunnel Privxx (Pratinjau).",
+  "connectThrough": "Hubungkan melalui",
+  "connectThroughPrivxx": "Hubungkan melalui Privxx",
+  "disconnect": "Putuskan",
+  "unlockToAccess": "Buka kunci identitas Anda untuk mengakses tunnel browser."
 }

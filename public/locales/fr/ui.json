@@ -170,5 +170,16 @@
   "tunnelTarget": "Cible",
   "tunnelDemoNote": "Ceci est une démo simulée du tunnel. Le routage cMixx réel sera activé dans une future mise à jour.",
   "unlockIdentity": "Déverrouiller l'Identité",
-  "skipToContent": "Aller au contenu principal"
+  "skipToContent": "Aller au contenu principal",
+  
+  "inboxTab": "Boîte de réception",
+  "composeTab": "Rédiger",
+  "tabBrowser": "Navigateur",
+  "tabPayments": "Paiements",
+  "browserUrl": "URL de destination",
+  "browserHint": "Entrez une URL à router via le tunnel Privxx (Aperçu).",
+  "connectThrough": "Se connecter via",
+  "connectThroughPrivxx": "Se connecter via Privxx",
+  "disconnect": "Déconnecter",
+  "unlockToAccess": "Déverrouillez votre identité pour accéder au tunnel du navigateur."
 }

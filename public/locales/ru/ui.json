@@ -170,5 +170,16 @@
   "tunnelTarget": "Цель",
   "tunnelDemoNote": "Это симуляция демо-туннеля. Реальная маршрутизация cMixx будет включена в будущем обновлении.",
   "unlockIdentity": "Разблокировать Личность",
-  "skipToContent": "Перейти к основному содержанию"
+  "skipToContent": "Перейти к основному содержанию",
+  
+  "inboxTab": "Входящие",
+  "composeTab": "Написать",
+  "tabBrowser": "Браузер",
+  "tabPayments": "Платежи",
+  "browserUrl": "URL назначения",
+  "browserHint": "Введите URL для маршрутизации через туннель Privxx (Предпросмотр).",
+  "connectThrough": "Подключиться через",
+  "connectThroughPrivxx": "Подключиться через Privxx",
+  "disconnect": "Отключить",
+  "unlockToAccess": "Разблокируйте свою личность для доступа к туннелю браузера."
 }

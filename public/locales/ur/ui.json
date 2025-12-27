@@ -170,5 +170,16 @@
   "tunnelTarget": "ہدف",
   "tunnelDemoNote": "یہ ایک مصنوعی ٹنل ڈیمو ہے۔ اصل cMixx روٹنگ مستقبل کی اپڈیٹ میں فعال ہوگی۔",
   "unlockIdentity": "شناخت کھولیں",
-  "skipToContent": "مرکزی مواد پر جائیں"
+  "skipToContent": "مرکزی مواد پر جائیں",
+  
+  "inboxTab": "ان باکس",
+  "composeTab": "تحریر کریں",
+  "tabBrowser": "براؤزر",
+  "tabPayments": "ادائیگیاں",
+  "browserUrl": "منزل کا URL",
+  "browserHint": "Privxx ٹنل کے ذریعے روٹ کرنے کے لیے URL درج کریں (پیش نظارہ)۔",
+  "connectThrough": "کے ذریعے منسلک کریں",
+  "connectThroughPrivxx": "Privxx کے ذریعے منسلک کریں",
+  "disconnect": "منقطع کریں",
+  "unlockToAccess": "براؤزر ٹنل تک رسائی کے لیے اپنی شناخت کھولیں۔"
 }

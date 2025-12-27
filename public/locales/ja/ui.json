@@ -170,5 +170,16 @@
   "tunnelTarget": "ターゲット",
   "tunnelDemoNote": "これはシミュレートされたトンネルデモです。実際のcMixxルーティングは将来のアップデートで有効になります。",
   "unlockIdentity": "IDをロック解除",
-  "skipToContent": "メインコンテンツへスキップ"
+  "skipToContent": "メインコンテンツへスキップ",
+  
+  "inboxTab": "受信トレイ",
+  "composeTab": "作成",
+  "tabBrowser": "ブラウザ",
+  "tabPayments": "支払い",
+  "browserUrl": "宛先URL",
+  "browserHint": "Privxxトンネルを経由するURLを入力してください（プレビュー）。",
+  "connectThrough": "経由で接続",
+  "connectThroughPrivxx": "Privxx経由で接続",
+  "disconnect": "切断",
+  "unlockToAccess": "ブラウザトンネルにアクセスするにはIDをロック解除してください。"
 }

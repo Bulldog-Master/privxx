@@ -170,5 +170,16 @@
   "tunnelTarget": "目标",
   "tunnelDemoNote": "这是一个模拟的隧道演示。真正的cMixx路由将在未来的更新中启用。",
   "unlockIdentity": "解锁身份",
-  "skipToContent": "跳转到主要内容"
+  "skipToContent": "跳转到主要内容",
+  
+  "inboxTab": "收件箱",
+  "composeTab": "撰写",
+  "tabBrowser": "浏览器",
+  "tabPayments": "支付",
+  "browserUrl": "目标URL",
+  "browserHint": "输入要通过Privxx隧道路由的URL（预览）。",
+  "connectThrough": "通过连接",
+  "connectThroughPrivxx": "通过Privxx连接",
+  "disconnect": "断开连接",
+  "unlockToAccess": "解锁您的身份以访问浏览器隧道。"
 }
