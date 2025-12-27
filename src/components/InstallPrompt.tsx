@@ -174,13 +174,13 @@ export default function InstallPrompt() {
           <div className="flex items-start gap-3">
             <Share className="mt-0.5 h-5 w-5 text-primary" aria-hidden="true" />
             <div className="space-y-1">
-              <div id="install-prompt-title-ios" className="text-sm font-semibold text-foreground">
+              <div id="install-prompt-title-ios" className="text-sm font-semibold text-primary">
                 {t("installApp")}
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-primary/60">
                 {t("installAppDescriptionIOS")}
               </div>
-              <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+              <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-primary/60">
                 <span className="inline-flex items-center gap-1">
                   <Share className="h-4 w-4" aria-hidden="true" /> {t("share")}
                 </span>
@@ -229,10 +229,10 @@ export default function InstallPrompt() {
           <div className="flex items-start gap-3">
             <Download className="mt-0.5 h-5 w-5 text-primary" aria-hidden="true" />
             <div className="space-y-1">
-              <div id="install-prompt-title-chrome" className="text-sm font-semibold text-foreground">
+              <div id="install-prompt-title-chrome" className="text-sm font-semibold text-primary">
                 {t("installApp")}
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-primary/60">
                 {t("installAppDescription")}
               </div>
             </div>

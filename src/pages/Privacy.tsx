@@ -21,21 +21,21 @@ const Privacy = () => {
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         <article className="prose prose-invert prose-sm max-w-none">
-          <p className="text-muted-foreground text-sm mb-6">
+          <p className="text-primary/60 text-sm mb-6">
             {t("privacyPolicyEffective")}
           </p>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("privacyPolicyIntroTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("privacyPolicyIntroTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("privacyPolicyIntroText")}
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("privacyPolicyNoCollectTitle")}</h2>
-            <p className="text-foreground/80 mb-3">{t("privacyPolicyNoCollectIntro")}</p>
-            <ul className="list-disc list-inside space-y-1 text-foreground/70">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("privacyPolicyNoCollectTitle")}</h2>
+            <p className="text-primary/70 mb-3">{t("privacyPolicyNoCollectIntro")}</p>
+            <ul className="list-disc list-inside space-y-1 text-primary/60">
               <li>{t("privacyPolicyNoCollect1")}</li>
               <li>{t("privacyPolicyNoCollect2")}</li>
               <li>{t("privacyPolicyNoCollect3")}</li>
@@ -46,44 +46,44 @@ const Privacy = () => {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("privacyPolicyLocalTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("privacyPolicyLocalTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("privacyPolicyLocalText")}
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("privacyPolicyThirdPartyTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("privacyPolicyThirdPartyTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("privacyPolicyThirdPartyText")}
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("privacyPolicyChildrenTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("privacyPolicyChildrenTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("privacyPolicyChildrenText")}
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("privacyPolicyChangesTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("privacyPolicyChangesTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("privacyPolicyChangesText")}
             </p>
           </section>
 
-          <section className="mb-8 p-4 rounded-lg bg-muted/30 border border-border/50">
-            <h2 className="text-lg font-semibold mb-3">{t("privacyPolicySummaryTitle")}</h2>
+          <section className="mb-8 p-4 rounded-lg bg-primary/5 border border-primary/20">
+            <h2 className="text-lg font-semibold mb-3 text-primary">{t("privacyPolicySummaryTitle")}</h2>
             <div className="grid grid-cols-2 gap-2 text-sm">
-              <span className="text-muted-foreground">{t("privacyPolicySummaryQ1")}</span>
-              <span className="text-foreground">{t("privacyPolicySummaryA1")}</span>
-              <span className="text-muted-foreground">{t("privacyPolicySummaryQ2")}</span>
-              <span className="text-foreground">{t("privacyPolicySummaryA2")}</span>
-              <span className="text-muted-foreground">{t("privacyPolicySummaryQ3")}</span>
-              <span className="text-foreground">{t("privacyPolicySummaryA3")}</span>
-              <span className="text-muted-foreground">{t("privacyPolicySummaryQ4")}</span>
-              <span className="text-foreground">{t("privacyPolicySummaryA4")}</span>
+              <span className="text-primary/60">{t("privacyPolicySummaryQ1")}</span>
+              <span className="text-primary">{t("privacyPolicySummaryA1")}</span>
+              <span className="text-primary/60">{t("privacyPolicySummaryQ2")}</span>
+              <span className="text-primary">{t("privacyPolicySummaryA2")}</span>
+              <span className="text-primary/60">{t("privacyPolicySummaryQ3")}</span>
+              <span className="text-primary">{t("privacyPolicySummaryA3")}</span>
+              <span className="text-primary/60">{t("privacyPolicySummaryQ4")}</span>
+              <span className="text-primary">{t("privacyPolicySummaryA4")}</span>
             </div>
           </section>
         </article>
@@ -91,7 +91,7 @@ const Privacy = () => {
 
       <footer className="border-t border-border/50 py-6">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <p className="text-xs text-muted-foreground">{t("privacyPolicyFooter")}</p>
+          <p className="text-xs text-primary/60">{t("privacyPolicyFooter")}</p>
         </div>
       </footer>
     </div>

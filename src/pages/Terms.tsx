@@ -21,41 +21,41 @@ const Terms = () => {
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         <article className="prose prose-invert prose-sm max-w-none">
-          <p className="text-muted-foreground text-sm mb-6">
+          <p className="text-primary/60 text-sm mb-6">
             {t("termsUpdated")}
           </p>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("termsUseTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("termsUseTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("termsUseBody")}
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("termsNoGuaranteesTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("termsNoGuaranteesTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("termsNoGuaranteesBody")}
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("termsPrivacyTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("termsPrivacyTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("termsPrivacyBody")}
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("termsChangesTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("termsChangesTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("termsChangesBody")}
             </p>
           </section>
 
           <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-3">{t("termsContactTitle")}</h2>
-            <p className="text-foreground/80 leading-relaxed">
+            <h2 className="text-xl font-semibold mb-3 text-primary">{t("termsContactTitle")}</h2>
+            <p className="text-primary/70 leading-relaxed">
               {t("termsContactBody")}
             </p>
           </section>
@@ -64,7 +64,7 @@ const Terms = () => {
 
       <footer className="border-t border-border/50 py-6">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <p className="text-xs text-muted-foreground">{t("footerTagline")}</p>
+          <p className="text-xs text-primary/60">{t("footerTagline")}</p>
         </div>
       </footer>
     </div>

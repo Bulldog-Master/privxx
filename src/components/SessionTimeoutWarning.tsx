@@ -62,10 +62,10 @@ export function SessionTimeoutWarning({
 
         <div className="py-4">
           <div className="text-center">
-            <div className="text-4xl font-bold text-foreground mb-1">
+            <div className="text-4xl font-bold text-primary mb-1">
               {formatTime(secondsRemaining)}
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-primary/60">
               {t("untilLogout", "until automatic logout")}
             </p>
           </div>

@@ -29,15 +29,15 @@ interface StatusRowProps {
   subValue?: React.ReactNode;
 }
 
-const StatusRow = ({ icon, label, value, valueColor = "text-foreground", subValue }: StatusRowProps) => (
+const StatusRow = ({ icon, label, value, valueColor = "text-primary", subValue }: StatusRowProps) => (
   <div className="flex items-center justify-between py-2">
-    <div className="flex items-center gap-2 text-muted-foreground">
+    <div className="flex items-center gap-2 text-primary/60">
       {icon}
       <span className="text-sm">{label}</span>
     </div>
     <div className="text-right">
       <span className={`text-sm font-medium ${valueColor}`}>{value}</span>
-      {subValue && <div className="text-xs text-muted-foreground">{subValue}</div>}
+      {subValue && <div className="text-xs text-primary/50">{subValue}</div>}
     </div>
   </div>
 );
@@ -73,14 +73,14 @@ const BridgeStatusCard = () => {
       case "loading":
         return { 
           label: t("diagnosticsChecking"), 
-          color: "text-muted-foreground",
-          icon: <Shield className="h-4 w-4 text-muted-foreground animate-pulse" />
+          color: "text-primary/60",
+          icon: <Shield className="h-4 w-4 text-primary/60 animate-pulse" />
         };
       default:
         return { 
           label: t("identityNone") || "No Identity", 
-          color: "text-muted-foreground",
-          icon: <ShieldX className="h-4 w-4 text-muted-foreground" />
+          color: "text-primary/60",
+          icon: <ShieldX className="h-4 w-4 text-primary/60" />
         };
     }
   };
@@ -158,7 +158,7 @@ const BridgeStatusCard = () => {
               className="h-1.5"
               indicatorClassName={getTTLProgressColor()}
             />
-            <p className="text-xs text-muted-foreground text-center">
+            <p className="text-xs text-primary/50 text-center">
               {ttl.isWarning && !ttl.isExpired && (t("diagnosticsTTLWarning") || "Session expiring soon")}
               {ttl.isExpired && (t("diagnosticsTTLExpired") || "Session expired — unlock again")}
             </p>

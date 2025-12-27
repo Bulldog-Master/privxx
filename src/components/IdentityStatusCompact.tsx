@@ -69,7 +69,7 @@ export function IdentityStatusCompact() {
               size="sm"
               onClick={handleCreateIdentity}
               disabled={isLoading}
-              className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px]"
+              className="justify-start gap-2 text-primary/70 hover:text-primary min-h-[44px]"
               aria-label={t("create", "Create")}
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
@@ -118,7 +118,7 @@ export function IdentityStatusCompact() {
               size="sm"
               onClick={handleUnlock}
               disabled={isLoading}
-              className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px]"
+              className="justify-start gap-2 text-primary/70 hover:text-primary min-h-[44px]"
               aria-label={t("unlock", "Unlock")}
             >
               {isLoading ? (

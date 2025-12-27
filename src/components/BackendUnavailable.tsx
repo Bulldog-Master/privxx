@@ -19,16 +19,16 @@ export default function BackendUnavailable({ onRetry }: BackendUnavailableProps)
     <div className="flex min-h-[60vh] items-center justify-center p-6">
       <div className="max-w-md w-full space-y-4 text-center">
         <div className="flex justify-center">
-          <div className="rounded-full bg-muted p-4">
-            <WifiOff className="h-8 w-8 text-muted-foreground" aria-hidden="true" />
+          <div className="rounded-full bg-primary/10 p-4">
+            <WifiOff className="h-8 w-8 text-primary/60" aria-hidden="true" />
           </div>
         </div>
         
-        <h2 className="text-lg font-semibold text-foreground">
+        <h2 className="text-lg font-semibold text-primary">
           {t("offlineTitle")}
         </h2>
         
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-primary/60">
           {t("offlineBody")}
         </p>
         
