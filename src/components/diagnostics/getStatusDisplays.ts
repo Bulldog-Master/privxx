@@ -56,6 +56,7 @@ export function getBackendStatusDisplay(
     };
   }
 
+  // ready
   return {
     label: t("diagnosticsOnline"),
     icon: CheckCircle2,

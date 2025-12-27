@@ -5,7 +5,7 @@
  * Used to prevent accidental half-live deployments.
  */
 
-import { status, isMockMode } from "@/lib/privxx-api";
+import { bridgeClient, isMockMode } from "@/api/bridge";
 
 export type ReadinessResult = {
   bridgeReachable: boolean;
@@ -18,7 +18,7 @@ export async function checkReadiness(): Promise<ReadinessResult> {
   let backendReady = false;
 
   try {
-    const s = await status();
+    const s = await bridgeClient.status();
     bridgeReachable = s?.status === "ok";
     backendReady = s?.backend === "connected" && s?.network === "ready";
   } catch {
