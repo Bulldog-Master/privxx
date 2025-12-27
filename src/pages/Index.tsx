@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHeroWithUrl from "@/components/PrivxxHeroWithUrl";
-import { IdentityStatus } from "@/components/IdentityStatus";
+
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/ConnectionBadge";
 import { IdentityProvider } from "@/contexts/IdentityContext";
@@ -57,10 +57,6 @@ const Index = () => {
           <main className="flex-1 flex flex-col items-center pt-12 sm:pt-16 px-4 sm:px-6 gap-5 pb-8">
             <PrivxxHeroWithUrl />
             
-            {/* Identity unlock/lock */}
-            <div className="w-full max-w-md">
-              <IdentityStatus />
-            </div>
             
             {/* Messaging panel with inbox + compose */}
             <div className="w-full max-w-md rounded-lg border bg-card/80 backdrop-blur-sm overflow-hidden h-[400px]">
