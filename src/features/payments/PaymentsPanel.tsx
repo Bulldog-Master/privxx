@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CreditCard, Loader2, ExternalLink, Lock } from "lucide-react";
+import { CreditCard, Loader2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useIdentity } from "@/contexts/IdentityContext";
+import { LockedState } from "@/components/shared";
 
 export function PaymentsPanel() {
   const { t } = useTranslation();
@@ -32,19 +33,8 @@ export function PaymentsPanel() {
     }
   };
 
-  // Locked state
   if (!isUnlocked) {
-    return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <Lock className="h-8 w-8 text-primary/60 mb-3" />
-        <h3 className="text-base font-semibold mb-1 text-primary/90">
-          {t("identityLocked", "Identity Locked")}
-        </h3>
-        <p className="text-sm text-primary/60">
-          {t("paymentsLockedHint", "Unlock identity to make payments")}
-        </p>
-      </div>
-    );
+    return <LockedState hintKey="paymentsLockedHint" />;
   }
 
   return (

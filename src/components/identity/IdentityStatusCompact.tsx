@@ -6,57 +6,30 @@
  * Shows TTL countdown in tooltip when unlocked.
  */
 
-import { useTranslation } from "react-i18next";
-import { Lock, Unlock, Loader2, Shield, Plus } from "lucide-react";
+import { Lock, Loader2, Shield, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIdentity } from "@/contexts/IdentityContext";
-import { useCountdown } from "@/hooks/useCountdown";
-import { toast } from "sonner";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useIdentityActions } from "./useIdentityActions";
 
 export function IdentityStatusCompact() {
-  const { t } = useTranslation();
-  const { state, isNone, isLocked, isUnlocked, isLoading, unlockExpiresAt, createIdentity, unlock, lock } = useIdentity();
-  const { formatted, timeLeft } = useCountdown(unlockExpiresAt);
-
-  const handleCreateIdentity = async () => {
-    const success = await createIdentity();
-    if (success) {
-      toast.success(t("identityCreated", "Secure identity created"));
-    }
-  };
-
-  const handleUnlock = async () => {
-    const success = await unlock();
-    if (success) {
-      toast.success(t("identityUnlocked", "Identity unlocked"));
-    }
-  };
-
-  const handleLock = async () => {
-    const success = await lock();
-    if (success) {
-      toast.success(t("identityLocked", "Identity locked"));
-    }
-  };
-
-  const getTooltipText = () => {
-    if (isLoading) return t("identityLoading", "Loading...");
-    if (isNone) return t("identityNoneStatus", "Create your secure identity");
-    if (isUnlocked && unlockExpiresAt) {
-      return t("sessionExpiresIn", "Session expires in {{time}}", { time: formatted });
-    }
-    if (isUnlocked) return t("identityReady", "Ready to send messages");
-    return t("identityLockedStatus", "Unlock to send messages");
-  };
-
-  // Determine if session is expiring soon (under 2 minutes)
-  const isExpiringSoon = isUnlocked && timeLeft > 0 && timeLeft < 120;
+  const {
+    isNone,
+    isUnlocked,
+    isLoading,
+    unlockExpiresAt,
+    formatted,
+    isExpiringSoon,
+    handleCreateIdentity,
+    handleUnlock,
+    handleLock,
+    getStatusText,
+    t,
+  } = useIdentityActions();
 
   // No identity yet
   if (isNone && !isLoading) {
@@ -79,7 +52,7 @@ export function IdentityStatusCompact() {
             </Button>
           </TooltipTrigger>
           <TooltipContent side="right">
-            <p>{getTooltipText()}</p>
+            <p>{getStatusText()}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -133,7 +106,7 @@ export function IdentityStatusCompact() {
           )}
         </TooltipTrigger>
         <TooltipContent side="right">
-          <p>{getTooltipText()}</p>
+          <p>{getStatusText()}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
