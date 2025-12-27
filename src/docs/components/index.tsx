@@ -16,6 +16,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Slider } from "@/components/ui/slider";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
   SelectContent,
@@ -1789,6 +1792,319 @@ function MyPage() {
       "Use destructive for errors or critical warnings.",
       "Custom success/warning styles can be achieved with className overrides.",
       "Always include an icon for better visual communication.",
+    ],
+  },
+
+  {
+    id: "separator",
+    name: "Separator",
+    description: "A visual divider that separates content into distinct sections.",
+    category: "UI",
+    importPath: 'import { Separator } from "@/components/ui/separator"',
+    props: [
+      { name: "orientation", type: '"horizontal" | "vertical"', default: '"horizontal"', description: "The orientation of the separator" },
+      { name: "decorative", type: "boolean", default: "true", description: "Whether the separator is purely decorative" },
+      { name: "className", type: "string", description: "Additional CSS classes" },
+    ],
+    examples: [
+      {
+        id: "horizontal",
+        title: "Horizontal",
+        description: "Default horizontal separator.",
+        code: `<div>
+  <div className="space-y-1">
+    <h4 className="text-sm font-medium">Privxx Tunnel</h4>
+    <p className="text-sm text-muted-foreground">
+      Privacy-first browsing solution.
+    </p>
+  </div>
+  <Separator className="my-4" />
+  <div className="flex h-5 items-center space-x-4 text-sm">
+    <div>Settings</div>
+    <Separator orientation="vertical" />
+    <div>Profile</div>
+    <Separator orientation="vertical" />
+    <div>Logout</div>
+  </div>
+</div>`,
+        preview: (
+          <div className="w-full max-w-md">
+            <div className="space-y-1">
+              <h4 className="text-sm font-medium">Privxx Tunnel</h4>
+              <p className="text-sm text-muted-foreground">
+                Privacy-first browsing solution.
+              </p>
+            </div>
+            <Separator className="my-4" />
+            <div className="flex h-5 items-center space-x-4 text-sm">
+              <div>Settings</div>
+              <Separator orientation="vertical" />
+              <div>Profile</div>
+              <Separator orientation="vertical" />
+              <div>Logout</div>
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: "vertical",
+        title: "Vertical",
+        description: "Vertical separator between inline elements.",
+        code: `<div className="flex h-5 items-center space-x-4 text-sm">
+  <div>Inbox</div>
+  <Separator orientation="vertical" />
+  <div>Compose</div>
+  <Separator orientation="vertical" />
+  <div>Payments</div>
+</div>`,
+        preview: (
+          <div className="flex h-5 items-center space-x-4 text-sm">
+            <div>Inbox</div>
+            <Separator orientation="vertical" />
+            <div>Compose</div>
+            <Separator orientation="vertical" />
+            <div>Payments</div>
+          </div>
+        ),
+      },
+    ],
+    notes: [
+      "Use horizontal separators to divide stacked content.",
+      "Use vertical separators to divide inline content.",
+      "Set decorative={false} when the separator conveys semantic meaning.",
+    ],
+  },
+
+  {
+    id: "avatar",
+    name: "Avatar",
+    description: "An image element with a fallback for displaying user profile pictures.",
+    category: "UI",
+    importPath: 'import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"',
+    props: [
+      { name: "src", type: "string", description: "Image source URL (on AvatarImage)" },
+      { name: "alt", type: "string", description: "Alt text for the image (on AvatarImage)" },
+      { name: "className", type: "string", description: "Additional CSS classes" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Avatar with image and fallback.",
+        code: `<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar>`,
+        preview: (
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        ),
+      },
+      {
+        id: "fallback",
+        title: "Fallback Only",
+        description: "Avatar with initials fallback when no image is available.",
+        code: `<Avatar>
+  <AvatarFallback>JD</AvatarFallback>
+</Avatar>`,
+        preview: (
+          <Avatar>
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
+        ),
+      },
+      {
+        id: "sizes",
+        title: "Sizes",
+        description: "Different avatar sizes using className.",
+        code: `<div className="flex items-center gap-4">
+  <Avatar className="h-8 w-8">
+    <AvatarFallback className="text-xs">SM</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarFallback>MD</AvatarFallback>
+  </Avatar>
+  <Avatar className="h-14 w-14">
+    <AvatarFallback className="text-lg">LG</AvatarFallback>
+  </Avatar>
+  <Avatar className="h-20 w-20">
+    <AvatarFallback className="text-xl">XL</AvatarFallback>
+  </Avatar>
+</div>`,
+        preview: (
+          <div className="flex items-center gap-4">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="text-xs">SM</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarFallback>MD</AvatarFallback>
+            </Avatar>
+            <Avatar className="h-14 w-14">
+              <AvatarFallback className="text-lg">LG</AvatarFallback>
+            </Avatar>
+            <Avatar className="h-20 w-20">
+              <AvatarFallback className="text-xl">XL</AvatarFallback>
+            </Avatar>
+          </div>
+        ),
+      },
+      {
+        id: "group",
+        title: "Avatar Group",
+        description: "Stacked avatars for showing multiple users.",
+        code: `<div className="flex -space-x-4">
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>A</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>B</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>C</AvatarFallback>
+  </Avatar>
+  <Avatar className="border-2 border-background">
+    <AvatarFallback>+3</AvatarFallback>
+  </Avatar>
+</div>`,
+        preview: (
+          <div className="flex -space-x-4">
+            <Avatar className="border-2 border-background">
+              <AvatarFallback>A</AvatarFallback>
+            </Avatar>
+            <Avatar className="border-2 border-background">
+              <AvatarFallback>B</AvatarFallback>
+            </Avatar>
+            <Avatar className="border-2 border-background">
+              <AvatarFallback>C</AvatarFallback>
+            </Avatar>
+            <Avatar className="border-2 border-background">
+              <AvatarFallback>+3</AvatarFallback>
+            </Avatar>
+          </div>
+        ),
+      },
+    ],
+    notes: [
+      "AvatarFallback displays while the image is loading or if it fails to load.",
+      "Use initials or an icon as fallback content.",
+      "Size the avatar using className with h-* and w-* utilities.",
+    ],
+  },
+
+  {
+    id: "skeleton",
+    name: "Skeleton",
+    description: "A placeholder component to show while content is loading.",
+    category: "UI",
+    importPath: 'import { Skeleton } from "@/components/ui/skeleton"',
+    props: [
+      { name: "className", type: "string", description: "Additional CSS classes for sizing and shape" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Simple skeleton shapes.",
+        code: `<div className="space-y-2">
+  <Skeleton className="h-4 w-[250px]" />
+  <Skeleton className="h-4 w-[200px]" />
+  <Skeleton className="h-4 w-[150px]" />
+</div>`,
+        preview: (
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w-[150px]" />
+          </div>
+        ),
+      },
+      {
+        id: "card",
+        title: "Card Skeleton",
+        description: "Skeleton for a card layout.",
+        code: `<div className="flex items-center space-x-4">
+  <Skeleton className="h-12 w-12 rounded-full" />
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-[200px]" />
+    <Skeleton className="h-4 w-[150px]" />
+  </div>
+</div>`,
+        preview: (
+          <div className="flex items-center space-x-4">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[200px]" />
+              <Skeleton className="h-4 w-[150px]" />
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: "list",
+        title: "List Skeleton",
+        description: "Skeleton for a list of items.",
+        code: `<div className="space-y-4">
+  {[1, 2, 3].map((i) => (
+    <div key={i} className="flex items-center space-x-4">
+      <Skeleton className="h-10 w-10 rounded" />
+      <div className="flex-1 space-y-2">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-3 w-3/4" />
+      </div>
+    </div>
+  ))}
+</div>`,
+        preview: (
+          <div className="space-y-4 w-full max-w-md">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="flex items-center space-x-4">
+                <Skeleton className="h-10 w-10 rounded" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-3 w-3/4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ),
+      },
+      {
+        id: "form",
+        title: "Form Skeleton",
+        description: "Skeleton for form inputs.",
+        code: `<div className="space-y-4 w-full max-w-sm">
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-16" />
+    <Skeleton className="h-10 w-full" />
+  </div>
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-20" />
+    <Skeleton className="h-10 w-full" />
+  </div>
+  <Skeleton className="h-10 w-24" />
+</div>`,
+        preview: (
+          <div className="space-y-4 w-full max-w-sm">
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-16" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+            <Skeleton className="h-10 w-24" />
+          </div>
+        ),
+      },
+    ],
+    notes: [
+      "Use skeletons to reduce perceived loading time.",
+      "Match skeleton dimensions to the actual content that will load.",
+      "Use rounded-full for circular skeletons (avatars, icons).",
+      "Animate pulse effect is built-in via Tailwind.",
     ],
   },
 ];
