@@ -2,7 +2,7 @@ import { useState, FormEvent } from "react";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useTranslations } from "@/lib/i18n";
+import { useTranslation } from "react-i18next";
 import PrivxxLogo from "@/components/PrivxxLogo";
 
 export type ConnectionState = "idle" | "connecting" | "connected";
@@ -15,7 +15,7 @@ interface ConnectionCardProps {
 
 const ConnectionCard = ({ onConnect, connectionState, onStateChange }: ConnectionCardProps) => {
   const [url, setUrl] = useState("");
-  const { t } = useTranslations();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
