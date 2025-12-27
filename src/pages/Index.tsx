@@ -6,6 +6,11 @@ import PrivxxHeroWithUrl from "@/components/PrivxxHeroWithUrl";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/ConnectionBadge";
 import { useTranslations } from "@/lib/i18n";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
 const DiagnosticsDrawer = lazy(() => import("@/components/DiagnosticsDrawer"));
@@ -79,9 +84,16 @@ const Index = () => {
               <Link to="/terms" className="hover:text-foreground/60 transition-colors">
                 {t("termsTitle")}
               </Link>
-              <Link to="/whats-new" className="hover:text-foreground/60 transition-colors" title={t("whatsNew")}>
-                <Sparkles className="h-3.5 w-3.5" />
-              </Link>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link to="/whats-new" className="hover:text-foreground/60 transition-colors">
+                    <Sparkles className="h-3.5 w-3.5" />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{t("whatsNew")}</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
           </footer>
       </div>
