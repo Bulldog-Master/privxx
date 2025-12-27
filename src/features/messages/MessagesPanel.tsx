@@ -20,13 +20,22 @@ export function MessagesPanel() {
   } = useInbox();
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full" role="region" aria-label={t("messagingPanel", "Messaging panel")}>
       <Tabs defaultValue="inbox" className="flex flex-col h-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="inbox">
+        <TabsList 
+          className="grid w-full grid-cols-4" 
+          aria-label={t("messagingTabs", "Messaging navigation")}
+        >
+          <TabsTrigger 
+            value="inbox"
+            aria-label={messages.length > 0 
+              ? t("inboxTabWithCount", "Inbox, {{count}} messages", { count: messages.length })
+              : t("inboxTab", "Inbox")
+            }
+          >
             {t("inboxTab", "Inbox")}
             {messages.length > 0 && (
-              <span className="ml-1.5 text-xs text-muted-foreground">
+              <span className="ml-1.5 text-xs text-muted-foreground" aria-hidden="true">
                 ({messages.length})
               </span>
             )}
