@@ -1,29 +1,28 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Send, Loader2, AlertCircle, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { bridgeClient, type Message } from "@/api/bridge";
+import { bridgeClient } from "@/api/bridge";
 import { toast } from "sonner";
+import { useIdentity } from "@/contexts/IdentityContext";
+import type { DemoMessage } from "./types";
 
-interface ComposeFormProps {
-  isUnlocked: boolean;
-  onMessageSent: (message: Message) => void;
-  defaultRecipient?: string;
+interface ComposeProps {
+  onOptimistic: (message: DemoMessage) => void;
+  onOptimisticRemove: (messageId: string) => void;
 }
 
-export function ComposeForm({
-  isUnlocked,
-  onMessageSent,
-  defaultRecipient = "self",
-}: ComposeFormProps) {
+export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
   const { t } = useTranslation();
-  const [recipient, setRecipient] = useState(defaultRecipient);
-  const [messageText, setMessageText] = useState("");
+  const { isUnlocked } = useIdentity();
+  
+  const [recipient, setRecipient] = useState("self");
+  const [body, setBody] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | undefined>();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Focus textarea when unlocked
@@ -33,42 +32,48 @@ export function ComposeForm({
     }
   }, [isUnlocked]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!messageText.trim()) {
-      setError(t("composeEmptyError", "Message cannot be empty"));
-      return;
-    }
+  const canSend = useMemo(() => {
+    return isUnlocked && !isSending && recipient.trim().length > 0 && body.trim().length > 0;
+  }, [isUnlocked, isSending, recipient, body]);
 
+  const handleSend = async () => {
+    if (!canSend) return;
+    setError(undefined);
     setIsSending(true);
-    setError(null);
+
+    // Create optimistic message
+    const optimisticId = `optimistic-${crypto.randomUUID?.() ?? String(Date.now())}`;
+    const optimistic: DemoMessage = {
+      messageId: optimisticId,
+      from: "self",
+      body: body.trim(),
+      timestamp: Date.now(),
+      optimistic: true,
+    };
+
+    // Insert optimistic message immediately
+    onOptimistic(optimistic);
 
     try {
-      const msgId = await bridgeClient.sendMessage(recipient, messageText.trim());
-      
-      // Optimistic insert
-      const optimisticMessage: Message = {
-        from: "me",
-        message: messageText.trim(),
-        timestamp: new Date().toISOString(),
-      };
-      
-      onMessageSent(optimisticMessage);
-      setMessageText("");
+      await bridgeClient.sendMessage(recipient.trim(), body.trim());
+      setBody("");
       toast.success(t("messageSent", "Message sent"));
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to send message";
-      setError(message);
+      // Optimistic message stays until real message arrives via polling
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Send failed";
+      setError(msg);
       toast.error(t("messageSendFailed", "Failed to send message"));
+      // Remove optimistic message on failure
+      onOptimisticRemove(optimisticId);
     } finally {
       setIsSending(false);
     }
   };
 
+  // Locked state hint
   if (!isUnlocked) {
     return (
-      <div className="flex flex-col items-center justify-center py-8 text-center opacity-60">
+      <div className="flex flex-col items-center justify-center py-8 text-center border-t opacity-60">
         <Send className="h-5 w-5 text-muted-foreground mb-2" />
         <p className="text-xs text-muted-foreground">
           {t("composeLockedHint", "Unlock identity to send messages")}
@@ -78,7 +83,7 @@ export function ComposeForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4">
+    <div className="border-t p-4 space-y-4">
       {/* Recipient */}
       <div className="space-y-2">
         <Label htmlFor="recipient" className="text-xs">
@@ -92,7 +97,7 @@ export function ComposeForm({
             onChange={(e) => setRecipient(e.target.value)}
             placeholder={t("composeRecipientPlaceholder", "Enter recipient ID or 'self'")}
             disabled={isSending}
-            className="pl-9 h-9 text-sm"
+            className="pl-9 h-10"
           />
         </div>
       </div>
@@ -105,18 +110,18 @@ export function ComposeForm({
         <Textarea
           ref={textareaRef}
           id="message"
-          value={messageText}
+          value={body}
           onChange={(e) => {
-            setMessageText(e.target.value);
-            if (error) setError(null);
+            setBody(e.target.value);
+            if (error) setError(undefined);
           }}
           placeholder={t("composeMessagePlaceholder", "Type your message...")}
           disabled={isSending}
-          className="min-h-[80px] text-sm resize-none"
-          maxLength={1000}
+          className="min-h-[100px] resize-none"
+          maxLength={2000}
         />
         <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>{messageText.length}/1000</span>
+          <span>{body.length}/2000</span>
           {error && (
             <span className="flex items-center gap-1 text-destructive">
               <AlertCircle className="h-3 w-3" />
@@ -128,9 +133,9 @@ export function ComposeForm({
 
       {/* Send button */}
       <Button
-        type="submit"
-        disabled={isSending || !messageText.trim()}
-        className="w-full"
+        onClick={handleSend}
+        disabled={!canSend}
+        className="w-full min-h-[44px]"
       >
         {isSending ? (
           <>
@@ -144,6 +149,8 @@ export function ComposeForm({
           </>
         )}
       </Button>
-    </form>
+    </div>
   );
 }
+
+export default Compose;
