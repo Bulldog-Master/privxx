@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useTranslations } from "@/lib/i18n";
+import { useTranslation } from "react-i18next";
 
 const AppFooter = () => {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
   
   return (
     <footer className="mt-auto border-t border-border/50">

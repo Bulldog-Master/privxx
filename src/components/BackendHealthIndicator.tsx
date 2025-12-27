@@ -1,9 +1,9 @@
+import { useTranslation } from "react-i18next";
 import { useBackendStatus } from '@/hooks/useBackendStatus';
-import { useTranslations } from '@/lib/i18n';
 
 const BackendHealthIndicator = () => {
   const { status, isLoading } = useBackendStatus();
-  const { t } = useTranslations();
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Globe, EyeOff, Info } from "lucide-react";
 import {
   Drawer,
@@ -7,7 +8,6 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "@/lib/i18n";
 
 interface PrivacyDrawerProps {
   /** Controlled open state (optional) */
@@ -19,7 +19,7 @@ interface PrivacyDrawerProps {
 }
 
 const PrivacyDrawer = ({ open, onOpenChange, showTrigger }: PrivacyDrawerProps) => {
-  const { t } = useTranslations();
+  const { t } = useTranslation();
 
   // If controlled, don't show trigger by default
   const shouldShowTrigger = showTrigger ?? (open === undefined);

@@ -1,4 +1,5 @@
 import { Globe } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,7 +8,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTranslations, setLanguage } from "@/lib/i18n";
 
 // English pinned at top, rest sorted alphabetically by native name
 const languages = [
@@ -30,7 +30,12 @@ const languages = [
 ];
 
 const LanguageSelector = () => {
-  const { currentLanguage } = useTranslations();
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+  const handleLanguageChange = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   return (
     <DropdownMenu>
@@ -51,7 +56,7 @@ const LanguageSelector = () => {
         {languages.map(({ code, label, pinned }) => (
           <div key={code}>
             <DropdownMenuItem
-              onClick={() => setLanguage(code)}
+              onClick={() => handleLanguageChange(code)}
               className={`cursor-pointer text-sm ${
                 code === currentLanguage 
                   ? "bg-primary/10 text-primary font-medium" 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useBackendStatus, type BackendStatus } from "@/hooks/useBackendStatus";
-import { useTranslations } from "@/lib/i18n";
 import { toast } from "sonner";
 
 /** Derive UI state from bridge status */
@@ -18,7 +18,7 @@ export function useDiagnosticsState() {
   const [isDismissing, setIsDismissing] = useState(false);
   const prevStateRef = useRef<string | null>(null);
   const { status, isLoading, refetch } = useBackendStatus();
-  const { t } = useTranslations();
+  const { t } = useTranslation();
 
   const uiState = deriveUiState(status);
 
