@@ -55,7 +55,7 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 | P2 | Extract shared layout components | ✅ Complete |
 | P3 | Organize components by domain | ✅ Complete |
 | P3 | Add CI checks | ✅ Complete |
-| P4 | Expand test coverage | 🔄 In Progress |
+| P4 | Expand test coverage | ✅ Complete |
 
 ---
 
@@ -81,10 +81,10 @@ Privxx is well-architected and ready for iterative hardening. The recommended ch
 - [x] Move `DiagnosticsDrawer` into `diagnostics/` folder
 - [ ] Normalize hook naming conventions (future)
 
-### Phase 4 — Quality & Reliability (P3–P4) 🔄
+### Phase 4 — Quality & Reliability (P3–P4) ✅
 - [x] Add CI workflow (lint, typecheck, tests, privacy checks)
 - [x] Add Zod validation schemas for all auth forms
 - [x] Add tests for `useAuthMode` hook
 - [x] Add tests for validation schemas
+- [x] Semantic versioning at v0.2.0 (see `docs/PRIVXX-VERSIONING.md`)
 - [ ] Add tests for session timeout logic
-- [ ] Introduce semantic version tags
