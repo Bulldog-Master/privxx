@@ -6,7 +6,7 @@ import { toast } from "sonner";
 /** Derive UI state from bridge status */
 function deriveUiState(status: BackendStatus): "error" | "connecting" | "ready" {
   if (status.status === "error" || status.backend === "error") return "error";
-  if (status.backend === "disconnected" || status.network === "connecting") return "connecting";
+  if (status.backend === "disconnected" || status.network === "syncing") return "connecting";
   return "ready";
 }
 

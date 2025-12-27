@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
-import { status, type StatusRes, isMockMode } from "@/lib/privxx-api";
+import { bridgeClient, isMockMode, type StatusResponse } from "@/api/bridge";
 
 export interface BackendStatus {
   /** Bridge status: ok or error */
-  status: StatusRes["status"];
+  status: StatusResponse["status"] | "error";
   /** Backend connection state */
-  backend: StatusRes["backend"];
+  backend: StatusResponse["backend"] | "error";
   /** Network readiness */
-  network: StatusRes["network"];
+  network: StatusResponse["network"] | "error";
   /** Running in mock mode (no bridge) */
   isMock: boolean;
 }
@@ -15,7 +15,7 @@ export interface BackendStatus {
 const initialStatus: BackendStatus = {
   status: "ok",
   backend: "disconnected",
-  network: "connecting",
+  network: "syncing",
   isMock: isMockMode(),
 };
 
@@ -37,7 +37,7 @@ export function useBackendStatus(pollMs = 30000) {
   const fetchStatus = useCallback(async () => {
     setIsLoading(true);
     try {
-      const s = await status();
+      const s = await bridgeClient.status();
       setData({
         status: s.status,
         backend: s.backend,
@@ -65,7 +65,7 @@ export function useBackendStatus(pollMs = 30000) {
       if (!isActive) return; // Skip polling when backgrounded
 
       try {
-        const s = await status();
+        const s = await bridgeClient.status();
         if (!alive) return;
         setData({
           status: s.status,

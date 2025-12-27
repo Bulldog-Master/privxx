@@ -24,7 +24,7 @@ const BackendHealthIndicator = () => {
 
   // Map new bridge statuses to UI states
   const isError = status.status === "error" || status.backend === "error";
-  const isConnecting = status.backend === "disconnected" || status.network === "connecting";
+  const isConnecting = status.backend === "disconnected" || status.network === "syncing";
   const isReady = status.status === "ok" && status.backend === "connected" && status.network === "ready";
 
   if (isError) {
