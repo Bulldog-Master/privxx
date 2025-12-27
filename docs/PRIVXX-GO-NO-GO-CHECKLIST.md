@@ -39,12 +39,14 @@
 ## 🌐 Infrastructure Verification
 
 ### Canonical Origin
-- [ ] Single origin decided: `https://privxx.app` — **PENDING DECISION**
+- [x] Single origin decided: `https://privxx.app` — **CONFIGURED**
+- [x] CORS configuration created (`supabase/functions/_shared/cors.ts`)
+- [x] Origin utility created (`src/lib/origin.ts`)
 - [ ] Frontend served from canonical origin — **VERIFY DEPLOYMENT**
 - [ ] Bridge API accessible from canonical origin — **VERIFY DEPLOYMENT**
 - [ ] No port numbers in production URLs — **VERIFY DEPLOYMENT**
-- [ ] HTTP → HTTPS redirect configured — **VERIFY DEPLOYMENT**
-- [ ] www → non-www redirect configured — **VERIFY DEPLOYMENT**
+- [ ] HTTP → HTTPS redirect configured — **CLOUDFLARE CONFIG NEEDED**
+- [ ] www → non-www redirect configured — **CLOUDFLARE CONFIG NEEDED**
 
 ### Backend Services
 - [ ] xx-backend process running — **VERIFY ON SERVER**
