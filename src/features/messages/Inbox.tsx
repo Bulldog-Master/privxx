@@ -1,11 +1,16 @@
-import { useState } from "react";
+/**
+ * Inbox Component (C2 Production Model)
+ * 
+ * Displays messages and handles locked state.
+ * Unlock is re-auth based, not password based.
+ */
+
 import { useTranslation } from "react-i18next";
-import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon, Unlock } from "lucide-react";
+import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon, Unlock, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
-import { IdentityModal } from "@/components/IdentityModal";
 import { useIdentity } from "@/contexts/IdentityContext";
 import { toast } from "sonner";
 import type { DemoMessage } from "./types";
@@ -34,46 +39,65 @@ export function Inbox({
   isUnlocked 
 }: InboxProps) {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState(false);
-  const { unlock, error: identityError, clearError, state } = useIdentity();
+  const { isNone, unlock, createIdentity, isLoading: identityLoading } = useIdentity();
 
-  const handleUnlock = async (password: string) => {
-    const success = await unlock(password);
+  const handleUnlock = async () => {
+    const success = await unlock();
     if (success) {
       toast.success(t("identityUnlocked", "Identity unlocked"));
     }
-    return success;
   };
+
+  const handleCreateIdentity = async () => {
+    const success = await createIdentity();
+    if (success) {
+      toast.success(t("identityCreated", "Secure identity created"));
+    }
+  };
+
+  // No identity yet
+  if (isNone) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center px-4">
+        <Plus className="h-8 w-8 text-muted-foreground mb-3" />
+        <h3 className="text-base font-semibold mb-1">
+          {t("noIdentityTitle", "No Identity Yet")}
+        </h3>
+        <p className="text-sm text-muted-foreground mb-4">
+          {t("noIdentityBody", "Create your secure identity to start messaging")}
+        </p>
+        <Button 
+          onClick={handleCreateIdentity}
+          disabled={identityLoading}
+          className="min-h-[44px]"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          {t("createIdentity", "Create Identity")}
+        </Button>
+      </div>
+    );
+  }
 
   // Locked state
   if (!isUnlocked) {
     return (
-      <>
-        <div className="flex flex-col items-center justify-center py-12 text-center px-4">
-          <Lock className="h-8 w-8 text-muted-foreground mb-3" />
-          <h3 className="text-base font-semibold mb-1">
-            {t("inboxLockedTitle", "Identity Locked")}
-          </h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            {t("inboxLockedBody", "Unlock your identity to view messages")}
-          </p>
-          <Button 
-            onClick={() => setModalOpen(true)}
-            className="min-h-[44px]"
-          >
-            <Unlock className="h-4 w-4 mr-2" />
-            {t("unlockIdentity", "Unlock Identity")}
-          </Button>
-        </div>
-        <IdentityModal
-          open={modalOpen}
-          onOpenChange={setModalOpen}
-          onUnlock={handleUnlock}
-          isLoading={state === "unlocking"}
-          error={identityError}
-          onClearError={clearError}
-        />
-      </>
+      <div className="flex flex-col items-center justify-center py-12 text-center px-4">
+        <Lock className="h-8 w-8 text-muted-foreground mb-3" />
+        <h3 className="text-base font-semibold mb-1">
+          {t("inboxLockedTitle", "Identity Locked")}
+        </h3>
+        <p className="text-sm text-muted-foreground mb-4">
+          {t("inboxLockedBody", "Unlock your identity to view messages")}
+        </p>
+        <Button 
+          onClick={handleUnlock}
+          disabled={identityLoading}
+          className="min-h-[44px]"
+        >
+          <Unlock className="h-4 w-4 mr-2" />
+          {t("unlockIdentity", "Unlock Identity")}
+        </Button>
+      </div>
     );
   }
 

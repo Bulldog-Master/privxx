@@ -1,5 +1,5 @@
 /**
- * Bridge API Instance
+ * Bridge API Instance (C2 Production Model)
  * 
  * Single source of truth for bridge client instantiation.
  * Uses MockBridgeClient when VITE_BRIDGE_URL is not set.
@@ -9,11 +9,11 @@ import { BridgeClient, type IBridgeClient, type BridgeClientConfig } from "./cli
 import { MockBridgeClient } from "./mockClient";
 
 const BRIDGE_URL = import.meta.env.VITE_BRIDGE_URL || "";
-const BRIDGE_AUTH_SECRET = import.meta.env.VITE_BRIDGE_AUTH_SECRET || "";
 const USE_MOCK = !BRIDGE_URL || import.meta.env.VITE_MOCK === "true";
 
 function createBridgeClient(): IBridgeClient {
   if (USE_MOCK) {
+    console.debug("[Bridge] Using mock client (demo mode)");
     return new MockBridgeClient();
   }
 
@@ -21,10 +21,7 @@ function createBridgeClient(): IBridgeClient {
     baseUrl: BRIDGE_URL,
   };
 
-  if (BRIDGE_AUTH_SECRET) {
-    config.authSecret = BRIDGE_AUTH_SECRET;
-  }
-
+  console.debug("[Bridge] Using real client:", BRIDGE_URL);
   return new BridgeClient(config);
 }
 
@@ -41,11 +38,13 @@ export function getBridgeUrl(): string {
 // Re-export types for convenience
 export type {
   StatusResponse,
+  SessionResponse,
+  IdentityStatusResponse,
+  IdentityCreateResponse,
+  IdentityUnlockResponse,
+  IdentityLockResponse,
   Message,
-  UnlockResponse,
-  LockResponse,
-  SendResponse,
-  SessionRefreshResponse,
+  MessageSendResponse,
   IBridgeClient,
   BridgeClientConfig,
-} from "./client";
+} from "./types";

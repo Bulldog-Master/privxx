@@ -1,23 +1,29 @@
 /**
- * Mock Bridge Client for Offline Development
+ * Mock Bridge Client for Offline Development (C2 Model)
  * 
  * Simulates bridge behavior when VITE_MOCK=true or no bridge URL configured
  */
 
 import type {
   StatusResponse,
+  SessionResponse,
+  IdentityStatusResponse,
+  IdentityCreateResponse,
+  IdentityUnlockResponse,
+  IdentityLockResponse,
   Message,
-  SessionRefreshResponse,
   IBridgeClient,
-} from "./client";
+} from "./types";
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export class MockBridgeClient implements IBridgeClient {
-  private mockToken = `mock-token-${Date.now()}`;
   private mockMessages: Message[] = [];
+  private identityExists = false;
+  private identityState: "none" | "locked" | "unlocked" = "none";
+  private unlockExpiresAt: string | null = null;
 
   async status(): Promise<StatusResponse> {
     await sleep(100);
@@ -28,23 +34,61 @@ export class MockBridgeClient implements IBridgeClient {
     };
   }
 
-  async unlock(_password: string): Promise<void> {
-    await sleep(200);
-    // In mock mode, any password works
+  async validateSession(): Promise<SessionResponse> {
+    await sleep(50);
+    return {
+      userId: "mock-user-id",
+      sessionValid: true,
+    };
+  }
+
+  async getIdentityStatus(): Promise<IdentityStatusResponse> {
+    await sleep(100);
+    return {
+      exists: this.identityExists,
+      state: this.identityState,
+    };
+  }
+
+  async createIdentity(): Promise<IdentityCreateResponse> {
+    await sleep(500);
+    this.identityExists = true;
+    this.identityState = "locked";
+    return {
+      state: "locked",
+    };
+  }
+
+  async unlockIdentity(): Promise<IdentityUnlockResponse> {
+    await sleep(300);
+    this.identityState = "unlocked";
+    // Mock 15-minute session
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+    this.unlockExpiresAt = expiresAt;
+    
     // Add welcome message on unlock
     this.mockMessages = [
       {
         from: "system",
-        message: "Welcome to Privxx (demo mode). Try sending a message to yourself!",
+        message: "Welcome to Privxx (demo mode). Your identity is now unlocked.",
         timestamp: new Date().toISOString(),
       },
     ];
+    
+    return {
+      state: "unlocked",
+      expiresAt,
+    };
   }
 
-  async lock(): Promise<void> {
+  async lockIdentity(): Promise<IdentityLockResponse> {
     await sleep(100);
-    // Clear messages on lock
+    this.identityState = "locked";
+    this.unlockExpiresAt = null;
     this.mockMessages = [];
+    return {
+      state: "locked",
+    };
   }
 
   async sendMessage(recipient: string, message: string): Promise<string> {
@@ -53,7 +97,6 @@ export class MockBridgeClient implements IBridgeClient {
     
     // In demo mode, "send to self" echoes the message back
     if (recipient === "self" || recipient === "me") {
-      // Simulate receiving the message back after a short delay
       setTimeout(() => {
         this.mockMessages.unshift({
           from: "me",
@@ -67,25 +110,12 @@ export class MockBridgeClient implements IBridgeClient {
     return msgId;
   }
 
-  async receiveMessages(): Promise<Message[]> {
+  async getInbox(): Promise<Message[]> {
     await sleep(100);
     return [...this.mockMessages];
   }
 
-  async refreshSession(): Promise<SessionRefreshResponse> {
-    await sleep(50);
-    this.mockToken = `mock-token-${Date.now()}`;
-    return {
-      token: this.mockToken,
-      expires_in: 3600,
-    };
-  }
-
   setToken(_token: string): void {
-    // No-op in mock mode
-  }
-
-  setAuthSecret(_secret: string): void {
     // No-op in mock mode
   }
 }
