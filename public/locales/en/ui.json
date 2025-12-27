@@ -356,5 +356,19 @@
   "disable2FATitle": "Disable Two-Factor Authentication?",
   "disable2FAWarning": "Enter your current 2FA code to disable two-factor authentication. This will make your account less secure.",
   "currentCode": "Current 2FA Code",
-  "disable": "Disable"
+  "disable": "Disable",
+  
+  "componentDocs": "Component Documentation",
+  "componentDocsDesc": "Usage examples and prop types for all components",
+  "components": "Components",
+  "selectComponent": "Select a component to view its documentation",
+  "props": "Props",
+  "propName": "Name",
+  "propType": "Type",
+  "propDefault": "Default",
+  "propDescription": "Description",
+  "examples": "Examples",
+  "preview": "Preview",
+  "notes": "Notes",
+  "create": "Create"
 }
