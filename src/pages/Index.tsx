@@ -5,7 +5,6 @@ import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHeroWithUrl from "@/components/PrivxxHeroWithUrl";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/ConnectionBadge";
-import { IdentityProvider } from "@/contexts/IdentityContext";
 import { useTranslations } from "@/lib/i18n";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
@@ -15,8 +14,7 @@ const Index = () => {
   const { t } = useTranslations();
 
   return (
-    <IdentityProvider>
-      <div className="min-h-screen flex flex-col relative overflow-hidden bg-[hsl(215_25%_27%)]">
+    <div className="min-h-screen flex flex-col relative overflow-hidden bg-[hsl(215_25%_27%)]">
         {/* Large teal blob - top right */}
         <div 
           className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-90"
@@ -86,9 +84,8 @@ const Index = () => {
               </Link>
             </div>
           </footer>
-        </div>
       </div>
-    </IdentityProvider>
+    </div>
   );
 };
 
