@@ -2,6 +2,7 @@
  * Unlock Expiry Dialog (C2 Production Model)
  * 
  * Prompts re-authentication when identity unlock TTL expires.
+ * Includes haptic/audio alerts for mobile devices.
  */
 
 import { useEffect, useState } from "react";
@@ -19,6 +20,7 @@ import {
 import { useIdentity } from "@/contexts/IdentityContext";
 import { useCountdown } from "@/hooks/useCountdown";
 import { toast } from "sonner";
+import { alertWarning, alertUrgent } from "@/lib/alerts";
 
 const WARNING_THRESHOLD_SECONDS = 60; // Show dialog at 1 minute remaining
 const TOAST_WARNING_SECONDS = 120; // Show toast at 2 minutes remaining
@@ -33,9 +35,12 @@ export function UnlockExpiryDialog() {
   const [isReauthing, setIsReauthing] = useState(false);
   const [toastShown, setToastShown] = useState(false);
 
-  // Show toast warning at 2 minutes
+  // Show toast warning at 2 minutes (with haptic feedback)
   useEffect(() => {
     if (isUnlocked && unlockExpiresAt && timeLeft > 0 && timeLeft <= TOAST_WARNING_SECONDS && timeLeft > WARNING_THRESHOLD_SECONDS && !toastShown) {
+      // Trigger warning alert (vibration + sound)
+      alertWarning();
+      
       toast.warning(t("sessionExpiringToast", "Your session expires in 2 minutes"), {
         description: t("sessionExpiringToastDesc", "Extend your session to continue messaging."),
         duration: 5000,
@@ -44,17 +49,22 @@ export function UnlockExpiryDialog() {
     }
   }, [isUnlocked, unlockExpiresAt, timeLeft, toastShown, t]);
 
-  // Show dialog when under 1 minute
+  // Show dialog when under 1 minute (with urgent alert)
   useEffect(() => {
     if (isUnlocked && unlockExpiresAt && timeLeft > 0 && timeLeft <= WARNING_THRESHOLD_SECONDS) {
+      if (!showWarning) {
+        // Trigger urgent alert when dialog first appears
+        alertUrgent();
+      }
       setShowWarning(true);
       setShowExpired(false);
     }
-  }, [isUnlocked, unlockExpiresAt, timeLeft]);
+  }, [isUnlocked, unlockExpiresAt, timeLeft, showWarning]);
 
-  // Show expired dialog when TTL reaches 0
+  // Show expired dialog when TTL reaches 0 (with urgent alert)
   useEffect(() => {
     if (isUnlocked && unlockExpiresAt && isExpired) {
+      alertUrgent();
       setShowWarning(false);
       setShowExpired(true);
     }
