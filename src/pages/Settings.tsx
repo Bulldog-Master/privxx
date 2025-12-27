@@ -14,6 +14,7 @@ import PrivxxLogo from "@/components/PrivxxLogo";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { AccountSection } from "@/components/settings/AccountSection";
+import { SessionSettings } from "@/components/settings/SessionSettings";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -76,6 +77,9 @@ export default function Settings() {
 
           {/* Account Section */}
           <AccountSection />
+
+          {/* Session Settings */}
+          <SessionSettings />
 
           {/* Two-Factor Authentication */}
           <TOTPManagement userId={user.id} />

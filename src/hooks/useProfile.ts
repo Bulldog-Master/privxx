@@ -14,6 +14,7 @@ export interface Profile {
   display_name: string | null;
   avatar_url: string | null;
   bio: string | null;
+  session_timeout_minutes: number;
   created_at: string;
   updated_at: string;
 }
@@ -64,7 +65,7 @@ export function useProfile() {
     return data;
   }, [user]);
 
-  const updateProfile = useCallback(async (updates: { display_name?: string; bio?: string }) => {
+  const updateProfile = useCallback(async (updates: { display_name?: string; bio?: string; session_timeout_minutes?: number }) => {
     if (!user) return { error: "Not authenticated" };
 
     setIsLoading(true);

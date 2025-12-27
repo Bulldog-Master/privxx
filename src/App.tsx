@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +14,7 @@ import { EmailVerificationPending } from "@/components/EmailVerificationPending"
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { SessionTimeoutWarning } from "@/components/SessionTimeoutWarning";
 import { useSessionTimeout } from "@/hooks/useSessionTimeout";
+import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -53,8 +54,30 @@ function EmailVerificationGuard({ children }: { children: React.ReactNode }) {
 
 // Session timeout manager component
 function SessionTimeoutManager() {
+  const { user, isAuthenticated } = useAuth();
+  const [timeoutMinutes, setTimeoutMinutes] = useState(15);
+
+  // Fetch user's timeout preference
+  useEffect(() => {
+    if (!isAuthenticated || !user) return;
+
+    const fetchTimeout = async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("session_timeout_minutes")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (data?.session_timeout_minutes) {
+        setTimeoutMinutes(data.session_timeout_minutes);
+      }
+    };
+
+    fetchTimeout();
+  }, [isAuthenticated, user]);
+
   const { showWarning, secondsRemaining, extendSession, logoutNow } = useSessionTimeout({
-    timeoutMs: 15 * 60 * 1000, // 15 minutes
+    timeoutMs: timeoutMinutes * 60 * 1000,
     warningMs: 60 * 1000, // 1 minute warning
   });
 
