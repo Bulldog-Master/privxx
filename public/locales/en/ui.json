@@ -268,5 +268,20 @@
   "releasePrivacy2": "No cookies or local storage of user data",
   "releasePrivacy3": "No exposure of network internals",
   "releasePrivacy4": "Conservative, honest privacy claims",
-  "releaseFooter": "Privxx Team — Privacy-first by design"
+  "releaseFooter": "Privxx Team — Privacy-first by design",
+  
+  "alertSettings": "Alert Settings",
+  "alertSettingsDesc": "Control sound and vibration for session warnings",
+  "soundAlerts": "Sound alerts",
+  "soundAlertsDesc": "Play audio tone for session expiry warnings",
+  "vibrationAlerts": "Vibration alerts",
+  "vibrationAlertsDesc": "Vibrate device for session expiry warnings",
+  "vibrationNotSupported": "Vibration not supported on this device",
+  "soundEnabled": "Sound alerts enabled",
+  "soundDisabled": "Sound alerts disabled",
+  "vibrationEnabled": "Vibration alerts enabled",
+  "vibrationDisabled": "Vibration alerts disabled",
+  "testAlert": "Test Alert",
+  "testAlertDesc": "Alert triggered with current settings",
+  "testAlertButton": "Test Alert"
 }

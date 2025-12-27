@@ -16,6 +16,7 @@ import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { AccountSection } from "@/components/settings/AccountSection";
 import { SessionSettings } from "@/components/settings/SessionSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
+import { AlertSettings } from "@/components/settings/AlertSettings";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -84,6 +85,9 @@ export default function Settings() {
 
           {/* Notification Preferences */}
           <NotificationSettings />
+
+          {/* Alert Settings (Sound/Vibration) */}
+          <AlertSettings />
 
           {/* Two-Factor Authentication */}
           <TOTPManagement userId={user.id} />
