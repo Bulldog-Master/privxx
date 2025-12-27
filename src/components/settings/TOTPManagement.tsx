@@ -6,7 +6,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Shield, ShieldCheck, ShieldOff, Loader2, Copy, CheckCircle, AlertTriangle, Key } from "lucide-react";
+import QRCode from "qrcode";
+import { Shield, ShieldCheck, ShieldOff, Loader2, Copy, CheckCircle, AlertTriangle } from "lucide-react";
 import { useTOTP } from "@/hooks/useTOTP";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,6 +43,7 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [setupData, setSetupData] = useState<{ secret: string; otpauthUrl: string } | null>(null);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
   const [backupCodes, setBackupCodes] = useState<string[] | null>(null);
   const [verificationCode, setVerificationCode] = useState("");
   const [disableCode, setDisableCode] = useState("");
@@ -64,10 +66,25 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
 
   const handleStartSetup = async () => {
     clearError();
+    setQrCodeDataUrl(null);
     const data = await startSetup();
     if (data) {
       setSetupData(data);
       setVerificationCode("");
+      // Generate QR code from otpauth URL
+      try {
+        const dataUrl = await QRCode.toDataURL(data.otpauthUrl, {
+          width: 200,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#ffffff',
+          },
+        });
+        setQrCodeDataUrl(dataUrl);
+      } catch (err) {
+        console.error('Failed to generate QR code:', err);
+      }
     }
   };
 
@@ -199,15 +216,22 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
-            {/* QR Code placeholder - use the otpauth URL */}
-            <div className="flex flex-col items-center gap-4 p-4 bg-white rounded-lg">
-              <div className="w-48 h-48 bg-muted flex items-center justify-center rounded">
-                <div className="text-center text-sm text-muted-foreground p-4">
-                  <Key className="h-8 w-8 mx-auto mb-2" />
-                  <p>{t("scanQRInApp", "Scan QR in authenticator app")}</p>
-                  <p className="text-xs mt-2 break-all font-mono">{setupData?.otpauthUrl}</p>
+            {/* QR Code */}
+            <div className="flex flex-col items-center gap-2 p-4 bg-white rounded-lg">
+              {qrCodeDataUrl ? (
+                <img 
+                  src={qrCodeDataUrl} 
+                  alt={t("totpQRCode", "TOTP QR Code")} 
+                  className="w-48 h-48"
+                />
+              ) : (
+                <div className="w-48 h-48 bg-muted flex items-center justify-center rounded animate-pulse">
+                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                 </div>
-              </div>
+              )}
+              <p className="text-sm text-muted-foreground text-center">
+                {t("scanWithAuthApp", "Scan with your authenticator app")}
+              </p>
             </div>
 
             {/* Manual entry */}
