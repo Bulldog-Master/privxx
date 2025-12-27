@@ -14,8 +14,8 @@ early-stage protocol and product development.
 
 ---
 
-## [0.2.0] — Frontend Complete (Preview Mode)
-**Released:** December 26, 2025
+## [0.2.0] — Frontend Complete + Quality Hardening
+**Released:** December 27, 2025
 
 ### Added
 - PWA install prompt (Chrome/Android + iOS Safari guide)
@@ -24,21 +24,32 @@ early-stage protocol and product development.
 - Backend health indicator (mock mode)
 - Session-only language preference (privacy-first)
 - Diagnostics drawer (Status view) with backend/mode visibility
-- Stakeholder status update documentation
+- Zod validation schemas for all auth forms
+- Unit tests for `useAuthMode` hook and validation schemas
+- REVIEW.md with codebase audit and roadmap checklist
 
 ### Changed
+- Auth page refactored into `features/auth` module with thin orchestrator
+- All auth forms now use react-hook-form + Zod for input validation
 - Privacy drawer wording aligned with App Store/Play Store requirements
 - iOS install instructions enhanced with Apple-style phrasing
-- All translations verified for semantic safety
-- README updated to public-facing preview mode copy
+- Components organized by domain (no stray files in root)
+- `DiagnosticsDrawer` moved into `diagnostics/` folder
 
 ### Fixed
 - Install prompt persistence via sessionStorage
 - iOS standalone detection via navigator.standalone
 
 ### Documentation
+- `REVIEW.md` — Codebase review with P1-P4 roadmap
 - `docs/PRIVXX-DIAGNOSTICS-VIEW.md` — Read-only diagnostics spec
 - `docs/PRIVXX-STATUS-UPDATE-2025-12-26.md` — Stakeholder update
+- `docs/PRIVXX-VERSIONING.md` — Semantic versioning rules
+
+### Quality
+- GitHub Actions CI: lint, typecheck, build, privacy checks, tests
+- Vitest test suite with auth hook and schema coverage
+- i18n consolidated on react-i18next (single system)
 
 ### Notes
 Frontend is now **locked and release-ready**.  
