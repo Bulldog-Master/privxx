@@ -5,38 +5,30 @@
  * Used to prevent accidental half-live deployments.
  */
 
-import { health, status } from "@/lib/privxx-api";
+import { status, isMockMode } from "@/lib/privxx-api";
 
 export type ReadinessResult = {
-  proxyReachable: boolean;
+  bridgeReachable: boolean;
   backendReady: boolean;
   mockMode: boolean;
 };
 
 export async function checkReadiness(): Promise<ReadinessResult> {
-  let proxyReachable = false;
+  let bridgeReachable = false;
   let backendReady = false;
 
   try {
-    const h = await health();
-    proxyReachable = !!h?.ok;
-  } catch {
-    proxyReachable = false;
-  }
-
-  try {
     const s = await status();
-    backendReady = s?.state === "ready";
+    bridgeReachable = s?.status === "ok";
+    backendReady = s?.backend === "connected" && s?.network === "ready";
   } catch {
+    bridgeReachable = false;
     backendReady = false;
   }
 
-  const mockMode =
-    (import.meta as any).env?.VITE_USE_MOCKS === "true" || true; // Default to mock mode
-
   return {
-    proxyReachable,
+    bridgeReachable,
     backendReady,
-    mockMode,
+    mockMode: isMockMode(),
   };
 }

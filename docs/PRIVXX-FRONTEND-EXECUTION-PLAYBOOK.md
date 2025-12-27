@@ -1,134 +1,147 @@
-# 🔒 PRIVXX FRONTEND EXECUTION PLAYBOOK (POST-HANDOFF) — LOCKED
+# 🔒 PRIVXX FRONTEND HANDOFF — BRIDGE CONTRACT (AUTHORITATIVE)
 
-**Status:** ACTIVE  
-**Audience:** Lovable / Frontend Devs / Proxy Implementer (later)  
-**Backend:** Blocked & isolated (xx team dependency acknowledged)
-
----
-
-## GLOBAL CONTEXT (READ ONCE)
-
-The frontend architecture for Privxx is **LOCKED**.
-
-Backend instability does **NOT** block frontend progress.
-
-This document defines:
-- What frontend builds now
-- How it integrates later
-- What is forbidden
-- How release readiness is verified
-- How mobile/desktop evolve without rewrites
-
-**DO NOT SPLIT THIS DOCUMENT.**  
-**DO NOT REINTERPRET SECTIONS.**  
-**DO NOT ADD ALTERNATE ARCHITECTURES.**
+**Status:** LOCKED  
+**Audience:** Lovable / Frontend Devs / Bridge Implementer  
+**Architecture:** Frontend → Bridge → Backend (xxdk)
 
 ---
 
-## ARCHITECTURE (FINAL — MODEL B / BFF)
+## GLOBAL CONTEXT
+
+This document REPLACES all previous frontend assumptions.
+
+Backend and bridge are now stable.  
+Architecture is **LOCKED**.
+
+**DO NOT DEVIATE FROM THIS CONTRACT.**
+
+---
+
+## 1. ARCHITECTURE (FINAL)
 
 ```
 Browser / App UI
        ↓
-Same-Origin Proxy (BFF)
-   /api/backend/*
+    Bridge API
+  https://<bridge-domain>
        ↓
-Server-to-Server Calls
-       ↓
-xx-backend (local agent / Cloudflare Tunnel)
-   https://privxx.app
+  Backend (xxdk)
+  (NOT internet-facing)
 ```
 
-- ❌ Browser → backend direct calls are **FORBIDDEN**
-- ❌ CORS fixes on backend are **NOT** a solution
-- ❌ No backend internals exposed to UI
-
-- ✅ UI calls ONLY `/api/backend/*`
-- ✅ Mock mode allowed until proxy is live
+### Rules:
+- ❌ Frontend NEVER talks directly to backend
+- ❌ Backend is NOT internet-facing
+- ❌ No CORS fixes — bridge handles everything
+- ✅ Bridge is the ONLY API exposed
+- ✅ All CORS, auth, validation live in bridge
+- ✅ Frontend treats backend as opaque
 
 ---
 
-## FRONTEND NON-NEGOTIABLE RULES
+## 2. BRIDGE API CONTRACT
 
-### Frontend MUST NOT:
-- Touch xxdk
-- Reference NDF, gateways, nodes
-- Call `/cmixx/*` or `/xxdk/*` from browser
-- Store user data in localStorage
-- Add analytics, cookies, trackers
-- Expose internal errors or versions
+**Base URL:** `https://<bridge-domain>` (set via `VITE_BRIDGE_URL`)
 
-### Frontend MUST:
-- Build against proxy contract only
-- Use same-origin fetch
-- Support mock mode
-- Treat backend as opaque
-- Show user-safe states only
+All responses are JSON. All requests use HTTPS only.
 
 ---
 
-## PUBLIC API CONTRACT (UI ↔ PROXY) — V1
+### GET /status
 
-All requests are **SAME ORIGIN**:
+Health + readiness check.
 
-```
-/api/backend/*
-```
-
----
-
-### GET /api/backend/health
-
-**Response:**
-```json
-{ "ok": true }
-```
-
----
-
-### GET /api/backend/status
-
-**Response:**
+**Response 200:**
 ```json
 {
-  "state": "starting" | "ready" | "error",
-  "detail": "optional string"
+  "status": "ok",
+  "backend": "connected",
+  "network": "ready"
 }
 ```
 
+| Field | Values |
+|-------|--------|
+| `status` | `"ok"` \| `"error"` |
+| `backend` | `"connected"` \| `"disconnected"` \| `"error"` |
+| `network` | `"ready"` \| `"connecting"` \| `"error"` |
+
 ---
 
-### POST /api/backend/send
+### POST /identity/unlock
+
+Unlock backend identity (bridge mediates).
 
 **Request:**
 ```json
 {
-  "recipient": "string",
-  "message": "string"
+  "password": "<user_password>"
 }
 ```
 
-**Response:**
+**Response 200:**
 ```json
 {
-  "messageId": "string",
-  "queued": true
+  "unlocked": true
+}
+```
+
+**Response 401:**
+```json
+{
+  "error": "invalid_password"
 }
 ```
 
 ---
 
-### GET /api/backend/messages
+### POST /identity/lock
 
-**Response:**
+Lock backend identity.
+
+**Response 200:**
+```json
+{
+  "locked": true
+}
+```
+
+---
+
+### POST /message/send
+
+Send a message via xxdk.
+
+**Request:**
+```json
+{
+  "recipient": "<id | alias>",
+  "message": "<string>"
+}
+```
+
+**Response 200:**
+```json
+{
+  "msg_id": "<id>",
+  "status": "queued"
+}
+```
+
+---
+
+### GET /message/receive
+
+Poll or stream received messages.
+
+**Response 200:**
 ```json
 {
   "messages": [
     {
-      "id": "string",
-      "from": "string",
-      "body": "string",
-      "timestamp": number
+      "from": "<id>",
+      "message": "<string>",
+      "timestamp": "<iso8601>"
     }
   ]
 }
@@ -136,126 +149,144 @@ All requests are **SAME ORIGIN**:
 
 ---
 
-## FRONTEND API CLIENT (SINGLE SOURCE)
+### POST /session/refresh
+
+Refresh auth/session token.
+
+**Response 200:**
+```json
+{
+  "token": "<new_token>",
+  "expires_in": 3600
+}
+```
+
+---
+
+## 3. FRONTEND API CLIENT
 
 **File:** `src/lib/privxx-api.ts`
 
-See implementation in codebase. Key exports:
-- `health()` — Check backend health
-- `status()` — Get connection state
-- `messages()` — Fetch inbox
-- `sendMessage(req)` — Queue outbound message
-- `isMockMode()` — Check if running in mock mode
+### Key Exports:
+
+| Function | Purpose |
+|----------|---------|
+| `status()` | GET /status — health check |
+| `unlockIdentity(req)` | POST /identity/unlock |
+| `lockIdentity()` | POST /identity/lock |
+| `sendMessage(req)` | POST /message/send |
+| `receiveMessages()` | GET /message/receive |
+| `refreshSession()` | POST /session/refresh |
+| `isMockMode()` | Check if running in mock mode |
+| `getBridgeUrl()` | Get configured bridge URL |
+
+### Mock Mode:
+
+When `VITE_BRIDGE_URL` is not set, the client runs in mock mode with simulated responses.
 
 ---
 
-## STATUS POLLING HOOK
+## 4. STATUS HOOK
 
 **File:** `src/hooks/useBackendStatus.ts`
 
-Returns:
-- `status` — Current backend state (`starting`, `ready`, `error`)
-- `error` — Error message if any
-- `isLoading` — Initial loading state
+### Returns:
 
-Polls every 30 seconds by default.
+| Field | Type | Description |
+|-------|------|-------------|
+| `status` | `BackendStatus` | Current bridge/backend state |
+| `error` | `string \| null` | Error message if any |
+| `isLoading` | `boolean` | Initial loading state |
+| `refetch` | `() => void` | Manual refresh |
+
+### BackendStatus Shape:
+
+```typescript
+{
+  status: "ok" | "error";
+  backend: "connected" | "disconnected" | "error";
+  network: "ready" | "connecting" | "error";
+  isMock: boolean;
+}
+```
 
 ---
 
-## UI STATE RULES (MANDATORY)
+## 5. UI STATE MAPPING
 
-| State | Behavior |
-|-------|----------|
-| `starting` | Spinner + "Starting…" + Retry |
-| `ready` | Enable messaging UI |
-| `error` | "Backend unavailable" + Retry |
+| Bridge State | UI State | Behavior |
+|--------------|----------|----------|
+| `status: "error"` or `backend: "error"` | Error | "Backend unavailable" + Retry |
+| `backend: "disconnected"` or `network: "connecting"` | Connecting | Spinner + "Connecting..." |
+| All OK | Ready | Enable messaging UI |
 
 ### NEVER show:
 - Gateway info
 - Versions
 - NDF
 - Stack traces
+- xxdk internals
 
 ---
 
-## EDGE FUNCTION SPEC (FOR LATER)
+## 6. SECURITY MODEL (FRONTEND)
 
-Proxy implements `/api/backend/*`
+### Frontend assumes:
+- Bridge can reject requests
+- Bridge enforces rate limits
+- Bridge sanitizes responses
+- Backend is invisible
 
-**Transform rules:**
-- Backend ready → `state: ready`
-- Backend initializing → `state: starting`
-- Timeout/error → `state: error`
-
-**Timeout:** 3–5 seconds  
-**No infinite retries**  
-**No passthrough headers**
-
-Return generic errors only.
-
----
-
-## UI COMPLIANCE CHECKLIST
-
-- [ ] No direct backend URLs in browser
-- [ ] All calls via privxx-api.ts
-- [ ] Mock mode works end-to-end
-- [ ] i18n only (no hardcoded text)
-- [ ] Mobile usable at 375px width
-- [ ] Touch targets ≥ 44px
-- [ ] No localStorage user data
+### Frontend must:
+- Never store secrets
+- Never embed passwords
+- Never assume availability
+- Always handle 401 / 429 / 5xx
 
 ---
 
-## FRONTEND RELEASE CHECKLIST
+## 7. ENVIRONMENT CONFIGURATION
 
-- [ ] Production build succeeds
-- [ ] Console clean
-- [ ] Status polling works
-- [ ] Offline/start/error UX correct
-- [ ] Inbox empty state clean
-- [ ] Send action optimistic
-- [ ] Accessibility basics pass
-- [ ] RTL languages render acceptably
+| Variable | Purpose | Required |
+|----------|---------|----------|
+| `VITE_BRIDGE_URL` | Bridge API base URL | No (mock mode if absent) |
 
 ---
 
-## MOBILE / DESKTOP FORWARD PLAN
+## 8. WHAT STAYS VALID
 
-### Shared:
-- API contract
-- State machines
-- Translations
-- UX rules
-
-### Web:
-- React (current)
-
-### Mobile (later):
-- React Native
-- Same API contract
-
-### Desktop (later):
-- Tauri / Electron
-- Local proxy → local agent
-
-**NO rewrite required.**
+- ✅ UI / UX components
+- ✅ State management
+- ✅ Auth flows (via bridge)
+- ✅ Messaging UI
+- ✅ Status indicators
+- ✅ i18n / translations
+- ✅ PWA functionality
 
 ---
 
-## FINAL WORD (DO NOT REOPEN)
+## 9. WHAT WAS REMOVED
 
-- Architecture locked
-- Proxy model enforced
-- Backend isolated
-- Frontend proceeds independently
-
-If anyone proposes:
-
-> Browser → backend direct access
-
-→ **The answer is NO.**
+- ❌ Direct backend URLs
+- ❌ `/api/backend/*` proxy endpoints
+- ❌ `health()` function (replaced by `status()`)
+- ❌ Old `state: "starting" | "ready" | "error"` pattern
+- ❌ Backend-specific error parsing
 
 ---
 
-*END OF DOCUMENT*
+## 10. FINAL LOCK
+
+This is NOT a temporary change.  
+This is the production architecture.
+
+All frontend work going forward MUST:
+- Use bridge APIs exclusively
+- Treat backend as opaque
+- Follow this contract exactly
+
+Any deviation reintroduces security risks and instability.
+
+---
+
+*Architecture locked.*

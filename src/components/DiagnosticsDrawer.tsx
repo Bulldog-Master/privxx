@@ -26,6 +26,7 @@ const DiagnosticsDrawer = () => {
     showSuccess,
     isDismissing,
     status,
+    uiState,
     isLoading,
     refetch,
     handleRetry,
@@ -33,7 +34,7 @@ const DiagnosticsDrawer = () => {
     t,
   } = useDiagnosticsState();
 
-  const backendStatus = getBackendStatusDisplay(status.state, isLoading, t);
+  const backendStatus = getBackendStatusDisplay(uiState, isLoading, t);
   const modeStatus = getModeDisplay(status.isMock, t);
 
   return (
@@ -74,7 +75,7 @@ const DiagnosticsDrawer = () => {
                 pulse={backendStatus.pulse}
                 showSuccess={showSuccess}
                 actions={
-                  status.state === "error" ? (
+                  uiState === "error" ? (
                     <Button
                       variant="outline"
                       size="sm"

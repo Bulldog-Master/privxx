@@ -1,7 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatus, type BackendStatus } from "@/hooks/useBackendStatus";
 import { useTranslations } from "@/lib/i18n";
 import { toast } from "sonner";
+
+/** Derive UI state from bridge status */
+function deriveUiState(status: BackendStatus): "error" | "connecting" | "ready" {
+  if (status.status === "error" || status.backend === "error") return "error";
+  if (status.backend === "disconnected" || status.network === "connecting") return "connecting";
+  return "ready";
+}
 
 export function useDiagnosticsState() {
   const [open, setOpen] = useState(false);
@@ -13,9 +20,11 @@ export function useDiagnosticsState() {
   const { status, isLoading, refetch } = useBackendStatus();
   const { t } = useTranslations();
 
+  const uiState = deriveUiState(status);
+
   // Detect successful connection after retry
   useEffect(() => {
-    if (prevStateRef.current === "error" && status.state === "ready" && isRetrying === false) {
+    if (prevStateRef.current === "error" && uiState === "ready" && isRetrying === false) {
       setShowSuccess(true);
       // Haptic feedback on mobile devices
       if (navigator.vibrate) {
@@ -33,8 +42,8 @@ export function useDiagnosticsState() {
         setOpen(false);
       }, 1800);
     }
-    prevStateRef.current = status.state;
-  }, [status.state, isRetrying, t]);
+    prevStateRef.current = uiState;
+  }, [uiState, isRetrying, t]);
 
   const handleRetry = useCallback(async () => {
     setIsRetrying(true);
@@ -46,9 +55,9 @@ export function useDiagnosticsState() {
     const modeLabel = status.isMock ? t("previewModeLabel") : t("liveModeLabel");
     const backendLabel = isLoading 
       ? t("diagnosticsChecking") 
-      : status.state === "error" 
+      : uiState === "error" 
         ? t("diagnosticsOffline") 
-        : status.state === "starting" 
+        : uiState === "connecting" 
           ? t("diagnosticsConnecting") 
           : t("diagnosticsOnline");
     const statusText = `${t("diagnosticsMode")}: ${modeLabel}, ${t("diagnosticsBackend")}: ${backendLabel}`;
@@ -61,7 +70,7 @@ export function useDiagnosticsState() {
     } catch {
       toast.error("Failed to copy");
     }
-  }, [status.isMock, status.state, isLoading, t]);
+  }, [status.isMock, uiState, isLoading, t]);
 
   return {
     open,
@@ -71,6 +80,7 @@ export function useDiagnosticsState() {
     showSuccess,
     isDismissing,
     status,
+    uiState, // Expose derived UI state
     isLoading,
     refetch,
     handleRetry,

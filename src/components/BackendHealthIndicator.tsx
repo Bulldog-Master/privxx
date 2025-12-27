@@ -22,7 +22,12 @@ const BackendHealthIndicator = () => {
   // Show demo mode indicator when using mocks
   const modeLabel = status.isMock ? ' (Demo)' : '';
 
-  if (status.state === "error") {
+  // Map new bridge statuses to UI states
+  const isError = status.status === "error" || status.backend === "error";
+  const isConnecting = status.backend === "disconnected" || status.network === "connecting";
+  const isReady = status.status === "ok" && status.backend === "connected" && status.network === "ready";
+
+  if (isError) {
     return (
       <div 
         className="flex items-center gap-2 text-xs text-foreground/50"
@@ -36,7 +41,7 @@ const BackendHealthIndicator = () => {
     );
   }
 
-  if (status.state === "starting") {
+  if (isConnecting) {
     return (
       <div 
         className="flex items-center gap-2 text-xs text-foreground/50"
@@ -50,7 +55,7 @@ const BackendHealthIndicator = () => {
     );
   }
 
-  // state === "ready"
+  // isReady
   return (
     <div 
       className="flex items-center gap-2 text-xs text-foreground/60"
