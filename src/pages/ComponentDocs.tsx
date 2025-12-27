@@ -4,19 +4,16 @@
  * Comprehensive documentation system with usage examples and prop types.
  */
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { 
   Book, 
   Component, 
-  Lock, 
-  Shield, 
-  Bell, 
-  Globe, 
-  Loader2,
   ChevronRight,
   Copy,
-  Check
+  Check,
+  Search,
+  X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +21,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
 import { PageBackground } from "@/components/layout";
 import { AppFooter } from "@/components/shared";
 import { componentDocs, type ComponentDoc } from "@/docs/components";
@@ -32,6 +30,37 @@ export default function ComponentDocs() {
   const { t } = useTranslation();
   const [selectedComponent, setSelectedComponent] = useState<string>(componentDocs[0]?.id || "");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Get unique categories
+  const categories = useMemo(() => {
+    const cats = [...new Set(componentDocs.map(doc => doc.category))];
+    return cats.sort();
+  }, []);
+
+  // Filter components based on search query
+  const filteredDocs = useMemo(() => {
+    if (!searchQuery.trim()) return componentDocs;
+    
+    const query = searchQuery.toLowerCase();
+    return componentDocs.filter(doc => 
+      doc.name.toLowerCase().includes(query) ||
+      doc.category.toLowerCase().includes(query) ||
+      doc.description.toLowerCase().includes(query)
+    );
+  }, [searchQuery]);
+
+  // Group filtered docs by category
+  const groupedDocs = useMemo(() => {
+    const groups: Record<string, ComponentDoc[]> = {};
+    filteredDocs.forEach(doc => {
+      if (!groups[doc.category]) {
+        groups[doc.category] = [];
+      }
+      groups[doc.category].push(doc);
+    });
+    return groups;
+  }, [filteredDocs]);
 
   const selectedDoc = componentDocs.find(doc => doc.id === selectedComponent);
 
@@ -72,26 +101,59 @@ export default function ComponentDocs() {
                     <Component className="h-4 w-4" />
                     {t("components", "Components")}
                   </CardTitle>
+                  {/* Search Input */}
+                  <div className="relative mt-3">
+                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      placeholder={t("searchComponents", "Search components...")}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-8 pr-8 h-9 text-sm"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery("")}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <ScrollArea className="h-[60vh]">
-                    <nav className="space-y-1 p-2">
-                      {componentDocs.map((doc) => (
-                        <button
-                          key={doc.id}
-                          onClick={() => setSelectedComponent(doc.id)}
-                          className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-left ${
-                            selectedComponent === doc.id
-                              ? "bg-primary/10 text-primary font-medium"
-                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                          }`}
-                        >
-                          <ChevronRight className={`h-3 w-3 transition-transform ${
-                            selectedComponent === doc.id ? "rotate-90" : ""
-                          }`} />
-                          {doc.name}
-                        </button>
+                  <ScrollArea className="h-[55vh]">
+                    <nav className="space-y-4 p-2">
+                      {Object.entries(groupedDocs).map(([category, docs]) => (
+                        <div key={category}>
+                          <div className="px-3 py-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                            {category}
+                          </div>
+                          <div className="space-y-0.5">
+                            {docs.map((doc) => (
+                              <button
+                                key={doc.id}
+                                onClick={() => setSelectedComponent(doc.id)}
+                                className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-left ${
+                                  selectedComponent === doc.id
+                                    ? "bg-primary/10 text-primary font-medium"
+                                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                                }`}
+                              >
+                                <ChevronRight className={`h-3 w-3 transition-transform ${
+                                  selectedComponent === doc.id ? "rotate-90" : ""
+                                }`} />
+                                {doc.name}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
                       ))}
+                      {filteredDocs.length === 0 && (
+                        <div className="px-3 py-6 text-center text-sm text-muted-foreground">
+                          {t("noComponentsFound", "No components found")}
+                        </div>
+                      )}
                     </nav>
                   </ScrollArea>
                 </CardContent>
