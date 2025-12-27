@@ -16,8 +16,10 @@ import {
   Search,
   X,
   Sun,
-  Moon
+  Moon,
+  ArrowLeft
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -92,18 +94,30 @@ export default function ComponentDocs() {
                   </p>
                 </div>
               </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                title={t("toggleTheme", "Toggle theme")}
-              >
-                {theme === "dark" ? (
-                  <Sun className="h-4 w-4" />
-                ) : (
-                  <Moon className="h-4 w-4" />
-                )}
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  asChild
+                >
+                  <Link to="/">
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    {t("backToApp", "Back to App")}
+                  </Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  title={t("toggleTheme", "Toggle theme")}
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4" />
+                  ) : (
+                    <Moon className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
         </header>
