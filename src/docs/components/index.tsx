@@ -10,6 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -27,7 +30,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { LockedState } from "@/components/shared";
-import { Shield, Lock, Loader2, Bell, Plus, Search, Mail, Eye, EyeOff } from "lucide-react";
+import { Shield, Lock, Loader2, Bell, Plus, Search, Mail, Eye, EyeOff, User, Settings, CreditCard } from "lucide-react";
 import { toast } from "sonner";
 
 // Types
@@ -656,6 +659,259 @@ toast.warning("Session expiring soon");`,
       "Use toast.success(), toast.error(), toast.warning() for semantic toasts.",
       "Promise toasts are great for async operations like API calls.",
       "Toasts automatically stack and dismiss after the duration.",
+    ],
+  },
+
+  {
+    id: "tabs",
+    name: "Tabs",
+    description: "A set of layered sections of content that display one panel at a time. Built on Radix UI for accessibility.",
+    category: "UI",
+    importPath: 'import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"',
+    props: [
+      { name: "defaultValue", type: "string", description: "The value of the tab that should be active by default" },
+      { name: "value", type: "string", description: "Controlled value of the active tab" },
+      { name: "onValueChange", type: "(value: string) => void", description: "Callback when the active tab changes" },
+      { name: "orientation", type: '"horizontal" | "vertical"', default: '"horizontal"', description: "The orientation of the tabs" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Simple horizontal tabs.",
+        code: `<Tabs defaultValue="account" className="w-[400px]">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">
+    Account settings content here.
+  </TabsContent>
+  <TabsContent value="password">
+    Password settings content here.
+  </TabsContent>
+</Tabs>`,
+        preview: (
+          <Tabs defaultValue="account" className="w-full max-w-md">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="account">
+                <User className="h-4 w-4 mr-2" />
+                Account
+              </TabsTrigger>
+              <TabsTrigger value="settings">
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </TabsTrigger>
+              <TabsTrigger value="billing">
+                <CreditCard className="h-4 w-4 mr-2" />
+                Billing
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="account" className="p-4 border rounded-b-lg">
+              <p className="text-sm text-muted-foreground">Manage your account settings and preferences.</p>
+            </TabsContent>
+            <TabsContent value="settings" className="p-4 border rounded-b-lg">
+              <p className="text-sm text-muted-foreground">Configure your application settings.</p>
+            </TabsContent>
+            <TabsContent value="billing" className="p-4 border rounded-b-lg">
+              <p className="text-sm text-muted-foreground">View and manage your billing information.</p>
+            </TabsContent>
+          </Tabs>
+        ),
+      },
+    ],
+    notes: [
+      "Each TabsTrigger value must match its corresponding TabsContent value.",
+      "Use defaultValue for uncontrolled tabs, or value + onValueChange for controlled.",
+      "TabsList provides the tab buttons, TabsContent holds the panel content.",
+      "Keyboard navigation (arrow keys) is handled automatically.",
+    ],
+  },
+
+  {
+    id: "switch",
+    name: "Switch",
+    description: "A toggle control that allows users to switch between two states (on/off). Perfect for boolean settings.",
+    category: "UI",
+    importPath: 'import { Switch } from "@/components/ui/switch"',
+    props: [
+      { name: "checked", type: "boolean", description: "Controlled checked state" },
+      { name: "defaultChecked", type: "boolean", description: "Default checked state for uncontrolled usage" },
+      { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Callback when the checked state changes" },
+      { name: "disabled", type: "boolean", default: "false", description: "Disable the switch" },
+      { name: "id", type: "string", description: "HTML id for label association" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Simple toggle switch.",
+        code: `<Switch />`,
+        preview: (
+          <Switch />
+        ),
+      },
+      {
+        id: "with-label",
+        title: "With Label",
+        description: "Switch paired with a label for clarity.",
+        code: `<div className="flex items-center space-x-2">
+  <Switch id="airplane-mode" />
+  <Label htmlFor="airplane-mode">Airplane Mode</Label>
+</div>`,
+        preview: (
+          <div className="flex items-center space-x-2">
+            <Switch id="airplane-mode-demo" />
+            <Label htmlFor="airplane-mode-demo">Airplane Mode</Label>
+          </div>
+        ),
+      },
+      {
+        id: "with-description",
+        title: "With Description",
+        description: "Switch with label and description text.",
+        code: `<div className="flex items-center justify-between">
+  <div className="space-y-0.5">
+    <Label htmlFor="notifications">Notifications</Label>
+    <p className="text-sm text-muted-foreground">
+      Receive notifications about updates
+    </p>
+  </div>
+  <Switch id="notifications" />
+</div>`,
+        preview: (
+          <div className="flex items-center justify-between w-full max-w-sm">
+            <div className="space-y-0.5">
+              <Label htmlFor="notifications-demo">Notifications</Label>
+              <p className="text-sm text-muted-foreground">
+                Receive notifications about updates
+              </p>
+            </div>
+            <Switch id="notifications-demo" defaultChecked />
+          </div>
+        ),
+      },
+      {
+        id: "disabled",
+        title: "Disabled",
+        description: "Disabled switch states.",
+        code: `<Switch disabled />
+<Switch disabled checked />`,
+        preview: (
+          <div className="flex items-center gap-4">
+            <div className="flex items-center space-x-2">
+              <Switch id="disabled-off" disabled />
+              <Label htmlFor="disabled-off" className="text-muted-foreground">Off (disabled)</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Switch id="disabled-on" disabled defaultChecked />
+              <Label htmlFor="disabled-on" className="text-muted-foreground">On (disabled)</Label>
+            </div>
+          </div>
+        ),
+      },
+    ],
+    notes: [
+      "Use Switch for boolean on/off settings, not for selecting between options.",
+      "Always pair with a Label for accessibility.",
+      "The checked state is controlled via checked + onCheckedChange props.",
+    ],
+  },
+
+  {
+    id: "checkbox",
+    name: "Checkbox",
+    description: "A control that allows users to select one or more items from a set, or toggle a single option.",
+    category: "UI",
+    importPath: 'import { Checkbox } from "@/components/ui/checkbox"',
+    props: [
+      { name: "checked", type: "boolean | 'indeterminate'", description: "Controlled checked state" },
+      { name: "defaultChecked", type: "boolean", description: "Default checked state for uncontrolled usage" },
+      { name: "onCheckedChange", type: "(checked: boolean) => void", description: "Callback when the checked state changes" },
+      { name: "disabled", type: "boolean", default: "false", description: "Disable the checkbox" },
+      { name: "id", type: "string", description: "HTML id for label association" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Simple checkbox.",
+        code: `<Checkbox />`,
+        preview: (
+          <Checkbox />
+        ),
+      },
+      {
+        id: "with-label",
+        title: "With Label",
+        description: "Checkbox paired with a clickable label.",
+        code: `<div className="flex items-center space-x-2">
+  <Checkbox id="terms" />
+  <Label htmlFor="terms">Accept terms and conditions</Label>
+</div>`,
+        preview: (
+          <div className="flex items-center space-x-2">
+            <Checkbox id="terms-demo" />
+            <Label htmlFor="terms-demo">Accept terms and conditions</Label>
+          </div>
+        ),
+      },
+      {
+        id: "with-description",
+        title: "With Description",
+        description: "Checkbox with label and helper text.",
+        code: `<div className="flex items-start space-x-2">
+  <Checkbox id="marketing" className="mt-1" />
+  <div className="space-y-1">
+    <Label htmlFor="marketing">Marketing emails</Label>
+    <p className="text-sm text-muted-foreground">
+      Receive emails about new products and features.
+    </p>
+  </div>
+</div>`,
+        preview: (
+          <div className="flex items-start space-x-2">
+            <Checkbox id="marketing-demo" className="mt-1" />
+            <div className="space-y-1">
+              <Label htmlFor="marketing-demo">Marketing emails</Label>
+              <p className="text-sm text-muted-foreground">
+                Receive emails about new products and features.
+              </p>
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: "states",
+        title: "States",
+        description: "Different checkbox states.",
+        code: `<Checkbox />
+<Checkbox defaultChecked />
+<Checkbox disabled />
+<Checkbox disabled defaultChecked />`,
+        preview: (
+          <div className="flex items-center gap-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox id="unchecked" />
+              <Label htmlFor="unchecked">Unchecked</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="checked" defaultChecked />
+              <Label htmlFor="checked">Checked</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox id="disabled" disabled />
+              <Label htmlFor="disabled" className="text-muted-foreground">Disabled</Label>
+            </div>
+          </div>
+        ),
+      },
+    ],
+    notes: [
+      "Use Checkbox for multiple selections from a list, or for single boolean toggles.",
+      "The label should be clickable - use htmlFor to associate with the checkbox id.",
+      "Supports indeterminate state for parent checkboxes in nested lists.",
+      "For on/off toggles, consider using Switch instead for better UX.",
     ],
   },
 
