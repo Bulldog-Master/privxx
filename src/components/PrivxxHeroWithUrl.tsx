@@ -52,7 +52,7 @@ const PrivxxHeroWithUrl = () => {
       <div className="w-full space-y-3">
         <div className="space-y-1">
           <input
-            className="w-full rounded-lg border border-border/50 bg-background/50 backdrop-blur-sm px-4 py-3 min-h-[48px] text-base focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            className="w-full rounded-lg border border-primary/40 bg-background/50 backdrop-blur-sm px-4 py-3 min-h-[48px] text-base focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder={t("urlPlaceholder") || "https://example.com"}
@@ -66,11 +66,14 @@ const PrivxxHeroWithUrl = () => {
 
         {connectionState === "idle" && (
           <Button 
-            className="min-h-[48px] w-full text-base font-medium" 
+            className="min-h-[48px] w-full text-base font-medium px-6" 
             disabled={!canConnect} 
             onClick={onConnect}
           >
-            {t("connectThroughPrivxx") || "Connect through Privxx"}
+            <span className="inline-flex items-center gap-1.5">
+              <span>{t("connectThrough") || "Connect through"}</span>
+              <PrivxxLogo size="sm" brightenMark />
+            </span>
           </Button>
         )}
 
