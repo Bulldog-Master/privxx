@@ -157,5 +157,11 @@
   "readinessBackend": "الخادم جاهز",
   "readinessMode": "الوضع",
   "yes": "نعم",
-  "no": "لا"
+  "no": "لا",
+  
+  "tunnelConnecting": "جاري التوجيه عبر mixnet…",
+  "tunnelConnected": "النفق نشط",
+  "tunnelLatency": "زمن الاستجابة",
+  "tunnelTarget": "الهدف",
+  "tunnelDemoNote": "هذا عرض توضيحي محاكى للنفق. سيتم تفعيل توجيه cMixx الحقيقي في تحديث مستقبلي."
 }

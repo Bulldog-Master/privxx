@@ -157,5 +157,11 @@
   "readinessBackend": "Бэкенд готов",
   "readinessMode": "Режим",
   "yes": "Да",
-  "no": "Нет"
+  "no": "Нет",
+  
+  "tunnelConnecting": "Маршрутизация через миксерную сеть…",
+  "tunnelConnected": "Туннель активен",
+  "tunnelLatency": "Задержка",
+  "tunnelTarget": "Цель",
+  "tunnelDemoNote": "Это симуляция демо-туннеля. Реальная маршрутизация cMixx будет включена в будущем обновлении."
 }

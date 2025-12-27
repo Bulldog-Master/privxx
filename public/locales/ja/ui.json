@@ -157,5 +157,11 @@
   "readinessBackend": "バックエンド準備完了",
   "readinessMode": "モード",
   "yes": "はい",
-  "no": "いいえ"
+  "no": "いいえ",
+  
+  "tunnelConnecting": "ミックスネット経由でルーティング中…",
+  "tunnelConnected": "トンネル有効",
+  "tunnelLatency": "レイテンシ",
+  "tunnelTarget": "ターゲット",
+  "tunnelDemoNote": "これはシミュレートされたトンネルデモです。実際のcMixxルーティングは将来のアップデートで有効になります。"
 }

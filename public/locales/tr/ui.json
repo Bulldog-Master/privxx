@@ -157,5 +157,11 @@
   "readinessBackend": "Backend hazır",
   "readinessMode": "Mod",
   "yes": "Evet",
-  "no": "Hayır"
+  "no": "Hayır",
+  
+  "tunnelConnecting": "Mixnet üzerinden yönlendiriliyor…",
+  "tunnelConnected": "Tünel Aktif",
+  "tunnelLatency": "Gecikme",
+  "tunnelTarget": "Hedef",
+  "tunnelDemoNote": "Bu simüle edilmiş bir tünel demosu. Gerçek cMixx yönlendirmesi gelecek bir güncellemede etkinleştirilecektir."
 }

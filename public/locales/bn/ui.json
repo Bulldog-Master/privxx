@@ -157,5 +157,11 @@
   "readinessBackend": "ব্যাকএন্ড প্রস্তুত",
   "readinessMode": "মোড",
   "yes": "হ্যাঁ",
-  "no": "না"
+  "no": "না",
+  
+  "tunnelConnecting": "মিক্সনেটের মাধ্যমে রাউটিং…",
+  "tunnelConnected": "টানেল সক্রিয়",
+  "tunnelLatency": "বিলম্ব",
+  "tunnelTarget": "লক্ষ্য",
+  "tunnelDemoNote": "এটি একটি সিমুলেটেড টানেল ডেমো। প্রকৃত cMixx রাউটিং ভবিষ্যতের আপডেটে সক্ষম হবে।"
 }

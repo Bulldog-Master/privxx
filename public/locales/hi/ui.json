@@ -157,5 +157,11 @@
   "readinessBackend": "बैकएंड तैयार",
   "readinessMode": "मोड",
   "yes": "हाँ",
-  "no": "नहीं"
+  "no": "नहीं",
+  
+  "tunnelConnecting": "मिक्सनेट के माध्यम से रूटिंग…",
+  "tunnelConnected": "टनल सक्रिय",
+  "tunnelLatency": "विलंबता",
+  "tunnelTarget": "लक्ष्य",
+  "tunnelDemoNote": "यह एक सिमुलेटेड टनल डेमो है। वास्तविक cMixx रूटिंग भविष्य के अपडेट में सक्षम होगी।"
 }

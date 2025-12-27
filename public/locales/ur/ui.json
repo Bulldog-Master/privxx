@@ -157,5 +157,11 @@
   "readinessBackend": "بیک اینڈ تیار",
   "readinessMode": "موڈ",
   "yes": "ہاں",
-  "no": "نہیں"
+  "no": "نہیں",
+  
+  "tunnelConnecting": "mixnet کے ذریعے روٹ کیا جا رہا ہے…",
+  "tunnelConnected": "ٹنل فعال",
+  "tunnelLatency": "تاخیر",
+  "tunnelTarget": "ہدف",
+  "tunnelDemoNote": "یہ ایک مصنوعی ٹنل ڈیمو ہے۔ اصل cMixx روٹنگ مستقبل کی اپڈیٹ میں فعال ہوگی۔"
 }
