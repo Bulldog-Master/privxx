@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CreditCard, Loader2, ExternalLink } from "lucide-react";
+import { CreditCard, Loader2, ExternalLink, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,18 +9,23 @@ import { useIdentity } from "@/contexts/IdentityContext";
 export function PaymentsPanel() {
   const { t } = useTranslation();
   const { isUnlocked } = useIdentity();
-  
+
   const [destination, setDestination] = useState("https://");
   const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState<"XX" | "USD">("XX");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const canSubmit = isUnlocked && destination.trim().length > 8 && amount.trim().length > 0 && !isSubmitting;
+  const canSubmit = useMemo(() => {
+    return isUnlocked && destination.trim().length > 8 && amount.trim().length > 0 && !isSubmitting;
+  }, [isUnlocked, destination, amount, isSubmitting]);
 
   const onPay = async () => {
+    if (!canSubmit) return;
     setIsSubmitting(true);
     try {
-      // Demo-only for now (no backend call unless bridge supports it)
-      // Future: bridgeClient.requestPayment({ destination, amount })
+      // DEMO-SAFE:
+      // No backend call is required for this UI preview.
+      // Future: bridgeClient.requestPayment({ destination, amount, currency })
       await new Promise((resolve) => setTimeout(resolve, 1000));
     } finally {
       setIsSubmitting(false);
@@ -31,7 +36,7 @@ export function PaymentsPanel() {
   if (!isUnlocked) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <CreditCard className="h-8 w-8 text-muted-foreground mb-3" />
+        <Lock className="h-8 w-8 text-muted-foreground mb-3" />
         <h3 className="text-base font-semibold mb-1">
           {t("identityLocked", "Identity Locked")}
         </h3>
@@ -44,9 +49,9 @@ export function PaymentsPanel() {
 
   return (
     <div className="p-4 space-y-4">
-      {/* Destination */}
-      <div className="space-y-2">
-        <Label htmlFor="destination" className="text-xs">
+      {/* Destination URL */}
+      <div className="space-y-1">
+        <Label htmlFor="destination" className="text-sm font-medium">
           {t("destination", "Destination")}
         </Label>
         <div className="relative">
@@ -58,36 +63,61 @@ export function PaymentsPanel() {
             placeholder={t("destinationPlaceholder", "https://merchant.com")}
             disabled={isSubmitting}
             className="pl-9 h-10"
+            inputMode="url"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
           />
+        </div>
+        <p className="text-xs text-muted-foreground">
+          {t("destinationHint", "Enter a merchant URL or payment destination (Preview).")}
+        </p>
+      </div>
+
+      {/* Amount + Currency */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="col-span-2 space-y-1">
+          <Label htmlFor="amount" className="text-sm font-medium">
+            {t("amount", "Amount")}
+          </Label>
+          <Input
+            id="amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            placeholder={t("amountPlaceholder", "0.00")}
+            disabled={isSubmitting}
+            inputMode="decimal"
+            className="h-10"
+          />
+        </div>
+
+        <div className="col-span-1 space-y-1">
+          <Label htmlFor="currency" className="text-sm font-medium">
+            {t("currency", "Currency")}
+          </Label>
+          <select
+            id="currency"
+            className="w-full rounded-md border border-input bg-background px-3 py-2 h-10 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value as "XX" | "USD")}
+            disabled={isSubmitting}
+          >
+            <option value="XX">{t("currencyXX", "XX")}</option>
+            <option value="USD">{t("currencyUSD", "USD")}</option>
+          </select>
         </div>
       </div>
 
-      {/* Amount */}
-      <div className="space-y-2">
-        <Label htmlFor="amount" className="text-xs">
-          {t("amount", "Amount")}
-        </Label>
-        <Input
-          id="amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder={t("amountPlaceholder", "0.00")}
-          disabled={isSubmitting}
-          inputMode="decimal"
-          className="h-10"
-        />
-      </div>
-
       {/* Pay button */}
-      <Button 
-        className="w-full min-h-[44px]" 
-        disabled={!canSubmit} 
+      <Button
+        className="w-full min-h-[44px]"
+        disabled={!canSubmit}
         onClick={onPay}
       >
         {isSubmitting ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            {t("processing", "Processing...")}
+            {t("paying", "Processing…")}
           </>
         ) : (
           <>
@@ -102,9 +132,9 @@ export function PaymentsPanel() {
         <div className="text-sm font-semibold">
           {t("paymentsComingSoon", "Payments coming soon")}
         </div>
-        <div className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           {t("paymentsDemoNote", "This is a preview flow. Live settlement will be enabled once the bridge supports payments.")}
-        </div>
+        </p>
       </div>
     </div>
   );
