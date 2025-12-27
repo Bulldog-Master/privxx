@@ -128,13 +128,13 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
     return (
       <Card className="bg-card/90 backdrop-blur-sm border-border/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-primary">
             <Fingerprint className="h-5 w-5" />
             {t("passkeys", "Passkeys")}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center gap-3 text-muted-foreground">
+          <div className="flex items-center gap-3 text-primary/70">
             <AlertCircle className="h-5 w-5" />
             <p className="text-sm">
               {t("webauthnNotSupported", "Passkeys are not supported in this browser.")}
@@ -149,11 +149,11 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
     <>
       <Card className="bg-card/90 backdrop-blur-sm border-border/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-primary">
             <Fingerprint className="h-5 w-5" />
             {t("passkeys", "Passkeys")}
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-primary/70">
             {t("passkeysDescription", "Use Touch ID, Face ID, Windows Hello, or security keys to sign in without a password.")}
           </CardDescription>
         </CardHeader>
@@ -169,10 +169,10 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
           {/* Existing passkeys */}
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              <Loader2 className="h-6 w-6 animate-spin text-primary/70" />
             </div>
           ) : passkeys.length === 0 ? (
-            <div className="text-center py-6 text-muted-foreground">
+            <div className="text-center py-6 text-primary/70">
               <KeyRound className="h-10 w-10 mx-auto mb-3 opacity-50" />
               <p className="text-sm">{t("noPasskeys", "No passkeys registered yet")}</p>
               <p className="text-xs mt-1">{t("addPasskeyHint", "Add a passkey for passwordless sign-in")}</p>
@@ -189,10 +189,10 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
                       {getDeviceIcon(passkey.device_type)}
                     </div>
                     <div>
-                      <p className="text-sm font-medium">
+                      <p className="text-sm font-medium text-primary">
                         {getDeviceLabel(passkey.device_type)}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-primary/70">
                         {t("addedOn", "Added")} {formatDistanceToNow(new Date(passkey.created_at), { addSuffix: true })}
                         {passkey.last_used_at && (
                           <> · {t("lastUsed", "Last used")} {formatDistanceToNow(new Date(passkey.last_used_at), { addSuffix: true })}</>

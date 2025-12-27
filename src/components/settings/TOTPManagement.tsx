@@ -143,13 +143,13 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
     return (
       <Card className="bg-card/90 backdrop-blur-sm border-border/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-primary">
             <Shield className="h-5 w-5" />
             {t("twoFactorAuth", "Two-Factor Authentication")}
           </CardTitle>
         </CardHeader>
         <CardContent className="flex justify-center py-8">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          <Loader2 className="h-6 w-6 animate-spin text-primary/70" />
         </CardContent>
       </Card>
     );
@@ -159,7 +159,7 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
     <>
       <Card className="bg-card/90 backdrop-blur-sm border-border/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-primary">
             {isEnabled ? (
               <ShieldCheck className="h-5 w-5 text-emerald-500" />
             ) : (
@@ -167,7 +167,7 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
             )}
             {t("twoFactorAuth", "Two-Factor Authentication")}
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-primary/70">
             {t("twoFactorDescription", "Add an extra layer of security using an authenticator app like Google Authenticator or Authy.")}
           </CardDescription>
         </CardHeader>
@@ -189,7 +189,7 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
             </div>
           ) : (
             <div className="space-y-4">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-primary/70">
                 {t("twoFactorNotEnabled", "Two-factor authentication is not enabled. Enable it to add an extra layer of security to your account.")}
               </p>
               <Button onClick={handleStartSetup} disabled={isLoading}>
@@ -229,14 +229,14 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
                   <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                 </div>
               )}
-              <p className="text-sm text-muted-foreground text-center">
+              <p className="text-sm text-primary/70 text-center">
                 {t("scanWithAuthApp", "Scan with your authenticator app")}
               </p>
             </div>
 
             {/* Manual entry */}
             <div className="space-y-2">
-              <Label>{t("secretKey", "Secret Key")}</Label>
+              <Label className="text-primary">{t("secretKey", "Secret Key")}</Label>
               <div className="flex gap-2">
                 <Input
                   value={setupData?.secret || ""}
@@ -259,7 +259,7 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
 
             {/* Verification */}
             <div className="space-y-2">
-              <Label>{t("verificationCode", "Verification Code")}</Label>
+              <Label className="text-primary">{t("verificationCode", "Verification Code")}</Label>
               <Input
                 type="text"
                 inputMode="numeric"
@@ -336,7 +336,7 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="py-4">
-            <Label>{t("currentCode", "Current 2FA Code")}</Label>
+            <Label className="text-primary">{t("currentCode", "Current 2FA Code")}</Label>
             <Input
               type="text"
               inputMode="numeric"

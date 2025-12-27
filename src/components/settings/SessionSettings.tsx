@@ -62,17 +62,17 @@ export function SessionSettings() {
   return (
     <Card className="bg-card/90 backdrop-blur-sm border-border/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-primary">
           <Clock className="h-5 w-5" />
           {t("sessionSettings", "Session Settings")}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-primary/70">
           {t("sessionSettingsDescription", "Configure how long you stay logged in when inactive")}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="session-timeout">{t("sessionTimeout", "Session Timeout")}</Label>
+          <Label htmlFor="session-timeout" className="text-primary">{t("sessionTimeout", "Session Timeout")}</Label>
           <Select
             value={timeout.toString()}
             onValueChange={handleTimeoutChange}
@@ -89,7 +89,7 @@ export function SessionSettings() {
               ))}
             </SelectContent>
           </Select>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-primary/70">
             {t("sessionTimeoutHelp", "You'll be automatically logged out after this period of inactivity for security.")}
           </p>
         </div>

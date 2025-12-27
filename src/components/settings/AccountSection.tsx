@@ -35,19 +35,19 @@ export function AccountSection() {
   return (
     <Card className="bg-card/90 backdrop-blur-sm border-border/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-primary">
           <User className="h-5 w-5" />
           {t("account", "Account")}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-primary/70">
           {t("accountDescription", "Manage your account settings")}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium">{t("email", "Email")}</p>
-            <p className="text-sm text-muted-foreground">{user?.email}</p>
+            <p className="text-sm font-medium text-primary">{t("email", "Email")}</p>
+            <p className="text-sm text-primary/70">{user?.email}</p>
           </div>
         </div>
 
