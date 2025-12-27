@@ -107,7 +107,7 @@ const PrivxxHeader = () => {
             <ChevronDown className="w-3.5 h-3.5 opacity-60" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" className="w-48">
+        <DropdownMenuContent align="start" className="w-48 text-border">
           {isAuthenticated ? (
             <>
               {/* User info */}
