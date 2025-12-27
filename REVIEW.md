@@ -86,5 +86,6 @@ Privxx is well-architected and ready for iterative hardening. The recommended ch
 - [x] Add Zod validation schemas for all auth forms
 - [x] Add tests for `useAuthMode` hook
 - [x] Add tests for validation schemas
+- [x] Add tests for `useSessionTimeout` hook
+- [x] Add tests for `SessionTimeoutWarning` component
 - [x] Semantic versioning at v0.2.0 (see `docs/PRIVXX-VERSIONING.md`)
-- [ ] Add tests for session timeout logic
