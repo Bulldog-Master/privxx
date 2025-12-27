@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RtlProvider from "@/components/RtlProvider";
 import { AppErrorBoundary } from "@/components/AppErrorBoundary";
+import { IdentityProvider } from "@/contexts/IdentityContext";
 import InstallPrompt from "@/components/InstallPrompt";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -27,35 +28,37 @@ const PageLoader = () => (
 const App = () => (
   <AppErrorBoundary>
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <RtlProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/privacy" element={
-                <Suspense fallback={<PageLoader />}>
-                  <Privacy />
-                </Suspense>
-              } />
-              <Route path="/whats-new" element={
-                <Suspense fallback={<PageLoader />}>
-                  <ReleaseNotes />
-                </Suspense>
-              } />
-              <Route path="/terms" element={
-                <Suspense fallback={<PageLoader />}>
-                  <Terms />
-                </Suspense>
-              } />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <InstallPrompt />
-          </BrowserRouter>
-        </RtlProvider>
-      </TooltipProvider>
+      <IdentityProvider>
+        <TooltipProvider>
+          <RtlProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/privacy" element={
+                  <Suspense fallback={<PageLoader />}>
+                    <Privacy />
+                  </Suspense>
+                } />
+                <Route path="/whats-new" element={
+                  <Suspense fallback={<PageLoader />}>
+                    <ReleaseNotes />
+                  </Suspense>
+                } />
+                <Route path="/terms" element={
+                  <Suspense fallback={<PageLoader />}>
+                    <Terms />
+                  </Suspense>
+                } />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+              <InstallPrompt />
+            </BrowserRouter>
+          </RtlProvider>
+        </TooltipProvider>
+      </IdentityProvider>
     </QueryClientProvider>
   </AppErrorBoundary>
 );
