@@ -1,27 +1,30 @@
 /**
  * Auth Page
  * 
- * Handles user authentication with email/password and magic link options.
+ * Handles user authentication with email/password, magic link, and passkey options.
  */
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Mail, Lock, Loader2, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, Lock, Loader2, ArrowRight, Sparkles, Fingerprint, KeyRound } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePasskey } from "@/hooks/usePasskey";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PrivxxLogo from "@/components/PrivxxLogo";
+import { toast } from "sonner";
 
-type AuthMode = "signin" | "signup" | "magic-link";
+type AuthMode = "signin" | "signup" | "magic-link" | "passkey";
 
 export default function Auth() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isAuthenticated, isLoading: authLoading, signInWithEmail, signUpWithEmail, signInWithMagicLink } = useAuth();
+  const { isSupported: passkeySupported, authenticateWithPasskey, isLoading: passkeyLoading, error: passkeyError, clearError: clearPasskeyError } = usePasskey();
 
   const [mode, setMode] = useState<AuthMode>("signin");
   const [email, setEmail] = useState("");
@@ -72,6 +75,28 @@ export default function Auth() {
     }
   };
 
+  const handlePasskeyAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    clearPasskeyError();
+
+    if (!email) {
+      setError(t("emailRequired", "Email is required"));
+      return;
+    }
+
+    const success = await authenticateWithPasskey(email);
+    if (success) {
+      toast.success(t("passkeyAuthSuccess", "Signed in with passkey"));
+    }
+  };
+
+  const handleModeChange = (newMode: string) => {
+    setMode(newMode as AuthMode);
+    setError(null);
+    setMagicLinkSent(false);
+    clearPasskeyError();
+  };
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[hsl(215_25%_27%)]">
@@ -114,17 +139,21 @@ export default function Auth() {
           </CardHeader>
 
           <CardContent>
-            <Tabs value={mode} onValueChange={(v) => { setMode(v as AuthMode); setError(null); setMagicLinkSent(false); }}>
-              <TabsList className="grid w-full grid-cols-3 mb-6">
+            <Tabs value={mode} onValueChange={handleModeChange}>
+              <TabsList className="grid w-full grid-cols-4 mb-6">
                 <TabsTrigger value="signin">{t("signIn", "Sign In")}</TabsTrigger>
                 <TabsTrigger value="signup">{t("signUp", "Sign Up")}</TabsTrigger>
                 <TabsTrigger value="magic-link">
-                  <Sparkles className="h-3.5 w-3.5 mr-1" />
-                  {t("magicLink", "Magic")}
+                  <Sparkles className="h-3.5 w-3.5" />
                 </TabsTrigger>
+                {passkeySupported && (
+                  <TabsTrigger value="passkey">
+                    <Fingerprint className="h-3.5 w-3.5" />
+                  </TabsTrigger>
+                )}
               </TabsList>
 
-              {/* Email/Password Forms */}
+              {/* Email/Password Sign In */}
               <TabsContent value="signin">
                 <form onSubmit={handleEmailAuth} className="space-y-4">
                   <div className="space-y-2">
@@ -177,6 +206,7 @@ export default function Auth() {
                 </form>
               </TabsContent>
 
+              {/* Sign Up */}
               <TabsContent value="signup">
                 <form onSubmit={handleEmailAuth} className="space-y-4">
                   <div className="space-y-2">
@@ -229,7 +259,7 @@ export default function Auth() {
                 </form>
               </TabsContent>
 
-              {/* Magic Link Form */}
+              {/* Magic Link */}
               <TabsContent value="magic-link">
                 {magicLinkSent ? (
                   <div className="text-center py-6 space-y-3">
@@ -284,6 +314,54 @@ export default function Auth() {
                   </form>
                 )}
               </TabsContent>
+
+              {/* Passkey */}
+              {passkeySupported && (
+                <TabsContent value="passkey">
+                  <form onSubmit={handlePasskeyAuth} className="space-y-4">
+                    <div className="text-center mb-4">
+                      <KeyRound className="h-12 w-12 mx-auto text-primary mb-2" />
+                      <p className="text-sm text-muted-foreground">
+                        {t("passkeyDesc", "Sign in with Touch ID, Face ID, Windows Hello, or security key")}
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="passkey-email">{t("email", "Email")}</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="passkey-email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder={t("emailPlaceholder", "you@example.com")}
+                          className="pl-10"
+                          required
+                          disabled={passkeyLoading}
+                        />
+                      </div>
+                    </div>
+
+                    {(error || passkeyError) && (
+                      <p className="text-sm text-destructive">{error || passkeyError}</p>
+                    )}
+
+                    <Button type="submit" className="w-full" disabled={passkeyLoading}>
+                      {passkeyLoading ? (
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      ) : (
+                        <Fingerprint className="h-4 w-4 mr-2" />
+                      )}
+                      {t("signInWithPasskey", "Sign in with Passkey")}
+                    </Button>
+
+                    <p className="text-xs text-center text-muted-foreground">
+                      {t("passkeyNote", "You must register a passkey first from your account settings.")}
+                    </p>
+                  </form>
+                </TabsContent>
+              )}
             </Tabs>
           </CardContent>
         </Card>
