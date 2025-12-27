@@ -1,118 +1,257 @@
 /**
- * Privxx Backend API Client
+ * Privxx Bridge API Client
  * 
- * Model B Architecture: Same-origin proxy endpoints only.
- * Browser NEVER calls bridge directly - all calls go through /api/backend/*
+ * AUTHORITATIVE CONTRACT — Architecture Locked
+ * Frontend → Bridge → Backend (xxdk)
+ * 
+ * Rules:
+ * - Frontend NEVER talks directly to backend
+ * - Bridge is the ONLY API exposed
+ * - Backend remains invisible to frontend
  */
 
-// ============= Types =============
+// ============= Configuration =============
 
-export type HealthRes = { ok: boolean };
+// Bridge URL - set via environment or defaults to mock mode
+const BRIDGE_URL = import.meta.env.VITE_BRIDGE_URL || "";
 
+// Mock mode when no bridge URL configured
+const MOCK_MODE = !BRIDGE_URL;
+
+// ============= Types (Bridge Contract) =============
+
+/** GET /status response */
 export type StatusRes = {
-  state: "starting" | "ready" | "error";
-  detail?: string;
+  status: "ok" | "error";
+  backend: "connected" | "disconnected" | "error";
+  network: "ready" | "connecting" | "error";
 };
 
-export type SendReq = { recipient: string; message: string };
-export type SendRes = { messageId: string; queued: true };
+/** POST /identity/unlock request */
+export type UnlockReq = {
+  password: string;
+};
 
+/** POST /identity/unlock response */
+export type UnlockRes = {
+  unlocked: boolean;
+};
+
+/** POST /identity/lock response */
+export type LockRes = {
+  locked: boolean;
+};
+
+/** POST /message/send request */
+export type SendReq = {
+  recipient: string;
+  message: string;
+};
+
+/** POST /message/send response */
+export type SendRes = {
+  msg_id: string;
+  status: "queued";
+};
+
+/** Single message in inbox */
 export type MessageItem = {
-  id: string;
   from: string;
-  body: string;
-  timestamp: number;
+  message: string;
+  timestamp: string; // ISO8601
 };
 
-export type MessagesRes = { messages: MessageItem[] };
+/** GET /message/receive response */
+export type MessagesRes = {
+  messages: MessageItem[];
+};
 
-// ============= Mock Mode Detection =============
+/** POST /session/refresh response */
+export type SessionRefreshRes = {
+  token: string;
+  expires_in: number;
+};
 
-const MOCK_MODE =
-  (typeof import.meta !== "undefined" &&
-    (import.meta as any).env?.VITE_USE_MOCKS === "true") ||
-  (typeof process !== "undefined" &&
-    (process as any).env?.NEXT_PUBLIC_USE_MOCKS === "true") ||
-  true; // Default to mock mode until real proxy is deployed
+/** Bridge error response */
+export type BridgeError = {
+  error: string;
+};
 
-function sleep(ms: number) {
-  return new Promise((r) => setTimeout(r, ms));
+// ============= Utilities =============
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
+async function fetchJson<T>(
+  endpoint: string,
+  init?: RequestInit
+): Promise<T> {
+  const url = `${BRIDGE_URL}${endpoint}`;
   const res = await fetch(url, {
     ...init,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...init?.headers,
+    },
   });
-  if (!res.ok) throw new Error("Backend unavailable");
+
+  if (!res.ok) {
+    const errorBody = await res.json().catch(() => ({ error: "Unknown error" }));
+    throw new Error((errorBody as BridgeError).error || `HTTP ${res.status}`);
+  }
+
   return (await res.json()) as T;
 }
 
-// ============= Mocks (UI-Safe) =============
+// ============= Mock Implementations =============
 
-async function mockHealth(): Promise<HealthRes> {
-  await sleep(100);
-  return { ok: true };
-}
-
-let mockState: StatusRes["state"] = "starting";
+let mockIdentityUnlocked = false;
 
 async function mockStatus(): Promise<StatusRes> {
-  await sleep(200);
-  if (mockState === "starting") mockState = "ready";
-  return mockState === "ready"
-    ? { state: "ready" }
-    : { state: "starting", detail: "Starting…" };
+  await sleep(150);
+  return {
+    status: "ok",
+    backend: "connected",
+    network: "ready",
+  };
 }
 
-async function mockMessages(): Promise<MessagesRes> {
+async function mockUnlock(req: UnlockReq): Promise<UnlockRes> {
+  await sleep(300);
+  if (req.password.length < 1) {
+    throw new Error("invalid_password");
+  }
+  mockIdentityUnlocked = true;
+  return { unlocked: true };
+}
+
+async function mockLock(): Promise<LockRes> {
+  await sleep(100);
+  mockIdentityUnlocked = false;
+  return { locked: true };
+}
+
+async function mockSend(_req: SendReq): Promise<SendRes> {
+  await sleep(250);
+  return {
+    msg_id: `mock-${Date.now()}`,
+    status: "queued",
+  };
+}
+
+async function mockReceive(): Promise<MessagesRes> {
   await sleep(200);
   return {
     messages: [
       {
-        id: "mock-1",
-        from: "contact",
-        body: "Welcome to Privxx (demo)",
-        timestamp: Date.now(),
+        from: "demo-contact",
+        message: "Welcome to Privxx (demo mode)",
+        timestamp: new Date().toISOString(),
       },
     ],
   };
 }
 
-async function mockSend(_: SendReq): Promise<SendRes> {
-  await sleep(200);
-  return { messageId: "mock-msg", queued: true };
+async function mockSessionRefresh(): Promise<SessionRefreshRes> {
+  await sleep(100);
+  return {
+    token: `mock-token-${Date.now()}`,
+    expires_in: 3600,
+  };
 }
 
 // ============= Public API =============
 
-export async function health(): Promise<HealthRes> {
-  return MOCK_MODE ? mockHealth() : fetchJson<HealthRes>("/api/backend/health");
-}
-
+/**
+ * GET /status
+ * Health + readiness check
+ */
 export async function status(): Promise<StatusRes> {
-  return MOCK_MODE ? mockStatus() : fetchJson<StatusRes>("/api/backend/status");
-}
-
-export async function messages(): Promise<MessagesRes> {
-  return MOCK_MODE ? mockMessages() : fetchJson<MessagesRes>("/api/backend/messages");
-}
-
-export async function sendMessage(req: SendReq): Promise<SendRes> {
   return MOCK_MODE
-    ? mockSend(req)
-    : fetchJson<SendRes>("/api/backend/send", {
+    ? mockStatus()
+    : fetchJson<StatusRes>("/status");
+}
+
+/**
+ * POST /identity/unlock
+ * Unlock backend identity (bridge mediates)
+ */
+export async function unlockIdentity(req: UnlockReq): Promise<UnlockRes> {
+  return MOCK_MODE
+    ? mockUnlock(req)
+    : fetchJson<UnlockRes>("/identity/unlock", {
         method: "POST",
         body: JSON.stringify(req),
       });
 }
 
-// ============= Utility Functions =============
+/**
+ * POST /identity/lock
+ * Lock backend identity
+ */
+export async function lockIdentity(): Promise<LockRes> {
+  return MOCK_MODE
+    ? mockLock()
+    : fetchJson<LockRes>("/identity/lock", {
+        method: "POST",
+      });
+}
 
+/**
+ * POST /message/send
+ * Send a message via xxdk
+ */
+export async function sendMessage(req: SendReq): Promise<SendRes> {
+  return MOCK_MODE
+    ? mockSend(req)
+    : fetchJson<SendRes>("/message/send", {
+        method: "POST",
+        body: JSON.stringify(req),
+      });
+}
+
+/**
+ * GET /message/receive
+ * Poll or stream received messages
+ */
+export async function receiveMessages(): Promise<MessagesRes> {
+  return MOCK_MODE
+    ? mockReceive()
+    : fetchJson<MessagesRes>("/message/receive");
+}
+
+/**
+ * POST /session/refresh
+ * Refresh auth/session token
+ */
+export async function refreshSession(): Promise<SessionRefreshRes> {
+  return MOCK_MODE
+    ? mockSessionRefresh()
+    : fetchJson<SessionRefreshRes>("/session/refresh", {
+        method: "POST",
+      });
+}
+
+// ============= Utility Exports =============
+
+/**
+ * Check if running in mock mode (no bridge configured)
+ */
 export function isMockMode(): boolean {
   return MOCK_MODE;
 }
 
+/**
+ * Get configured bridge URL (empty in mock mode)
+ */
+export function getBridgeUrl(): string {
+  return BRIDGE_URL;
+}
+
+/**
+ * Format uptime seconds to human-readable string
+ */
 export function formatUptime(seconds: number): string {
   if (seconds < 60) return `${seconds}s`;
   if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;

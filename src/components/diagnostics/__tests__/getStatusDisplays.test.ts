@@ -1,6 +1,6 @@
 /// <reference types="vitest/globals" />
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getBackendStatusDisplay, getModeDisplay } from "../getStatusDisplays";
+import { getBackendStatusDisplay, getModeDisplay, type UiState } from "../getStatusDisplays";
 import { CheckCircle2, XCircle, AlertCircle, Info } from "lucide-react";
 
 // Mock translation function
@@ -31,8 +31,8 @@ describe("getBackendStatusDisplay", () => {
     expect(result.pulse).toBe(false);
   });
 
-  it("returns connecting state when starting", () => {
-    const result = getBackendStatusDisplay("starting", false, mockT);
+  it("returns connecting state when connecting", () => {
+    const result = getBackendStatusDisplay("connecting", false, mockT);
     
     expect(result.label).toBe("diagnosticsConnecting");
     expect(result.icon).toBe(AlertCircle);
@@ -49,13 +49,6 @@ describe("getBackendStatusDisplay", () => {
     expect(result.color).toBe("text-emerald-500");
     expect(result.bgColor).toBe("bg-emerald-500/10");
     expect(result.pulse).toBe(false);
-  });
-
-  it("returns online state for unknown states (default)", () => {
-    const result = getBackendStatusDisplay("unknown", false, mockT);
-    
-    expect(result.label).toBe("diagnosticsOnline");
-    expect(result.icon).toBe(CheckCircle2);
   });
 });
 

@@ -18,8 +18,11 @@ interface ModeDisplay {
   bgColor: string;
 }
 
+/** UI state derived from bridge status */
+export type UiState = "error" | "connecting" | "ready";
+
 export function getBackendStatusDisplay(
-  state: string,
+  uiState: UiState,
   isLoading: boolean,
   t: TranslationFn
 ): StatusDisplay {
@@ -33,7 +36,7 @@ export function getBackendStatusDisplay(
     };
   }
 
-  if (state === "error") {
+  if (uiState === "error") {
     return {
       label: t("diagnosticsOffline"),
       icon: XCircle,
@@ -43,7 +46,7 @@ export function getBackendStatusDisplay(
     };
   }
 
-  if (state === "starting") {
+  if (uiState === "connecting") {
     return {
       label: t("diagnosticsConnecting"),
       icon: AlertCircle,

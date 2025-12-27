@@ -5,7 +5,7 @@ import { checkReadiness, type ReadinessResult } from "@/lib/readiness";
 /**
  * ReadinessPanel - Read-only section for cutover verification
  * 
- * Displays proxy/backend readiness state for diagnostics.
+ * Displays bridge/backend readiness state for diagnostics.
  * Must remain unobtrusive and placed under Diagnostics only.
  */
 export default function ReadinessPanel() {
@@ -27,9 +27,9 @@ export default function ReadinessPanel() {
         {t("readinessTitle", "Readiness")}
       </div>
       <div className="flex justify-between">
-        <span>{t("readinessProxy", "Proxy reachable")}</span>
-        <span className={data.proxyReachable ? "text-green-500" : "text-muted-foreground"}>
-          {data.proxyReachable ? t("yes", "Yes") : t("no", "No")}
+        <span>{t("readinessBridge", "Bridge reachable")}</span>
+        <span className={data.bridgeReachable ? "text-green-500" : "text-muted-foreground"}>
+          {data.bridgeReachable ? t("yes", "Yes") : t("no", "No")}
         </span>
       </div>
       <div className="flex justify-between">

@@ -99,7 +99,7 @@
   
   "continuePreview": "Continue in Preview",
   "readinessTitle": "Readiness",
-  "readinessProxy": "Proxy reachable",
+  "readinessBridge": "Bridge reachable",
   "readinessBackend": "Backend ready",
   "readinessMode": "Mode",
   "yes": "Yes",
