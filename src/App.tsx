@@ -6,10 +6,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RtlProvider from "@/components/RtlProvider";
 import { AppErrorBoundary } from "@/components/AppErrorBoundary";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { IdentityProvider } from "@/contexts/IdentityContext";
 import { SkipToContent } from "@/components/SkipToContent";
 import InstallPrompt from "@/components/InstallPrompt";
+import { EmailVerificationPending } from "@/components/EmailVerificationPending";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -29,51 +30,77 @@ const PageLoader = () => (
   </div>
 );
 
+// Wrapper component to check email verification
+function EmailVerificationGuard({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isEmailVerified, isLoading } = useAuth();
+  
+  // Show loading while checking auth state
+  if (isLoading) {
+    return <PageLoader />;
+  }
+  
+  // If authenticated but email not verified, show verification pending
+  if (isAuthenticated && !isEmailVerified) {
+    return <EmailVerificationPending />;
+  }
+  
+  return <>{children}</>;
+}
+
+// Inner app component that uses auth context
+function AppRoutes() {
+  return (
+    <EmailVerificationGuard>
+      <TooltipProvider>
+        <RtlProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <SkipToContent />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={
+                <Suspense fallback={<PageLoader />}>
+                  <Auth />
+                </Suspense>
+              } />
+              <Route path="/settings" element={
+                <Suspense fallback={<PageLoader />}>
+                  <Settings />
+                </Suspense>
+              } />
+              <Route path="/privacy" element={
+                <Suspense fallback={<PageLoader />}>
+                  <Privacy />
+                </Suspense>
+              } />
+              <Route path="/whats-new" element={
+                <Suspense fallback={<PageLoader />}>
+                  <ReleaseNotes />
+                </Suspense>
+              } />
+              <Route path="/terms" element={
+                <Suspense fallback={<PageLoader />}>
+                  <Terms />
+                </Suspense>
+              } />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <InstallPrompt />
+          </BrowserRouter>
+        </RtlProvider>
+      </TooltipProvider>
+    </EmailVerificationGuard>
+  );
+}
+
 const App = () => (
   <AppErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <IdentityProvider>
-          <TooltipProvider>
-            <RtlProvider>
-              <Toaster />
-              <Sonner />
-              <BrowserRouter>
-                <SkipToContent />
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/auth" element={
-                    <Suspense fallback={<PageLoader />}>
-                      <Auth />
-                    </Suspense>
-                  } />
-                  <Route path="/settings" element={
-                    <Suspense fallback={<PageLoader />}>
-                      <Settings />
-                    </Suspense>
-                  } />
-                  <Route path="/privacy" element={
-                    <Suspense fallback={<PageLoader />}>
-                      <Privacy />
-                    </Suspense>
-                  } />
-                  <Route path="/whats-new" element={
-                    <Suspense fallback={<PageLoader />}>
-                      <ReleaseNotes />
-                    </Suspense>
-                  } />
-                  <Route path="/terms" element={
-                    <Suspense fallback={<PageLoader />}>
-                      <Terms />
-                    </Suspense>
-                  } />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-                <InstallPrompt />
-              </BrowserRouter>
-            </RtlProvider>
-          </TooltipProvider>
+          <AppRoutes />
         </IdentityProvider>
       </AuthProvider>
     </QueryClientProvider>

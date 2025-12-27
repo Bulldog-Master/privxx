@@ -14,11 +14,13 @@ interface AuthContextValue {
   session: Session | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  isEmailVerified: boolean;
   signInWithEmail: (email: string, password: string) => Promise<{ error: string | null }>;
   signUpWithEmail: (email: string, password: string) => Promise<{ error: string | null }>;
   signInWithMagicLink: (email: string) => Promise<{ error: string | null }>;
   resetPassword: (email: string) => Promise<{ error: string | null }>;
   updatePassword: (newPassword: string) => Promise<{ error: string | null }>;
+  resendVerificationEmail: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
   getAccessToken: () => string | null;
 }
@@ -124,9 +126,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSession(null);
   }, []);
 
+  const resendVerificationEmail = useCallback(async () => {
+    if (!user?.email) {
+      return { error: "No email address found" };
+    }
+    
+    const redirectUrl = `${window.location.origin}/`;
+    
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: user.email,
+      options: {
+        emailRedirectTo: redirectUrl,
+      },
+    });
+
+    if (error) {
+      return { error: error.message };
+    }
+    return { error: null };
+  }, [user]);
+
   const getAccessToken = useCallback(() => {
     return session?.access_token ?? null;
   }, [session]);
+
+  // Check if email is verified
+  const isEmailVerified = !!user?.email_confirmed_at;
 
   return (
     <AuthContext.Provider
@@ -135,11 +161,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         session,
         isLoading,
         isAuthenticated: !!user,
+        isEmailVerified,
         signInWithEmail,
         signUpWithEmail,
         signInWithMagicLink,
         resetPassword,
         updatePassword,
+        resendVerificationEmail,
         signOut,
         getAccessToken,
       }}
