@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import PrivxxLogo from "@/components/PrivxxLogo";
+import PrivxxLogo from "./PrivxxLogo";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShieldCheck } from "lucide-react";
 

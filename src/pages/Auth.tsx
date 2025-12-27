@@ -10,10 +10,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Loader2, Sparkles, Fingerprint } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { usePasskey } from "@/hooks/usePasskey";
+import { usePasskey } from "@/features/auth";
 import { PageBackground } from "@/components/layout/PageBackground";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import PrivxxLogo from "@/components/PrivxxLogo";
+import { PrivxxLogo } from "@/components/brand";
 import {
   useAuthMode,
   SignInForm,

@@ -10,7 +10,7 @@ import { Mail, Loader2, CheckCircle, RefreshCw, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import PrivxxLogo from "@/components/PrivxxLogo";
+import { PrivxxLogo } from "@/components/brand";
 import { toast } from "sonner";
 
 export function EmailVerificationPending() {

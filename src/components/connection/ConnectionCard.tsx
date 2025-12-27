@@ -3,7 +3,7 @@ import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
-import PrivxxLogo from "@/components/PrivxxLogo";
+import { PrivxxLogo } from "@/components/brand";
 
 export type ConnectionState = "idle" | "connecting" | "connected";
 

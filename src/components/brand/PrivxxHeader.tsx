@@ -5,19 +5,19 @@ import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock } fr
 import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/contexts/IdentityContext";
 import { supabase } from "@/integrations/supabase/client";
-import LanguageSelector from "./LanguageSelector";
-import { Button } from "./ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import LanguageSelector from "@/components/shared/LanguageSelector";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 
 // Lazy load the privacy drawer - only loaded when user interacts
-const PrivacyDrawer = lazy(() => import("./PrivacyDrawer"));
+const PrivacyDrawer = lazy(() => import("@/components/shared/PrivacyDrawer"));
 
 interface UserProfile {
   display_name: string | null;
