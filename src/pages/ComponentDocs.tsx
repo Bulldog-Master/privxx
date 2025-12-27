@@ -209,10 +209,23 @@ function ComponentDocumentation({ doc, copiedCode, onCopyCode }: ComponentDocume
             </Badge>
           </div>
           {doc.importPath && (
-            <div className="mt-4">
-              <code className="text-xs bg-muted px-2 py-1 rounded font-mono">
+            <div className="mt-4 flex items-center gap-2">
+              <code className="text-xs bg-muted px-2 py-1 rounded font-mono flex-1">
                 {doc.importPath}
               </code>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => onCopyCode(doc.importPath!, `import-${doc.id}`)}
+                className="h-7 px-2 shrink-0"
+                title={t("copyImport", "Copy import")}
+              >
+                {copiedCode === `import-${doc.id}` ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-500" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
+              </Button>
             </div>
           )}
         </CardHeader>
