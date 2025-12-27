@@ -1,15 +1,29 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import { bridgeClient } from "@/api/bridge";
+/**
+ * Identity Context (C2 Production Model)
+ * 
+ * Manages XX Network identity state via Bridge API.
+ * Identity unlock is session-based (re-auth), NOT password-based.
+ */
 
-export type IdentityState = "locked" | "unlocking" | "unlocked" | "locking";
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
+import { bridgeClient, type IdentityStatusResponse } from "@/api/bridge";
+import { useAuth } from "@/contexts/AuthContext";
+
+export type IdentityState = "none" | "locked" | "unlocked" | "loading";
 
 interface IdentityContextValue {
   state: IdentityState;
+  isNone: boolean;
   isLocked: boolean;
   isUnlocked: boolean;
   isLoading: boolean;
   error: string | null;
-  unlock: (password: string) => Promise<boolean>;
+  unlockExpiresAt: string | null;
+  
+  // Actions
+  checkStatus: () => Promise<void>;
+  createIdentity: () => Promise<boolean>;
+  unlock: () => Promise<boolean>;
   lock: () => Promise<boolean>;
   clearError: () => void;
 }
@@ -17,40 +31,99 @@ interface IdentityContextValue {
 const IdentityContext = createContext<IdentityContextValue | null>(null);
 
 export function IdentityProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<IdentityState>("locked");
+  const { isAuthenticated, getAccessToken } = useAuth();
+  const [state, setState] = useState<IdentityState>("loading");
   const [error, setError] = useState<string | null>(null);
+  const [unlockExpiresAt, setUnlockExpiresAt] = useState<string | null>(null);
 
-  const unlock = useCallback(async (password: string): Promise<boolean> => {
-    if (!password.trim()) {
-      setError("Password is required");
-      return false;
+  // Sync bridge token with auth token
+  useEffect(() => {
+    if (isAuthenticated) {
+      const token = getAccessToken();
+      if (token) {
+        bridgeClient.setToken(token);
+      }
+    }
+  }, [isAuthenticated, getAccessToken]);
+
+  const checkStatus = useCallback(async () => {
+    if (!isAuthenticated) {
+      setState("none");
+      return;
     }
 
-    setState("unlocking");
+    setState("loading");
     setError(null);
 
     try {
-      await bridgeClient.unlock(password);
-      setState("unlocked");
+      const response: IdentityStatusResponse = await bridgeClient.getIdentityStatus();
+      
+      if (!response.exists) {
+        setState("none");
+      } else {
+        setState(response.state);
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to check identity status";
+      setError(message);
+      setState("none");
+    }
+  }, [isAuthenticated]);
+
+  // Check identity status when authentication changes
+  useEffect(() => {
+    if (isAuthenticated) {
+      checkStatus();
+    } else {
+      setState("none");
+      setUnlockExpiresAt(null);
+    }
+  }, [isAuthenticated, checkStatus]);
+
+  const createIdentity = useCallback(async (): Promise<boolean> => {
+    setState("loading");
+    setError(null);
+
+    try {
+      await bridgeClient.createIdentity();
+      setState("locked");
       return true;
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to unlock";
-      setError(message === "invalid_password" ? "Invalid password" : message);
+      const message = err instanceof Error ? err.message : "Failed to create identity";
+      setError(message);
+      setState("none");
+      return false;
+    }
+  }, []);
+
+  const unlock = useCallback(async (): Promise<boolean> => {
+    setState("loading");
+    setError(null);
+
+    try {
+      const response = await bridgeClient.unlockIdentity();
+      setState("unlocked");
+      setUnlockExpiresAt(response.expiresAt);
+      return true;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to unlock identity";
+      setError(message);
       setState("locked");
       return false;
     }
   }, []);
 
   const lock = useCallback(async (): Promise<boolean> => {
-    setState("locking");
+    setState("loading");
     setError(null);
 
     try {
-      await bridgeClient.lock();
+      await bridgeClient.lockIdentity();
       setState("locked");
+      setUnlockExpiresAt(null);
       return true;
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to lock";
+      const message = err instanceof Error ? err.message : "Failed to lock identity";
       setError(message);
       setState("unlocked");
       return false;
@@ -63,10 +136,14 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
     <IdentityContext.Provider
       value={{
         state,
+        isNone: state === "none",
         isLocked: state === "locked",
         isUnlocked: state === "unlocked",
-        isLoading: state === "unlocking" || state === "locking",
+        isLoading: state === "loading",
         error,
+        unlockExpiresAt,
+        checkStatus,
+        createIdentity,
         unlock,
         lock,
         clearError,

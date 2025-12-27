@@ -1,9 +1,14 @@
-import { useState } from "react";
+/**
+ * Compact Identity Status Component (C2 Production Model)
+ * 
+ * Minimal identity indicator for header/nav use.
+ * Unlock is re-auth based, not password based.
+ */
+
 import { useTranslation } from "react-i18next";
-import { Lock, Unlock, Loader2, Shield } from "lucide-react";
+import { Lock, Unlock, Loader2, Shield, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useIdentity } from "@/contexts/IdentityContext";
-import { IdentityModal } from "./IdentityModal";
 import { toast } from "sonner";
 import {
   Tooltip,
@@ -14,8 +19,21 @@ import {
 
 export function IdentityStatusCompact() {
   const { t } = useTranslation();
-  const [modalOpen, setModalOpen] = useState(false);
-  const { state, isLocked, isUnlocked, isLoading, error, unlock, lock, clearError } = useIdentity();
+  const { state, isNone, isLocked, isUnlocked, isLoading, createIdentity, unlock, lock } = useIdentity();
+
+  const handleCreateIdentity = async () => {
+    const success = await createIdentity();
+    if (success) {
+      toast.success(t("identityCreated", "Secure identity created"));
+    }
+  };
+
+  const handleUnlock = async () => {
+    const success = await unlock();
+    if (success) {
+      toast.success(t("identityUnlocked", "Identity unlocked"));
+    }
+  };
 
   const handleLock = async () => {
     const success = await lock();
@@ -24,79 +42,88 @@ export function IdentityStatusCompact() {
     }
   };
 
-  const handleUnlock = async (password: string) => {
-    const success = await unlock(password);
-    if (success) {
-      toast.success(t("identityUnlocked", "Identity unlocked"));
-    }
-    return success;
-  };
-
   const getTooltipText = () => {
-    if (state === "unlocking") return t("identityUnlocking", "Unlocking...");
-    if (state === "locking") return t("identityLocking", "Locking...");
+    if (isLoading) return t("identityLoading", "Loading...");
+    if (isNone) return t("identityNoneStatus", "Create your secure identity");
     if (isUnlocked) return t("identityReady", "Ready to send messages");
     return t("identityLockedStatus", "Unlock to send messages");
   };
 
-  return (
-    <>
+  // No identity yet
+  if (isNone && !isLoading) {
+    return (
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            {isUnlocked ? (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleLock}
-                disabled={isLoading}
-                className="justify-start gap-2 text-emerald-500 hover:text-emerald-400 min-h-[44px]"
-                aria-label={t("lock", "Lock")}
-              >
-                {state === "locking" ? (
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                ) : (
-                  <Shield className="h-4 w-4" aria-hidden="true" />
-                )}
-                <span className="sr-only sm:not-sr-only">
-                  {t("identity", "Identity")}
-                </span>
-              </Button>
-            ) : (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setModalOpen(true)}
-                disabled={isLoading}
-                className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px]"
-                aria-label={t("unlock", "Unlock")}
-              >
-                {state === "unlocking" ? (
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                ) : (
-                  <Lock className="h-4 w-4" aria-hidden="true" />
-                )}
-                <span className="sr-only sm:not-sr-only">
-                  {t("identity", "Identity")}
-                </span>
-              </Button>
-            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleCreateIdentity}
+              disabled={isLoading}
+              className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px]"
+              aria-label={t("create", "Create")}
+            >
+              <Plus className="h-4 w-4" aria-hidden="true" />
+              <span className="sr-only sm:not-sr-only">
+                {t("identity", "Identity")}
+              </span>
+            </Button>
           </TooltipTrigger>
           <TooltipContent side="right">
             <p>{getTooltipText()}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+    );
+  }
 
-      <IdentityModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        onUnlock={handleUnlock}
-        isLoading={state === "unlocking"}
-        error={error}
-        onClearError={clearError}
-      />
-    </>
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {isUnlocked ? (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLock}
+              disabled={isLoading}
+              className="justify-start gap-2 text-emerald-500 hover:text-emerald-400 min-h-[44px]"
+              aria-label={t("lock", "Lock")}
+            >
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Shield className="h-4 w-4" aria-hidden="true" />
+              )}
+              <span className="sr-only sm:not-sr-only">
+                {t("identity", "Identity")}
+              </span>
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleUnlock}
+              disabled={isLoading}
+              className="justify-start gap-2 text-foreground/70 hover:text-foreground min-h-[44px]"
+              aria-label={t("unlock", "Unlock")}
+            >
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+              ) : (
+                <Lock className="h-4 w-4" aria-hidden="true" />
+              )}
+              <span className="sr-only sm:not-sr-only">
+                {t("identity", "Identity")}
+              </span>
+            </Button>
+          )}
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          <p>{getTooltipText()}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 

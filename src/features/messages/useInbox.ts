@@ -57,7 +57,7 @@ export function useInbox() {
     }));
 
     try {
-      const raw = await bridgeClient.receiveMessages();
+      const raw = await bridgeClient.getInbox();
       const incoming = raw.map(normalizeMessage);
 
       setState((s) => ({

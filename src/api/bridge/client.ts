@@ -1,67 +1,34 @@
 /**
- * Privxx Bridge Client SDK
+ * Privxx Bridge Client SDK (C2 Production Model)
  * 
  * AUTHORITATIVE — Architecture Locked
  * Frontend → Bridge → Backend (xxdk)
+ * 
+ * All requests require Authorization: Bearer <JWT>
  */
 
-export type StatusResponse = {
-  status: "ok";
-  backend: "connected" | "disconnected";
-  network: "ready" | "syncing";
-};
-
-export type Message = {
-  from: string;
-  message: string;
-  timestamp: string;
-};
-
-export type UnlockResponse = {
-  unlocked: boolean;
-};
-
-export type LockResponse = {
-  locked: boolean;
-};
-
-export type SendResponse = {
-  msg_id: string;
-  status: "queued";
-};
-
-export type SessionRefreshResponse = {
-  token: string;
-  expires_in: number;
-};
-
-export interface BridgeClientConfig {
-  baseUrl: string;
-  authSecret?: string; // X-Privxx-Auth header value
-}
-
-export interface IBridgeClient {
-  status(): Promise<StatusResponse>;
-  unlock(password: string): Promise<void>;
-  lock(): Promise<void>;
-  sendMessage(recipient: string, message: string): Promise<string>;
-  receiveMessages(): Promise<Message[]>;
-  refreshSession(): Promise<SessionRefreshResponse>;
-  setToken(token: string): void;
-  setAuthSecret(secret: string): void;
-}
+import type {
+  StatusResponse,
+  SessionResponse,
+  IdentityStatusResponse,
+  IdentityCreateResponse,
+  IdentityUnlockResponse,
+  IdentityLockResponse,
+  Message,
+  MessageSendResponse,
+  IBridgeClient,
+  BridgeClientConfig,
+} from "./types";
 
 export class BridgeClient implements IBridgeClient {
   private baseUrl: string;
   private token?: string;
-  private authSecret?: string;
 
   constructor(config: BridgeClientConfig | string) {
     if (typeof config === "string") {
       this.baseUrl = config;
     } else {
       this.baseUrl = config.baseUrl;
-      this.authSecret = config.authSecret;
     }
   }
 
@@ -79,10 +46,6 @@ export class BridgeClient implements IBridgeClient {
 
     if (this.token) {
       headers["Authorization"] = `Bearer ${this.token}`;
-    }
-
-    if (this.authSecret) {
-      headers["X-Privxx-Auth"] = this.authSecret;
     }
 
     try {
@@ -112,45 +75,62 @@ export class BridgeClient implements IBridgeClient {
     }
   }
 
-  async status(): Promise<StatusResponse> {
-    return this.request("/status");
+  // Session
+  async validateSession(): Promise<SessionResponse> {
+    return this.request("/auth/session", { method: "POST" });
   }
 
-  async unlock(password: string): Promise<void> {
-    await this.request<UnlockResponse>("/identity/unlock", {
-      method: "POST",
-      body: JSON.stringify({ password }),
-    });
+  // Identity
+  async getIdentityStatus(): Promise<IdentityStatusResponse> {
+    return this.request("/identity/status");
   }
 
-  async lock(): Promise<void> {
-    await this.request<LockResponse>("/identity/lock", { method: "POST" });
+  async createIdentity(): Promise<IdentityCreateResponse> {
+    return this.request("/identity/create", { method: "POST" });
   }
 
+  async unlockIdentity(): Promise<IdentityUnlockResponse> {
+    return this.request("/identity/unlock", { method: "POST" });
+  }
+
+  async lockIdentity(): Promise<IdentityLockResponse> {
+    return this.request("/identity/lock", { method: "POST" });
+  }
+
+  // Messages
   async sendMessage(recipient: string, message: string): Promise<string> {
-    const res = await this.request<SendResponse>("/message/send", {
+    const res = await this.request<MessageSendResponse>("/messages/send", {
       method: "POST",
       body: JSON.stringify({ recipient, message }),
     });
     return res.msg_id;
   }
 
-  async receiveMessages(): Promise<Message[]> {
-    const res = await this.request<{ messages: Message[] }>("/message/receive");
+  async getInbox(): Promise<Message[]> {
+    const res = await this.request<{ messages: Message[] }>("/messages/inbox");
     return res.messages;
   }
 
-  async refreshSession(): Promise<SessionRefreshResponse> {
-    return this.request<SessionRefreshResponse>("/session/refresh", {
-      method: "POST",
-    });
+  // Legacy compatibility
+  async status(): Promise<StatusResponse> {
+    return this.request("/status");
   }
 
   setToken(token: string): void {
     this.token = token;
   }
-
-  setAuthSecret(secret: string): void {
-    this.authSecret = secret;
-  }
 }
+
+// Re-export types
+export type {
+  StatusResponse,
+  SessionResponse,
+  IdentityStatusResponse,
+  IdentityCreateResponse,
+  IdentityUnlockResponse,
+  IdentityLockResponse,
+  Message,
+  MessageSendResponse,
+  IBridgeClient,
+  BridgeClientConfig,
+} from "./types";
