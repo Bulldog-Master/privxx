@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "@/lib/i18n";
 import { AlertTriangle } from "lucide-react";
 
 interface State {
@@ -34,9 +33,8 @@ export class AppErrorBoundary extends React.Component<Props, State> {
   }
 }
 
+// Static fallback - no hooks to avoid context issues
 function ErrorFallback() {
-  const { t } = useTranslations();
-
   const handleReload = () => {
     window.location.reload();
   };
@@ -51,17 +49,17 @@ function ErrorFallback() {
         </div>
         <div className="space-y-2">
           <h1 className="text-lg font-semibold text-foreground">
-            {t("errorConnectionFailed")}
+            Unable to establish a private route right now.
           </h1>
           <p className="text-sm text-muted-foreground">
-            {t("errorTryAgain")}
+            Please try again.
           </p>
         </div>
         <Button 
           className="min-h-[44px]" 
           onClick={handleReload}
         >
-          {t("retryConnection")}
+          Retry
         </Button>
       </div>
     </div>
