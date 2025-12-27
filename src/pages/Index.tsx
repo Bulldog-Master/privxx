@@ -1,10 +1,10 @@
-import { useState, lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHero from "@/components/PrivxxHero";
-import BackendHealthIndicator from "@/components/BackendHealthIndicator";
 import { IdentityStatus } from "@/components/IdentityStatus";
 import { MessagingPanel } from "@/components/MessagingPanel";
+import { ConnectionBadge } from "@/components/ConnectionBadge";
 import { IdentityProvider } from "@/contexts/IdentityContext";
 import { useTranslations } from "@/lib/i18n";
 
@@ -68,7 +68,7 @@ const Index = () => {
 
           <footer className="flex flex-col items-center gap-2 py-4 px-4">
             <div className="flex items-center gap-3">
-              <BackendHealthIndicator />
+              <ConnectionBadge />
               <Suspense fallback={<div className="h-8 w-16" />}>
                 <DiagnosticsDrawer />
               </Suspense>
