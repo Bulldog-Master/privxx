@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Mail, Lock, Loader2, ArrowRight, Sparkles, Fingerprint, KeyRound, ArrowLeft, CheckCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,9 +23,13 @@ type AuthMode = "signin" | "signup" | "magic-link" | "passkey" | "forgot" | "res
 export default function Auth() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const { isAuthenticated, isLoading: authLoading, signInWithEmail, signUpWithEmail, signInWithMagicLink, resetPassword, updatePassword } = useAuth();
   const { isSupported: passkeySupported, authenticateWithPasskey, isLoading: passkeyLoading, error: passkeyError, clearError: clearPasskeyError } = usePasskey();
+
+  // Get the redirect destination from location state (set by ProtectedRoute)
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/";
 
   // Check if returning from password reset link
   const resetMode = searchParams.get("mode") === "reset";
@@ -43,9 +47,9 @@ export default function Auth() {
   // Redirect if already authenticated (but not during password reset)
   useEffect(() => {
     if (isAuthenticated && !authLoading && mode !== "reset") {
-      navigate("/");
+      navigate(from, { replace: true });
     }
-  }, [isAuthenticated, authLoading, navigate, mode]);
+  }, [isAuthenticated, authLoading, navigate, mode, from]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
