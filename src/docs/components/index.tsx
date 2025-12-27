@@ -4,7 +4,7 @@
  * Central registry for all component documentation.
  */
 
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+import { Slider } from "@/components/ui/slider";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Select,
   SelectContent,
@@ -47,7 +50,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { LockedState } from "@/components/shared";
-import { Shield, Lock, Loader2, Bell, Plus, Search, Mail, Eye, EyeOff, User, Settings, CreditCard, HelpCircle, Info, ChevronDown } from "lucide-react";
+import { Shield, Lock, Loader2, Bell, Plus, Search, Mail, Eye, EyeOff, User, Settings, CreditCard, HelpCircle, Info, ChevronDown, AlertCircle, AlertTriangle, CheckCircle2, Terminal, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 
 // Types
@@ -1516,6 +1519,276 @@ function MyPage() {
       "Use type='single' with collapsible for FAQ-style accordions.",
       "Use type='multiple' when users need to compare content across sections.",
       "AccordionTrigger automatically includes an animated chevron icon.",
+    ],
+  },
+
+  {
+    id: "progress",
+    name: "Progress",
+    description: "A progress bar component that indicates the completion status of a task or process.",
+    category: "UI",
+    importPath: 'import { Progress } from "@/components/ui/progress"',
+    props: [
+      { name: "value", type: "number", default: "0", description: "The progress value (0-100)" },
+      { name: "max", type: "number", default: "100", description: "The maximum value" },
+      { name: "className", type: "string", description: "Additional CSS classes" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Simple progress indicator.",
+        code: `<Progress value={33} />`,
+        preview: (
+          <div className="w-full max-w-md">
+            <Progress value={33} />
+          </div>
+        ),
+      },
+      {
+        id: "values",
+        title: "Different Values",
+        description: "Progress at various completion levels.",
+        code: `<div className="space-y-4">
+  <Progress value={0} />
+  <Progress value={25} />
+  <Progress value={50} />
+  <Progress value={75} />
+  <Progress value={100} />
+</div>`,
+        preview: (
+          <div className="space-y-4 w-full max-w-md">
+            <Progress value={0} />
+            <Progress value={25} />
+            <Progress value={50} />
+            <Progress value={75} />
+            <Progress value={100} />
+          </div>
+        ),
+      },
+      {
+        id: "with-label",
+        title: "With Label",
+        description: "Progress bar with percentage label.",
+        code: `function ProgressWithLabel() {
+  const progress = 66;
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between text-sm">
+        <span>Uploading...</span>
+        <span>{progress}%</span>
+      </div>
+      <Progress value={progress} />
+    </div>
+  );
+}`,
+        preview: (
+          <div className="space-y-2 w-full max-w-md">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Uploading...</span>
+              <span className="text-muted-foreground">66%</span>
+            </div>
+            <Progress value={66} />
+          </div>
+        ),
+      },
+    ],
+    notes: [
+      "Use for file uploads, form completion, or multi-step processes.",
+      "The value should be between 0 and 100 (or 0 and max if specified).",
+      "Consider adding accessible labels for screen readers.",
+    ],
+  },
+
+  {
+    id: "slider",
+    name: "Slider",
+    description: "An input component for selecting a value or range from a continuous set of values.",
+    category: "UI",
+    importPath: 'import { Slider } from "@/components/ui/slider"',
+    props: [
+      { name: "value", type: "number[]", description: "Controlled value(s)" },
+      { name: "defaultValue", type: "number[]", description: "Default value(s) for uncontrolled usage" },
+      { name: "onValueChange", type: "(value: number[]) => void", description: "Callback when value changes" },
+      { name: "min", type: "number", default: "0", description: "Minimum value" },
+      { name: "max", type: "number", default: "100", description: "Maximum value" },
+      { name: "step", type: "number", default: "1", description: "Step increment" },
+      { name: "disabled", type: "boolean", default: "false", description: "Disable the slider" },
+    ],
+    examples: [
+      {
+        id: "basic",
+        title: "Basic",
+        description: "Simple slider with default settings.",
+        code: `<Slider defaultValue={[50]} max={100} step={1} />`,
+        preview: (
+          <div className="w-full max-w-md">
+            <Slider defaultValue={[50]} max={100} step={1} />
+          </div>
+        ),
+      },
+      {
+        id: "with-label",
+        title: "With Label",
+        description: "Slider with label showing current value.",
+        code: `function SliderWithLabel() {
+  const [value, setValue] = useState([50]);
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between">
+        <Label>Volume</Label>
+        <span className="text-sm text-muted-foreground">{value[0]}%</span>
+      </div>
+      <Slider
+        value={value}
+        onValueChange={setValue}
+        max={100}
+        step={1}
+      />
+    </div>
+  );
+}`,
+        preview: (
+          <div className="space-y-4 w-full max-w-md">
+            <div className="flex justify-between">
+              <Label>Volume</Label>
+              <span className="text-sm text-muted-foreground">50%</span>
+            </div>
+            <Slider defaultValue={[50]} max={100} step={1} />
+          </div>
+        ),
+      },
+      {
+        id: "range",
+        title: "Range Selection",
+        description: "Slider with two thumbs for selecting a range.",
+        code: `<Slider defaultValue={[25, 75]} max={100} step={1} />`,
+        preview: (
+          <div className="w-full max-w-md">
+            <Slider defaultValue={[25, 75]} max={100} step={1} />
+          </div>
+        ),
+      },
+      {
+        id: "steps",
+        title: "Custom Steps",
+        description: "Slider with larger step increments.",
+        code: `<Slider defaultValue={[50]} max={100} step={10} />`,
+        preview: (
+          <div className="w-full max-w-md">
+            <Slider defaultValue={[50]} max={100} step={10} />
+          </div>
+        ),
+      },
+    ],
+    notes: [
+      "Value is always an array, even for single-thumb sliders.",
+      "Use two values in the array for range selection.",
+      "Consider adding aria-label for accessibility.",
+    ],
+  },
+
+  {
+    id: "alert",
+    name: "Alert",
+    description: "A component for displaying important messages or notifications to users.",
+    category: "UI",
+    importPath: 'import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"',
+    props: [
+      { name: "variant", type: '"default" | "destructive"', default: '"default"', description: "The visual style variant" },
+      { name: "className", type: "string", description: "Additional CSS classes" },
+    ],
+    examples: [
+      {
+        id: "default",
+        title: "Default",
+        description: "Standard informational alert.",
+        code: `<Alert>
+  <Terminal className="h-4 w-4" />
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription>
+    You can add components to your app using the CLI.
+  </AlertDescription>
+</Alert>`,
+        preview: (
+          <Alert className="max-w-md">
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+              You can add components to your app using the CLI.
+            </AlertDescription>
+          </Alert>
+        ),
+      },
+      {
+        id: "destructive",
+        title: "Destructive",
+        description: "Alert for errors or critical warnings.",
+        code: `<Alert variant="destructive">
+  <AlertCircle className="h-4 w-4" />
+  <AlertTitle>Error</AlertTitle>
+  <AlertDescription>
+    Your session has expired. Please log in again.
+  </AlertDescription>
+</Alert>`,
+        preview: (
+          <Alert variant="destructive" className="max-w-md">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              Your session has expired. Please log in again.
+            </AlertDescription>
+          </Alert>
+        ),
+      },
+      {
+        id: "success",
+        title: "Success (Custom)",
+        description: "Custom styled success alert.",
+        code: `<Alert className="border-emerald-500/50 text-emerald-600 [&>svg]:text-emerald-600">
+  <CheckCircle2 className="h-4 w-4" />
+  <AlertTitle>Success!</AlertTitle>
+  <AlertDescription>
+    Your changes have been saved successfully.
+  </AlertDescription>
+</Alert>`,
+        preview: (
+          <Alert className="max-w-md border-emerald-500/50 text-emerald-600 [&>svg]:text-emerald-600">
+            <CheckCircle2 className="h-4 w-4" />
+            <AlertTitle>Success!</AlertTitle>
+            <AlertDescription>
+              Your changes have been saved successfully.
+            </AlertDescription>
+          </Alert>
+        ),
+      },
+      {
+        id: "warning",
+        title: "Warning (Custom)",
+        description: "Custom styled warning alert.",
+        code: `<Alert className="border-amber-500/50 text-amber-600 [&>svg]:text-amber-600">
+  <AlertTriangle className="h-4 w-4" />
+  <AlertTitle>Warning</AlertTitle>
+  <AlertDescription>
+    This action cannot be undone. Please proceed with caution.
+  </AlertDescription>
+</Alert>`,
+        preview: (
+          <Alert className="max-w-md border-amber-500/50 text-amber-600 [&>svg]:text-amber-600">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Warning</AlertTitle>
+            <AlertDescription>
+              This action cannot be undone. Please proceed with caution.
+            </AlertDescription>
+          </Alert>
+        ),
+      },
+    ],
+    notes: [
+      "Use the default variant for informational messages.",
+      "Use destructive for errors or critical warnings.",
+      "Custom success/warning styles can be achieved with className overrides.",
+      "Always include an icon for better visual communication.",
     ],
   },
 ];
