@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import PrivxxLogo from "@/components/PrivxxLogo";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
+import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { AccountSection } from "@/components/settings/AccountSection";
 
 export default function Settings() {
@@ -73,6 +74,9 @@ export default function Settings() {
         <div className="space-y-6">
           {/* Account Section */}
           <AccountSection />
+
+          {/* Two-Factor Authentication */}
+          <TOTPManagement userId={user.id} />
 
           {/* Passkey Management */}
           <PasskeyManagement userId={user.id} email={user.email || ""} />
