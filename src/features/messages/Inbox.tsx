@@ -59,11 +59,11 @@ export function Inbox({
   if (isNone) {
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
-        <Plus className="h-6 w-6 text-muted-foreground mb-2" />
-        <h3 className="text-sm font-semibold mb-1">
+        <Plus className="h-6 w-6 text-primary/60 mb-2" />
+        <h3 className="text-sm font-semibold mb-1 text-primary/90">
           {t("noIdentityTitle", "No Identity Yet")}
         </h3>
-        <p className="text-xs text-muted-foreground mb-3">
+        <p className="text-xs text-primary/60 mb-3">
           {t("noIdentityBody", "Create your secure identity to start messaging")}
         </p>
         <Button 
@@ -82,11 +82,11 @@ export function Inbox({
   if (!isUnlocked) {
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
-        <Lock className="h-6 w-6 text-muted-foreground mb-2" />
-        <h3 className="text-sm font-semibold mb-1">
+        <Lock className="h-6 w-6 text-primary/60 mb-2" />
+        <h3 className="text-sm font-semibold mb-1 text-primary/90">
           {t("inboxLockedTitle", "Identity Locked")}
         </h3>
-        <p className="text-xs text-muted-foreground mb-3">
+        <p className="text-xs text-primary/60 mb-3">
           {t("inboxLockedBody", "Unlock your identity to view messages")}
         </p>
         <Button 
@@ -147,11 +147,11 @@ export function Inbox({
   if (messages.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center">
-        <InboxIcon className="h-6 w-6 text-muted-foreground mb-2" />
-        <h3 className="text-sm font-semibold mb-1">
+        <InboxIcon className="h-6 w-6 text-primary/60 mb-2" />
+        <h3 className="text-sm font-semibold mb-1 text-primary/90">
           {t("inboxEmptyTitle", "No messages yet")}
         </h3>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-primary/60">
           {t("inboxEmptyBody", "Send a message to get started")}
         </p>
       </div>
@@ -162,8 +162,8 @@ export function Inbox({
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b">
-        <h3 className="text-sm font-medium">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-primary/20">
+        <h3 className="text-sm font-medium text-primary/90">
           {t("inboxTitle", "Messages")} ({messages.length})
         </h3>
         <Button 
@@ -193,21 +193,21 @@ function MessageItem({ message }: { message: DemoMessage }) {
   const { t } = useTranslation();
   
   return (
-    <div className="rounded-lg border bg-card p-3 space-y-1">
+    <div className="rounded-lg border border-primary/20 bg-card p-3 space-y-1">
       <div className="flex items-center justify-between gap-3">
-        <div className="text-sm font-medium">
+        <div className="text-sm font-medium text-primary/90">
           {message.from === "self" || message.from === "me" ? "self" : message.from}
           {message.optimistic && (
-            <span className="ml-2 text-xs text-muted-foreground">
+            <span className="ml-2 text-xs text-primary/60">
               ({t("queued", "Queued")})
             </span>
           )}
         </div>
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-primary/60">
           {formatTimestamp(message.timestamp)}
         </div>
       </div>
-      <div className="text-sm whitespace-pre-wrap break-words text-muted-foreground">
+      <div className="text-sm whitespace-pre-wrap break-words text-primary/70">
         {message.body}
       </div>
     </div>

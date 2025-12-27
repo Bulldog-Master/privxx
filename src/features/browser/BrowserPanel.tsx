@@ -41,9 +41,9 @@ export function BrowserPanel() {
   if (!isUnlocked) {
     return (
       <div className="p-4 space-y-3 text-center">
-        <Lock className="h-8 w-8 mx-auto text-muted-foreground" />
-        <div className="text-sm font-medium">{t("identityLocked", "Identity Locked")}</div>
-        <div className="text-sm text-muted-foreground">
+        <Lock className="h-8 w-8 mx-auto text-primary/60" />
+        <div className="text-sm font-medium text-primary/90">{t("identityLocked", "Identity Locked")}</div>
+        <div className="text-sm text-primary/60">
           {t("unlockToAccess", "Unlock your identity to access the browser tunnel.")}
         </div>
       </div>
@@ -53,9 +53,9 @@ export function BrowserPanel() {
   return (
     <div className="p-4 space-y-4">
       <div className="space-y-1">
-        <label className="text-sm font-medium">{t("browserUrl", "Destination URL")}</label>
+        <label className="text-sm font-medium text-primary/80">{t("browserUrl", "Destination URL")}</label>
         <input
-          className="w-full rounded-md border bg-background px-3 py-2 min-h-[44px] text-foreground"
+          className="w-full rounded-md border-2 border-primary/60 bg-background px-3 py-2 min-h-[44px] text-primary placeholder:text-primary/50"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://example.com"
@@ -65,7 +65,7 @@ export function BrowserPanel() {
           spellCheck={false}
           disabled={state !== "idle"}
         />
-        <div className="text-xs text-muted-foreground">
+        <div className="text-xs text-primary/60">
           {t("browserHint", "Enter a URL to route through the Privxx tunnel (Preview).")}
         </div>
       </div>
@@ -82,12 +82,12 @@ export function BrowserPanel() {
       )}
 
       {state === "connecting" && (
-        <div className="rounded-lg border p-4 space-y-3">
+        <div className="rounded-lg border border-primary/30 p-4 space-y-3">
           <div className="flex items-center gap-2">
             <Loader2 className="h-4 w-4 animate-spin text-primary" />
-            <span className="text-sm font-medium">{t("statusConnecting", "Connecting through Privxx…")}</span>
+            <span className="text-sm font-medium text-primary/90">{t("statusConnecting", "Connecting through Privxx…")}</span>
           </div>
-          <div className="text-xs text-muted-foreground space-y-1">
+          <div className="text-xs text-primary/60 space-y-1">
             <div>{t("tunnelStep1", "Initializing cMixx tunnel...")}</div>
             <div>{t("tunnelStep2", "Negotiating PQ keys...")}</div>
             <div>{t("tunnelStep3", "Routing through mixnet...")}</div>
@@ -104,19 +104,19 @@ export function BrowserPanel() {
                 {t("statusConnected", "Connected (simulated)")}
               </span>
             </div>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs text-primary/60">
               {t("requestedUrl", "Requested URL")}: <span className="font-mono">{url}</span>
             </div>
             {latency && (
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-primary/60">
                 {t("simulatedLatency", "Simulated latency")}: <span className="font-mono">{latency} ms</span>
               </div>
             )}
           </div>
 
-          <div className="rounded-lg border p-3 space-y-1">
-            <div className="text-sm font-medium">{t("browserPreviewTitle", "Content Preview")}</div>
-            <div className="text-sm text-muted-foreground">
+          <div className="rounded-lg border border-primary/20 p-3 space-y-1">
+            <div className="text-sm font-medium text-primary/90">{t("browserPreviewTitle", "Content Preview")}</div>
+            <div className="text-sm text-primary/60">
               {t("browserPreviewNote", "Proxied content will appear here in a future version.")}
             </div>
           </div>
@@ -131,9 +131,9 @@ export function BrowserPanel() {
         </div>
       )}
 
-      <div className="rounded-lg border p-3 space-y-1">
-        <div className="text-sm font-semibold">{t("browserDemoTitle", "Tunnel Demo")}</div>
-        <div className="text-sm text-muted-foreground">
+      <div className="rounded-lg border border-primary/20 p-3 space-y-1">
+        <div className="text-sm font-semibold text-primary/90">{t("browserDemoTitle", "Tunnel Demo")}</div>
+        <div className="text-sm text-primary/60">
           {t("browserDemoNote", "This is a preview of the Privxx tunnel flow. Real cMixx routing will be enabled in a future release.")}
         </div>
       </div>

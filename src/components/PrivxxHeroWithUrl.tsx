@@ -44,7 +44,7 @@ const PrivxxHeroWithUrl = () => {
       </div>
       
       {/* Tagline */}
-      <p className="text-foreground text-sm sm:text-base font-medium w-full text-center">
+      <p className="text-primary/80 text-sm sm:text-base font-medium w-full text-center">
         {t("subtitle")}
       </p>
 
@@ -112,7 +112,7 @@ const PrivxxHeroWithUrl = () => {
       </div>
 
       {/* Demo disclaimer */}
-      <p className="text-xs text-muted-foreground max-w-sm">
+      <p className="text-xs text-primary/60 max-w-sm">
         {t("tunnelDemoNote") || "This is a simulated tunnel demo. Real cMixx routing will be enabled in a future update."}
       </p>
     </div>

@@ -35,7 +35,7 @@ export function MessagesPanel() {
           >
             {t("inboxTab", "Inbox")}
             {messages.length > 0 && (
-              <span className="ml-1.5 text-xs text-muted-foreground" aria-hidden="true">
+              <span className="ml-1.5 text-xs text-primary/60" aria-hidden="true">
                 ({messages.length})
               </span>
             )}
