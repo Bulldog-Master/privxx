@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Sparkles } from "lucide-react";
 import LanguageSelector from "./LanguageSelector";
+import { IdentityStatusCompact } from "./IdentityStatusCompact";
 import { Button } from "./ui/button";
 
 // Lazy load the privacy drawer - only loaded when user interacts
@@ -17,6 +18,7 @@ const PrivxxHeader = () => {
       <Suspense fallback={<div className="min-h-[44px] w-20" />}>
         <PrivacyDrawer />
       </Suspense>
+      <IdentityStatusCompact />
       <Link to="/whats-new">
         <Button 
           variant="ghost" 
