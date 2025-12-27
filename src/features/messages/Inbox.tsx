@@ -58,18 +58,18 @@ export function Inbox({
   // No identity yet
   if (isNone) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center px-4">
-        <Plus className="h-8 w-8 text-muted-foreground mb-3" />
-        <h3 className="text-base font-semibold mb-1">
+      <div className="flex flex-col items-center justify-center py-6 text-center px-4">
+        <Plus className="h-6 w-6 text-muted-foreground mb-2" />
+        <h3 className="text-sm font-semibold mb-1">
           {t("noIdentityTitle", "No Identity Yet")}
         </h3>
-        <p className="text-sm text-muted-foreground mb-4">
+        <p className="text-xs text-muted-foreground mb-3">
           {t("noIdentityBody", "Create your secure identity to start messaging")}
         </p>
         <Button 
           onClick={handleCreateIdentity}
           disabled={identityLoading}
-          className="min-h-[44px]"
+          size="sm"
         >
           <Plus className="h-4 w-4 mr-2" />
           {t("createIdentity", "Create Identity")}
@@ -81,18 +81,18 @@ export function Inbox({
   // Locked state
   if (!isUnlocked) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center px-4">
-        <Lock className="h-8 w-8 text-muted-foreground mb-3" />
-        <h3 className="text-base font-semibold mb-1">
+      <div className="flex flex-col items-center justify-center py-6 text-center px-4">
+        <Lock className="h-6 w-6 text-muted-foreground mb-2" />
+        <h3 className="text-sm font-semibold mb-1">
           {t("inboxLockedTitle", "Identity Locked")}
         </h3>
-        <p className="text-sm text-muted-foreground mb-4">
+        <p className="text-xs text-muted-foreground mb-3">
           {t("inboxLockedBody", "Unlock your identity to view messages")}
         </p>
         <Button 
           onClick={handleUnlock}
           disabled={identityLoading}
-          className="min-h-[44px]"
+          size="sm"
         >
           <Unlock className="h-4 w-4 mr-2" />
           {t("unlockIdentity", "Unlock Identity")}
@@ -125,17 +125,16 @@ export function Inbox({
   // Error state
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center px-4">
-        <AlertCircle className="h-8 w-8 text-destructive mb-3" />
-        <h3 className="text-base font-semibold mb-1">
+      <div className="flex flex-col items-center justify-center py-6 text-center px-4">
+        <AlertCircle className="h-6 w-6 text-destructive mb-2" />
+        <h3 className="text-sm font-semibold mb-1">
           {t("inboxErrorTitle", "Unable to load messages")}
         </h3>
-        <p className="text-sm text-muted-foreground mb-4">{error}</p>
+        <p className="text-xs text-muted-foreground mb-3">{error}</p>
         <Button 
           variant="outline" 
           size="sm" 
           onClick={onRefresh}
-          className="min-h-[44px]"
         >
           <RefreshCw className="h-4 w-4 mr-2" />
           {t("retry", "Retry")}
@@ -147,12 +146,12 @@ export function Inbox({
   // Empty state
   if (messages.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <InboxIcon className="h-8 w-8 text-muted-foreground mb-3" />
-        <h3 className="text-base font-semibold mb-1">
+      <div className="flex flex-col items-center justify-center py-6 text-center">
+        <InboxIcon className="h-6 w-6 text-muted-foreground mb-2" />
+        <h3 className="text-sm font-semibold mb-1">
           {t("inboxEmptyTitle", "No messages yet")}
         </h3>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           {t("inboxEmptyBody", "Send a message to get started")}
         </p>
       </div>
