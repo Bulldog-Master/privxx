@@ -140,6 +140,7 @@
   "tabPayments": "Payments",
   "browserUrl": "Destination URL",
   "browserHint": "Enter a URL to route through the Privxx tunnel (Preview).",
+  "connectThrough": "Connect through",
   "connectThroughPrivxx": "Connect through Privxx",
   "disconnect": "Disconnect",
   "unlockToAccess": "Unlock your identity to access the browser tunnel.",
