@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
-const DiagnosticsDrawer = lazy(() => import("@/components/DiagnosticsDrawer"));
+const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/DiagnosticsDrawer"));
 
 const Index = () => {
   const { t } = useTranslation();
