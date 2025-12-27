@@ -31,9 +31,9 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 - `PageBackground` component extracted to `src/components/layout/`
 - Reused across auth and other pages
 
-### P3 — Component Organization
-- Root `components/` directory mixes multiple concerns
-- Recommendation: group components by domain (auth, layout, branding, identity, etc.)
+### P3 — Component Organization ✅ COMPLETE
+- Components grouped by domain: `brand/`, `connection/`, `diagnostics/`, `identity/`, `layout/`, `pwa/`, `session/`, `settings/`, `shared/`, `ui/`
+- No stray files in root `components/` directory
 
 ### P3 — CI & Quality ✅ COMPLETE
 - GitHub Actions workflow at `.github/workflows/ci.yml`
@@ -52,7 +52,7 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 | P1 | Refactor oversized page components | ✅ Complete |
 | P2 | Consolidate i18n system | ✅ Complete |
 | P2 | Extract shared layout components | ✅ Complete |
-| P3 | Organize components by domain | 🔲 Pending |
+| P3 | Organize components by domain | ✅ Complete |
 | P3 | Add CI checks | ✅ Complete |
 | P4 | Expand test coverage | 🔲 Pending |
 
@@ -75,10 +75,10 @@ Privxx is well-architected and ready for iterative hardening. The recommended ch
 - [x] Extract shared `PageBackground` layout component
 - [x] Replace duplicated background markup
 
-### Phase 3 — Organization (P3)
-- [ ] Group root components by domain
-- [ ] Normalize hook naming conventions
-- [ ] Remove unused/legacy components
+### Phase 3 — Organization (P3) ✅
+- [x] Group root components by domain
+- [x] Move `DiagnosticsDrawer` into `diagnostics/` folder
+- [ ] Normalize hook naming conventions (future)
 
 ### Phase 4 — Quality & Reliability (P3–P4)
 - [x] Add CI workflow (lint, typecheck, tests, privacy checks)
