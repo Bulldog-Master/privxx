@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PrivxxHeader from "@/components/PrivxxHeader";
 import PrivxxHero from "@/components/PrivxxHero";
 import { IdentityStatus } from "@/components/IdentityStatus";
-import { MessagingPanel } from "@/components/MessagingPanel";
+import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/ConnectionBadge";
 import { IdentityProvider } from "@/contexts/IdentityContext";
 import { useTranslations } from "@/lib/i18n";
@@ -63,7 +63,9 @@ const Index = () => {
             </div>
             
             {/* Messaging panel with inbox + compose */}
-            <MessagingPanel />
+            <div className="w-full max-w-md rounded-lg border bg-card/80 backdrop-blur-sm overflow-hidden h-[400px]">
+              <MessagesPanel />
+            </div>
           </main>
 
           <footer className="flex flex-col items-center gap-2 py-4 px-4">
