@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useAlertPreferences } from "@/hooks/useAlertPreferences";
 import { alertWarning } from "@/lib/alerts";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/useToast";
 
 export function AlertSettings() {
   const { t } = useTranslation("ui");

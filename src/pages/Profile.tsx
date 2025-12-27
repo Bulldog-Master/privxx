@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { PageBackground } from "@/components/layout/PageBackground";
 import PrivxxLogo from "@/components/PrivxxLogo";
 import { toast } from "sonner";
 
@@ -116,30 +117,15 @@ export default function Profile() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[hsl(215_25%_27%)]">
+      <PageBackground className="flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
+      </PageBackground>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[hsl(215_25%_27%)] px-4 py-8 relative overflow-hidden">
-      {/* Background elements */}
-      <div 
-        className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-90"
-        style={{ 
-          background: 'radial-gradient(circle, hsl(172 60% 45%) 0%, hsl(172 50% 35%) 70%, transparent 100%)' 
-        }}
-      />
-      <div 
-        className="absolute bottom-0 left-0 right-0 h-64 opacity-60"
-        style={{ 
-          background: 'linear-gradient(90deg, hsl(340 70% 50%) 0%, hsl(45 80% 55%) 50%, hsl(172 60% 45%) 100%)',
-          filter: 'blur(80px)'
-        }}
-      />
-
-      <div className="relative z-10 max-w-2xl mx-auto">
+    <PageBackground className="px-4 py-8">
+      <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Button
@@ -277,6 +263,6 @@ export default function Profile() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </PageBackground>
   );
 }

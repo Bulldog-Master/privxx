@@ -10,6 +10,7 @@ import { ArrowLeft, User, ChevronRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { PageBackground } from "@/components/layout/PageBackground";
 import PrivxxLogo from "@/components/PrivxxLogo";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
@@ -28,23 +29,8 @@ export default function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-[hsl(215_25%_27%)] relative overflow-hidden">
-      {/* Background elements */}
-      <div 
-        className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-90"
-        style={{ 
-          background: 'radial-gradient(circle, hsl(172 60% 45%) 0%, hsl(172 50% 35%) 70%, transparent 100%)' 
-        }}
-      />
-      <div 
-        className="absolute bottom-0 left-0 right-0 h-64 opacity-60"
-        style={{ 
-          background: 'linear-gradient(90deg, hsl(340 70% 50%) 0%, hsl(45 80% 55%) 50%, hsl(172 60% 45%) 100%)',
-          filter: 'blur(80px)'
-        }}
-      />
-
-      <div className="relative z-10 max-w-2xl mx-auto px-4 py-8">
+    <PageBackground>
+      <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button variant="ghost" size="icon" asChild className="text-primary hover:text-primary/80">
@@ -101,6 +87,6 @@ export default function Settings() {
           <PrivxxLogo size="sm" />
         </div>
       </div>
-    </div>
+    </PageBackground>
   );
 }
