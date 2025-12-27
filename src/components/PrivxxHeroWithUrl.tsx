@@ -52,7 +52,7 @@ const PrivxxHeroWithUrl = () => {
       <div className="w-full space-y-3">
         <div className="space-y-1">
           <input
-            className="w-full rounded-lg border border-primary/40 bg-background/50 backdrop-blur-sm px-4 py-3 min-h-[48px] text-base focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+            className="w-full rounded-lg border-2 border-primary/60 bg-background/50 backdrop-blur-sm px-4 py-3 min-h-[48px] text-base text-primary placeholder:text-primary/60 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder={t("urlPlaceholder") || "https://example.com"}
