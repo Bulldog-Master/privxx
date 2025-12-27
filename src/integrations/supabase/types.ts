@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      notification_preferences: {
+        Row: {
+          connection_updates: boolean
+          created_at: string
+          id: string
+          security_alerts: boolean
+          session_warnings: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          connection_updates?: boolean
+          created_at?: string
+          id?: string
+          security_alerts?: boolean
+          session_warnings?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          connection_updates?: boolean
+          created_at?: string
+          id?: string
+          security_alerts?: boolean
+          session_warnings?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       passkey_challenges: {
         Row: {
           challenge: string
