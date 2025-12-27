@@ -4,7 +4,11 @@
  * AUTHORITATIVE — Architecture Locked
  * Frontend → Bridge → Backend (xxdk)
  * 
- * All requests require Authorization: Bearer <JWT>
+ * Features:
+ * - Automatic retry with exponential backoff
+ * - Request timeout handling
+ * - Error classification (network vs server vs client)
+ * - Correlation IDs for debugging
  */
 
 import type {
@@ -20,15 +24,109 @@ import type {
   BridgeClientConfig,
 } from "./types";
 
+// Error types for better handling
+export class BridgeError extends Error {
+  constructor(
+    message: string,
+    public readonly code: BridgeErrorCode,
+    public readonly statusCode?: number,
+    public readonly correlationId?: string,
+    public readonly retryable: boolean = false
+  ) {
+    super(message);
+    this.name = "BridgeError";
+  }
+}
+
+export type BridgeErrorCode = 
+  | "NETWORK_ERROR"      // Connection failed, timeout, etc.
+  | "TIMEOUT"            // Request timed out
+  | "UNAUTHORIZED"       // 401 - token expired/invalid
+  | "FORBIDDEN"          // 403 - access denied
+  | "NOT_FOUND"          // 404 - resource not found
+  | "RATE_LIMITED"       // 429 - too many requests
+  | "SERVER_ERROR"       // 5xx errors
+  | "CLIENT_ERROR"       // 4xx errors (other than above)
+  | "PARSE_ERROR";       // Response parsing failed
+
+interface RetryConfig {
+  maxRetries: number;
+  baseDelayMs: number;
+  maxDelayMs: number;
+}
+
+const DEFAULT_RETRY_CONFIG: RetryConfig = {
+  maxRetries: 3,
+  baseDelayMs: 500,
+  maxDelayMs: 5000,
+};
+
+const DEFAULT_TIMEOUT_MS = 30000;
+
+// Methods that are safe to retry (idempotent)
+const IDEMPOTENT_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
+
+// Status codes that indicate a retryable error
+const RETRYABLE_STATUS_CODES = new Set([408, 429, 500, 502, 503, 504]);
+
 export class BridgeClient implements IBridgeClient {
   private baseUrl: string;
   private token?: string;
+  private retryConfig: RetryConfig;
+  private timeoutMs: number;
 
   constructor(config: BridgeClientConfig | string) {
     if (typeof config === "string") {
       this.baseUrl = config;
+      this.retryConfig = DEFAULT_RETRY_CONFIG;
+      this.timeoutMs = DEFAULT_TIMEOUT_MS;
     } else {
       this.baseUrl = config.baseUrl;
+      this.retryConfig = config.retry ?? DEFAULT_RETRY_CONFIG;
+      this.timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+    }
+  }
+
+  private classifyError(status: number): { code: BridgeErrorCode; retryable: boolean } {
+    if (status === 401) return { code: "UNAUTHORIZED", retryable: false };
+    if (status === 403) return { code: "FORBIDDEN", retryable: false };
+    if (status === 404) return { code: "NOT_FOUND", retryable: false };
+    if (status === 429) return { code: "RATE_LIMITED", retryable: true };
+    if (status >= 500) return { code: "SERVER_ERROR", retryable: true };
+    return { code: "CLIENT_ERROR", retryable: false };
+  }
+
+  private async sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  private calculateBackoff(attempt: number): number {
+    // Exponential backoff with jitter
+    const delay = Math.min(
+      this.retryConfig.baseDelayMs * Math.pow(2, attempt),
+      this.retryConfig.maxDelayMs
+    );
+    // Add 10-30% jitter to prevent thundering herd
+    const jitter = delay * (0.1 + Math.random() * 0.2);
+    return Math.round(delay + jitter);
+  }
+
+  private async fetchWithTimeout(
+    url: string,
+    options: RequestInit,
+    timeoutMs: number
+  ): Promise<Response> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+      });
+      return response;
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
@@ -38,6 +136,8 @@ export class BridgeClient implements IBridgeClient {
   ): Promise<T> {
     const startTime = performance.now();
     const correlationId = crypto.randomUUID().slice(0, 8);
+    const method = options.method || "GET";
+    const isIdempotent = IDEMPOTENT_METHODS.has(method.toUpperCase());
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -48,31 +148,150 @@ export class BridgeClient implements IBridgeClient {
       headers["Authorization"] = `Bearer ${this.token}`;
     }
 
-    try {
-      const res = await fetch(`${this.baseUrl}${path}`, {
-        ...options,
-        headers: {
-          ...headers,
-          ...options.headers,
-        },
-      });
+    const requestOptions: RequestInit = {
+      ...options,
+      headers: {
+        ...headers,
+        ...options.headers,
+      },
+    };
 
-      const latency = Math.round(performance.now() - startTime);
+    let lastError: Error | null = null;
+    let attempt = 0;
 
-      if (!res.ok) {
-        const errorBody = await res.json().catch(() => ({}));
-        const errorMsg = (errorBody as { error?: string }).error || `HTTP ${res.status}`;
-        console.debug(`[Bridge] ${path} failed (${latency}ms) [${correlationId}]:`, errorMsg);
-        throw new Error(errorMsg);
+    while (attempt <= this.retryConfig.maxRetries) {
+      try {
+        const res = await this.fetchWithTimeout(
+          `${this.baseUrl}${path}`,
+          requestOptions,
+          this.timeoutMs
+        );
+
+        const latency = Math.round(performance.now() - startTime);
+
+        if (!res.ok) {
+          const { code, retryable } = this.classifyError(res.status);
+          
+          // Parse error body
+          let errorMessage: string;
+          try {
+            const errorBody = await res.json();
+            errorMessage = (errorBody as { error?: string }).error || `HTTP ${res.status}`;
+          } catch {
+            errorMessage = `HTTP ${res.status}`;
+          }
+
+          const error = new BridgeError(
+            errorMessage,
+            code,
+            res.status,
+            correlationId,
+            retryable
+          );
+
+          // Only retry if retryable and idempotent (or explicitly POST for certain endpoints)
+          const shouldRetry = retryable && 
+            (isIdempotent || RETRYABLE_STATUS_CODES.has(res.status)) &&
+            attempt < this.retryConfig.maxRetries;
+
+          if (shouldRetry) {
+            const backoff = this.calculateBackoff(attempt);
+            console.debug(
+              `[Bridge] ${path} failed (${latency}ms) [${correlationId}], ` +
+              `retrying in ${backoff}ms (attempt ${attempt + 1}/${this.retryConfig.maxRetries}):`,
+              errorMessage
+            );
+            await this.sleep(backoff);
+            attempt++;
+            continue;
+          }
+
+          console.debug(
+            `[Bridge] ${path} failed (${latency}ms) [${correlationId}]:`,
+            errorMessage
+          );
+          throw error;
+        }
+
+        console.debug(`[Bridge] ${path} ok (${latency}ms) [${correlationId}]`);
+        
+        try {
+          return await res.json();
+        } catch {
+          throw new BridgeError(
+            "Failed to parse response",
+            "PARSE_ERROR",
+            res.status,
+            correlationId,
+            false
+          );
+        }
+      } catch (err) {
+        const latency = Math.round(performance.now() - startTime);
+        
+        // Handle abort (timeout)
+        if (err instanceof Error && err.name === "AbortError") {
+          const timeoutError = new BridgeError(
+            `Request timed out after ${this.timeoutMs}ms`,
+            "TIMEOUT",
+            undefined,
+            correlationId,
+            isIdempotent
+          );
+          
+          if (isIdempotent && attempt < this.retryConfig.maxRetries) {
+            const backoff = this.calculateBackoff(attempt);
+            console.debug(
+              `[Bridge] ${path} timeout (${latency}ms) [${correlationId}], ` +
+              `retrying in ${backoff}ms (attempt ${attempt + 1}/${this.retryConfig.maxRetries})`
+            );
+            await this.sleep(backoff);
+            attempt++;
+            lastError = timeoutError;
+            continue;
+          }
+          
+          throw timeoutError;
+        }
+
+        // Handle network errors
+        if (err instanceof TypeError && err.message.includes("fetch")) {
+          const networkError = new BridgeError(
+            "Network connection failed",
+            "NETWORK_ERROR",
+            undefined,
+            correlationId,
+            isIdempotent
+          );
+          
+          if (isIdempotent && attempt < this.retryConfig.maxRetries) {
+            const backoff = this.calculateBackoff(attempt);
+            console.debug(
+              `[Bridge] ${path} network error (${latency}ms) [${correlationId}], ` +
+              `retrying in ${backoff}ms (attempt ${attempt + 1}/${this.retryConfig.maxRetries})`
+            );
+            await this.sleep(backoff);
+            attempt++;
+            lastError = networkError;
+            continue;
+          }
+          
+          throw networkError;
+        }
+
+        // Re-throw BridgeErrors
+        if (err instanceof BridgeError) {
+          throw err;
+        }
+
+        // Unknown error
+        console.debug(`[Bridge] ${path} error (${latency}ms) [${correlationId}]:`, err);
+        throw err;
       }
-
-      console.debug(`[Bridge] ${path} ok (${latency}ms) [${correlationId}]`);
-      return res.json();
-    } catch (err) {
-      const latency = Math.round(performance.now() - startTime);
-      console.debug(`[Bridge] ${path} error (${latency}ms) [${correlationId}]:`, err);
-      throw err;
     }
+
+    // Should not reach here, but just in case
+    throw lastError || new Error("Request failed after retries");
   }
 
   // Session
@@ -118,6 +337,10 @@ export class BridgeClient implements IBridgeClient {
 
   setToken(token: string): void {
     this.token = token;
+  }
+
+  clearToken(): void {
+    this.token = undefined;
   }
 }
 

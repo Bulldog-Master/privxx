@@ -50,8 +50,16 @@ export type MessageInboxResponse = {
   messages: Message[];
 };
 
+export interface RetryConfig {
+  maxRetries: number;
+  baseDelayMs: number;
+  maxDelayMs: number;
+}
+
 export interface BridgeClientConfig {
   baseUrl: string;
+  retry?: RetryConfig;
+  timeoutMs?: number;
 }
 
 export interface IBridgeClient {
@@ -70,6 +78,7 @@ export interface IBridgeClient {
   
   // Token management
   setToken(token: string): void;
+  clearToken?(): void;
   
   // Legacy compatibility
   status(): Promise<StatusResponse>;
