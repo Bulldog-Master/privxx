@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon } from "lucide-react";
+import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon, Unlock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
+import { IdentityModal } from "@/components/IdentityModal";
+import { useIdentity } from "@/contexts/IdentityContext";
+import { toast } from "sonner";
 import type { DemoMessage } from "./types";
 
 interface InboxProps {
@@ -30,19 +34,46 @@ export function Inbox({
   isUnlocked 
 }: InboxProps) {
   const { t } = useTranslation();
+  const [modalOpen, setModalOpen] = useState(false);
+  const { unlock, error: identityError, clearError, state } = useIdentity();
+
+  const handleUnlock = async (password: string) => {
+    const success = await unlock(password);
+    if (success) {
+      toast.success(t("identityUnlocked", "Identity unlocked"));
+    }
+    return success;
+  };
 
   // Locked state
   if (!isUnlocked) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <Lock className="h-8 w-8 text-muted-foreground mb-3" />
-        <h3 className="text-base font-semibold mb-1">
-          {t("inboxLockedTitle", "Identity Locked")}
-        </h3>
-        <p className="text-sm text-muted-foreground">
-          {t("inboxLockedBody", "Unlock your identity to view messages")}
-        </p>
-      </div>
+      <>
+        <div className="flex flex-col items-center justify-center py-12 text-center px-4">
+          <Lock className="h-8 w-8 text-muted-foreground mb-3" />
+          <h3 className="text-base font-semibold mb-1">
+            {t("inboxLockedTitle", "Identity Locked")}
+          </h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            {t("inboxLockedBody", "Unlock your identity to view messages")}
+          </p>
+          <Button 
+            onClick={() => setModalOpen(true)}
+            className="min-h-[44px]"
+          >
+            <Unlock className="h-4 w-4 mr-2" />
+            {t("unlockIdentity", "Unlock Identity")}
+          </Button>
+        </div>
+        <IdentityModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          onUnlock={handleUnlock}
+          isLoading={state === "unlocking"}
+          error={identityError}
+          onClearError={clearError}
+        />
+      </>
     );
   }
 
