@@ -1,43 +1,43 @@
 /**
  * Sign Up Form Component
  * 
- * Email/password registration form.
+ * Email/password registration with Zod validation.
  */
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signUpSchema, type SignUpValues } from "../validation/schemas";
 
 export function SignUpForm() {
   const { t } = useTranslation();
   const { signUpWithEmail } = useAuth();
+  const [serverError, setServerError] = useState<string | null>(null);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const form = useForm<SignUpValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { email: "", password: "" },
+    mode: "onSubmit",
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsLoading(true);
+  const { isSubmitting } = form.formState;
 
-    try {
-      const result = await signUpWithEmail(email, password);
-      if (result.error) {
-        setError(result.error);
-      }
-    } finally {
-      setIsLoading(false);
+  const onSubmit = async (values: SignUpValues) => {
+    setServerError(null);
+    const result = await signUpWithEmail(values.email, values.password);
+    if (result.error) {
+      setServerError(result.error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="signup-email">{t("email", "Email")}</Label>
         <div className="relative">
@@ -45,14 +45,17 @@ export function SignUpForm() {
           <Input
             id="signup-email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...form.register("email")}
             placeholder={t("emailPlaceholder", "you@example.com")}
             className="pl-10"
-            required
-            disabled={isLoading}
+            disabled={isSubmitting}
           />
         </div>
+        {form.formState.errors.email && (
+          <p className="text-sm text-destructive" role="alert">
+            {form.formState.errors.email.message}
+          </p>
+        )}
       </div>
 
       <div className="space-y-2">
@@ -62,27 +65,29 @@ export function SignUpForm() {
           <Input
             id="signup-password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...form.register("password")}
             placeholder={t("passwordPlaceholder", "Create a password")}
             className="pl-10"
-            required
-            disabled={isLoading}
-            minLength={6}
+            disabled={isSubmitting}
           />
         </div>
+        {form.formState.errors.password && (
+          <p className="text-sm text-destructive" role="alert">
+            {form.formState.errors.password.message}
+          </p>
+        )}
       </div>
 
       <p className="text-xs text-muted-foreground">
         {t("passwordRequirement", "Password must be at least 6 characters")}
       </p>
 
-      {error && (
-        <p className="text-sm text-destructive">{error}</p>
+      {serverError && (
+        <p className="text-sm text-destructive">{serverError}</p>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? (
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? (
           <Loader2 className="h-4 w-4 animate-spin mr-2" />
         ) : (
           <ArrowRight className="h-4 w-4 mr-2" />
