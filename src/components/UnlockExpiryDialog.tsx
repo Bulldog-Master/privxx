@@ -20,7 +20,8 @@ import { useIdentity } from "@/contexts/IdentityContext";
 import { useCountdown } from "@/hooks/useCountdown";
 import { toast } from "sonner";
 
-const WARNING_THRESHOLD_SECONDS = 60; // Show warning at 1 minute remaining
+const WARNING_THRESHOLD_SECONDS = 60; // Show dialog at 1 minute remaining
+const TOAST_WARNING_SECONDS = 120; // Show toast at 2 minutes remaining
 
 export function UnlockExpiryDialog() {
   const { t } = useTranslation();
@@ -30,8 +31,20 @@ export function UnlockExpiryDialog() {
   const [showWarning, setShowWarning] = useState(false);
   const [showExpired, setShowExpired] = useState(false);
   const [isReauthing, setIsReauthing] = useState(false);
+  const [toastShown, setToastShown] = useState(false);
 
-  // Show warning when under threshold
+  // Show toast warning at 2 minutes
+  useEffect(() => {
+    if (isUnlocked && unlockExpiresAt && timeLeft > 0 && timeLeft <= TOAST_WARNING_SECONDS && timeLeft > WARNING_THRESHOLD_SECONDS && !toastShown) {
+      toast.warning(t("sessionExpiringToast", "Your session expires in 2 minutes"), {
+        description: t("sessionExpiringToastDesc", "Extend your session to continue messaging."),
+        duration: 5000,
+      });
+      setToastShown(true);
+    }
+  }, [isUnlocked, unlockExpiresAt, timeLeft, toastShown, t]);
+
+  // Show dialog when under 1 minute
   useEffect(() => {
     if (isUnlocked && unlockExpiresAt && timeLeft > 0 && timeLeft <= WARNING_THRESHOLD_SECONDS) {
       setShowWarning(true);
@@ -47,11 +60,12 @@ export function UnlockExpiryDialog() {
     }
   }, [isUnlocked, unlockExpiresAt, isExpired]);
 
-  // Reset dialogs when identity state changes
+  // Reset state when identity state changes
   useEffect(() => {
     if (!isUnlocked) {
       setShowWarning(false);
       setShowExpired(false);
+      setToastShown(false);
     }
   }, [isUnlocked]);
 
