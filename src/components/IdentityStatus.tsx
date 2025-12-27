@@ -3,17 +3,20 @@
  * 
  * Displays identity state and provides unlock/lock actions.
  * Unlock is re-auth based, not password based.
+ * Shows TTL countdown when unlocked.
  */
 
 import { useTranslation } from "react-i18next";
-import { Lock, Unlock, Loader2, Shield, Plus } from "lucide-react";
+import { Lock, Unlock, Loader2, Shield, Plus, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useIdentity } from "@/contexts/IdentityContext";
+import { useCountdown } from "@/hooks/useCountdown";
 import { toast } from "sonner";
 
 export function IdentityStatus() {
   const { t } = useTranslation();
-  const { state, isNone, isLocked, isUnlocked, isLoading, createIdentity, unlock, lock } = useIdentity();
+  const { state, isNone, isLocked, isUnlocked, isLoading, unlockExpiresAt, createIdentity, unlock, lock } = useIdentity();
+  const { formatted, timeLeft, isExpired } = useCountdown(unlockExpiresAt);
 
   const handleCreateIdentity = async () => {
     const success = await createIdentity();
@@ -71,13 +74,18 @@ export function IdentityStatus() {
     );
   }
 
+  // Determine if session is expiring soon (under 2 minutes)
+  const isExpiringSoon = isUnlocked && timeLeft > 0 && timeLeft < 120;
+
   return (
     <div className="flex items-center gap-3 p-3 rounded-lg bg-card/50 border border-border/50">
       {/* Status indicator */}
       <div
         className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
           isUnlocked
-            ? "bg-emerald-500/10 text-emerald-500"
+            ? isExpiringSoon
+              ? "bg-amber-500/10 text-amber-500"
+              : "bg-emerald-500/10 text-emerald-500"
             : "bg-muted text-muted-foreground"
         }`}
       >
@@ -95,7 +103,13 @@ export function IdentityStatus() {
         <div className="text-sm font-medium">{t("identity", "Identity")}</div>
         <div className="text-xs text-muted-foreground truncate">
           {isLoading && t("identityLoading", "Loading...")}
-          {isUnlocked && t("identityReady", "Ready to send messages")}
+          {isUnlocked && unlockExpiresAt && (
+            <span className={`flex items-center gap-1 ${isExpiringSoon ? "text-amber-500" : ""}`}>
+              <Clock className="h-3 w-3" />
+              {t("sessionExpires", "Expires in {{time}}", { time: formatted })}
+            </span>
+          )}
+          {isUnlocked && !unlockExpiresAt && t("identityReady", "Ready to send messages")}
           {isLocked && t("identityLockedStatus", "Unlock to send messages")}
         </div>
       </div>

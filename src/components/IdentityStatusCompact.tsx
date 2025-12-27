@@ -3,12 +3,14 @@
  * 
  * Minimal identity indicator for header/nav use.
  * Unlock is re-auth based, not password based.
+ * Shows TTL countdown in tooltip when unlocked.
  */
 
 import { useTranslation } from "react-i18next";
 import { Lock, Unlock, Loader2, Shield, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useIdentity } from "@/contexts/IdentityContext";
+import { useCountdown } from "@/hooks/useCountdown";
 import { toast } from "sonner";
 import {
   Tooltip,
@@ -19,7 +21,8 @@ import {
 
 export function IdentityStatusCompact() {
   const { t } = useTranslation();
-  const { state, isNone, isLocked, isUnlocked, isLoading, createIdentity, unlock, lock } = useIdentity();
+  const { state, isNone, isLocked, isUnlocked, isLoading, unlockExpiresAt, createIdentity, unlock, lock } = useIdentity();
+  const { formatted, timeLeft } = useCountdown(unlockExpiresAt);
 
   const handleCreateIdentity = async () => {
     const success = await createIdentity();
@@ -45,9 +48,15 @@ export function IdentityStatusCompact() {
   const getTooltipText = () => {
     if (isLoading) return t("identityLoading", "Loading...");
     if (isNone) return t("identityNoneStatus", "Create your secure identity");
+    if (isUnlocked && unlockExpiresAt) {
+      return t("sessionExpiresIn", "Session expires in {{time}}", { time: formatted });
+    }
     if (isUnlocked) return t("identityReady", "Ready to send messages");
     return t("identityLockedStatus", "Unlock to send messages");
   };
+
+  // Determine if session is expiring soon (under 2 minutes)
+  const isExpiringSoon = isUnlocked && timeLeft > 0 && timeLeft < 120;
 
   // No identity yet
   if (isNone && !isLoading) {
@@ -87,7 +96,11 @@ export function IdentityStatusCompact() {
               size="sm"
               onClick={handleLock}
               disabled={isLoading}
-              className="justify-start gap-2 text-emerald-500 hover:text-emerald-400 min-h-[44px]"
+              className={`justify-start gap-2 min-h-[44px] ${
+                isExpiringSoon 
+                  ? "text-amber-500 hover:text-amber-400" 
+                  : "text-emerald-500 hover:text-emerald-400"
+              }`}
               aria-label={t("lock", "Lock")}
             >
               {isLoading ? (
@@ -96,7 +109,7 @@ export function IdentityStatusCompact() {
                 <Shield className="h-4 w-4" aria-hidden="true" />
               )}
               <span className="sr-only sm:not-sr-only">
-                {t("identity", "Identity")}
+                {unlockExpiresAt ? formatted : t("identity", "Identity")}
               </span>
             </Button>
           ) : (
