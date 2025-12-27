@@ -20,8 +20,8 @@ export function MessagesPanel() {
   } = useInbox();
 
   return (
-    <div className="flex flex-col h-full" role="region" aria-label={t("messagingPanel", "Messaging panel")}>
-      <Tabs defaultValue="inbox" className="flex flex-col h-full">
+    <div role="region" aria-label={t("messagingPanel", "Messaging panel")}>
+      <Tabs defaultValue="inbox" className="flex flex-col">
         <TabsList 
           className="grid w-full grid-cols-4" 
           aria-label={t("messagingTabs", "Messaging navigation")}
@@ -51,7 +51,7 @@ export function MessagesPanel() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="inbox" className="flex-1 mt-0 overflow-hidden">
+        <TabsContent value="inbox" className="mt-0">
           <Inbox
             messages={messages}
             isLoading={isLoading}
@@ -61,18 +61,18 @@ export function MessagesPanel() {
           />
         </TabsContent>
 
-        <TabsContent value="compose" className="flex-1 mt-0">
+        <TabsContent value="compose" className="mt-0">
           <Compose 
             onOptimistic={addOptimistic}
             onOptimisticRemove={removeOptimistic}
           />
         </TabsContent>
 
-        <TabsContent value="browser" className="flex-1 mt-0 overflow-auto">
+        <TabsContent value="browser" className="mt-0">
           <BrowserPanel />
         </TabsContent>
 
-        <TabsContent value="payments" className="flex-1 mt-0 overflow-auto">
+        <TabsContent value="payments" className="mt-0">
           <PaymentsPanel />
         </TabsContent>
       </Tabs>
