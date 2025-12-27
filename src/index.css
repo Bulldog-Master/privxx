@@ -97,6 +97,40 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
+
+  /* Enhanced focus indicators for accessibility */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Buttons and interactive elements */
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background rounded-sm;
+  }
+
+  /* Tab triggers */
+  [role="tab"]:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-1 ring-offset-background;
+  }
+
+  /* Checkbox and radio */
+  [role="checkbox"]:focus-visible,
+  [role="radio"]:focus-visible,
+  [role="switch"]:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Menu items */
+  [role="menuitem"]:focus-visible,
+  [role="option"]:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-inset;
+  }
 }
 
 /* RTL support */
