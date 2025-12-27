@@ -22,9 +22,10 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 - Includes: `useAuthMode` hook, individual form components, `AuthCard` wrapper
 - Auth.tsx now acts as a thin orchestrator
 
-### P2 — i18n Consolidation
-- Two translation systems are currently used
-- Recommendation: standardize on one approach to reduce cognitive overhead
+### P2 — i18n Consolidation ✅ COMPLETE
+- Single `react-i18next` system in `src/i18n/index.ts`
+- All translations in `public/locales/{lang}/ui.json` (16 languages)
+- No custom translation helpers found
 
 ### P2 — Shared Layout Duplication ✅ COMPLETE
 - `PageBackground` component extracted to `src/components/layout/`
@@ -49,7 +50,7 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 | Priority | Item | Status |
 |----------|------|--------|
 | P1 | Refactor oversized page components | ✅ Complete |
-| P2 | Consolidate i18n system | 🔲 Pending |
+| P2 | Consolidate i18n system | ✅ Complete |
 | P2 | Extract shared layout components | ✅ Complete |
 | P3 | Organize components by domain | 🔲 Pending |
 | P3 | Add CI checks | ✅ Complete |
@@ -69,9 +70,8 @@ Privxx is well-architected and ready for iterative hardening. The recommended ch
 - [x] Extract auth mode logic into a dedicated hook
 - [x] Ensure no behavioral changes during refactor
 
-### Phase 2 — Consistency (P2)
-- [ ] Standardize on one i18n approach
-- [ ] Add temporary wrapper for gradual migration
+### Phase 2 — Consistency (P2) ✅
+- [x] Standardize on one i18n approach (react-i18next)
 - [x] Extract shared `PageBackground` layout component
 - [x] Replace duplicated background markup
 
