@@ -34,9 +34,9 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 - Root `components/` directory mixes multiple concerns
 - Recommendation: group components by domain (auth, layout, branding, identity, etc.)
 
-### P3 — CI & Quality
-- No visible CI enforcement
-- Recommendation: add linting, type checks, and test execution to CI
+### P3 — CI & Quality ✅ COMPLETE
+- GitHub Actions workflow at `.github/workflows/ci.yml`
+- Includes: linting, type checking, build, privacy checks, language guard, and tests
 
 ### P4 — Testing Coverage
 - Minimal test coverage outside diagnostics
@@ -52,7 +52,7 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 | P2 | Consolidate i18n system | 🔲 Pending |
 | P2 | Extract shared layout components | ✅ Complete |
 | P3 | Organize components by domain | 🔲 Pending |
-| P3 | Add CI checks | 🔲 Pending |
+| P3 | Add CI checks | ✅ Complete |
 | P4 | Expand test coverage | 🔲 Pending |
 
 ---
@@ -81,6 +81,6 @@ Privxx is well-architected and ready for iterative hardening. The recommended ch
 - [ ] Remove unused/legacy components
 
 ### Phase 4 — Quality & Reliability (P3–P4)
-- [ ] Add CI workflow (lint, typecheck)
+- [x] Add CI workflow (lint, typecheck, tests, privacy checks)
 - [ ] Add unit tests for critical hooks and contexts
 - [ ] Introduce semantic version tags
