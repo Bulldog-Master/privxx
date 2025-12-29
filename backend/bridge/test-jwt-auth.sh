@@ -59,7 +59,7 @@ create_jwt() {
 }
 
 # Test helper function
-# Args: $1=test_name, $2=expected_result (pass/fail), $3=endpoint, $4=method, $5=auth_header, $6=expected_code (optional)
+# Args: $1=test_name, $2=expected_result (pass/fail), $3=endpoint, $4=method, $5=auth_header, $6=expected_code (optional), $7=expected_http_code (optional)
 run_test() {
     local test_name="$1"
     local expected="$2"
@@ -67,6 +67,7 @@ run_test() {
     local method="$4"
     local auth_header="$5"
     local expected_code="${6:-}"
+    local expected_http="${7:-}"
     
     echo -n "Test: $test_name... "
     
@@ -91,6 +92,17 @@ run_test() {
         if [ "$http_code" = "200" ]; then
             result="pass"
         fi
+    elif [ "$expected" = "forbidden" ]; then
+        if [ "$http_code" = "403" ]; then
+            result="pass"
+            if [ -n "$expected_code" ]; then
+                if echo "$body" | grep -q "\"code\":\"$expected_code\""; then
+                    result="pass"
+                else
+                    result="fail"
+                fi
+            fi
+        fi
     else
         if [ "$http_code" = "401" ] || [ "$http_code" = "500" ]; then
             result="pass"
@@ -103,6 +115,10 @@ run_test() {
                 fi
             fi
         fi
+        # Check specific HTTP code if provided
+        if [ -n "$expected_http" ] && [ "$http_code" = "$expected_http" ]; then
+            result="pass"
+        fi
     fi
     
     if [ "$result" = "pass" ]; then
@@ -113,6 +129,15 @@ run_test() {
         echo "  Response: $body"
         ((FAIL_COUNT++))
     fi
+    
+    # Return body for chaining
+    echo "$body" > /tmp/last_response.json
+}
+
+# Helper to extract JSON value
+json_value() {
+    local key="$1"
+    grep -o "\"$key\":[^,}]*" /tmp/last_response.json | sed 's/"[^"]*"://; s/"//g; s/}//'
 }
 
 echo "=========================================="
@@ -195,7 +220,7 @@ fi
 
 echo ""
 echo "=========================================="
-echo "5. Protected Endpoint Tests"
+echo "5. Protected Endpoint Tests (Auth Only)"
 echo "=========================================="
 
 if [ -z "$SUPABASE_JWT_SECRET" ]; then
@@ -207,8 +232,186 @@ else
     VALID_TOKEN=$(create_jwt "$VALID_PAYLOAD")
     
     run_test "GET /status with valid token" "pass" "/status" "GET" "Bearer $VALID_TOKEN"
-    run_test "POST /connect with valid token" "pass" "/connect" "POST" "Bearer $VALID_TOKEN"
-    run_test "POST /disconnect with valid token" "pass" "/disconnect" "POST" "Bearer $VALID_TOKEN"
+fi
+
+echo ""
+echo "=========================================="
+echo "6. Unlock TTL Tests"
+echo "=========================================="
+
+if [ -z "$SUPABASE_JWT_SECRET" ]; then
+    echo -e "${YELLOW}Skipping (SUPABASE_JWT_SECRET not set)${NC}"
+else
+    NOW=$(date +%s)
+    EXP=$((NOW + 3600))
+    
+    # Create a unique user for unlock tests
+    UNLOCK_USER_ID="unlock-test-$(date +%s)"
+    UNLOCK_PAYLOAD="{\"sub\":\"$UNLOCK_USER_ID\",\"aud\":\"authenticated\",\"iss\":\"https://qgzoqsgfqmtcpgfgtfms.supabase.co/auth/v1\",\"iat\":$NOW,\"exp\":$EXP}"
+    UNLOCK_TOKEN=$(create_jwt "$UNLOCK_PAYLOAD")
+    
+    echo ""
+    echo "Testing with user: $UNLOCK_USER_ID"
+    echo ""
+    
+    # Test 6.1: Check initial unlock status (should be locked)
+    echo -n "Test: Initial unlock status (should be locked)... "
+    RESPONSE=$(curl -s "$BRIDGE_URL/unlock/status" -H "Authorization: Bearer $UNLOCK_TOKEN" 2>/dev/null)
+    if echo "$RESPONSE" | grep -q '"unlocked":false'; then
+        echo -e "${GREEN}PASSED${NC}"
+        ((PASS_COUNT++))
+    else
+        echo -e "${RED}FAILED${NC}"
+        echo "  Response: $RESPONSE"
+        ((FAIL_COUNT++))
+    fi
+    
+    # Test 6.2: Connect without unlock (should fail with 403)
+    run_test "POST /connect without unlock" "forbidden" "/connect" "POST" "Bearer $UNLOCK_TOKEN" "session_locked"
+    
+    # Test 6.3: Disconnect without unlock (should fail with 403)
+    run_test "POST /disconnect without unlock" "forbidden" "/disconnect" "POST" "Bearer $UNLOCK_TOKEN" "session_locked"
+    
+    # Test 6.4: Unlock the session
+    echo -n "Test: POST /unlock (create session)... "
+    RESPONSE=$(curl -s -X POST "$BRIDGE_URL/unlock" \
+        -H "Authorization: Bearer $UNLOCK_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{}' 2>/dev/null)
+    if echo "$RESPONSE" | grep -q '"success":true'; then
+        TTL=$(echo "$RESPONSE" | grep -o '"ttlSeconds":[0-9]*' | grep -o '[0-9]*')
+        echo -e "${GREEN}PASSED${NC} (TTL: ${TTL}s)"
+        ((PASS_COUNT++))
+    else
+        echo -e "${RED}FAILED${NC}"
+        echo "  Response: $RESPONSE"
+        ((FAIL_COUNT++))
+    fi
+    
+    # Test 6.5: Check unlock status (should be unlocked)
+    echo -n "Test: Unlock status after unlock (should be unlocked)... "
+    RESPONSE=$(curl -s "$BRIDGE_URL/unlock/status" -H "Authorization: Bearer $UNLOCK_TOKEN" 2>/dev/null)
+    if echo "$RESPONSE" | grep -q '"unlocked":true'; then
+        REMAINING=$(echo "$RESPONSE" | grep -o '"ttlRemainingSeconds":[0-9]*' | grep -o '[0-9]*')
+        echo -e "${GREEN}PASSED${NC} (TTL remaining: ${REMAINING}s)"
+        ((PASS_COUNT++))
+    else
+        echo -e "${RED}FAILED${NC}"
+        echo "  Response: $RESPONSE"
+        ((FAIL_COUNT++))
+    fi
+    
+    # Test 6.6: Connect with unlock (should succeed)
+    run_test "POST /connect with unlock" "pass" "/connect" "POST" "Bearer $UNLOCK_TOKEN"
+    
+    # Test 6.7: Status doesn't require unlock
+    run_test "GET /status (no unlock required)" "pass" "/status" "GET" "Bearer $UNLOCK_TOKEN"
+    
+    # Test 6.8: Disconnect with unlock (should succeed)
+    run_test "POST /disconnect with unlock" "pass" "/disconnect" "POST" "Bearer $UNLOCK_TOKEN"
+    
+    # Test 6.9: Lock the session
+    echo -n "Test: POST /lock (lock session)... "
+    RESPONSE=$(curl -s -X POST "$BRIDGE_URL/lock" \
+        -H "Authorization: Bearer $UNLOCK_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{}' 2>/dev/null)
+    if echo "$RESPONSE" | grep -q '"success":true'; then
+        echo -e "${GREEN}PASSED${NC}"
+        ((PASS_COUNT++))
+    else
+        echo -e "${RED}FAILED${NC}"
+        echo "  Response: $RESPONSE"
+        ((FAIL_COUNT++))
+    fi
+    
+    # Test 6.10: Verify locked after explicit lock
+    echo -n "Test: Unlock status after lock (should be locked)... "
+    RESPONSE=$(curl -s "$BRIDGE_URL/unlock/status" -H "Authorization: Bearer $UNLOCK_TOKEN" 2>/dev/null)
+    if echo "$RESPONSE" | grep -q '"unlocked":false'; then
+        echo -e "${GREEN}PASSED${NC}"
+        ((PASS_COUNT++))
+    else
+        echo -e "${RED}FAILED${NC}"
+        echo "  Response: $RESPONSE"
+        ((FAIL_COUNT++))
+    fi
+    
+    # Test 6.11: Connect after lock (should fail)
+    run_test "POST /connect after lock" "forbidden" "/connect" "POST" "Bearer $UNLOCK_TOKEN" "session_locked"
+    
+    # Test 6.12: Re-unlock (refresh session)
+    echo -n "Test: POST /unlock (refresh session)... "
+    RESPONSE=$(curl -s -X POST "$BRIDGE_URL/unlock" \
+        -H "Authorization: Bearer $UNLOCK_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{}' 2>/dev/null)
+    if echo "$RESPONSE" | grep -q '"success":true'; then
+        echo -e "${GREEN}PASSED${NC}"
+        ((PASS_COUNT++))
+    else
+        echo -e "${RED}FAILED${NC}"
+        echo "  Response: $RESPONSE"
+        ((FAIL_COUNT++))
+    fi
+fi
+
+echo ""
+echo "=========================================="
+echo "7. Cross-User Isolation Tests"
+echo "=========================================="
+
+if [ -z "$SUPABASE_JWT_SECRET" ]; then
+    echo -e "${YELLOW}Skipping (SUPABASE_JWT_SECRET not set)${NC}"
+else
+    NOW=$(date +%s)
+    EXP=$((NOW + 3600))
+    
+    # Create two different users
+    USER_A_ID="user-a-$(date +%s)"
+    USER_B_ID="user-b-$(date +%s)"
+    
+    USER_A_PAYLOAD="{\"sub\":\"$USER_A_ID\",\"aud\":\"authenticated\",\"iss\":\"https://qgzoqsgfqmtcpgfgtfms.supabase.co/auth/v1\",\"iat\":$NOW,\"exp\":$EXP}"
+    USER_B_PAYLOAD="{\"sub\":\"$USER_B_ID\",\"aud\":\"authenticated\",\"iss\":\"https://qgzoqsgfqmtcpgfgtfms.supabase.co/auth/v1\",\"iat\":$NOW,\"exp\":$EXP}"
+    
+    USER_A_TOKEN=$(create_jwt "$USER_A_PAYLOAD")
+    USER_B_TOKEN=$(create_jwt "$USER_B_PAYLOAD")
+    
+    echo ""
+    echo "Testing isolation between users: $USER_A_ID and $USER_B_ID"
+    echo ""
+    
+    # Unlock User A
+    echo -n "Test: Unlock User A... "
+    RESPONSE=$(curl -s -X POST "$BRIDGE_URL/unlock" \
+        -H "Authorization: Bearer $USER_A_TOKEN" \
+        -H "Content-Type: application/json" \
+        -d '{}' 2>/dev/null)
+    if echo "$RESPONSE" | grep -q '"success":true'; then
+        echo -e "${GREEN}PASSED${NC}"
+        ((PASS_COUNT++))
+    else
+        echo -e "${RED}FAILED${NC}"
+        ((FAIL_COUNT++))
+    fi
+    
+    # User B should still be locked
+    echo -n "Test: User B still locked (isolation)... "
+    RESPONSE=$(curl -s "$BRIDGE_URL/unlock/status" -H "Authorization: Bearer $USER_B_TOKEN" 2>/dev/null)
+    if echo "$RESPONSE" | grep -q '"unlocked":false'; then
+        echo -e "${GREEN}PASSED${NC}"
+        ((PASS_COUNT++))
+    else
+        echo -e "${RED}FAILED${NC}"
+        echo "  Response: $RESPONSE"
+        ((FAIL_COUNT++))
+    fi
+    
+    # User A can connect
+    run_test "User A can connect (unlocked)" "pass" "/connect" "POST" "Bearer $USER_A_TOKEN"
+    
+    # User B cannot connect
+    run_test "User B cannot connect (locked)" "forbidden" "/connect" "POST" "Bearer $USER_B_TOKEN" "session_locked"
 fi
 
 echo ""
