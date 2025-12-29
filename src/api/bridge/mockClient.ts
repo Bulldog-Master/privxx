@@ -1,7 +1,7 @@
 /**
  * Mock Bridge Client for Offline Development (C2 Model)
  * 
- * Simulates bridge behavior when VITE_MOCK=true or no bridge URL configured
+ * Simulates bridge behavior when VITE_MOCK=true
  */
 
 import type {
@@ -13,6 +13,9 @@ import type {
   IdentityLockResponse,
   Message,
   IBridgeClient,
+  HealthResponse,
+  XxdkInfoResponse,
+  CmixxStatusResponse,
 } from "./types";
 
 function sleep(ms: number): Promise<void> {
@@ -24,6 +27,41 @@ export class MockBridgeClient implements IBridgeClient {
   private identityExists = false;
   private identityState: "none" | "locked" | "unlocked" = "none";
   private unlockExpiresAt: string | null = null;
+
+  // Health & Status (public endpoints)
+  async health(): Promise<HealthResponse> {
+    await sleep(50);
+    return {
+      ok: true,
+      service: "privxx-bridge-mock",
+      version: "phase-d-mock",
+      time: new Date().toISOString(),
+    };
+  }
+
+  async xxdkInfo(): Promise<XxdkInfoResponse> {
+    await sleep(100);
+    return {
+      ok: true,
+      mode: "demo",
+      hasIdentity: this.identityExists,
+      receptionId: this.identityExists ? "mock-reception-id" : undefined,
+      ready: this.identityExists && this.identityState === "unlocked",
+      timestamp: Date.now(),
+    };
+  }
+
+  async cmixxStatus(): Promise<CmixxStatusResponse> {
+    await sleep(100);
+    return {
+      ok: true,
+      mode: "demo",
+      connected: true,
+      lastRoundId: 12345,
+      nodeCount: 5,
+      timestamp: Date.now(),
+    };
+  }
 
   async status(): Promise<StatusResponse> {
     await sleep(100);
