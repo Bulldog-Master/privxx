@@ -1,10 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
-import { Clock, CheckCircle2, XCircle, AlertTriangle, Trash2 } from "lucide-react";
+import { Clock, CheckCircle2, XCircle, AlertTriangle, Trash2, Download } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { exportConnectionHistoryAsJSON, exportConnectionHistoryAsCSV } from "../utils/exportData";
+import { toast } from "sonner";
 
 interface ConnectionEvent {
   id: string;
@@ -119,15 +127,43 @@ const ConnectionHistoryLog = () => {
             </div>
           </div>
           {events.length > 0 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearHistory}
-              className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
-            >
-              <Trash2 className="h-3.5 w-3.5 mr-1" />
-              {t("clear", "Clear")}
-            </Button>
+            <div className="flex items-center gap-1">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <Download className="h-3.5 w-3.5 mr-1" />
+                    {t("export", "Export")}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => {
+                    exportConnectionHistoryAsJSON(events);
+                    toast.success(t("exportedAsJson", "Exported as JSON"));
+                  }}>
+                    {t("exportJson", "Export as JSON")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                    exportConnectionHistoryAsCSV(events);
+                    toast.success(t("exportedAsCsv", "Exported as CSV"));
+                  }}>
+                    {t("exportCsv", "Export as CSV")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearHistory}
+                className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+              >
+                <Trash2 className="h-3.5 w-3.5 mr-1" />
+                {t("clear", "Clear")}
+              </Button>
+            </div>
           )}
         </div>
       </CardHeader>
