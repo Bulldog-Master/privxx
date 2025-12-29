@@ -92,6 +92,153 @@ type JWTError struct {
 	Message string `json:"message,omitempty"`
 }
 
+// RateLimitConfig holds rate limiting configuration
+type RateLimitConfig struct {
+	MaxAttempts    int           // Max failed attempts before lockout
+	WindowDuration time.Duration // Time window for counting attempts
+	LockoutDuration time.Duration // How long to block after exceeding limit
+}
+
+// RateLimitEntry tracks attempts for a single IP
+type RateLimitEntry struct {
+	Attempts    int
+	FirstAttempt time.Time
+	LockedUntil  time.Time
+}
+
+// RateLimiter manages IP-based rate limiting
+type RateLimiter struct {
+	mu      sync.RWMutex
+	entries map[string]*RateLimitEntry
+	config  RateLimitConfig
+}
+
+// Default rate limit: 10 failed attempts per 15 minutes, 30 minute lockout
+var rateLimiter = &RateLimiter{
+	entries: make(map[string]*RateLimitEntry),
+	config: RateLimitConfig{
+		MaxAttempts:     10,
+		WindowDuration:  15 * time.Minute,
+		LockoutDuration: 30 * time.Minute,
+	},
+}
+
+// getClientIP extracts the client IP from the request
+func getClientIP(r *http.Request) string {
+	// Check X-Forwarded-For header (for reverse proxies)
+	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
+		// Take the first IP in the chain
+		if idx := strings.Index(xff, ","); idx != -1 {
+			return strings.TrimSpace(xff[:idx])
+		}
+		return strings.TrimSpace(xff)
+	}
+	// Check X-Real-IP header
+	if xri := r.Header.Get("X-Real-IP"); xri != "" {
+		return strings.TrimSpace(xri)
+	}
+	// Fall back to RemoteAddr
+	ip := r.RemoteAddr
+	if idx := strings.LastIndex(ip, ":"); idx != -1 {
+		return ip[:idx]
+	}
+	return ip
+}
+
+// isRateLimited checks if an IP is currently rate limited
+func (rl *RateLimiter) isRateLimited(ip string) (bool, time.Duration) {
+	rl.mu.RLock()
+	defer rl.mu.RUnlock()
+
+	entry, exists := rl.entries[ip]
+	if !exists {
+		return false, 0
+	}
+
+	now := time.Now()
+
+	// Check if currently locked out
+	if !entry.LockedUntil.IsZero() && now.Before(entry.LockedUntil) {
+		remaining := entry.LockedUntil.Sub(now)
+		return true, remaining
+	}
+
+	return false, 0
+}
+
+// recordFailedAttempt records a failed auth attempt for an IP
+func (rl *RateLimiter) recordFailedAttempt(ip string) (blocked bool, remaining time.Duration) {
+	rl.mu.Lock()
+	defer rl.mu.Unlock()
+
+	now := time.Now()
+	entry, exists := rl.entries[ip]
+
+	if !exists {
+		rl.entries[ip] = &RateLimitEntry{
+			Attempts:     1,
+			FirstAttempt: now,
+		}
+		return false, 0
+	}
+
+	// If window has expired, reset
+	if now.Sub(entry.FirstAttempt) > rl.config.WindowDuration {
+		entry.Attempts = 1
+		entry.FirstAttempt = now
+		entry.LockedUntil = time.Time{}
+		return false, 0
+	}
+
+	// Increment attempts
+	entry.Attempts++
+
+	// Check if we should lock out
+	if entry.Attempts >= rl.config.MaxAttempts {
+		entry.LockedUntil = now.Add(rl.config.LockoutDuration)
+		log.Printf("[RATE-LIMIT] IP %s locked out until %s (%d attempts)", 
+			ip, entry.LockedUntil.Format(time.RFC3339), entry.Attempts)
+		return true, rl.config.LockoutDuration
+	}
+
+	return false, 0
+}
+
+// recordSuccess clears rate limit state for an IP on successful auth
+func (rl *RateLimiter) recordSuccess(ip string) {
+	rl.mu.Lock()
+	defer rl.mu.Unlock()
+	delete(rl.entries, ip)
+}
+
+// cleanup removes expired entries (call periodically)
+func (rl *RateLimiter) cleanup() {
+	rl.mu.Lock()
+	defer rl.mu.Unlock()
+
+	now := time.Now()
+	for ip, entry := range rl.entries {
+		// Remove if window expired and not locked
+		windowExpired := now.Sub(entry.FirstAttempt) > rl.config.WindowDuration
+		lockExpired := entry.LockedUntil.IsZero() || now.After(entry.LockedUntil)
+		
+		if windowExpired && lockExpired {
+			delete(rl.entries, ip)
+		}
+	}
+}
+
+// startCleanupRoutine starts a goroutine to periodically clean up expired entries
+func (rl *RateLimiter) startCleanupRoutine() {
+	go func() {
+		ticker := time.NewTicker(5 * time.Minute)
+		defer ticker.Stop()
+		for range ticker.C {
+			rl.cleanup()
+		}
+	}()
+}
+
 // AllowedOrigins for CORS (production + development)
 var allowedOrigins = []string{
 	"https://privxx.app",
@@ -340,14 +487,40 @@ func writeJWTError(w http.ResponseWriter, jwtErr *JWTError) {
 	json.NewEncoder(w).Encode(jwtErr)
 }
 
-// authMiddleware validates JWT for protected routes
+// authMiddleware validates JWT for protected routes with rate limiting
 func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		clientIP := getClientIP(r)
+
+		// Check if IP is rate limited
+		if limited, remaining := rateLimiter.isRateLimited(clientIP); limited {
+			log.Printf("[RATE-LIMIT] Blocked request from %s (locked for %v)", clientIP, remaining)
+			w.Header().Set("Content-Type", "application/json")
+			w.Header().Set("Retry-After", fmt.Sprintf("%d", int(remaining.Seconds())))
+			w.WriteHeader(http.StatusTooManyRequests)
+			json.NewEncoder(w).Encode(map[string]interface{}{
+				"error":   "rate_limited",
+				"code":    "too_many_requests",
+				"message": fmt.Sprintf("Too many failed attempts. Try again in %d seconds.", int(remaining.Seconds())),
+				"retryAfter": int(remaining.Seconds()),
+			})
+			return
+		}
+
 		claims, jwtErr := validateJWT(r)
 		if jwtErr != nil {
+			// Record failed attempt
+			blocked, remaining := rateLimiter.recordFailedAttempt(clientIP)
+			if blocked {
+				jwtErr.Message = fmt.Sprintf("Account locked due to too many failed attempts. Try again in %d seconds.", int(remaining.Seconds()))
+				jwtErr.Code = "rate_limited"
+			}
 			writeJWTError(w, jwtErr)
 			return
 		}
+
+		// Clear rate limit on successful auth
+		rateLimiter.recordSuccess(clientIP)
 
 		// Add user ID to request context via header for downstream handlers
 		r.Header.Set("X-User-Id", claims.Sub)
@@ -528,16 +701,23 @@ func main() {
 		bindAddr = "127.0.0.1"
 	}
 
+	// Start rate limiter cleanup routine
+	rateLimiter.startCleanupRoutine()
+	log.Printf("Rate limiter initialized: %d attempts per %v, %v lockout",
+		rateLimiter.config.MaxAttempts,
+		rateLimiter.config.WindowDuration,
+		rateLimiter.config.LockoutDuration)
+
 	// /health is public (no auth required)
 	http.HandleFunc("/health", corsMiddleware(handleHealth))
-	// All other routes require JWT authentication
+	// All other routes require JWT authentication with rate limiting
 	http.HandleFunc("/connect", corsMiddleware(authMiddleware(handleConnect)))
 	http.HandleFunc("/status", corsMiddleware(authMiddleware(handleStatus)))
 	http.HandleFunc("/disconnect", corsMiddleware(authMiddleware(handleDisconnect)))
 
 	listenAddr := fmt.Sprintf("%s:%s", bindAddr, port)
 
-	log.Printf("Privxx Bridge v0.2.0 starting on %s", listenAddr)
+	log.Printf("Privxx Bridge v0.3.0 starting on %s", listenAddr)
 	log.Printf("Endpoints: /health, /connect, /status, /disconnect")
 	log.Printf("CORS: Canonical origin %s", CanonicalOrigin)
 	log.Printf("Allowed origins: %v", allowedOrigins)
