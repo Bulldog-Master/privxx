@@ -8,6 +8,7 @@ import { Check, AlertTriangle, Globe, RefreshCw, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { formatDistanceToNow } from 'date-fns';
+import { buildInfo } from '@/lib/buildInfo';
 
 interface LanguageStatus {
   code: string;
@@ -45,7 +46,7 @@ const LANGUAGE_META: Record<string, { name: string; nativeName: string }> = {
 };
 
 const SUPPORTED_LANGUAGES = Object.keys(LANGUAGE_META);
-const CACHE_KEY = 'privxx_translation_status_cache';
+const CACHE_KEY = `privxx_translation_status_cache_${buildInfo.build || buildInfo.version}`;
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 function getAllKeys(obj: Record<string, unknown>, prefix = ''): string[] {
@@ -129,14 +130,24 @@ export function TranslationStatusDashboard() {
         setLoading(false);
         return;
       }
+    } else {
+      // Force-refresh should always bypass any stored results
+      try {
+        sessionStorage.removeItem(CACHE_KEY);
+      } catch {
+        // ignore
+      }
     }
 
     setLoading(true);
     setError(null);
 
     try {
+      const cacheBuster = `${Date.now()}`;
+      const fetchOptions: RequestInit | undefined = forceRefresh ? { cache: 'no-store' } : undefined;
+
       // Fetch English as reference
-      const enResponse = await fetch('/locales/en/ui.json');
+      const enResponse = await fetch(`/locales/en/ui.json?v=${cacheBuster}`, fetchOptions);
       if (!enResponse.ok) throw new Error('Failed to load English reference');
       const enData = await enResponse.json();
       const referenceKeys = getAllKeys(enData);
@@ -146,7 +157,7 @@ export function TranslationStatusDashboard() {
       // Fetch all languages in parallel for better performance
       const fetchPromises = SUPPORTED_LANGUAGES.map(async (langCode) => {
         try {
-          const response = await fetch(`/locales/${langCode}/ui.json`);
+          const response = await fetch(`/locales/${langCode}/ui.json?v=${cacheBuster}`, fetchOptions);
           if (!response.ok) {
             return {
               code: langCode,
@@ -163,10 +174,10 @@ export function TranslationStatusDashboard() {
           const langData = await response.json();
           const langKeys = getAllKeys(langData);
 
-          const missingKeys = referenceKeys.filter(k => !langKeys.includes(k));
+          const missingKeys = referenceKeys.filter((k) => !langKeys.includes(k));
           const placeholderKeys: string[] = [];
 
-          // Check for placeholder values
+          // Placeholder values are informative; they do NOT affect sync completeness.
           for (const key of langKeys) {
             const value = getValueAtPath(langData, key);
             if (typeof value === 'string' && isPlaceholder(value, langCode)) {
@@ -174,9 +185,8 @@ export function TranslationStatusDashboard() {
             }
           }
 
-          const totalIssues = missingKeys.length + placeholderKeys.length;
           const completionPercent = referenceKeys.length > 0
-            ? Math.round(((referenceKeys.length - totalIssues) / referenceKeys.length) * 100)
+            ? Math.round(((referenceKeys.length - missingKeys.length) / referenceKeys.length) * 100)
             : 100;
 
           return {
@@ -187,7 +197,7 @@ export function TranslationStatusDashboard() {
             placeholderKeys,
             missingKeys,
             completionPercent: Math.max(0, completionPercent),
-            isComplete: missingKeys.length === 0 && placeholderKeys.length === 0,
+            isComplete: missingKeys.length === 0,
           };
         } catch {
           return {
@@ -225,7 +235,8 @@ export function TranslationStatusDashboard() {
   useEffect(() => {
     if (!initialLoadDone.current) {
       initialLoadDone.current = true;
-      analyzeTranslations();
+      // Always force refresh on first load to avoid stale caches (PWA/browser).
+      analyzeTranslations(true);
     }
   }, [analyzeTranslations]);
 
