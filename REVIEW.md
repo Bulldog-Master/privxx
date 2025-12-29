@@ -39,10 +39,15 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 - GitHub Actions workflow at `.github/workflows/ci.yml`
 - Includes: linting, type checking, build, privacy checks, language guard, and tests
 
-### P4 — Testing Coverage ✅ IN PROGRESS
+### P4 — Testing Coverage ✅ COMPLETE
 - Added tests for `useAuthMode` hook
 - Added Zod validation schemas with tests
 - All auth forms now use Zod for input validation
+
+### P5 — Feature Module Promotion ✅ COMPLETE
+- Identity promoted to full feature at `src/features/identity/`
+- Structure: `context/`, `components/`, `hooks/` with barrel exports
+- Backwards-compatible re-exports in old locations
 
 ---
 
@@ -56,6 +61,7 @@ The Privxx codebase demonstrates a strong modern frontend foundation built with 
 | P3 | Organize components by domain | ✅ Complete |
 | P3 | Add CI checks | ✅ Complete |
 | P4 | Expand test coverage | ✅ Complete |
+| P5 | Promote identity to feature module | ✅ Complete |
 
 ---
 

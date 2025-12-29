@@ -8,7 +8,7 @@ import { ThemeProvider } from "next-themes";
 import { RtlProvider } from "@/components/shared";
 import { AppErrorBoundary } from "@/components/shared";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import { IdentityProvider } from "@/contexts/IdentityContext";
+import { IdentityProvider } from "@/features/identity";
 import { SkipToContent } from "@/components/shared";
 import { InstallPrompt } from "@/components/pwa";
 import { EmailVerificationPending } from "@/components/session";

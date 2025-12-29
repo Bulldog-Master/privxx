@@ -6,7 +6,7 @@
 
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/contexts/AuthContext";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity";
 import { useTTLCountdown } from "@/hooks/useTTLCountdown";
 import { 
   Shield, 

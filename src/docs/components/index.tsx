@@ -981,14 +981,14 @@ toast.warning("Session expiring soon");`,
     name: "IdentityStatus",
     description: "Displays the current identity state and provides unlock/lock actions. Shows TTL countdown when unlocked.",
     category: "Identity",
-    importPath: 'import { IdentityStatus } from "@/components/identity"',
+    importPath: 'import { IdentityStatus } from "@/features/identity"',
     props: [],
     examples: [
       {
         id: "usage",
         title: "Basic Usage",
         description: "The component reads state from IdentityContext automatically.",
-        code: `import { IdentityStatus } from "@/components/identity";
+        code: `import { IdentityStatus } from "@/features/identity";
 
 function MyComponent() {
   return (
@@ -1012,14 +1012,14 @@ function MyComponent() {
     name: "IdentityStatusCompact",
     description: "A minimal identity indicator for header/navigation use. Shows status via tooltip.",
     category: "Identity",
-    importPath: 'import { IdentityStatusCompact } from "@/components/identity"',
+    importPath: 'import { IdentityStatusCompact } from "@/features/identity"',
     props: [],
     examples: [
       {
         id: "usage",
         title: "Basic Usage",
         description: "Compact version ideal for navigation bars.",
-        code: `import { IdentityStatusCompact } from "@/components/identity";
+        code: `import { IdentityStatusCompact } from "@/features/identity";
 
 function NavBar() {
   return (
@@ -1043,7 +1043,7 @@ function NavBar() {
     name: "useIdentityActions",
     description: "A hook that provides identity state and action handlers. Used internally by IdentityStatus components.",
     category: "Identity",
-    importPath: 'import { useIdentityActions } from "@/components/identity"',
+    importPath: 'import { useIdentityActions } from "@/features/identity"',
     props: [
       { name: "state", type: "IdentityState", description: "Current identity state" },
       { name: "isNone", type: "boolean", description: "True if no identity exists" },
@@ -1062,7 +1062,7 @@ function NavBar() {
         id: "custom-ui",
         title: "Custom Identity UI",
         description: "Build custom identity UI using the hook.",
-        code: `import { useIdentityActions } from "@/components/identity";
+        code: `import { useIdentityActions } from "@/features/identity";
 
 function CustomIdentityButton() {
   const { 

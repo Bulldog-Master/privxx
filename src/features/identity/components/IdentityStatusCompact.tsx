@@ -14,7 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useIdentityActions } from "./useIdentityActions";
+import { useIdentityActions } from "@/features/identity/hooks/useIdentityActions";
 
 export function IdentityStatusCompact() {
   const {

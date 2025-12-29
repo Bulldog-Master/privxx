@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { DemoMessage, InboxState } from "./types";
 import { mergeMessages } from "./merge";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity";
 import { bridgeClient } from "@/api/bridge";
 import type { Message } from "@/api/bridge";
 
