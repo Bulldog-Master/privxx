@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock } from "lucide-react";
+import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock, Activity } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/contexts/IdentityContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -159,6 +159,14 @@ const PrivxxHeader = () => {
             <Link to="/whats-new" className="gap-2 cursor-pointer">
               <Sparkles className="w-4 h-4" />
               {t("whatsNew", "What's New")}
+            </Link>
+          </DropdownMenuItem>
+
+          {/* Diagnostics */}
+          <DropdownMenuItem asChild>
+            <Link to="/diagnostics" className="gap-2 cursor-pointer">
+              <Activity className="w-4 h-4" />
+              {t("diagnostics.link", "Diagnostics")}
             </Link>
           </DropdownMenuItem>
 
