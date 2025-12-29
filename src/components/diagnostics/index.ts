@@ -6,6 +6,7 @@ export {
   DiagnosticsFooter,
   DiagnosticsDrawer,
   BridgeStatusCard,
+  BridgeLiveStatusCard,
   ReadinessPanel,
   TranslationStatusDashboard,
   useDiagnosticsState,

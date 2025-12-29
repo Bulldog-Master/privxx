@@ -15,7 +15,8 @@ import {
   getBackendStatusDisplay,
   getModeDisplay,
   BridgeStatusCard,
-} from "@/components/diagnostics";
+  BridgeLiveStatusCard,
+} from "@/features/diagnostics";
 import ReadinessPanel from "@/components/diagnostics/ReadinessPanel";
 
 const DiagnosticsDrawer = () => {
@@ -112,6 +113,9 @@ const DiagnosticsDrawer = () => {
                 labelColor={modeStatus.color}
               />
             )}
+
+            {/* Bridge Live Status (xxdk/info, cmixx/status) */}
+            <BridgeLiveStatusCard />
 
             {/* Readiness Panel (for cutover verification) */}
             {!isLoading && <ReadinessPanel />}

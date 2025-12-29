@@ -5,6 +5,7 @@ export {
   DiagnosticsFooter,
   DiagnosticsDrawer,
   BridgeStatusCard,
+  BridgeLiveStatusCard,
   ReadinessPanel,
   TranslationStatusDashboard,
 } from "./components";
