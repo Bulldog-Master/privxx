@@ -17,7 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity";
 import { useCountdown } from "@/hooks/useCountdown";
 import { toast } from "sonner";
 import { alertWarning, alertUrgent } from "@/lib/alerts";

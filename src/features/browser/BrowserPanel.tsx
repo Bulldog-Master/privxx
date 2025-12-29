@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity";
 import { Loader2, Shield } from "lucide-react";
 import { LockedState } from "@/components/shared";
 

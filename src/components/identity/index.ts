@@ -1,3 +1,3 @@
-export { IdentityStatus } from "./IdentityStatus";
-export { IdentityStatusCompact } from "./IdentityStatusCompact";
-export { useIdentityActions } from "./useIdentityActions";
+// Re-export from new location for backwards compatibility
+// TODO: Update imports to use @/features/identity directly
+export { IdentityStatus, IdentityStatusCompact, useIdentityActions } from "@/features/identity";

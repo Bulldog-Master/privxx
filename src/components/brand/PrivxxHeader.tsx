@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock, Activity } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity";
 import { supabase } from "@/integrations/supabase/client";
 import LanguageSelector from "@/components/shared/LanguageSelector";
 import { Button } from "@/components/ui/button";

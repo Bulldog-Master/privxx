@@ -5,7 +5,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity/context/IdentityContext";
 import { useCountdown } from "@/hooks/useCountdown";
 import { toast } from "sonner";
 

@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { bridgeClient } from "@/api/bridge";
 import { toast } from "sonner";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity";
 import type { DemoMessage } from "./types";
 
 interface ComposeProps {

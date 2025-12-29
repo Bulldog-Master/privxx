@@ -8,7 +8,7 @@
 
 import { Lock, Unlock, Loader2, Shield, Plus, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIdentityActions } from "./useIdentityActions";
+import { useIdentityActions } from "@/features/identity/hooks/useIdentityActions";
 
 export function IdentityStatus() {
   const {

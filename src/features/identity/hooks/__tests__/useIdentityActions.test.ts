@@ -9,7 +9,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("@/contexts/IdentityContext", () => ({
+vi.mock("@/features/identity/context/IdentityContext", () => ({
   useIdentity: vi.fn(),
 }));
 
@@ -24,7 +24,7 @@ vi.mock("sonner", () => ({
 }));
 
 import { useIdentityActions } from "../useIdentityActions";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity/context/IdentityContext";
 import { useCountdown } from "@/hooks/useCountdown";
 import { toast } from "sonner";
 

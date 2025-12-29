@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
-import { useIdentity } from "@/contexts/IdentityContext";
+import { useIdentity } from "@/features/identity";
 import { toast } from "sonner";
 import type { DemoMessage } from "./types";
 
