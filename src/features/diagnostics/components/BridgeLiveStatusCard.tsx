@@ -1,6 +1,7 @@
+import { useState, useRef, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Activity, Server, Wifi, WifiOff, CheckCircle2, XCircle, RefreshCw, Loader2, AlertTriangle } from "lucide-react";
+import { Activity, Server, Wifi, WifiOff, CheckCircle2, XCircle, RefreshCw, Loader2, AlertTriangle, Timer } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { bridgeClient } from "@/api/bridge";
@@ -61,10 +62,69 @@ const ErrorState = ({ endpoint, onRetry, isRetrying }: ErrorStateProps) => {
   );
 };
 
+interface LatencyBadgeProps {
+  latency: number | null;
+  isLoading?: boolean;
+}
+
+const LatencyBadge = ({ latency, isLoading }: LatencyBadgeProps) => {
+  if (isLoading) {
+    return (
+      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] bg-muted/50 text-muted-foreground">
+        <Loader2 className="h-2.5 w-2.5 animate-spin" />
+      </span>
+    );
+  }
+  
+  if (latency === null) return null;
+  
+  const getLatencyColor = (ms: number) => {
+    if (ms < 200) return "text-emerald-500 bg-emerald-500/10";
+    if (ms < 500) return "text-amber-500 bg-amber-500/10";
+    return "text-destructive bg-destructive/10";
+  };
+  
+  return (
+    <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono ${getLatencyColor(latency)}`}>
+      <Timer className="h-2.5 w-2.5" />
+      {latency}ms
+    </span>
+  );
+};
+
+// Hook to track response time
+const useResponseTime = () => {
+  const startTimeRef = useRef<number>(0);
+  const [latency, setLatency] = useState<number | null>(null);
+  
+  const startTimer = useCallback(() => {
+    startTimeRef.current = performance.now();
+  }, []);
+  
+  const endTimer = useCallback(() => {
+    if (startTimeRef.current > 0) {
+      const elapsed = Math.round(performance.now() - startTimeRef.current);
+      setLatency(elapsed);
+      startTimeRef.current = 0;
+    }
+  }, []);
+  
+  const resetTimer = useCallback(() => {
+    setLatency(null);
+  }, []);
+  
+  return { latency, startTimer, endTimer, resetTimer };
+};
+
 const BridgeLiveStatusCard = () => {
   const { t } = useTranslation();
+  
+  // Response time trackers
+  const healthTimer = useResponseTime();
+  const xxdkTimer = useResponseTime();
+  const cmixxTimer = useResponseTime();
 
-  // Fetch bridge health
+  // Fetch bridge health with timing
   const { 
     data: health, 
     isLoading: healthLoading,
@@ -73,12 +133,22 @@ const BridgeLiveStatusCard = () => {
     refetch: refetchHealth
   } = useQuery<HealthResponse>({
     queryKey: ["bridge-health"],
-    queryFn: () => bridgeClient.health(),
-    refetchInterval: 30000, // 30s polling
+    queryFn: async () => {
+      healthTimer.startTimer();
+      try {
+        const result = await bridgeClient.health();
+        healthTimer.endTimer();
+        return result;
+      } catch (e) {
+        healthTimer.resetTimer();
+        throw e;
+      }
+    },
+    refetchInterval: 30000,
     retry: 1,
   });
 
-  // Fetch xxdk info
+  // Fetch xxdk info with timing
   const { 
     data: xxdkInfo, 
     isLoading: xxdkLoading,
@@ -87,12 +157,22 @@ const BridgeLiveStatusCard = () => {
     refetch: refetchXxdk
   } = useQuery<XxdkInfoResponse>({
     queryKey: ["bridge-xxdk-info"],
-    queryFn: () => bridgeClient.xxdkInfo(),
+    queryFn: async () => {
+      xxdkTimer.startTimer();
+      try {
+        const result = await bridgeClient.xxdkInfo();
+        xxdkTimer.endTimer();
+        return result;
+      } catch (e) {
+        xxdkTimer.resetTimer();
+        throw e;
+      }
+    },
     refetchInterval: 30000,
     retry: 1,
   });
 
-  // Fetch cmixx status
+  // Fetch cmixx status with timing
   const { 
     data: cmixxStatus, 
     isLoading: cmixxLoading,
@@ -101,7 +181,17 @@ const BridgeLiveStatusCard = () => {
     refetch: refetchCmixx
   } = useQuery<CmixxStatusResponse>({
     queryKey: ["bridge-cmixx-status"],
-    queryFn: () => bridgeClient.cmixxStatus(),
+    queryFn: async () => {
+      cmixxTimer.startTimer();
+      try {
+        const result = await bridgeClient.cmixxStatus();
+        cmixxTimer.endTimer();
+        return result;
+      } catch (e) {
+        cmixxTimer.resetTimer();
+        throw e;
+      }
+    },
     refetchInterval: 30000,
     retry: 1,
   });
@@ -194,7 +284,10 @@ const BridgeLiveStatusCard = () => {
 
         {/* Health Status */}
         <div className="space-y-1 pt-2 border-t border-border/30">
-          <p className="text-xs text-muted-foreground uppercase tracking-wide">/health</p>
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">/health</p>
+            <LatencyBadge latency={healthError ? null : healthTimer.latency} isLoading={healthFetching} />
+          </div>
           {healthError ? (
             <ErrorState 
               endpoint="/health" 
@@ -224,7 +317,10 @@ const BridgeLiveStatusCard = () => {
 
         {/* xxDK Info */}
         <div className="space-y-1 pt-2 border-t border-border/30">
-          <p className="text-xs text-muted-foreground uppercase tracking-wide">/xxdk/info</p>
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">/xxdk/info</p>
+            <LatencyBadge latency={xxdkError ? null : xxdkTimer.latency} isLoading={xxdkFetching} />
+          </div>
           {xxdkError ? (
             <ErrorState 
               endpoint="/xxdk/info" 
@@ -267,7 +363,10 @@ const BridgeLiveStatusCard = () => {
 
         {/* cMixx Status */}
         <div className="space-y-1 pt-2 border-t border-border/30">
-          <p className="text-xs text-muted-foreground uppercase tracking-wide">/cmixx/status</p>
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">/cmixx/status</p>
+            <LatencyBadge latency={cmixxError ? null : cmixxTimer.latency} isLoading={cmixxFetching} />
+          </div>
           {cmixxError ? (
             <ErrorState 
               endpoint="/cmixx/status" 
