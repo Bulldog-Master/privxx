@@ -76,6 +76,171 @@ type HealthResponse struct {
 	XXDKReady bool   `json:"xxdkReady"`
 }
 
+// IdentitySession represents an unlocked user identity session
+type IdentitySession struct {
+	UserID       string    `json:"userId"`
+	XXIdentityID string    `json:"-"` // Never exposed to frontend
+	UnlockedAt   time.Time `json:"unlockedAt"`
+	ExpiresAt    time.Time `json:"expiresAt"`
+	LastActivity time.Time `json:"lastActivity"`
+}
+
+// IdentityManager manages user identity sessions with TTL
+type IdentityManager struct {
+	mu       sync.RWMutex
+	sessions map[string]*IdentitySession // keyed by userID
+	ttl      time.Duration
+}
+
+// Default TTL: 15 minutes (configurable via UNLOCK_TTL_MINUTES env var)
+var identityManager = &IdentityManager{
+	sessions: make(map[string]*IdentitySession),
+	ttl:      15 * time.Minute,
+}
+
+// UnlockRequest is the payload for POST /unlock
+type UnlockRequest struct {
+	// Future: could include passphrase or biometric confirmation
+}
+
+// UnlockResponse is returned from POST /unlock
+type UnlockResponse struct {
+	Success   bool      `json:"success"`
+	ExpiresAt time.Time `json:"expiresAt,omitempty"`
+	TTL       int       `json:"ttlSeconds,omitempty"`
+	Error     string    `json:"error,omitempty"`
+}
+
+// LockResponse is returned from POST /lock
+type LockResponse struct {
+	Success bool   `json:"success"`
+	Error   string `json:"error,omitempty"`
+}
+
+// UnlockStatusResponse is returned from GET /unlock/status
+type UnlockStatusResponse struct {
+	Unlocked     bool      `json:"unlocked"`
+	ExpiresAt    time.Time `json:"expiresAt,omitempty"`
+	TTLRemaining int       `json:"ttlRemainingSeconds,omitempty"`
+}
+
+// isUnlocked checks if user has an active unlocked session
+func (im *IdentityManager) isUnlocked(userID string) bool {
+	im.mu.RLock()
+	defer im.mu.RUnlock()
+
+	session, exists := im.sessions[userID]
+	if !exists {
+		return false
+	}
+
+	return time.Now().Before(session.ExpiresAt)
+}
+
+// getSession returns the session if unlocked and valid
+func (im *IdentityManager) getSession(userID string) (*IdentitySession, bool) {
+	im.mu.RLock()
+	defer im.mu.RUnlock()
+
+	session, exists := im.sessions[userID]
+	if !exists {
+		return nil, false
+	}
+
+	if time.Now().After(session.ExpiresAt) {
+		return nil, false
+	}
+
+	return session, true
+}
+
+// unlock creates or refreshes an unlocked session for a user
+func (im *IdentityManager) unlock(userID string) *IdentitySession {
+	im.mu.Lock()
+	defer im.mu.Unlock()
+
+	now := time.Now()
+	expiresAt := now.Add(im.ttl)
+
+	session, exists := im.sessions[userID]
+	if exists {
+		// Refresh existing session
+		session.UnlockedAt = now
+		session.ExpiresAt = expiresAt
+		session.LastActivity = now
+		log.Printf("[IDENTITY] Session refreshed for user %s (expires %s)", userID, expiresAt.Format(time.RFC3339))
+	} else {
+		// Create new session
+		// TODO: In real implementation, create or retrieve XX identity here
+		xxIdentityID := fmt.Sprintf("xx-id-%s-%d", userID[:8], now.UnixNano())
+		
+		session = &IdentitySession{
+			UserID:       userID,
+			XXIdentityID: xxIdentityID,
+			UnlockedAt:   now,
+			ExpiresAt:    expiresAt,
+			LastActivity: now,
+		}
+		im.sessions[userID] = session
+		log.Printf("[IDENTITY] New session created for user %s (XX ID: %s, expires %s)", 
+			userID, xxIdentityID, expiresAt.Format(time.RFC3339))
+	}
+
+	return session
+}
+
+// lock immediately locks a user's session
+func (im *IdentityManager) lock(userID string) bool {
+	im.mu.Lock()
+	defer im.mu.Unlock()
+
+	_, exists := im.sessions[userID]
+	if exists {
+		delete(im.sessions, userID)
+		log.Printf("[IDENTITY] Session locked for user %s", userID)
+		return true
+	}
+	return false
+}
+
+// touchActivity updates last activity time and optionally extends TTL
+func (im *IdentityManager) touchActivity(userID string) {
+	im.mu.Lock()
+	defer im.mu.Unlock()
+
+	session, exists := im.sessions[userID]
+	if exists && time.Now().Before(session.ExpiresAt) {
+		session.LastActivity = time.Now()
+		// Optional: extend TTL on activity (sliding window)
+		// session.ExpiresAt = time.Now().Add(im.ttl)
+	}
+}
+
+// cleanup removes expired sessions
+func (im *IdentityManager) cleanup() {
+	im.mu.Lock()
+	defer im.mu.Unlock()
+
+	now := time.Now()
+	for userID, session := range im.sessions {
+		if now.After(session.ExpiresAt) {
+			delete(im.sessions, userID)
+			log.Printf("[IDENTITY] Expired session cleaned up for user %s", userID)
+		}
+	}
+}
+
+// startCleanupRoutine periodically cleans up expired sessions
+func (im *IdentityManager) startCleanupRoutine() {
+	go func() {
+		ticker := time.NewTicker(1 * time.Minute)
+		defer ticker.Stop()
+		for range ticker.C {
+			im.cleanup()
+		}
+	}()
+}
+
 // JWTClaims represents the claims we validate from Supabase JWT
 type JWTClaims struct {
 	Sub string `json:"sub"` // User ID
@@ -561,6 +726,125 @@ func corsMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
+// unlockRequiredMiddleware ensures user has an active unlocked session
+func unlockRequiredMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		userID := r.Header.Get("X-User-Id")
+		if userID == "" {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error":   "unauthorized",
+				"code":    "missing_user_id",
+				"message": "User ID not found in request",
+			})
+			return
+		}
+
+		if !identityManager.isUnlocked(userID) {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusForbidden)
+			json.NewEncoder(w).Encode(map[string]string{
+				"error":   "forbidden",
+				"code":    "session_locked",
+				"message": "Identity session is locked. Call POST /unlock first.",
+			})
+			return
+		}
+
+		// Update activity timestamp
+		identityManager.touchActivity(userID)
+		next(w, r)
+	}
+}
+
+// handleUnlock unlocks the user's identity session
+func handleUnlock(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	userID := r.Header.Get("X-User-Id")
+	if userID == "" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(UnlockResponse{
+			Success: false,
+			Error:   "User ID not found",
+		})
+		return
+	}
+
+	session := identityManager.unlock(userID)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(UnlockResponse{
+		Success:   true,
+		ExpiresAt: session.ExpiresAt,
+		TTL:       int(time.Until(session.ExpiresAt).Seconds()),
+	})
+}
+
+// handleLock immediately locks the user's identity session
+func handleLock(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	userID := r.Header.Get("X-User-Id")
+	if userID == "" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(LockResponse{
+			Success: false,
+			Error:   "User ID not found",
+		})
+		return
+	}
+
+	identityManager.lock(userID)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(LockResponse{
+		Success: true,
+	})
+}
+
+// handleUnlockStatus returns the current unlock status
+func handleUnlockStatus(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	userID := r.Header.Get("X-User-Id")
+	if userID == "" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(map[string]string{
+			"error": "User ID not found",
+		})
+		return
+	}
+
+	session, unlocked := identityManager.getSession(userID)
+
+	w.Header().Set("Content-Type", "application/json")
+	if unlocked {
+		json.NewEncoder(w).Encode(UnlockStatusResponse{
+			Unlocked:     true,
+			ExpiresAt:    session.ExpiresAt,
+			TTLRemaining: int(time.Until(session.ExpiresAt).Seconds()),
+		})
+	} else {
+		json.NewEncoder(w).Encode(UnlockStatusResponse{
+			Unlocked: false,
+		})
+	}
+}
+
 // handleHealth returns bridge health status
 func handleHealth(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
@@ -570,7 +854,7 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 
 	resp := HealthResponse{
 		Status:    "ok",
-		Version:   "0.2.0",
+		Version:   "0.4.0",
 		XXDKReady: false, // TODO: Check actual xxDK status
 	}
 
@@ -701,24 +985,40 @@ func main() {
 		bindAddr = "127.0.0.1"
 	}
 
-	// Start rate limiter cleanup routine
+	// Configure unlock TTL from environment
+	if ttlMinutes := os.Getenv("UNLOCK_TTL_MINUTES"); ttlMinutes != "" {
+		if minutes, err := time.ParseDuration(ttlMinutes + "m"); err == nil {
+			identityManager.ttl = minutes
+		}
+	}
+
+	// Start cleanup routines
 	rateLimiter.startCleanupRoutine()
+	identityManager.startCleanupRoutine()
+	
 	log.Printf("Rate limiter initialized: %d attempts per %v, %v lockout",
 		rateLimiter.config.MaxAttempts,
 		rateLimiter.config.WindowDuration,
 		rateLimiter.config.LockoutDuration)
+	log.Printf("Identity manager initialized: %v TTL", identityManager.ttl)
 
 	// /health is public (no auth required)
 	http.HandleFunc("/health", corsMiddleware(handleHealth))
-	// All other routes require JWT authentication with rate limiting
-	http.HandleFunc("/connect", corsMiddleware(authMiddleware(handleConnect)))
-	http.HandleFunc("/status", corsMiddleware(authMiddleware(handleStatus)))
-	http.HandleFunc("/disconnect", corsMiddleware(authMiddleware(handleDisconnect)))
+	
+	// Unlock/lock endpoints require auth but not unlock status
+	http.HandleFunc("/unlock", corsMiddleware(authMiddleware(handleUnlock)))
+	http.HandleFunc("/unlock/status", corsMiddleware(authMiddleware(handleUnlockStatus)))
+	http.HandleFunc("/lock", corsMiddleware(authMiddleware(handleLock)))
+	
+	// Protected routes require both auth AND unlocked session
+	http.HandleFunc("/connect", corsMiddleware(authMiddleware(unlockRequiredMiddleware(handleConnect))))
+	http.HandleFunc("/status", corsMiddleware(authMiddleware(handleStatus))) // Status doesn't require unlock
+	http.HandleFunc("/disconnect", corsMiddleware(authMiddleware(unlockRequiredMiddleware(handleDisconnect))))
 
 	listenAddr := fmt.Sprintf("%s:%s", bindAddr, port)
 
-	log.Printf("Privxx Bridge v0.3.0 starting on %s", listenAddr)
-	log.Printf("Endpoints: /health, /connect, /status, /disconnect")
+	log.Printf("Privxx Bridge v0.4.0 starting on %s", listenAddr)
+	log.Printf("Endpoints: /health, /unlock, /unlock/status, /lock, /connect, /status, /disconnect")
 	log.Printf("CORS: Canonical origin %s", CanonicalOrigin)
 	log.Printf("Allowed origins: %v", allowedOrigins)
 	log.Printf("Allowed suffixes: %v", allowedOriginSuffixes)
