@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "占位符键",
   "diagnostics.more": "更多",
   "diagnostics.analyzing": "正在分析翻译...",
-  "diagnostics.noLanguages": "未找到语言文件"
+  "diagnostics.noLanguages": "未找到语言文件",
+  "diagnostics.lastUpdated": "最后更新"
 }

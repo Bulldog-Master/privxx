@@ -395,5 +395,6 @@
   "diagnostics.placeholderKeys": "Clés d'Espace Réservé",
   "diagnostics.more": "plus",
   "diagnostics.analyzing": "Analyse des traductions...",
-  "diagnostics.noLanguages": "Aucun fichier de langue trouvé"
+  "diagnostics.noLanguages": "Aucun fichier de langue trouvé",
+  "diagnostics.lastUpdated": "Dernière mise à jour"
 }

@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "پلیس ہولڈر کیز",
   "diagnostics.more": "مزید",
   "diagnostics.analyzing": "ترجمے کا تجزیہ کیا جا رہا ہے...",
-  "diagnostics.noLanguages": "کوئی زبان فائلیں نہیں ملیں"
+  "diagnostics.noLanguages": "کوئی زبان فائلیں نہیں ملیں",
+  "diagnostics.lastUpdated": "آخری اپ ڈیٹ"
 }

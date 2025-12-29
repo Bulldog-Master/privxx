@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "प्लेसहोल्डर कुंजियां",
   "diagnostics.more": "और",
   "diagnostics.analyzing": "अनुवाद का विश्लेषण हो रहा है...",
-  "diagnostics.noLanguages": "कोई भाषा फ़ाइलें नहीं मिलीं"
+  "diagnostics.noLanguages": "कोई भाषा फ़ाइलें नहीं मिलीं",
+  "diagnostics.lastUpdated": "अंतिम अपडेट"
 }

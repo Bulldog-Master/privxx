@@ -4,9 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Check, AlertTriangle, Globe, RefreshCw } from 'lucide-react';
+import { Check, AlertTriangle, Globe, RefreshCw, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { formatDistanceToNow } from 'date-fns';
 
 interface LanguageStatus {
   code: string;
@@ -278,7 +279,7 @@ export function TranslationStatusDashboard() {
         {!loading && totalLanguages > 0 && (
           <>
             {/* Summary */}
-            <div className="flex items-center gap-4 mb-6 p-4 bg-muted/50 rounded-lg">
+            <div className="flex items-center gap-4 mb-4 p-4 bg-muted/50 rounded-lg">
               <div className="flex-1">
                 <div className="text-sm text-muted-foreground mb-1">
                   {t('diagnostics.syncProgress', 'Sync Progress')}
@@ -292,6 +293,14 @@ export function TranslationStatusDashboard() {
                 </div>
               </div>
             </div>
+
+            {/* Last Updated */}
+            {lastUpdated && (
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-4">
+                <Clock className="h-3 w-3" />
+                {t('diagnostics.lastUpdated', 'Last updated')}: {formatDistanceToNow(lastUpdated, { addSuffix: true })}
+              </div>
+            )}
 
             {/* Language List */}
             <ScrollArea className="h-[400px] pr-4">
