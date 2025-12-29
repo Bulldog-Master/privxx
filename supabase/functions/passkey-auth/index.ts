@@ -1,6 +1,12 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { 
+  generateRegistrationOptions,
+  verifyRegistrationResponse,
+  generateAuthenticationOptions,
+  verifyAuthenticationResponse,
+} from "https://esm.sh/@simplewebauthn/server@11.0.0";
 import { getCorsHeaders, handleCorsPreflightResponse } from "../_shared/cors.ts";
 
 // Rate limiting configuration
@@ -8,7 +14,7 @@ const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
 const MAX_REQUESTS_PER_WINDOW = 10; // 10 requests per minute
 const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes lockout after too many attempts
 
-// Simple base64url encoding/decoding
+// Simple base64url encoding/decoding for user ID
 function base64UrlEncode(buffer: Uint8Array): string {
   let binary = '';
   for (let i = 0; i < buffer.length; i++) {
@@ -28,10 +34,18 @@ function base64UrlDecode(str: string): Uint8Array {
   return bytes;
 }
 
-function generateChallenge(): string {
-  const bytes = new Uint8Array(32);
-  crypto.getRandomValues(bytes);
-  return base64UrlEncode(bytes);
+// Get expected origin(s) for WebAuthn verification
+function getExpectedOrigins(origin: string | null): string[] {
+  const origins: string[] = [];
+  if (origin) {
+    origins.push(origin);
+  }
+  // Add known Lovable preview origins
+  origins.push('https://privxx.app');
+  // Add localhost for development
+  origins.push('http://localhost:5173');
+  origins.push('http://localhost:3000');
+  return origins;
 }
 
 // Get client IP from request headers
@@ -163,40 +177,32 @@ serve(async (req) => {
           .select('credential_id')
           .eq('user_id', userId);
 
-        const challenge = generateChallenge();
-        const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString(); // 5 min
-
-        // Store challenge
-        await supabase.from('passkey_challenges').insert({
-          user_email: email,
-          challenge,
-          type: 'registration',
-          expires_at: expiresAt,
-        });
-
-        const options = {
-          challenge,
-          rp: { name: rpName, id: rpId },
-          user: {
-            id: base64UrlEncode(new TextEncoder().encode(userId)),
-            name: email,
-            displayName: email.split('@')[0],
-          },
-          pubKeyCredParams: [
-            { alg: -7, type: 'public-key' },   // ES256
-            { alg: -257, type: 'public-key' }, // RS256
-          ],
-          timeout: 60000,
+        // Generate registration options using @simplewebauthn/server
+        const options = await generateRegistrationOptions({
+          rpName,
+          rpID: rpId,
+          userID: new TextEncoder().encode(userId),
+          userName: email,
+          userDisplayName: email.split('@')[0],
+          attestationType: 'none',
+          excludeCredentials: (existingCreds || []).map(c => ({
+            id: c.credential_id,
+          })),
           authenticatorSelection: {
             residentKey: 'preferred',
             userVerification: 'preferred',
           },
-          attestation: 'none',
-          excludeCredentials: (existingCreds || []).map(c => ({
-            id: c.credential_id,
-            type: 'public-key',
-          })),
-        };
+        });
+
+        const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString(); // 5 min
+
+        // Store challenge for verification
+        await supabase.from('passkey_challenges').insert({
+          user_email: email,
+          challenge: options.challenge,
+          type: 'registration',
+          expires_at: expiresAt,
+        });
 
         return new Response(JSON.stringify({ options }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -204,7 +210,7 @@ serve(async (req) => {
       }
 
       case 'registration-verify': {
-        // Verify registration and store credential
+        // Verify registration with cryptographic validation
         if (!credential || !userId || !email) {
           return new Response(JSON.stringify({ error: 'credential, userId, email required' }), {
             status: 400,
@@ -231,15 +237,50 @@ serve(async (req) => {
           });
         }
 
-        // Store the credential
+        // Perform cryptographic verification of the registration response
+        let verification;
+        try {
+          verification = await verifyRegistrationResponse({
+            response: credential,
+            expectedChallenge: challengeData.challenge,
+            expectedOrigin: getExpectedOrigins(origin),
+            expectedRPID: rpId,
+          });
+        } catch (verifyError) {
+          console.error('[passkey-auth] Registration verification failed:', verifyError);
+          return new Response(JSON.stringify({ error: 'Registration verification failed' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        if (!verification.verified || !verification.registrationInfo) {
+          console.error('[passkey-auth] Registration not verified');
+          return new Response(JSON.stringify({ error: 'Registration verification failed' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        const { credential: verifiedCredential, credentialDeviceType, credentialBackedUp } = verification.registrationInfo;
+
+        // Convert Uint8Array to base64url string for storage
+        const credentialIdStr = typeof verifiedCredential.id === 'string' 
+          ? verifiedCredential.id 
+          : base64UrlEncode(new Uint8Array(verifiedCredential.id));
+        const publicKeyStr = typeof verifiedCredential.publicKey === 'string'
+          ? verifiedCredential.publicKey
+          : base64UrlEncode(new Uint8Array(verifiedCredential.publicKey));
+
+        // Store the verified credential
         const { error: insertError } = await supabase.from('passkey_credentials').insert({
           user_id: userId,
-          credential_id: credential.id,
-          public_key: credential.publicKey,
-          counter: credential.counter || 0,
-          device_type: credential.deviceType || 'unknown',
-          backed_up: credential.backedUp || false,
-          transports: credential.transports || [],
+          credential_id: credentialIdStr,
+          public_key: publicKeyStr,
+          counter: verifiedCredential.counter,
+          device_type: credentialDeviceType || 'unknown',
+          backed_up: credentialBackedUp || false,
+          transports: credential.response?.transports || [],
         });
 
         if (insertError) {
@@ -253,7 +294,7 @@ serve(async (req) => {
         // Clean up challenge
         await supabase.from('passkey_challenges').delete().eq('id', challengeData.id);
 
-        console.log('[passkey-auth] Passkey registered successfully');
+        console.log('[passkey-auth] Passkey registered successfully with cryptographic verification');
         return new Response(JSON.stringify({ success: true }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
@@ -269,8 +310,8 @@ serve(async (req) => {
         }
 
         // Find user by email
-        const { data: userData, error: userError } = await supabase.auth.admin.listUsers();
-        const user = userData?.users?.find(u => u.email === email);
+        const { data: userData } = await supabase.auth.admin.listUsers();
+        const user = userData?.users?.find((u: any) => u.email === email);
 
         // Generic error message to prevent user enumeration
         // Add consistent delay to prevent timing attacks
@@ -287,7 +328,6 @@ serve(async (req) => {
 
         if (!user) {
           console.error('[passkey-auth] User not found:', email);
-          // Return same error as "no passkeys" to prevent enumeration
           return authFailedResponse;
         }
 
@@ -298,32 +338,28 @@ serve(async (req) => {
           .eq('user_id', user.id);
 
         if (!credentials || credentials.length === 0) {
-          // Same generic error to prevent enumeration
           return authFailedResponse;
         }
 
-        const challenge = generateChallenge();
+        // Generate authentication options using @simplewebauthn/server
+        const options = await generateAuthenticationOptions({
+          rpID: rpId,
+          userVerification: 'preferred',
+          allowCredentials: credentials.map((c: any) => ({
+            id: c.credential_id,
+            transports: c.transports || [],
+          })),
+        });
+
         const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
 
-        // Store challenge
+        // Store challenge for verification
         await supabase.from('passkey_challenges').insert({
           user_email: email,
-          challenge,
+          challenge: options.challenge,
           type: 'authentication',
           expires_at: expiresAt,
         });
-
-        const options = {
-          challenge,
-          rpId,
-          timeout: 60000,
-          userVerification: 'preferred',
-          allowCredentials: credentials.map(c => ({
-            id: c.credential_id,
-            type: 'public-key',
-            transports: c.transports || [],
-          })),
-        };
 
         return new Response(JSON.stringify({ options, userId: user.id }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -331,7 +367,7 @@ serve(async (req) => {
       }
 
       case 'authentication-verify': {
-        // Verify authentication and create session
+        // Verify authentication with cryptographic validation
         if (!credential || !email) {
           return new Response(JSON.stringify({ error: 'credential and email required' }), {
             status: 400,
@@ -339,7 +375,7 @@ serve(async (req) => {
           });
         }
 
-        // Verify challenge
+        // Verify challenge exists and not expired
         const { data: challengeData, error: challengeError } = await supabase
           .from('passkey_challenges')
           .select('*')
@@ -357,7 +393,7 @@ serve(async (req) => {
           });
         }
 
-        // Find the credential
+        // Find the credential by ID
         const { data: storedCred, error: credError } = await supabase
           .from('passkey_credentials')
           .select('*')
@@ -371,9 +407,52 @@ serve(async (req) => {
           });
         }
 
-        // Update counter and last used
+        // Perform cryptographic verification of the authentication response
+        let verification;
+        try {
+          verification = await verifyAuthenticationResponse({
+            response: credential,
+            expectedChallenge: challengeData.challenge,
+            expectedOrigin: getExpectedOrigins(origin),
+            expectedRPID: rpId,
+            credential: {
+              id: storedCred.credential_id,
+              publicKey: base64UrlDecode(storedCred.public_key),
+              counter: storedCred.counter,
+            },
+          });
+        } catch (verifyError) {
+          console.error('[passkey-auth] Authentication verification failed:', verifyError);
+          return new Response(JSON.stringify({ error: 'Authentication verification failed' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        if (!verification.verified) {
+          console.error('[passkey-auth] Authentication not verified');
+          return new Response(JSON.stringify({ error: 'Authentication verification failed' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        // Verify counter to prevent replay attacks
+        const { authenticationInfo } = verification;
+        if (authenticationInfo.newCounter <= storedCred.counter) {
+          console.error('[passkey-auth] Counter replay detected:', {
+            storedCounter: storedCred.counter,
+            newCounter: authenticationInfo.newCounter,
+          });
+          return new Response(JSON.stringify({ error: 'Authentication failed - replay detected' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        // Update counter and last used with verified counter
         await supabase.from('passkey_credentials').update({
-          counter: credential.counter || storedCred.counter + 1,
+          counter: authenticationInfo.newCounter,
           last_used_at: new Date().toISOString(),
         }).eq('id', storedCred.id);
 
@@ -399,7 +478,7 @@ serve(async (req) => {
         const token = url.searchParams.get('token');
         const tokenType = url.searchParams.get('type');
 
-        console.log('[passkey-auth] Authentication successful for:', email);
+        console.log('[passkey-auth] Authentication successful with cryptographic verification for:', email);
         return new Response(JSON.stringify({ 
           success: true, 
           token,
