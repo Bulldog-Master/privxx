@@ -134,6 +134,18 @@
   "nodes": "Nodes",
   "lastRound": "Last Round",
   
+  "connectionHistory": "Connection History",
+  "connectionHistoryDesc": "Recent bridge connection attempts",
+  "connectionSuccess": "Connected successfully",
+  "noConnectionEvents": "No connection events yet",
+  "eventsWillAppear": "Events will appear as the bridge is queried",
+  "totalEvents": "{{count}} events",
+  "lastEvent": "Last",
+  "justNow": "Just now",
+  "minutesAgo": "{{count}}m ago",
+  "hoursAgo": "{{count}}h ago",
+  "clear": "Clear",
+
   "continuePreview": "Continue in Preview",
   "readinessTitle": "Readiness",
   "readinessBridge": "Bridge reachable",

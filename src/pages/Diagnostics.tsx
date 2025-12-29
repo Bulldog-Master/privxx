@@ -13,6 +13,7 @@ import {
   getModeDisplay,
   BridgeStatusCard,
   BridgeLiveStatusCard,
+  ConnectionHistoryLog,
   TranslationStatusDashboard,
   ReadinessPanel,
 } from '@/components/diagnostics';
@@ -144,6 +145,9 @@ export default function Diagnostics() {
                 {!isLoading && <ReadinessPanel />}
               </CardContent>
             </Card>
+
+            {/* Connection History */}
+            <ConnectionHistoryLog />
 
             {/* Version & Actions */}
             <Card>
