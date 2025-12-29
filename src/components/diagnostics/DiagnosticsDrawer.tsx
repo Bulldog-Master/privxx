@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import { Info, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +18,7 @@ import {
 } from "@/components/diagnostics";
 import ReadinessPanel from "@/components/diagnostics/ReadinessPanel";
 
-const DiagnosticsDrawer = forwardRef<HTMLButtonElement>((_, ref) => {
+const DiagnosticsDrawer = () => {
   const {
     open,
     setOpen,
@@ -43,7 +42,6 @@ const DiagnosticsDrawer = forwardRef<HTMLButtonElement>((_, ref) => {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
-          ref={ref}
           variant="ghost"
           size="sm"
           className="h-8 px-2 text-xs text-primary/70 hover:text-primary"
@@ -130,8 +128,6 @@ const DiagnosticsDrawer = forwardRef<HTMLButtonElement>((_, ref) => {
       </SheetContent>
     </Sheet>
   );
-});
-
-DiagnosticsDrawer.displayName = "DiagnosticsDrawer";
+};
 
 export default DiagnosticsDrawer;
