@@ -8,6 +8,7 @@ export {
   BridgeStatusCard,
   BridgeLiveStatusCard,
   ReadinessPanel,
+  ConnectionHistoryLog,
   TranslationStatusDashboard,
   useDiagnosticsState,
   getBackendStatusDisplay,

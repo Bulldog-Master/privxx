@@ -7,6 +7,7 @@ export {
   BridgeStatusCard,
   BridgeLiveStatusCard,
   ReadinessPanel,
+  ConnectionHistoryLog,
   TranslationStatusDashboard,
 } from "./components";
 

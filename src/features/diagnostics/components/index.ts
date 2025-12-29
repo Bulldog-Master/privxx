@@ -5,4 +5,5 @@ export { default as DiagnosticsDrawer } from "./DiagnosticsDrawer";
 export { default as BridgeStatusCard } from "./BridgeStatusCard";
 export { default as BridgeLiveStatusCard } from "./BridgeLiveStatusCard";
 export { default as ReadinessPanel } from "./ReadinessPanel";
+export { default as ConnectionHistoryLog } from "./ConnectionHistoryLog";
 export { TranslationStatusDashboard } from "./TranslationStatusDashboard";
