@@ -1,7 +1,7 @@
 /// <reference types="vitest/globals" />
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useSessionTimeout } from "./useSessionTimeout";
+import { useSessionTimeout } from "../useSessionTimeout";
 
 // Mock useAuth
 const mockSignOut = vi.fn().mockResolvedValue(undefined);
