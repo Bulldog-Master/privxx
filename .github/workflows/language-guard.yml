@@ -1,0 +1,33 @@
+# .github/workflows/language-guard.yml
+name: Language Guard
+
+on:
+  pull_request:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  language-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      # Auto-fix missing translation keys
+      - run: node scripts/check-language.js --fix
+
+      # Fail if forbidden language or sync issues remain
+      - run: node scripts/check-language.js
+
+      # Ensure auto-fixes are committed by the author
+      - run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "❌ Language guard made changes. Run the fixer locally and commit the results."
+            git status --porcelain
+            exit 1
+          fi
