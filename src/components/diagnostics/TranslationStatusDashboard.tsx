@@ -201,130 +201,149 @@ export function TranslationStatusDashboard() {
           </div>
         )}
 
-        {/* Summary */}
-        <div className="flex items-center gap-4 mb-6 p-4 bg-muted/50 rounded-lg">
-          <div className="flex-1">
-            <div className="text-sm text-muted-foreground mb-1">
-              {t('diagnostics.syncProgress', 'Sync Progress')}
-            </div>
-            <Progress value={(completeCount / totalLanguages) * 100} className="h-2" />
+        {loading && (
+          <div className="flex items-center justify-center py-8">
+            <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground" />
+            <span className="ml-2 text-muted-foreground">
+              {t('diagnostics.analyzing', 'Analyzing translations...')}
+            </span>
           </div>
-          <div className="text-right">
-            <div className="text-2xl font-bold">{completeCount}/{totalLanguages}</div>
-            <div className="text-xs text-muted-foreground">
-              {t('diagnostics.languagesComplete', 'languages complete')}
-            </div>
-          </div>
-        </div>
+        )}
 
-        {/* Language List */}
-        <ScrollArea className="h-[400px] pr-4">
-          <div className="space-y-2">
-            {statuses.map((status) => (
-              <Collapsible
-                key={status.code}
-                open={expandedLang === status.code}
-                onOpenChange={(open) => setExpandedLang(open ? status.code : null)}
-              >
-                <CollapsibleTrigger asChild>
-                  <div
-                    className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors hover:bg-muted/50 ${
-                      status.isComplete ? 'border-border' : 'border-warning/50 bg-warning/5'
-                    }`}
+        {!loading && totalLanguages === 0 && !error && (
+          <div className="text-center py-8 text-muted-foreground">
+            {t('diagnostics.noLanguages', 'No language files found. Click Refresh to scan.')}
+          </div>
+        )}
+
+        {!loading && totalLanguages > 0 && (
+          <>
+            {/* Summary */}
+            <div className="flex items-center gap-4 mb-6 p-4 bg-muted/50 rounded-lg">
+              <div className="flex-1">
+                <div className="text-sm text-muted-foreground mb-1">
+                  {t('diagnostics.syncProgress', 'Sync Progress')}
+                </div>
+                <Progress value={(completeCount / totalLanguages) * 100} className="h-2" />
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold">{completeCount}/{totalLanguages}</div>
+                <div className="text-xs text-muted-foreground">
+                  {t('diagnostics.languagesComplete', 'languages complete')}
+                </div>
+              </div>
+            </div>
+
+            {/* Language List */}
+            <ScrollArea className="h-[400px] pr-4">
+              <div className="space-y-2">
+                {statuses.map((status) => (
+                  <Collapsible
+                    key={status.code}
+                    open={expandedLang === status.code}
+                    onOpenChange={(open) => setExpandedLang(open ? status.code : null)}
                   >
-                    <div className="flex items-center gap-3">
-                      {status.isComplete ? (
-                        <Check className="h-4 w-4 text-green-500" />
-                      ) : (
-                        <AlertTriangle className="h-4 w-4 text-warning" />
-                      )}
-                      <div>
-                        <div className="font-medium flex items-center gap-2">
-                          <span className="uppercase text-xs text-muted-foreground font-mono">
-                            {status.code}
-                          </span>
-                          {status.nativeName}
-                          {status.code === i18n.language && (
-                            <Badge variant="secondary" className="text-xs">
-                              {t('diagnostics.current', 'Current')}
-                            </Badge>
+                    <CollapsibleTrigger asChild>
+                      <div
+                        className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors hover:bg-muted/50 ${
+                          status.isComplete ? 'border-border' : 'border-warning/50 bg-warning/5'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {status.isComplete ? (
+                            <Check className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <AlertTriangle className="h-4 w-4 text-warning" />
                           )}
+                          <div>
+                            <div className="font-medium flex items-center gap-2">
+                              <span className="uppercase text-xs text-muted-foreground font-mono">
+                                {status.code}
+                              </span>
+                              {status.nativeName}
+                              {status.code === i18n.language && (
+                                <Badge variant="secondary" className="text-xs">
+                                  {t('diagnostics.current', 'Current')}
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {status.name} • {status.totalKeys} {t('diagnostics.keys', 'keys')}
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-xs text-muted-foreground">
-                          {status.name} • {status.totalKeys} {t('diagnostics.keys', 'keys')}
+                        <div className="flex items-center gap-3">
+                          {!status.isComplete && (
+                            <div className="flex gap-1">
+                              {status.missingKeys.length > 0 && (
+                                <Badge variant="destructive" className="text-xs">
+                                  {status.missingKeys.length} {t('diagnostics.missing', 'missing')}
+                                </Badge>
+                              )}
+                              {status.placeholderKeys.length > 0 && (
+                                <Badge variant="outline" className="text-xs border-warning text-warning">
+                                  {status.placeholderKeys.length} {t('diagnostics.placeholder', 'placeholder')}
+                                </Badge>
+                              )}
+                            </div>
+                          )}
+                          <div className="w-16 text-right">
+                            <span className={`text-sm font-medium ${
+                              status.completionPercent === 100 ? 'text-green-500' : 'text-warning'
+                            }`}>
+                              {status.completionPercent}%
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      {!status.isComplete && (
-                        <div className="flex gap-1">
+                    </CollapsibleTrigger>
+
+                    <CollapsibleContent>
+                      {(status.missingKeys.length > 0 || status.placeholderKeys.length > 0) && (
+                        <div className="mt-2 ml-7 p-3 bg-muted/30 rounded-md text-xs space-y-3">
                           {status.missingKeys.length > 0 && (
-                            <Badge variant="destructive" className="text-xs">
-                              {status.missingKeys.length} {t('diagnostics.missing', 'missing')}
-                            </Badge>
+                            <div>
+                              <div className="font-medium text-destructive mb-1">
+                                {t('diagnostics.missingKeys', 'Missing Keys')}:
+                              </div>
+                              <div className="font-mono text-muted-foreground space-y-0.5 max-h-32 overflow-y-auto">
+                                {status.missingKeys.slice(0, 10).map(key => (
+                                  <div key={key}>{key}</div>
+                                ))}
+                                {status.missingKeys.length > 10 && (
+                                  <div className="text-muted-foreground/50">
+                                    +{status.missingKeys.length - 10} {t('diagnostics.more', 'more')}...
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           )}
                           {status.placeholderKeys.length > 0 && (
-                            <Badge variant="outline" className="text-xs border-warning text-warning">
-                              {status.placeholderKeys.length} {t('diagnostics.placeholder', 'placeholder')}
-                            </Badge>
+                            <div>
+                              <div className="font-medium text-warning mb-1">
+                                {t('diagnostics.placeholderKeys', 'Placeholder Keys')}:
+                              </div>
+                              <div className="font-mono text-muted-foreground space-y-0.5 max-h-32 overflow-y-auto">
+                                {status.placeholderKeys.slice(0, 10).map(key => (
+                                  <div key={key}>{key}</div>
+                                ))}
+                                {status.placeholderKeys.length > 10 && (
+                                  <div className="text-muted-foreground/50">
+                                    +{status.placeholderKeys.length - 10} {t('diagnostics.more', 'more')}...
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           )}
                         </div>
                       )}
-                      <div className="w-16 text-right">
-                        <span className={`text-sm font-medium ${
-                          status.completionPercent === 100 ? 'text-green-500' : 'text-warning'
-                        }`}>
-                          {status.completionPercent}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </CollapsibleTrigger>
-
-                <CollapsibleContent>
-                  {(status.missingKeys.length > 0 || status.placeholderKeys.length > 0) && (
-                    <div className="mt-2 ml-7 p-3 bg-muted/30 rounded-md text-xs space-y-3">
-                      {status.missingKeys.length > 0 && (
-                        <div>
-                          <div className="font-medium text-destructive mb-1">
-                            {t('diagnostics.missingKeys', 'Missing Keys')}:
-                          </div>
-                          <div className="font-mono text-muted-foreground space-y-0.5 max-h-32 overflow-y-auto">
-                            {status.missingKeys.slice(0, 10).map(key => (
-                              <div key={key}>{key}</div>
-                            ))}
-                            {status.missingKeys.length > 10 && (
-                              <div className="text-muted-foreground/50">
-                                +{status.missingKeys.length - 10} {t('diagnostics.more', 'more')}...
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                      {status.placeholderKeys.length > 0 && (
-                        <div>
-                          <div className="font-medium text-warning mb-1">
-                            {t('diagnostics.placeholderKeys', 'Placeholder Keys')}:
-                          </div>
-                          <div className="font-mono text-muted-foreground space-y-0.5 max-h-32 overflow-y-auto">
-                            {status.placeholderKeys.slice(0, 10).map(key => (
-                              <div key={key}>{key}</div>
-                            ))}
-                            {status.placeholderKeys.length > 10 && (
-                              <div className="text-muted-foreground/50">
-                                +{status.placeholderKeys.length - 10} {t('diagnostics.more', 'more')}...
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </CollapsibleContent>
-              </Collapsible>
-            ))}
-          </div>
-        </ScrollArea>
+                    </CollapsibleContent>
+                  </Collapsible>
+                ))}
+              </div>
+            </ScrollArea>
+          </>
+        )}
       </CardContent>
     </Card>
   );
