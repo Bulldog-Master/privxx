@@ -7,14 +7,20 @@ STAGED_LOCALES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public
 if [ -n "$STAGED_LOCALES" ]; then
   echo "🔍 Running translation checks on modified locale files..."
   
-  node scripts/check-language.js
+  # Run with --fix to auto-add missing keys as placeholders
+  node scripts/check-language.js --fix
   
   if [ $? -ne 0 ]; then
     echo ""
     echo "❌ Translation check failed. Please fix the issues above before committing."
-    echo "   Run 'node scripts/sync-translations.js --write' to add missing placeholders."
     echo ""
     exit 1
+  fi
+  
+  # Re-stage any auto-fixed locale files
+  if [ -n "$(git diff --name-only public/locales/)" ]; then
+    echo "📝 Auto-fixed locale files detected, staging changes..."
+    git add public/locales/
   fi
   
   echo "✅ Translation checks passed"
