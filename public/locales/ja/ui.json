@@ -373,5 +373,26 @@
   "examples": "例",
   "preview": "プレビュー",
   "notes": "注記",
-  "create": "作成"
+  "create": "作成",
+  
+  "diagnostics.link": "診断",
+  "diagnostics.pageTitle": "システム診断",
+  "diagnostics.pageDescription": "システムの状態と翻訳ステータスを監視",
+  "diagnostics.systemHealth": "システムの状態",
+  "diagnostics.systemHealthDesc": "バックエンド接続とサービスステータス",
+  "diagnostics.readiness": "準備状況チェック",
+  "diagnostics.readinessDesc": "サービスの可用性と構成ステータス",
+  "diagnostics.version": "バージョン",
+  "diagnostics.build": "ビルド",
+  "diagnostics.translationStatus": "翻訳ステータス",
+  "diagnostics.translationStatusDesc": "言語ファイルの同期ステータス",
+  "diagnostics.syncProgress": "同期の進行状況",
+  "diagnostics.languagesComplete": "言語が完了",
+  "diagnostics.current": "現在",
+  "diagnostics.keys": "キー",
+  "diagnostics.missing": "不足",
+  "diagnostics.placeholder": "プレースホルダー",
+  "diagnostics.missingKeys": "不足しているキー",
+  "diagnostics.placeholderKeys": "プレースホルダーキー",
+  "diagnostics.more": "その他"
 }

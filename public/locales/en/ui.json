@@ -370,5 +370,26 @@
   "examples": "Examples",
   "preview": "Preview",
   "notes": "Notes",
-  "create": "Create"
+  "create": "Create",
+  
+  "diagnostics.link": "Diagnostics",
+  "diagnostics.pageTitle": "System Diagnostics",
+  "diagnostics.pageDescription": "Monitor system health and translation status",
+  "diagnostics.systemHealth": "System Health",
+  "diagnostics.systemHealthDesc": "Backend connectivity and service status",
+  "diagnostics.readiness": "Readiness Checks",
+  "diagnostics.readinessDesc": "Service availability and configuration status",
+  "diagnostics.version": "Version",
+  "diagnostics.build": "Build",
+  "diagnostics.translationStatus": "Translation Status",
+  "diagnostics.translationStatusDesc": "Sync status of all language files",
+  "diagnostics.syncProgress": "Sync Progress",
+  "diagnostics.languagesComplete": "languages complete",
+  "diagnostics.current": "Current",
+  "diagnostics.keys": "keys",
+  "diagnostics.missing": "missing",
+  "diagnostics.placeholder": "placeholder",
+  "diagnostics.missingKeys": "Missing Keys",
+  "diagnostics.placeholderKeys": "Placeholder Keys",
+  "diagnostics.more": "more"
 }

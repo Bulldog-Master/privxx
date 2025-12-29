@@ -373,5 +373,26 @@
   "examples": "مثالیں",
   "preview": "پیش نظارہ",
   "notes": "نوٹس",
-  "create": "بنائیں"
+  "create": "بنائیں",
+  
+  "diagnostics.link": "تشخیصات",
+  "diagnostics.pageTitle": "سسٹم تشخیصات",
+  "diagnostics.pageDescription": "سسٹم کی صحت اور ترجمے کی حیثیت کی نگرانی کریں",
+  "diagnostics.systemHealth": "سسٹم کی صحت",
+  "diagnostics.systemHealthDesc": "بیک اینڈ کنیکٹیویٹی اور سروس کی حیثیت",
+  "diagnostics.readiness": "تیاری کی جانچ",
+  "diagnostics.readinessDesc": "سروس کی دستیابی اور ترتیب کی حیثیت",
+  "diagnostics.version": "ورژن",
+  "diagnostics.build": "بلڈ",
+  "diagnostics.translationStatus": "ترجمے کی حیثیت",
+  "diagnostics.translationStatusDesc": "زبان کی فائلوں کی مطابقت پذیری کی حیثیت",
+  "diagnostics.syncProgress": "مطابقت پذیری کی پیش رفت",
+  "diagnostics.languagesComplete": "زبانیں مکمل",
+  "diagnostics.current": "موجودہ",
+  "diagnostics.keys": "کیز",
+  "diagnostics.missing": "غائب",
+  "diagnostics.placeholder": "پلیس ہولڈر",
+  "diagnostics.missingKeys": "غائب کیز",
+  "diagnostics.placeholderKeys": "پلیس ہولڈر کیز",
+  "diagnostics.more": "مزید"
 }

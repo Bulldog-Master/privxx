@@ -436,5 +436,26 @@
   "examples": "উদাহরণ",
   "preview": "প্রিভিউ",
   "notes": "নোট",
-  "create": "তৈরি করুন"
+  "create": "তৈরি করুন",
+  
+  "diagnostics.link": "ডায়াগনস্টিকস",
+  "diagnostics.pageTitle": "সিস্টেম ডায়াগনস্টিকস",
+  "diagnostics.pageDescription": "সিস্টেমের স্বাস্থ্য এবং অনুবাদ স্থিতি পর্যবেক্ষণ করুন",
+  "diagnostics.systemHealth": "সিস্টেমের স্বাস্থ্য",
+  "diagnostics.systemHealthDesc": "ব্যাকএন্ড সংযোগ এবং সেবার স্থিতি",
+  "diagnostics.readiness": "প্রস্তুতি পরীক্ষা",
+  "diagnostics.readinessDesc": "সেবার প্রাপ্যতা এবং কনফিগারেশন স্থিতি",
+  "diagnostics.version": "সংস্করণ",
+  "diagnostics.build": "বিল্ড",
+  "diagnostics.translationStatus": "অনুবাদ স্থিতি",
+  "diagnostics.translationStatusDesc": "ভাষা ফাইলের সিঙ্ক স্থিতি",
+  "diagnostics.syncProgress": "সিঙ্ক অগ্রগতি",
+  "diagnostics.languagesComplete": "ভাষা সম্পূর্ণ",
+  "diagnostics.current": "বর্তমান",
+  "diagnostics.keys": "কী",
+  "diagnostics.missing": "অনুপস্থিত",
+  "diagnostics.placeholder": "প্লেসহোল্ডার",
+  "diagnostics.missingKeys": "অনুপস্থিত কী",
+  "diagnostics.placeholderKeys": "প্লেসহোল্ডার কী",
+  "diagnostics.more": "আরও"
 }

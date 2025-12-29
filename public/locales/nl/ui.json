@@ -373,5 +373,26 @@
   "examples": "Voorbeelden",
   "preview": "Voorbeeld",
   "notes": "Notities",
-  "create": "Aanmaken"
+  "create": "Aanmaken",
+  
+  "diagnostics.link": "Diagnostiek",
+  "diagnostics.pageTitle": "Systeemdiagnostiek",
+  "diagnostics.pageDescription": "Systeemstatus en vertaalstatus bewaken",
+  "diagnostics.systemHealth": "Systeemstatus",
+  "diagnostics.systemHealthDesc": "Backend-connectiviteit en servicestatus",
+  "diagnostics.readiness": "Gereedheidscontroles",
+  "diagnostics.readinessDesc": "Servicebeschikbaarheid en configuratiestatus",
+  "diagnostics.version": "Versie",
+  "diagnostics.build": "Build",
+  "diagnostics.translationStatus": "Vertaalstatus",
+  "diagnostics.translationStatusDesc": "Synchronisatiestatus van taalbestanden",
+  "diagnostics.syncProgress": "Synchronisatievoortgang",
+  "diagnostics.languagesComplete": "talen compleet",
+  "diagnostics.current": "Huidig",
+  "diagnostics.keys": "sleutels",
+  "diagnostics.missing": "ontbrekend",
+  "diagnostics.placeholder": "tijdelijke aanduiding",
+  "diagnostics.missingKeys": "Ontbrekende Sleutels",
+  "diagnostics.placeholderKeys": "Tijdelijke Sleutels",
+  "diagnostics.more": "meer"
 }

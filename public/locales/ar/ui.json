@@ -373,5 +373,26 @@
   "examples": "أمثلة",
   "preview": "معاينة",
   "notes": "ملاحظات",
-  "create": "إنشاء"
+  "create": "إنشاء",
+  
+  "diagnostics.link": "التشخيصات",
+  "diagnostics.pageTitle": "تشخيصات النظام",
+  "diagnostics.pageDescription": "مراقبة صحة النظام وحالة الترجمات",
+  "diagnostics.systemHealth": "صحة النظام",
+  "diagnostics.systemHealthDesc": "اتصال الخادم وحالة الخدمة",
+  "diagnostics.readiness": "فحوصات الجاهزية",
+  "diagnostics.readinessDesc": "توفر الخدمة وحالة التكوين",
+  "diagnostics.version": "الإصدار",
+  "diagnostics.build": "البناء",
+  "diagnostics.translationStatus": "حالة الترجمات",
+  "diagnostics.translationStatusDesc": "حالة مزامنة ملفات اللغة",
+  "diagnostics.syncProgress": "تقدم المزامنة",
+  "diagnostics.languagesComplete": "لغات مكتملة",
+  "diagnostics.current": "الحالي",
+  "diagnostics.keys": "مفاتيح",
+  "diagnostics.missing": "مفقود",
+  "diagnostics.placeholder": "عنصر نائب",
+  "diagnostics.missingKeys": "المفاتيح المفقودة",
+  "diagnostics.placeholderKeys": "مفاتيح العناصر النائبة",
+  "diagnostics.more": "المزيد"
 }

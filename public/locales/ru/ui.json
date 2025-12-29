@@ -373,5 +373,26 @@
   "examples": "Примеры",
   "preview": "Предпросмотр",
   "notes": "Заметки",
-  "create": "Создать"
+  "create": "Создать",
+  
+  "diagnostics.link": "Диагностика",
+  "diagnostics.pageTitle": "Диагностика системы",
+  "diagnostics.pageDescription": "Мониторинг состояния системы и переводов",
+  "diagnostics.systemHealth": "Состояние системы",
+  "diagnostics.systemHealthDesc": "Подключение к серверу и статус сервиса",
+  "diagnostics.readiness": "Проверки готовности",
+  "diagnostics.readinessDesc": "Доступность сервиса и статус конфигурации",
+  "diagnostics.version": "Версия",
+  "diagnostics.build": "Сборка",
+  "diagnostics.translationStatus": "Статус переводов",
+  "diagnostics.translationStatusDesc": "Статус синхронизации языковых файлов",
+  "diagnostics.syncProgress": "Прогресс синхронизации",
+  "diagnostics.languagesComplete": "языков завершено",
+  "diagnostics.current": "Текущий",
+  "diagnostics.keys": "ключей",
+  "diagnostics.missing": "отсутствует",
+  "diagnostics.placeholder": "заглушка",
+  "diagnostics.missingKeys": "Отсутствующие ключи",
+  "diagnostics.placeholderKeys": "Ключи-заглушки",
+  "diagnostics.more": "ещё"
 }

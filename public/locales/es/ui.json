@@ -372,5 +372,26 @@
   "examples": "Ejemplos",
   "preview": "Vista previa",
   "notes": "Notas",
-  "create": "Crear"
+  "create": "Crear",
+  
+  "diagnostics.link": "Diagnósticos",
+  "diagnostics.pageTitle": "Diagnósticos del Sistema",
+  "diagnostics.pageDescription": "Monitorear el estado del sistema y las traducciones",
+  "diagnostics.systemHealth": "Estado del Sistema",
+  "diagnostics.systemHealthDesc": "Conectividad del backend y estado del servicio",
+  "diagnostics.readiness": "Verificaciones de Preparación",
+  "diagnostics.readinessDesc": "Disponibilidad del servicio y estado de configuración",
+  "diagnostics.version": "Versión",
+  "diagnostics.build": "Compilación",
+  "diagnostics.translationStatus": "Estado de Traducciones",
+  "diagnostics.translationStatusDesc": "Estado de sincronización de archivos de idioma",
+  "diagnostics.syncProgress": "Progreso de Sincronización",
+  "diagnostics.languagesComplete": "idiomas completos",
+  "diagnostics.current": "Actual",
+  "diagnostics.keys": "claves",
+  "diagnostics.missing": "faltantes",
+  "diagnostics.placeholder": "marcador",
+  "diagnostics.missingKeys": "Claves Faltantes",
+  "diagnostics.placeholderKeys": "Claves de Marcador",
+  "diagnostics.more": "más"
 }

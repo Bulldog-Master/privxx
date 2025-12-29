@@ -373,5 +373,26 @@
   "examples": "उदाहरण",
   "preview": "पूर्वावलोकन",
   "notes": "नोट्स",
-  "create": "बनाएं"
+  "create": "बनाएं",
+  
+  "diagnostics.link": "डायग्नोस्टिक्स",
+  "diagnostics.pageTitle": "सिस्टम डायग्नोस्टिक्स",
+  "diagnostics.pageDescription": "सिस्टम स्वास्थ्य और अनुवाद स्थिति की निगरानी करें",
+  "diagnostics.systemHealth": "सिस्टम स्वास्थ्य",
+  "diagnostics.systemHealthDesc": "बैकएंड कनेक्टिविटी और सेवा स्थिति",
+  "diagnostics.readiness": "तैयारी जांच",
+  "diagnostics.readinessDesc": "सेवा उपलब्धता और कॉन्फ़िगरेशन स्थिति",
+  "diagnostics.version": "संस्करण",
+  "diagnostics.build": "बिल्ड",
+  "diagnostics.translationStatus": "अनुवाद स्थिति",
+  "diagnostics.translationStatusDesc": "भाषा फाइलों की सिंक स्थिति",
+  "diagnostics.syncProgress": "सिंक प्रगति",
+  "diagnostics.languagesComplete": "भाषाएं पूर्ण",
+  "diagnostics.current": "वर्तमान",
+  "diagnostics.keys": "कुंजियां",
+  "diagnostics.missing": "गायब",
+  "diagnostics.placeholder": "प्लेसहोल्डर",
+  "diagnostics.missingKeys": "गायब कुंजियां",
+  "diagnostics.placeholderKeys": "प्लेसहोल्डर कुंजियां",
+  "diagnostics.more": "और"
 }
