@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "مفاتيح العناصر النائبة",
   "diagnostics.more": "المزيد",
   "diagnostics.analyzing": "جاري تحليل الترجمات...",
-  "diagnostics.noLanguages": "لم يتم العثور على ملفات لغة"
+  "diagnostics.noLanguages": "لم يتم العثور على ملفات لغة",
+  "diagnostics.lastUpdated": "آخر تحديث"
 }

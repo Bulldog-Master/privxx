@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "Ключи-заглушки",
   "diagnostics.more": "ещё",
   "diagnostics.analyzing": "Анализ переводов...",
-  "diagnostics.noLanguages": "Языковые файлы не найдены"
+  "diagnostics.noLanguages": "Языковые файлы не найдены",
+  "diagnostics.lastUpdated": "Последнее обновление"
 }

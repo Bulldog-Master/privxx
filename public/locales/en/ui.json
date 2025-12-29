@@ -393,5 +393,6 @@
   "diagnostics.placeholderKeys": "Placeholder Keys",
   "diagnostics.more": "more",
   "diagnostics.analyzing": "Analyzing translations...",
-  "diagnostics.noLanguages": "No language files found"
+  "diagnostics.noLanguages": "No language files found",
+  "diagnostics.lastUpdated": "Last updated"
 }

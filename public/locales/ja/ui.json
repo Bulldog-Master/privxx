@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "プレースホルダーキー",
   "diagnostics.more": "その他",
   "diagnostics.analyzing": "翻訳を分析中...",
-  "diagnostics.noLanguages": "言語ファイルが見つかりません"
+  "diagnostics.noLanguages": "言語ファイルが見つかりません",
+  "diagnostics.lastUpdated": "最終更新"
 }

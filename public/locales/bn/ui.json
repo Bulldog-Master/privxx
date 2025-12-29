@@ -459,5 +459,6 @@
   "diagnostics.placeholderKeys": "প্লেসহোল্ডার কী",
   "diagnostics.more": "আরও",
   "diagnostics.analyzing": "অনুবাদ বিশ্লেষণ করা হচ্ছে...",
-  "diagnostics.noLanguages": "কোনো ভাষা ফাইল পাওয়া যায়নি"
+  "diagnostics.noLanguages": "কোনো ভাষা ফাইল পাওয়া যায়নি",
+  "diagnostics.lastUpdated": "সর্বশেষ আপডেট"
 }

@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "플레이스홀더 키",
   "diagnostics.more": "더 보기",
   "diagnostics.analyzing": "번역 분석 중...",
-  "diagnostics.noLanguages": "언어 파일을 찾을 수 없습니다"
+  "diagnostics.noLanguages": "언어 파일을 찾을 수 없습니다",
+  "diagnostics.lastUpdated": "마지막 업데이트"
 }

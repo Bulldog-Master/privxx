@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "Kunci Placeholder",
   "diagnostics.more": "lainnya",
   "diagnostics.analyzing": "Menganalisis terjemahan...",
-  "diagnostics.noLanguages": "Tidak ada file bahasa yang ditemukan"
+  "diagnostics.noLanguages": "Tidak ada file bahasa yang ditemukan",
+  "diagnostics.lastUpdated": "Terakhir diperbarui"
 }

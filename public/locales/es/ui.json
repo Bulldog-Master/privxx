@@ -395,5 +395,6 @@
   "diagnostics.placeholderKeys": "Claves de Marcador",
   "diagnostics.more": "más",
   "diagnostics.analyzing": "Analizando traducciones...",
-  "diagnostics.noLanguages": "No se encontraron archivos de idioma"
+  "diagnostics.noLanguages": "No se encontraron archivos de idioma",
+  "diagnostics.lastUpdated": "Última actualización"
 }

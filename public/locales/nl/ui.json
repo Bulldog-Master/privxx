@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "Tijdelijke Sleutels",
   "diagnostics.more": "meer",
   "diagnostics.analyzing": "Vertalingen analyseren...",
-  "diagnostics.noLanguages": "Geen taalbestanden gevonden"
+  "diagnostics.noLanguages": "Geen taalbestanden gevonden",
+  "diagnostics.lastUpdated": "Laatst bijgewerkt"
 }

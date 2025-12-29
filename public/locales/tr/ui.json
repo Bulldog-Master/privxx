@@ -396,5 +396,6 @@
   "diagnostics.placeholderKeys": "Yer Tutucu Anahtarları",
   "diagnostics.more": "daha fazla",
   "diagnostics.analyzing": "Çeviriler analiz ediliyor...",
-  "diagnostics.noLanguages": "Dil dosyası bulunamadı"
+  "diagnostics.noLanguages": "Dil dosyası bulunamadı",
+  "diagnostics.lastUpdated": "Son güncelleme"
 }
