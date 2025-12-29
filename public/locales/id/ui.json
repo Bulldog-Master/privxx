@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "placeholder",
   "diagnostics.missingKeys": "Kunci yang Hilang",
   "diagnostics.placeholderKeys": "Kunci Placeholder",
-  "diagnostics.more": "lainnya"
+  "diagnostics.more": "lainnya",
+  "diagnostics.analyzing": "Menganalisis terjemahan...",
+  "diagnostics.noLanguages": "Tidak ada file bahasa yang ditemukan"
 }

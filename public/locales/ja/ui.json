@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "プレースホルダー",
   "diagnostics.missingKeys": "不足しているキー",
   "diagnostics.placeholderKeys": "プレースホルダーキー",
-  "diagnostics.more": "その他"
+  "diagnostics.more": "その他",
+  "diagnostics.analyzing": "翻訳を分析中...",
+  "diagnostics.noLanguages": "言語ファイルが見つかりません"
 }

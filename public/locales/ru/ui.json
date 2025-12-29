@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "заглушка",
   "diagnostics.missingKeys": "Отсутствующие ключи",
   "diagnostics.placeholderKeys": "Ключи-заглушки",
-  "diagnostics.more": "ещё"
+  "diagnostics.more": "ещё",
+  "diagnostics.analyzing": "Анализ переводов...",
+  "diagnostics.noLanguages": "Языковые файлы не найдены"
 }

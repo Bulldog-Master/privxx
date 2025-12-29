@@ -393,5 +393,7 @@
   "diagnostics.placeholder": "espace réservé",
   "diagnostics.missingKeys": "Clés Manquantes",
   "diagnostics.placeholderKeys": "Clés d'Espace Réservé",
-  "diagnostics.more": "plus"
+  "diagnostics.more": "plus",
+  "diagnostics.analyzing": "Analyse des traductions...",
+  "diagnostics.noLanguages": "Aucun fichier de langue trouvé"
 }

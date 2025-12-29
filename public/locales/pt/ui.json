@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "marcador",
   "diagnostics.missingKeys": "Chaves Faltando",
   "diagnostics.placeholderKeys": "Chaves de Marcador",
-  "diagnostics.more": "mais"
+  "diagnostics.more": "mais",
+  "diagnostics.analyzing": "Analisando traduções...",
+  "diagnostics.noLanguages": "Nenhum arquivo de idioma encontrado"
 }
