@@ -1,11 +1,21 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { Activity, Clock } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { Activity, Clock, Bell, BellOff, Settings2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { toast } from 'sonner';
 
 interface LatencyDataPoint {
   timestamp: number;
@@ -14,8 +24,11 @@ interface LatencyDataPoint {
   cmixxStatus: number | null;
 }
 
-const MAX_DATA_POINTS = 60; // 1 hour at 1-minute intervals
+const MAX_DATA_POINTS = 60;
 const STORAGE_KEY = 'privxx-latency-history';
+const THRESHOLD_KEY = 'privxx-latency-threshold';
+const ALERTS_ENABLED_KEY = 'privxx-latency-alerts-enabled';
+const DEFAULT_THRESHOLD = 500;
 
 const chartConfig = {
   health: {
@@ -48,6 +61,8 @@ function getAverageLatency(data: LatencyDataPoint[]): number | null {
 export function LatencyTrendChart() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const lastAlertTime = useRef<number>(0);
+  
   const [data, setData] = useState<LatencyDataPoint[]>(() => {
     try {
       const stored = sessionStorage.getItem(STORAGE_KEY);
@@ -57,6 +72,76 @@ export function LatencyTrendChart() {
     }
   });
 
+  const [threshold, setThreshold] = useState<number>(() => {
+    try {
+      const stored = localStorage.getItem(THRESHOLD_KEY);
+      return stored ? parseInt(stored, 10) : DEFAULT_THRESHOLD;
+    } catch {
+      return DEFAULT_THRESHOLD;
+    }
+  });
+
+  const [alertsEnabled, setAlertsEnabled] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem(ALERTS_ENABLED_KEY);
+      return stored ? stored === 'true' : true;
+    } catch {
+      return true;
+    }
+  });
+
+  const updateThreshold = useCallback((value: number) => {
+    setThreshold(value);
+    try {
+      localStorage.setItem(THRESHOLD_KEY, value.toString());
+    } catch {
+      // Ignore storage errors
+    }
+  }, []);
+
+  const toggleAlerts = useCallback((enabled: boolean) => {
+    setAlertsEnabled(enabled);
+    try {
+      localStorage.setItem(ALERTS_ENABLED_KEY, enabled.toString());
+    } catch {
+      // Ignore storage errors
+    }
+  }, []);
+
+  const checkThreshold = useCallback((point: LatencyDataPoint) => {
+    if (!alertsEnabled) return;
+    
+    // Debounce alerts - minimum 30 seconds between alerts
+    const now = Date.now();
+    if (now - lastAlertTime.current < 30000) return;
+
+    const exceeding: string[] = [];
+    if (point.health !== null && point.health > threshold) {
+      exceeding.push(`/health (${point.health}ms)`);
+    }
+    if (point.xxdkInfo !== null && point.xxdkInfo > threshold) {
+      exceeding.push(`/xxdk/info (${point.xxdkInfo}ms)`);
+    }
+    if (point.cmixxStatus !== null && point.cmixxStatus > threshold) {
+      exceeding.push(`/cmixx/status (${point.cmixxStatus}ms)`);
+    }
+
+    if (exceeding.length > 0) {
+      lastAlertTime.current = now;
+      toast.warning(
+        t('diagnostics.latencyAlert', 'High Latency Detected'),
+        {
+          description: t(
+            'diagnostics.latencyAlertDesc',
+            'Endpoints exceeding {{threshold}}ms: {{endpoints}}',
+            { threshold, endpoints: exceeding.join(', ') }
+          ),
+          duration: 5000,
+        }
+      );
+    }
+  }, [alertsEnabled, threshold, t]);
+
   const recordLatency = useCallback(() => {
     const cache = queryClient.getQueryCache();
     const queries = cache.getAll();
@@ -65,19 +150,16 @@ export function LatencyTrendChart() {
       const query = queries.find(q => q.queryKey.includes(key));
       if (!query?.state?.data) return null;
       const state = query.state as { dataUpdatedAt?: number; fetchMeta?: { startTime?: number } };
-      // Estimate from query timing if available
       if (state.dataUpdatedAt && state.fetchMeta?.startTime) {
         return state.dataUpdatedAt - state.fetchMeta.startTime;
       }
       return null;
     };
 
-    // Check for fresh data by looking at cache state
     const healthQuery = queries.find(q => q.queryKey.includes('bridge-health'));
     const xxdkQuery = queries.find(q => q.queryKey.includes('bridge-xxdk-info'));
     const cmixxQuery = queries.find(q => q.queryKey.includes('bridge-cmixx-status'));
 
-    // Only record if we have at least one successful query
     if (!healthQuery?.state?.data && !xxdkQuery?.state?.data && !cmixxQuery?.state?.data) {
       return;
     }
@@ -90,7 +172,6 @@ export function LatencyTrendChart() {
     };
 
     // Simulate latency values for demo when we can't get real timing
-    // In production, this would come from actual response timing
     if (newPoint.health === null && healthQuery?.state?.data) {
       newPoint.health = Math.floor(Math.random() * 150) + 50;
     }
@@ -101,6 +182,9 @@ export function LatencyTrendChart() {
       newPoint.cmixxStatus = Math.floor(Math.random() * 180) + 60;
     }
 
+    // Check threshold and trigger alert
+    checkThreshold(newPoint);
+
     setData(prev => {
       const updated = [...prev, newPoint].slice(-MAX_DATA_POINTS);
       try {
@@ -110,21 +194,16 @@ export function LatencyTrendChart() {
       }
       return updated;
     });
-  }, [queryClient]);
+  }, [queryClient, checkThreshold]);
 
-  // Subscribe to query cache changes
   useEffect(() => {
     const unsubscribe = queryClient.getQueryCache().subscribe((event) => {
       if (event?.type === 'updated' && event.query.queryKey[0]?.toString().startsWith('bridge-')) {
-        // Debounce updates
         setTimeout(recordLatency, 100);
       }
     });
 
-    // Record initial data point
     recordLatency();
-
-    // Also record periodically to fill gaps
     const interval = setInterval(recordLatency, 60000);
 
     return () => {
@@ -149,12 +228,74 @@ export function LatencyTrendChart() {
               {t('diagnostics.latencyTrend', 'Latency Trend')}
             </CardTitle>
           </div>
-          {avgLatency !== null && (
-            <Badge variant="secondary" className="font-mono text-xs">
-              <Clock className="h-3 w-3 mr-1" />
-              {t('diagnostics.avgLatency', 'Avg')}: {avgLatency}ms
-            </Badge>
-          )}
+          <div className="flex items-center gap-2">
+            {avgLatency !== null && (
+              <Badge variant="secondary" className="font-mono text-xs">
+                <Clock className="h-3 w-3 mr-1" />
+                {t('diagnostics.avgLatency', 'Avg')}: {avgLatency}ms
+              </Badge>
+            )}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  {alertsEnabled ? (
+                    <Bell className="h-4 w-4 text-primary" />
+                  ) : (
+                    <BellOff className="h-4 w-4 text-muted-foreground" />
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-72" align="end">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Settings2 className="h-4 w-4" />
+                    <h4 className="font-medium text-sm">
+                      {t('diagnostics.alertSettings', 'Alert Settings')}
+                    </h4>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="alerts-enabled" className="text-sm">
+                      {t('diagnostics.enableAlerts', 'Enable alerts')}
+                    </Label>
+                    <Switch
+                      id="alerts-enabled"
+                      checked={alertsEnabled}
+                      onCheckedChange={toggleAlerts}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm">
+                        {t('diagnostics.thresholdLabel', 'Threshold')}
+                      </Label>
+                      <Badge variant="outline" className="font-mono text-xs">
+                        {threshold}ms
+                      </Badge>
+                    </div>
+                    <Slider
+                      value={[threshold]}
+                      onValueChange={([value]) => updateThreshold(value)}
+                      min={100}
+                      max={2000}
+                      step={50}
+                      disabled={!alertsEnabled}
+                      className="w-full"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                      <span>100ms</span>
+                      <span>2000ms</span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-muted-foreground">
+                    {t('diagnostics.alertDescription', 'Get notified when any endpoint exceeds the latency threshold.')}
+                  </p>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         </div>
         <CardDescription>
           {t('diagnostics.latencyTrendDesc', 'Response times over the last hour')}
@@ -186,6 +327,13 @@ export function LatencyTrendChart() {
                 <ChartTooltip 
                   content={<ChartTooltipContent />}
                   labelFormatter={(label) => label}
+                />
+                {/* Threshold reference line */}
+                <ReferenceLine 
+                  y={threshold} 
+                  stroke="hsl(var(--destructive))" 
+                  strokeDasharray="4 4"
+                  strokeOpacity={0.6}
                 />
                 <Line
                   type="monotone"
@@ -227,6 +375,10 @@ export function LatencyTrendChart() {
               <span>{config.label}</span>
             </div>
           ))}
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <div className="h-0.5 w-4 bg-destructive opacity-60" style={{ borderStyle: 'dashed' }} />
+            <span>{t('diagnostics.threshold', 'Threshold')}</span>
+          </div>
         </div>
       </CardContent>
     </Card>
