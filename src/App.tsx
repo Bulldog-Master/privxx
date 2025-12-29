@@ -28,6 +28,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Profile = lazy(() => import("./pages/Profile"));
 const ComponentDocs = lazy(() => import("./pages/ComponentDocs"));
+const Diagnostics = lazy(() => import("./pages/Diagnostics"));
 
 const queryClient = new QueryClient();
 
@@ -145,6 +146,11 @@ function AppRoutes() {
               <Route path="/docs" element={
                 <Suspense fallback={<PageLoader />}>
                   <ComponentDocs />
+                </Suspense>
+              } />
+              <Route path="/diagnostics" element={
+                <Suspense fallback={<PageLoader />}>
+                  <Diagnostics />
                 </Suspense>
               } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
