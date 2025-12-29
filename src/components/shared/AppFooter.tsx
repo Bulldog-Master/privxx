@@ -33,6 +33,12 @@ const AppFooter = () => {
           >
             {t("componentDocs", "Docs")}
           </Link>
+          <Link 
+            className="hover:text-primary transition-colors underline underline-offset-4" 
+            to="/diagnostics"
+          >
+            {t("diagnostics.link", "Diagnostics")}
+          </Link>
         </div>
       </div>
     </footer>
