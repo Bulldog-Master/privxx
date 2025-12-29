@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running translation checks..."
+
+# Run language guard (forbidden terms + key sync)
+node scripts/check-language.js
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ Translation check failed. Please fix the issues above before committing."
+  echo "   Run 'node scripts/sync-translations.js --write' to add missing placeholders."
+  echo ""
+  exit 1
+fi
+
+echo "✅ Translation checks passed"
