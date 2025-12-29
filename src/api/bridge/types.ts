@@ -1,13 +1,48 @@
 /**
  * Bridge API Types (C2 Production Model)
  * 
- * All requests require Authorization: Bearer <JWT>
+ * ARCHITECTURE:
+ * - Frontend → Bridge (public) → Backend (private localhost)
+ * - All requests require Authorization: Bearer <JWT>
+ * 
+ * ENDPOINTS (Bridge Public):
+ * - GET /health
+ * - GET /xxdk/info
+ * - GET /cmixx/status
  */
 
 export type StatusResponse = {
   status: "ok";
   backend: "connected" | "disconnected";
   network: "ready" | "syncing";
+};
+
+// GET /health response
+export type HealthResponse = {
+  ok: boolean;
+  service: string;
+  version: string;
+  time: string;
+};
+
+// GET /xxdk/info response
+export type XxdkInfoResponse = {
+  ok: boolean;
+  mode: "real" | "demo";
+  hasIdentity: boolean;
+  receptionId?: string;
+  ready: boolean;
+  timestamp: number;
+};
+
+// GET /cmixx/status response
+export type CmixxStatusResponse = {
+  ok: boolean;
+  mode: "real" | "demo";
+  connected: boolean;
+  lastRoundId?: number;
+  nodeCount?: number;
+  timestamp: number;
 };
 
 export type SessionResponse = {
@@ -63,6 +98,11 @@ export interface BridgeClientConfig {
 }
 
 export interface IBridgeClient {
+  // Health & Status (public endpoints)
+  health(): Promise<HealthResponse>;
+  xxdkInfo(): Promise<XxdkInfoResponse>;
+  cmixxStatus(): Promise<CmixxStatusResponse>;
+  
   // Session
   validateSession(): Promise<SessionResponse>;
   
