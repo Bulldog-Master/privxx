@@ -1,17 +1,23 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "🔍 Running translation checks..."
+# Check if any locale files are staged
+STAGED_LOCALES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/locales/.*\.json$" || true)
 
-# Run language guard (forbidden terms + key sync)
-node scripts/check-language.js
-
-if [ $? -ne 0 ]; then
-  echo ""
-  echo "❌ Translation check failed. Please fix the issues above before committing."
-  echo "   Run 'node scripts/sync-translations.js --write' to add missing placeholders."
-  echo ""
-  exit 1
+if [ -n "$STAGED_LOCALES" ]; then
+  echo "🔍 Running translation checks on modified locale files..."
+  
+  node scripts/check-language.js
+  
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ Translation check failed. Please fix the issues above before committing."
+    echo "   Run 'node scripts/sync-translations.js --write' to add missing placeholders."
+    echo ""
+    exit 1
+  fi
+  
+  echo "✅ Translation checks passed"
+else
+  echo "⏭️  No locale files modified, skipping translation checks"
 fi
-
-echo "✅ Translation checks passed"
