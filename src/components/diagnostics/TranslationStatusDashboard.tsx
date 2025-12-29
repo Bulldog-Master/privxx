@@ -1,0 +1,331 @@
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Check, AlertTriangle, Globe, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+
+interface LanguageStatus {
+  code: string;
+  name: string;
+  nativeName: string;
+  totalKeys: number;
+  placeholderKeys: string[];
+  missingKeys: string[];
+  completionPercent: number;
+  isComplete: boolean;
+}
+
+const LANGUAGE_META: Record<string, { name: string; nativeName: string }> = {
+  en: { name: 'English', nativeName: 'English' },
+  ar: { name: 'Arabic', nativeName: 'العربية' },
+  bn: { name: 'Bengali', nativeName: 'বাংলা' },
+  de: { name: 'German', nativeName: 'Deutsch' },
+  es: { name: 'Spanish', nativeName: 'Español' },
+  fr: { name: 'French', nativeName: 'Français' },
+  hi: { name: 'Hindi', nativeName: 'हिन्दी' },
+  id: { name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
+  ja: { name: 'Japanese', nativeName: '日本語' },
+  ko: { name: 'Korean', nativeName: '한국어' },
+  nl: { name: 'Dutch', nativeName: 'Nederlands' },
+  pt: { name: 'Portuguese', nativeName: 'Português' },
+  ru: { name: 'Russian', nativeName: 'Русский' },
+  tr: { name: 'Turkish', nativeName: 'Türkçe' },
+  ur: { name: 'Urdu', nativeName: 'اردو' },
+  zh: { name: 'Chinese', nativeName: '中文' },
+};
+
+const SUPPORTED_LANGUAGES = Object.keys(LANGUAGE_META);
+
+function getAllKeys(obj: Record<string, unknown>, prefix = ''): string[] {
+  const keys: string[] = [];
+  for (const [key, value] of Object.entries(obj)) {
+    const fullKey = prefix ? `${prefix}.${key}` : key;
+    if (typeof value === 'object' && value !== null) {
+      keys.push(...getAllKeys(value as Record<string, unknown>, fullKey));
+    } else {
+      keys.push(fullKey);
+    }
+  }
+  return keys.sort();
+}
+
+function isPlaceholder(value: string, langCode: string): boolean {
+  const prefix = `[${langCode.toUpperCase()}]`;
+  return typeof value === 'string' && value.startsWith(prefix);
+}
+
+function getValueAtPath(obj: Record<string, unknown>, path: string): unknown {
+  const parts = path.split('.');
+  let current: unknown = obj;
+  for (const part of parts) {
+    if (current && typeof current === 'object' && part in current) {
+      current = (current as Record<string, unknown>)[part];
+    } else {
+      return undefined;
+    }
+  }
+  return current;
+}
+
+export function TranslationStatusDashboard() {
+  const { t, i18n } = useTranslation();
+  const [statuses, setStatuses] = useState<LanguageStatus[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [expandedLang, setExpandedLang] = useState<string | null>(null);
+
+  const analyzeTranslations = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Fetch English as reference
+      const enResponse = await fetch('/locales/en/ui.json');
+      if (!enResponse.ok) throw new Error('Failed to load English reference');
+      const enData = await enResponse.json();
+      const referenceKeys = getAllKeys(enData);
+
+      const results: LanguageStatus[] = [];
+
+      for (const langCode of SUPPORTED_LANGUAGES) {
+        try {
+          const response = await fetch(`/locales/${langCode}/ui.json`);
+          if (!response.ok) {
+            results.push({
+              code: langCode,
+              name: LANGUAGE_META[langCode].name,
+              nativeName: LANGUAGE_META[langCode].nativeName,
+              totalKeys: 0,
+              placeholderKeys: [],
+              missingKeys: referenceKeys,
+              completionPercent: 0,
+              isComplete: false,
+            });
+            continue;
+          }
+
+          const langData = await response.json();
+          const langKeys = getAllKeys(langData);
+
+          const missingKeys = referenceKeys.filter(k => !langKeys.includes(k));
+          const placeholderKeys: string[] = [];
+
+          // Check for placeholder values
+          for (const key of langKeys) {
+            const value = getValueAtPath(langData, key);
+            if (typeof value === 'string' && isPlaceholder(value, langCode)) {
+              placeholderKeys.push(key);
+            }
+          }
+
+          const totalIssues = missingKeys.length + placeholderKeys.length;
+          const completionPercent = referenceKeys.length > 0
+            ? Math.round(((referenceKeys.length - totalIssues) / referenceKeys.length) * 100)
+            : 100;
+
+          results.push({
+            code: langCode,
+            name: LANGUAGE_META[langCode].name,
+            nativeName: LANGUAGE_META[langCode].nativeName,
+            totalKeys: langKeys.length,
+            placeholderKeys,
+            missingKeys,
+            completionPercent: Math.max(0, completionPercent),
+            isComplete: missingKeys.length === 0 && placeholderKeys.length === 0,
+          });
+        } catch {
+          results.push({
+            code: langCode,
+            name: LANGUAGE_META[langCode].name,
+            nativeName: LANGUAGE_META[langCode].nativeName,
+            totalKeys: 0,
+            placeholderKeys: [],
+            missingKeys: referenceKeys,
+            completionPercent: 0,
+            isComplete: false,
+          });
+        }
+      }
+
+      // Sort: incomplete first, then by completion percent
+      results.sort((a, b) => {
+        if (a.isComplete !== b.isComplete) return a.isComplete ? 1 : -1;
+        return a.completionPercent - b.completionPercent;
+      });
+
+      setStatuses(results);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to analyze translations');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    analyzeTranslations();
+  }, []);
+
+  const completeCount = statuses.filter(s => s.isComplete).length;
+  const totalLanguages = statuses.length;
+
+  return (
+    <Card className="w-full">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <div>
+          <CardTitle className="flex items-center gap-2">
+            <Globe className="h-5 w-5" />
+            {t('diagnostics.translationStatus', 'Translation Status')}
+          </CardTitle>
+          <CardDescription>
+            {t('diagnostics.translationStatusDesc', 'Sync status of all language files')}
+          </CardDescription>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={analyzeTranslations}
+          disabled={loading}
+        >
+          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+          {t('common.refresh', 'Refresh')}
+        </Button>
+      </CardHeader>
+      <CardContent>
+        {error && (
+          <div className="text-destructive text-sm mb-4 p-3 bg-destructive/10 rounded-md">
+            {error}
+          </div>
+        )}
+
+        {/* Summary */}
+        <div className="flex items-center gap-4 mb-6 p-4 bg-muted/50 rounded-lg">
+          <div className="flex-1">
+            <div className="text-sm text-muted-foreground mb-1">
+              {t('diagnostics.syncProgress', 'Sync Progress')}
+            </div>
+            <Progress value={(completeCount / totalLanguages) * 100} className="h-2" />
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold">{completeCount}/{totalLanguages}</div>
+            <div className="text-xs text-muted-foreground">
+              {t('diagnostics.languagesComplete', 'languages complete')}
+            </div>
+          </div>
+        </div>
+
+        {/* Language List */}
+        <ScrollArea className="h-[400px] pr-4">
+          <div className="space-y-2">
+            {statuses.map((status) => (
+              <Collapsible
+                key={status.code}
+                open={expandedLang === status.code}
+                onOpenChange={(open) => setExpandedLang(open ? status.code : null)}
+              >
+                <CollapsibleTrigger asChild>
+                  <div
+                    className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors hover:bg-muted/50 ${
+                      status.isComplete ? 'border-border' : 'border-warning/50 bg-warning/5'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      {status.isComplete ? (
+                        <Check className="h-4 w-4 text-green-500" />
+                      ) : (
+                        <AlertTriangle className="h-4 w-4 text-warning" />
+                      )}
+                      <div>
+                        <div className="font-medium flex items-center gap-2">
+                          <span className="uppercase text-xs text-muted-foreground font-mono">
+                            {status.code}
+                          </span>
+                          {status.nativeName}
+                          {status.code === i18n.language && (
+                            <Badge variant="secondary" className="text-xs">
+                              {t('diagnostics.current', 'Current')}
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {status.name} • {status.totalKeys} {t('diagnostics.keys', 'keys')}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      {!status.isComplete && (
+                        <div className="flex gap-1">
+                          {status.missingKeys.length > 0 && (
+                            <Badge variant="destructive" className="text-xs">
+                              {status.missingKeys.length} {t('diagnostics.missing', 'missing')}
+                            </Badge>
+                          )}
+                          {status.placeholderKeys.length > 0 && (
+                            <Badge variant="outline" className="text-xs border-warning text-warning">
+                              {status.placeholderKeys.length} {t('diagnostics.placeholder', 'placeholder')}
+                            </Badge>
+                          )}
+                        </div>
+                      )}
+                      <div className="w-16 text-right">
+                        <span className={`text-sm font-medium ${
+                          status.completionPercent === 100 ? 'text-green-500' : 'text-warning'
+                        }`}>
+                          {status.completionPercent}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </CollapsibleTrigger>
+
+                <CollapsibleContent>
+                  {(status.missingKeys.length > 0 || status.placeholderKeys.length > 0) && (
+                    <div className="mt-2 ml-7 p-3 bg-muted/30 rounded-md text-xs space-y-3">
+                      {status.missingKeys.length > 0 && (
+                        <div>
+                          <div className="font-medium text-destructive mb-1">
+                            {t('diagnostics.missingKeys', 'Missing Keys')}:
+                          </div>
+                          <div className="font-mono text-muted-foreground space-y-0.5 max-h-32 overflow-y-auto">
+                            {status.missingKeys.slice(0, 10).map(key => (
+                              <div key={key}>{key}</div>
+                            ))}
+                            {status.missingKeys.length > 10 && (
+                              <div className="text-muted-foreground/50">
+                                +{status.missingKeys.length - 10} {t('diagnostics.more', 'more')}...
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      {status.placeholderKeys.length > 0 && (
+                        <div>
+                          <div className="font-medium text-warning mb-1">
+                            {t('diagnostics.placeholderKeys', 'Placeholder Keys')}:
+                          </div>
+                          <div className="font-mono text-muted-foreground space-y-0.5 max-h-32 overflow-y-auto">
+                            {status.placeholderKeys.slice(0, 10).map(key => (
+                              <div key={key}>{key}</div>
+                            ))}
+                            {status.placeholderKeys.length > 10 && (
+                              <div className="text-muted-foreground/50">
+                                +{status.placeholderKeys.length - 10} {t('diagnostics.more', 'more')}...
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CollapsibleContent>
+              </Collapsible>
+            ))}
+          </div>
+        </ScrollArea>
+      </CardContent>
+    </Card>
+  );
+}
