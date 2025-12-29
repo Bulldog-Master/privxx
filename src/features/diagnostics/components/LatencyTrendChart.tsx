@@ -28,7 +28,41 @@ const MAX_DATA_POINTS = 60;
 const STORAGE_KEY = 'privxx-latency-history';
 const THRESHOLD_KEY = 'privxx-latency-threshold';
 const ALERTS_ENABLED_KEY = 'privxx-latency-alerts-enabled';
+const BROWSER_NOTIF_KEY = 'privxx-browser-notifications-enabled';
 const DEFAULT_THRESHOLD = 500;
+
+// Check if browser notifications are supported
+function notificationsSupported(): boolean {
+  return 'Notification' in window;
+}
+
+// Request notification permission
+async function requestNotificationPermission(): Promise<boolean> {
+  if (!notificationsSupported()) return false;
+  if (Notification.permission === 'granted') return true;
+  if (Notification.permission === 'denied') return false;
+  
+  const permission = await Notification.requestPermission();
+  return permission === 'granted';
+}
+
+// Send browser notification (only when page is hidden)
+function sendBrowserNotification(title: string, body: string): void {
+  if (!notificationsSupported()) return;
+  if (Notification.permission !== 'granted') return;
+  if (!document.hidden) return; // Only notify when app is in background
+  
+  try {
+    new Notification(title, {
+      body,
+      icon: '/icons/pwa-192x192.png',
+      badge: '/icons/pwa-192x192.png',
+      tag: 'privxx-latency-alert', // Prevents duplicate notifications
+    });
+  } catch {
+    // Fallback for environments where Notification constructor fails
+  }
+}
 
 const chartConfig = {
   health: {
@@ -90,6 +124,20 @@ export function LatencyTrendChart() {
     }
   });
 
+  const [browserNotifEnabled, setBrowserNotifEnabled] = useState<boolean>(() => {
+    try {
+      const stored = localStorage.getItem(BROWSER_NOTIF_KEY);
+      return stored ? stored === 'true' : false;
+    } catch {
+      return false;
+    }
+  });
+
+  const [notifPermission, setNotifPermission] = useState<NotificationPermission | 'unsupported'>(() => {
+    if (!notificationsSupported()) return 'unsupported';
+    return Notification.permission;
+  });
+
   const updateThreshold = useCallback((value: number) => {
     setThreshold(value);
     try {
@@ -107,6 +155,32 @@ export function LatencyTrendChart() {
       // Ignore storage errors
     }
   }, []);
+
+  const toggleBrowserNotif = useCallback(async (enabled: boolean) => {
+    if (enabled) {
+      const granted = await requestNotificationPermission();
+      if (granted) {
+        setBrowserNotifEnabled(true);
+        setNotifPermission('granted');
+        try {
+          localStorage.setItem(BROWSER_NOTIF_KEY, 'true');
+        } catch {
+          // Ignore storage errors
+        }
+        toast.success(t('diagnostics.browserNotifEnabled', 'Browser notifications enabled'));
+      } else {
+        setNotifPermission(Notification.permission as NotificationPermission);
+        toast.error(t('diagnostics.browserNotifDenied', 'Notification permission denied'));
+      }
+    } else {
+      setBrowserNotifEnabled(false);
+      try {
+        localStorage.setItem(BROWSER_NOTIF_KEY, 'false');
+      } catch {
+        // Ignore storage errors
+      }
+    }
+  }, [t]);
 
   const checkThreshold = useCallback((point: LatencyDataPoint) => {
     if (!alertsEnabled) return;
@@ -128,19 +202,26 @@ export function LatencyTrendChart() {
 
     if (exceeding.length > 0) {
       lastAlertTime.current = now;
-      toast.warning(
-        t('diagnostics.latencyAlert', 'High Latency Detected'),
-        {
-          description: t(
-            'diagnostics.latencyAlertDesc',
-            'Endpoints exceeding {{threshold}}ms: {{endpoints}}',
-            { threshold, endpoints: exceeding.join(', ') }
-          ),
-          duration: 5000,
-        }
+      
+      const alertTitle = t('diagnostics.latencyAlert', 'High Latency Detected');
+      const alertBody = t(
+        'diagnostics.latencyAlertDesc',
+        'Endpoints exceeding {{threshold}}ms: {{endpoints}}',
+        { threshold, endpoints: exceeding.join(', ') }
       );
+
+      // In-app toast notification
+      toast.warning(alertTitle, {
+        description: alertBody,
+        duration: 5000,
+      });
+
+      // Browser notification (only when app is in background)
+      if (browserNotifEnabled) {
+        sendBrowserNotification(alertTitle, alertBody);
+      }
     }
-  }, [alertsEnabled, threshold, t]);
+  }, [alertsEnabled, browserNotifEnabled, threshold, t]);
 
   const recordLatency = useCallback(() => {
     const cache = queryClient.getQueryCache();
@@ -288,6 +369,33 @@ export function LatencyTrendChart() {
                       <span>2000ms</span>
                     </div>
                   </div>
+
+                  {/* Browser notifications section */}
+                  {notifPermission !== 'unsupported' && (
+                    <div className="pt-2 border-t space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-0.5">
+                          <Label htmlFor="browser-notif" className="text-sm">
+                            {t('diagnostics.browserNotifications', 'Browser notifications')}
+                          </Label>
+                          <p className="text-xs text-muted-foreground">
+                            {t('diagnostics.browserNotifDesc', 'Alert when app is in background')}
+                          </p>
+                        </div>
+                        <Switch
+                          id="browser-notif"
+                          checked={browserNotifEnabled}
+                          onCheckedChange={toggleBrowserNotif}
+                          disabled={!alertsEnabled || notifPermission === 'denied'}
+                        />
+                      </div>
+                      {notifPermission === 'denied' && (
+                        <p className="text-xs text-destructive">
+                          {t('diagnostics.notifPermissionDenied', 'Permission denied. Enable in browser settings.')}
+                        </p>
+                      )}
+                    </div>
+                  )}
 
                   <p className="text-xs text-muted-foreground">
                     {t('diagnostics.alertDescription', 'Get notified when any endpoint exceeds the latency threshold.')}
