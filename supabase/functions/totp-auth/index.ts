@@ -8,9 +8,54 @@ const MAX_FAILED_ATTEMPTS = 5; // Lock after 5 failed attempts
 const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes lockout
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute window
 const MAX_REQUESTS_PER_WINDOW = 10; // 10 requests per minute
+const TOTP_CODE_VALIDITY_WINDOW = 1; // Allow 1 step before/after current time
+const TOKEN_REUSE_PREVENTION_WINDOW_MS = 60 * 1000; // 60 seconds to prevent token reuse
 
 // Simple base32 encoding/decoding for TOTP secrets
 const BASE32_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+/**
+ * Constant-time string comparison to prevent timing attacks
+ * Returns true if strings are equal, false otherwise
+ */
+function constantTimeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    // Still do comparison to maintain constant time for equal-length inputs
+    let result = a.length ^ b.length;
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+      result |= (a.charCodeAt(i % a.length) || 0) ^ (b.charCodeAt(i % b.length) || 0);
+    }
+    return false;
+  }
+  
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return result === 0;
+}
+
+/**
+ * Validate TOTP code format strictly
+ * Only allows exactly 6 numeric digits
+ */
+function isValidTOTPCode(code: unknown): code is string {
+  if (typeof code !== 'string') return false;
+  if (code.length !== 6) return false;
+  return /^[0-9]{6}$/.test(code);
+}
+
+/**
+ * Validate backup code format
+ * Format: XXXX-XXXX (hex characters)
+ */
+function isValidBackupCode(code: unknown): code is string {
+  if (typeof code !== 'string') return false;
+  // Accept both with and without hyphen
+  const normalized = code.replace('-', '').toUpperCase();
+  if (normalized.length !== 8) return false;
+  return /^[0-9A-F]{8}$/.test(normalized);
+}
 
 function generateSecret(): string {
   const bytes = new Uint8Array(20);
@@ -59,13 +104,15 @@ async function hmacSha1(key: Uint8Array, message: Uint8Array): Promise<Uint8Arra
   return new Uint8Array(signature);
 }
 
-async function generateTOTP(secret: string, timeStep = 30): Promise<string> {
+/**
+ * Generate TOTP code for a specific time counter
+ */
+async function generateTOTPForCounter(secret: string, counter: number): Promise<string> {
   const key = base32Decode(secret);
-  const time = Math.floor(Date.now() / 1000 / timeStep);
   
   const timeBuffer = new ArrayBuffer(8);
   const timeView = new DataView(timeBuffer);
-  timeView.setUint32(4, time, false);
+  timeView.setUint32(4, counter, false);
   
   const hmac = await hmacSha1(key, new Uint8Array(timeBuffer));
   const offset = hmac[hmac.length - 1] & 0x0f;
@@ -77,29 +124,28 @@ async function generateTOTP(secret: string, timeStep = 30): Promise<string> {
   return (code % 1000000).toString().padStart(6, '0');
 }
 
-async function verifyTOTP(secret: string, token: string, window = 1): Promise<boolean> {
+/**
+ * Verify TOTP with constant-time comparison and counter tracking
+ * Returns the matched counter if valid, null otherwise
+ */
+async function verifyTOTPWithCounter(
+  secret: string, 
+  token: string, 
+  window = TOTP_CODE_VALIDITY_WINDOW
+): Promise<{ valid: boolean; counter: number | null }> {
+  const timeStep = 30;
+  const currentCounter = Math.floor(Date.now() / 1000 / timeStep);
+  
   for (let i = -window; i <= window; i++) {
-    const timeStep = 30;
-    const time = Math.floor(Date.now() / 1000 / timeStep) + i;
+    const counter = currentCounter + i;
+    const expectedToken = await generateTOTPForCounter(secret, counter);
     
-    const timeBuffer = new ArrayBuffer(8);
-    const timeView = new DataView(timeBuffer);
-    timeView.setUint32(4, time, false);
-    
-    const key = base32Decode(secret);
-    const hmac = await hmacSha1(key, new Uint8Array(timeBuffer));
-    const offset = hmac[hmac.length - 1] & 0x0f;
-    const code = ((hmac[offset] & 0x7f) << 24) |
-                 ((hmac[offset + 1] & 0xff) << 16) |
-                 ((hmac[offset + 2] & 0xff) << 8) |
-                 (hmac[offset + 3] & 0xff);
-    
-    const expectedToken = (code % 1000000).toString().padStart(6, '0');
-    if (expectedToken === token) {
-      return true;
+    // Use constant-time comparison to prevent timing attacks
+    if (constantTimeEqual(expectedToken, token)) {
+      return { valid: true, counter };
     }
   }
-  return false;
+  return { valid: false, counter: null };
 }
 
 function generateBackupCodes(): string[] {
@@ -115,7 +161,9 @@ function generateBackupCodes(): string[] {
 
 async function hashCode(code: string): Promise<string> {
   const encoder = new TextEncoder();
-  const data = encoder.encode(code.replace('-', '').toLowerCase());
+  // Normalize: remove hyphens and lowercase
+  const normalized = code.replace(/-/g, '').toLowerCase();
+  const data = encoder.encode(normalized);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -243,6 +291,52 @@ async function resetFailedAttempts(supabase: any, userId: string): Promise<void>
     .eq('user_id', userId);
 }
 
+/**
+ * Check if a TOTP counter was recently used (replay attack prevention)
+ */
+async function isCounterReused(
+  supabase: any,
+  userId: string,
+  counter: number
+): Promise<boolean> {
+  const { data } = await supabase
+    .from('totp_secrets')
+    .select('last_used_counter, last_used_at')
+    .eq('user_id', userId)
+    .single();
+
+  if (!data) return false;
+
+  // Check if same counter was used recently
+  if (data.last_used_counter === counter) {
+    const lastUsedAt = new Date(data.last_used_at);
+    const now = new Date();
+    // If same counter used within prevention window, it's a replay
+    if (now.getTime() - lastUsedAt.getTime() < TOKEN_REUSE_PREVENTION_WINDOW_MS) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Record the used counter to prevent replay attacks
+ */
+async function recordUsedCounter(
+  supabase: any,
+  userId: string,
+  counter: number
+): Promise<void> {
+  await supabase
+    .from('totp_secrets')
+    .update({ 
+      last_used_counter: counter, 
+      last_used_at: new Date().toISOString() 
+    })
+    .eq('user_id', userId);
+}
+
 serve(async (req) => {
   const origin = req.headers.get('origin');
   const corsHeaders = getCorsHeaders(origin);
@@ -298,7 +392,7 @@ serve(async (req) => {
 
     switch (action) {
       case 'status': {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('totp_secrets')
           .select('enabled, verified_at, created_at')
           .eq('user_id', user.id)
@@ -337,12 +431,25 @@ serve(async (req) => {
         if (existing) {
           await supabase
             .from('totp_secrets')
-            .update({ encrypted_secret: secret, enabled: false, verified_at: null, failed_attempts: 0, locked_until: null })
+            .update({ 
+              encrypted_secret: secret, 
+              enabled: false, 
+              verified_at: null, 
+              failed_attempts: 0, 
+              locked_until: null,
+              last_used_counter: null,
+              last_used_at: null
+            })
             .eq('user_id', user.id);
         } else {
           await supabase
             .from('totp_secrets')
-            .insert({ user_id: user.id, encrypted_secret: secret, enabled: false, failed_attempts: 0 });
+            .insert({ 
+              user_id: user.id, 
+              encrypted_secret: secret, 
+              enabled: false, 
+              failed_attempts: 0 
+            });
         }
 
         console.log('[totp-auth] Setup initiated for:', user.email);
@@ -356,8 +463,9 @@ serve(async (req) => {
       }
 
       case 'verify': {
-        if (!code || code.length !== 6) {
-          return new Response(JSON.stringify({ error: 'Invalid code format' }), {
+        // Strict input validation
+        if (!isValidTOTPCode(code)) {
+          return new Response(JSON.stringify({ error: 'Invalid code format. Must be exactly 6 digits.' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
@@ -391,9 +499,10 @@ serve(async (req) => {
           });
         }
 
-        const isValid = await verifyTOTP(secretData.encrypted_secret, code);
+        // Verify with constant-time comparison and get counter
+        const verification = await verifyTOTPWithCounter(secretData.encrypted_secret, code);
         
-        if (!isValid) {
+        if (!verification.valid || verification.counter === null) {
           // Record failed attempt for lockout tracking
           await recordFailedAttempt(supabase, user.id);
           
@@ -402,6 +511,21 @@ serve(async (req) => {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
+        }
+
+        // Check for replay attack (same code used within time window)
+        if (secretData.enabled) {
+          const isReplay = await isCounterReused(supabase, user.id, verification.counter);
+          if (isReplay) {
+            console.log('[totp-auth] Replay attack detected for:', user.email);
+            return new Response(JSON.stringify({ error: 'Code already used. Please wait for a new code.' }), {
+              status: 400,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            });
+          }
+          
+          // Record the used counter
+          await recordUsedCounter(supabase, user.id, verification.counter);
         }
 
         // Reset failed attempts on success
@@ -421,13 +545,18 @@ serve(async (req) => {
             });
           }
 
-          // Enable 2FA
+          // Enable 2FA and record the counter
           await supabase
             .from('totp_secrets')
-            .update({ enabled: true, verified_at: new Date().toISOString() })
+            .update({ 
+              enabled: true, 
+              verified_at: new Date().toISOString(),
+              last_used_counter: verification.counter,
+              last_used_at: new Date().toISOString()
+            })
             .eq('user_id', user.id);
 
-          console.log('[totp-auth] 2FA enabled for:', user.email);
+          console.log('[totp-auth] 2FA enabled with cryptographic verification for:', user.email);
           return new Response(JSON.stringify({
             verified: true,
             enabled: true,
@@ -437,15 +566,16 @@ serve(async (req) => {
           });
         }
 
-        console.log('[totp-auth] Code verified for:', user.email);
+        console.log('[totp-auth] Code verified with constant-time comparison for:', user.email);
         return new Response(JSON.stringify({ verified: true }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
 
       case 'disable': {
-        if (!code || code.length !== 6) {
-          return new Response(JSON.stringify({ error: 'Code required to disable 2FA' }), {
+        // Strict input validation
+        if (!isValidTOTPCode(code)) {
+          return new Response(JSON.stringify({ error: 'Code required to disable 2FA. Must be exactly 6 digits.' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
@@ -479,8 +609,8 @@ serve(async (req) => {
           });
         }
 
-        const isValid = await verifyTOTP(secretData.encrypted_secret, code);
-        if (!isValid) {
+        const verification = await verifyTOTPWithCounter(secretData.encrypted_secret, code);
+        if (!verification.valid) {
           await recordFailedAttempt(supabase, user.id);
           return new Response(JSON.stringify({ error: 'Invalid code' }), {
             status: 400,
@@ -503,8 +633,8 @@ serve(async (req) => {
 
       case 'backup-codes': {
         // Regenerate backup codes (requires valid TOTP code)
-        if (!code || code.length !== 6) {
-          return new Response(JSON.stringify({ error: 'Code required to regenerate backup codes' }), {
+        if (!isValidTOTPCode(code)) {
+          return new Response(JSON.stringify({ error: 'Code required to regenerate backup codes. Must be exactly 6 digits.' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
@@ -537,8 +667,8 @@ serve(async (req) => {
           });
         }
 
-        const isValid = await verifyTOTP(secretData.encrypted_secret, code);
-        if (!isValid) {
+        const verification = await verifyTOTPWithCounter(secretData.encrypted_secret, code);
+        if (!verification.valid) {
           await recordFailedAttempt(supabase, user.id);
           return new Response(JSON.stringify({ error: 'Invalid code' }), {
             status: 400,
@@ -567,9 +697,9 @@ serve(async (req) => {
       }
 
       case 'verify-backup': {
-        // Verify using a backup code
-        if (!code) {
-          return new Response(JSON.stringify({ error: 'Backup code required' }), {
+        // Verify using a backup code with strict validation
+        if (!isValidBackupCode(code)) {
+          return new Response(JSON.stringify({ error: 'Invalid backup code format' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
@@ -577,21 +707,35 @@ serve(async (req) => {
 
         const codeHash = await hashCode(code);
         
-        const { data: backupCode, error: backupError } = await supabase
+        // Get all backup codes for the user to do constant-time comparison
+        const { data: backupCodes, error: backupError } = await supabase
           .from('totp_backup_codes')
-          .select('id, used_at')
-          .eq('user_id', user.id)
-          .eq('code_hash', codeHash)
-          .maybeSingle();
+          .select('id, code_hash, used_at')
+          .eq('user_id', user.id);
 
-        if (backupError || !backupCode) {
+        if (backupError || !backupCodes || backupCodes.length === 0) {
+          return new Response(JSON.stringify({ error: 'No backup codes available' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        // Constant-time search through all codes
+        let matchedCode: { id: string; used_at: string | null } | null = null;
+        for (const bc of backupCodes) {
+          if (constantTimeEqual(bc.code_hash, codeHash)) {
+            matchedCode = bc;
+          }
+        }
+
+        if (!matchedCode) {
           return new Response(JSON.stringify({ error: 'Invalid backup code' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
 
-        if (backupCode.used_at) {
+        if (matchedCode.used_at) {
           return new Response(JSON.stringify({ error: 'Backup code already used' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -602,9 +746,9 @@ serve(async (req) => {
         await supabase
           .from('totp_backup_codes')
           .update({ used_at: new Date().toISOString() })
-          .eq('id', backupCode.id);
+          .eq('id', matchedCode.id);
 
-        console.log('[totp-auth] Backup code used for:', user.email);
+        console.log('[totp-auth] Backup code used with constant-time verification for:', user.email);
         return new Response(JSON.stringify({ verified: true, usedBackupCode: true }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });

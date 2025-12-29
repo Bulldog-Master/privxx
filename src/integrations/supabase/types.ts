@@ -204,6 +204,8 @@ export type Database = {
           encrypted_secret: string
           failed_attempts: number
           id: string
+          last_used_at: string | null
+          last_used_counter: number | null
           locked_until: string | null
           updated_at: string
           user_id: string
@@ -215,6 +217,8 @@ export type Database = {
           encrypted_secret: string
           failed_attempts?: number
           id?: string
+          last_used_at?: string | null
+          last_used_counter?: number | null
           locked_until?: string | null
           updated_at?: string
           user_id: string
@@ -226,6 +230,8 @@ export type Database = {
           encrypted_secret?: string
           failed_attempts?: number
           id?: string
+          last_used_at?: string | null
+          last_used_counter?: number | null
           locked_until?: string | null
           updated_at?: string
           user_id?: string
