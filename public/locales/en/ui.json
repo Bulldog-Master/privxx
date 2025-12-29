@@ -110,6 +110,12 @@
   
   "bridgeLiveStatus": "Bridge Live Status",
   "bridgeLiveStatusSubtext": "Real-time bridge API responses",
+  "bridgeConnectionIssues": "Connection issues detected",
+  "bridgeUnreachable": "Bridge Unreachable",
+  "bridgeUnreachableDesc": "Unable to connect to the bridge API. Check if the bridge server is running.",
+  "connectionFailed": "Connection Failed",
+  "unableToReach": "Unable to reach",
+  "retryAll": "Retry All",
   "bridgeHealth": "Bridge Health",
   "unreachable": "Unreachable",
   "loading": "Loading...",
