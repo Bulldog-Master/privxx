@@ -1,8 +1,15 @@
-export { default as StatusCard } from "./StatusCard";
-export { default as BridgeStatusCard } from "./BridgeStatusCard";
-export { default as StatusCardSkeleton } from "./StatusCardSkeleton";
-export { default as DiagnosticsFooter } from "./DiagnosticsFooter";
-export { default as DiagnosticsDrawer } from "./DiagnosticsDrawer";
-export { useDiagnosticsState } from "./useDiagnosticsState";
-export { getBackendStatusDisplay, getModeDisplay } from "./getStatusDisplays";
-export { TranslationStatusDashboard } from "./TranslationStatusDashboard";
+// Re-export from new location for backwards compatibility
+// TODO: Update imports to use @/features/diagnostics directly
+export {
+  StatusCard,
+  StatusCardSkeleton,
+  DiagnosticsFooter,
+  DiagnosticsDrawer,
+  BridgeStatusCard,
+  ReadinessPanel,
+  TranslationStatusDashboard,
+  useDiagnosticsState,
+  getBackendStatusDisplay,
+  getModeDisplay,
+} from "@/features/diagnostics";
+export type { UiState } from "@/features/diagnostics";
