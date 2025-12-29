@@ -83,5 +83,18 @@ jobs:
         if: steps.locale-changes.outputs.has_changes == 'true'
         run: node scripts/check-language.js
 
+      - name: Generate translation report
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: node scripts/generate-translation-report.js
+
+      - name: Commit translation report
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/TRANSLATION-SYNC-REPORT.md
+          git diff --staged --quiet || git commit -m "docs: auto-update translation sync report [skip ci]"
+          git push || echo "Nothing to push"
+
       - name: Run tests
         run: npx vitest run
