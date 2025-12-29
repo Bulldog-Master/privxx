@@ -61,7 +61,26 @@ jobs:
             echo "No privacy check script found, skipping."
           fi
 
+      - name: Check for locale file changes
+        id: locale-changes
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep "^public/locales/" || true)
+            if [ -n "$CHANGED" ]; then
+              echo "has_changes=true" >> $GITHUB_OUTPUT
+              echo "📝 Locale files modified:"
+              echo "$CHANGED"
+            else
+              echo "has_changes=false" >> $GITHUB_OUTPUT
+              echo "⏭️ No locale files modified"
+            fi
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "🔄 Push to main - running full check"
+          fi
+
       - name: Run language guard
+        if: steps.locale-changes.outputs.has_changes == 'true'
         run: node scripts/check-language.js
 
       - name: Run tests
