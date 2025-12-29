@@ -373,5 +373,26 @@
   "examples": "Contoh",
   "preview": "Pratinjau",
   "notes": "Catatan",
-  "create": "Buat"
+  "create": "Buat",
+  
+  "diagnostics.link": "Diagnostik",
+  "diagnostics.pageTitle": "Diagnostik Sistem",
+  "diagnostics.pageDescription": "Pantau kesehatan sistem dan status terjemahan",
+  "diagnostics.systemHealth": "Kesehatan Sistem",
+  "diagnostics.systemHealthDesc": "Konektivitas backend dan status layanan",
+  "diagnostics.readiness": "Pemeriksaan Kesiapan",
+  "diagnostics.readinessDesc": "Ketersediaan layanan dan status konfigurasi",
+  "diagnostics.version": "Versi",
+  "diagnostics.build": "Build",
+  "diagnostics.translationStatus": "Status Terjemahan",
+  "diagnostics.translationStatusDesc": "Status sinkronisasi file bahasa",
+  "diagnostics.syncProgress": "Kemajuan Sinkronisasi",
+  "diagnostics.languagesComplete": "bahasa lengkap",
+  "diagnostics.current": "Saat Ini",
+  "diagnostics.keys": "kunci",
+  "diagnostics.missing": "hilang",
+  "diagnostics.placeholder": "placeholder",
+  "diagnostics.missingKeys": "Kunci yang Hilang",
+  "diagnostics.placeholderKeys": "Kunci Placeholder",
+  "diagnostics.more": "lainnya"
 }

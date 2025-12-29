@@ -373,5 +373,26 @@
   "examples": "Örnekler",
   "preview": "Önizleme",
   "notes": "Notlar",
-  "create": "Oluştur"
+  "create": "Oluştur",
+  
+  "diagnostics.link": "Tanılama",
+  "diagnostics.pageTitle": "Sistem Tanılama",
+  "diagnostics.pageDescription": "Sistem sağlığını ve çeviri durumunu izleyin",
+  "diagnostics.systemHealth": "Sistem Sağlığı",
+  "diagnostics.systemHealthDesc": "Arka uç bağlantısı ve servis durumu",
+  "diagnostics.readiness": "Hazırlık Kontrolleri",
+  "diagnostics.readinessDesc": "Servis kullanılabilirliği ve yapılandırma durumu",
+  "diagnostics.version": "Sürüm",
+  "diagnostics.build": "Derleme",
+  "diagnostics.translationStatus": "Çeviri Durumu",
+  "diagnostics.translationStatusDesc": "Dil dosyalarının senkronizasyon durumu",
+  "diagnostics.syncProgress": "Senkronizasyon İlerlemesi",
+  "diagnostics.languagesComplete": "dil tamamlandı",
+  "diagnostics.current": "Mevcut",
+  "diagnostics.keys": "anahtar",
+  "diagnostics.missing": "eksik",
+  "diagnostics.placeholder": "yer tutucu",
+  "diagnostics.missingKeys": "Eksik Anahtarlar",
+  "diagnostics.placeholderKeys": "Yer Tutucu Anahtarları",
+  "diagnostics.more": "daha fazla"
 }

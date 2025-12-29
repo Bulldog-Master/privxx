@@ -373,5 +373,26 @@
   "examples": "Exemplos",
   "preview": "Prévia",
   "notes": "Notas",
-  "create": "Criar"
+  "create": "Criar",
+  
+  "diagnostics.link": "Diagnósticos",
+  "diagnostics.pageTitle": "Diagnósticos do Sistema",
+  "diagnostics.pageDescription": "Monitorar a saúde do sistema e o status das traduções",
+  "diagnostics.systemHealth": "Saúde do Sistema",
+  "diagnostics.systemHealthDesc": "Conectividade do backend e status do serviço",
+  "diagnostics.readiness": "Verificações de Prontidão",
+  "diagnostics.readinessDesc": "Disponibilidade do serviço e status de configuração",
+  "diagnostics.version": "Versão",
+  "diagnostics.build": "Build",
+  "diagnostics.translationStatus": "Status das Traduções",
+  "diagnostics.translationStatusDesc": "Status de sincronização dos arquivos de idioma",
+  "diagnostics.syncProgress": "Progresso da Sincronização",
+  "diagnostics.languagesComplete": "idiomas completos",
+  "diagnostics.current": "Atual",
+  "diagnostics.keys": "chaves",
+  "diagnostics.missing": "faltando",
+  "diagnostics.placeholder": "marcador",
+  "diagnostics.missingKeys": "Chaves Faltando",
+  "diagnostics.placeholderKeys": "Chaves de Marcador",
+  "diagnostics.more": "mais"
 }

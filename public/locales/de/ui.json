@@ -372,5 +372,26 @@
   "examples": "Beispiele",
   "preview": "Vorschau",
   "notes": "Hinweise",
-  "create": "Erstellen"
+  "create": "Erstellen",
+  
+  "diagnostics.link": "Diagnose",
+  "diagnostics.pageTitle": "Systemdiagnose",
+  "diagnostics.pageDescription": "Systemzustand und Übersetzungsstatus überwachen",
+  "diagnostics.systemHealth": "Systemzustand",
+  "diagnostics.systemHealthDesc": "Backend-Konnektivität und Servicestatus",
+  "diagnostics.readiness": "Bereitschaftsprüfungen",
+  "diagnostics.readinessDesc": "Serviceverfügbarkeit und Konfigurationsstatus",
+  "diagnostics.version": "Version",
+  "diagnostics.build": "Build",
+  "diagnostics.translationStatus": "Übersetzungsstatus",
+  "diagnostics.translationStatusDesc": "Synchronisierungsstatus der Sprachdateien",
+  "diagnostics.syncProgress": "Synchronisierungsfortschritt",
+  "diagnostics.languagesComplete": "Sprachen vollständig",
+  "diagnostics.current": "Aktuell",
+  "diagnostics.keys": "Schlüssel",
+  "diagnostics.missing": "fehlend",
+  "diagnostics.placeholder": "Platzhalter",
+  "diagnostics.missingKeys": "Fehlende Schlüssel",
+  "diagnostics.placeholderKeys": "Platzhalter-Schlüssel",
+  "diagnostics.more": "mehr"
 }

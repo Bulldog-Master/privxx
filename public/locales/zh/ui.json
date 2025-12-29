@@ -373,5 +373,26 @@
   "examples": "示例",
   "preview": "预览",
   "notes": "注释",
-  "create": "创建"
+  "create": "创建",
+  
+  "diagnostics.link": "诊断",
+  "diagnostics.pageTitle": "系统诊断",
+  "diagnostics.pageDescription": "监控系统健康状态和翻译状态",
+  "diagnostics.systemHealth": "系统健康",
+  "diagnostics.systemHealthDesc": "后端连接和服务状态",
+  "diagnostics.readiness": "就绪检查",
+  "diagnostics.readinessDesc": "服务可用性和配置状态",
+  "diagnostics.version": "版本",
+  "diagnostics.build": "构建",
+  "diagnostics.translationStatus": "翻译状态",
+  "diagnostics.translationStatusDesc": "语言文件同步状态",
+  "diagnostics.syncProgress": "同步进度",
+  "diagnostics.languagesComplete": "语言完成",
+  "diagnostics.current": "当前",
+  "diagnostics.keys": "键",
+  "diagnostics.missing": "缺失",
+  "diagnostics.placeholder": "占位符",
+  "diagnostics.missingKeys": "缺失的键",
+  "diagnostics.placeholderKeys": "占位符键",
+  "diagnostics.more": "更多"
 }
