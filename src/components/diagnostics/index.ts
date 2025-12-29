@@ -5,3 +5,4 @@ export { default as DiagnosticsFooter } from "./DiagnosticsFooter";
 export { default as DiagnosticsDrawer } from "./DiagnosticsDrawer";
 export { useDiagnosticsState } from "./useDiagnosticsState";
 export { getBackendStatusDisplay, getModeDisplay } from "./getStatusDisplays";
+export { TranslationStatusDashboard } from "./TranslationStatusDashboard";
