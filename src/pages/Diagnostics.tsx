@@ -16,6 +16,7 @@ import {
   ConnectionHistoryLog,
   TranslationStatusDashboard,
   ReadinessPanel,
+  LatencyTrendChart,
 } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
 import { buildInfo } from '@/lib/buildInfo';
@@ -145,6 +146,9 @@ export default function Diagnostics() {
                 {!isLoading && <ReadinessPanel />}
               </CardContent>
             </Card>
+
+            {/* Latency Trend Chart */}
+            <LatencyTrendChart />
 
             {/* Connection History */}
             <ConnectionHistoryLog />

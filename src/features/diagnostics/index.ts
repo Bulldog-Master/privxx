@@ -9,6 +9,7 @@ export {
   ReadinessPanel,
   ConnectionHistoryLog,
   TranslationStatusDashboard,
+  LatencyTrendChart,
 } from "./components";
 
 // Hooks
