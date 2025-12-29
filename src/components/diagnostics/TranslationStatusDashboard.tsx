@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +17,11 @@ interface LanguageStatus {
   missingKeys: string[];
   completionPercent: number;
   isComplete: boolean;
+}
+
+interface CachedData {
+  statuses: LanguageStatus[];
+  timestamp: number;
 }
 
 const LANGUAGE_META: Record<string, { name: string; nativeName: string }> = {
@@ -39,6 +44,8 @@ const LANGUAGE_META: Record<string, { name: string; nativeName: string }> = {
 };
 
 const SUPPORTED_LANGUAGES = Object.keys(LANGUAGE_META);
+const CACHE_KEY = 'privxx_translation_status_cache';
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 function getAllKeys(obj: Record<string, unknown>, prefix = ''): string[] {
   const keys: string[] = [];
@@ -71,14 +78,58 @@ function getValueAtPath(obj: Record<string, unknown>, path: string): unknown {
   return current;
 }
 
+function getCachedData(): CachedData | null {
+  try {
+    const cached = sessionStorage.getItem(CACHE_KEY);
+    if (!cached) return null;
+    
+    const data: CachedData = JSON.parse(cached);
+    const age = Date.now() - data.timestamp;
+    
+    if (age > CACHE_TTL_MS) {
+      sessionStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function setCachedData(statuses: LanguageStatus[]): void {
+  try {
+    const data: CachedData = {
+      statuses,
+      timestamp: Date.now(),
+    };
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch {
+    // Ignore storage errors
+  }
+}
+
 export function TranslationStatusDashboard() {
   const { t, i18n } = useTranslation();
   const [statuses, setStatuses] = useState<LanguageStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [expandedLang, setExpandedLang] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const initialLoadDone = useRef(false);
 
-  const analyzeTranslations = async () => {
+  const analyzeTranslations = useCallback(async (forceRefresh = false) => {
+    // Check cache first (unless forcing refresh)
+    if (!forceRefresh) {
+      const cached = getCachedData();
+      if (cached) {
+        setStatuses(cached.statuses);
+        setLastUpdated(new Date(cached.timestamp));
+        setLoading(false);
+        return;
+      }
+    }
+
     setLoading(true);
     setError(null);
 
@@ -91,21 +142,21 @@ export function TranslationStatusDashboard() {
 
       const results: LanguageStatus[] = [];
 
-      for (const langCode of SUPPORTED_LANGUAGES) {
+      // Fetch all languages in parallel for better performance
+      const fetchPromises = SUPPORTED_LANGUAGES.map(async (langCode) => {
         try {
           const response = await fetch(`/locales/${langCode}/ui.json`);
           if (!response.ok) {
-            results.push({
+            return {
               code: langCode,
               name: LANGUAGE_META[langCode].name,
               nativeName: LANGUAGE_META[langCode].nativeName,
               totalKeys: 0,
-              placeholderKeys: [],
+              placeholderKeys: [] as string[],
               missingKeys: referenceKeys,
               completionPercent: 0,
               isComplete: false,
-            });
-            continue;
+            };
           }
 
           const langData = await response.json();
@@ -127,7 +178,7 @@ export function TranslationStatusDashboard() {
             ? Math.round(((referenceKeys.length - totalIssues) / referenceKeys.length) * 100)
             : 100;
 
-          results.push({
+          return {
             code: langCode,
             name: LANGUAGE_META[langCode].name,
             nativeName: LANGUAGE_META[langCode].nativeName,
@@ -136,20 +187,23 @@ export function TranslationStatusDashboard() {
             missingKeys,
             completionPercent: Math.max(0, completionPercent),
             isComplete: missingKeys.length === 0 && placeholderKeys.length === 0,
-          });
+          };
         } catch {
-          results.push({
+          return {
             code: langCode,
             name: LANGUAGE_META[langCode].name,
             nativeName: LANGUAGE_META[langCode].nativeName,
             totalKeys: 0,
-            placeholderKeys: [],
+            placeholderKeys: [] as string[],
             missingKeys: referenceKeys,
             completionPercent: 0,
             isComplete: false,
-          });
+          };
         }
-      }
+      });
+
+      const fetchedResults = await Promise.all(fetchPromises);
+      results.push(...fetchedResults);
 
       // Sort: incomplete first, then by completion percent
       results.sort((a, b) => {
@@ -158,16 +212,21 @@ export function TranslationStatusDashboard() {
       });
 
       setStatuses(results);
+      setLastUpdated(new Date());
+      setCachedData(results);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to analyze translations');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    analyzeTranslations();
-  }, []);
+    if (!initialLoadDone.current) {
+      initialLoadDone.current = true;
+      analyzeTranslations();
+    }
+  }, [analyzeTranslations]);
 
   const completeCount = statuses.filter(s => s.isComplete).length;
   const totalLanguages = statuses.length;
@@ -187,7 +246,7 @@ export function TranslationStatusDashboard() {
         <Button
           variant="outline"
           size="sm"
-          onClick={analyzeTranslations}
+          onClick={() => analyzeTranslations(true)}
           disabled={loading}
         >
           <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
