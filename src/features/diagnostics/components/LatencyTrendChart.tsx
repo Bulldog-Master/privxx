@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { Activity, Clock, Bell, BellOff, Settings2 } from 'lucide-react';
+import { Activity, Clock, Bell, BellOff, Settings2, Download } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -15,7 +15,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
+import { exportLatencyDataAsJSON, exportLatencyDataAsCSV } from '../utils/exportData';
 
 interface LatencyDataPoint {
   timestamp: number;
@@ -309,12 +316,35 @@ export function LatencyTrendChart() {
               {t('diagnostics.latencyTrend', 'Latency Trend')}
             </CardTitle>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {avgLatency !== null && (
               <Badge variant="secondary" className="font-mono text-xs">
                 <Clock className="h-3 w-3 mr-1" />
                 {t('diagnostics.avgLatency', 'Avg')}: {avgLatency}ms
               </Badge>
+            )}
+            {data.length > 0 && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Download className="h-4 w-4 text-muted-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => {
+                    exportLatencyDataAsJSON(data);
+                    toast.success(t('exportedAsJson', 'Exported as JSON'));
+                  }}>
+                    {t('exportJson', 'Export as JSON')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => {
+                    exportLatencyDataAsCSV(data);
+                    toast.success(t('exportedAsCsv', 'Exported as CSV'));
+                  }}>
+                    {t('exportCsv', 'Export as CSV')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
             <Popover>
               <PopoverTrigger asChild>
