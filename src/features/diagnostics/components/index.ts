@@ -7,3 +7,4 @@ export { default as BridgeLiveStatusCard } from "./BridgeLiveStatusCard";
 export { default as ReadinessPanel } from "./ReadinessPanel";
 export { default as ConnectionHistoryLog } from "./ConnectionHistoryLog";
 export { TranslationStatusDashboard } from "./TranslationStatusDashboard";
+export { LatencyTrendChart } from "./LatencyTrendChart";

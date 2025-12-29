@@ -10,6 +10,7 @@ export {
   ReadinessPanel,
   ConnectionHistoryLog,
   TranslationStatusDashboard,
+  LatencyTrendChart,
   useDiagnosticsState,
   getBackendStatusDisplay,
   getModeDisplay,
