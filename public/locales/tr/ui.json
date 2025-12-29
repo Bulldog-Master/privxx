@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "yer tutucu",
   "diagnostics.missingKeys": "Eksik Anahtarlar",
   "diagnostics.placeholderKeys": "Yer Tutucu Anahtarları",
-  "diagnostics.more": "daha fazla"
+  "diagnostics.more": "daha fazla",
+  "diagnostics.analyzing": "Çeviriler analiz ediliyor...",
+  "diagnostics.noLanguages": "Dil dosyası bulunamadı"
 }

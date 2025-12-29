@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "प्लेसहोल्डर",
   "diagnostics.missingKeys": "गायब कुंजियां",
   "diagnostics.placeholderKeys": "प्लेसहोल्डर कुंजियां",
-  "diagnostics.more": "और"
+  "diagnostics.more": "और",
+  "diagnostics.analyzing": "अनुवाद का विश्लेषण हो रहा है...",
+  "diagnostics.noLanguages": "कोई भाषा फ़ाइलें नहीं मिलीं"
 }

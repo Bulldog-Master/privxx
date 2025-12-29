@@ -393,5 +393,7 @@
   "diagnostics.placeholder": "Platzhalter",
   "diagnostics.missingKeys": "Fehlende Schlüssel",
   "diagnostics.placeholderKeys": "Platzhalter-Schlüssel",
-  "diagnostics.more": "mehr"
+  "diagnostics.more": "mehr",
+  "diagnostics.analyzing": "Übersetzungen werden analysiert...",
+  "diagnostics.noLanguages": "Keine Sprachdateien gefunden"
 }

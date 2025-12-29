@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "占位符",
   "diagnostics.missingKeys": "缺失的键",
   "diagnostics.placeholderKeys": "占位符键",
-  "diagnostics.more": "更多"
+  "diagnostics.more": "更多",
+  "diagnostics.analyzing": "正在分析翻译...",
+  "diagnostics.noLanguages": "未找到语言文件"
 }

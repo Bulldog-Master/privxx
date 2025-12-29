@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "پلیس ہولڈر",
   "diagnostics.missingKeys": "غائب کیز",
   "diagnostics.placeholderKeys": "پلیس ہولڈر کیز",
-  "diagnostics.more": "مزید"
+  "diagnostics.more": "مزید",
+  "diagnostics.analyzing": "ترجمے کا تجزیہ کیا جا رہا ہے...",
+  "diagnostics.noLanguages": "کوئی زبان فائلیں نہیں ملیں"
 }

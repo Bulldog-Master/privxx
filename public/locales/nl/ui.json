@@ -394,5 +394,7 @@
   "diagnostics.placeholder": "tijdelijke aanduiding",
   "diagnostics.missingKeys": "Ontbrekende Sleutels",
   "diagnostics.placeholderKeys": "Tijdelijke Sleutels",
-  "diagnostics.more": "meer"
+  "diagnostics.more": "meer",
+  "diagnostics.analyzing": "Vertalingen analyseren...",
+  "diagnostics.noLanguages": "Geen taalbestanden gevonden"
 }

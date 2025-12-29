@@ -3,8 +3,10 @@
  * 
  * 1. Prevents accidental privacy over-claims in UI copy and translations.
  * 2. Verifies all translation files are synchronized with English reference.
+ * 3. Optionally auto-fixes missing keys with placeholders (--fix flag).
  * 
  * Run: node scripts/check-language.js
+ * Run with auto-fix: node scripts/check-language.js --fix
  */
 
 import fs from "fs";
@@ -24,6 +26,15 @@ const FORBIDDEN = [
   "total anonymity",
   "fully anonymous",
 ];
+
+// Language prefixes for placeholder values
+const LANG_PREFIXES = {
+  ar: "[AR]", bn: "[BN]", de: "[DE]", es: "[ES]", fr: "[FR]",
+  hi: "[HI]", id: "[ID]", ja: "[JA]", ko: "[KO]", nl: "[NL]",
+  pt: "[PT]", ru: "[RU]", tr: "[TR]", ur: "[UR]", zh: "[ZH]",
+};
+
+const autoFix = process.argv.includes("--fix");
 
 function walk(dir) {
   const out = [];
@@ -50,6 +61,29 @@ function getKeys(obj, prefix = "") {
     }
   }
   return keys.sort();
+}
+
+function getNestedValue(obj, keyPath) {
+  return keyPath.split(".").reduce((o, k) => (o && o[k] !== undefined ? o[k] : undefined), obj);
+}
+
+function setNestedValue(obj, keyPath, value) {
+  const keys = keyPath.split(".");
+  let current = obj;
+  for (let i = 0; i < keys.length - 1; i++) {
+    if (!(keys[i] in current)) {
+      current[keys[i]] = {};
+    }
+    current = current[keys[i]];
+  }
+  current[keys[keys.length - 1]] = value;
+}
+
+function generatePlaceholder(enValue, langCode) {
+  const prefix = LANG_PREFIXES[langCode] || `[${langCode.toUpperCase()}]`;
+  if (typeof enValue !== "string") return `${prefix} ${JSON.stringify(enValue)}`;
+  if (enValue.length > 60) return `${prefix} ${enValue.substring(0, 50)}...`;
+  return `${prefix} ${enValue}`;
 }
 
 let hasErrors = false;
@@ -84,6 +118,7 @@ if (fs.existsSync(enPath)) {
   const enContent = JSON.parse(fs.readFileSync(enPath, "utf8"));
   const enKeys = getKeys(enContent);
   const syncErrors = [];
+  const fixedFiles = [];
 
   const langDirs = fs.readdirSync(ROOT, { withFileTypes: true })
     .filter(d => d.isDirectory() && d.name !== "en")
@@ -104,10 +139,22 @@ if (fs.existsSync(enPath)) {
       const extraKeys = langKeys.filter(k => !enKeys.includes(k));
 
       if (missingKeys.length > 0) {
-        syncErrors.push({ 
-          lang, 
-          error: `Missing ${missingKeys.length} keys: ${missingKeys.slice(0, 3).join(", ")}${missingKeys.length > 3 ? "..." : ""}` 
-        });
+        if (autoFix) {
+          // Auto-fix: add placeholders for missing keys
+          for (const key of missingKeys) {
+            const enValue = getNestedValue(enContent, key);
+            const placeholder = generatePlaceholder(enValue, lang);
+            setNestedValue(langContent, key, placeholder);
+          }
+          const output = JSON.stringify(langContent, null, 2);
+          fs.writeFileSync(langPath, output + "\n", "utf8");
+          fixedFiles.push({ lang, added: missingKeys.length });
+        } else {
+          syncErrors.push({ 
+            lang, 
+            error: `Missing ${missingKeys.length} keys: ${missingKeys.slice(0, 3).join(", ")}${missingKeys.length > 3 ? "..." : ""}` 
+          });
+        }
       }
       if (extraKeys.length > 0) {
         syncErrors.push({ 
@@ -120,14 +167,25 @@ if (fs.existsSync(enPath)) {
     }
   }
 
+  if (fixedFiles.length > 0) {
+    console.log("\n✅ Auto-fixed missing keys:");
+    for (const { lang, added } of fixedFiles) {
+      console.log(`   [${lang}] Added ${added} placeholder keys`);
+    }
+    console.log("\n   ⚠️  Review placeholders and replace with real translations.");
+  }
+
   if (syncErrors.length > 0) {
     console.error("\n❌ Translation sync check failed:\n");
     for (const { lang, error } of syncErrors) {
       console.error(`  - [${lang}] ${error}`);
     }
-    console.error("\nAll language files must match English reference keys.\n");
+    console.error("\nAll language files must match English reference keys.");
+    if (!autoFix) {
+      console.error("Run with --fix to auto-add missing keys as placeholders.\n");
+    }
     hasErrors = true;
-  } else {
+  } else if (fixedFiles.length === 0) {
     console.log(`✅ Translation sync check passed (${langDirs.length} languages synchronized).`);
   }
 } else {
