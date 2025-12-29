@@ -9,6 +9,8 @@
 package main
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -133,9 +135,47 @@ func isAllowedOrigin(origin string) bool {
 	return false
 }
 
+// verifyJWTSignature performs HMAC-SHA256 signature verification
+func verifyJWTSignature(tokenString string, secret []byte) error {
+	parts := strings.Split(tokenString, ".")
+	if len(parts) != 3 {
+		return fmt.Errorf("invalid token format")
+	}
+
+	// Create the signing input (header.payload)
+	signingInput := parts[0] + "." + parts[1]
+
+	// Decode the signature from the token
+	providedSig, err := base64.RawURLEncoding.DecodeString(parts[2])
+	if err != nil {
+		// Try with padding
+		sig := parts[2]
+		switch len(sig) % 4 {
+		case 2:
+			sig += "=="
+		case 3:
+			sig += "="
+		}
+		providedSig, err = base64.URLEncoding.DecodeString(sig)
+		if err != nil {
+			return fmt.Errorf("failed to decode signature: %v", err)
+		}
+	}
+
+	// Compute expected signature using HMAC-SHA256
+	mac := hmac.New(sha256.New, secret)
+	mac.Write([]byte(signingInput))
+	expectedSig := mac.Sum(nil)
+
+	// Constant-time comparison to prevent timing attacks
+	if !hmac.Equal(providedSig, expectedSig) {
+		return fmt.Errorf("signature verification failed")
+	}
+
+	return nil
+}
+
 // extractJWTClaims extracts and validates claims from a JWT token
-// NOTE: This performs basic validation without signature verification.
-// For production, integrate with Supabase JWT secret for full verification.
 func extractJWTClaims(tokenString string) (*JWTClaims, error) {
 	// JWT format: header.payload.signature
 	parts := strings.Split(tokenString, ".")
@@ -171,6 +211,7 @@ func extractJWTClaims(tokenString string) (*JWTClaims, error) {
 }
 
 // validateJWT validates the JWT token from the Authorization header
+// with full HMAC-SHA256 signature verification
 func validateJWT(r *http.Request) (*JWTClaims, *JWTError) {
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
@@ -196,6 +237,27 @@ func validateJWT(r *http.Request) (*JWTClaims, *JWTError) {
 			Error:   "unauthorized",
 			Code:    "empty_token",
 			Message: "Token is empty",
+		}
+	}
+
+	// Verify signature using SUPABASE_JWT_SECRET
+	jwtSecret := os.Getenv("SUPABASE_JWT_SECRET")
+	if jwtSecret == "" {
+		log.Printf("[JWT] CRITICAL: SUPABASE_JWT_SECRET not configured")
+		return nil, &JWTError{
+			Error:   "server_error",
+			Code:    "missing_secret",
+			Message: "Server misconfiguration",
+		}
+	}
+
+	// Verify HMAC-SHA256 signature
+	if err := verifyJWTSignature(token, []byte(jwtSecret)); err != nil {
+		log.Printf("[JWT] Signature verification failed: %v", err)
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "invalid_signature",
+			Message: "Token signature invalid",
 		}
 	}
 
