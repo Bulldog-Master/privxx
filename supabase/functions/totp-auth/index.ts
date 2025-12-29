@@ -1,11 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+import { getCorsHeaders, handleCorsPreflightResponse } from "../_shared/cors.ts";
 
 // Rate limiting and lockout configuration
 const MAX_FAILED_ATTEMPTS = 5; // Lock after 5 failed attempts
@@ -248,8 +244,11 @@ async function resetFailedAttempts(supabase: any, userId: string): Promise<void>
 }
 
 serve(async (req) => {
+  const origin = req.headers.get('origin');
+  const corsHeaders = getCorsHeaders(origin);
+
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return handleCorsPreflightResponse(origin);
   }
 
   try {
@@ -502,15 +501,15 @@ serve(async (req) => {
         });
       }
 
-      case 'verify-backup': {
-        if (!code) {
-          return new Response(JSON.stringify({ error: 'Backup code required' }), {
+      case 'backup-codes': {
+        // Regenerate backup codes (requires valid TOTP code)
+        if (!code || code.length !== 6) {
+          return new Response(JSON.stringify({ error: 'Code required to regenerate backup codes' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
 
-        // Check TOTP-specific lockout (also applies to backup codes)
         const lockoutCheck = await checkTOTPLockout(supabase, user.id);
         if (lockoutCheck.locked) {
           return new Response(JSON.stringify({ 
@@ -525,34 +524,88 @@ serve(async (req) => {
           });
         }
 
-        const codeHash = await hashCode(code);
-        const { data: backupData } = await supabase
-          .from('totp_backup_codes')
-          .select('id')
+        const { data: secretData } = await supabase
+          .from('totp_secrets')
+          .select('encrypted_secret, enabled')
           .eq('user_id', user.id)
-          .eq('code_hash', codeHash)
-          .is('used_at', null)
           .single();
 
-        if (!backupData) {
+        if (!secretData?.enabled) {
+          return new Response(JSON.stringify({ error: '2FA not enabled' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        const isValid = await verifyTOTP(secretData.encrypted_secret, code);
+        if (!isValid) {
           await recordFailedAttempt(supabase, user.id);
+          return new Response(JSON.stringify({ error: 'Invalid code' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        await resetFailedAttempts(supabase, user.id);
+
+        // Generate new backup codes
+        const backupCodes = generateBackupCodes();
+        
+        await supabase.from('totp_backup_codes').delete().eq('user_id', user.id);
+        for (const backupCode of backupCodes) {
+          const codeHash = await hashCode(backupCode);
+          await supabase.from('totp_backup_codes').insert({
+            user_id: user.id,
+            code_hash: codeHash,
+          });
+        }
+
+        console.log('[totp-auth] Backup codes regenerated for:', user.email);
+        return new Response(JSON.stringify({ backupCodes }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+
+      case 'verify-backup': {
+        // Verify using a backup code
+        if (!code) {
+          return new Response(JSON.stringify({ error: 'Backup code required' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        const codeHash = await hashCode(code);
+        
+        const { data: backupCode, error: backupError } = await supabase
+          .from('totp_backup_codes')
+          .select('id, used_at')
+          .eq('user_id', user.id)
+          .eq('code_hash', codeHash)
+          .maybeSingle();
+
+        if (backupError || !backupCode) {
           return new Response(JSON.stringify({ error: 'Invalid backup code' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
 
-        // Reset failed attempts on success
-        await resetFailedAttempts(supabase, user.id);
+        if (backupCode.used_at) {
+          return new Response(JSON.stringify({ error: 'Backup code already used' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
 
-        // Mark backup code as used
+        // Mark code as used
         await supabase
           .from('totp_backup_codes')
           .update({ used_at: new Date().toISOString() })
-          .eq('id', backupData.id);
+          .eq('id', backupCode.id);
 
         console.log('[totp-auth] Backup code used for:', user.email);
-        return new Response(JSON.stringify({ verified: true }), {
+        return new Response(JSON.stringify({ verified: true, usedBackupCode: true }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
@@ -564,6 +617,8 @@ serve(async (req) => {
         });
     }
   } catch (error) {
+    const origin = req.headers.get('origin');
+    const corsHeaders = getCorsHeaders(origin);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error('[totp-auth] Error:', errorMessage);
     return new Response(JSON.stringify({ error: 'An internal error occurred. Please try again later.' }), {
