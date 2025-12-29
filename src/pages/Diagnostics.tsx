@@ -9,6 +9,7 @@ import {
   StatusCardSkeleton,
   DiagnosticsFooter,
   useDiagnosticsState,
+  useBridgeHealthStatus,
   getBackendStatusDisplay,
   getModeDisplay,
   BridgeStatusCard,
@@ -17,6 +18,7 @@ import {
   TranslationStatusDashboard,
   ReadinessPanel,
   LatencyTrendChart,
+  HealthScorePanel,
 } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
 import { buildInfo } from '@/lib/buildInfo';
@@ -34,6 +36,8 @@ export default function Diagnostics() {
     handleRetry,
     copyStatus,
   } = useDiagnosticsState();
+  
+  const bridgeHealth = useBridgeHealthStatus();
 
   const backendStatus = getBackendStatusDisplay(uiState, isLoading, t);
   const modeStatus = getModeDisplay(status.isMock, t);
@@ -63,6 +67,14 @@ export default function Diagnostics() {
         <div className="grid gap-6 lg:grid-cols-2">
           {/* System Health Section */}
           <div className="space-y-6">
+            {/* Health Score Summary */}
+            <HealthScorePanel 
+              bridgeHealth={bridgeHealth.health}
+              xxdkInfo={bridgeHealth.xxdkInfo}
+              cmixxStatus={bridgeHealth.cmixxStatus}
+              isLoading={isLoading || bridgeHealth.isLoading} 
+            />
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">

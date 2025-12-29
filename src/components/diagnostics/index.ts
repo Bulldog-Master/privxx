@@ -11,8 +11,10 @@ export {
   ConnectionHistoryLog,
   TranslationStatusDashboard,
   LatencyTrendChart,
+  HealthScorePanel,
   useDiagnosticsState,
+  useBridgeHealthStatus,
   getBackendStatusDisplay,
   getModeDisplay,
 } from "@/features/diagnostics";
-export type { UiState } from "@/features/diagnostics";
+export type { UiState, BridgeHealthStatus } from "@/features/diagnostics";
