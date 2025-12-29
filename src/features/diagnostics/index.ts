@@ -10,10 +10,12 @@ export {
   ConnectionHistoryLog,
   TranslationStatusDashboard,
   LatencyTrendChart,
+  HealthScorePanel,
 } from "./components";
 
 // Hooks
-export { useDiagnosticsState } from "./hooks";
+export { useDiagnosticsState, useBridgeHealthStatus } from "./hooks";
+export type { BridgeHealthStatus } from "./hooks";
 
 // Utils
 export { getBackendStatusDisplay, getModeDisplay } from "./utils";
