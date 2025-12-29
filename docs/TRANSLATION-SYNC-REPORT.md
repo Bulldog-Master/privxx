@@ -2,7 +2,7 @@
 
 **Generated:** December 2025  
 **Last Updated:** December 29, 2025  
-**Reference File:** `public/locales/en/ui.json` (374 keys)
+**Reference File:** `public/locales/en/ui.json` (395 keys)
 
 ---
 
@@ -10,22 +10,22 @@
 
 | Language | Code | Key Count | Missing | Status |
 |----------|------|-----------|---------|--------|
-| English | en | 374 | 0 | ✅ Complete (Reference) |
-| Arabic | ar | 374 | 0 | ✅ Synchronized |
-| Bengali | bn | 374 | 0 | ✅ Synchronized |
-| Chinese | zh | 374 | 0 | ✅ Synchronized |
-| Dutch | nl | 374 | 0 | ✅ Synchronized |
-| French | fr | 374 | 0 | ✅ Synchronized |
-| German | de | 374 | 0 | ✅ Synchronized |
-| Hindi | hi | 374 | 0 | ✅ Synchronized |
-| Indonesian | id | 374 | 0 | ✅ Synchronized |
-| Japanese | ja | 374 | 0 | ✅ Synchronized |
-| Korean | ko | 374 | 0 | ✅ Synchronized |
-| Portuguese | pt | 374 | 0 | ✅ Synchronized |
-| Russian | ru | 374 | 0 | ✅ Synchronized |
-| Spanish | es | 374 | 0 | ✅ Synchronized |
-| Turkish | tr | 374 | 0 | ✅ Synchronized |
-| Urdu | ur | 374 | 0 | ✅ Synchronized |
+| English | en | 395 | 0 | ✅ Complete (Reference) |
+| Arabic | ar | 395 | 0 | ✅ Synchronized |
+| Bengali | bn | 395 | 0 | ✅ Synchronized |
+| Chinese | zh | 395 | 0 | ✅ Synchronized |
+| Dutch | nl | 395 | 0 | ✅ Synchronized |
+| French | fr | 395 | 0 | ✅ Synchronized |
+| German | de | 395 | 0 | ✅ Synchronized |
+| Hindi | hi | 395 | 0 | ✅ Synchronized |
+| Indonesian | id | 395 | 0 | ✅ Synchronized |
+| Japanese | ja | 395 | 0 | ✅ Synchronized |
+| Korean | ko | 395 | 0 | ✅ Synchronized |
+| Portuguese | pt | 395 | 0 | ✅ Synchronized |
+| Russian | ru | 395 | 0 | ✅ Synchronized |
+| Spanish | es | 395 | 0 | ✅ Synchronized |
+| Turkish | tr | 395 | 0 | ✅ Synchronized |
+| Urdu | ur | 395 | 0 | ✅ Synchronized |
 
 **All 16 languages are fully synchronized.**
 
@@ -48,7 +48,7 @@ Per `docs/LANGUAGE-RULES.md`:
 
 ---
 
-## Key Categories (374 total)
+## Key Categories (395 total)
 
 | Category | Key Count |
 |----------|-----------|
@@ -64,6 +64,7 @@ Per `docs/LANGUAGE-RULES.md`:
 | Auth & Settings | ~100 |
 | Privacy/Terms | ~100 |
 | General UI | ~92 |
+| Diagnostics Page | 21 |
 
 ---
 
