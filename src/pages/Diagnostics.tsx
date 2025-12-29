@@ -12,9 +12,10 @@ import {
   getBackendStatusDisplay,
   getModeDisplay,
   BridgeStatusCard,
+  BridgeLiveStatusCard,
   TranslationStatusDashboard,
+  ReadinessPanel,
 } from '@/components/diagnostics';
-import ReadinessPanel from '@/components/diagnostics/ReadinessPanel';
 import { RefreshCw } from 'lucide-react';
 import { buildInfo } from '@/lib/buildInfo';
 
@@ -122,6 +123,9 @@ export default function Diagnostics() {
                     labelColor={modeStatus.color}
                   />
                 )}
+
+                {/* Bridge Live Status (xxdk/info, cmixx/status) */}
+                <BridgeLiveStatusCard />
               </CardContent>
             </Card>
 
