@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "مطابقت پذیری کی پیش رفت",
   "diagnostics.languagesComplete": "زبانیں مکمل",
   "diagnostics.placeholdersRemaining": "پلیس ہولڈرز باقی",
+  "diagnostics.placeholderBreakdown": "زبان کے لحاظ سے تفصیل",
+  "diagnostics.noPlaceholders": "کوئی پلیس ہولڈر باقی نہیں",
   "diagnostics.current": "موجودہ",
   "diagnostics.keys": "کیز",
   "diagnostics.missing": "غائب",

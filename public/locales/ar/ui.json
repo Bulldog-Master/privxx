@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "تقدم المزامنة",
   "diagnostics.languagesComplete": "لغات مكتملة",
   "diagnostics.placeholdersRemaining": "عناصر نائبة متبقية",
+  "diagnostics.placeholderBreakdown": "تفصيل حسب اللغة",
+  "diagnostics.noPlaceholders": "لا توجد عناصر نائبة متبقية",
   "diagnostics.current": "الحالي",
   "diagnostics.keys": "مفاتيح",
   "diagnostics.missing": "مفقود",

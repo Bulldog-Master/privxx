@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "同期の進行状況",
   "diagnostics.languagesComplete": "言語が完了",
   "diagnostics.placeholdersRemaining": "プレースホルダー残り",
+  "diagnostics.placeholderBreakdown": "言語別内訳",
+  "diagnostics.noPlaceholders": "プレースホルダーなし",
   "diagnostics.current": "現在",
   "diagnostics.keys": "キー",
   "diagnostics.missing": "不足",

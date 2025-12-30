@@ -424,6 +424,8 @@
   "diagnostics.syncProgress": "সিঙ্ক অগ্রগতি",
   "diagnostics.languagesComplete": "ভাষা সম্পূর্ণ",
   "diagnostics.placeholdersRemaining": "প্লেসহোল্ডার বাকি",
+  "diagnostics.placeholderBreakdown": "ভাষা অনুযায়ী বিভাজন",
+  "diagnostics.noPlaceholders": "কোন প্লেসহোল্ডার বাকি নেই",
   "diagnostics.current": "বর্তমান",
   "diagnostics.keys": "কী",
   "diagnostics.missing": "অনুপস্থিত",

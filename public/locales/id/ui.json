@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "Kemajuan Sinkronisasi",
   "diagnostics.languagesComplete": "bahasa lengkap",
   "diagnostics.placeholdersRemaining": "placeholder tersisa",
+  "diagnostics.placeholderBreakdown": "Rincian per bahasa",
+  "diagnostics.noPlaceholders": "Tidak ada placeholder tersisa",
   "diagnostics.current": "Saat Ini",
   "diagnostics.keys": "kunci",
   "diagnostics.missing": "hilang",
