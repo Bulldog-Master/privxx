@@ -1,29 +1,41 @@
 #!/usr/bin/env node
 
 /**
- * Checks that all UI components in src/components/ui use React.forwardRef
+ * Checks that all UI and shared components use React.forwardRef
  * for Radix UI compatibility.
  * 
  * Usage: node scripts/check-forward-ref.js [--fix]
  * 
- * This script scans UI component files and warns about components that
+ * This script scans component files and warns about components that
  * don't use forwardRef, which can cause issues with Radix primitives.
  */
 
 const fs = require('fs');
 const path = require('path');
 
-const UI_DIR = path.join(__dirname, '..', 'src', 'components', 'ui');
+// Directories to scan for forwardRef compliance
+const SCAN_DIRS = [
+  { path: path.join(__dirname, '..', 'src', 'components', 'ui'), name: 'UI Components' },
+  { path: path.join(__dirname, '..', 'src', 'components', 'shared'), name: 'Shared Components' },
+  { path: path.join(__dirname, '..', 'src', 'features', 'identity', 'components'), name: 'Identity Components' },
+];
 
 // Components that are known exceptions (can't use forwardRef due to library limitations)
 const EXCEPTIONS = [
   'ResizableHandle', // react-resizable-panels limitation
 ];
 
-// Files to skip entirely (re-exports, configs, etc.)
+// Files to skip entirely (re-exports, configs, hooks, providers, etc.)
 const SKIP_FILES = [
   'use-toast.ts',
   'index.ts',
+  'RtlProvider.tsx', // Context provider, not a DOM component
+];
+
+// Components that don't render DOM elements directly (wrappers, logic components)
+const NON_DOM_COMPONENTS = [
+  'AppErrorBoundary', // Error boundary class component
+  'SkipToContent', // Renders anchor, forwardRef not needed
 ];
 
 function checkFile(filePath) {
@@ -68,7 +80,7 @@ function checkFile(filePath) {
 
   // Check each component for forwardRef usage
   for (const componentName of componentExports) {
-    if (EXCEPTIONS.includes(componentName)) {
+    if (EXCEPTIONS.includes(componentName) || NON_DOM_COMPONENTS.includes(componentName)) {
       continue;
     }
 
@@ -101,40 +113,51 @@ function checkFile(filePath) {
   return { file: fileName, issues, skipped: false };
 }
 
-function main() {
-  console.log('🔍 Checking UI components for forwardRef usage...\n');
-
-  if (!fs.existsSync(UI_DIR)) {
-    console.log('⚠️  UI directory not found:', UI_DIR);
-    process.exit(0);
+function scanDirectory(dirPath, dirName) {
+  if (!fs.existsSync(dirPath)) {
+    return [];
   }
 
-  const files = fs.readdirSync(UI_DIR);
+  const files = fs.readdirSync(dirPath);
   const results = [];
-  let totalIssues = 0;
 
   for (const file of files) {
-    const filePath = path.join(UI_DIR, file);
+    const filePath = path.join(dirPath, file);
     const stat = fs.statSync(filePath);
     
     if (stat.isFile()) {
       const result = checkFile(filePath);
       if (!result.skipped && result.issues.length > 0) {
+        result.directory = dirName;
         results.push(result);
-        totalIssues += result.issues.length;
       }
     }
   }
 
+  return results;
+}
+
+function main() {
+  console.log('🔍 Checking components for forwardRef usage...\n');
+
+  let allResults = [];
+  let totalIssues = 0;
+
+  for (const dir of SCAN_DIRS) {
+    const results = scanDirectory(dir.path, dir.name);
+    allResults = allResults.concat(results);
+    totalIssues += results.reduce((sum, r) => sum + r.issues.length, 0);
+  }
+
   if (totalIssues === 0) {
-    console.log('✅ All UI components properly use forwardRef\n');
+    console.log('✅ All components properly use forwardRef (100% compliance)\n');
     process.exit(0);
   }
 
-  console.log(`⚠️  Found ${totalIssues} component(s) missing forwardRef:\n`);
+  console.log(`❌ Found ${totalIssues} component(s) missing forwardRef:\n`);
   
-  for (const result of results) {
-    console.log(`  📄 ${result.file}:`);
+  for (const result of allResults) {
+    console.log(`  📄 ${result.directory} → ${result.file}:`);
     for (const issue of result.issues) {
       console.log(`     - ${issue.message}`);
     }

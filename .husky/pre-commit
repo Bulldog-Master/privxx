@@ -1,24 +1,25 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Check if any UI component files are staged
-STAGED_UI=$(git diff --cached --name-only --diff-filter=ACM | grep "^src/components/ui/.*\.tsx$" || true)
+# Check if any component files are staged (UI, shared, or feature components)
+STAGED_COMPONENTS=$(git diff --cached --name-only --diff-filter=ACM | grep -E "^src/(components/(ui|shared)|features/.*/components)/.*\.tsx$" || true)
 
-if [ -n "$STAGED_UI" ]; then
-  echo "🔍 Checking UI components for forwardRef usage..."
+if [ -n "$STAGED_COMPONENTS" ]; then
+  echo "🔍 Checking components for forwardRef usage (100% compliance required)..."
   
   node scripts/check-forward-ref.js
   
   if [ $? -ne 0 ]; then
     echo ""
     echo "❌ forwardRef check failed. Please update components to use React.forwardRef."
+    echo "   All components must support ref forwarding for Radix UI compatibility."
     echo ""
     exit 1
   fi
   
-  echo "✅ forwardRef checks passed"
+  echo "✅ forwardRef checks passed (100% compliance)"
 else
-  echo "⏭️  No UI component files modified, skipping forwardRef checks"
+  echo "⏭️  No component files modified, skipping forwardRef checks"
 fi
 
 # Check if any locale files are staged
