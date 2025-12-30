@@ -81,6 +81,11 @@ export default function ComponentDocs() {
     return groups;
   }, [filteredDocs]);
 
+  // Count components with forwardRef support
+  const refSupportCount = useMemo(() => {
+    return componentDocs.filter(doc => doc.supportsRef === true).length;
+  }, []);
+
   const selectedDoc = componentDocs.find(doc => doc.id === selectedComponent);
 
   const copyToClipboard = async (code: string, id: string) => {
@@ -145,7 +150,13 @@ export default function ComponentDocs() {
                   <CardTitle className="text-sm font-medium flex items-center gap-2">
                     <Component className="h-4 w-4" />
                     {t("components", "Components")}
+                    <Badge variant="secondary" className="text-xs ml-auto">
+                      {refSupportCount}/{componentDocs.length} ref
+                    </Badge>
                   </CardTitle>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {t("refSupportSummary", "{{count}} components support forwardRef", { count: refSupportCount })}
+                  </p>
                   {/* Search Input */}
                   <div className="relative mt-3">
                     <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
