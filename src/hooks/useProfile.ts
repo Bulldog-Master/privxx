@@ -110,18 +110,22 @@ export function useProfile() {
       return { error: uploadError.message };
     }
 
-    // Get public URL
-    const { data: urlData } = supabase.storage
+    // Get signed URL (bucket is now private for security)
+    const { data: signedUrlData, error: signedUrlError } = await supabase.storage
       .from("avatars")
-      .getPublicUrl(fileName);
+      .createSignedUrl(fileName, 60 * 60 * 4); // 4 hour expiry
 
-    // Add cache buster to force refresh
-    const avatarUrl = `${urlData.publicUrl}?t=${Date.now()}`;
+    if (signedUrlError || !signedUrlData?.signedUrl) {
+      setIsLoading(false);
+      const errMsg = signedUrlError?.message || "Failed to create signed URL";
+      setError(errMsg);
+      return { error: errMsg };
+    }
 
-    // Update profile with avatar URL
+    // Update profile with signed avatar URL
     const { data, error: updateError } = await supabase
       .from("profiles")
-      .update({ avatar_url: avatarUrl })
+      .update({ avatar_url: signedUrlData.signedUrl })
       .eq("user_id", user.id)
       .select()
       .single();

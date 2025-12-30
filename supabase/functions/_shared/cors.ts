@@ -36,18 +36,9 @@ export function isAllowedOrigin(origin: string | null): boolean {
  * Returns origin-specific headers for allowed origins, or rejects with empty headers
  */
 export function getCorsHeaders(requestOrigin: string | null): Record<string, string> {
-  // In development/testing, be more permissive
-  const isDevelopment = Deno.env.get('ENVIRONMENT') === 'development';
+  // SECURITY: Always validate origin against allowlist - no development bypass
+  // This prevents accidental CORS bypass if ENVIRONMENT is misconfigured
   
-  if (isDevelopment) {
-    return {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    };
-  }
-  
-  // Production: strict origin checking
   if (requestOrigin && isAllowedOrigin(requestOrigin)) {
     return {
       'Access-Control-Allow-Origin': requestOrigin,
