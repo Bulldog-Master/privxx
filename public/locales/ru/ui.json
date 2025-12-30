@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "Анализ переводов...",
   "diagnostics.noLanguages": "Языковые файлы не найдены",
   "diagnostics.lastUpdated": "Последнее обновление",
+  "diagnostics.translationQuality": "качество перевода",
+  "diagnostics.qualityExplanation": "Процент ключей с реальными переводами (не заполнители). Полнота синхронизации игнорирует заполнители.",
+  "diagnostics.invalidJsonDetected": "{{count}} файл(а/ов) локализации содержат некорректный JSON",
+  "diagnostics.invalidJson": "Некорректный JSON",
+  "diagnostics.parseError": "Ошибка парсинга",
+  "diagnostics.parseErrorHint": "Проверьте синтаксические ошибки: лишние скобки, пропущенные запятые или недопустимые символы.",
+  "diagnostics.needsTranslation": "требуется перевод",
   
   "diagnostics.healthExcellent": "Отлично",
   "diagnostics.healthGood": "Хорошо",

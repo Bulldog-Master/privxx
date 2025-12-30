@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "अनुवाद का विश्लेषण हो रहा है...",
   "diagnostics.noLanguages": "कोई भाषा फ़ाइलें नहीं मिलीं",
   "diagnostics.lastUpdated": "अंतिम अपडेट",
+  "diagnostics.translationQuality": "अनुवाद गुणवत्ता",
+  "diagnostics.qualityExplanation": "वास्तविक अनुवाद वाली कुंजियों का प्रतिशत (प्लेसहोल्डर नहीं)। सिंक पूर्णता प्लेसहोल्डर को अनदेखा करती है।",
+  "diagnostics.invalidJsonDetected": "{{count}} लोकेल फ़ाइल(ओं) में अमान्य JSON है",
+  "diagnostics.invalidJson": "अमान्य JSON",
+  "diagnostics.parseError": "पार्सिंग त्रुटि",
+  "diagnostics.parseErrorHint": "अतिरिक्त ब्रैकेट, लुप्त कॉमा या अमान्य वर्णों जैसी सिंटैक्स त्रुटियों की जांच करें।",
+  "diagnostics.needsTranslation": "अनुवाद आवश्यक",
   
   "diagnostics.healthExcellent": "उत्कृष्ट",
   "diagnostics.healthGood": "अच्छा",

@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "جاري تحليل الترجمات...",
   "diagnostics.noLanguages": "لم يتم العثور على ملفات لغة",
   "diagnostics.lastUpdated": "آخر تحديث",
+  "diagnostics.translationQuality": "جودة الترجمة",
+  "diagnostics.qualityExplanation": "نسبة المفاتيح ذات الترجمات الفعلية (ليست عناصر نائبة). يتجاهل اكتمال المزامنة العناصر النائبة.",
+  "diagnostics.invalidJsonDetected": "{{count}} ملف(ات) لغة بها JSON غير صالح",
+  "diagnostics.invalidJson": "JSON غير صالح",
+  "diagnostics.parseError": "خطأ في التحليل",
+  "diagnostics.parseErrorHint": "تحقق من أخطاء بناء الجملة مثل الأقواس الزائدة أو الفواصل المفقودة أو الأحرف غير الصالحة.",
+  "diagnostics.needsTranslation": "يحتاج ترجمة",
   
   "diagnostics.healthExcellent": "ممتاز",
   "diagnostics.healthGood": "جيد",
