@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          created_at: string
+          event_type: Database["public"]["Enums"]["audit_event_type"]
+          id: string
+          ip_address: string | null
+          metadata: Json | null
+          success: boolean
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: Database["public"]["Enums"]["audit_event_type"]
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: Database["public"]["Enums"]["audit_event_type"]
+          id?: string
+          ip_address?: string | null
+          metadata?: Json | null
+          success?: boolean
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       notification_preferences: {
         Row: {
           connection_updates: boolean
@@ -245,9 +278,42 @@ export type Database = {
     }
     Functions: {
       cleanup_rate_limits: { Args: never; Returns: undefined }
+      log_audit_event: {
+        Args: {
+          _event_type: Database["public"]["Enums"]["audit_event_type"]
+          _ip_address?: string
+          _metadata?: Json
+          _success?: boolean
+          _user_agent?: string
+          _user_id: string
+        }
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      audit_event_type:
+        | "auth_signin_success"
+        | "auth_signin_failure"
+        | "auth_signup_success"
+        | "auth_signup_failure"
+        | "auth_signout"
+        | "auth_password_reset_request"
+        | "auth_password_reset_complete"
+        | "auth_email_verification"
+        | "passkey_registration_start"
+        | "passkey_registration_complete"
+        | "passkey_auth_success"
+        | "passkey_auth_failure"
+        | "totp_setup_start"
+        | "totp_setup_complete"
+        | "totp_verify_success"
+        | "totp_verify_failure"
+        | "totp_backup_code_used"
+        | "profile_update"
+        | "session_timeout"
+        | "identity_create"
+        | "identity_unlock"
+        | "identity_lock"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -374,6 +440,31 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      audit_event_type: [
+        "auth_signin_success",
+        "auth_signin_failure",
+        "auth_signup_success",
+        "auth_signup_failure",
+        "auth_signout",
+        "auth_password_reset_request",
+        "auth_password_reset_complete",
+        "auth_email_verification",
+        "passkey_registration_start",
+        "passkey_registration_complete",
+        "passkey_auth_success",
+        "passkey_auth_failure",
+        "totp_setup_start",
+        "totp_setup_complete",
+        "totp_verify_success",
+        "totp_verify_failure",
+        "totp_backup_code_used",
+        "profile_update",
+        "session_timeout",
+        "identity_create",
+        "identity_unlock",
+        "identity_lock",
+      ],
+    },
   },
 } as const

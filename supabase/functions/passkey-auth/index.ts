@@ -8,7 +8,7 @@ import {
   verifyAuthenticationResponse,
 } from "https://esm.sh/@simplewebauthn/server@11.0.0";
 import { getCorsHeaders, handleCorsPreflightResponse } from "../_shared/cors.ts";
-
+import { logAuditEvent, createAuditContext } from "../_shared/audit.ts";
 // Rate limiting configuration
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
 const MAX_REQUESTS_PER_WINDOW = 10; // 10 requests per minute
@@ -142,6 +142,7 @@ serve(async (req) => {
     const rpId = new URL(origin || supabaseUrl).hostname;
     const rpName = 'Privxx';
     const clientIP = getClientIP(req);
+    const auditContext = createAuditContext(req);
 
     // Rate limit check for all actions
     const rateLimitIdentifier = email ? `${clientIP}_${email}` : clientIP;
@@ -202,6 +203,15 @@ serve(async (req) => {
           challenge: options.challenge,
           type: 'registration',
           expires_at: expiresAt,
+        });
+
+        // Log registration start
+        await logAuditEvent(supabase, {
+          userId,
+          eventType: 'passkey_registration_start',
+          success: true,
+          ...auditContext,
+          metadata: { email, rpId },
         });
 
         return new Response(JSON.stringify({ options }), {
@@ -293,6 +303,15 @@ serve(async (req) => {
 
         // Clean up challenge
         await supabase.from('passkey_challenges').delete().eq('id', challengeData.id);
+
+        // Log successful registration
+        await logAuditEvent(supabase, {
+          userId,
+          eventType: 'passkey_registration_complete',
+          success: true,
+          ...auditContext,
+          metadata: { email, deviceType: credentialDeviceType || 'unknown', backedUp: credentialBackedUp },
+        });
 
         console.log('[passkey-auth] Passkey registered successfully with cryptographic verification');
         return new Response(JSON.stringify({ success: true }), {
@@ -423,6 +442,14 @@ serve(async (req) => {
           });
         } catch (verifyError) {
           console.error('[passkey-auth] Authentication verification failed:', verifyError);
+          // Log failed authentication
+          await logAuditEvent(supabase, {
+            userId: storedCred.user_id,
+            eventType: 'passkey_auth_failure',
+            success: false,
+            ...auditContext,
+            metadata: { email, reason: 'verification_failed' },
+          });
           return new Response(JSON.stringify({ error: 'Authentication verification failed' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -477,6 +504,15 @@ serve(async (req) => {
         const url = new URL(linkData.properties.action_link);
         const token = url.searchParams.get('token');
         const tokenType = url.searchParams.get('type');
+
+        // Log successful authentication
+        await logAuditEvent(supabase, {
+          userId: storedCred.user_id,
+          eventType: 'passkey_auth_success',
+          success: true,
+          ...auditContext,
+          metadata: { email },
+        });
 
         console.log('[passkey-auth] Authentication successful with cryptographic verification for:', email);
         return new Response(JSON.stringify({ 

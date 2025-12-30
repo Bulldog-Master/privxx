@@ -2,6 +2,7 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { getCorsHeaders, handleCorsPreflightResponse } from "../_shared/cors.ts";
+import { logAuditEvent, createAuditContext } from "../_shared/audit.ts";
 
 // Rate limiting and lockout configuration
 const MAX_FAILED_ATTEMPTS = 5; // Lock after 5 failed attempts
@@ -371,6 +372,7 @@ serve(async (req) => {
 
     const { action, code } = await req.json();
     const clientIP = getClientIP(req);
+    const auditContext = createAuditContext(req);
 
     // Rate limit check for all actions
     const rateLimitIdentifier = `${clientIP}_${user.id}`;
@@ -453,6 +455,16 @@ serve(async (req) => {
         }
 
         console.log('[totp-auth] Setup initiated for:', user.email);
+
+        // Log TOTP setup start
+        await logAuditEvent(supabase, {
+          userId: user.id,
+          eventType: 'totp_setup_start',
+          success: true,
+          ...auditContext,
+          metadata: { email: user.email },
+        });
+
         return new Response(JSON.stringify({
           secret,
           otpauthUrl,
@@ -505,6 +517,15 @@ serve(async (req) => {
         if (!verification.valid || verification.counter === null) {
           // Record failed attempt for lockout tracking
           await recordFailedAttempt(supabase, user.id);
+
+          // Log failed verification
+          await logAuditEvent(supabase, {
+            userId: user.id,
+            eventType: 'totp_verify_failure',
+            success: false,
+            ...auditContext,
+            metadata: { email: user.email, reason: 'invalid_code' },
+          });
           
           console.log('[totp-auth] Invalid code for:', user.email);
           return new Response(JSON.stringify({ error: 'Invalid code' }), {
@@ -557,6 +578,16 @@ serve(async (req) => {
             .eq('user_id', user.id);
 
           console.log('[totp-auth] 2FA enabled with cryptographic verification for:', user.email);
+
+          // Log TOTP setup complete
+          await logAuditEvent(supabase, {
+            userId: user.id,
+            eventType: 'totp_setup_complete',
+            success: true,
+            ...auditContext,
+            metadata: { email: user.email },
+          });
+
           return new Response(JSON.stringify({
             verified: true,
             enabled: true,
@@ -567,6 +598,16 @@ serve(async (req) => {
         }
 
         console.log('[totp-auth] Code verified with constant-time comparison for:', user.email);
+
+        // Log successful verification
+        await logAuditEvent(supabase, {
+          userId: user.id,
+          eventType: 'totp_verify_success',
+          success: true,
+          ...auditContext,
+          metadata: { email: user.email },
+        });
+
         return new Response(JSON.stringify({ verified: true }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
@@ -747,6 +788,15 @@ serve(async (req) => {
           .from('totp_backup_codes')
           .update({ used_at: new Date().toISOString() })
           .eq('id', matchedCode.id);
+
+        // Log backup code usage
+        await logAuditEvent(supabase, {
+          userId: user.id,
+          eventType: 'totp_backup_code_used',
+          success: true,
+          ...auditContext,
+          metadata: { email: user.email },
+        });
 
         console.log('[totp-auth] Backup code used with constant-time verification for:', user.email);
         return new Response(JSON.stringify({ verified: true, usedBackupCode: true }), {
