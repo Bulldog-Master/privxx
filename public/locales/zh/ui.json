@@ -535,8 +535,6 @@
   "diagnostics.policyDecisionDesc": "异常策略评估结果（无执行）",
   "diagnostics.policy.allow": "允许",
   "diagnostics.policy.warn": "警告",
-  "diagnostics.policy.require_reauth": "需要重新认证",
   "diagnostics.policy.deny": "拒绝",
   "diagnostics.policyPrivacy": "仅用于诊断。不应用任何执行。第二阶段始终返回\"允许\"。"
-}
 }

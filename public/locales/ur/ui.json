@@ -534,5 +534,13 @@
   "browserPolicyTitle": "براؤزر پالیسی فیصلہ",
   "browserPolicySubtext": "موجودہ پالیسی انجن کی تشخیص",
   "browserPolicyDecision": "فیصلہ",
-  "browserPolicyDiagnosticNote": "صرف تشخیصی۔ کوئی نفاذ لاگو نہیں۔"
+  "browserPolicyDiagnosticNote": "صرف تشخیصی۔ کوئی نفاذ لاگو نہیں۔",
+
+  "diagnostics.policyDecision": "پالیسی فیصلہ",
+  "diagnostics.policyDecisionDesc": "غیر معمولی پالیسی تشخیص کا نتیجہ (بغیر نفاذ)",
+  "diagnostics.policy.allow": "اجازت",
+  "diagnostics.policy.warn": "انتباہ",
+  "diagnostics.policy.require_reauth": "دوبارہ تصدیق درکار",
+  "diagnostics.policy.deny": "رد",
+  "diagnostics.policyPrivacy": "صرف تشخیصی۔ کوئی نفاذ لاگو نہیں۔ مرحلہ 2 میں ہمیشہ \"اجازت\" واپس آتا ہے۔"
 }
