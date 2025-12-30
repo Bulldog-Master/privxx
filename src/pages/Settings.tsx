@@ -6,7 +6,7 @@
 
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, User, ChevronRight } from "lucide-react";
+import { ArrowLeft, User, ChevronRight, Shield } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,7 +18,6 @@ import { AccountSection } from "@/components/settings/AccountSection";
 import { SessionSettings } from "@/components/settings/SessionSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { AlertSettings } from "@/components/settings/AlertSettings";
-import { AuditLogSection } from "@/components/settings/AuditLogSection";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -82,8 +81,23 @@ export default function Settings() {
           {/* Passkey Management */}
           <PasskeyManagement userId={user.id} email={user.email || ""} />
 
-          {/* Security Audit Log */}
-          <AuditLogSection />
+          {/* Security Dashboard Link */}
+          <Card className="bg-card/90 backdrop-blur-sm border-border/50">
+            <Link to="/security" className="block">
+              <CardContent className="flex items-center justify-between py-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Shield className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-primary">{t("security.dashboardTitle", "Security Dashboard")}</p>
+                    <p className="text-sm text-primary/70">{t("security.dashboardDesc", "View audit logs and security activity")}</p>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-primary/70" />
+              </CardContent>
+            </Link>
+          </Card>
         </div>
 
         {/* Footer */}
