@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "Senkronizasyon İlerlemesi",
   "diagnostics.languagesComplete": "dil tamamlandı",
   "diagnostics.placeholdersRemaining": "yer tutucu kaldı",
+  "diagnostics.placeholderBreakdown": "Dil bazında döküm",
+  "diagnostics.noPlaceholders": "Yer tutucu kalmadı",
   "diagnostics.current": "Mevcut",
   "diagnostics.keys": "anahtar",
   "diagnostics.missing": "eksik",

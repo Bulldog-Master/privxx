@@ -426,6 +426,8 @@
   "diagnostics.syncProgress": "Progression de Synchronisation",
   "diagnostics.languagesComplete": "langues complètes",
   "diagnostics.placeholdersRemaining": "espaces réservés restants",
+  "diagnostics.placeholderBreakdown": "Répartition par langue",
+  "diagnostics.noPlaceholders": "Aucun espace réservé restant",
   "diagnostics.current": "Actuel",
   "diagnostics.keys": "clés",
   "diagnostics.missing": "manquantes",

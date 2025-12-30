@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Check, AlertTriangle, Globe, RefreshCw, Clock } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { formatDistanceToNow } from 'date-fns';
@@ -304,14 +305,38 @@ export function TranslationStatusDashboard() {
                   {t('diagnostics.languagesComplete', 'languages complete')}
                 </div>
               </div>
-              <div className="text-right">
-                <div className={`text-2xl font-bold ${totalPlaceholders > 0 ? 'text-warning' : 'text-green-500'}`}>
-                  {totalPlaceholders}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  {t('diagnostics.placeholdersRemaining', 'placeholders remaining')}
-                </div>
-              </div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="text-right cursor-help">
+                      <div className={`text-2xl font-bold ${totalPlaceholders > 0 ? 'text-warning' : 'text-green-500'}`}>
+                        {totalPlaceholders}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {t('diagnostics.placeholdersRemaining', 'placeholders remaining')}
+                      </div>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="max-w-xs">
+                    <div className="text-xs space-y-1">
+                      <div className="font-medium mb-2">{t('diagnostics.placeholderBreakdown', 'Per-language breakdown')}</div>
+                      {statuses.filter(s => s.placeholderKeys.length > 0).length === 0 ? (
+                        <div className="text-muted-foreground">{t('diagnostics.noPlaceholders', 'No placeholders remaining')}</div>
+                      ) : (
+                        statuses
+                          .filter(s => s.placeholderKeys.length > 0)
+                          .sort((a, b) => b.placeholderKeys.length - a.placeholderKeys.length)
+                          .map(s => (
+                            <div key={s.code} className="flex justify-between gap-4">
+                              <span className="uppercase font-mono">{s.code}</span>
+                              <span className="text-warning">{s.placeholderKeys.length}</span>
+                            </div>
+                          ))
+                      )}
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
 
             {/* Last Updated */}

@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "Progresso da Sincronização",
   "diagnostics.languagesComplete": "idiomas completos",
   "diagnostics.placeholdersRemaining": "marcadores restantes",
+  "diagnostics.placeholderBreakdown": "Detalhamento por idioma",
+  "diagnostics.noPlaceholders": "Sem marcadores restantes",
   "diagnostics.current": "Atual",
   "diagnostics.keys": "chaves",
   "diagnostics.missing": "faltando",

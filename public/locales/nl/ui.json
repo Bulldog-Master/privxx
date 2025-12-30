@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "Synchronisatievoortgang",
   "diagnostics.languagesComplete": "talen compleet",
   "diagnostics.placeholdersRemaining": "placeholders resterend",
+  "diagnostics.placeholderBreakdown": "Uitsplitsing per taal",
+  "diagnostics.noPlaceholders": "Geen placeholders resterend",
   "diagnostics.current": "Huidig",
   "diagnostics.keys": "sleutels",
   "diagnostics.missing": "ontbrekend",

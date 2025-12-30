@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "同步进度",
   "diagnostics.languagesComplete": "语言完成",
   "diagnostics.placeholdersRemaining": "占位符剩余",
+  "diagnostics.placeholderBreakdown": "按语言分类",
+  "diagnostics.noPlaceholders": "无剩余占位符",
   "diagnostics.current": "当前",
   "diagnostics.keys": "键",
   "diagnostics.missing": "缺失",

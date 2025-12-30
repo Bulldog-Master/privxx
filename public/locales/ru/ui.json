@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "Прогресс синхронизации",
   "diagnostics.languagesComplete": "языков завершено",
   "diagnostics.placeholdersRemaining": "заполнителей осталось",
+  "diagnostics.placeholderBreakdown": "Разбивка по языкам",
+  "diagnostics.noPlaceholders": "Заполнителей не осталось",
   "diagnostics.current": "Текущий",
   "diagnostics.keys": "ключей",
   "diagnostics.missing": "отсутствует",

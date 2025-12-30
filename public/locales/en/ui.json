@@ -424,6 +424,8 @@
   "diagnostics.syncProgress": "Sync Progress",
   "diagnostics.languagesComplete": "languages complete",
   "diagnostics.placeholdersRemaining": "placeholders remaining",
+  "diagnostics.placeholderBreakdown": "Per-language breakdown",
+  "diagnostics.noPlaceholders": "No placeholders remaining",
   "diagnostics.current": "Current",
   "diagnostics.keys": "keys",
   "diagnostics.missing": "missing",

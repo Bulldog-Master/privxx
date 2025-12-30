@@ -427,6 +427,8 @@
   "diagnostics.syncProgress": "सिंक प्रगति",
   "diagnostics.languagesComplete": "भाषाएं पूर्ण",
   "diagnostics.placeholdersRemaining": "प्लेसहोल्डर शेष",
+  "diagnostics.placeholderBreakdown": "भाषा अनुसार विवरण",
+  "diagnostics.noPlaceholders": "कोई प्लेसहोल्डर शेष नहीं",
   "diagnostics.current": "वर्तमान",
   "diagnostics.keys": "कुंजियां",
   "diagnostics.missing": "गायब",
