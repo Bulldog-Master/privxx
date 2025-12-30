@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "翻訳を分析中...",
   "diagnostics.noLanguages": "言語ファイルが見つかりません",
   "diagnostics.lastUpdated": "最終更新",
+  "diagnostics.translationQuality": "翻訳品質",
+  "diagnostics.qualityExplanation": "実際の翻訳があるキーの割合（プレースホルダーではない）。同期完了度はプレースホルダーを無視します。",
+  "diagnostics.invalidJsonDetected": "{{count}}個のロケールファイルに無効なJSONがあります",
+  "diagnostics.invalidJson": "無効なJSON",
+  "diagnostics.parseError": "パースエラー",
+  "diagnostics.parseErrorHint": "余分な括弧、欠落したカンマ、無効な文字などの構文エラーを確認してください。",
+  "diagnostics.needsTranslation": "翻訳が必要",
   
   "diagnostics.healthExcellent": "優秀",
   "diagnostics.healthGood": "良好",

@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "Vertalingen analyseren...",
   "diagnostics.noLanguages": "Geen taalbestanden gevonden",
   "diagnostics.lastUpdated": "Laatst bijgewerkt",
+  "diagnostics.translationQuality": "vertaalkwaliteit",
+  "diagnostics.qualityExplanation": "Percentage sleutels met daadwerkelijke vertalingen (geen placeholders). Synchronisatie-volledigheid negeert placeholders.",
+  "diagnostics.invalidJsonDetected": "{{count}} locale bestand(en) hebben ongeldige JSON",
+  "diagnostics.invalidJson": "Ongeldige JSON",
+  "diagnostics.parseError": "Parseerfout",
+  "diagnostics.parseErrorHint": "Controleer op syntaxfouten zoals extra haakjes, ontbrekende komma's of ongeldige tekens.",
+  "diagnostics.needsTranslation": "vertaling nodig",
   
   "diagnostics.healthExcellent": "Uitstekend",
   "diagnostics.healthGood": "Goed",

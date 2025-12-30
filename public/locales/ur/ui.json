@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "ترجمے کا تجزیہ کیا جا رہا ہے...",
   "diagnostics.noLanguages": "کوئی زبان فائلیں نہیں ملیں",
   "diagnostics.lastUpdated": "آخری اپ ڈیٹ",
+  "diagnostics.translationQuality": "ترجمہ معیار",
+  "diagnostics.qualityExplanation": "اصل ترجمے والی کلیدوں کا فیصد (پلیس ہولڈرز نہیں)۔ مطابقت پذیری کی تکمیل پلیس ہولڈرز کو نظرانداز کرتی ہے۔",
+  "diagnostics.invalidJsonDetected": "{{count}} لوکیل فائل(فائلوں) میں غلط JSON ہے",
+  "diagnostics.invalidJson": "غلط JSON",
+  "diagnostics.parseError": "پارسنگ کی خرابی",
+  "diagnostics.parseErrorHint": "اضافی بریکٹ، غائب کاما، یا غلط حروف جیسی نحوی غلطیوں کی جانچ کریں۔",
+  "diagnostics.needsTranslation": "ترجمہ درکار ہے",
   
   "diagnostics.healthExcellent": "بہترین",
   "diagnostics.healthGood": "اچھا",

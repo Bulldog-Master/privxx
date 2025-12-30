@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "Menganalisis terjemahan...",
   "diagnostics.noLanguages": "Tidak ada file bahasa yang ditemukan",
   "diagnostics.lastUpdated": "Terakhir diperbarui",
+  "diagnostics.translationQuality": "kualitas terjemahan",
+  "diagnostics.qualityExplanation": "Persentase kunci dengan terjemahan nyata (bukan placeholder). Kelengkapan sinkronisasi mengabaikan placeholder.",
+  "diagnostics.invalidJsonDetected": "{{count}} file lokal memiliki JSON tidak valid",
+  "diagnostics.invalidJson": "JSON Tidak Valid",
+  "diagnostics.parseError": "Kesalahan Parsing",
+  "diagnostics.parseErrorHint": "Periksa kesalahan sintaks seperti kurung ekstra, koma yang hilang, atau karakter tidak valid.",
+  "diagnostics.needsTranslation": "perlu terjemahan",
   
   "diagnostics.healthExcellent": "Sangat Baik",
   "diagnostics.healthGood": "Baik",

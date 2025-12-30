@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "Çeviriler analiz ediliyor...",
   "diagnostics.noLanguages": "Dil dosyası bulunamadı",
   "diagnostics.lastUpdated": "Son güncelleme",
+  "diagnostics.translationQuality": "çeviri kalitesi",
+  "diagnostics.qualityExplanation": "Gerçek çevirileri olan anahtarların yüzdesi (yer tutucular değil). Senkronizasyon tamamlanması yer tutucuları yok sayar.",
+  "diagnostics.invalidJsonDetected": "{{count}} yerel ayar dosyasında geçersiz JSON var",
+  "diagnostics.invalidJson": "Geçersiz JSON",
+  "diagnostics.parseError": "Ayrıştırma Hatası",
+  "diagnostics.parseErrorHint": "Fazla parantez, eksik virgül veya geçersiz karakterler gibi sözdizimi hatalarını kontrol edin.",
+  "diagnostics.needsTranslation": "çeviri gerekli",
   
   "diagnostics.healthExcellent": "Mükemmel",
   "diagnostics.healthGood": "İyi",

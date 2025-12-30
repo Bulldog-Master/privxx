@@ -454,6 +454,13 @@
   "diagnostics.analyzing": "অনুবাদ বিশ্লেষণ করা হচ্ছে...",
   "diagnostics.noLanguages": "কোনো ভাষা ফাইল পাওয়া যায়নি",
   "diagnostics.lastUpdated": "সর্বশেষ আপডেট",
+  "diagnostics.translationQuality": "অনুবাদ মান",
+  "diagnostics.qualityExplanation": "প্রকৃত অনুবাদ সহ কীগুলির শতাংশ (প্লেসহোল্ডার নয়)। সিঙ্ক সম্পূর্ণতা প্লেসহোল্ডার উপেক্ষা করে।",
+  "diagnostics.invalidJsonDetected": "{{count}}টি লোকেল ফাইলে অবৈধ JSON রয়েছে",
+  "diagnostics.invalidJson": "অবৈধ JSON",
+  "diagnostics.parseError": "পার্সিং ত্রুটি",
+  "diagnostics.parseErrorHint": "অতিরিক্ত ব্র্যাকেট, অনুপস্থিত কমা বা অবৈধ অক্ষরের মতো সিনট্যাক্স ত্রুটি পরীক্ষা করুন।",
+  "diagnostics.needsTranslation": "অনুবাদ প্রয়োজন",
   
   "diagnostics.healthExcellent": "চমৎকার",
   "diagnostics.healthGood": "ভালো",

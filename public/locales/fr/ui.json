@@ -455,6 +455,13 @@
   "diagnostics.analyzing": "Analyse des traductions...",
   "diagnostics.noLanguages": "Aucun fichier de langue trouvé",
   "diagnostics.lastUpdated": "Dernière mise à jour",
+  "diagnostics.translationQuality": "qualité de traduction",
+  "diagnostics.qualityExplanation": "Pourcentage de clés avec de vraies traductions (pas de substituts). La synchronisation ignore les substituts.",
+  "diagnostics.invalidJsonDetected": "{{count}} fichier(s) de langue ont un JSON invalide",
+  "diagnostics.invalidJson": "JSON invalide",
+  "diagnostics.parseError": "Erreur d'analyse",
+  "diagnostics.parseErrorHint": "Vérifiez les erreurs de syntaxe comme les accolades supplémentaires, les virgules manquantes ou les caractères invalides.",
+  "diagnostics.needsTranslation": "nécessite une traduction",
   
   "diagnostics.healthExcellent": "Excellent",
   "diagnostics.healthGood": "Bon",

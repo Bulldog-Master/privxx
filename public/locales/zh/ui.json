@@ -456,6 +456,13 @@
   "diagnostics.analyzing": "正在分析翻译...",
   "diagnostics.noLanguages": "未找到语言文件",
   "diagnostics.lastUpdated": "最后更新",
+  "diagnostics.translationQuality": "翻译质量",
+  "diagnostics.qualityExplanation": "具有实际翻译的键的百分比（非占位符）。同步完成度忽略占位符。",
+  "diagnostics.invalidJsonDetected": "{{count}}个区域设置文件包含无效的JSON",
+  "diagnostics.invalidJson": "无效的JSON",
+  "diagnostics.parseError": "解析错误",
+  "diagnostics.parseErrorHint": "检查语法错误，如多余的括号、缺失的逗号或无效字符。",
+  "diagnostics.needsTranslation": "需要翻译",
   
   "diagnostics.healthExcellent": "优秀",
   "diagnostics.healthGood": "良好",

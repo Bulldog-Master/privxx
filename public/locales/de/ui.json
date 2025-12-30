@@ -455,6 +455,13 @@
   "diagnostics.analyzing": "Übersetzungen werden analysiert...",
   "diagnostics.noLanguages": "Keine Sprachdateien gefunden",
   "diagnostics.lastUpdated": "Zuletzt aktualisiert",
+  "diagnostics.translationQuality": "Übersetzungsqualität",
+  "diagnostics.qualityExplanation": "Prozentsatz der Schlüssel mit echten Übersetzungen (keine Platzhalter). Sync-Vollständigkeit ignoriert Platzhalter.",
+  "diagnostics.invalidJsonDetected": "{{count}} Locale-Datei(en) haben ungültiges JSON",
+  "diagnostics.invalidJson": "Ungültiges JSON",
+  "diagnostics.parseError": "Parsing-Fehler",
+  "diagnostics.parseErrorHint": "Prüfen Sie auf Syntaxfehler wie zusätzliche Klammern, fehlende Kommas oder ungültige Zeichen.",
+  "diagnostics.needsTranslation": "benötigt Übersetzung",
   
   "diagnostics.healthExcellent": "Ausgezeichnet",
   "diagnostics.healthGood": "Gut",
