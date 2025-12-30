@@ -156,14 +156,13 @@ export default function Security() {
       if (statusFilter === "success" && !log.success) return false;
       if (statusFilter === "failure" && log.success) return false;
 
-      // Search filter
+      // Search filter (search by event type/label only - IP/UA not available in safe view)
       if (searchQuery) {
         const label = eventTypeLabels[log.event_type] || log.event_type;
         const searchLower = searchQuery.toLowerCase();
         if (
           !label.toLowerCase().includes(searchLower) &&
-          !log.event_type.toLowerCase().includes(searchLower) &&
-          !(log.ip_address?.toLowerCase().includes(searchLower))
+          !log.event_type.toLowerCase().includes(searchLower)
         ) {
           return false;
         }
@@ -173,15 +172,13 @@ export default function Security() {
     });
   }, [logs, categoryFilter, statusFilter, searchQuery, dateRange]);
 
-  // Export to CSV
+  // Export to CSV (privacy-safe: excludes IP/UA)
   const handleExport = () => {
-    const headers = ["Date", "Event", "Status", "IP Address", "User Agent"];
+    const headers = ["Date", "Event", "Status"];
     const rows = filteredLogs.map((log) => [
       formatDate(log.created_at),
       eventTypeLabels[log.event_type] || log.event_type,
       log.success ? "Success" : "Failed",
-      log.ip_address || "N/A",
-      log.user_agent || "N/A",
     ]);
 
     const csvContent = [
@@ -339,7 +336,7 @@ export default function Security() {
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder={t("security.searchPlaceholder", "Search events, IP addresses...")}
+                    placeholder={t("security.searchPlaceholder", "Search events...")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-9"
@@ -419,10 +416,7 @@ export default function Security() {
                       <TableHead>{t("security.event", "Event")}</TableHead>
                       <TableHead>{t("security.statusCol", "Status")}</TableHead>
                       <TableHead className="hidden md:table-cell">
-                        {t("security.ipAddress", "IP Address")}
-                      </TableHead>
-                      <TableHead className="hidden lg:table-cell">
-                        {t("security.userAgent", "Device")}
+                        {t("security.category", "Category")}
                       </TableHead>
                     </TableRow>
                   </TableHeader>
@@ -446,17 +440,8 @@ export default function Security() {
                             )}
                           </Badge>
                         </TableCell>
-                        <TableCell className="hidden md:table-cell font-mono text-xs text-muted-foreground">
-                          {log.ip_address || "—"}
-                        </TableCell>
-                        <TableCell className="hidden lg:table-cell text-xs text-muted-foreground max-w-[200px] truncate">
-                          {log.user_agent ? (
-                            log.user_agent.includes("Mobile") ? "Mobile" :
-                            log.user_agent.includes("Windows") ? "Windows" :
-                            log.user_agent.includes("Mac") ? "macOS" :
-                            log.user_agent.includes("Linux") ? "Linux" :
-                            "Browser"
-                          ) : "—"}
+                        <TableCell className="hidden md:table-cell text-xs text-muted-foreground capitalize">
+                          {getEventCategory(log.event_type)}
                         </TableCell>
                       </TableRow>
                     ))}

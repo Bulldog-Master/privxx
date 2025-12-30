@@ -274,7 +274,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      audit_logs_safe: {
+        Row: {
+          created_at: string | null
+          event_type: Database["public"]["Enums"]["audit_event_type"] | null
+          id: string | null
+          metadata: Json | null
+          success: boolean | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_type?: Database["public"]["Enums"]["audit_event_type"] | null
+          id?: string | null
+          metadata?: never
+          success?: boolean | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_type?: Database["public"]["Enums"]["audit_event_type"] | null
+          id?: string | null
+          metadata?: never
+          success?: boolean | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       cleanup_rate_limits: { Args: never; Returns: undefined }

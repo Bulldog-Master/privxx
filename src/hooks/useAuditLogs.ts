@@ -1,7 +1,8 @@
 /**
  * Audit Logs Hook
  * 
- * Fetches the authenticated user's security audit logs.
+ * Fetches the authenticated user's security audit logs via the privacy-safe view.
+ * IP addresses and user agents are excluded to comply with privacy requirements.
  */
 
 import { useState, useEffect, useCallback } from 'react';
@@ -11,8 +12,6 @@ export interface AuditLog {
   id: string;
   event_type: string;
   success: boolean;
-  ip_address: string | null;
-  user_agent: string | null;
   metadata: Record<string, unknown>;
   created_at: string;
 }
@@ -39,10 +38,10 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
         return;
       }
 
-      // Use type assertion since audit_logs is a new table not yet in types
+      // Use privacy-safe view that excludes IP addresses and user agents
       const { data, error: fetchError } = await (supabase
-        .from('audit_logs' as any)
-        .select('*')
+        .from('audit_logs_safe' as any)
+        .select('id, event_type, success, metadata, created_at')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
         .limit(limit)) as { data: AuditLog[] | null; error: any };
