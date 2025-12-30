@@ -532,5 +532,13 @@
   "browserPolicyTitle": "ব্রাউজার পলিসি সিদ্ধান্ত",
   "browserPolicySubtext": "বর্তমান পলিসি ইঞ্জিন মূল্যায়ন",
   "browserPolicyDecision": "সিদ্ধান্ত",
-  "browserPolicyDiagnosticNote": "শুধুমাত্র ডায়াগনস্টিক। কোনো প্রয়োগ প্রযোজ্য নয়।"
+  "browserPolicyDiagnosticNote": "শুধুমাত্র ডায়াগনস্টিক। কোনো প্রয়োগ প্রযোজ্য নয়।",
+
+  "diagnostics.policyDecision": "পলিসি সিদ্ধান্ত",
+  "diagnostics.policyDecisionDesc": "অসঙ্গতি পলিসি মূল্যায়নের ফলাফল (কোনো প্রয়োগ নয়)",
+  "diagnostics.policy.allow": "অনুমতি",
+  "diagnostics.policy.warn": "সতর্কতা",
+  "diagnostics.policy.require_reauth": "পুনঃপ্রমাণীকরণ প্রয়োজন",
+  "diagnostics.policy.deny": "অস্বীকার",
+  "diagnostics.policyPrivacy": "শুধুমাত্র ডায়াগনস্টিক। কোনো প্রয়োগ প্রযোজ্য নয়। ফেজ-২ সবসময় \"অনুমতি\" ফেরত দেয়।"
 }
