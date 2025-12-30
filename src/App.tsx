@@ -15,6 +15,7 @@ import { EmailVerificationPending } from "@/components/session";
 import { ProtectedRoute } from "@/components/session";
 import { SessionTimeoutWarning } from "@/components/session";
 import { UnlockExpiryDialog } from "@/components/session";
+import { SecurityAlertProvider } from "@/components/security";
 import { useSessionTimeout } from "@/hooks/useSessionTimeout";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
@@ -178,7 +179,9 @@ const App = () => (
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <IdentityProvider>
-            <AppRoutes />
+            <SecurityAlertProvider>
+              <AppRoutes />
+            </SecurityAlertProvider>
           </IdentityProvider>
         </AuthProvider>
       </QueryClientProvider>
