@@ -531,11 +531,17 @@
   "diagnostics.viewSignals": "Toplanan sinyalleri görüntüle",
   "diagnostics.browserAnomalyPrivacy": "Yalnızca tanılama. Hiçbir sinyal gönderilmez veya saklanmaz. Bu veriler asla tarayıcınızı terk etmez.",
   
-  "diagnostics.policyDecision": "[TR] Policy Decision",
-  "diagnostics.policyDecisionDesc": "[TR] Anomaly policy evaluation result (no enforcement)",
-  "diagnostics.policy.allow": "[TR] Allow",
-  "diagnostics.policy.warn": "[TR] Warn",
-  "diagnostics.policy.require_reauth": "[TR] Require Re-auth",
-  "diagnostics.policy.deny": "[TR] Deny",
-  "diagnostics.policyPrivacy": "[TR] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
+  "diagnostics.policyDecision": "Politika Kararı",
+  "diagnostics.policyDecisionDesc": "Anomali politikası değerlendirme sonucu (uygulama yok)",
+  "diagnostics.policy.allow": "İzin Ver",
+  "diagnostics.policy.warn": "Uyar",
+  "diagnostics.policy.require_reauth": "Yeniden Kimlik Doğrulama Gerekli",
+  "diagnostics.policy.deny": "Reddet",
+  "diagnostics.policyPrivacy": "Yalnızca tanılama. Hiçbir uygulama yapılmaz. Faz-2'de her zaman \"izin ver\" döndürür.",
+  
+  "diagnostics.translationStatus.jsonParseError": "JSON ayrıştırılamıyor",
+  "diagnostics.translationStatus.checkFile": "Dosyayı kontrol edin:",
+  "diagnostics.translationStatus.syncProgress": "Senkronizasyon ilerlemesi",
+  "diagnostics.translationStatus.completionVsQuality": "Yapı tamlığı vs çeviri kalitesi",
+  "diagnostics.translationStatus.validJson": "Geçerli JSON"
 }

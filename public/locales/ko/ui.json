@@ -531,11 +531,17 @@
   "diagnostics.viewSignals": "수집된 신호 보기",
   "diagnostics.browserAnomalyPrivacy": "진단 전용입니다. 신호가 전송되거나 저장되지 않습니다. 이 데이터는 브라우저를 벗어나지 않습니다.",
   
-  "diagnostics.policyDecision": "[KO] Policy Decision",
-  "diagnostics.policyDecisionDesc": "[KO] Anomaly policy evaluation result (no enforcement)",
-  "diagnostics.policy.allow": "[KO] Allow",
-  "diagnostics.policy.warn": "[KO] Warn",
-  "diagnostics.policy.require_reauth": "[KO] Require Re-auth",
-  "diagnostics.policy.deny": "[KO] Deny",
-  "diagnostics.policyPrivacy": "[KO] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
+  "diagnostics.policyDecision": "정책 결정",
+  "diagnostics.policyDecisionDesc": "이상 정책 평가 결과 (시행 없음)",
+  "diagnostics.policy.allow": "허용",
+  "diagnostics.policy.warn": "경고",
+  "diagnostics.policy.require_reauth": "재인증 필요",
+  "diagnostics.policy.deny": "거부",
+  "diagnostics.policyPrivacy": "진단 전용입니다. 시행이 적용되지 않습니다. 2단계에서 항상 \"허용\"을 반환합니다.",
+  
+  "diagnostics.translationStatus.jsonParseError": "JSON을 구문 분석할 수 없음",
+  "diagnostics.translationStatus.checkFile": "파일 확인:",
+  "diagnostics.translationStatus.syncProgress": "동기화 진행률",
+  "diagnostics.translationStatus.completionVsQuality": "구조 완성도 vs 번역 품질",
+  "diagnostics.translationStatus.validJson": "유효한 JSON"
 }

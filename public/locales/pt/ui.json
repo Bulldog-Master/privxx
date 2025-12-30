@@ -537,5 +537,11 @@
   "diagnostics.policy.warn": "Avisar",
   "diagnostics.policy.require_reauth": "Requer Re-autenticação",
   "diagnostics.policy.deny": "Negar",
-  "diagnostics.policyPrivacy": "Apenas diagnóstico. Nenhuma aplicação ativa. Sempre retorna \"permitir\" na Fase-2."
+  "diagnostics.policyPrivacy": "Apenas diagnóstico. Nenhuma aplicação ativa. Sempre retorna \"permitir\" na Fase-2.",
+  
+  "diagnostics.translationStatus.jsonParseError": "Não foi possível analisar JSON",
+  "diagnostics.translationStatus.checkFile": "Verificar arquivo:",
+  "diagnostics.translationStatus.syncProgress": "Progresso de sincronização",
+  "diagnostics.translationStatus.completionVsQuality": "Completude de estrutura vs qualidade de tradução",
+  "diagnostics.translationStatus.validJson": "JSON válido"
 }

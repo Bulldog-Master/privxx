@@ -540,5 +540,11 @@
   "diagnostics.policy.warn": "সতর্কতা",
   "diagnostics.policy.require_reauth": "পুনঃপ্রমাণীকরণ প্রয়োজন",
   "diagnostics.policy.deny": "অস্বীকার",
-  "diagnostics.policyPrivacy": "শুধুমাত্র ডায়াগনস্টিক। কোনো প্রয়োগ প্রযোজ্য নয়। ফেজ-২ সবসময় \"অনুমতি\" ফেরত দেয়।"
+  "diagnostics.policyPrivacy": "শুধুমাত্র ডায়াগনস্টিক। কোনো প্রয়োগ প্রযোজ্য নয়। ফেজ-২ সবসময় \"অনুমতি\" ফেরত দেয়।",
+  
+  "diagnostics.translationStatus.jsonParseError": "JSON পার্স করতে অক্ষম",
+  "diagnostics.translationStatus.checkFile": "ফাইল চেক করুন:",
+  "diagnostics.translationStatus.syncProgress": "সিঙ্ক অগ্রগতি",
+  "diagnostics.translationStatus.completionVsQuality": "কাঠামো সম্পূর্ণতা বনাম অনুবাদ মান",
+  "diagnostics.translationStatus.validJson": "বৈধ JSON"
 }

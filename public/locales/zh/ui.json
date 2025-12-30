@@ -535,6 +535,13 @@
   "diagnostics.policyDecisionDesc": "异常策略评估结果（无执行）",
   "diagnostics.policy.allow": "允许",
   "diagnostics.policy.warn": "警告",
+  "diagnostics.policy.require_reauth": "需要重新认证",
   "diagnostics.policy.deny": "拒绝",
-  "diagnostics.policyPrivacy": "仅用于诊断。不应用任何执行。第二阶段始终返回\"允许\"。"
+  "diagnostics.policyPrivacy": "仅用于诊断。不应用任何执行。第二阶段始终返回\"允许\"。",
+  
+  "diagnostics.translationStatus.jsonParseError": "无法解析JSON",
+  "diagnostics.translationStatus.checkFile": "检查文件：",
+  "diagnostics.translationStatus.syncProgress": "同步进度",
+  "diagnostics.translationStatus.completionVsQuality": "结构完整性 vs 翻译质量",
+  "diagnostics.translationStatus.validJson": "有效JSON"
 }
