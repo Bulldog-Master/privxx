@@ -1,7 +1,35 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Check if any component files are staged (UI, shared, or feature components)
+# ============================================================
+# SECURITY CHECKS (run on migrations and source files)
+# ============================================================
+
+STAGED_MIGRATIONS=$(git diff --cached --name-only --diff-filter=ACM | grep "^supabase/migrations/.*\.sql$" || true)
+STAGED_SRC=$(git diff --cached --name-only --diff-filter=ACM | grep "^src/.*\.\(ts\|tsx\)$" || true)
+
+if [ -n "$STAGED_MIGRATIONS" ] || [ -n "$STAGED_SRC" ]; then
+  echo "🔒 Running security checks..."
+  
+  node scripts/check-security.js
+  
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ Security check failed. Please fix the issues above before committing."
+    echo "   See docs/SECURITY.md for security guidelines."
+    echo ""
+    exit 1
+  fi
+  
+  echo "✅ Security checks passed"
+else
+  echo "⏭️  No migrations or source files modified, skipping security checks"
+fi
+
+# ============================================================
+# FORWARDREF COMPLIANCE (100% required for Radix compatibility)
+# ============================================================
+
 STAGED_COMPONENTS=$(git diff --cached --name-only --diff-filter=ACM | grep -E "^src/(components/(ui|shared)|features/.*/components)/.*\.tsx$" || true)
 
 if [ -n "$STAGED_COMPONENTS" ]; then
@@ -22,13 +50,15 @@ else
   echo "⏭️  No component files modified, skipping forwardRef checks"
 fi
 
-# Check if English locale file is staged (reference file)
+# ============================================================
+# TRANSLATION SYNC (16 languages, auto-sync from English)
+# ============================================================
+
 STAGED_EN_LOCALE=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/locales/en/ui\.json$" || true)
 
 if [ -n "$STAGED_EN_LOCALE" ]; then
   echo "🌐 English locale modified — syncing ALL 16 languages..."
   
-  # Run with --fix to auto-add missing keys as placeholders to ALL languages
   node scripts/check-language.js --fix
   
   if [ $? -ne 0 ]; then
@@ -38,19 +68,15 @@ if [ -n "$STAGED_EN_LOCALE" ]; then
     exit 1
   fi
   
-  # Re-stage ALL locale files (not just modified ones)
-  echo "📝 Staging all synced locale files..."
   git add public/locales/
   
   echo "✅ All 16 languages synchronized"
 else
-  # Check if any non-English locale files are staged (detect manual edits)
   STAGED_OTHER_LOCALES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/locales/.*\.json$" | grep -v "^public/locales/en/" || true)
   
   if [ -n "$STAGED_OTHER_LOCALES" ]; then
     echo "🔍 Non-English locale files modified — running validation..."
     
-    # Just validate, don't auto-fix (manual edits should be intentional)
     node scripts/check-language.js
     
     if [ $? -ne 0 ]; then
