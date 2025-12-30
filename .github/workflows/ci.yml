@@ -61,6 +61,9 @@ jobs:
             echo "No privacy check script found, skipping."
           fi
 
+      - name: Check UI components use forwardRef
+        run: node scripts/check-forward-ref.js
+
       - name: Generate translation report
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: node scripts/generate-translation-report.js
