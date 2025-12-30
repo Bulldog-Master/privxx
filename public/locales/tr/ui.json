@@ -512,5 +512,13 @@
   "diagnostics.anomaliesDetected": "{{count}} anomali sinyali tespit edildi",
   "diagnostics.noAnomalies": "Anomali tespit edilmedi",
   "diagnostics.viewSignals": "Toplanan sinyalleri görüntüle",
-  "diagnostics.browserAnomalyPrivacy": "Yalnızca tanılama. Hiçbir sinyal gönderilmez veya saklanmaz. Bu veriler asla tarayıcınızı terk etmez."
+  "diagnostics.browserAnomalyPrivacy": "Yalnızca tanılama. Hiçbir sinyal gönderilmez veya saklanmaz. Bu veriler asla tarayıcınızı terk etmez.",
+  
+  "diagnostics.policyDecision": "[TR] Policy Decision",
+  "diagnostics.policyDecisionDesc": "[TR] Anomaly policy evaluation result (no enforcement)",
+  "diagnostics.policy.allow": "[TR] Allow",
+  "diagnostics.policy.warn": "[TR] Warn",
+  "diagnostics.policy.require_reauth": "[TR] Require Re-auth",
+  "diagnostics.policy.deny": "[TR] Deny",
+  "diagnostics.policyPrivacy": "[TR] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
 }

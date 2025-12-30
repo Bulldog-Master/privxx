@@ -12,6 +12,7 @@ export {
   LatencyTrendChart,
   HealthScorePanel,
   BrowserAnomalyCard,
+  BrowserPolicyCard,
 } from "./components";
 
 // Hooks

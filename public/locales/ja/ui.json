@@ -512,5 +512,14 @@
   "diagnostics.anomaliesDetected": "{{count}} 件の異常信号を検出",
   "diagnostics.noAnomalies": "異常は検出されませんでした",
   "diagnostics.viewSignals": "収集された信号を表示",
-  "diagnostics.browserAnomalyPrivacy": "診断専用です。信号は送信または保存されません。このデータはブラウザから離れることはありません。"
+  "diagnostics.browserAnomalyPrivacy": "診断専用です。信号は送信または保存されません。このデータはブラウザから離れることはありません。",
+  
+  "diagnostics.policyDecision": "ポリシー決定",
+  "diagnostics.policyDecisionDesc": "異常ポリシー評価結果（執行なし）",
+  "diagnostics.policy.allow": "許可",
+  "diagnostics.policy.warn": "警告",
+  "diagnostics.policy.require_reauth": "再認証が必要",
+  "diagnostics.policy.deny": "拒否",
+  "diagnostics.policyPrivacy": "診断専用です。執行は適用されません。フェーズ2では常に「許可」を返します。"
+}
 }

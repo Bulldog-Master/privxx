@@ -512,5 +512,14 @@
   "diagnostics.anomaliesDetected": "检测到 {{count}} 个异常信号",
   "diagnostics.noAnomalies": "未检测到异常",
   "diagnostics.viewSignals": "查看收集的信号",
-  "diagnostics.browserAnomalyPrivacy": "仅用于诊断。不发送或存储任何信号。这些数据永远不会离开您的浏览器。"
+  "diagnostics.browserAnomalyPrivacy": "仅用于诊断。不发送或存储任何信号。这些数据永远不会离开您的浏览器。",
+  
+  "diagnostics.policyDecision": "策略决策",
+  "diagnostics.policyDecisionDesc": "异常策略评估结果（无执行）",
+  "diagnostics.policy.allow": "允许",
+  "diagnostics.policy.warn": "警告",
+  "diagnostics.policy.require_reauth": "需要重新认证",
+  "diagnostics.policy.deny": "拒绝",
+  "diagnostics.policyPrivacy": "仅用于诊断。不应用任何执行。第二阶段始终返回\"允许\"。"
+}
 }

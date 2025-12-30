@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Activity, Server, Shield } from 'lucide-react';
@@ -20,9 +21,11 @@ import {
   LatencyTrendChart,
   HealthScorePanel,
   BrowserAnomalyCard,
+  BrowserPolicyCard,
 } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
 import { buildInfo } from '@/lib/buildInfo';
+import { collectBrowserAnomalySignals, detectAnomalies } from '@/lib/browserAnomalySignals';
 
 export default function Diagnostics() {
   const { t } = useTranslation();
@@ -42,6 +45,13 @@ export default function Diagnostics() {
 
   const backendStatus = getBackendStatusDisplay(uiState, isLoading, t);
   const modeStatus = getModeDisplay(status.isMock, t);
+
+  // Collect browser signals for policy card
+  const { signals, anomalies } = useMemo(() => {
+    const collected = collectBrowserAnomalySignals();
+    const detected = detectAnomalies(collected);
+    return { signals: collected, anomalies: detected };
+  }, []);
 
   return (
     <PageBackground>
@@ -195,6 +205,7 @@ export default function Diagnostics() {
           <div className="space-y-6">
             <TranslationStatusDashboard />
             <BrowserAnomalyCard />
+            <BrowserPolicyCard anomalies={anomalies} signals={signals} />
           </div>
         </div>
       </div>

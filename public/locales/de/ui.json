@@ -511,5 +511,13 @@
   "diagnostics.anomaliesDetected": "{{count}} Anomalie-Signale erkannt",
   "diagnostics.noAnomalies": "Keine Anomalien erkannt",
   "diagnostics.viewSignals": "Erfasste Signale anzeigen",
-  "diagnostics.browserAnomalyPrivacy": "Nur Diagnose. Keine Signale werden gesendet oder gespeichert. Diese Daten verlassen niemals Ihren Browser."
+  "diagnostics.browserAnomalyPrivacy": "Nur Diagnose. Keine Signale werden gesendet oder gespeichert. Diese Daten verlassen niemals Ihren Browser.",
+  
+  "diagnostics.policyDecision": "Richtlinienentscheidung",
+  "diagnostics.policyDecisionDesc": "Ergebnis der Anomalie-Richtlinienauswertung (keine Durchsetzung)",
+  "diagnostics.policy.allow": "Erlauben",
+  "diagnostics.policy.warn": "Warnen",
+  "diagnostics.policy.require_reauth": "Re-Auth erforderlich",
+  "diagnostics.policy.deny": "Ablehnen",
+  "diagnostics.policyPrivacy": "Nur Diagnose. Keine Durchsetzung aktiv. Gibt in Phase-2 immer \"erlauben\" zurück."
 }

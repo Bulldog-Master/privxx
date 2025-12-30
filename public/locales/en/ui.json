@@ -509,5 +509,13 @@
   "diagnostics.anomaliesDetected": "{{count}} anomaly signals detected",
   "diagnostics.noAnomalies": "No anomalies detected",
   "diagnostics.viewSignals": "View collected signals",
-  "diagnostics.browserAnomalyPrivacy": "Diagnostic only. No signals are sent or stored. This data never leaves your browser."
+  "diagnostics.browserAnomalyPrivacy": "Diagnostic only. No signals are sent or stored. This data never leaves your browser.",
+  
+  "diagnostics.policyDecision": "Policy Decision",
+  "diagnostics.policyDecisionDesc": "Anomaly policy evaluation result (no enforcement)",
+  "diagnostics.policy.allow": "Allow",
+  "diagnostics.policy.warn": "Warn",
+  "diagnostics.policy.require_reauth": "Require Re-auth",
+  "diagnostics.policy.deny": "Deny",
+  "diagnostics.policyPrivacy": "Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
 }
