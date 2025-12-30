@@ -14,6 +14,7 @@ export {
   HealthScorePanel,
   BrowserAnomalyCard,
   BrowserPolicyCard,
+  PaymentIntentPreview,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,

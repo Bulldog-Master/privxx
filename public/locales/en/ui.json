@@ -213,6 +213,23 @@
   "paymentsLockedHint": "Unlock identity to make payments",
   "paymentsComingSoon": "Payments coming soon",
   "paymentsDemoNote": "This is a preview flow. Live settlement will be enabled once the bridge supports payments.",
+  "payments": {
+    "privacyTitle": "Private Payment Intents",
+    "privacyDescription": "Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "Create Payment Intent",
+    "creatingIntent": "Creating Intent…",
+    "status": "Status",
+    "comingSoon": "Phase 3",
+    "statusNote": "Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "Payment Intent (Preview)",
+      "disclaimer": "Diagnostic preview only. No payment is created or sent.",
+      "status": "Status",
+      "comingSoon": "Phase 3"
+    }
+  },
   "composeRecipient": "Recipient",
   "composeRecipientPlaceholder": "Enter recipient ID or 'self'",
   "composeMessage": "Message",

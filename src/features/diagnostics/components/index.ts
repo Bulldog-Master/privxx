@@ -11,3 +11,4 @@ export { LatencyTrendChart } from "./LatencyTrendChart";
 export { HealthScorePanel } from "./HealthScorePanel";
 export { BrowserAnomalyCard } from "./BrowserAnomalyCard";
 export { BrowserPolicyCard } from "./BrowserPolicyCard";
+export { PaymentIntentPreview } from "./PaymentIntentPreview";
