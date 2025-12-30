@@ -512,5 +512,10 @@
   "diagnostics.anomaliesDetected": "{{count}} غیر معمولی سگنل پائے گئے",
   "diagnostics.noAnomalies": "کوئی غیر معمولی نہیں پائی گئی",
   "diagnostics.viewSignals": "جمع شدہ سگنلز دیکھیں",
-  "diagnostics.browserAnomalyPrivacy": "صرف تشخیصی۔ کوئی سگنل بھیجا یا ذخیرہ نہیں کیا جاتا۔ یہ ڈیٹا کبھی آپ کے براؤزر سے نہیں نکلتا۔"
+  "diagnostics.browserAnomalyPrivacy": "صرف تشخیصی۔ کوئی سگنل بھیجا یا ذخیرہ نہیں کیا جاتا۔ یہ ڈیٹا کبھی آپ کے براؤزر سے نہیں نکلتا۔",
+
+  "browserPolicyTitle": "براؤزر پالیسی فیصلہ",
+  "browserPolicySubtext": "موجودہ پالیسی انجن کی تشخیص",
+  "browserPolicyDecision": "فیصلہ",
+  "browserPolicyDiagnosticNote": "صرف تشخیصی۔ کوئی نفاذ لاگو نہیں۔"
 }

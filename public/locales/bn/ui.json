@@ -509,5 +509,10 @@
   "diagnostics.anomaliesDetected": "{{count}} টি অসঙ্গতি সংকেত সনাক্ত করা হয়েছে",
   "diagnostics.noAnomalies": "কোনো অসঙ্গতি সনাক্ত হয়নি",
   "diagnostics.viewSignals": "সংগৃহীত সংকেত দেখুন",
-  "diagnostics.browserAnomalyPrivacy": "শুধুমাত্র ডায়াগনস্টিক। কোনো সংকেত পাঠানো বা সংরক্ষণ করা হয় না। এই ডেটা কখনো আপনার ব্রাউজার ছাড়ে না।"
+  "diagnostics.browserAnomalyPrivacy": "শুধুমাত্র ডায়াগনস্টিক। কোনো সংকেত পাঠানো বা সংরক্ষণ করা হয় না। এই ডেটা কখনো আপনার ব্রাউজার ছাড়ে না।",
+
+  "browserPolicyTitle": "ব্রাউজার পলিসি সিদ্ধান্ত",
+  "browserPolicySubtext": "বর্তমান পলিসি ইঞ্জিন মূল্যায়ন",
+  "browserPolicyDecision": "সিদ্ধান্ত",
+  "browserPolicyDiagnosticNote": "শুধুমাত্র ডায়াগনস্টিক। কোনো প্রয়োগ প্রযোজ্য নয়।"
 }
