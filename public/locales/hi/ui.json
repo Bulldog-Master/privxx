@@ -504,5 +504,13 @@
   "security.eventsByCategory": "श्रेणी के अनुसार इवेंट",
   "security.eventsByCategoryDescription": "सुरक्षा इवेंट का वितरण",
   "security.events": "इवेंट",
-  "security.noDataForChart": "कोई डेटा उपलब्ध नहीं"
+  "security.noDataForChart": "कोई डेटा उपलब्ध नहीं",
+  
+  "diagnostics.browserAnomaly": "ब्राउज़र विसंगति पहचान",
+  "diagnostics.browserAnomalyDesc": "विसंगति पहचान के लिए ब्राउज़र सिग्नल विश्लेषण (केवल नैदानिक)",
+  "diagnostics.phase2Preview": "चरण-2 पूर्वावलोकन",
+  "diagnostics.anomaliesDetected": "{{count}} विसंगति संकेत पाए गए",
+  "diagnostics.noAnomalies": "कोई विसंगति नहीं पाई गई",
+  "diagnostics.viewSignals": "एकत्रित सिग्नल देखें",
+  "diagnostics.browserAnomalyPrivacy": "केवल नैदानिक। कोई सिग्नल भेजा या संग्रहीत नहीं किया जाता। यह डेटा आपके ब्राउज़र से कभी नहीं निकलता।"
 }

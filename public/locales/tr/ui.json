@@ -504,5 +504,13 @@
   "security.eventsByCategory": "Kategoriye Göre Olaylar",
   "security.eventsByCategoryDescription": "Güvenlik olaylarının dağılımı",
   "security.events": "olay",
-  "security.noDataForChart": "Veri mevcut değil"
+  "security.noDataForChart": "Veri mevcut değil",
+  
+  "diagnostics.browserAnomaly": "Tarayıcı Anomali Tespiti",
+  "diagnostics.browserAnomalyDesc": "Anomali tespiti için tarayıcı sinyal analizi (yalnızca tanılama)",
+  "diagnostics.phase2Preview": "Faz-2 Önizlemesi",
+  "diagnostics.anomaliesDetected": "{{count}} anomali sinyali tespit edildi",
+  "diagnostics.noAnomalies": "Anomali tespit edilmedi",
+  "diagnostics.viewSignals": "Toplanan sinyalleri görüntüle",
+  "diagnostics.browserAnomalyPrivacy": "Yalnızca tanılama. Hiçbir sinyal gönderilmez veya saklanmaz. Bu veriler asla tarayıcınızı terk etmez."
 }

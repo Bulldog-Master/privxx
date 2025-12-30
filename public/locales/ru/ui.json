@@ -504,5 +504,13 @@
   "security.eventsByCategory": "События по категориям",
   "security.eventsByCategoryDescription": "Распределение событий безопасности",
   "security.events": "событий",
-  "security.noDataForChart": "Данные недоступны"
+  "security.noDataForChart": "Данные недоступны",
+  
+  "diagnostics.browserAnomaly": "Обнаружение аномалий браузера",
+  "diagnostics.browserAnomalyDesc": "Анализ сигналов браузера для обнаружения аномалий (только диагностика)",
+  "diagnostics.phase2Preview": "Предпросмотр Фазы 2",
+  "diagnostics.anomaliesDetected": "Обнаружено {{count}} сигналов аномалий",
+  "diagnostics.noAnomalies": "Аномалии не обнаружены",
+  "diagnostics.viewSignals": "Просмотр собранных сигналов",
+  "diagnostics.browserAnomalyPrivacy": "Только диагностика. Никакие сигналы не отправляются и не сохраняются. Эти данные никогда не покидают ваш браузер."
 }

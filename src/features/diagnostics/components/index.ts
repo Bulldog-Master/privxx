@@ -9,3 +9,4 @@ export { default as ConnectionHistoryLog } from "./ConnectionHistoryLog";
 export { TranslationStatusDashboard } from "./TranslationStatusDashboard";
 export { LatencyTrendChart } from "./LatencyTrendChart";
 export { HealthScorePanel } from "./HealthScorePanel";
+export { BrowserAnomalyCard } from "./BrowserAnomalyCard";

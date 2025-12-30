@@ -504,5 +504,13 @@
   "security.eventsByCategory": "الأحداث حسب الفئة",
   "security.eventsByCategoryDescription": "توزيع أحداث الأمان",
   "security.events": "أحداث",
-  "security.noDataForChart": "لا تتوفر بيانات"
+  "security.noDataForChart": "لا تتوفر بيانات",
+  
+  "diagnostics.browserAnomaly": "اكتشاف شذوذ المتصفح",
+  "diagnostics.browserAnomalyDesc": "تحليل إشارات المتصفح لاكتشاف الشذوذ (تشخيصي فقط)",
+  "diagnostics.phase2Preview": "معاينة المرحلة 2",
+  "diagnostics.anomaliesDetected": "تم اكتشاف {{count}} إشارة شذوذ",
+  "diagnostics.noAnomalies": "لم يتم اكتشاف شذوذ",
+  "diagnostics.viewSignals": "عرض الإشارات المجمعة",
+  "diagnostics.browserAnomalyPrivacy": "تشخيصي فقط. لا يتم إرسال أو تخزين أي إشارات. هذه البيانات لا تغادر متصفحك أبدًا."
 }

@@ -12,6 +12,7 @@ export {
   TranslationStatusDashboard,
   LatencyTrendChart,
   HealthScorePanel,
+  BrowserAnomalyCard,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,

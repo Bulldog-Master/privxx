@@ -501,5 +501,13 @@
   "security.eventsByCategory": "বিভাগ অনুসারে ইভেন্ট",
   "security.eventsByCategoryDescription": "নিরাপত্তা ইভেন্ট বিতরণ",
   "security.events": "ইভেন্ট",
-  "security.noDataForChart": "কোনো ডেটা উপলব্ধ নেই"
+  "security.noDataForChart": "কোনো ডেটা উপলব্ধ নেই",
+  
+  "diagnostics.browserAnomaly": "ব্রাউজার অসঙ্গতি সনাক্তকরণ",
+  "diagnostics.browserAnomalyDesc": "অসঙ্গতি সনাক্তকরণের জন্য ব্রাউজার সংকেত বিশ্লেষণ (শুধুমাত্র ডায়াগনস্টিক)",
+  "diagnostics.phase2Preview": "ফেজ-২ প্রিভিউ",
+  "diagnostics.anomaliesDetected": "{{count}} টি অসঙ্গতি সংকেত সনাক্ত করা হয়েছে",
+  "diagnostics.noAnomalies": "কোনো অসঙ্গতি সনাক্ত হয়নি",
+  "diagnostics.viewSignals": "সংগৃহীত সংকেত দেখুন",
+  "diagnostics.browserAnomalyPrivacy": "শুধুমাত্র ডায়াগনস্টিক। কোনো সংকেত পাঠানো বা সংরক্ষণ করা হয় না। এই ডেটা কখনো আপনার ব্রাউজার ছাড়ে না।"
 }

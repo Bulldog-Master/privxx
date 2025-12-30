@@ -504,5 +504,13 @@
   "security.eventsByCategory": "按类别分类事件",
   "security.eventsByCategoryDescription": "安全事件分布",
   "security.events": "个事件",
-  "security.noDataForChart": "暂无数据"
+  "security.noDataForChart": "暂无数据",
+  
+  "diagnostics.browserAnomaly": "浏览器异常检测",
+  "diagnostics.browserAnomalyDesc": "浏览器信号分析用于异常检测（仅诊断用途）",
+  "diagnostics.phase2Preview": "第二阶段预览",
+  "diagnostics.anomaliesDetected": "检测到 {{count}} 个异常信号",
+  "diagnostics.noAnomalies": "未检测到异常",
+  "diagnostics.viewSignals": "查看收集的信号",
+  "diagnostics.browserAnomalyPrivacy": "仅用于诊断。不发送或存储任何信号。这些数据永远不会离开您的浏览器。"
 }

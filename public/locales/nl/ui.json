@@ -504,5 +504,13 @@
   "security.eventsByCategory": "Gebeurtenissen per Categorie",
   "security.eventsByCategoryDescription": "Verdeling van beveiligingsgebeurtenissen",
   "security.events": "gebeurtenissen",
-  "security.noDataForChart": "Geen gegevens beschikbaar"
+  "security.noDataForChart": "Geen gegevens beschikbaar",
+  
+  "diagnostics.browserAnomaly": "Browser Anomalie Detectie",
+  "diagnostics.browserAnomalyDesc": "Browser signaalanalyse voor anomaliedetectie (alleen diagnostisch)",
+  "diagnostics.phase2Preview": "Fase-2 Voorbeeld",
+  "diagnostics.anomaliesDetected": "{{count}} anomalie signalen gedetecteerd",
+  "diagnostics.noAnomalies": "Geen anomalieën gedetecteerd",
+  "diagnostics.viewSignals": "Verzamelde signalen bekijken",
+  "diagnostics.browserAnomalyPrivacy": "Alleen diagnostisch. Er worden geen signalen verzonden of opgeslagen. Deze gegevens verlaten nooit uw browser."
 }

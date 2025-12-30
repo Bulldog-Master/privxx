@@ -501,5 +501,13 @@
   "security.eventsByCategory": "Events by Category",
   "security.eventsByCategoryDescription": "Distribution of security events",
   "security.events": "events",
-  "security.noDataForChart": "No data available"
+  "security.noDataForChart": "No data available",
+  
+  "diagnostics.browserAnomaly": "Browser Anomaly Detection",
+  "diagnostics.browserAnomalyDesc": "Browser signal analysis for anomaly detection (diagnostic only)",
+  "diagnostics.phase2Preview": "Phase-2 Preview",
+  "diagnostics.anomaliesDetected": "{{count}} anomaly signals detected",
+  "diagnostics.noAnomalies": "No anomalies detected",
+  "diagnostics.viewSignals": "View collected signals",
+  "diagnostics.browserAnomalyPrivacy": "Diagnostic only. No signals are sent or stored. This data never leaves your browser."
 }

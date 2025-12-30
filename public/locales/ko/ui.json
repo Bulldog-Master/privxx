@@ -504,5 +504,13 @@
   "security.eventsByCategory": "카테고리별 이벤트",
   "security.eventsByCategoryDescription": "보안 이벤트 분포",
   "security.events": "개",
-  "security.noDataForChart": "데이터 없음"
+  "security.noDataForChart": "데이터 없음",
+  
+  "diagnostics.browserAnomaly": "브라우저 이상 탐지",
+  "diagnostics.browserAnomalyDesc": "이상 탐지를 위한 브라우저 신호 분석 (진단 전용)",
+  "diagnostics.phase2Preview": "2단계 미리보기",
+  "diagnostics.anomaliesDetected": "{{count}}개의 이상 신호 감지됨",
+  "diagnostics.noAnomalies": "이상이 감지되지 않음",
+  "diagnostics.viewSignals": "수집된 신호 보기",
+  "diagnostics.browserAnomalyPrivacy": "진단 전용입니다. 신호가 전송되거나 저장되지 않습니다. 이 데이터는 브라우저를 벗어나지 않습니다."
 }
