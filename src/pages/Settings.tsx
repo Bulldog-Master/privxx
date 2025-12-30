@@ -18,6 +18,7 @@ import { AccountSection } from "@/components/settings/AccountSection";
 import { SessionSettings } from "@/components/settings/SessionSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { AlertSettings } from "@/components/settings/AlertSettings";
+import { AuditLogSection } from "@/components/settings/AuditLogSection";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -80,6 +81,9 @@ export default function Settings() {
 
           {/* Passkey Management */}
           <PasskeyManagement userId={user.id} email={user.email || ""} />
+
+          {/* Security Audit Log */}
+          <AuditLogSection />
         </div>
 
         {/* Footer */}

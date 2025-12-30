@@ -1,4 +1,5 @@
 export { useAlertPreferences } from "./useAlertPreferences";
+export { useAuditLogs, type AuditLog } from "./useAuditLogs";
 export { useAvatarUrl } from "./useAvatarUrl";
 export { useBackendStatus } from "./useBackendStatus";
 export type { BackendStatus, ConnectionHealth } from "./useBackendStatus";
