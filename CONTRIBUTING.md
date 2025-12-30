@@ -76,6 +76,60 @@ Never use these terms in any language:
 
 See `docs/LANGUAGE-RULES.md` for full i18n guidelines.
 
+## Security Checks
+
+Privxx enforces automated security validation on all commits and PRs.
+
+### What Gets Checked
+
+The security script (`scripts/check-security.js`) validates:
+
+1. **Migration files** (`supabase/migrations/*.sql`)
+   - Tables without RLS enabled
+   - Overly permissive policies (`USING (true)`)
+   - Policies granting access to `public` role
+   - `GRANT ALL` to `anon` role
+   - Views with `security_invoker=false` (may bypass RLS)
+   - PII columns exposed in views without proper filtering
+
+2. **Source files** (`src/**/*.ts`, `src/**/*.tsx`)
+   - Role checks using client storage (privilege escalation risk)
+   - Hardcoded admin checks without server-side validation
+
+### Sensitive Tables
+
+These tables MUST have RESTRICTIVE RLS policies:
+- `profiles`
+- `passkey_credentials`
+- `passkey_challenges`
+- `totp_secrets`
+- `totp_backup_codes`
+- `rate_limits`
+- `audit_logs`
+- `notification_preferences`
+
+### Pre-commit Hook
+
+When you commit migrations or source files:
+1. Husky pre-commit hook runs `node scripts/check-security.js`
+2. Errors block the commit
+3. Warnings are displayed but don't block
+
+### Manual Commands
+
+```bash
+# Run security checks
+node scripts/check-security.js
+```
+
+### CI Enforcement
+
+The CI workflow runs security checks on all PRs and pushes:
+- ❌ Build fails if security errors are detected
+- ⚠️ Warnings are logged but don't fail the build
+
+See `SECURITY.md` for the full security architecture.
+
 ## Pull Requests
 
 Before submitting a PR:
@@ -83,5 +137,6 @@ Before submitting a PR:
 - Keep commits clean and readable
 - Describe clearly what problem is being solved
 - Ensure translation keys are synchronized
+- Verify security checks pass
 
 By contributing, you agree that your contributions may be included under the MIT License.
