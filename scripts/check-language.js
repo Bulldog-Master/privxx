@@ -35,6 +35,7 @@ const LANG_PREFIXES = {
 };
 
 const autoFix = process.argv.includes("--fix");
+const strictMode = process.argv.includes("--strict");
 
 function walk(dir) {
   const out = [];
@@ -190,6 +191,63 @@ if (fs.existsSync(enPath)) {
   }
 } else {
   console.warn("⚠️  English reference file not found, skipping sync check.");
+}
+
+// === Check 3: Placeholder strings (strict mode) ===
+if (strictMode) {
+  const placeholderPattern = /^\[(AR|BN|DE|ES|FR|HI|ID|JA|KO|NL|PT|RU|TR|UR|ZH|XX)\]/;
+  const placeholderViolations = [];
+
+  for (const file of walk(ROOT)) {
+    const langCode = path.basename(path.dirname(file));
+    if (langCode === "en") continue; // Skip English reference
+
+    try {
+      const content = JSON.parse(fs.readFileSync(file, "utf8"));
+      const keys = getKeys(content);
+      
+      for (const key of keys) {
+        const value = getNestedValue(content, key);
+        if (typeof value === "string" && placeholderPattern.test(value)) {
+          placeholderViolations.push({ 
+            lang: langCode, 
+            key, 
+            value: value.substring(0, 50) + (value.length > 50 ? "..." : "")
+          });
+        }
+      }
+    } catch {
+      // Already handled in sync check
+    }
+  }
+
+  if (placeholderViolations.length > 0) {
+    console.error("\n❌ Placeholder check failed (strict mode):\n");
+    console.error(`   Found ${placeholderViolations.length} untranslated placeholder strings:\n`);
+    
+    // Group by language
+    const byLang = {};
+    for (const v of placeholderViolations) {
+      if (!byLang[v.lang]) byLang[v.lang] = [];
+      byLang[v.lang].push(v);
+    }
+    
+    for (const [lang, violations] of Object.entries(byLang)) {
+      console.error(`   [${lang}] ${violations.length} placeholders`);
+      for (const v of violations.slice(0, 3)) {
+        console.error(`      - ${v.key}: "${v.value}"`);
+      }
+      if (violations.length > 3) {
+        console.error(`      ... and ${violations.length - 3} more`);
+      }
+    }
+    
+    console.error("\n   All [XX] placeholders must be replaced with real translations.");
+    console.error("   Run without --strict to allow placeholders during development.\n");
+    hasErrors = true;
+  } else {
+    console.log("✅ Placeholder check passed (no [XX] placeholders found).");
+  }
 }
 
 // === Final result ===
