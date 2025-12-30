@@ -512,5 +512,13 @@
   "diagnostics.anomaliesDetected": "{{count}} anomalie signalen gedetecteerd",
   "diagnostics.noAnomalies": "Geen anomalieën gedetecteerd",
   "diagnostics.viewSignals": "Verzamelde signalen bekijken",
-  "diagnostics.browserAnomalyPrivacy": "Alleen diagnostisch. Er worden geen signalen verzonden of opgeslagen. Deze gegevens verlaten nooit uw browser."
+  "diagnostics.browserAnomalyPrivacy": "Alleen diagnostisch. Er worden geen signalen verzonden of opgeslagen. Deze gegevens verlaten nooit uw browser.",
+  
+  "diagnostics.policyDecision": "[NL] Policy Decision",
+  "diagnostics.policyDecisionDesc": "[NL] Anomaly policy evaluation result (no enforcement)",
+  "diagnostics.policy.allow": "[NL] Allow",
+  "diagnostics.policy.warn": "[NL] Warn",
+  "diagnostics.policy.require_reauth": "[NL] Require Re-auth",
+  "diagnostics.policy.deny": "[NL] Deny",
+  "diagnostics.policyPrivacy": "[NL] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
 }

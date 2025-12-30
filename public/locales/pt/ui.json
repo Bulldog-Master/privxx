@@ -512,5 +512,13 @@
   "diagnostics.anomaliesDetected": "{{count}} sinais de anomalia detectados",
   "diagnostics.noAnomalies": "Nenhuma anomalia detectada",
   "diagnostics.viewSignals": "Ver sinais coletados",
-  "diagnostics.browserAnomalyPrivacy": "Apenas diagnóstico. Nenhum sinal é enviado ou armazenado. Estes dados nunca saem do seu navegador."
+  "diagnostics.browserAnomalyPrivacy": "Apenas diagnóstico. Nenhum sinal é enviado ou armazenado. Estes dados nunca saem do seu navegador.",
+  
+  "diagnostics.policyDecision": "Decisão de Política",
+  "diagnostics.policyDecisionDesc": "Resultado da avaliação da política de anomalias (sem aplicação)",
+  "diagnostics.policy.allow": "Permitir",
+  "diagnostics.policy.warn": "Avisar",
+  "diagnostics.policy.require_reauth": "Requer Re-autenticação",
+  "diagnostics.policy.deny": "Negar",
+  "diagnostics.policyPrivacy": "Apenas diagnóstico. Nenhuma aplicação ativa. Sempre retorna \"permitir\" na Fase-2."
 }

@@ -13,6 +13,7 @@ export {
   LatencyTrendChart,
   HealthScorePanel,
   BrowserAnomalyCard,
+  BrowserPolicyCard,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,

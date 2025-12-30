@@ -512,5 +512,13 @@
   "diagnostics.anomaliesDetected": "Обнаружено {{count}} сигналов аномалий",
   "diagnostics.noAnomalies": "Аномалии не обнаружены",
   "diagnostics.viewSignals": "Просмотр собранных сигналов",
-  "diagnostics.browserAnomalyPrivacy": "Только диагностика. Никакие сигналы не отправляются и не сохраняются. Эти данные никогда не покидают ваш браузер."
+  "diagnostics.browserAnomalyPrivacy": "Только диагностика. Никакие сигналы не отправляются и не сохраняются. Эти данные никогда не покидают ваш браузер.",
+  
+  "diagnostics.policyDecision": "[RU] Policy Decision",
+  "diagnostics.policyDecisionDesc": "[RU] Anomaly policy evaluation result (no enforcement)",
+  "diagnostics.policy.allow": "[RU] Allow",
+  "diagnostics.policy.warn": "[RU] Warn",
+  "diagnostics.policy.require_reauth": "[RU] Require Re-auth",
+  "diagnostics.policy.deny": "[RU] Deny",
+  "diagnostics.policyPrivacy": "[RU] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
 }

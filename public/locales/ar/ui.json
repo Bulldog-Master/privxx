@@ -512,5 +512,13 @@
   "diagnostics.anomaliesDetected": "تم اكتشاف {{count}} إشارة شذوذ",
   "diagnostics.noAnomalies": "لم يتم اكتشاف شذوذ",
   "diagnostics.viewSignals": "عرض الإشارات المجمعة",
-  "diagnostics.browserAnomalyPrivacy": "تشخيصي فقط. لا يتم إرسال أو تخزين أي إشارات. هذه البيانات لا تغادر متصفحك أبدًا."
+  "diagnostics.browserAnomalyPrivacy": "تشخيصي فقط. لا يتم إرسال أو تخزين أي إشارات. هذه البيانات لا تغادر متصفحك أبدًا.",
+  
+  "diagnostics.policyDecision": "قرار السياسة",
+  "diagnostics.policyDecisionDesc": "نتيجة تقييم سياسة الشذوذ (بدون تطبيق)",
+  "diagnostics.policy.allow": "السماح",
+  "diagnostics.policy.warn": "تحذير",
+  "diagnostics.policy.require_reauth": "يتطلب إعادة المصادقة",
+  "diagnostics.policy.deny": "رفض",
+  "diagnostics.policyPrivacy": "تشخيصي فقط. لا يتم تطبيق أي قيود. يُرجع دائمًا \"السماح\" في المرحلة 2."
 }

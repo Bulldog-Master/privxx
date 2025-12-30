@@ -512,5 +512,13 @@
   "diagnostics.anomaliesDetected": "{{count}}개의 이상 신호 감지됨",
   "diagnostics.noAnomalies": "이상이 감지되지 않음",
   "diagnostics.viewSignals": "수집된 신호 보기",
-  "diagnostics.browserAnomalyPrivacy": "진단 전용입니다. 신호가 전송되거나 저장되지 않습니다. 이 데이터는 브라우저를 벗어나지 않습니다."
+  "diagnostics.browserAnomalyPrivacy": "진단 전용입니다. 신호가 전송되거나 저장되지 않습니다. 이 데이터는 브라우저를 벗어나지 않습니다.",
+  
+  "diagnostics.policyDecision": "[KO] Policy Decision",
+  "diagnostics.policyDecisionDesc": "[KO] Anomaly policy evaluation result (no enforcement)",
+  "diagnostics.policy.allow": "[KO] Allow",
+  "diagnostics.policy.warn": "[KO] Warn",
+  "diagnostics.policy.require_reauth": "[KO] Require Re-auth",
+  "diagnostics.policy.deny": "[KO] Deny",
+  "diagnostics.policyPrivacy": "[KO] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
 }
