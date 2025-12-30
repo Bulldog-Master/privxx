@@ -22,6 +22,7 @@ import {
   HealthScorePanel,
   BrowserAnomalyCard,
   BrowserPolicyCard,
+  PaymentIntentPreview,
 } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
 import { buildInfo } from '@/lib/buildInfo';
@@ -206,6 +207,7 @@ export default function Diagnostics() {
             <TranslationStatusDashboard />
             <BrowserAnomalyCard />
             <BrowserPolicyCard anomalies={anomalies} signals={signals} />
+            <PaymentIntentPreview />
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ export {
   HealthScorePanel,
   BrowserAnomalyCard,
   BrowserPolicyCard,
+  PaymentIntentPreview,
 } from "./components";
 
 // Hooks

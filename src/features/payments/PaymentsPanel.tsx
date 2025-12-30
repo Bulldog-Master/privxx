@@ -1,15 +1,19 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CreditCard, Loader2, ExternalLink } from "lucide-react";
+import { CreditCard, Loader2, ExternalLink, Shield, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useIdentity } from "@/features/identity";
 import { LockedState } from "@/components/shared";
+import { submitPaymentIntentWithPolicy } from "@/lib/payments";
+import { collectBrowserAnomalySignals, detectAnomalies } from "@/lib/browserAnomalySignals";
 
 export function PaymentsPanel() {
   const { t } = useTranslation();
   const { isUnlocked } = useIdentity();
+  const signals = useMemo(() => collectBrowserAnomalySignals(), []);
+  const anomalies = useMemo(() => detectAnomalies(signals), [signals]);
 
   const [destination, setDestination] = useState("https://");
   const [amount, setAmount] = useState("");
@@ -24,10 +28,17 @@ export function PaymentsPanel() {
     if (!canSubmit) return;
     setIsSubmitting(true);
     try {
-      // DEMO-SAFE:
-      // No backend call is required for this UI preview.
-      // Future: bridgeClient.requestPayment({ destination, amount, currency })
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Phase-2: Submit intent through policy engine (stub - always allows)
+      await submitPaymentIntentWithPolicy(
+        {
+          type: "purchase",
+          amount: parseFloat(amount) || 0,
+          currency,
+          merchantRef: destination,
+        },
+        anomalies,
+        signals as unknown as Record<string, unknown>
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -39,6 +50,19 @@ export function PaymentsPanel() {
 
   return (
     <div className="p-4 space-y-4">
+      {/* Privacy notice */}
+      <div className="rounded-lg border border-primary/30 bg-primary/5 p-3 flex items-start gap-3">
+        <Shield className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <p className="text-sm font-medium text-primary">
+            {t("payments.privacyTitle", "Private Payment Intents")}
+          </p>
+          <p className="text-xs text-primary/70">
+            {t("payments.privacyDescription", "Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.")}
+          </p>
+        </div>
+      </div>
+
       {/* Destination URL */}
       <div className="space-y-1">
         <Label htmlFor="destination" className="text-sm font-medium text-primary/80">
@@ -98,7 +122,7 @@ export function PaymentsPanel() {
         </div>
       </div>
 
-      {/* Pay button */}
+      {/* Create Intent button */}
       <Button
         className="w-full min-h-[44px]"
         disabled={!canSubmit}
@@ -107,23 +131,26 @@ export function PaymentsPanel() {
         {isSubmitting ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            {t("paying", "Processing…")}
+            {t("payments.creatingIntent", "Creating Intent…")}
           </>
         ) : (
           <>
             <CreditCard className="h-4 w-4 mr-2" />
-            {t("pay", "Pay")}
+            {t("payments.createIntent", "Create Payment Intent")}
           </>
         )}
       </Button>
 
-      {/* Coming soon notice */}
-      <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 space-y-1">
-        <div className="text-sm font-semibold text-primary/90">
-          {t("paymentsComingSoon", "Payments coming soon")}
+      {/* Phase status */}
+      <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 space-y-1">
+        <div className="flex items-center gap-2">
+          <Lock className="h-4 w-4 text-amber-400" />
+          <span className="text-sm font-semibold text-amber-400">
+            {t("payments.status", "Status")}: {t("payments.comingSoon", "Phase 3")}
+          </span>
         </div>
-        <p className="text-xs text-primary/60">
-          {t("paymentsDemoNote", "This is a preview flow. Live settlement will be enabled once the bridge supports payments.")}
+        <p className="text-xs text-amber-400/80">
+          {t("payments.statusNote", "Intent capture is active. Private execution will be enabled once the Bridge supports payment rails.")}
         </p>
       </div>
     </div>
