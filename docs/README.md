@@ -149,7 +149,8 @@ Those documents take precedence.
 | Demo flow | **LOCKED** |
 | i18n | **16 languages** |
 | Documentation | **COMPLETE** |
-| Next phase | **Phase D – cMixx integration** |
+| Phase 2 scaffolding | **COMPLETE** (Policy Engine + Payment Intent) |
+| Next phase | **Phase 3 – Enforcement & Payment Rails** |
 
 ---
 

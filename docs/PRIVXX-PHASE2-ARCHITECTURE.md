@@ -202,6 +202,86 @@ A: Clean architecture from day one. When enforcement or payments are needed, the
 
 ---
 
+## Visual Architecture Diagram
+
+```mermaid
+flowchart TB
+    subgraph Browser["🌐 Browser (Client)"]
+        UA[User Action]
+        BS[Browser Signals]
+        AD[Anomaly Detection]
+        PI[Payment Intent]
+    end
+
+    subgraph PolicyEngine["🛡️ Policy Engine (Stub)"]
+        PE[evaluateBrowserAnomalyPolicy]
+        DEC{Decision}
+    end
+
+    subgraph Decisions["📋 Policy Decisions"]
+        ALLOW[✅ allow]
+        WARN[⚠️ warn]
+        REAUTH[🔐 require_reauth]
+        DENY[❌ deny]
+    end
+
+    subgraph Future["🔮 Future (Phase 3+)"]
+        BRIDGE[Bridge Layer]
+        CMIXX[cMixx Routing]
+        RAILS[Payment Rails]
+    end
+
+    UA --> PI
+    BS --> AD
+    AD --> PE
+    PI --> PE
+    PE --> DEC
+    
+    DEC --> ALLOW
+    DEC -.-> WARN
+    DEC -.-> REAUTH
+    DEC -.-> DENY
+    
+    ALLOW --> BRIDGE
+    BRIDGE --> CMIXX
+    BRIDGE --> RAILS
+
+    style ALLOW fill:#22c55e,color:#fff
+    style WARN fill:#eab308,color:#000
+    style REAUTH fill:#3b82f6,color:#fff
+    style DENY fill:#ef4444,color:#fff
+    style PE fill:#0d9488,color:#fff
+    style DEC fill:#0d9488,color:#fff
+    style BRIDGE fill:#6366f1,color:#fff,stroke-dasharray: 5 5
+    style CMIXX fill:#6366f1,color:#fff,stroke-dasharray: 5 5
+    style RAILS fill:#6366f1,color:#fff,stroke-dasharray: 5 5
+```
+
+### Diagram Key
+
+| Element | Description |
+|---------|-------------|
+| **Solid lines** | Active in Phase 2 |
+| **Dashed lines** | Future implementation (Phase 3+) |
+| **Teal boxes** | Policy Engine components |
+| **Purple dashed boxes** | Bridge/execution layer (future) |
+
+### Current Flow (Phase 2)
+
+1. **User Action** → Creates a Payment Intent or triggers browser signal collection
+2. **Browser Signals** → Passed through Anomaly Detection
+3. **Policy Engine** → Evaluates context, **always returns "allow"**
+4. **Decision** → Logged for diagnostics, no enforcement
+
+### Future Flow (Phase 3+)
+
+1. Policy Engine will score risk and make graduated decisions
+2. Bridge Layer will receive approved intents
+3. cMixx routing for private message/payment transmission
+4. Payment Rails for provider abstraction
+
+---
+
 ## Related Documents
 
 - [Privacy Laws](./PRIVXX-PRIVACY-LAWS.md)
