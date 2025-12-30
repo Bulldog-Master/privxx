@@ -62,7 +62,6 @@ function AuditLogItem({ log }: { log: AuditLog }) {
         <div>
           <p className="text-sm font-medium">{label}</p>
           <p className="text-xs text-muted-foreground">
-            {log.ip_address && `${log.ip_address} • `}
             {formatDate(log.created_at)}
           </p>
         </div>
