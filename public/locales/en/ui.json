@@ -492,5 +492,14 @@
   "security.event": "Event",
   "security.statusCol": "Status",
   "security.ipAddress": "IP Address",
-  "security.userAgent": "Device"
+  "security.userAgent": "Device",
+  "security.dateRange": "Date range",
+  "security.successful": "Successful",
+  "security.failed": "Failed",
+  "security.eventTrends": "Event Trends",
+  "security.eventTrendsDescription": "Security events over the last 14 days",
+  "security.eventsByCategory": "Events by Category",
+  "security.eventsByCategoryDescription": "Distribution of security events",
+  "security.events": "events",
+  "security.noDataForChart": "No data available"
 }
