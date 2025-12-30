@@ -28,6 +28,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { PageBackground } from "@/components/layout";
 import { AppFooter } from "@/components/shared";
 import { componentDocs, type ComponentDoc } from "@/docs/components";
@@ -38,6 +39,7 @@ export default function ComponentDocs() {
   const [selectedComponent, setSelectedComponent] = useState<string>(componentDocs[0]?.id || "");
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showRefOnly, setShowRefOnly] = useState(false);
 
   // Get unique categories
   const categories = useMemo(() => {
@@ -45,17 +47,27 @@ export default function ComponentDocs() {
     return cats.sort();
   }, []);
 
-  // Filter components based on search query
+  // Filter components based on search query and ref filter
   const filteredDocs = useMemo(() => {
-    if (!searchQuery.trim()) return componentDocs;
+    let docs = componentDocs;
     
-    const query = searchQuery.toLowerCase();
-    return componentDocs.filter(doc => 
-      doc.name.toLowerCase().includes(query) ||
-      doc.category.toLowerCase().includes(query) ||
-      doc.description.toLowerCase().includes(query)
-    );
-  }, [searchQuery]);
+    // Apply ref filter
+    if (showRefOnly) {
+      docs = docs.filter(doc => doc.supportsRef === true);
+    }
+    
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      docs = docs.filter(doc => 
+        doc.name.toLowerCase().includes(query) ||
+        doc.category.toLowerCase().includes(query) ||
+        doc.description.toLowerCase().includes(query)
+      );
+    }
+    
+    return docs;
+  }, [searchQuery, showRefOnly]);
 
   // Group filtered docs by category
   const groupedDocs = useMemo(() => {
@@ -152,6 +164,21 @@ export default function ComponentDocs() {
                         <X className="h-4 w-4" />
                       </button>
                     )}
+                  </div>
+                  {/* forwardRef Filter */}
+                  <div className="flex items-center gap-2 mt-3 px-1">
+                    <Checkbox
+                      id="ref-filter"
+                      checked={showRefOnly}
+                      onCheckedChange={(checked) => setShowRefOnly(checked === true)}
+                    />
+                    <label
+                      htmlFor="ref-filter"
+                      className="text-xs text-muted-foreground cursor-pointer flex items-center gap-1"
+                    >
+                      <Link2 className="h-3 w-3" />
+                      {t("showRefOnly", "forwardRef only")}
+                    </label>
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">
