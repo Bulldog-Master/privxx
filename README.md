@@ -1,5 +1,10 @@
 # Privxx
 
+![Security Rating](https://img.shields.io/badge/Security-100%2F100-brightgreen?style=flat-square&logo=shield&logoColor=white)
+![RLS Policies](https://img.shields.io/badge/RLS-RESTRICTIVE-blue?style=flat-square)
+![Languages](https://img.shields.io/badge/i18n-16%20languages-purple?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+
 Privxx is a privacy-first application designed to reduce metadata exposure during online interactions.
 
 This project focuses on making privacy-preserving network routing feel simple, familiar, and accessible — without requiring users to understand cryptography or networking.
