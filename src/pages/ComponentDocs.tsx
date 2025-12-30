@@ -17,7 +17,8 @@ import {
   X,
   Sun,
   Moon,
-  ArrowLeft
+  ArrowLeft,
+  Link2
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -233,7 +234,15 @@ function ComponentDocumentation({ doc, copiedCode, onCopyCode }: ComponentDocume
         <CardHeader>
           <div className="flex items-start justify-between">
             <div>
-              <CardTitle className="text-2xl">{doc.name}</CardTitle>
+              <div className="flex items-center gap-2">
+                <CardTitle className="text-2xl">{doc.name}</CardTitle>
+                {doc.supportsRef && (
+                  <Badge variant="outline" className="text-xs border-emerald-500 text-emerald-500">
+                    <Link2 className="h-3 w-3 mr-1" />
+                    forwardRef
+                  </Badge>
+                )}
+              </div>
               <CardDescription className="mt-2">{doc.description}</CardDescription>
             </div>
             <Badge variant="outline" className="shrink-0">
