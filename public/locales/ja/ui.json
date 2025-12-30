@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "言語ファイルの同期ステータス",
   "diagnostics.syncProgress": "同期の進行状況",
   "diagnostics.languagesComplete": "言語が完了",
+  "diagnostics.placeholdersRemaining": "プレースホルダー残り",
   "diagnostics.current": "現在",
   "diagnostics.keys": "キー",
   "diagnostics.missing": "不足",

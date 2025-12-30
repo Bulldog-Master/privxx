@@ -423,6 +423,7 @@
   "diagnostics.translationStatusDesc": "সমস্ত ভাষা ফাইলের সিঙ্ক স্থিতি",
   "diagnostics.syncProgress": "সিঙ্ক অগ্রগতি",
   "diagnostics.languagesComplete": "ভাষা সম্পূর্ণ",
+  "diagnostics.placeholdersRemaining": "প্লেসহোল্ডার বাকি",
   "diagnostics.current": "বর্তমান",
   "diagnostics.keys": "কী",
   "diagnostics.missing": "অনুপস্থিত",

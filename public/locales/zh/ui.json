@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "语言文件同步状态",
   "diagnostics.syncProgress": "同步进度",
   "diagnostics.languagesComplete": "语言完成",
+  "diagnostics.placeholdersRemaining": "占位符剩余",
   "diagnostics.current": "当前",
   "diagnostics.keys": "键",
   "diagnostics.missing": "缺失",

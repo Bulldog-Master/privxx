@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "Status sinkronisasi file bahasa",
   "diagnostics.syncProgress": "Kemajuan Sinkronisasi",
   "diagnostics.languagesComplete": "bahasa lengkap",
+  "diagnostics.placeholdersRemaining": "placeholder tersisa",
   "diagnostics.current": "Saat Ini",
   "diagnostics.keys": "kunci",
   "diagnostics.missing": "hilang",

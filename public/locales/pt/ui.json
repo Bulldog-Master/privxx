@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "Status de sincronização dos arquivos de idioma",
   "diagnostics.syncProgress": "Progresso da Sincronização",
   "diagnostics.languagesComplete": "idiomas completos",
+  "diagnostics.placeholdersRemaining": "marcadores restantes",
   "diagnostics.current": "Atual",
   "diagnostics.keys": "chaves",
   "diagnostics.missing": "faltando",
