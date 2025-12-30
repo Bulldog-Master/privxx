@@ -310,7 +310,24 @@
   "paymentsLockedHint": "Desbloquea identidad para realizar pagos",
   "paymentsComingSoon": "Pagos próximamente",
   "paymentsDemoNote": "Este es un flujo de vista previa. La liquidación en vivo se habilitará una vez que el puente admita pagos.",
-  
+  "payments": {
+    "privacyTitle": "[ES] Private Payment Intents",
+    "privacyDescription": "[ES] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[ES] Create Payment Intent",
+    "creatingIntent": "[ES] Creating Intent…",
+    "status": "[ES] Status",
+    "comingSoon": "[ES] Phase 3",
+    "statusNote": "[ES] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[ES] Payment Intent (Preview)",
+      "disclaimer": "[ES] Diagnostic preview only. No payment is created or sent.",
+      "status": "[ES] Status",
+      "comingSoon": "[ES] Phase 3"
+    }
+  },
+
   "settings": "Configuración",
   "editProfile": "Editar Perfil",
   "editProfileDesc": "Cambia tu nombre de usuario y avatar",

@@ -234,7 +234,24 @@
   "paymentsLockedHint": "افتح الهوية لإجراء المدفوعات",
   "paymentsComingSoon": "المدفوعات قريباً",
   "paymentsDemoNote": "هذا تدفق معاينة. سيتم تفعيل التسوية المباشرة بمجرد أن يدعم الجسر المدفوعات.",
-  
+  "payments": {
+    "privacyTitle": "[AR] Private Payment Intents",
+    "privacyDescription": "[AR] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[AR] Create Payment Intent",
+    "creatingIntent": "[AR] Creating Intent…",
+    "status": "[AR] Status",
+    "comingSoon": "[AR] Phase 3",
+    "statusNote": "[AR] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[AR] Payment Intent (Preview)",
+      "disclaimer": "[AR] Diagnostic preview only. No payment is created or sent.",
+      "status": "[AR] Status",
+      "comingSoon": "[AR] Phase 3"
+    }
+  },
+
   "settings": "الإعدادات",
   "editProfile": "تعديل الملف الشخصي",
   "editProfileDesc": "غيّر اسم العرض والصورة الرمزية",

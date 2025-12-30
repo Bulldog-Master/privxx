@@ -234,7 +234,24 @@
   "paymentsLockedHint": "Разблокируйте личность для платежей",
   "paymentsComingSoon": "Платежи скоро",
   "paymentsDemoNote": "Это предпросмотр. Реальные расчёты станут доступны после поддержки платежей мостом.",
-  
+  "payments": {
+    "privacyTitle": "[RU] Private Payment Intents",
+    "privacyDescription": "[RU] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[RU] Create Payment Intent",
+    "creatingIntent": "[RU] Creating Intent…",
+    "status": "[RU] Status",
+    "comingSoon": "[RU] Phase 3",
+    "statusNote": "[RU] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[RU] Payment Intent (Preview)",
+      "disclaimer": "[RU] Diagnostic preview only. No payment is created or sent.",
+      "status": "[RU] Status",
+      "comingSoon": "[RU] Phase 3"
+    }
+  },
+
   "settings": "Настройки",
   "editProfile": "Редактировать Профиль",
   "editProfileDesc": "Измените отображаемое имя и аватар",

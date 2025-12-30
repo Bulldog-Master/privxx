@@ -234,7 +234,24 @@
   "paymentsLockedHint": "भुगतान करने के लिए पहचान अनलॉक करें",
   "paymentsComingSoon": "भुगतान जल्द आ रहा है",
   "paymentsDemoNote": "यह एक पूर्वावलोकन प्रवाह है। ब्रिज द्वारा भुगतान समर्थित होने पर लाइव निपटान सक्षम होगा.",
-  
+  "payments": {
+    "privacyTitle": "[HI] Private Payment Intents",
+    "privacyDescription": "[HI] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[HI] Create Payment Intent",
+    "creatingIntent": "[HI] Creating Intent…",
+    "status": "[HI] Status",
+    "comingSoon": "[HI] Phase 3",
+    "statusNote": "[HI] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[HI] Payment Intent (Preview)",
+      "disclaimer": "[HI] Diagnostic preview only. No payment is created or sent.",
+      "status": "[HI] Status",
+      "comingSoon": "[HI] Phase 3"
+    }
+  },
+
   "settings": "सेटिंग्स",
   "editProfile": "प्रोफ़ाइल संपादित करें",
   "editProfileDesc": "अपना प्रदर्शन नाम और अवतार बदलें",

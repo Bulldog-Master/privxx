@@ -234,7 +234,24 @@
   "paymentsLockedHint": "Buka kunci identitas untuk melakukan pembayaran",
   "paymentsComingSoon": "Pembayaran segera hadir",
   "paymentsDemoNote": "Ini adalah alur pratinjau. Penyelesaian langsung akan diaktifkan setelah bridge mendukung pembayaran.",
-  
+  "payments": {
+    "privacyTitle": "[ID] Private Payment Intents",
+    "privacyDescription": "[ID] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[ID] Create Payment Intent",
+    "creatingIntent": "[ID] Creating Intent…",
+    "status": "[ID] Status",
+    "comingSoon": "[ID] Phase 3",
+    "statusNote": "[ID] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[ID] Payment Intent (Preview)",
+      "disclaimer": "[ID] Diagnostic preview only. No payment is created or sent.",
+      "status": "[ID] Status",
+      "comingSoon": "[ID] Phase 3"
+    }
+  },
+
   "settings": "Pengaturan",
   "editProfile": "Edit Profil",
   "editProfileDesc": "Ubah nama tampilan dan avatar Anda",

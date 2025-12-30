@@ -234,7 +234,24 @@
   "paymentsLockedHint": "Ontgrendel identiteit om betalingen te doen",
   "paymentsComingSoon": "Betalingen binnenkort",
   "paymentsDemoNote": "Dit is een voorbeeldstroom. Live-afrekening wordt ingeschakeld zodra de bridge betalingen ondersteunt.",
-  
+  "payments": {
+    "privacyTitle": "[NL] Private Payment Intents",
+    "privacyDescription": "[NL] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[NL] Create Payment Intent",
+    "creatingIntent": "[NL] Creating Intent…",
+    "status": "[NL] Status",
+    "comingSoon": "[NL] Phase 3",
+    "statusNote": "[NL] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[NL] Payment Intent (Preview)",
+      "disclaimer": "[NL] Diagnostic preview only. No payment is created or sent.",
+      "status": "[NL] Status",
+      "comingSoon": "[NL] Phase 3"
+    }
+  },
+
   "settings": "Instellingen",
   "editProfile": "Profiel Bewerken",
   "editProfileDesc": "Wijzig je weergavenaam en avatar",

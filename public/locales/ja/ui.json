@@ -234,7 +234,24 @@
   "paymentsLockedHint": "支払いを行うにはIDをロック解除してください",
   "paymentsComingSoon": "決済機能は近日公開",
   "paymentsDemoNote": "これはプレビューフローです。ブリッジが決済をサポートするとライブ決済が有効になります。",
-  
+  "payments": {
+    "privacyTitle": "[JA] Private Payment Intents",
+    "privacyDescription": "[JA] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[JA] Create Payment Intent",
+    "creatingIntent": "[JA] Creating Intent…",
+    "status": "[JA] Status",
+    "comingSoon": "[JA] Phase 3",
+    "statusNote": "[JA] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[JA] Payment Intent (Preview)",
+      "disclaimer": "[JA] Diagnostic preview only. No payment is created or sent.",
+      "status": "[JA] Status",
+      "comingSoon": "[JA] Phase 3"
+    }
+  },
+
   "settings": "設定",
   "editProfile": "プロフィールを編集",
   "editProfileDesc": "表示名とアバターを変更",
