@@ -20,7 +20,9 @@ The focus is on:
 
 ## Internationalization (i18n)
 
-Privxx supports 16 languages. When adding or modifying UI strings:
+Privxx supports 16 languages with automated synchronization.
+
+### Adding New Strings
 
 1. **Always use translation keys** - Never hardcode text in components
    ```tsx
@@ -32,13 +34,45 @@ Privxx supports 16 languages. When adding or modifying UI strings:
    <span>Connected</span>
    ```
 
-2. **Add keys to English first** - Update `public/locales/en/ui.json`
+2. **Edit only the English file** - Add keys to `public/locales/en/ui.json`
 
-3. **Sync other languages** - Run `node scripts/sync-translations.js --write` to generate placeholders
+3. **Commit normally** - The pre-commit hook automatically syncs all 16 languages
 
-4. **Check before committing** - The pre-commit hook runs `scripts/check-language.js` automatically
+### Automated Workflow
 
-5. **Prohibited terms** - Never use "anonymous", "untraceable", or "perfect privacy" in any language
+When you modify `en/ui.json` and commit:
+1. Husky pre-commit hook runs `node scripts/check-language.js --fix`
+2. Missing keys are added to all 15 other locales as `[XX]` placeholders
+3. All modified locale files are auto-staged and committed together
+
+### Manual Commands
+
+```bash
+# Sync all languages (adds placeholders for missing keys)
+node scripts/check-language.js --fix
+
+# Verify sync without modifying files
+node scripts/check-language.js
+
+# Strict mode - fails if ANY placeholders remain (used in CI)
+node scripts/check-language.js --strict
+```
+
+### CI Enforcement
+
+The CI workflow runs `--strict` mode on all PRs and pushes:
+- ✅ Build passes if all translations are complete (no `[XX]` placeholders)
+- ❌ Build fails if any `[XX]` placeholders remain in locale files
+
+This ensures production releases have 100% real translations.
+
+### Prohibited Terms
+
+Never use these terms in any language:
+- "anonymous", "anonymity"
+- "untraceable"
+- "perfect privacy", "absolute privacy"
+- "guaranteed"
 
 See `docs/LANGUAGE-RULES.md` for full i18n guidelines.
 
