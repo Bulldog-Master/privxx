@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { User, Camera, Loader2, Save, Trash2, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
+import { useAvatarUrl } from "@/hooks/useAvatarUrl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,6 +26,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { profile, isLoading, fetchProfile, updateProfile, uploadAvatar, removeAvatar } = useProfile();
+  const { avatarUrl } = useAvatarUrl(profile?.avatar_url || null);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [displayName, setDisplayName] = useState("");
@@ -156,7 +158,7 @@ export default function Profile() {
             <div className="flex flex-col items-center gap-4">
               <div className="relative group">
                 <Avatar className="h-24 w-24 border-2 border-border">
-                  <AvatarImage src={profile?.avatar_url || undefined} alt={displayName || "Avatar"} />
+                  <AvatarImage src={avatarUrl || undefined} alt={displayName || "Avatar"} />
                   <AvatarFallback className="text-xl bg-primary/10 text-primary">
                     {getInitials()}
                   </AvatarFallback>
