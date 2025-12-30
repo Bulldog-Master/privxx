@@ -64,17 +64,19 @@ jobs:
       - name: Check UI components use forwardRef
         run: node scripts/check-forward-ref.js
 
-      - name: Generate translation report
+      - name: Sync translations and generate report
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: node scripts/generate-translation-report.js
+        run: |
+          node scripts/check-language.js --fix || true
+          node scripts/generate-translation-report.js
 
-      - name: Commit translation report
+      - name: Commit synced translations
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add docs/TRANSLATION-SYNC-REPORT.md
-          git diff --staged --quiet || git commit -m "docs: auto-update translation sync report [skip ci]"
+          git add public/locales/ docs/TRANSLATION-SYNC-REPORT.md
+          git diff --staged --quiet || git commit -m "chore: auto-sync translations [skip ci]"
           git push || echo "Nothing to push"
 
       - name: Run tests
