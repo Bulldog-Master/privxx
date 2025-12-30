@@ -425,6 +425,7 @@
   "diagnostics.translationStatusDesc": "État de synchronisation des fichiers de langue",
   "diagnostics.syncProgress": "Progression de Synchronisation",
   "diagnostics.languagesComplete": "langues complètes",
+  "diagnostics.placeholdersRemaining": "espaces réservés restants",
   "diagnostics.current": "Actuel",
   "diagnostics.keys": "clés",
   "diagnostics.missing": "manquantes",

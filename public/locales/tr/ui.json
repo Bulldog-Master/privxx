@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "Dil dosyalarının senkronizasyon durumu",
   "diagnostics.syncProgress": "Senkronizasyon İlerlemesi",
   "diagnostics.languagesComplete": "dil tamamlandı",
+  "diagnostics.placeholdersRemaining": "yer tutucu kaldı",
   "diagnostics.current": "Mevcut",
   "diagnostics.keys": "anahtar",
   "diagnostics.missing": "eksik",

@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "Статус синхронизации языковых файлов",
   "diagnostics.syncProgress": "Прогресс синхронизации",
   "diagnostics.languagesComplete": "языков завершено",
+  "diagnostics.placeholdersRemaining": "заполнителей осталось",
   "diagnostics.current": "Текущий",
   "diagnostics.keys": "ключей",
   "diagnostics.missing": "отсутствует",

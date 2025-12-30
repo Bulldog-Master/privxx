@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "언어 파일 동기화 상태",
   "diagnostics.syncProgress": "동기화 진행률",
   "diagnostics.languagesComplete": "언어 완료",
+  "diagnostics.placeholdersRemaining": "플레이스홀더 남음",
   "diagnostics.current": "현재",
   "diagnostics.keys": "키",
   "diagnostics.missing": "누락",

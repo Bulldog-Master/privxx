@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "زبان کی فائلوں کی مطابقت پذیری کی حیثیت",
   "diagnostics.syncProgress": "مطابقت پذیری کی پیش رفت",
   "diagnostics.languagesComplete": "زبانیں مکمل",
+  "diagnostics.placeholdersRemaining": "پلیس ہولڈرز باقی",
   "diagnostics.current": "موجودہ",
   "diagnostics.keys": "کیز",
   "diagnostics.missing": "غائب",

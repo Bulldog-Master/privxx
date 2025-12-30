@@ -426,6 +426,7 @@
   "diagnostics.translationStatusDesc": "حالة مزامنة ملفات اللغة",
   "diagnostics.syncProgress": "تقدم المزامنة",
   "diagnostics.languagesComplete": "لغات مكتملة",
+  "diagnostics.placeholdersRemaining": "عناصر نائبة متبقية",
   "diagnostics.current": "الحالي",
   "diagnostics.keys": "مفاتيح",
   "diagnostics.missing": "مفقود",
