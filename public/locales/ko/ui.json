@@ -158,7 +158,7 @@
   
   "continuePreview": "미리보기 계속",
   "readinessTitle": "준비 상태",
-  "readinessProxy": "프록시 연결 가능",
+  "readinessBridge": "브리지 연결 가능",
   "readinessBackend": "백엔드 준비됨",
   "readinessMode": "모드",
   "yes": "예",
