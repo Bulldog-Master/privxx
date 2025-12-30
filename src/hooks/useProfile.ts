@@ -95,51 +95,49 @@ export function useProfile() {
     setIsLoading(true);
     setError(null);
 
-    // Create unique file name
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${user.id}/avatar.${fileExt}`;
+    try {
+      // Get current session for auth token
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        setIsLoading(false);
+        setError("Not authenticated");
+        return { error: "Not authenticated" };
+      }
 
-    // Upload file to storage
-    const { error: uploadError } = await supabase.storage
-      .from("avatars")
-      .upload(fileName, file, { upsert: true });
+      // Upload via edge function for EXIF stripping
+      const formData = new FormData();
+      formData.append("file", file);
 
-    if (uploadError) {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const response = await fetch(`${supabaseUrl}/functions/v1/process-avatar`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${session.access_token}`,
+        },
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setIsLoading(false);
+        const errMsg = result.error || "Failed to upload avatar";
+        setError(errMsg);
+        return { error: errMsg };
+      }
+
+      // Refresh profile to get updated avatar path
+      await fetchProfile();
       setIsLoading(false);
-      setError(uploadError.message);
-      return { error: uploadError.message };
-    }
 
-    // Get signed URL (bucket is now private for security)
-    const { data: signedUrlData, error: signedUrlError } = await supabase.storage
-      .from("avatars")
-      .createSignedUrl(fileName, 60 * 60 * 4); // 4 hour expiry
-
-    if (signedUrlError || !signedUrlData?.signedUrl) {
+      return { error: null, data: result };
+    } catch (err) {
       setIsLoading(false);
-      const errMsg = signedUrlError?.message || "Failed to create signed URL";
+      const errMsg = err instanceof Error ? err.message : "Upload failed";
       setError(errMsg);
       return { error: errMsg };
     }
-
-    // Update profile with signed avatar URL
-    const { data, error: updateError } = await supabase
-      .from("profiles")
-      .update({ avatar_url: signedUrlData.signedUrl })
-      .eq("user_id", user.id)
-      .select()
-      .single();
-
-    setIsLoading(false);
-
-    if (updateError) {
-      setError(updateError.message);
-      return { error: updateError.message };
-    }
-
-    setProfile(data);
-    return { error: null, data };
-  }, [user]);
+  }, [user, fetchProfile]);
 
   const removeAvatar = useCallback(async () => {
     if (!user || !profile?.avatar_url) return { error: "No avatar to remove" };

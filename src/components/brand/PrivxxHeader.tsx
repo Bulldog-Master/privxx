@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock, Activity } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/features/identity";
+import { useAvatarUrl } from "@/hooks/useAvatarUrl";
 import { supabase } from "@/integrations/supabase/client";
 import LanguageSelector from "@/components/shared/LanguageSelector";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ const PrivxxHeader = () => {
   const { isUnlocked, isLocked, lock } = useIdentity();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [privacyOpen, setPrivacyOpen] = useState(false);
+  const { avatarUrl } = useAvatarUrl(profile?.avatar_url || null);
 
   // Fetch user profile when authenticated
   useEffect(() => {
@@ -96,7 +98,7 @@ const PrivxxHeader = () => {
             >
             {isAuthenticated ? (
                 <Avatar className="h-6 w-6 border border-primary/40">
-                  <AvatarImage src={profile?.avatar_url || undefined} alt={getDisplayName()} />
+                  <AvatarImage src={avatarUrl || undefined} alt={getDisplayName()} />
                   <AvatarFallback className="text-xs bg-primary/10 text-primary">
                     {getInitials()}
                   </AvatarFallback>
