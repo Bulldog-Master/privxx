@@ -82,5 +82,8 @@ jobs:
           git diff --staged --quiet || git commit -m "chore: auto-sync translations [skip ci]"
           git push || echo "Nothing to push"
 
+      - name: Run security checks
+        run: node scripts/check-security.js
+
       - name: Run tests
         run: npx vitest run
