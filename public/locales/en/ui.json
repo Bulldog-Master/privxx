@@ -423,6 +423,7 @@
   "diagnostics.translationStatusDesc": "Sync status of all language files",
   "diagnostics.syncProgress": "Sync Progress",
   "diagnostics.languagesComplete": "languages complete",
+  "diagnostics.placeholdersRemaining": "placeholders remaining",
   "diagnostics.current": "Current",
   "diagnostics.keys": "keys",
   "diagnostics.missing": "missing",

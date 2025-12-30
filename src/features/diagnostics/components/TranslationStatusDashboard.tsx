@@ -242,6 +242,7 @@ export function TranslationStatusDashboard() {
 
   const completeCount = statuses.filter(s => s.isComplete).length;
   const totalLanguages = statuses.length;
+  const totalPlaceholders = statuses.reduce((sum, s) => sum + s.placeholderKeys.length, 0);
 
   return (
     <Card className="w-full">
@@ -297,10 +298,18 @@ export function TranslationStatusDashboard() {
                 </div>
                 <Progress value={(completeCount / totalLanguages) * 100} className="h-2" />
               </div>
-              <div className="text-right">
+              <div className="text-right border-r border-border pr-4">
                 <div className="text-2xl font-bold">{completeCount}/{totalLanguages}</div>
                 <div className="text-xs text-muted-foreground">
                   {t('diagnostics.languagesComplete', 'languages complete')}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className={`text-2xl font-bold ${totalPlaceholders > 0 ? 'text-warning' : 'text-green-500'}`}>
+                  {totalPlaceholders}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {t('diagnostics.placeholdersRemaining', 'placeholders remaining')}
                 </div>
               </div>
             </div>
