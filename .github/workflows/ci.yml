@@ -64,6 +64,9 @@ jobs:
       - name: Check UI components use forwardRef
         run: node scripts/check-forward-ref.js
 
+      - name: Check translations for placeholders
+        run: node scripts/check-language.js --strict
+
       - name: Sync translations and generate report
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
