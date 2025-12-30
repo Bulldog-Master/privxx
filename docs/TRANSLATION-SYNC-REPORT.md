@@ -1,8 +1,8 @@
 # Translation Synchronization Report
 
 **Generated:** December 2025  
-**Last Updated:** December 29, 2025  
-**Reference File:** `public/locales/en/ui.json` (395 keys)
+**Last Updated:** December 30, 2025  
+**Reference File:** `public/locales/en/ui.json` (550 keys)
 
 ---
 
@@ -10,24 +10,39 @@
 
 | Language | Code | Key Count | Missing | Status |
 |----------|------|-----------|---------|--------|
-| English | en | 395 | 0 | ✅ Complete (Reference) |
-| Arabic | ar | 395 | 0 | ✅ Synchronized |
-| Bengali | bn | 395 | 0 | ✅ Synchronized |
-| Chinese | zh | 395 | 0 | ✅ Synchronized |
-| Dutch | nl | 395 | 0 | ✅ Synchronized |
-| French | fr | 395 | 0 | ✅ Synchronized |
-| German | de | 395 | 0 | ✅ Synchronized |
-| Hindi | hi | 395 | 0 | ✅ Synchronized |
-| Indonesian | id | 395 | 0 | ✅ Synchronized |
-| Japanese | ja | 395 | 0 | ✅ Synchronized |
-| Korean | ko | 395 | 0 | ✅ Synchronized |
-| Portuguese | pt | 395 | 0 | ✅ Synchronized |
-| Russian | ru | 395 | 0 | ✅ Synchronized |
-| Spanish | es | 395 | 0 | ✅ Synchronized |
-| Turkish | tr | 395 | 0 | ✅ Synchronized |
-| Urdu | ur | 395 | 0 | ✅ Synchronized |
+| English | en | 550 | 0 | ✅ Complete (Reference) |
+| Arabic | ar | 550 | 0 | ✅ Synchronized |
+| Bengali | bn | 550 | 0 | ✅ Synchronized |
+| Chinese | zh | 550 | 0 | ✅ Synchronized |
+| Dutch | nl | 550 | 0 | ✅ Synchronized |
+| French | fr | 550 | 0 | ✅ Synchronized |
+| German | de | 550 | 0 | ✅ Synchronized |
+| Hindi | hi | 550 | 0 | ✅ Synchronized |
+| Indonesian | id | 550 | 0 | ✅ Synchronized |
+| Japanese | ja | 550 | 0 | ✅ Synchronized |
+| Korean | ko | 550 | 0 | ✅ Synchronized |
+| Portuguese | pt | 550 | 0 | ✅ Synchronized |
+| Russian | ru | 550 | 0 | ✅ Synchronized |
+| Spanish | es | 550 | 0 | ✅ Synchronized |
+| Turkish | tr | 550 | 0 | ✅ Synchronized |
+| Urdu | ur | 550 | 0 | ✅ Synchronized |
 
 **All 16 languages are fully synchronized.**
+
+---
+
+## Recent Changes (December 30, 2025)
+
+### Added Keys
+- `diagnostics.translationStatus.jsonParseError` — JSON parse error message
+- `diagnostics.translationStatus.checkFile` — File check label
+- `diagnostics.translationStatus.syncProgress` — Sync progress label
+- `diagnostics.translationStatus.completionVsQuality` — Quality metric explanation
+- `diagnostics.translationStatus.validJson` — Valid JSON indicator
+
+### Fixed Placeholders
+- Replaced `[RU]`, `[ID]`, `[KO]`, `[NL]`, `[TR]` placeholders for `diagnostics.policy.*` keys with proper translations
+- Added missing `diagnostics.policy.require_reauth` to ja (Japanese) and zh (Chinese)
 
 ---
 
@@ -48,7 +63,7 @@ Per `docs/LANGUAGE-RULES.md`:
 
 ---
 
-## Key Categories (395 total)
+## Key Categories (550 total)
 
 | Category | Key Count |
 |----------|-----------|
@@ -64,7 +79,29 @@ Per `docs/LANGUAGE-RULES.md`:
 | Auth & Settings | ~100 |
 | Privacy/Terms | ~100 |
 | General UI | ~92 |
-| Diagnostics Page | 21 |
+| Diagnostics Page | 30 |
+| Security Dashboard | 36 |
+| Translation Status Dashboard | 10 |
+
+---
+
+## Translation Status Dashboard Features
+
+The diagnostics page now includes a **Translation Status Dashboard** with:
+
+1. **Dual Metrics**
+   - **Sync Completion**: Measures structure completeness (all keys present)
+   - **Quality Metric**: Measures actual translation quality (non-placeholder strings)
+
+2. **JSON Validation**
+   - Detects invalid JSON in locale files
+   - Shows specific file that failed to parse
+   - Displays in development mode only
+
+3. **Placeholder Detection**
+   - Identifies `[XX]` style placeholder strings
+   - Reports per-language placeholder counts
+   - Separates completion from quality metrics
 
 ---
 
@@ -83,6 +120,11 @@ To verify synchronization:
 node scripts/check-language.js
 ```
 
+To auto-add placeholders for missing keys:
+```bash
+node scripts/sync-translations.js --write
+```
+
 ---
 
-*Report updated by Privxx i18n sync - December 29, 2025*
+*Report updated by Privxx i18n sync - December 30, 2025*

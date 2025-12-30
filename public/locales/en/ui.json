@@ -541,5 +541,11 @@
   "diagnostics.policy.warn": "Warn",
   "diagnostics.policy.require_reauth": "Require Re-auth",
   "diagnostics.policy.deny": "Deny",
-  "diagnostics.policyPrivacy": "Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
+  "diagnostics.policyPrivacy": "Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2.",
+  
+  "diagnostics.translationStatus.jsonParseError": "Failed to parse JSON",
+  "diagnostics.translationStatus.checkFile": "Check file:",
+  "diagnostics.translationStatus.syncProgress": "Sync Progress",
+  "diagnostics.translationStatus.completionVsQuality": "Structure completion vs translation quality",
+  "diagnostics.translationStatus.validJson": "Valid JSON"
 }
