@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Check, AlertTriangle, Globe, RefreshCw, Clock } from 'lucide-react';
+import { Check, AlertTriangle, Globe, RefreshCw, Clock, XCircle, AlertOctagon } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -19,7 +19,10 @@ interface LanguageStatus {
   placeholderKeys: string[];
   missingKeys: string[];
   completionPercent: number;
+  qualityPercent: number; // Separate metric: % of keys that are NOT placeholders
   isComplete: boolean;
+  isValid: boolean; // New: tracks JSON parse success
+  parseError?: string; // New: stores parse error message
 }
 
 interface CachedData {
@@ -168,17 +171,44 @@ export function TranslationStatusDashboard() {
               placeholderKeys: [] as string[],
               missingKeys: referenceKeys,
               completionPercent: 0,
+              qualityPercent: 0,
               isComplete: false,
+              isValid: false,
+              parseError: `HTTP ${response.status}: Failed to fetch`,
             };
           }
 
-          const langData = await response.json();
+          // Try to parse JSON - detect invalid JSON
+          const responseText = await response.text();
+          let langData: Record<string, unknown>;
+          try {
+            langData = JSON.parse(responseText);
+          } catch (parseErr) {
+            // Dev-only: log the parse error
+            if (import.meta.env.DEV) {
+              console.error(`[i18n] Invalid JSON in ${langCode}/ui.json:`, parseErr);
+            }
+            return {
+              code: langCode,
+              name: LANGUAGE_META[langCode].name,
+              nativeName: LANGUAGE_META[langCode].nativeName,
+              totalKeys: 0,
+              placeholderKeys: [] as string[],
+              missingKeys: referenceKeys,
+              completionPercent: 0,
+              qualityPercent: 0,
+              isComplete: false,
+              isValid: false,
+              parseError: parseErr instanceof Error ? parseErr.message : 'Invalid JSON',
+            };
+          }
+
           const langKeys = getAllKeys(langData);
 
           const missingKeys = referenceKeys.filter((k) => !langKeys.includes(k));
           const placeholderKeys: string[] = [];
 
-          // Placeholder values are informative; they do NOT affect sync completeness.
+          // Count placeholder values
           for (const key of langKeys) {
             const value = getValueAtPath(langData, key);
             if (typeof value === 'string' && isPlaceholder(value, langCode)) {
@@ -186,8 +216,15 @@ export function TranslationStatusDashboard() {
             }
           }
 
+          // Completion % = keys present (regardless of placeholder status)
           const completionPercent = referenceKeys.length > 0
             ? Math.round(((referenceKeys.length - missingKeys.length) / referenceKeys.length) * 100)
+            : 100;
+
+          // Quality % = keys that are NOT placeholders (actual translations)
+          const translatedKeys = langKeys.length - placeholderKeys.length;
+          const qualityPercent = referenceKeys.length > 0
+            ? Math.round((translatedKeys / referenceKeys.length) * 100)
             : 100;
 
           return {
@@ -198,9 +235,11 @@ export function TranslationStatusDashboard() {
             placeholderKeys,
             missingKeys,
             completionPercent: Math.max(0, completionPercent),
+            qualityPercent: Math.max(0, qualityPercent),
             isComplete: missingKeys.length === 0,
+            isValid: true,
           };
-        } catch {
+        } catch (err) {
           return {
             code: langCode,
             name: LANGUAGE_META[langCode].name,
@@ -209,7 +248,10 @@ export function TranslationStatusDashboard() {
             placeholderKeys: [] as string[],
             missingKeys: referenceKeys,
             completionPercent: 0,
+            qualityPercent: 0,
             isComplete: false,
+            isValid: false,
+            parseError: err instanceof Error ? err.message : 'Unknown error',
           };
         }
       });
@@ -217,10 +259,14 @@ export function TranslationStatusDashboard() {
       const fetchedResults = await Promise.all(fetchPromises);
       results.push(...fetchedResults);
 
-      // Sort: incomplete first, then by completion percent
+      // Sort: invalid first, then incomplete, then by completion percent
       results.sort((a, b) => {
+        // Invalid JSON files first (critical errors)
+        if (a.isValid !== b.isValid) return a.isValid ? 1 : -1;
+        // Then by completeness
         if (a.isComplete !== b.isComplete) return a.isComplete ? 1 : -1;
-        return a.completionPercent - b.completionPercent;
+        // Then by quality (actual translations vs placeholders)
+        return a.qualityPercent - b.qualityPercent;
       });
 
       setStatuses(results);
@@ -241,9 +287,16 @@ export function TranslationStatusDashboard() {
     }
   }, [analyzeTranslations]);
 
-  const completeCount = statuses.filter(s => s.isComplete).length;
+  const completeCount = statuses.filter(s => s.isComplete && s.isValid).length;
+  const invalidCount = statuses.filter(s => !s.isValid).length;
   const totalLanguages = statuses.length;
   const totalPlaceholders = statuses.reduce((sum, s) => sum + s.placeholderKeys.length, 0);
+
+  // Calculate average quality (excluding invalid files)
+  const validStatuses = statuses.filter(s => s.isValid);
+  const avgQuality = validStatuses.length > 0
+    ? Math.round(validStatuses.reduce((sum, s) => sum + s.qualityPercent, 0) / validStatuses.length)
+    : 0;
 
   return (
     <Card className="w-full">
@@ -274,6 +327,25 @@ export function TranslationStatusDashboard() {
           </div>
         )}
 
+        {/* Dev-only: Invalid JSON warning */}
+        {import.meta.env.DEV && invalidCount > 0 && (
+          <div className="text-destructive text-sm mb-4 p-3 bg-destructive/10 rounded-md flex items-start gap-2">
+            <AlertOctagon className="h-4 w-4 mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="font-medium">
+                {t('diagnostics.invalidJsonDetected', '{{count}} locale file(s) have invalid JSON', { count: invalidCount })}
+              </div>
+              <div className="text-xs mt-1 opacity-80">
+                {statuses.filter(s => !s.isValid).map(s => (
+                  <div key={s.code} className="font-mono">
+                    {s.code}/ui.json: {s.parseError}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {loading && (
           <div className="flex items-center justify-center py-8">
             <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -292,8 +364,8 @@ export function TranslationStatusDashboard() {
         {!loading && totalLanguages > 0 && (
           <>
             {/* Summary */}
-            <div className="flex items-center gap-4 mb-4 p-4 bg-muted/50 rounded-lg">
-              <div className="flex-1">
+            <div className="flex flex-wrap items-center gap-4 mb-4 p-4 bg-muted/50 rounded-lg">
+              <div className="flex-1 min-w-[120px]">
                 <div className="text-sm text-muted-foreground mb-1">
                   {t('diagnostics.syncProgress', 'Sync Progress')}
                 </div>
@@ -305,6 +377,25 @@ export function TranslationStatusDashboard() {
                   {t('diagnostics.languagesComplete', 'languages complete')}
                 </div>
               </div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="text-right border-r border-border pr-4 cursor-help">
+                      <div className={`text-2xl font-bold ${avgQuality >= 90 ? 'text-green-500' : avgQuality >= 70 ? 'text-warning' : 'text-destructive'}`}>
+                        {avgQuality}%
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {t('diagnostics.translationQuality', 'translation quality')}
+                      </div>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="max-w-xs">
+                    <div className="text-xs">
+                      {t('diagnostics.qualityExplanation', 'Percentage of keys with actual translations (not placeholders). Sync completion ignores placeholders.')}
+                    </div>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -359,11 +450,17 @@ export function TranslationStatusDashboard() {
                     <CollapsibleTrigger asChild>
                       <div
                         className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors hover:bg-muted/50 ${
-                          status.isComplete ? 'border-border' : 'border-warning/50 bg-warning/5'
+                          !status.isValid 
+                            ? 'border-destructive/50 bg-destructive/5'
+                            : status.isComplete 
+                              ? 'border-border' 
+                              : 'border-warning/50 bg-warning/5'
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          {status.isComplete ? (
+                          {!status.isValid ? (
+                            <XCircle className="h-4 w-4 text-destructive" />
+                          ) : status.isComplete ? (
                             <Check className="h-4 w-4 text-green-500" />
                           ) : (
                             <AlertTriangle className="h-4 w-4 text-warning" />
@@ -379,14 +476,22 @@ export function TranslationStatusDashboard() {
                                   {t('diagnostics.current', 'Current')}
                                 </Badge>
                               )}
+                              {!status.isValid && (
+                                <Badge variant="destructive" className="text-xs">
+                                  {t('diagnostics.invalidJson', 'Invalid JSON')}
+                                </Badge>
+                              )}
                             </div>
                             <div className="text-xs text-muted-foreground">
-                              {status.name} • {status.totalKeys} {t('diagnostics.keys', 'keys')}
+                              {status.isValid 
+                                ? `${status.name} • ${status.totalKeys} ${t('diagnostics.keys', 'keys')}`
+                                : status.parseError
+                              }
                             </div>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
-                          {!status.isComplete && (
+                          {status.isValid && !status.isComplete && (
                             <div className="flex gap-1">
                               {status.missingKeys.length > 0 && (
                                 <Badge variant="destructive" className="text-xs">
@@ -400,19 +505,43 @@ export function TranslationStatusDashboard() {
                               )}
                             </div>
                           )}
+                          {status.isValid && status.isComplete && status.placeholderKeys.length > 0 && (
+                            <Badge variant="outline" className="text-xs border-warning text-warning">
+                              {status.placeholderKeys.length} {t('diagnostics.placeholder', 'placeholder')}
+                            </Badge>
+                          )}
                           <div className="w-16 text-right">
-                            <span className={`text-sm font-medium ${
-                              status.completionPercent === 100 ? 'text-green-500' : 'text-warning'
-                            }`}>
-                              {status.completionPercent}%
-                            </span>
+                            {status.isValid ? (
+                              <span className={`text-sm font-medium ${
+                                status.qualityPercent === 100 ? 'text-green-500' : 
+                                status.qualityPercent >= 90 ? 'text-emerald-400' :
+                                status.qualityPercent >= 70 ? 'text-warning' : 'text-destructive'
+                              }`}>
+                                {status.qualityPercent}%
+                              </span>
+                            ) : (
+                              <span className="text-sm font-medium text-destructive">—</span>
+                            )}
                           </div>
                         </div>
                       </div>
                     </CollapsibleTrigger>
 
                     <CollapsibleContent>
-                      {(status.missingKeys.length > 0 || status.placeholderKeys.length > 0) && (
+                      {!status.isValid && status.parseError && (
+                        <div className="mt-2 ml-7 p-3 bg-destructive/10 rounded-md text-xs">
+                          <div className="font-medium text-destructive mb-1">
+                            {t('diagnostics.parseError', 'Parse Error')}:
+                          </div>
+                          <div className="font-mono text-muted-foreground">
+                            {status.parseError}
+                          </div>
+                          <div className="mt-2 text-muted-foreground">
+                            {t('diagnostics.parseErrorHint', 'Check for syntax errors like extra braces, missing commas, or invalid characters.')}
+                          </div>
+                        </div>
+                      )}
+                      {status.isValid && (status.missingKeys.length > 0 || status.placeholderKeys.length > 0) && (
                         <div className="mt-2 ml-7 p-3 bg-muted/30 rounded-md text-xs space-y-3">
                           {status.missingKeys.length > 0 && (
                             <div>
@@ -434,7 +563,7 @@ export function TranslationStatusDashboard() {
                           {status.placeholderKeys.length > 0 && (
                             <div>
                               <div className="font-medium text-warning mb-1">
-                                {t('diagnostics.placeholderKeys', 'Placeholder Keys')}:
+                                {t('diagnostics.placeholderKeys', 'Placeholder Keys')} ({t('diagnostics.needsTranslation', 'needs translation')}):
                               </div>
                               <div className="font-mono text-muted-foreground space-y-0.5 max-h-32 overflow-y-auto">
                                 {status.placeholderKeys.slice(0, 10).map(key => (

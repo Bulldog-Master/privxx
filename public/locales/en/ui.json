@@ -453,6 +453,13 @@
   "diagnostics.analyzing": "Analyzing translations...",
   "diagnostics.noLanguages": "No language files found",
   "diagnostics.lastUpdated": "Last updated",
+  "diagnostics.translationQuality": "translation quality",
+  "diagnostics.qualityExplanation": "Percentage of keys with actual translations (not placeholders). Sync completion ignores placeholders.",
+  "diagnostics.invalidJsonDetected": "{{count}} locale file(s) have invalid JSON",
+  "diagnostics.invalidJson": "Invalid JSON",
+  "diagnostics.parseError": "Parse Error",
+  "diagnostics.parseErrorHint": "Check for syntax errors like extra braces, missing commas, or invalid characters.",
+  "diagnostics.needsTranslation": "needs translation",
   
   "diagnostics.healthExcellent": "Excellent",
   "diagnostics.healthGood": "Good",
