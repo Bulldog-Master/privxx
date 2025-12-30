@@ -531,11 +531,17 @@
   "diagnostics.viewSignals": "Просмотр собранных сигналов",
   "diagnostics.browserAnomalyPrivacy": "Только диагностика. Никакие сигналы не отправляются и не сохраняются. Эти данные никогда не покидают ваш браузер.",
   
-  "diagnostics.policyDecision": "[RU] Policy Decision",
-  "diagnostics.policyDecisionDesc": "[RU] Anomaly policy evaluation result (no enforcement)",
-  "diagnostics.policy.allow": "[RU] Allow",
-  "diagnostics.policy.warn": "[RU] Warn",
-  "diagnostics.policy.require_reauth": "[RU] Require Re-auth",
-  "diagnostics.policy.deny": "[RU] Deny",
-  "diagnostics.policyPrivacy": "[RU] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
+  "diagnostics.policyDecision": "Решение политики",
+  "diagnostics.policyDecisionDesc": "Результат оценки политики аномалий (без применения)",
+  "diagnostics.policy.allow": "Разрешить",
+  "diagnostics.policy.warn": "Предупредить",
+  "diagnostics.policy.require_reauth": "Требуется повторная аутентификация",
+  "diagnostics.policy.deny": "Отклонить",
+  "diagnostics.policyPrivacy": "Только диагностика. Никакие ограничения не применяются. Всегда возвращает \"разрешить\" в Фазе 2.",
+  
+  "diagnostics.translationStatus.jsonParseError": "Не удалось разобрать JSON",
+  "diagnostics.translationStatus.checkFile": "Проверьте файл:",
+  "diagnostics.translationStatus.syncProgress": "Прогресс синхронизации",
+  "diagnostics.translationStatus.completionVsQuality": "Полнота структуры vs качество перевода",
+  "diagnostics.translationStatus.validJson": "Действительный JSON"
 }

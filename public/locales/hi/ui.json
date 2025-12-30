@@ -537,5 +537,11 @@
   "diagnostics.policy.warn": "चेतावनी",
   "diagnostics.policy.require_reauth": "पुनः प्रमाणीकरण आवश्यक",
   "diagnostics.policy.deny": "अस्वीकार",
-  "diagnostics.policyPrivacy": "केवल नैदानिक। कोई प्रवर्तन लागू नहीं। चरण-2 में हमेशा \"अनुमति दें\" लौटाता है।"
+  "diagnostics.policyPrivacy": "केवल नैदानिक। कोई प्रवर्तन लागू नहीं। चरण-2 में हमेशा \"अनुमति दें\" लौटाता है।",
+  
+  "diagnostics.translationStatus.jsonParseError": "JSON पार्स करने में असमर्थ",
+  "diagnostics.translationStatus.checkFile": "फ़ाइल जांचें:",
+  "diagnostics.translationStatus.syncProgress": "सिंक प्रगति",
+  "diagnostics.translationStatus.completionVsQuality": "संरचना पूर्णता बनाम अनुवाद गुणवत्ता",
+  "diagnostics.translationStatus.validJson": "वैध JSON"
 }

@@ -535,6 +535,13 @@
   "diagnostics.policyDecisionDesc": "異常ポリシー評価結果（執行なし）",
   "diagnostics.policy.allow": "許可",
   "diagnostics.policy.warn": "警告",
+  "diagnostics.policy.require_reauth": "再認証が必要",
   "diagnostics.policy.deny": "拒否",
-  "diagnostics.policyPrivacy": "診断専用です。執行は適用されません。フェーズ2では常に「許可」を返します。"
+  "diagnostics.policyPrivacy": "診断専用です。執行は適用されません。フェーズ2では常に「許可」を返します。",
+  
+  "diagnostics.translationStatus.jsonParseError": "JSONを解析できません",
+  "diagnostics.translationStatus.checkFile": "ファイルを確認:",
+  "diagnostics.translationStatus.syncProgress": "同期進捗",
+  "diagnostics.translationStatus.completionVsQuality": "構造の完全性 vs 翻訳品質",
+  "diagnostics.translationStatus.validJson": "有効なJSON"
 }

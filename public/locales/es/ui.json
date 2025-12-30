@@ -536,5 +536,11 @@
   "diagnostics.policy.warn": "Advertir",
   "diagnostics.policy.require_reauth": "Requerir Re-autenticación",
   "diagnostics.policy.deny": "Denegar",
-  "diagnostics.policyPrivacy": "Solo diagnóstico. No se aplica ninguna restricción. Siempre devuelve \"permitir\" en Fase-2."
+  "diagnostics.policyPrivacy": "Solo diagnóstico. No se aplica ninguna restricción. Siempre devuelve \"permitir\" en Fase-2.",
+  
+  "diagnostics.translationStatus.jsonParseError": "No se pudo analizar JSON",
+  "diagnostics.translationStatus.checkFile": "Verificar archivo:",
+  "diagnostics.translationStatus.syncProgress": "Progreso de sincronización",
+  "diagnostics.translationStatus.completionVsQuality": "Completitud de estructura vs calidad de traducción",
+  "diagnostics.translationStatus.validJson": "JSON válido"
 }

@@ -537,5 +537,11 @@
   "diagnostics.policy.warn": "تحذير",
   "diagnostics.policy.require_reauth": "يتطلب إعادة المصادقة",
   "diagnostics.policy.deny": "رفض",
-  "diagnostics.policyPrivacy": "تشخيصي فقط. لا يتم تطبيق أي قيود. يُرجع دائمًا \"السماح\" في المرحلة 2."
+  "diagnostics.policyPrivacy": "تشخيصي فقط. لا يتم تطبيق أي قيود. يُرجع دائمًا \"السماح\" في المرحلة 2.",
+  
+  "diagnostics.translationStatus.jsonParseError": "تعذر تحليل JSON",
+  "diagnostics.translationStatus.checkFile": "تحقق من الملف:",
+  "diagnostics.translationStatus.syncProgress": "تقدم المزامنة",
+  "diagnostics.translationStatus.completionVsQuality": "اكتمال البنية مقابل جودة الترجمة",
+  "diagnostics.translationStatus.validJson": "JSON صالح"
 }

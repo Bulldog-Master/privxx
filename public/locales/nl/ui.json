@@ -531,11 +531,17 @@
   "diagnostics.viewSignals": "Verzamelde signalen bekijken",
   "diagnostics.browserAnomalyPrivacy": "Alleen diagnostisch. Er worden geen signalen verzonden of opgeslagen. Deze gegevens verlaten nooit uw browser.",
   
-  "diagnostics.policyDecision": "[NL] Policy Decision",
-  "diagnostics.policyDecisionDesc": "[NL] Anomaly policy evaluation result (no enforcement)",
-  "diagnostics.policy.allow": "[NL] Allow",
-  "diagnostics.policy.warn": "[NL] Warn",
-  "diagnostics.policy.require_reauth": "[NL] Require Re-auth",
-  "diagnostics.policy.deny": "[NL] Deny",
-  "diagnostics.policyPrivacy": "[NL] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
+  "diagnostics.policyDecision": "Beleidsbeslissing",
+  "diagnostics.policyDecisionDesc": "Resultaat van anomaliebeleidsevaluatie (geen handhaving)",
+  "diagnostics.policy.allow": "Toestaan",
+  "diagnostics.policy.warn": "Waarschuwen",
+  "diagnostics.policy.require_reauth": "Herauthenticatie vereist",
+  "diagnostics.policy.deny": "Weigeren",
+  "diagnostics.policyPrivacy": "Alleen diagnostisch. Geen handhaving toegepast. Retourneert altijd \"toestaan\" in Fase-2.",
+  
+  "diagnostics.translationStatus.jsonParseError": "Kan JSON niet parseren",
+  "diagnostics.translationStatus.checkFile": "Controleer bestand:",
+  "diagnostics.translationStatus.syncProgress": "Synchronisatievoortgang",
+  "diagnostics.translationStatus.completionVsQuality": "Structuurvolledigheid vs vertaalkwaliteit",
+  "diagnostics.translationStatus.validJson": "Geldige JSON"
 }

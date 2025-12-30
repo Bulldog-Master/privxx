@@ -536,5 +536,11 @@
   "diagnostics.policy.warn": "Warnen",
   "diagnostics.policy.require_reauth": "Re-Auth erforderlich",
   "diagnostics.policy.deny": "Ablehnen",
-  "diagnostics.policyPrivacy": "Nur Diagnose. Keine Durchsetzung aktiv. Gibt in Phase-2 immer \"erlauben\" zurück."
+  "diagnostics.policyPrivacy": "Nur Diagnose. Keine Durchsetzung aktiv. Gibt in Phase-2 immer \"erlauben\" zurück.",
+  
+  "diagnostics.translationStatus.jsonParseError": "JSON konnte nicht analysiert werden",
+  "diagnostics.translationStatus.checkFile": "Datei prüfen:",
+  "diagnostics.translationStatus.syncProgress": "Synchronisierungsfortschritt",
+  "diagnostics.translationStatus.completionVsQuality": "Strukturvollständigkeit vs. Übersetzungsqualität",
+  "diagnostics.translationStatus.validJson": "Gültiges JSON"
 }

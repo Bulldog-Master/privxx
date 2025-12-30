@@ -536,5 +536,11 @@
   "diagnostics.policy.warn": "Avertir",
   "diagnostics.policy.require_reauth": "Ré-authentification requise",
   "diagnostics.policy.deny": "Refuser",
-  "diagnostics.policyPrivacy": "Diagnostic uniquement. Aucune application active. Retourne toujours \"autoriser\" en Phase-2."
+  "diagnostics.policyPrivacy": "Diagnostic uniquement. Aucune application active. Retourne toujours \"autoriser\" en Phase-2.",
+  
+  "diagnostics.translationStatus.jsonParseError": "Impossible d'analyser le JSON",
+  "diagnostics.translationStatus.checkFile": "Vérifier le fichier :",
+  "diagnostics.translationStatus.syncProgress": "Progression de la synchronisation",
+  "diagnostics.translationStatus.completionVsQuality": "Complétude de structure vs qualité de traduction",
+  "diagnostics.translationStatus.validJson": "JSON valide"
 }

@@ -531,11 +531,17 @@
   "diagnostics.viewSignals": "Lihat sinyal yang dikumpulkan",
   "diagnostics.browserAnomalyPrivacy": "Diagnostik saja. Tidak ada sinyal yang dikirim atau disimpan. Data ini tidak pernah meninggalkan browser Anda.",
   
-  "diagnostics.policyDecision": "[ID] Policy Decision",
-  "diagnostics.policyDecisionDesc": "[ID] Anomaly policy evaluation result (no enforcement)",
-  "diagnostics.policy.allow": "[ID] Allow",
-  "diagnostics.policy.warn": "[ID] Warn",
-  "diagnostics.policy.require_reauth": "[ID] Require Re-auth",
-  "diagnostics.policy.deny": "[ID] Deny",
-  "diagnostics.policyPrivacy": "[ID] Diagnostic only. No enforcement is applied. Always returns \"allow\" in Phase-2."
+  "diagnostics.policyDecision": "Keputusan Kebijakan",
+  "diagnostics.policyDecisionDesc": "Hasil evaluasi kebijakan anomali (tanpa penegakan)",
+  "diagnostics.policy.allow": "Izinkan",
+  "diagnostics.policy.warn": "Peringatkan",
+  "diagnostics.policy.require_reauth": "Memerlukan Re-autentikasi",
+  "diagnostics.policy.deny": "Tolak",
+  "diagnostics.policyPrivacy": "Diagnostik saja. Tidak ada penegakan yang diterapkan. Selalu mengembalikan \"izinkan\" di Fase-2.",
+  
+  "diagnostics.translationStatus.jsonParseError": "Tidak dapat mengurai JSON",
+  "diagnostics.translationStatus.checkFile": "Periksa file:",
+  "diagnostics.translationStatus.syncProgress": "Kemajuan sinkronisasi",
+  "diagnostics.translationStatus.completionVsQuality": "Kelengkapan struktur vs kualitas terjemahan",
+  "diagnostics.translationStatus.validJson": "JSON valid"
 }

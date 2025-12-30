@@ -542,5 +542,11 @@
   "diagnostics.policy.warn": "انتباہ",
   "diagnostics.policy.require_reauth": "دوبارہ تصدیق درکار",
   "diagnostics.policy.deny": "رد",
-  "diagnostics.policyPrivacy": "صرف تشخیصی۔ کوئی نفاذ لاگو نہیں۔ مرحلہ 2 میں ہمیشہ \"اجازت\" واپس آتا ہے۔"
+  "diagnostics.policyPrivacy": "صرف تشخیصی۔ کوئی نفاذ لاگو نہیں۔ مرحلہ 2 میں ہمیشہ \"اجازت\" واپس آتا ہے۔",
+  
+  "diagnostics.translationStatus.jsonParseError": "JSON پارس کرنے میں ناکام",
+  "diagnostics.translationStatus.checkFile": "فائل چیک کریں:",
+  "diagnostics.translationStatus.syncProgress": "مطابقت پذیری کی پیش رفت",
+  "diagnostics.translationStatus.completionVsQuality": "ساخت کی تکمیل بمقابلہ ترجمے کا معیار",
+  "diagnostics.translationStatus.validJson": "درست JSON"
 }
