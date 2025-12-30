@@ -81,9 +81,15 @@ export default function ComponentDocs() {
     return groups;
   }, [filteredDocs]);
 
-  // Count components with forwardRef support
-  const refSupportCount = useMemo(() => {
-    return componentDocs.filter(doc => doc.supportsRef === true).length;
+  // Count components with forwardRef support (exclude hooks and library functions)
+  const refStats = useMemo(() => {
+    // Filter out hooks (start with "use") and library functions (like toast from sonner)
+    const refableComponents = componentDocs.filter(doc => 
+      !doc.id.startsWith("use-") && doc.supportsRef !== false
+    );
+    const withRef = componentDocs.filter(doc => doc.supportsRef === true).length;
+    const total = refableComponents.length;
+    return { withRef, total };
   }, []);
 
   const selectedDoc = componentDocs.find(doc => doc.id === selectedComponent);
@@ -151,11 +157,11 @@ export default function ComponentDocs() {
                     <Component className="h-4 w-4" />
                     {t("components", "Components")}
                     <Badge variant="secondary" className="text-xs ml-auto">
-                      {refSupportCount}/{componentDocs.length} ref
+                      {refStats.withRef}/{refStats.total} ref
                     </Badge>
                   </CardTitle>
                   <p className="text-xs text-muted-foreground mt-1">
-                    {t("refSupportSummary", "{{count}} components support forwardRef", { count: refSupportCount })}
+                    {t("refSupportSummary", "{{count}} components support forwardRef", { count: refStats.withRef })}
                   </p>
                   {/* Search Input */}
                   <div className="relative mt-3">
