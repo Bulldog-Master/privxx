@@ -19,6 +19,7 @@ import {
   ReadinessPanel,
   LatencyTrendChart,
   HealthScorePanel,
+  BrowserAnomalyCard,
 } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
 import { buildInfo } from '@/lib/buildInfo';
@@ -193,6 +194,7 @@ export default function Diagnostics() {
           {/* Translation Status Section */}
           <div className="space-y-6">
             <TranslationStatusDashboard />
+            <BrowserAnomalyCard />
           </div>
         </div>
       </div>

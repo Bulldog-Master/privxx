@@ -503,5 +503,13 @@
   "security.eventsByCategory": "Eventos por Categoría",
   "security.eventsByCategoryDescription": "Distribución de eventos de seguridad",
   "security.events": "eventos",
-  "security.noDataForChart": "Sin datos disponibles"
+  "security.noDataForChart": "Sin datos disponibles",
+  
+  "diagnostics.browserAnomaly": "Detección de Anomalías del Navegador",
+  "diagnostics.browserAnomalyDesc": "Análisis de señales del navegador para detección de anomalías (solo diagnóstico)",
+  "diagnostics.phase2Preview": "Vista Previa Fase 2",
+  "diagnostics.anomaliesDetected": "{{count}} señales de anomalía detectadas",
+  "diagnostics.noAnomalies": "No se detectaron anomalías",
+  "diagnostics.viewSignals": "Ver señales recopiladas",
+  "diagnostics.browserAnomalyPrivacy": "Solo diagnóstico. No se envían ni almacenan señales. Estos datos nunca salen de su navegador."
 }

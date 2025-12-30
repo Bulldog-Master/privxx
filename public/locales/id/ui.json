@@ -504,5 +504,13 @@
   "security.eventsByCategory": "Peristiwa per Kategori",
   "security.eventsByCategoryDescription": "Distribusi peristiwa keamanan",
   "security.events": "peristiwa",
-  "security.noDataForChart": "Tidak ada data tersedia"
+  "security.noDataForChart": "Tidak ada data tersedia",
+  
+  "diagnostics.browserAnomaly": "Deteksi Anomali Browser",
+  "diagnostics.browserAnomalyDesc": "Analisis sinyal browser untuk deteksi anomali (diagnostik saja)",
+  "diagnostics.phase2Preview": "Pratinjau Fase-2",
+  "diagnostics.anomaliesDetected": "{{count}} sinyal anomali terdeteksi",
+  "diagnostics.noAnomalies": "Tidak ada anomali terdeteksi",
+  "diagnostics.viewSignals": "Lihat sinyal yang dikumpulkan",
+  "diagnostics.browserAnomalyPrivacy": "Diagnostik saja. Tidak ada sinyal yang dikirim atau disimpan. Data ini tidak pernah meninggalkan browser Anda."
 }

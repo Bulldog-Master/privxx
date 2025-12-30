@@ -11,6 +11,7 @@ export {
   TranslationStatusDashboard,
   LatencyTrendChart,
   HealthScorePanel,
+  BrowserAnomalyCard,
 } from "./components";
 
 // Hooks

@@ -504,5 +504,13 @@
   "security.eventsByCategory": "زمرہ کے مطابق واقعات",
   "security.eventsByCategoryDescription": "سیکیورٹی واقعات کی تقسیم",
   "security.events": "واقعات",
-  "security.noDataForChart": "کوئی ڈیٹا دستیاب نہیں"
+  "security.noDataForChart": "کوئی ڈیٹا دستیاب نہیں",
+  
+  "diagnostics.browserAnomaly": "براؤزر غیر معمولی پتہ لگانا",
+  "diagnostics.browserAnomalyDesc": "غیر معمولی پتہ لگانے کے لیے براؤزر سگنل تجزیہ (صرف تشخیصی)",
+  "diagnostics.phase2Preview": "مرحلہ 2 پیش نظارہ",
+  "diagnostics.anomaliesDetected": "{{count}} غیر معمولی سگنل پائے گئے",
+  "diagnostics.noAnomalies": "کوئی غیر معمولی نہیں پائی گئی",
+  "diagnostics.viewSignals": "جمع شدہ سگنلز دیکھیں",
+  "diagnostics.browserAnomalyPrivacy": "صرف تشخیصی۔ کوئی سگنل بھیجا یا ذخیرہ نہیں کیا جاتا۔ یہ ڈیٹا کبھی آپ کے براؤزر سے نہیں نکلتا۔"
 }

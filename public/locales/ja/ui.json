@@ -504,5 +504,13 @@
   "security.eventsByCategory": "カテゴリ別イベント",
   "security.eventsByCategoryDescription": "セキュリティイベントの分布",
   "security.events": "件",
-  "security.noDataForChart": "データがありません"
+  "security.noDataForChart": "データがありません",
+  
+  "diagnostics.browserAnomaly": "ブラウザ異常検出",
+  "diagnostics.browserAnomalyDesc": "異常検出のためのブラウザ信号分析（診断専用）",
+  "diagnostics.phase2Preview": "フェーズ2プレビュー",
+  "diagnostics.anomaliesDetected": "{{count}} 件の異常信号を検出",
+  "diagnostics.noAnomalies": "異常は検出されませんでした",
+  "diagnostics.viewSignals": "収集された信号を表示",
+  "diagnostics.browserAnomalyPrivacy": "診断専用です。信号は送信または保存されません。このデータはブラウザから離れることはありません。"
 }
