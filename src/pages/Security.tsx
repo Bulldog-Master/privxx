@@ -5,6 +5,7 @@
  */
 
 import { useState, useMemo } from "react";
+import { DateRange } from "react-day-picker";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { 
@@ -45,6 +46,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { useToast } from "@/components/ui/use-toast";
 
 // Event type display mappings
@@ -126,10 +128,25 @@ export default function Security() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<EventCategory>("all");
   const [statusFilter, setStatusFilter] = useState<"all" | "success" | "failure">("all");
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
 
   // Filtered logs
   const filteredLogs = useMemo(() => {
     return logs.filter((log) => {
+      // Date range filter
+      if (dateRange?.from) {
+        const logDate = new Date(log.created_at);
+        const fromDate = new Date(dateRange.from);
+        fromDate.setHours(0, 0, 0, 0);
+        if (logDate < fromDate) return false;
+        
+        if (dateRange.to) {
+          const toDate = new Date(dateRange.to);
+          toDate.setHours(23, 59, 59, 999);
+          if (logDate > toDate) return false;
+        }
+      }
+
       // Category filter
       if (categoryFilter !== "all" && getEventCategory(log.event_type) !== categoryFilter) {
         return false;
@@ -154,7 +171,7 @@ export default function Security() {
 
       return true;
     });
-  }, [logs, categoryFilter, statusFilter, searchQuery]);
+  }, [logs, categoryFilter, statusFilter, searchQuery, dateRange]);
 
   // Export to CSV
   const handleExport = () => {
@@ -201,9 +218,10 @@ export default function Security() {
     setSearchQuery("");
     setCategoryFilter("all");
     setStatusFilter("all");
+    setDateRange(undefined);
   };
 
-  const hasActiveFilters = searchQuery || categoryFilter !== "all" || statusFilter !== "all";
+  const hasActiveFilters = searchQuery || categoryFilter !== "all" || statusFilter !== "all" || dateRange !== undefined;
 
   if (!user) {
     return null;
@@ -315,43 +333,53 @@ export default function Security() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* Search */}
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder={t("security.searchPlaceholder", "Search events, IP addresses...")}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9"
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                {/* Search */}
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder={t("security.searchPlaceholder", "Search events, IP addresses...")}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9"
+                  />
+                </div>
+
+                {/* Date Range Picker */}
+                <DateRangePicker
+                  value={dateRange}
+                  onChange={setDateRange}
+                  placeholder={t("security.dateRange", "Date range")}
+                  className="w-full sm:w-[240px]"
                 />
+
+                {/* Category Filter */}
+                <Select value={categoryFilter} onValueChange={(v) => setCategoryFilter(v as EventCategory)}>
+                  <SelectTrigger className="w-full sm:w-[180px]">
+                    <SelectValue placeholder={t("security.category", "Category")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(eventCategories).map(([key, label]) => (
+                      <SelectItem key={key} value={key}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {/* Status Filter */}
+                <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as "all" | "success" | "failure")}>
+                  <SelectTrigger className="w-full sm:w-[140px]">
+                    <SelectValue placeholder={t("security.status", "Status")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{t("security.allStatus", "All Status")}</SelectItem>
+                    <SelectItem value="success">{t("security.successOnly", "Success")}</SelectItem>
+                    <SelectItem value="failure">{t("security.failedOnly", "Failed")}</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-
-              {/* Category Filter */}
-              <Select value={categoryFilter} onValueChange={(v) => setCategoryFilter(v as EventCategory)}>
-                <SelectTrigger className="w-full sm:w-[180px]">
-                  <SelectValue placeholder={t("security.category", "Category")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(eventCategories).map(([key, label]) => (
-                    <SelectItem key={key} value={key}>
-                      {label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              {/* Status Filter */}
-              <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as "all" | "success" | "failure")}>
-                <SelectTrigger className="w-full sm:w-[140px]">
-                  <SelectValue placeholder={t("security.status", "Status")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{t("security.allStatus", "All Status")}</SelectItem>
-                  <SelectItem value="success">{t("security.successOnly", "Success")}</SelectItem>
-                  <SelectItem value="failure">{t("security.failedOnly", "Failed")}</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </CardContent>
         </Card>
