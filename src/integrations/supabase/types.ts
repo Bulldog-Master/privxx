@@ -287,7 +287,7 @@ export type Database = {
           created_at?: string | null
           event_type?: Database["public"]["Enums"]["audit_event_type"] | null
           id?: string | null
-          metadata?: never
+          metadata?: Json | null
           success?: boolean | null
           user_id?: string | null
         }
@@ -295,7 +295,7 @@ export type Database = {
           created_at?: string | null
           event_type?: Database["public"]["Enums"]["audit_event_type"] | null
           id?: string | null
-          metadata?: never
+          metadata?: Json | null
           success?: boolean | null
           user_id?: string | null
         }
