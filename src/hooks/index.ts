@@ -8,6 +8,7 @@ export { useFailedAttempts } from "./useFailedAttempts";
 export { useIsMobile } from "./useMobile";
 export { useNotificationPreferences } from "./useNotificationPreferences";
 export { useProfile } from "./useProfile";
+export { useRealtimeAuditAlerts } from "./useRealtimeAuditAlerts";
 export { useSessionTimeout } from "./useSessionTimeout";
 export { useTTLCountdown } from "./useTTLCountdown";
 export { useToast, toast } from "./useToast";
