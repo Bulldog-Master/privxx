@@ -14,7 +14,29 @@ early-stage protocol and product development.
 
 ---
 
-## [0.2.0] — Frontend Complete + Quality Hardening
+## [0.2.1] — 100% Translation Completion + CI Guards
+**Released:** December 30, 2025
+
+### Added
+- CI placeholder guard: `--strict` mode in `check-language.js` fails build if `[XX]` placeholders remain
+- Translation Status Dashboard quality metric (separates sync completion from translation quality)
+- JSON validation for locale files with parse error detection
+
+### Changed
+- All 16 languages now have 100% real translations (0 placeholders remaining)
+- Pre-commit hook fixed to sync ALL languages when English is modified
+- Translation sync report updated with accurate placeholder counts
+
+### Fixed
+- Husky pre-commit hook now properly triggers full i18n sync across all 15 non-English locales
+- Bengali, German, Spanish, French translations completed (previously had `[XX]` placeholders)
+
+### Quality
+- CI workflow now includes `node scripts/check-language.js --strict` step
+- All locale files validated: 505 keys × 16 languages = 8,080 translation strings
+
+---
+
 **Released:** December 27, 2025
 
 ### Added
