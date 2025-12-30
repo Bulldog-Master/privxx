@@ -158,7 +158,7 @@
   
   "continuePreview": "プレビューを続行",
   "readinessTitle": "準備状況",
-  "readinessProxy": "プロキシ到達可能",
+  "readinessBridge": "ブリッジ到達可能",
   "readinessBackend": "バックエンド準備完了",
   "readinessMode": "モード",
   "yes": "はい",

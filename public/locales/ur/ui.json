@@ -158,7 +158,7 @@
   
   "continuePreview": "پیش نظارہ میں جاری رکھیں",
   "readinessTitle": "تیاری",
-  "readinessProxy": "پراکسی دستیاب",
+  "readinessBridge": "برج دستیاب",
   "readinessBackend": "بیک اینڈ تیار",
   "readinessMode": "موڈ",
   "yes": "ہاں",

@@ -158,7 +158,7 @@
   
   "continuePreview": "Продолжить в предпросмотре",
   "readinessTitle": "Готовность",
-  "readinessProxy": "Прокси доступен",
+  "readinessBridge": "Мост доступен",
   "readinessBackend": "Бэкенд готов",
   "readinessMode": "Режим",
   "yes": "Да",
