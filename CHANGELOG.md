@@ -14,6 +14,36 @@ early-stage protocol and product development.
 
 ---
 
+## [0.2.2] — Security Automation + CI Enforcement
+**Released:** December 30, 2025
+
+### Added
+- Security check script (`scripts/check-security.js`) for automated vulnerability detection
+- Pre-commit security hook validates migrations and source files before commit
+- CI security step blocks PRs with RLS issues or privilege escalation patterns
+
+### Security Checks
+The automated scanner validates:
+- **Migrations**: RLS enabled, no overly permissive policies, no `GRANT ALL` to anon
+- **Views**: No PII columns exposed without filtering, `security_invoker=true`
+- **Source code**: No client-side role checks (localStorage/sessionStorage)
+
+### Sensitive Tables Protected
+All 8 security-critical tables require RESTRICTIVE RLS policies:
+- `profiles`, `passkey_credentials`, `passkey_challenges`
+- `totp_secrets`, `totp_backup_codes`, `rate_limits`
+- `audit_logs`, `notification_preferences`
+
+### Documentation
+- `CONTRIBUTING.md` updated with security check documentation
+- Pre-commit hook order: Security → forwardRef → i18n sync
+
+### Notes
+This release establishes **security-by-default** enforcement.
+All migrations and source changes are validated before merge.
+
+---
+
 ## [0.2.1] — 100% Translation Completion + CI Guards
 **Released:** December 30, 2025
 
