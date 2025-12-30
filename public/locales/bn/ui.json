@@ -214,20 +214,20 @@
   "paymentsComingSoon": "পেমেন্ট শীঘ্রই আসছে",
   "paymentsDemoNote": "এটি একটি প্রিভিউ ফ্লো। ব্রিজ পেমেন্ট সমর্থন করলে লাইভ সেটেলমেন্ট সক্ষম হবে।",
   "payments": {
-    "privacyTitle": "[BN] Private Payment Intents",
-    "privacyDescription": "[BN] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
-    "createIntent": "[BN] Create Payment Intent",
-    "creatingIntent": "[BN] Creating Intent…",
-    "status": "[BN] Status",
-    "comingSoon": "[BN] Phase 3",
-    "statusNote": "[BN] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+    "privacyTitle": "প্রাইভেট পেমেন্ট ইনটেন্ট",
+    "privacyDescription": "আপনার ব্রাউজার কখনই সরাসরি পেমেন্ট প্রোভাইডারদের সাথে যোগাযোগ করে না। ইনটেন্টগুলি প্রাইভেট এক্সিকিউশনের জন্য ব্রিজের মাধ্যমে রাউট করা হয়।",
+    "createIntent": "পেমেন্ট ইনটেন্ট তৈরি করুন",
+    "creatingIntent": "ইনটেন্ট তৈরি হচ্ছে…",
+    "status": "স্থিতি",
+    "comingSoon": "ফেজ ৩",
+    "statusNote": "ইনটেন্ট ক্যাপচার সক্রিয়। ব্রিজ পেমেন্ট রেল সমর্থন করলে প্রাইভেট এক্সিকিউশন সক্ষম হবে।"
   },
   "diagnostics": {
     "paymentIntent": {
-      "title": "[BN] Payment Intent (Preview)",
-      "disclaimer": "[BN] Diagnostic preview only. No payment is created or sent.",
-      "status": "[BN] Status",
-      "comingSoon": "[BN] Phase 3"
+      "title": "পেমেন্ট ইনটেন্ট (প্রিভিউ)",
+      "disclaimer": "শুধুমাত্র ডায়াগনস্টিক প্রিভিউ। কোনো পেমেন্ট তৈরি বা পাঠানো হয় না।",
+      "status": "স্থিতি",
+      "comingSoon": "ফেজ ৩"
     }
   },
 
