@@ -3,6 +3,7 @@ export { useAvatarUrl } from "./useAvatarUrl";
 export { useBackendStatus } from "./useBackendStatus";
 export type { BackendStatus, ConnectionHealth } from "./useBackendStatus";
 export { useCountdown } from "./useCountdown";
+export { useFailedAttempts } from "./useFailedAttempts";
 export { useIsMobile } from "./useMobile";
 export { useNotificationPreferences } from "./useNotificationPreferences";
 export { useProfile } from "./useProfile";
