@@ -311,20 +311,20 @@
   "paymentsComingSoon": "Pagos próximamente",
   "paymentsDemoNote": "Este es un flujo de vista previa. La liquidación en vivo se habilitará una vez que el puente admita pagos.",
   "payments": {
-    "privacyTitle": "[ES] Private Payment Intents",
-    "privacyDescription": "[ES] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
-    "createIntent": "[ES] Create Payment Intent",
-    "creatingIntent": "[ES] Creating Intent…",
-    "status": "[ES] Status",
-    "comingSoon": "[ES] Phase 3",
-    "statusNote": "[ES] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+    "privacyTitle": "Intenciones de pago privadas",
+    "privacyDescription": "Tu navegador nunca se comunica directamente con proveedores de pago. Las intenciones se enrutan a través del puente para su ejecución privada.",
+    "createIntent": "Crear intención de pago",
+    "creatingIntent": "Creando intención…",
+    "status": "Estado",
+    "comingSoon": "Fase 3",
+    "statusNote": "La captura de la intención está activa. La ejecución privada se habilitará cuando el puente admita rieles de pago."
   },
   "diagnostics": {
     "paymentIntent": {
-      "title": "[ES] Payment Intent (Preview)",
-      "disclaimer": "[ES] Diagnostic preview only. No payment is created or sent.",
-      "status": "[ES] Status",
-      "comingSoon": "[ES] Phase 3"
+      "title": "Intención de pago (Vista previa)",
+      "disclaimer": "Solo vista previa de diagnóstico. No se crea ni se envía ningún pago.",
+      "status": "Estado",
+      "comingSoon": "Fase 3"
     }
   },
 
