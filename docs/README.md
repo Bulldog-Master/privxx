@@ -90,10 +90,11 @@ These documents define the immutable visual and interaction identity of Privxx.
 
 ---
 
-## 🔬 Phase D (cMixx Demo)
+## 🔬 Phase 2 & Phase D (cMixx Demo)
 
 | Document | Description |
 |----------|-------------|
+| [PRIVXX-PHASE2-ARCHITECTURE.md](./PRIVXX-PHASE2-ARCHITECTURE.md) | Phase-2 policy engine & payment intent roadmap |
 | [PHASE-D-BRIDGE.md](./PHASE-D-BRIDGE.md) | UI-to-cMixx state mapping and UI invariants |
 | [PHASE-D-CMIXX-DEMO.md](./PHASE-D-CMIXX-DEMO.md) | cMixx demo specification |
 | [PHASE-D-CONCEPT-DIAGRAM.md](./PHASE-D-CONCEPT-DIAGRAM.md) | Conceptual architecture diagram |
