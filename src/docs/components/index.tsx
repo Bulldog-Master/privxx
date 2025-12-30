@@ -83,6 +83,7 @@ export interface ComponentDoc {
   props?: PropDoc[];
   examples?: ExampleDoc[];
   notes?: string[];
+  supportsRef?: boolean;
 }
 
 // Component Documentation
@@ -92,6 +93,7 @@ export const componentDocs: ComponentDoc[] = [
     id: "button",
     name: "Button",
     description: "A versatile button component with multiple variants and sizes. Supports icons, loading states, and can render as different elements.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Button } from "@/components/ui/button"',
     props: [
@@ -193,6 +195,7 @@ export const componentDocs: ComponentDoc[] = [
     id: "badge",
     name: "Badge",
     description: "Small status descriptors for UI elements. Useful for labels, counts, and status indicators.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Badge } from "@/components/ui/badge"',
     props: [
@@ -239,6 +242,7 @@ export const componentDocs: ComponentDoc[] = [
     id: "card",
     name: "Card",
     description: "A container component for grouping related content with optional header and footer sections.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"',
     props: [
@@ -280,6 +284,7 @@ export const componentDocs: ComponentDoc[] = [
     id: "input",
     name: "Input",
     description: "A styled text input component that supports all standard HTML input attributes. Commonly used in forms.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Input } from "@/components/ui/input"',
     props: [
@@ -350,6 +355,7 @@ export const componentDocs: ComponentDoc[] = [
     id: "select",
     name: "Select",
     description: "A dropdown select component with customizable options. Built on Radix UI for accessibility.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"',
     props: [
@@ -432,6 +438,7 @@ export const componentDocs: ComponentDoc[] = [
     id: "dialog",
     name: "Dialog",
     description: "A modal dialog component for displaying content that requires user attention or action.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"',
     props: [
@@ -553,6 +560,7 @@ export const componentDocs: ComponentDoc[] = [
     id: "toast",
     name: "Toast",
     description: "Notification toasts for displaying brief messages. Uses Sonner for a beautiful toast experience.",
+    supportsRef: false,
     category: "UI",
     importPath: 'import { toast } from "sonner"',
     props: [
@@ -689,6 +697,7 @@ toast.warning("Session expiring soon");`,
     id: "tabs",
     name: "Tabs",
     description: "A set of layered sections of content that display one panel at a time. Built on Radix UI for accessibility.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"',
     props: [
@@ -755,6 +764,7 @@ toast.warning("Session expiring soon");`,
     id: "switch",
     name: "Switch",
     description: "A toggle control that allows users to switch between two states (on/off). Perfect for boolean settings.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Switch } from "@/components/ui/switch"',
     props: [
@@ -845,6 +855,7 @@ toast.warning("Session expiring soon");`,
     id: "checkbox",
     name: "Checkbox",
     description: "A control that allows users to select one or more items from a set, or toggle a single option.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Checkbox } from "@/components/ui/checkbox"',
     props: [
@@ -1183,6 +1194,7 @@ function MyPage() {
     id: "tooltip",
     name: "Tooltip",
     description: "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"',
     props: [
@@ -1285,6 +1297,7 @@ function MyPage() {
     id: "popover",
     name: "Popover",
     description: "A floating panel with rich content, triggered by a button click. Useful for forms, menus, or additional information.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"',
     props: [
@@ -1403,6 +1416,7 @@ function MyPage() {
     id: "accordion",
     name: "Accordion",
     description: "A vertically stacked set of interactive headings that each reveal a section of content.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"',
     props: [
@@ -1529,6 +1543,7 @@ function MyPage() {
     id: "progress",
     name: "Progress",
     description: "A progress bar component that indicates the completion status of a task or process.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Progress } from "@/components/ui/progress"',
     props: [
@@ -1607,6 +1622,7 @@ function MyPage() {
     id: "slider",
     name: "Slider",
     description: "An input component for selecting a value or range from a continuous set of values.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Slider } from "@/components/ui/slider"',
     props: [
@@ -1695,6 +1711,7 @@ function MyPage() {
     id: "alert",
     name: "Alert",
     description: "A component for displaying important messages or notifications to users.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"',
     props: [
@@ -1799,6 +1816,7 @@ function MyPage() {
     id: "separator",
     name: "Separator",
     description: "A visual divider that separates content into distinct sections.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Separator } from "@/components/ui/separator"',
     props: [
@@ -1879,6 +1897,7 @@ function MyPage() {
     id: "avatar",
     name: "Avatar",
     description: "An image element with a fallback for displaying user profile pictures.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"',
     props: [
@@ -1997,6 +2016,7 @@ function MyPage() {
     id: "skeleton",
     name: "Skeleton",
     description: "A placeholder component to show while content is loading.",
+    supportsRef: true,
     category: "UI",
     importPath: 'import { Skeleton } from "@/components/ui/skeleton"',
     props: [
