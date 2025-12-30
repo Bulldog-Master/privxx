@@ -28,6 +28,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { PageBackground } from "@/components/layout/PageBackground";
 import { PrivxxLogo } from "@/components/brand";
+import { SecurityTrendChart, EventTypeChart } from "@/components/security";
 import {
   Select,
   SelectContent,
@@ -281,6 +282,12 @@ export default function Security() {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <SecurityTrendChart logs={logs} />
+          <EventTypeChart logs={logs} />
         </div>
 
         {/* Filters and Search */}
