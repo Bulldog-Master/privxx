@@ -1,6 +1,26 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+# Check if any UI component files are staged
+STAGED_UI=$(git diff --cached --name-only --diff-filter=ACM | grep "^src/components/ui/.*\.tsx$" || true)
+
+if [ -n "$STAGED_UI" ]; then
+  echo "🔍 Checking UI components for forwardRef usage..."
+  
+  node scripts/check-forward-ref.js
+  
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ forwardRef check failed. Please update components to use React.forwardRef."
+    echo ""
+    exit 1
+  fi
+  
+  echo "✅ forwardRef checks passed"
+else
+  echo "⏭️  No UI component files modified, skipping forwardRef checks"
+fi
+
 # Check if any locale files are staged
 STAGED_LOCALES=$(git diff --cached --name-only --diff-filter=ACM | grep "^public/locales/.*\.json$" || true)
 
