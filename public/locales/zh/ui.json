@@ -234,7 +234,24 @@
   "paymentsLockedHint": "解锁身份以进行支付",
   "paymentsComingSoon": "支付即将推出",
   "paymentsDemoNote": "这是预览流程。一旦桥接支持支付，将启用实时结算。",
-  
+  "payments": {
+    "privacyTitle": "[ZH] Private Payment Intents",
+    "privacyDescription": "[ZH] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[ZH] Create Payment Intent",
+    "creatingIntent": "[ZH] Creating Intent…",
+    "status": "[ZH] Status",
+    "comingSoon": "[ZH] Phase 3",
+    "statusNote": "[ZH] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[ZH] Payment Intent (Preview)",
+      "disclaimer": "[ZH] Diagnostic preview only. No payment is created or sent.",
+      "status": "[ZH] Status",
+      "comingSoon": "[ZH] Phase 3"
+    }
+  },
+
   "settings": "设置",
   "editProfile": "编辑个人资料",
   "editProfileDesc": "更改您的显示名称和头像",

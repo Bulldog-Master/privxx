@@ -213,6 +213,24 @@
   "paymentsLockedHint": "পেমেন্ট করতে পরিচয় আনলক করুন",
   "paymentsComingSoon": "পেমেন্ট শীঘ্রই আসছে",
   "paymentsDemoNote": "এটি একটি প্রিভিউ ফ্লো। ব্রিজ পেমেন্ট সমর্থন করলে লাইভ সেটেলমেন্ট সক্ষম হবে।",
+  "payments": {
+    "privacyTitle": "[BN] Private Payment Intents",
+    "privacyDescription": "[BN] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[BN] Create Payment Intent",
+    "creatingIntent": "[BN] Creating Intent…",
+    "status": "[BN] Status",
+    "comingSoon": "[BN] Phase 3",
+    "statusNote": "[BN] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[BN] Payment Intent (Preview)",
+      "disclaimer": "[BN] Diagnostic preview only. No payment is created or sent.",
+      "status": "[BN] Status",
+      "comingSoon": "[BN] Phase 3"
+    }
+  },
+
   "composeRecipient": "প্রাপক",
   "composeRecipientPlaceholder": "প্রাপক ID বা 'self' লিখুন",
   "composeMessage": "বার্তা",

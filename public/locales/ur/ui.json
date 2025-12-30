@@ -234,7 +234,24 @@
   "paymentsLockedHint": "ادائیگی کرنے کے لیے شناخت کھولیں",
   "paymentsComingSoon": "ادائیگیاں جلد آ رہی ہیں",
   "paymentsDemoNote": "یہ پیش نظارہ فلو ہے۔ جب پل ادائیگیوں کی حمایت کرے گا تو براہ راست تصفیہ فعال ہو جائے گا.",
-  
+  "payments": {
+    "privacyTitle": "[UR] Private Payment Intents",
+    "privacyDescription": "[UR] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[UR] Create Payment Intent",
+    "creatingIntent": "[UR] Creating Intent…",
+    "status": "[UR] Status",
+    "comingSoon": "[UR] Phase 3",
+    "statusNote": "[UR] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[UR] Payment Intent (Preview)",
+      "disclaimer": "[UR] Diagnostic preview only. No payment is created or sent.",
+      "status": "[UR] Status",
+      "comingSoon": "[UR] Phase 3"
+    }
+  },
+
   "settings": "ترتیبات",
   "editProfile": "پروفائل ترمیم",
   "editProfileDesc": "اپنا ڈسپلے نام اور اوتار تبدیل کریں",

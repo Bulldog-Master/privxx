@@ -234,7 +234,24 @@
   "paymentsLockedHint": "Ödeme yapmak için kimliği açın",
   "paymentsComingSoon": "Ödemeler yakında",
   "paymentsDemoNote": "Bu bir önizleme akışıdır. Köprü ödemeleri desteklediğinde canlı ödeme etkinleştirilecektir.",
-  
+  "payments": {
+    "privacyTitle": "[TR] Private Payment Intents",
+    "privacyDescription": "[TR] Your browser never talks directly to payment providers. Intents are routed through the Bridge for private execution.",
+    "createIntent": "[TR] Create Payment Intent",
+    "creatingIntent": "[TR] Creating Intent…",
+    "status": "[TR] Status",
+    "comingSoon": "[TR] Phase 3",
+    "statusNote": "[TR] Intent capture is active. Private execution will be enabled once the Bridge supports payment rails."
+  },
+  "diagnostics": {
+    "paymentIntent": {
+      "title": "[TR] Payment Intent (Preview)",
+      "disclaimer": "[TR] Diagnostic preview only. No payment is created or sent.",
+      "status": "[TR] Status",
+      "comingSoon": "[TR] Phase 3"
+    }
+  },
+
   "settings": "Ayarlar",
   "editProfile": "Profili Düzenle",
   "editProfileDesc": "Görünen adınızı ve avatarınızı değiştirin",
