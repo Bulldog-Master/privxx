@@ -319,6 +319,8 @@
   "diagnostics.hideAdvanced": "প্রযুক্তিগত বিবরণ লুকান",
   "demoModeLabel": "প্রিভিউ",
   "close": "বন্ধ",
+
+  "connectionHistory": "সংযোগ ইতিহাস",
   "connectionHistoryDesc": "সাম্প্রতিক ব্রিজ সংযোগ প্রচেষ্টা",
   "connectionSuccess": "সফলভাবে সংযুক্ত হয়েছে",
   "noConnectionEvents": "এখনও কোনো সংযোগ ইভেন্ট নেই",
