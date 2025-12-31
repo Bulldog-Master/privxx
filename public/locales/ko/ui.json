@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "모든 시스템 정상 작동",
   "healthIndicator.degraded": "일부 서비스 저하",
   "healthIndicator.offline": "서비스 연결 불가",
-  "healthIndicator.checking": "상태 확인 중..."
+  "healthIndicator.checking": "상태 확인 중...",
+  "healthIndicator.clickForDetails": "자세히 보려면 클릭"
 }

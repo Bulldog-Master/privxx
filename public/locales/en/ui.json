@@ -591,5 +591,6 @@
   "healthIndicator.healthy": "All systems operational",
   "healthIndicator.degraded": "Some services degraded",
   "healthIndicator.offline": "Services unreachable",
-  "healthIndicator.checking": "Checking status..."
+  "healthIndicator.checking": "Checking status...",
+  "healthIndicator.clickForDetails": "Click for details"
 }

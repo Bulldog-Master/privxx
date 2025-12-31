@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "Alle systemen operationeel",
   "healthIndicator.degraded": "Sommige diensten verslechterd",
   "healthIndicator.offline": "Diensten onbereikbaar",
-  "healthIndicator.checking": "Status controleren..."
+  "healthIndicator.checking": "Status controleren...",
+  "healthIndicator.clickForDetails": "Klik voor details"
 }

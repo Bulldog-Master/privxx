@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "所有系统正常运行",
   "healthIndicator.degraded": "部分服务降级",
   "healthIndicator.offline": "服务无法访问",
-  "healthIndicator.checking": "正在检查状态..."
+  "healthIndicator.checking": "正在检查状态...",
+  "healthIndicator.clickForDetails": "点击查看详情"
 }

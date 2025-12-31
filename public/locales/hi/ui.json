@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "सभी सिस्टम चालू हैं",
   "healthIndicator.degraded": "कुछ सेवाएं प्रभावित",
   "healthIndicator.offline": "सेवाएं पहुंच योग्य नहीं",
-  "healthIndicator.checking": "स्थिति जांच रहा है..."
+  "healthIndicator.checking": "स्थिति जांच रहा है...",
+  "healthIndicator.clickForDetails": "विवरण के लिए क्लिक करें"
 }

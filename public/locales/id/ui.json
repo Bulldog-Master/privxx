@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "Semua sistem beroperasi",
   "healthIndicator.degraded": "Beberapa layanan menurun",
   "healthIndicator.offline": "Layanan tidak dapat dijangkau",
-  "healthIndicator.checking": "Memeriksa status..."
+  "healthIndicator.checking": "Memeriksa status...",
+  "healthIndicator.clickForDetails": "Klik untuk detail"
 }

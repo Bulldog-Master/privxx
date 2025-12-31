@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "Tüm sistemler çalışıyor",
   "healthIndicator.degraded": "Bazı hizmetler bozulmuş",
   "healthIndicator.offline": "Hizmetlere erişilemiyor",
-  "healthIndicator.checking": "Durum kontrol ediliyor..."
+  "healthIndicator.checking": "Durum kontrol ediliyor...",
+  "healthIndicator.clickForDetails": "Ayrıntılar için tıklayın"
 }

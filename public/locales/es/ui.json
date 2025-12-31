@@ -593,5 +593,6 @@
   "healthIndicator.healthy": "Todos los sistemas operativos",
   "healthIndicator.degraded": "Algunos servicios degradados",
   "healthIndicator.offline": "Servicios inalcanzables",
-  "healthIndicator.checking": "Verificando estado..."
+  "healthIndicator.checking": "Verificando estado...",
+  "healthIndicator.clickForDetails": "Clic para detalles"
 }
