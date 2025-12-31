@@ -322,6 +322,8 @@
   "diagnosticsJWT": "JWT-Token",
   "diagnosticsValid": "Gültig",
   "diagnosticsInvalid": "Ungültig",
+  "diagnosticsJWTMethod": "Verifizierung",
+  "diagnosticsJWTEndpoint": "Supabase-Endpunkt",
   "diagnosticsTTL": "Sitzungs-TTL",
   "diagnosticsTTLWarning": "Sitzung läuft bald ab",
   "diagnosticsTTLExpired": "Sitzung abgelaufen — erneut entsperren",

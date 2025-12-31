@@ -577,6 +577,8 @@
   "diagnosticsJWT": "JWT токен",
   "diagnosticsValid": "Действителен",
   "diagnosticsInvalid": "Недействителен",
+  "diagnosticsJWTMethod": "Проверка",
+  "diagnosticsJWTEndpoint": "Конечная точка Supabase",
   "diagnosticsTTL": "TTL сессии",
   "diagnosticsTTLWarning": "Сессия скоро истекает",
   "diagnosticsTTLExpired": "Сессия истекла — разблокируйте снова",

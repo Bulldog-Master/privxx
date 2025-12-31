@@ -577,6 +577,8 @@
   "diagnosticsJWT": "JWT टोकन",
   "diagnosticsValid": "वैध",
   "diagnosticsInvalid": "अवैध",
+  "diagnosticsJWTMethod": "सत्यापन",
+  "diagnosticsJWTEndpoint": "Supabase एंडपॉइंट",
   "diagnosticsTTL": "सत्र TTL",
   "diagnosticsTTLWarning": "सत्र जल्द समाप्त होने वाला है",
   "diagnosticsTTLExpired": "सत्र समाप्त — पुनः अनलॉक करें",

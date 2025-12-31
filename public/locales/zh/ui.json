@@ -577,6 +577,8 @@
   "diagnosticsJWT": "JWT 令牌",
   "diagnosticsValid": "有效",
   "diagnosticsInvalid": "无效",
+  "diagnosticsJWTMethod": "验证",
+  "diagnosticsJWTEndpoint": "Supabase 端点",
   "diagnosticsTTL": "会话 TTL",
   "diagnosticsTTLWarning": "会话即将过期",
   "diagnosticsTTLExpired": "会话已过期 — 请重新解锁",

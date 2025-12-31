@@ -577,6 +577,8 @@
   "diagnosticsJWT": "JWT 토큰",
   "diagnosticsValid": "유효",
   "diagnosticsInvalid": "무효",
+  "diagnosticsJWTMethod": "검증",
+  "diagnosticsJWTEndpoint": "Supabase 엔드포인트",
   "diagnosticsTTL": "세션 TTL",
   "diagnosticsTTLWarning": "세션 만료 임박",
   "diagnosticsTTLExpired": "세션 만료됨 — 다시 잠금 해제하세요",

@@ -238,6 +238,8 @@
   "diagnosticsJWT": "JWT טאָוקן",
   "diagnosticsValid": "גילטיק",
   "diagnosticsInvalid": "נישט גילטיק",
+  "diagnosticsJWTMethod": "באַשטעטיקונג",
+  "diagnosticsJWTEndpoint": "Supabase ענדפּוינט",
   "diagnosticsTTL": "סעסיע TTL",
   "diagnosticsTTLWarning": "סעסיע לויפֿט באַלד אויס",
   "diagnosticsTTLExpired": "סעסיע אויסגעלאָפֿן — אַנטשפּאַרן ווידער",

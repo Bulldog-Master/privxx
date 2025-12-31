@@ -577,6 +577,8 @@
   "diagnosticsJWT": "JWT Token",
   "diagnosticsValid": "Geçerli",
   "diagnosticsInvalid": "Geçersiz",
+  "diagnosticsJWTMethod": "Doğrulama",
+  "diagnosticsJWTEndpoint": "Supabase Uç Noktası",
   "diagnosticsTTL": "Oturum TTL",
   "diagnosticsTTLWarning": "Oturum yakında sona erecek",
   "diagnosticsTTLExpired": "Oturum sona erdi — tekrar açın",

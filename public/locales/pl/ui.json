@@ -238,6 +238,8 @@
   "diagnosticsJWT": "Token JWT",
   "diagnosticsValid": "Prawidłowy",
   "diagnosticsInvalid": "Nieprawidłowy",
+  "diagnosticsJWTMethod": "Weryfikacja",
+  "diagnosticsJWTEndpoint": "Endpoint Supabase",
   "diagnosticsTTL": "TTL Sesji",
   "diagnosticsTTLWarning": "Sesja wkrótce wygaśnie",
   "diagnosticsTTLExpired": "Sesja wygasła — odblokuj ponownie",

@@ -238,6 +238,8 @@
   "diagnosticsJWT": "JWT টোকেন",
   "diagnosticsValid": "বৈধ",
   "diagnosticsInvalid": "অবৈধ",
+  "diagnosticsJWTMethod": "যাচাইকরণ",
+  "diagnosticsJWTEndpoint": "Supabase এন্ডপয়েন্ট",
   "diagnosticsTTL": "সেশন TTL",
   "diagnosticsTTLWarning": "সেশন শীঘ্রই শেষ হচ্ছে",
   "diagnosticsTTLExpired": "সেশন মেয়াদোত্তীর্ণ — আবার আনলক করুন",

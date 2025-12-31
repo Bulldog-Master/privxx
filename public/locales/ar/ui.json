@@ -577,6 +577,8 @@
   "diagnosticsJWT": "رمز JWT",
   "diagnosticsValid": "صالح",
   "diagnosticsInvalid": "غير صالح",
+  "diagnosticsJWTMethod": "التحقق",
+  "diagnosticsJWTEndpoint": "نقطة نهاية Supabase",
   "diagnosticsTTL": "مدة الجلسة",
   "diagnosticsTTLWarning": "الجلسة على وشك الانتهاء",
   "diagnosticsTTLExpired": "انتهت الجلسة — افتح مرة أخرى",
