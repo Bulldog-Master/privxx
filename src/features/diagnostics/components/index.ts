@@ -12,3 +12,7 @@ export { HealthScorePanel } from "./HealthScorePanel";
 export { BrowserAnomalyCard } from "./BrowserAnomalyCard";
 export { BrowserPolicyCard } from "./BrowserPolicyCard";
 export { PaymentIntentPreview } from "./PaymentIntentPreview";
+export { ConnectionPathDiagram } from "./ConnectionPathDiagram";
+export type { LayerState, LayerStatus } from "./ConnectionPathDiagram";
+export { OverallStatusBar } from "./OverallStatusBar";
+export type { OverallStatus } from "./OverallStatusBar";

@@ -15,9 +15,11 @@ export {
   BrowserAnomalyCard,
   BrowserPolicyCard,
   PaymentIntentPreview,
+  ConnectionPathDiagram,
+  OverallStatusBar,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,
   getModeDisplay,
 } from "@/features/diagnostics";
-export type { UiState, BridgeHealthStatus } from "@/features/diagnostics";
+export type { UiState, BridgeHealthStatus, LayerState, LayerStatus, OverallStatus } from "@/features/diagnostics";

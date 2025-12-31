@@ -14,7 +14,11 @@ export {
   BrowserAnomalyCard,
   BrowserPolicyCard,
   PaymentIntentPreview,
+  ConnectionPathDiagram,
+  OverallStatusBar,
 } from "./components";
+export type { LayerState, LayerStatus } from "./components";
+export type { OverallStatus } from "./components";
 
 // Hooks
 export { useDiagnosticsState, useBridgeHealthStatus } from "./hooks";

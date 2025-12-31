@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Activity, Server, Shield } from 'lucide-react';
@@ -14,7 +14,6 @@ import {
   getBackendStatusDisplay,
   getModeDisplay,
   BridgeStatusCard,
-  BridgeLiveStatusCard,
   ConnectionHistoryLog,
   TranslationStatusDashboard,
   ReadinessPanel,
@@ -23,13 +22,17 @@ import {
   BrowserAnomalyCard,
   BrowserPolicyCard,
   PaymentIntentPreview,
+  ConnectionPathDiagram,
+  OverallStatusBar,
 } from '@/components/diagnostics';
+import type { LayerState } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
 import { buildInfo } from '@/lib/buildInfo';
 import { collectBrowserAnomalySignals, detectAnomalies } from '@/lib/browserAnomalySignals';
 
 export default function Diagnostics() {
   const { t } = useTranslation();
+  const [lastCheckTime, setLastCheckTime] = useState<Date>(new Date());
   const {
     copied,
     isRetrying,
@@ -44,6 +47,13 @@ export default function Diagnostics() {
   
   const bridgeHealth = useBridgeHealthStatus();
 
+  // Update last check time when data refreshes
+  useEffect(() => {
+    if (!bridgeHealth.isLoading) {
+      setLastCheckTime(new Date());
+    }
+  }, [bridgeHealth.health, bridgeHealth.isLoading]);
+
   const backendStatus = getBackendStatusDisplay(uiState, isLoading, t);
   const modeStatus = getModeDisplay(status.isMock, t);
 
@@ -53,6 +63,51 @@ export default function Diagnostics() {
     const detected = detectAnomalies(collected);
     return { signals: collected, anomalies: detected };
   }, []);
+
+  // Derive layer states from bridge health data
+  const layerState = useMemo((): LayerState => {
+    // Client is always reachable (it's the browser)
+    const client = "reachable" as const;
+    
+    // Proxy status - based on health endpoint reachability
+    let proxy: LayerState["proxy"] = "unknown";
+    if (bridgeHealth.isLoading) {
+      proxy = "starting";
+    } else if (bridgeHealth.health) {
+      proxy = "reachable";
+    } else if (bridgeHealth.healthError) {
+      proxy = "unreachable";
+    }
+
+    // Bridge status - based on xxdk info reachability
+    let bridge: LayerState["bridge"] = "unknown";
+    if (bridgeHealth.isLoading) {
+      bridge = "starting";
+    } else if (bridgeHealth.xxdkInfo) {
+      bridge = "reachable";
+    } else if (bridgeHealth.xxdkError) {
+      bridge = "unreachable";
+    }
+
+    // xxDK status - based on cmixx status and xxdk ready state
+    let xxdk: LayerState["xxdk"] = "unknown";
+    if (bridgeHealth.isLoading) {
+      xxdk = "starting";
+    } else if (bridgeHealth.cmixxData?.connected && bridgeHealth.xxdkData?.ready) {
+      xxdk = "reachable";
+    } else if (bridgeHealth.cmixxError || bridgeHealth.xxdkError) {
+      xxdk = "unreachable";
+    } else if (bridgeHealth.xxdkData && !bridgeHealth.xxdkData.ready) {
+      xxdk = "starting";
+    }
+
+    return { client, proxy, bridge, xxdk };
+  }, [bridgeHealth]);
+
+  const handleRefreshAll = () => {
+    refetch();
+    bridgeHealth.refetchAll();
+  };
 
   return (
     <PageBackground>
@@ -76,9 +131,24 @@ export default function Diagnostics() {
           </div>
         </div>
 
+        {/* Overall Status Bar */}
+        <OverallStatusBar
+          layerState={layerState}
+          isMock={status.isMock}
+          lastCheckTime={lastCheckTime}
+          onRefresh={handleRefreshAll}
+          isRefreshing={isLoading || bridgeHealth.isLoading}
+        />
+
         <div className="grid gap-6 lg:grid-cols-2">
           {/* System Health Section */}
           <div className="space-y-6">
+            {/* Connection Path Diagram */}
+            <ConnectionPathDiagram
+              layerState={layerState}
+              isLoading={bridgeHealth.isLoading}
+            />
+
             {/* Health Score Summary */}
             <HealthScorePanel 
               bridgeHealth={bridgeHealth.health}
@@ -149,9 +219,6 @@ export default function Diagnostics() {
                     labelColor={modeStatus.color}
                   />
                 )}
-
-                {/* Bridge Live Status (xxdk/info, cmixx/status) */}
-                <BridgeLiveStatusCard />
               </CardContent>
             </Card>
 
