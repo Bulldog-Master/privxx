@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "Dosyayı kontrol edin:",
   "diagnostics.translationStatus.syncProgress": "Senkronizasyon ilerlemesi",
   "diagnostics.translationStatus.completionVsQuality": "Yapı tamlığı vs çeviri kalitesi",
-  "diagnostics.translationStatus.validJson": "Geçerli JSON"
+  "diagnostics.translationStatus.validJson": "Geçerli JSON",
+  
+  "backendStatus.connected": "{{name}} bağlı",
+  "backendStatus.unreachable": "{{name}} erişilemez",
+  "backendStatus.checking": "{{name}} kontrol ediliyor...",
+  "backendStatus.unknown": "{{name}} durumu bilinmiyor",
+  
+  "healthIndicator.healthy": "Tüm sistemler çalışıyor",
+  "healthIndicator.degraded": "Bazı hizmetler bozulmuş",
+  "healthIndicator.offline": "Hizmetlere erişilemiyor",
+  "healthIndicator.checking": "Durum kontrol ediliyor..."
 }

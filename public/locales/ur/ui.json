@@ -589,5 +589,15 @@
   "diagnostics.translationStatus.checkFile": "فائل چیک کریں:",
   "diagnostics.translationStatus.syncProgress": "مطابقت پذیری کی پیش رفت",
   "diagnostics.translationStatus.completionVsQuality": "ساخت کی تکمیل بمقابلہ ترجمے کا معیار",
-  "diagnostics.translationStatus.validJson": "درست JSON"
+  "diagnostics.translationStatus.validJson": "درست JSON",
+  
+  "backendStatus.connected": "{{name}} منسلک",
+  "backendStatus.unreachable": "{{name}} ناقابل رسائی",
+  "backendStatus.checking": "{{name}} کی جانچ ہو رہی ہے...",
+  "backendStatus.unknown": "{{name}} کی حیثیت نامعلوم",
+  
+  "healthIndicator.healthy": "تمام نظام چل رہے ہیں",
+  "healthIndicator.degraded": "کچھ خدمات متاثر",
+  "healthIndicator.offline": "خدمات ناقابل رسائی",
+  "healthIndicator.checking": "حیثیت کی جانچ ہو رہی ہے..."
 }

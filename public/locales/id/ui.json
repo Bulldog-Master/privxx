@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "Periksa file:",
   "diagnostics.translationStatus.syncProgress": "Kemajuan sinkronisasi",
   "diagnostics.translationStatus.completionVsQuality": "Kelengkapan struktur vs kualitas terjemahan",
-  "diagnostics.translationStatus.validJson": "JSON valid"
+  "diagnostics.translationStatus.validJson": "JSON valid",
+  
+  "backendStatus.connected": "{{name}} terhubung",
+  "backendStatus.unreachable": "{{name}} tidak dapat dijangkau",
+  "backendStatus.checking": "Memeriksa {{name}}...",
+  "backendStatus.unknown": "Status {{name}} tidak diketahui",
+  
+  "healthIndicator.healthy": "Semua sistem beroperasi",
+  "healthIndicator.degraded": "Beberapa layanan menurun",
+  "healthIndicator.offline": "Layanan tidak dapat dijangkau",
+  "healthIndicator.checking": "Memeriksa status..."
 }

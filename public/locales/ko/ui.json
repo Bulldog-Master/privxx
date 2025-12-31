@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "파일 확인:",
   "diagnostics.translationStatus.syncProgress": "동기화 진행률",
   "diagnostics.translationStatus.completionVsQuality": "구조 완성도 vs 번역 품질",
-  "diagnostics.translationStatus.validJson": "유효한 JSON"
+  "diagnostics.translationStatus.validJson": "유효한 JSON",
+  
+  "backendStatus.connected": "{{name}} 연결됨",
+  "backendStatus.unreachable": "{{name}} 연결 불가",
+  "backendStatus.checking": "{{name}} 확인 중...",
+  "backendStatus.unknown": "{{name}} 상태 알 수 없음",
+  
+  "healthIndicator.healthy": "모든 시스템 정상 작동",
+  "healthIndicator.degraded": "일부 서비스 저하",
+  "healthIndicator.offline": "서비스 연결 불가",
+  "healthIndicator.checking": "상태 확인 중..."
 }
