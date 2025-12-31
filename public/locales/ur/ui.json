@@ -599,5 +599,6 @@
   "healthIndicator.healthy": "تمام نظام چل رہے ہیں",
   "healthIndicator.degraded": "کچھ خدمات متاثر",
   "healthIndicator.offline": "خدمات ناقابل رسائی",
-  "healthIndicator.checking": "حیثیت کی جانچ ہو رہی ہے..."
+  "healthIndicator.checking": "حیثیت کی جانچ ہو رہی ہے...",
+  "healthIndicator.clickForDetails": "تفصیلات کے لیے کلک کریں"
 }

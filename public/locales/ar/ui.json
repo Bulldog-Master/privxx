@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "جميع الأنظمة تعمل",
   "healthIndicator.degraded": "بعض الخدمات متدهورة",
   "healthIndicator.offline": "الخدمات غير قابلة للوصول",
-  "healthIndicator.checking": "جارٍ التحقق من الحالة..."
+  "healthIndicator.checking": "جارٍ التحقق من الحالة...",
+  "healthIndicator.clickForDetails": "انقر للتفاصيل"
 }

@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "Все системы работают",
   "healthIndicator.degraded": "Некоторые сервисы ухудшены",
   "healthIndicator.offline": "Сервисы недоступны",
-  "healthIndicator.checking": "Проверка статуса..."
+  "healthIndicator.checking": "Проверка статуса...",
+  "healthIndicator.clickForDetails": "Нажмите для подробностей"
 }

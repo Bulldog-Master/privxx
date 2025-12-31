@@ -593,5 +593,6 @@
   "healthIndicator.healthy": "Tous les systèmes opérationnels",
   "healthIndicator.degraded": "Certains services dégradés",
   "healthIndicator.offline": "Services inaccessibles",
-  "healthIndicator.checking": "Vérification du statut..."
+  "healthIndicator.checking": "Vérification du statut...",
+  "healthIndicator.clickForDetails": "Cliquez pour les détails"
 }

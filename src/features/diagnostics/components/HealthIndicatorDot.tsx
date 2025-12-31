@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useBridgeHealthStatus } from '../hooks/useBridgeHealthStatus';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from 'react-i18next';
@@ -47,7 +48,11 @@ export function HealthIndicatorDot() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span className="relative inline-flex h-2 w-2 cursor-help">
+          <Link 
+            to="/diagnostics" 
+            className="relative inline-flex h-2 w-2 cursor-pointer transition-transform hover:scale-125"
+            aria-label={labels[level]}
+          >
             {level !== 'loading' && (
               <span
                 className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${pulseColors[level]}`}
@@ -59,10 +64,11 @@ export function HealthIndicatorDot() {
                 level === 'loading' ? 'animate-pulse' : ''
               }`}
             />
-          </span>
+          </Link>
         </TooltipTrigger>
         <TooltipContent side="top" className="text-xs">
-          {labels[level]}
+          <p>{labels[level]}</p>
+          <p className="text-muted-foreground text-[10px]">{t('healthIndicator.clickForDetails', 'Click for details')}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

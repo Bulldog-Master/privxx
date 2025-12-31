@@ -597,5 +597,6 @@
   "healthIndicator.healthy": "সমস্ত সিস্টেম চালু",
   "healthIndicator.degraded": "কিছু পরিষেবা প্রভাবিত",
   "healthIndicator.offline": "পরিষেবা অ্যাক্সেসযোগ্য নয়",
-  "healthIndicator.checking": "স্থিতি যাচাই করা হচ্ছে..."
+  "healthIndicator.checking": "স্থিতি যাচাই করা হচ্ছে...",
+  "healthIndicator.clickForDetails": "বিস্তারিত জন্য ক্লিক করুন"
 }

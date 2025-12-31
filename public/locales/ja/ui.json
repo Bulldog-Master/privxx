@@ -594,5 +594,6 @@
   "healthIndicator.healthy": "すべてのシステムが稼働中",
   "healthIndicator.degraded": "一部のサービスが低下",
   "healthIndicator.offline": "サービスに接続できません",
-  "healthIndicator.checking": "ステータスを確認中..."
+  "healthIndicator.checking": "ステータスを確認中...",
+  "healthIndicator.clickForDetails": "詳細はクリック"
 }
