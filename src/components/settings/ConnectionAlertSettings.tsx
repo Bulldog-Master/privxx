@@ -30,6 +30,7 @@ export function ConnectionAlertSettings() {
     isEnabled: pushEnabled,
     requestPermission,
     setEnabled: setPushEnabled,
+    showNotification,
   } = usePushNotifications();
 
   const handleToggleAlerts = () => {
@@ -142,12 +143,33 @@ export function ConnectionAlertSettings() {
                     )}
                   </div>
                 </div>
-                <Switch
-                  id="push-alerts"
-                  checked={thresholds.pushEnabled && pushEnabled}
-                  onCheckedChange={handleTogglePush}
-                  disabled={pushPermission === 'denied'}
-                />
+                <div className="flex items-center gap-2">
+                  {thresholds.pushEnabled && pushEnabled && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        showNotification(
+                          t("connectionAlerts.testTitle", "Test Notification"),
+                          { body: t("connectionAlerts.testBody", "Push notifications are working correctly!") }
+                        );
+                        toast({
+                          title: t("connectionAlerts.testSent", "Test sent"),
+                          description: t("connectionAlerts.testSentDesc", "Check your notifications"),
+                        });
+                      }}
+                      className="text-xs h-7 px-2"
+                    >
+                      {t("connectionAlerts.test", "Test")}
+                    </Button>
+                  )}
+                  <Switch
+                    id="push-alerts"
+                    checked={thresholds.pushEnabled && pushEnabled}
+                    onCheckedChange={handleTogglePush}
+                    disabled={pushPermission === 'denied'}
+                  />
+                </div>
               </div>
             )}
 
