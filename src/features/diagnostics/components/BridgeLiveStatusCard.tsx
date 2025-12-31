@@ -1,10 +1,10 @@
 import { useState, useRef, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Activity, Server, Wifi, WifiOff, CheckCircle2, XCircle, RefreshCw, Loader2, AlertTriangle, Timer } from "lucide-react";
+import { Activity, Server, Wifi, WifiOff, CheckCircle2, XCircle, RefreshCw, Loader2, AlertTriangle, Timer, Globe, Network } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { bridgeClient } from "@/api/bridge";
+import { bridgeClient, getBridgeUrl } from "@/api/bridge";
 import type { XxdkInfoResponse, CmixxStatusResponse, HealthResponse } from "@/api/bridge/types";
 
 interface StatusRowProps {
@@ -116,8 +116,42 @@ const useResponseTime = () => {
   return { latency, startTimer, endTimer, resetTimer };
 };
 
+// Helper to determine connection path type
+const getConnectionPathInfo = (url: string) => {
+  const isProxy = url.includes(":8090");
+  const isBridge = url.includes(":8787");
+  const isLocal = url.includes("127.0.0.1") || url.includes("localhost");
+  
+  if (isProxy) {
+    return {
+      type: "proxy" as const,
+      label: "Proxy",
+      port: "8090",
+      visibility: isLocal ? "local" : "public",
+    };
+  }
+  if (isBridge) {
+    return {
+      type: "bridge" as const,
+      label: "Bridge",
+      port: "8787",
+      visibility: "local",
+    };
+  }
+  return {
+    type: "custom" as const,
+    label: "Custom",
+    port: new URL(url).port || "80",
+    visibility: "unknown",
+  };
+};
+
 const BridgeLiveStatusCard = () => {
   const { t } = useTranslation();
+  
+  // Get connection path info
+  const bridgeUrl = getBridgeUrl();
+  const connectionPath = getConnectionPathInfo(bridgeUrl);
   
   // Response time trackers
   const healthTimer = useResponseTime();
@@ -249,6 +283,43 @@ const BridgeLiveStatusCard = () => {
               <RefreshCw className="h-3.5 w-3.5" />
             )}
           </Button>
+        </div>
+
+        {/* Connection Path Indicator */}
+        <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-muted/30 border border-border/30">
+          <div className="flex items-center gap-2 flex-1">
+            {connectionPath.type === "proxy" ? (
+              <Globe className="h-4 w-4 text-primary" />
+            ) : (
+              <Network className="h-4 w-4 text-amber-500" />
+            )}
+            <div className="flex flex-col">
+              <span className="text-xs font-medium">
+                {t("connectionPath", "Connection Path")}
+              </span>
+              <span className="text-[10px] text-muted-foreground font-mono truncate max-w-[200px]">
+                {bridgeUrl}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${
+              connectionPath.type === "proxy" 
+                ? "bg-primary/10 text-primary" 
+                : "bg-amber-500/10 text-amber-500"
+            }`}>
+              {connectionPath.label}:{connectionPath.port}
+            </span>
+            <span className={`px-1.5 py-0.5 rounded text-[10px] ${
+              connectionPath.visibility === "public"
+                ? "bg-emerald-500/10 text-emerald-500"
+                : "bg-muted text-muted-foreground"
+            }`}>
+              {connectionPath.visibility === "public" 
+                ? t("public", "Public") 
+                : t("local", "Local")}
+            </span>
+          </div>
         </div>
 
         {/* All endpoints failed banner */}
