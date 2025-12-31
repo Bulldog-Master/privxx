@@ -5,15 +5,17 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Activity, RotateCcw, Gauge, Bell, BellOff, CheckCircle2 } from "lucide-react";
+import { Activity, RotateCcw, Gauge, Bell, BellOff, CheckCircle2, Volume2, VolumeX } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { useConnectionAlertPreferences } from "@/hooks/useConnectionAlertPreferences";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useConnectionAlertPreferences, AlertSoundType } from "@/hooks/useConnectionAlertPreferences";
 import { usePushNotifications } from "@/hooks/usePushNotifications";
+import { useAlertSound } from "@/hooks/useAlertSound";
 import { toast } from "@/hooks/useToast";
 
 export function ConnectionAlertSettings() {
@@ -34,6 +36,8 @@ export function ConnectionAlertSettings() {
     setEnabled: setPushEnabled,
     showNotification,
   } = usePushNotifications();
+
+  const { playTestSound } = useAlertSound();
 
   const handleToggleAlerts = () => {
     updateThreshold('alertsEnabled', !thresholds.alertsEnabled);
@@ -176,6 +180,92 @@ export function ConnectionAlertSettings() {
                     checked={thresholds.pushEnabled && pushEnabled}
                     onCheckedChange={handleTogglePush}
                     disabled={pushPermission === 'denied'}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Sound Alerts */}
+            <div className="flex items-center justify-between py-2 border-t border-border/30">
+              <div className="flex items-start gap-3">
+                {thresholds.soundEnabled ? (
+                  <Volume2 className="h-5 w-5 text-primary/70 mt-0.5" />
+                ) : (
+                  <VolumeX className="h-5 w-5 text-primary/70 mt-0.5" />
+                )}
+                <div className="space-y-0.5">
+                  <Label htmlFor="sound-alerts" className="text-sm font-medium text-primary">
+                    {t("connectionAlerts.soundLabel", "Sound alerts")}
+                  </Label>
+                  <p className="text-xs text-primary/70">
+                    {t("connectionAlerts.soundDesc", "Play a sound when alerts trigger")}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                {thresholds.soundEnabled && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      playTestSound();
+                      toast({
+                        title: t("connectionAlerts.soundTestSent", "Sound played"),
+                        description: t("connectionAlerts.soundTestSentDesc", "Did you hear it?"),
+                      });
+                    }}
+                    className="text-xs h-7 px-2"
+                  >
+                    {t("connectionAlerts.test", "Test")}
+                  </Button>
+                )}
+                <Switch
+                  id="sound-alerts"
+                  checked={thresholds.soundEnabled}
+                  onCheckedChange={(checked) => updateThreshold('soundEnabled', checked)}
+                />
+              </div>
+            </div>
+
+            {thresholds.soundEnabled && (
+              <div className="space-y-4 pl-8">
+                {/* Sound Type */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-primary">
+                    {t("connectionAlerts.soundType", "Sound type")}
+                  </Label>
+                  <Select
+                    value={thresholds.soundType}
+                    onValueChange={(value: AlertSoundType) => updateThreshold('soundType', value)}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="subtle">{t("connectionAlerts.soundSubtle", "Subtle")}</SelectItem>
+                      <SelectItem value="chime">{t("connectionAlerts.soundChime", "Chime")}</SelectItem>
+                      <SelectItem value="alert">{t("connectionAlerts.soundAlert", "Alert")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Volume */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-sm font-medium text-primary">
+                      {t("connectionAlerts.soundVolume", "Volume")}
+                    </Label>
+                    <span className="text-sm font-mono text-primary/70">
+                      {thresholds.soundVolume}%
+                    </span>
+                  </div>
+                  <Slider
+                    value={[thresholds.soundVolume]}
+                    onValueChange={([value]) => updateThreshold('soundVolume', value)}
+                    min={10}
+                    max={100}
+                    step={10}
+                    className="w-full"
                   />
                 </div>
               </div>

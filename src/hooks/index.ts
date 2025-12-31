@@ -16,3 +16,4 @@ export { useSessionTimeout } from "./useSessionTimeout";
 export { useTTLCountdown } from "./useTTLCountdown";
 export { useToast, toast } from "./useToast";
 export { usePushNotifications } from "./usePushNotifications";
+export { useAlertSound } from "./useAlertSound";
