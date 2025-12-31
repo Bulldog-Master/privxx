@@ -367,6 +367,8 @@
   "diagnostics.hideAdvanced": "तकनीकी विवरण छिपाएं",
   "demoModeLabel": "पूर्वावलोकन",
   "close": "बंद करें",
+
+  "connectionHistory": "कनेक्शन इतिहास",
   "connectionHistoryDesc": "हाल के Bridge कनेक्शन प्रयास",
   "connectionSuccess": "सफलतापूर्वक कनेक्टेड",
   "noConnectionEvents": "अभी तक कोई कनेक्शन इवेंट नहीं",

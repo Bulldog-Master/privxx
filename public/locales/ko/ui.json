@@ -367,6 +367,8 @@
   "diagnostics.hideAdvanced": "기술 세부 정보 숨기기",
   "demoModeLabel": "미리보기",
   "close": "닫기",
+
+  "connectionHistory": "연결 기록",
   "connectionHistoryDesc": "최근 Bridge 연결 시도",
   "connectionSuccess": "성공적으로 연결됨",
   "noConnectionEvents": "아직 연결 이벤트 없음",
