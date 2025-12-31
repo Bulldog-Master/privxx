@@ -25,6 +25,42 @@
       "description": "Tous les systèmes sont opérationnels."
     }
   },
+  "connectionAlerts": {
+    "title": "Alertes de qualité de connexion",
+    "description": "Configurez quand recevoir les notifications de performance",
+    "enabled": "Alertes de qualité de connexion activées",
+    "disabled": "Alertes de qualité de connexion désactivées",
+    "enableLabel": "Alertes de qualité de connexion",
+    "enableDesc": "Afficher des notifications lorsque la qualité de connexion se dégrade",
+    "latencyWarning": "Seuil d'avertissement de latence",
+    "latencyWarningDesc": "Afficher un avertissement lorsque la latence dépasse cette valeur",
+    "latencyCritical": "Seuil critique de latence",
+    "latencyCriticalDesc": "Afficher une alerte critique lorsque la latence dépasse cette valeur",
+    "degradedDuration": "Délai d'alerte état dégradé",
+    "degradedDurationDesc": "Attendre ce délai avant d'alerter sur une connexion dégradée",
+    "reset": "Seuils réinitialisés",
+    "resetDesc": "Seuils d'alerte restaurés aux valeurs par défaut",
+    "resetButton": "Réinitialiser aux valeurs par défaut",
+    "history": {
+      "title": "Historique des alertes",
+      "description": "Alertes récentes de qualité de connexion pour le débogage",
+      "entries": "entrées",
+      "empty": "Aucune alerte enregistrée",
+      "emptyDesc": "Les alertes apparaîtront ici lorsque des problèmes de connexion surviennent",
+      "export": "Exporter",
+      "clear": "Effacer",
+      "exported": "Historique exporté",
+      "exportedDesc": "Historique des alertes enregistré en fichier JSON",
+      "cleared": "Historique effacé",
+      "clearedDesc": "Tout l'historique des alertes a été supprimé",
+      "latencyWarning": "Avertissement de latence élevée",
+      "latencyCritical": "Latence critique",
+      "latencyRecovered": "Latence rétablie",
+      "connectionLost": "Connexion perdue",
+      "connectionDegraded": "Connexion dégradée",
+      "connectionRestored": "Connexion rétablie"
+    }
+  },
   "latency": {
     "excellent": "Excellent",
     "good": "Bon",

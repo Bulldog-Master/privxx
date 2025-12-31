@@ -25,6 +25,42 @@
       "description": "Todos os sistemas estão operacionais."
     }
   },
+  "connectionAlerts": {
+    "title": "Alertas de qualidade de conexão",
+    "description": "Configure quando receber notificações de desempenho",
+    "enabled": "Alertas de qualidade de conexão ativados",
+    "disabled": "Alertas de qualidade de conexão desativados",
+    "enableLabel": "Alertas de qualidade de conexão",
+    "enableDesc": "Mostrar notificações quando a qualidade da conexão degradar",
+    "latencyWarning": "Limite de aviso de latência",
+    "latencyWarningDesc": "Mostrar aviso quando a latência exceder este valor",
+    "latencyCritical": "Limite crítico de latência",
+    "latencyCriticalDesc": "Mostrar alerta crítico quando a latência exceder este valor",
+    "degradedDuration": "Atraso de alerta de estado degradado",
+    "degradedDurationDesc": "Aguardar este tempo antes de alertar sobre conexão degradada",
+    "reset": "Limites redefinidos",
+    "resetDesc": "Limites de alerta restaurados aos padrões",
+    "resetButton": "Redefinir para padrões",
+    "history": {
+      "title": "Histórico de alertas",
+      "description": "Alertas recentes de qualidade de conexão para depuração",
+      "entries": "entradas",
+      "empty": "Nenhum alerta registrado ainda",
+      "emptyDesc": "Alertas aparecerão aqui quando ocorrerem problemas de conexão",
+      "export": "Exportar",
+      "clear": "Limpar",
+      "exported": "Histórico exportado",
+      "exportedDesc": "Histórico de alertas salvo como arquivo JSON",
+      "cleared": "Histórico limpo",
+      "clearedDesc": "Todo o histórico de alertas foi removido",
+      "latencyWarning": "Aviso de alta latência",
+      "latencyCritical": "Latência crítica",
+      "latencyRecovered": "Latência recuperada",
+      "connectionLost": "Conexão perdida",
+      "connectionDegraded": "Conexão degradada",
+      "connectionRestored": "Conexão restaurada"
+    }
+  },
   "latency": {
     "excellent": "Excelente",
     "good": "Bom",

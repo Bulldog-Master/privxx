@@ -25,6 +25,42 @@
       "description": "Alle systemen zijn operationeel."
     }
   },
+  "connectionAlerts": {
+    "title": "Verbindingskwaliteitswaarschuwingen",
+    "description": "Configureer wanneer u prestatiemeldingen ontvangt",
+    "enabled": "Verbindingskwaliteitswaarschuwingen ingeschakeld",
+    "disabled": "Verbindingskwaliteitswaarschuwingen uitgeschakeld",
+    "enableLabel": "Verbindingskwaliteitswaarschuwingen",
+    "enableDesc": "Meldingen tonen wanneer de verbindingskwaliteit verslechtert",
+    "latencyWarning": "Latentie waarschuwingsdrempel",
+    "latencyWarningDesc": "Waarschuwing tonen wanneer latentie deze waarde overschrijdt",
+    "latencyCritical": "Latentie kritieke drempel",
+    "latencyCriticalDesc": "Kritieke waarschuwing tonen wanneer latentie deze waarde overschrijdt",
+    "degradedDuration": "Vertraagde status alertvertraging",
+    "degradedDurationDesc": "Wacht deze tijd voordat u waarschuwt over verslechterde verbinding",
+    "reset": "Drempels gereset",
+    "resetDesc": "Alertdrempels hersteld naar standaard",
+    "resetButton": "Herstel naar standaard",
+    "history": {
+      "title": "Alertgeschiedenis",
+      "description": "Recente verbindingskwaliteitswaarschuwingen voor debugging",
+      "entries": "items",
+      "empty": "Nog geen waarschuwingen geregistreerd",
+      "emptyDesc": "Waarschuwingen verschijnen hier wanneer verbindingsproblemen optreden",
+      "export": "Exporteren",
+      "clear": "Wissen",
+      "exported": "Geschiedenis geëxporteerd",
+      "exportedDesc": "Alertgeschiedenis opgeslagen als JSON-bestand",
+      "cleared": "Geschiedenis gewist",
+      "clearedDesc": "Alle alertgeschiedenis is verwijderd",
+      "latencyWarning": "Hoge latentie waarschuwing",
+      "latencyCritical": "Kritieke latentie",
+      "latencyRecovered": "Latentie hersteld",
+      "connectionLost": "Verbinding verloren",
+      "connectionDegraded": "Verbinding verslechterd",
+      "connectionRestored": "Verbinding hersteld"
+    }
+  },
   "latency": {
     "excellent": "Uitstekend",
     "good": "Goed",

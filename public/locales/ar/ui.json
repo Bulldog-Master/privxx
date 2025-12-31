@@ -25,6 +25,42 @@
       "description": "جميع الأنظمة تعمل بشكل طبيعي."
     }
   },
+  "connectionAlerts": {
+    "title": "تنبيهات جودة الاتصال",
+    "description": "تكوين وقت استلام إشعارات الأداء",
+    "enabled": "تم تفعيل تنبيهات جودة الاتصال",
+    "disabled": "تم تعطيل تنبيهات جودة الاتصال",
+    "enableLabel": "تنبيهات جودة الاتصال",
+    "enableDesc": "إظهار الإشعارات عند تدهور جودة الاتصال",
+    "latencyWarning": "عتبة تحذير التأخير",
+    "latencyWarningDesc": "إظهار تحذير عند تجاوز التأخير لهذه القيمة",
+    "latencyCritical": "عتبة التأخير الحرجة",
+    "latencyCriticalDesc": "إظهار تنبيه حرج عند تجاوز التأخير لهذه القيمة",
+    "degradedDuration": "تأخير تنبيه الحالة المتدهورة",
+    "degradedDurationDesc": "الانتظار هذه المدة قبل التنبيه عن اتصال متدهور",
+    "reset": "تمت إعادة تعيين العتبات",
+    "resetDesc": "تمت استعادة عتبات التنبيه إلى الافتراضي",
+    "resetButton": "إعادة التعيين للافتراضي",
+    "history": {
+      "title": "سجل التنبيهات",
+      "description": "تنبيهات جودة الاتصال الأخيرة للتصحيح",
+      "entries": "إدخالات",
+      "empty": "لم يتم تسجيل تنبيهات بعد",
+      "emptyDesc": "ستظهر التنبيهات هنا عند حدوث مشاكل في الاتصال",
+      "export": "تصدير",
+      "clear": "مسح",
+      "exported": "تم تصدير السجل",
+      "exportedDesc": "تم حفظ سجل التنبيهات كملف JSON",
+      "cleared": "تم مسح السجل",
+      "clearedDesc": "تمت إزالة جميع سجلات التنبيهات",
+      "latencyWarning": "تحذير تأخير عالٍ",
+      "latencyCritical": "تأخير حرج",
+      "latencyRecovered": "استعادة التأخير",
+      "connectionLost": "انقطع الاتصال",
+      "connectionDegraded": "الاتصال متدهور",
+      "connectionRestored": "تم استعادة الاتصال"
+    }
+  },
   "latency": {
     "excellent": "ممتاز",
     "good": "جيد",

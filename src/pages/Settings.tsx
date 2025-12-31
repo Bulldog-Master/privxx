@@ -18,6 +18,8 @@ import { AccountSection } from "@/components/settings/AccountSection";
 import { SessionSettings } from "@/components/settings/SessionSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { AlertSettings } from "@/components/settings/AlertSettings";
+import { ConnectionAlertSettings } from "@/components/settings/ConnectionAlertSettings";
+import { ConnectionAlertHistory } from "@/components/settings/ConnectionAlertHistory";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -74,6 +76,12 @@ export default function Settings() {
 
           {/* Alert Settings (Sound/Vibration) */}
           <AlertSettings />
+
+          {/* Connection Quality Alerts */}
+          <ConnectionAlertSettings />
+
+          {/* Connection Alert History */}
+          <ConnectionAlertHistory />
 
           {/* Two-Factor Authentication */}
           <TOTPManagement userId={user.id} />

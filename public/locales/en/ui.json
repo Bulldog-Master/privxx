@@ -25,6 +25,42 @@
       "description": "All systems are operational."
     }
   },
+  "connectionAlerts": {
+    "title": "Connection Quality Alerts",
+    "description": "Configure when to receive performance notifications",
+    "enabled": "Connection quality alerts enabled",
+    "disabled": "Connection quality alerts disabled",
+    "enableLabel": "Connection quality alerts",
+    "enableDesc": "Show notifications when connection quality degrades",
+    "latencyWarning": "Latency warning threshold",
+    "latencyWarningDesc": "Show warning when latency exceeds this value",
+    "latencyCritical": "Latency critical threshold",
+    "latencyCriticalDesc": "Show critical alert when latency exceeds this value",
+    "degradedDuration": "Degraded state alert delay",
+    "degradedDurationDesc": "Wait this long before alerting about degraded connection",
+    "reset": "Thresholds reset",
+    "resetDesc": "Alert thresholds restored to defaults",
+    "resetButton": "Reset to Defaults",
+    "history": {
+      "title": "Alert History",
+      "description": "Recent connection quality alerts for debugging",
+      "entries": "entries",
+      "empty": "No alerts recorded yet",
+      "emptyDesc": "Alerts will appear here when connection issues occur",
+      "export": "Export",
+      "clear": "Clear",
+      "exported": "History exported",
+      "exportedDesc": "Alert history saved as JSON file",
+      "cleared": "History cleared",
+      "clearedDesc": "All alert history has been removed",
+      "latencyWarning": "High Latency Warning",
+      "latencyCritical": "Critical Latency",
+      "latencyRecovered": "Latency Recovered",
+      "connectionLost": "Connection Lost",
+      "connectionDegraded": "Connection Degraded",
+      "connectionRestored": "Connection Restored"
+    }
+  },
   "latency": {
     "excellent": "Excellent",
     "good": "Good",

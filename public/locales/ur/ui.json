@@ -25,6 +25,42 @@
       "description": "تمام نظام کام کر رہے ہیں۔"
     }
   },
+  "connectionAlerts": {
+    "title": "کنکشن کوالٹی الرٹس",
+    "description": "کارکردگی کی اطلاعات کب وصول کریں یہ ترتیب دیں",
+    "enabled": "کنکشن کوالٹی الرٹس فعال",
+    "disabled": "کنکشن کوالٹی الرٹس غیر فعال",
+    "enableLabel": "کنکشن کوالٹی الرٹس",
+    "enableDesc": "کنکشن کوالٹی خراب ہونے پر اطلاعات دکھائیں",
+    "latencyWarning": "تاخیر انتباہ کی حد",
+    "latencyWarningDesc": "تاخیر اس قدر سے زیادہ ہونے پر انتباہ دکھائیں",
+    "latencyCritical": "تاخیر کی اہم حد",
+    "latencyCriticalDesc": "تاخیر اس قدر سے زیادہ ہونے پر اہم الرٹ دکھائیں",
+    "degradedDuration": "خراب حالت الرٹ تاخیر",
+    "degradedDurationDesc": "خراب کنکشن کے بارے میں الرٹ کرنے سے پہلے اتنی دیر انتظار کریں",
+    "reset": "حدود ری سیٹ",
+    "resetDesc": "الرٹ کی حدود ڈیفالٹ پر بحال",
+    "resetButton": "ڈیفالٹ پر ری سیٹ کریں",
+    "history": {
+      "title": "الرٹ کی تاریخ",
+      "description": "ڈیبگنگ کے لیے حالیہ کنکشن کوالٹی الرٹس",
+      "entries": "اندراجات",
+      "empty": "ابھی تک کوئی الرٹس ریکارڈ نہیں",
+      "emptyDesc": "کنکشن کے مسائل ہونے پر یہاں الرٹس ظاہر ہوں گے",
+      "export": "برآمد کریں",
+      "clear": "صاف کریں",
+      "exported": "تاریخ برآمد ہوئی",
+      "exportedDesc": "الرٹ کی تاریخ JSON فائل کے طور پر محفوظ",
+      "cleared": "تاریخ صاف ہوئی",
+      "clearedDesc": "تمام الرٹ کی تاریخ ہٹا دی گئی",
+      "latencyWarning": "زیادہ تاخیر کی انتباہ",
+      "latencyCritical": "اہم تاخیر",
+      "latencyRecovered": "تاخیر بحال",
+      "connectionLost": "کنکشن ٹوٹ گیا",
+      "connectionDegraded": "کنکشن خراب",
+      "connectionRestored": "کنکشن بحال"
+    }
+  },
   "latency": {
     "excellent": "بہترین",
     "good": "اچھا",

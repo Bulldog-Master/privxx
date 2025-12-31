@@ -25,6 +25,42 @@
       "description": "すべてのシステムが正常に動作しています。"
     }
   },
+  "connectionAlerts": {
+    "title": "接続品質アラート",
+    "description": "パフォーマンス通知を受け取るタイミングを設定",
+    "enabled": "接続品質アラートが有効になりました",
+    "disabled": "接続品質アラートが無効になりました",
+    "enableLabel": "接続品質アラート",
+    "enableDesc": "接続品質が低下したときに通知を表示",
+    "latencyWarning": "レイテンシ警告しきい値",
+    "latencyWarningDesc": "レイテンシがこの値を超えたら警告を表示",
+    "latencyCritical": "レイテンシ危険しきい値",
+    "latencyCriticalDesc": "レイテンシがこの値を超えたら重大な警告を表示",
+    "degradedDuration": "劣化状態アラート遅延",
+    "degradedDurationDesc": "接続劣化を警告する前にこの時間待機",
+    "reset": "しきい値がリセットされました",
+    "resetDesc": "アラートしきい値がデフォルトに復元されました",
+    "resetButton": "デフォルトにリセット",
+    "history": {
+      "title": "アラート履歴",
+      "description": "デバッグ用の最近の接続品質アラート",
+      "entries": "件",
+      "empty": "アラートはまだ記録されていません",
+      "emptyDesc": "接続の問題が発生するとここにアラートが表示されます",
+      "export": "エクスポート",
+      "clear": "クリア",
+      "exported": "履歴がエクスポートされました",
+      "exportedDesc": "アラート履歴がJSONファイルとして保存されました",
+      "cleared": "履歴がクリアされました",
+      "clearedDesc": "すべてのアラート履歴が削除されました",
+      "latencyWarning": "高レイテンシ警告",
+      "latencyCritical": "危険なレイテンシ",
+      "latencyRecovered": "レイテンシ回復",
+      "connectionLost": "接続切断",
+      "connectionDegraded": "接続劣化",
+      "connectionRestored": "接続復旧"
+    }
+  },
   "latency": {
     "excellent": "優秀",
     "good": "良好",

@@ -25,6 +25,42 @@
       "description": "Todos los sistemas están operativos."
     }
   },
+  "connectionAlerts": {
+    "title": "Alertas de calidad de conexión",
+    "description": "Configure cuándo recibir notificaciones de rendimiento",
+    "enabled": "Alertas de calidad de conexión habilitadas",
+    "disabled": "Alertas de calidad de conexión deshabilitadas",
+    "enableLabel": "Alertas de calidad de conexión",
+    "enableDesc": "Mostrar notificaciones cuando la calidad de conexión se degrade",
+    "latencyWarning": "Umbral de advertencia de latencia",
+    "latencyWarningDesc": "Mostrar advertencia cuando la latencia exceda este valor",
+    "latencyCritical": "Umbral crítico de latencia",
+    "latencyCriticalDesc": "Mostrar alerta crítica cuando la latencia exceda este valor",
+    "degradedDuration": "Retraso de alerta de estado degradado",
+    "degradedDurationDesc": "Esperar este tiempo antes de alertar sobre conexión degradada",
+    "reset": "Umbrales restablecidos",
+    "resetDesc": "Umbrales de alerta restaurados a valores predeterminados",
+    "resetButton": "Restablecer a predeterminados",
+    "history": {
+      "title": "Historial de alertas",
+      "description": "Alertas recientes de calidad de conexión para depuración",
+      "entries": "entradas",
+      "empty": "Aún no hay alertas registradas",
+      "emptyDesc": "Las alertas aparecerán aquí cuando ocurran problemas de conexión",
+      "export": "Exportar",
+      "clear": "Limpiar",
+      "exported": "Historial exportado",
+      "exportedDesc": "Historial de alertas guardado como archivo JSON",
+      "cleared": "Historial limpiado",
+      "clearedDesc": "Todo el historial de alertas ha sido eliminado",
+      "latencyWarning": "Advertencia de alta latencia",
+      "latencyCritical": "Latencia crítica",
+      "latencyRecovered": "Latencia recuperada",
+      "connectionLost": "Conexión perdida",
+      "connectionDegraded": "Conexión degradada",
+      "connectionRestored": "Conexión restaurada"
+    }
+  },
   "latency": {
     "excellent": "Excelente",
     "good": "Bueno",
