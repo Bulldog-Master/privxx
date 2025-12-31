@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "Hohe Latenz erkannt",
+      "description": "Die Verbindungslatenz ist erhöht ({{latency}}ms). Die Leistung kann beeinträchtigt sein."
+    },
+    "latencyCritical": {
+      "title": "Verbindung sehr langsam",
+      "description": "Die Latenz ist kritisch hoch ({{latency}}ms). Die Verbindungsqualität ist stark beeinträchtigt."
+    },
+    "latencyRecovered": {
+      "title": "Verbindung verbessert",
+      "description": "Die Latenz ist wieder normal."
+    },
+    "connectionLost": {
+      "title": "Verbindung verloren",
+      "description": "Mixnet nicht erreichbar. Verbindungsversuch läuft..."
+    },
+    "connectionDegraded": {
+      "title": "Verbindung beeinträchtigt",
+      "description": "Einige Dienste sind nicht verfügbar. Kernfunktionen können eingeschränkt sein."
+    },
+    "connectionRestored": {
+      "title": "Verbindung wiederhergestellt",
+      "description": "Alle Systeme sind betriebsbereit."
+    }
+  },
   "latency": {
     "excellent": "Ausgezeichnet",
     "good": "Gut",

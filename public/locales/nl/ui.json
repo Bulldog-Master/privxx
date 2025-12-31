@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "Hoge latentie gedetecteerd",
+      "description": "Verbindingslatentie is verhoogd ({{latency}}ms). Prestaties kunnen worden beïnvloed."
+    },
+    "latencyCritical": {
+      "title": "Verbinding zeer traag",
+      "description": "Latentie is kritiek hoog ({{latency}}ms). Verbindingskwaliteit is ernstig verslechterd."
+    },
+    "latencyRecovered": {
+      "title": "Verbinding verbeterd",
+      "description": "Latentie is terug naar normale niveaus."
+    },
+    "connectionLost": {
+      "title": "Verbinding verloren",
+      "description": "Kan mixnet niet bereiken. Opnieuw verbinden..."
+    },
+    "connectionDegraded": {
+      "title": "Verbinding verslechterd",
+      "description": "Sommige diensten zijn niet beschikbaar. Kernfunctionaliteit kan beperkt zijn."
+    },
+    "connectionRestored": {
+      "title": "Verbinding hersteld",
+      "description": "Alle systemen zijn operationeel."
+    }
+  },
   "latency": {
     "excellent": "Uitstekend",
     "good": "Goed",

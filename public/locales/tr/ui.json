@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "Yüksek gecikme algılandı",
+      "description": "Bağlantı gecikmesi yükseldi ({{latency}}ms). Performans etkilenebilir."
+    },
+    "latencyCritical": {
+      "title": "Bağlantı çok yavaş",
+      "description": "Gecikme kritik seviyede ({{latency}}ms). Bağlantı kalitesi ciddi şekilde bozuldu."
+    },
+    "latencyRecovered": {
+      "title": "Bağlantı iyileşti",
+      "description": "Gecikme normal seviyelere döndü."
+    },
+    "connectionLost": {
+      "title": "Bağlantı kesildi",
+      "description": "Mixnet'e ulaşılamıyor. Yeniden bağlanmaya çalışılıyor..."
+    },
+    "connectionDegraded": {
+      "title": "Bağlantı bozuldu",
+      "description": "Bazı hizmetler kullanılamıyor. Temel işlevler sınırlı olabilir."
+    },
+    "connectionRestored": {
+      "title": "Bağlantı geri yüklendi",
+      "description": "Tüm sistemler çalışır durumda."
+    }
+  },
   "latency": {
     "excellent": "Mükemmel",
     "good": "İyi",

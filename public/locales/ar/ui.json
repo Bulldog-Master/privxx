@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "اكتشاف تأخير عالٍ",
+      "description": "تأخير الاتصال مرتفع ({{latency}}ms). قد يتأثر الأداء."
+    },
+    "latencyCritical": {
+      "title": "الاتصال بطيء جداً",
+      "description": "التأخير بلغ مستوى حرج ({{latency}}ms). جودة الاتصال متدهورة بشدة."
+    },
+    "latencyRecovered": {
+      "title": "تحسن الاتصال",
+      "description": "عاد التأخير إلى المستويات الطبيعية."
+    },
+    "connectionLost": {
+      "title": "انقطع الاتصال",
+      "description": "تعذر الوصول إلى شبكة الخلط. جارٍ محاولة إعادة الاتصال..."
+    },
+    "connectionDegraded": {
+      "title": "الاتصال متدهور",
+      "description": "بعض الخدمات غير متاحة. قد تكون الوظائف الأساسية محدودة."
+    },
+    "connectionRestored": {
+      "title": "استُعيد الاتصال",
+      "description": "جميع الأنظمة تعمل بشكل طبيعي."
+    }
+  },
   "latency": {
     "excellent": "ممتاز",
     "good": "جيد",

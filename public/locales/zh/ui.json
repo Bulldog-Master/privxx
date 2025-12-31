@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "检测到高延迟",
+      "description": "连接延迟升高（{{latency}}ms）。性能可能受到影响。"
+    },
+    "latencyCritical": {
+      "title": "连接非常慢",
+      "description": "延迟已达到危急水平（{{latency}}ms）。连接质量严重下降。"
+    },
+    "latencyRecovered": {
+      "title": "连接已改善",
+      "description": "延迟已恢复正常水平。"
+    },
+    "connectionLost": {
+      "title": "连接丢失",
+      "description": "无法连接到混合网络。正在尝试重新连接..."
+    },
+    "connectionDegraded": {
+      "title": "连接降级",
+      "description": "部分服务不可用。核心功能可能受限。"
+    },
+    "connectionRestored": {
+      "title": "连接已恢复",
+      "description": "所有系统运行正常。"
+    }
+  },
   "latency": {
     "excellent": "极佳",
     "good": "良好",

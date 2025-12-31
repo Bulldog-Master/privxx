@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "زیادہ تاخیر کا پتہ چلا",
+      "description": "کنکشن کی تاخیر بڑھ گئی ہے ({{latency}}ms)۔ کارکردگی متاثر ہو سکتی ہے۔"
+    },
+    "latencyCritical": {
+      "title": "کنکشن بہت سست",
+      "description": "تاخیر انتہائی زیادہ ہے ({{latency}}ms)۔ کنکشن کی کوالٹی شدید متاثر ہے۔"
+    },
+    "latencyRecovered": {
+      "title": "کنکشن بہتر ہوا",
+      "description": "تاخیر نارمل سطح پر واپس آ گئی۔"
+    },
+    "connectionLost": {
+      "title": "کنکشن ٹوٹ گیا",
+      "description": "مکس نیٹ تک رسائی نہیں۔ دوبارہ جڑنے کی کوشش..."
+    },
+    "connectionDegraded": {
+      "title": "کنکشن کمزور",
+      "description": "کچھ خدمات دستیاب نہیں۔ بنیادی فعالیت محدود ہو سکتی ہے۔"
+    },
+    "connectionRestored": {
+      "title": "کنکشن بحال",
+      "description": "تمام نظام کام کر رہے ہیں۔"
+    }
+  },
   "latency": {
     "excellent": "بہترین",
     "good": "اچھا",

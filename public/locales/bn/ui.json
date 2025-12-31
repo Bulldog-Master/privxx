@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "উচ্চ লেটেন্সি শনাক্ত",
+      "description": "সংযোগ লেটেন্সি বেড়েছে ({{latency}}ms)। কর্মক্ষমতা প্রভাবিত হতে পারে।"
+    },
+    "latencyCritical": {
+      "title": "সংযোগ অত্যন্ত ধীর",
+      "description": "লেটেন্সি গুরুতরভাবে উচ্চ ({{latency}}ms)। সংযোগ মান মারাত্মকভাবে খারাপ।"
+    },
+    "latencyRecovered": {
+      "title": "সংযোগ উন্নত হয়েছে",
+      "description": "লেটেন্সি স্বাভাবিক স্তরে ফিরে এসেছে।"
+    },
+    "connectionLost": {
+      "title": "সংযোগ হারিয়ে গেছে",
+      "description": "মিক্সনেটে পৌঁছানো যাচ্ছে না। পুনরায় সংযোগের চেষ্টা..."
+    },
+    "connectionDegraded": {
+      "title": "সংযোগ খারাপ হয়েছে",
+      "description": "কিছু পরিষেবা অনুপলব্ধ। মূল কার্যকারিতা সীমিত হতে পারে।"
+    },
+    "connectionRestored": {
+      "title": "সংযোগ পুনরুদ্ধার",
+      "description": "সমস্ত সিস্টেম স্বাভাবিকভাবে কাজ করছে।"
+    }
+  },
   "latency": {
     "excellent": "চমৎকার",
     "good": "ভালো",

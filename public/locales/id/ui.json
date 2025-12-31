@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "Latensi tinggi terdeteksi",
+      "description": "Latensi koneksi meningkat ({{latency}}ms). Performa mungkin terpengaruh."
+    },
+    "latencyCritical": {
+      "title": "Koneksi sangat lambat",
+      "description": "Latensi sangat tinggi ({{latency}}ms). Kualitas koneksi sangat menurun."
+    },
+    "latencyRecovered": {
+      "title": "Koneksi membaik",
+      "description": "Latensi telah kembali ke tingkat normal."
+    },
+    "connectionLost": {
+      "title": "Koneksi terputus",
+      "description": "Tidak dapat terhubung ke mixnet. Mencoba menghubungkan kembali..."
+    },
+    "connectionDegraded": {
+      "title": "Koneksi menurun",
+      "description": "Beberapa layanan tidak tersedia. Fungsi utama mungkin terbatas."
+    },
+    "connectionRestored": {
+      "title": "Koneksi dipulihkan",
+      "description": "Semua sistem beroperasi normal."
+    }
+  },
   "latency": {
     "excellent": "Sangat Baik",
     "good": "Baik",
