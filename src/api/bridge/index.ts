@@ -17,14 +17,14 @@
 import { BridgeClient, type IBridgeClient, type BridgeClientConfig } from "./client";
 import { MockBridgeClient } from "./mockClient";
 
-// VPS production bridge URL (public, frontend-accessible)
-const VPS_BRIDGE_URL = "http://66.94.109.237:8090";
+// VPS production proxy URL (public, frontend-accessible via Proxy on port 8090)
+const VPS_PROXY_URL = "http://66.94.109.237:8090";
 
-// Local development bridge URL
-const LOCAL_BRIDGE_URL = "http://127.0.0.1:8090";
+// Local development bridge URL (Bridge binds to 8787 locally)
+const LOCAL_BRIDGE_URL = "http://127.0.0.1:8787";
 
-// Environment override or VPS default
-const BRIDGE_URL = import.meta.env.VITE_BRIDGE_URL || VPS_BRIDGE_URL;
+// Environment override or VPS Proxy default
+const BRIDGE_URL = import.meta.env.VITE_BRIDGE_URL || VPS_PROXY_URL;
 
 // Use mock when explicitly set
 const USE_MOCK = import.meta.env.VITE_MOCK === "true";
@@ -36,8 +36,8 @@ function getEffectiveBridgeUrl(): string {
     return import.meta.env.VITE_BRIDGE_URL;
   }
   
-  // Default to VPS bridge
-  return VPS_BRIDGE_URL;
+  // Default to VPS Proxy (public entry point)
+  return VPS_PROXY_URL;
 }
 
 function createBridgeClient(): IBridgeClient {
