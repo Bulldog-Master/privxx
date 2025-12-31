@@ -22,6 +22,26 @@
     "title": "مدة الجلسة",
     "connected": "متصل منذ {{duration}}"
   },
+  "bandwidth": {
+    "title": "استخدام عرض النطاق",
+    "downloaded": "تم التحميل",
+    "uploaded": "تم الرفع",
+    "note": "حركة النفق المقدرة"
+  },
+  "networkStats": {
+    "title": "إحصائيات الشبكة",
+    "description": "سجل اختبارات السرعة واتجاهات زمن الاستجابة",
+    "clear": "مسح",
+    "runTest": "تشغيل الاختبار",
+    "averages": "المتوسطات",
+    "speedHistory": "سجل السرعة",
+    "latencyHistory": "سجل زمن الاستجابة",
+    "history": "سجل الاختبارات",
+    "tests": "اختبارات",
+    "noTests": "لا توجد اختبارات سرعة بعد",
+    "runFirstTest": "قم بإجراء اختبار لرؤية أداء mixnet الخاص بك",
+    "disclaimer": "نتائج محاكاة — تختلف سرعات mixnet الفعلية حسب ظروف الشبكة"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "شروط الاستخدام",

@@ -22,6 +22,26 @@
     "title": "Sitzungsdauer",
     "connected": "Verbunden seit {{duration}}"
   },
+  "bandwidth": {
+    "title": "Bandbreitennutzung",
+    "downloaded": "Heruntergeladen",
+    "uploaded": "Hochgeladen",
+    "note": "Geschätzter Tunnel-Verkehr"
+  },
+  "networkStats": {
+    "title": "Netzwerkstatistiken",
+    "description": "Geschwindigkeitstest-Verlauf und Latenz-Trends",
+    "clear": "Löschen",
+    "runTest": "Test starten",
+    "averages": "Durchschnitte",
+    "speedHistory": "Geschwindigkeitsverlauf",
+    "latencyHistory": "Latenzverlauf",
+    "history": "Testverlauf",
+    "tests": "Tests",
+    "noTests": "Noch keine Geschwindigkeitstests",
+    "runFirstTest": "Führen Sie einen Test durch, um Ihre Mixnet-Leistung zu sehen",
+    "disclaimer": "Simulierte Ergebnisse — tatsächliche Mixnet-Geschwindigkeiten variieren je nach Netzwerkbedingungen"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Nutzungsbedingungen",

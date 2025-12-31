@@ -22,6 +22,26 @@
     "title": "セッション稼働時間",
     "connected": "{{duration}}接続中"
   },
+  "bandwidth": {
+    "title": "帯域幅使用量",
+    "downloaded": "ダウンロード済み",
+    "uploaded": "アップロード済み",
+    "note": "推定トンネルトラフィック"
+  },
+  "networkStats": {
+    "title": "ネットワーク統計",
+    "description": "速度テスト履歴とレイテンシ傾向",
+    "clear": "クリア",
+    "runTest": "テスト実行",
+    "averages": "平均",
+    "speedHistory": "速度履歴",
+    "latencyHistory": "レイテンシ履歴",
+    "history": "テスト履歴",
+    "tests": "テスト",
+    "noTests": "速度テストがまだありません",
+    "runFirstTest": "テストを実行してMixnetのパフォーマンスを確認",
+    "disclaimer": "シミュレーション結果 — 実際のMixnet速度はネットワーク状況により異なります"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "利用規約",

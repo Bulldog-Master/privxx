@@ -22,6 +22,26 @@
     "title": "Waktu Aktif Sesi",
     "connected": "Terhubung selama {{duration}}"
   },
+  "bandwidth": {
+    "title": "Penggunaan Bandwidth",
+    "downloaded": "Terunduh",
+    "uploaded": "Terunggah",
+    "note": "Estimasi lalu lintas terowongan"
+  },
+  "networkStats": {
+    "title": "Statistik Jaringan",
+    "description": "Riwayat tes kecepatan dan tren latensi",
+    "clear": "Hapus",
+    "runTest": "Jalankan Tes",
+    "averages": "Rata-rata",
+    "speedHistory": "Riwayat Kecepatan",
+    "latencyHistory": "Riwayat Latensi",
+    "history": "Riwayat Tes",
+    "tests": "tes",
+    "noTests": "Belum ada tes kecepatan",
+    "runFirstTest": "Jalankan tes untuk melihat kinerja mixnet Anda",
+    "disclaimer": "Hasil simulasi — kecepatan mixnet aktual bervariasi berdasarkan kondisi jaringan"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Ketentuan Penggunaan",

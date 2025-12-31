@@ -22,6 +22,26 @@
     "title": "Sessieduur",
     "connected": "{{duration}} verbonden"
   },
+  "bandwidth": {
+    "title": "Bandbreedte Gebruik",
+    "downloaded": "Gedownload",
+    "uploaded": "Geüpload",
+    "note": "Geschat tunnelverkeer"
+  },
+  "networkStats": {
+    "title": "Netwerkstatistieken",
+    "description": "Snelheidstest geschiedenis en latentie trends",
+    "clear": "Wissen",
+    "runTest": "Test uitvoeren",
+    "averages": "Gemiddelden",
+    "speedHistory": "Snelheidsgeschiedenis",
+    "latencyHistory": "Latentiegeschiedenis",
+    "history": "Testgeschiedenis",
+    "tests": "tests",
+    "noTests": "Nog geen snelheidstests",
+    "runFirstTest": "Voer een test uit om uw mixnet prestaties te zien",
+    "disclaimer": "Gesimuleerde resultaten — werkelijke mixnet snelheden variëren afhankelijk van netwerkomstandigheden"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Gebruiksvoorwaarden",

@@ -22,6 +22,26 @@
     "title": "会话时长",
     "connected": "已连接 {{duration}}"
   },
+  "bandwidth": {
+    "title": "带宽使用",
+    "downloaded": "已下载",
+    "uploaded": "已上传",
+    "note": "估计隧道流量"
+  },
+  "networkStats": {
+    "title": "网络统计",
+    "description": "速度测试历史和延迟趋势",
+    "clear": "清除",
+    "runTest": "运行测试",
+    "averages": "平均值",
+    "speedHistory": "速度历史",
+    "latencyHistory": "延迟历史",
+    "history": "测试历史",
+    "tests": "测试",
+    "noTests": "暂无速度测试",
+    "runFirstTest": "运行测试以查看您的混合网络性能",
+    "disclaimer": "模拟结果 — 实际混合网络速度因网络条件而异"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "使用条款",

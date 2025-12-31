@@ -25,6 +25,7 @@ import {
   ConnectionPathDiagram,
   OverallStatusBar,
   TranslationCoverageBadge,
+  NetworkStatsPanel,
 } from '@/components/diagnostics';
 import type { LayerState } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
@@ -273,8 +274,11 @@ export default function Diagnostics() {
             </Card>
           </div>
 
-          {/* Translation Status Section */}
+          {/* Translation & Network Stats Section */}
           <div className="space-y-6">
+            {/* Network Statistics Panel */}
+            <NetworkStatsPanel />
+            
             <TranslationStatusDashboard />
             <BrowserAnomalyCard />
             <BrowserPolicyCard anomalies={anomalies} signals={signals} />
