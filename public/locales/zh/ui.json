@@ -355,6 +355,19 @@
 
   "statusPill.openDiagnostics": "查看系统状态",
 
+  "diagnostics.liveStats": "实时统计",
+  "diagnostics.latency": "延迟",
+  "diagnostics.errors": "错误",
+  "diagnostics.lastCheck": "最后检查",
+  "diagnostics.actions": "操作",
+  "diagnostics.retry": "重试",
+  "diagnostics.copy": "复制",
+  "diagnostics.noSignals": "仅用于诊断。此面板不会发送或存储任何信号。",
+  "diagnostics.showAdvanced": "显示技术详情",
+  "diagnostics.hideAdvanced": "隐藏技术详情",
+  "demoModeLabel": "预览",
+  "close": "关闭",
+
   "connectionHistory": "连接历史",
   "connectionHistoryDesc": "最近的Bridge连接尝试",
   "connectionSuccess": "连接成功",

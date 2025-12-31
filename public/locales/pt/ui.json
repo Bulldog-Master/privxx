@@ -355,6 +355,19 @@
 
   "statusPill.openDiagnostics": "Ver status do sistema",
 
+  "diagnostics.liveStats": "Estatísticas ao vivo",
+  "diagnostics.latency": "Latência",
+  "diagnostics.errors": "Erros",
+  "diagnostics.lastCheck": "Última verificação",
+  "diagnostics.actions": "Ações",
+  "diagnostics.retry": "Tentar novamente",
+  "diagnostics.copy": "Copiar",
+  "diagnostics.noSignals": "Apenas diagnóstico. Nenhum sinal é enviado ou armazenado por este painel.",
+  "diagnostics.showAdvanced": "Mostrar detalhes técnicos",
+  "diagnostics.hideAdvanced": "Ocultar detalhes técnicos",
+  "demoModeLabel": "Prévia",
+  "close": "Fechar",
+
   "connectionHistory": "Histórico de Conexão",
   "connectionHistoryDesc": "Tentativas recentes de conexão ao bridge",
   "connectionSuccess": "Conectado com sucesso",

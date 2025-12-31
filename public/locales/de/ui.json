@@ -391,6 +391,19 @@
 
   "statusPill.openDiagnostics": "Systemstatus anzeigen",
 
+  "diagnostics.liveStats": "Live-Statistiken",
+  "diagnostics.latency": "Latenz",
+  "diagnostics.errors": "Fehler",
+  "diagnostics.lastCheck": "Letzte Prüfung",
+  "diagnostics.actions": "Aktionen",
+  "diagnostics.retry": "Wiederholen",
+  "diagnostics.copy": "Kopieren",
+  "diagnostics.noSignals": "Nur Diagnose. Von diesem Panel werden keine Signale gesendet oder gespeichert.",
+  "diagnostics.showAdvanced": "Technische Details anzeigen",
+  "diagnostics.hideAdvanced": "Technische Details ausblenden",
+  "demoModeLabel": "Vorschau",
+  "close": "Schließen",
+
   "connectionHistory": "Verbindungsverlauf",
   "connectionHistoryDesc": "Letzte Bridge-Verbindungsversuche",
   "connectionSuccess": "Erfolgreich verbunden",
