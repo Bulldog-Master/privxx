@@ -181,6 +181,9 @@
   "disconnected": "منقطع",
   "nodes": "نوڈز",
   "lastRound": "آخری راؤنڈ",
+  "connectionPath": "کنکشن کا راستہ",
+  "public": "عوامی",
+  "local": "مقامی",
 
   "connectionHistory": "کنکشن تاریخ",
   "connectionHistoryDesc": "حالیہ bridge کنکشن کوششیں",

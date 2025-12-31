@@ -181,6 +181,9 @@
   "disconnected": "Terputus",
   "nodes": "Node",
   "lastRound": "Putaran Terakhir",
+  "connectionPath": "Jalur Koneksi",
+  "public": "Publik",
+  "local": "Lokal",
 
   "connectionHistory": "Riwayat Koneksi",
   "connectionHistoryDesc": "Percobaan koneksi bridge terbaru",

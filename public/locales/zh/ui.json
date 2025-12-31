@@ -181,6 +181,9 @@
   "disconnected": "已断开",
   "nodes": "节点",
   "lastRound": "最后一轮",
+  "connectionPath": "连接路径",
+  "public": "公开",
+  "local": "本地",
 
   "connectionHistory": "连接历史",
   "connectionHistoryDesc": "最近的Bridge连接尝试",

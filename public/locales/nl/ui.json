@@ -181,6 +181,9 @@
   "disconnected": "Niet verbonden",
   "nodes": "Nodes",
   "lastRound": "Laatste Ronde",
+  "connectionPath": "Verbindingspad",
+  "public": "Openbaar",
+  "local": "Lokaal",
 
   "connectionHistory": "Verbindingsgeschiedenis",
   "connectionHistoryDesc": "Recente bridge-verbindingspogingen",

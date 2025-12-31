@@ -217,6 +217,9 @@
   "disconnected": "Desconectado",
   "nodes": "Nodos",
   "lastRound": "Última Ronda",
+  "connectionPath": "Ruta de Conexión",
+  "public": "Público",
+  "local": "Local",
   
   "connectionHistory": "Historial de Conexión",
   "connectionHistoryDesc": "Intentos recientes de conexión al bridge",

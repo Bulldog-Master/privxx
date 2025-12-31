@@ -181,6 +181,9 @@
   "disconnected": "연결 끊김",
   "nodes": "노드",
   "lastRound": "마지막 라운드",
+  "connectionPath": "연결 경로",
+  "public": "공개",
+  "local": "로컬",
 
   "connectionHistory": "연결 기록",
   "connectionHistoryDesc": "최근 Bridge 연결 시도",

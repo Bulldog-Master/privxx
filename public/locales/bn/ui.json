@@ -133,6 +133,9 @@
   "disconnected": "সংযোগ বিচ্ছিন্ন",
   "nodes": "নোড",
   "lastRound": "শেষ রাউন্ড",
+  "connectionPath": "সংযোগ পথ",
+  "public": "পাবলিক",
+  "local": "লোকাল",
   
   "connectionHistory": "সংযোগ ইতিহাস",
   "connectionHistoryDesc": "সাম্প্রতিক ব্রিজ সংযোগ প্রচেষ্টা",
