@@ -2,6 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpBackend from 'i18next-http-backend';
+import { SUPPORTED_LANGUAGE_CODES } from '@/lib/i18n/languageConstants';
 
 i18n
   .use(HttpBackend)
@@ -9,7 +10,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
-    supportedLngs: ['en', 'zh', 'hi', 'es', 'fr', 'ar', 'bn', 'ru', 'pt', 'ur', 'id', 'de', 'ja', 'nl', 'tr', 'ko', 'he', 'yi'],
+    supportedLngs: SUPPORTED_LANGUAGE_CODES,
     ns: ['ui'],
     defaultNS: 'ui',
     backend: {
