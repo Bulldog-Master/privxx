@@ -384,9 +384,12 @@
   "overallStatus.degradedDesc": "Algunas capas accesibles, funcionalidad limitada",
   "overallStatus.offline": "Sin conexión",
   "overallStatus.offlineDesc": "No se puede alcanzar el servicio",
+  "overallStatus.checking": "Verificando...",
   "overallStatus.lastCheck": "Última verificación",
   "overallStatus.justNow": "Ahora mismo",
   "overallStatus.secondsAgo": "Hace {{count}}s",
+
+  "statusPill.openDiagnostics": "Ver estado del sistema",
 
   "connectionHistory": "Historial de Conexión",
   "connectionHistoryDesc": "Intentos recientes de conexión al bridge",

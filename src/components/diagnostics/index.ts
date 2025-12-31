@@ -30,4 +30,5 @@ export {
   getBackendStatusDisplay,
   getModeDisplay,
 } from "@/features/diagnostics";
+export { StatusPill } from "./StatusPill";
 export type { UiState, BridgeHealthStatus, LayerState, LayerStatus, OverallStatus } from "@/features/diagnostics";

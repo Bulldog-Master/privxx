@@ -348,9 +348,12 @@
   "overallStatus.degradedDesc": "Некоторые уровни доступны, ограниченная функциональность",
   "overallStatus.offline": "Оффлайн",
   "overallStatus.offlineDesc": "Не удается достичь сервис",
+  "overallStatus.checking": "Проверка...",
   "overallStatus.lastCheck": "Последняя проверка",
   "overallStatus.justNow": "Только что",
   "overallStatus.secondsAgo": "{{count}} сек. назад",
+
+  "statusPill.openDiagnostics": "Показать состояние системы",
 
   "connectionHistory": "История подключений",
   "connectionHistoryDesc": "Недавние попытки подключения к мосту",

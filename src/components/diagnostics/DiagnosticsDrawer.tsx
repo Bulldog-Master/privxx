@@ -1,4 +1,4 @@
-import { Info, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -18,6 +18,8 @@ import {
   BridgeLiveStatusCard,
 } from "@/features/diagnostics";
 import ReadinessPanel from "@/components/diagnostics/ReadinessPanel";
+import { StatusPill } from "./StatusPill";
+import { buildInfo } from "@/lib/buildInfo";
 
 const DiagnosticsDrawer = () => {
   const {
@@ -42,15 +44,7 @@ const DiagnosticsDrawer = () => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-8 px-2 text-xs text-primary/70 hover:text-primary"
-          aria-label="View system status"
-        >
-          <Info className="h-3.5 w-3.5 mr-1" aria-hidden="true" />
-          <span className="text-primary/70">Status</span>
-        </Button>
+        <StatusPill />
       </SheetTrigger>
 
       <SheetContent side="bottom" className="h-auto max-h-[70vh] overflow-y-auto">
@@ -119,6 +113,12 @@ const DiagnosticsDrawer = () => {
 
             {/* Readiness Panel (for cutover verification) */}
             {!isLoading && <ReadinessPanel />}
+
+            {/* Preview notice - moved from footer to diagnostics */}
+            <div className="text-xs text-muted-foreground/70 text-center pt-2 border-t border-border/50">
+              <span>{t("demoModeNotice")}</span>
+              <span className="ml-2 text-muted-foreground/50">v{buildInfo.version}</span>
+            </div>
 
             {/* Version & Actions */}
             <DiagnosticsFooter
