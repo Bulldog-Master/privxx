@@ -10,12 +10,17 @@
  * - Backend is the ONLY real xxdk client (holds keys/state)
  * - No direct browser access to backend
  * 
+ * AUTHENTICATION:
+ * - Automatically attaches Supabase session JWT to all requests
+ * - Bridge verifies JWT via Supabase /auth/v1/user endpoint
+ * 
  * VPS PUBLIC BRIDGE: http://66.94.109.237:8090
  * LOCAL DEV BRIDGE: http://127.0.0.1:8090
  */
 
 import { BridgeClient, type IBridgeClient, type BridgeClientConfig } from "./client";
 import { MockBridgeClient } from "./mockClient";
+import { supabase } from "@/integrations/supabase/client";
 
 // VPS production proxy URL (public, frontend-accessible via Proxy on port 8090)
 const VPS_PROXY_URL = "http://66.94.109.237:8090";
@@ -40,6 +45,15 @@ function getEffectiveBridgeUrl(): string {
   return VPS_PROXY_URL;
 }
 
+/**
+ * Get the current Supabase session access token.
+ * Returns null if user is not authenticated.
+ */
+async function getSupabaseAccessToken(): Promise<string | null> {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session?.access_token ?? null;
+}
+
 function createBridgeClient(): IBridgeClient {
   const effectiveUrl = getEffectiveBridgeUrl();
   
@@ -50,9 +64,10 @@ function createBridgeClient(): IBridgeClient {
 
   const config: BridgeClientConfig = {
     baseUrl: effectiveUrl,
+    getAccessToken: getSupabaseAccessToken,
   };
 
-  console.debug("[Bridge] Using real client:", effectiveUrl);
+  console.debug("[Bridge] Using real client with auto-JWT:", effectiveUrl);
   return new BridgeClient(config);
 }
 

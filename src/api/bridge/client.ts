@@ -77,6 +77,7 @@ export class BridgeClient implements IBridgeClient {
   private token?: string;
   private retryConfig: RetryConfig;
   private timeoutMs: number;
+  private getAccessToken?: () => Promise<string | null>;
 
   constructor(config: BridgeClientConfig | string) {
     if (typeof config === "string") {
@@ -87,6 +88,7 @@ export class BridgeClient implements IBridgeClient {
       this.baseUrl = config.baseUrl;
       this.retryConfig = config.retry ?? DEFAULT_RETRY_CONFIG;
       this.timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+      this.getAccessToken = config.getAccessToken;
     }
   }
 
@@ -147,8 +149,13 @@ export class BridgeClient implements IBridgeClient {
       "X-Correlation-Id": correlationId,
     };
 
-    if (this.token) {
-      headers["Authorization"] = `Bearer ${this.token}`;
+    // Auto-fetch token from getAccessToken if provided, otherwise use manual token
+    const token = this.getAccessToken 
+      ? await this.getAccessToken() 
+      : this.token;
+    
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
     }
 
     const requestOptions: RequestInit = {

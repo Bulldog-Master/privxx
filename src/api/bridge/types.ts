@@ -95,6 +95,12 @@ export interface BridgeClientConfig {
   baseUrl: string;
   retry?: RetryConfig;
   timeoutMs?: number;
+  /** 
+   * Optional async function to fetch the current access token.
+   * When provided, the client will call this before each request
+   * to automatically attach Authorization headers.
+   */
+  getAccessToken?: () => Promise<string | null>;
 }
 
 export interface IBridgeClient {
