@@ -117,6 +117,7 @@ npm run build
 | [State Machine](docs/state-machine.md) | Connection states and triggers |
 | [Diagnostics View](docs/PRIVXX-DIAGNOSTICS-VIEW.md) | Status UI specification |
 | [Privacy Drawer Copy](docs/privacy-drawer-copy.md) | Privacy explanations |
+| [Security Compliance Report](docs/PRIVXX-SECURITY-COMPLIANCE-REPORT.md) | 100/100 security rating verification |
 
 ---
 
