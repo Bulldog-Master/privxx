@@ -348,9 +348,12 @@
   "overallStatus.degradedDesc": "部分层可达，功能受限",
   "overallStatus.offline": "离线",
   "overallStatus.offlineDesc": "无法连接服务",
+  "overallStatus.checking": "检查中...",
   "overallStatus.lastCheck": "最后检查",
   "overallStatus.justNow": "刚刚",
   "overallStatus.secondsAgo": "{{count}}秒前",
+
+  "statusPill.openDiagnostics": "查看系统状态",
 
   "connectionHistory": "连接历史",
   "connectionHistoryDesc": "最近的Bridge连接尝试",

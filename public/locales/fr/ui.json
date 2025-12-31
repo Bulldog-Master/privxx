@@ -384,9 +384,12 @@
   "overallStatus.degradedDesc": "Certaines couches accessibles, fonctionnalité limitée",
   "overallStatus.offline": "Hors ligne",
   "overallStatus.offlineDesc": "Impossible d'atteindre le service",
+  "overallStatus.checking": "Vérification...",
   "overallStatus.lastCheck": "Dernière vérification",
   "overallStatus.justNow": "À l'instant",
   "overallStatus.secondsAgo": "Il y a {{count}}s",
+
+  "statusPill.openDiagnostics": "Voir l'état du système",
 
   "connectionHistory": "Historique de Connexion",
   "connectionHistoryDesc": "Tentatives récentes de connexion au bridge",

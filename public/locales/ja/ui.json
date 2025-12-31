@@ -348,9 +348,12 @@
   "overallStatus.degradedDesc": "一部のレイヤーに到達可能、機能制限あり",
   "overallStatus.offline": "オフライン",
   "overallStatus.offlineDesc": "サービスに到達できません",
+  "overallStatus.checking": "確認中...",
   "overallStatus.lastCheck": "最終確認",
   "overallStatus.justNow": "たった今",
   "overallStatus.secondsAgo": "{{count}}秒前",
+
+  "statusPill.openDiagnostics": "システム状態を表示",
 
   "connectionHistory": "接続履歴",
   "connectionHistoryDesc": "最近のBridge接続試行",

@@ -9,7 +9,7 @@ import { BrowserPanel } from "@/features/browser";
 
 export function MessagesPanel() {
   const { t } = useTranslation();
-  const { isUnlocked } = useIdentity();
+  const { isUnlocked, isNone } = useIdentity();
   const { 
     messages, 
     isLoading, 
@@ -19,11 +19,14 @@ export function MessagesPanel() {
     removeOptimistic 
   } = useInbox();
 
+  // Tabs are muted when no identity exists to reduce visual hierarchy competition
+  const tabsMuted = isNone;
+
   return (
     <div role="region" aria-label={t("messagingPanel", "Messaging panel")}>
       <Tabs defaultValue="inbox" className="flex flex-col">
         <TabsList 
-          className="grid w-full grid-cols-4" 
+          className={`grid w-full grid-cols-4 transition-opacity duration-200 ${tabsMuted ? "opacity-40 pointer-events-none" : ""}`}
           aria-label={t("messagingTabs", "Messaging navigation")}
         >
           <TabsTrigger 
@@ -32,21 +35,22 @@ export function MessagesPanel() {
               ? t("inboxTabWithCount", "Inbox, {{count}} messages", { count: messages.length })
               : t("inboxTab", "Inbox")
             }
+            disabled={tabsMuted}
           >
             {t("inboxTab", "Inbox")}
-            {messages.length > 0 && (
+            {messages.length > 0 && !tabsMuted && (
               <span className="ml-1.5 text-xs text-primary/60" aria-hidden="true">
                 ({messages.length})
               </span>
             )}
           </TabsTrigger>
-          <TabsTrigger value="compose">
+          <TabsTrigger value="compose" disabled={tabsMuted}>
             {t("composeTab", "Compose")}
           </TabsTrigger>
-          <TabsTrigger value="browser">
+          <TabsTrigger value="browser" disabled={tabsMuted}>
             {t("tabBrowser", "Browser")}
           </TabsTrigger>
-          <TabsTrigger value="payments">
+          <TabsTrigger value="payments" disabled={tabsMuted}>
             {t("tabPayments", "Payments")}
           </TabsTrigger>
         </TabsList>

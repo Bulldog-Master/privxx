@@ -1,25 +1,13 @@
 import { lazy, Suspense } from "react";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { Sparkles } from "lucide-react";
-import { buildInfo } from "@/lib/buildInfo";
 import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
-import { ConnectionBadge } from "@/components/connection";
 import { PageBackground } from "@/components/layout/PageBackground";
-import { TranslationCoverageBadge, BackendStatusBadges, HealthIndicatorDot, ConnectionTimelineDots, NetworkSpeedTest, UptimeCounter, BandwidthTracker } from "@/components/diagnostics";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import MinimalFooter from "@/components/shared/MinimalFooter";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
 const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/DiagnosticsDrawer"));
 
 const Index = () => {
-  const { t } = useTranslation();
-
   return (
     <PageBackground>
       {/* Small teal sphere - left side (Index-specific) */}
@@ -53,50 +41,12 @@ const Index = () => {
           </div>
         </main>
 
+        {/* Clean footer: Status pill + minimal legal links */}
         <footer className="flex flex-col items-center gap-3 py-4 px-4">
-          {/* Backend Status Badges */}
-          <BackendStatusBadges />
-          
-          <div className="flex items-center gap-3">
-            <ConnectionBadge />
-            <Suspense fallback={<div className="h-8 w-16" />}>
-              <DiagnosticsDrawer />
-            </Suspense>
-          </div>
-          
-          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-primary/70">
-            <span className="flex items-center gap-1.5 text-primary/40">
-              <HealthIndicatorDot />
-              v{buildInfo.version}
-            </span>
-            <UptimeCounter />
-            <BandwidthTracker />
-            <ConnectionTimelineDots />
-            <span className="text-primary/40">·</span>
-            <span>{t("demoModeNotice")}</span>
-            <span className="text-primary/40">·</span>
-            <Link to="/privacy" className="hover:text-primary transition-colors">
-              {t("privacyPolicyLink")}
-            </Link>
-            <span className="text-primary/40">·</span>
-            <Link to="/terms" className="hover:text-primary transition-colors">
-              {t("termsTitle")}
-            </Link>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link to="/whats-new" className="hover:text-primary transition-colors">
-                  <Sparkles className="h-3.5 w-3.5" />
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{t("whatsNew")}</p>
-              </TooltipContent>
-            </Tooltip>
-            <span className="text-primary/40">·</span>
-            <TranslationCoverageBadge />
-            <span className="text-primary/40">·</span>
-            <NetworkSpeedTest />
-          </div>
+          <Suspense fallback={<div className="h-7 w-20" />}>
+            <DiagnosticsDrawer />
+          </Suspense>
+          <MinimalFooter />
         </footer>
       </div>
     </PageBackground>

@@ -384,9 +384,12 @@
   "overallStatus.degradedDesc": "Einige Ebenen erreichbar, eingeschränkte Funktionalität",
   "overallStatus.offline": "Offline",
   "overallStatus.offlineDesc": "Dienst nicht erreichbar",
+  "overallStatus.checking": "Prüfen...",
   "overallStatus.lastCheck": "Letzte Prüfung",
   "overallStatus.justNow": "Gerade eben",
   "overallStatus.secondsAgo": "Vor {{count}}s",
+
+  "statusPill.openDiagnostics": "Systemstatus anzeigen",
 
   "connectionHistory": "Verbindungsverlauf",
   "connectionHistoryDesc": "Letzte Bridge-Verbindungsversuche",

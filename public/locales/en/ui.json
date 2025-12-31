@@ -294,15 +294,18 @@
   "connectionPath.xxdkExplanation": "Private client reported an error. Identity or network initialization may have failed.",
   "connectionPath.xxdkStarting": "Private client is initializing — this is expected during startup.",
 
-  "overallStatus.connected": "Connected",
+  "overallStatus.connected": "Online",
   "overallStatus.connectedDesc": "All layers operational",
-  "overallStatus.degraded": "Degraded",
+  "overallStatus.degraded": "Connecting",
   "overallStatus.degradedDesc": "Some layers reachable, limited functionality",
   "overallStatus.offline": "Offline",
   "overallStatus.offlineDesc": "Unable to reach service",
+  "overallStatus.checking": "Checking...",
   "overallStatus.lastCheck": "Last Check",
   "overallStatus.justNow": "just now",
   "overallStatus.secondsAgo": "{{count}}s ago",
+
+  "statusPill.openDiagnostics": "View system status",
 
   "connectionHistory": "Connection History",
   "connectionHistoryDesc": "Recent bridge connection attempts",

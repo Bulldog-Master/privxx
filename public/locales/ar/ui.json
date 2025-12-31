@@ -348,9 +348,12 @@
   "overallStatus.degradedDesc": "بعض الطبقات قابلة للوصول، وظائف محدودة",
   "overallStatus.offline": "غير متصل",
   "overallStatus.offlineDesc": "تعذر الوصول إلى الخدمة",
+  "overallStatus.checking": "جارٍ التحقق...",
   "overallStatus.lastCheck": "آخر فحص",
   "overallStatus.justNow": "الآن",
   "overallStatus.secondsAgo": "منذ {{count}} ثانية",
+
+  "statusPill.openDiagnostics": "عرض حالة النظام",
   
   "connectionHistory": "سجل الاتصال",
   "connectionHistoryDesc": "محاولات الاتصال الأخيرة بالجسر",
