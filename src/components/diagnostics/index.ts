@@ -18,6 +18,7 @@ export {
   ConnectionPathDiagram,
   OverallStatusBar,
   TranslationCoverageBadge,
+  BackendStatusBadges,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,
