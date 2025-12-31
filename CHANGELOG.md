@@ -14,6 +14,37 @@ early-stage protocol and product development.
 
 ---
 
+## [2.0.0] — Layered Diagnostics UI + Version Scheme Update
+**Released:** December 31, 2025
+
+### Added
+- **Connection Path Diagram**: Logical, layered view (Client → Proxy → Bridge → xxDK) with status badges
+- **Overall Status Bar**: Global status indicator (Connected/Degraded/Offline) with mode and last check time
+- **Technical Details Toggle**: Opt-in advanced view for URLs, ports, and error codes (default OFF)
+- **Diagnostics UX Spec**: `docs/PRIVXX-DIAGNOSTICS-UX-SPEC.md` — authoritative demo script and failure map
+
+### Changed
+- **Version scheme updated**: Dropped leading zero (0.2.x → 2.x) for cleaner versioning
+- `useBridgeHealthStatus` hook now provides detailed health, xxdkInfo, and cmixxStatus data
+- Diagnostics page layout refactored with new components
+
+### Documentation
+- Added `PRIVXX-DIAGNOSTICS-UX-SPEC.md` to docs index under "User Flow & Demo"
+- Spec defines exact copy for status labels, failure explanations, and 60-second demo script
+
+### Components Added
+- `ConnectionPathDiagram.tsx` — Logical connection path with expandable layer details
+- `OverallStatusBar.tsx` — Top-level system health summary
+
+### i18n
+- Added `connectionPath.*` and `overallStatus.*` translation keys to all 16 languages
+
+### Notes
+This release aligns diagnostics UI with production demo requirements.
+The layered path view prevents infrastructure leakage while enabling credible demos.
+
+---
+
 ## [0.2.3] — Security Compliance Documentation
 **Released:** December 31, 2025
 
