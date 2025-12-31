@@ -14,6 +14,25 @@ early-stage protocol and product development.
 
 ---
 
+## [0.2.3] — Security Compliance Documentation
+**Released:** December 31, 2025
+
+### Added
+- Security Compliance Report (`docs/PRIVXX-SECURITY-COMPLIANCE-REPORT.md`)
+- Scan history tracking with dated verification entries
+- Security badge in main README (100/100 rating)
+
+### Documentation
+- Compliance report added to `docs/README.md` index
+- Compliance report added to main `README.md` documentation table
+- Report includes ISO 27001/27701 alignment and OWASP Top 10 mitigations
+
+### Notes
+This release formalizes the security posture for stakeholder review.
+The compliance report serves as the authoritative security attestation.
+
+---
+
 ## [0.2.2] — Security Automation + CI Enforcement
 **Released:** December 30, 2025
 
