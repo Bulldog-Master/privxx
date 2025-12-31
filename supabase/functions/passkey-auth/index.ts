@@ -125,12 +125,22 @@ async function checkRateLimit(
 }
 
 serve(async (req) => {
-  const origin = req.headers.get('origin');
-  const corsHeaders = getCorsHeaders(origin);
+  const originHeader = req.headers.get('origin');
+  const refererHeader = req.headers.get('referer');
+  const derivedOrigin = !originHeader && refererHeader ? (() => {
+    try {
+      return new URL(refererHeader).origin;
+    } catch {
+      return null;
+    }
+  })() : null;
+
+  const requestOrigin = originHeader || derivedOrigin;
+  const corsHeaders = getCorsHeaders(requestOrigin);
 
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    return handleCorsPreflightResponse(origin);
+    return handleCorsPreflightResponse(requestOrigin);
   }
 
   try {
@@ -139,7 +149,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const { action, email, credential, userId } = await req.json();
-    const rpId = new URL(origin || supabaseUrl).hostname;
+    const rpId = new URL(requestOrigin || supabaseUrl).hostname;
     const rpName = 'Privxx';
     const clientIP = getClientIP(req);
     const auditContext = createAuditContext(req);
@@ -253,7 +263,7 @@ serve(async (req) => {
           verification = await verifyRegistrationResponse({
             response: credential,
             expectedChallenge: challengeData.challenge,
-            expectedOrigin: getExpectedOrigins(origin),
+            expectedOrigin: getExpectedOrigins(requestOrigin),
             expectedRPID: rpId,
           });
         } catch (verifyError) {
@@ -432,7 +442,7 @@ serve(async (req) => {
           verification = await verifyAuthenticationResponse({
             response: credential,
             expectedChallenge: challengeData.challenge,
-            expectedOrigin: getExpectedOrigins(origin),
+            expectedOrigin: getExpectedOrigins(requestOrigin),
             expectedRPID: rpId,
             credential: {
               id: storedCred.credential_id,

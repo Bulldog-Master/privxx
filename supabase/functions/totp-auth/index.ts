@@ -339,11 +339,21 @@ async function recordUsedCounter(
 }
 
 serve(async (req) => {
-  const origin = req.headers.get('origin');
-  const corsHeaders = getCorsHeaders(origin);
+  const originHeader = req.headers.get('origin');
+  const refererHeader = req.headers.get('referer');
+  const derivedOrigin = !originHeader && refererHeader ? (() => {
+    try {
+      return new URL(refererHeader).origin;
+    } catch {
+      return null;
+    }
+  })() : null;
+
+  const requestOrigin = originHeader || derivedOrigin;
+  const corsHeaders = getCorsHeaders(requestOrigin);
 
   if (req.method === 'OPTIONS') {
-    return handleCorsPreflightResponse(origin);
+    return handleCorsPreflightResponse(requestOrigin);
   }
 
   try {

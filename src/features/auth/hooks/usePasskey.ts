@@ -71,7 +71,7 @@ export function usePasskey() {
       setState({ isLoading: false, error: null });
       return true;
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Passkey registration failed';
+      const message = error instanceof Error ? error.message : "Passkey registration failed";
       console.error('[usePasskey] Registration error:', error);
       setState({ isLoading: false, error: message });
       return false;
@@ -133,7 +133,7 @@ export function usePasskey() {
       setState({ isLoading: false, error: null });
       return true;
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Passkey authentication failed';
+      const message = error instanceof Error ? error.message : "Passkey authentication failed";
       console.error('[usePasskey] Authentication error:', error);
       setState({ isLoading: false, error: message });
       return false;
