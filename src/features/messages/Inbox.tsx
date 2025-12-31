@@ -65,10 +65,13 @@ export function Inbox({
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
         <WifiOff className="h-6 w-6 text-destructive/80 mb-2" />
         <h3 className="text-sm font-semibold mb-1 text-primary/90">
-          {t("bridgeOfflineTitle", "Bridge Unavailable")}
+          {t("bridgeUnreachable", "Bridge Unreachable")}
         </h3>
         <p className="text-xs text-primary/60 mb-3">
-          {t("bridgeOfflineBody", "Unable to connect to the secure bridge. Please try again.")}
+          {t(
+            "bridgeUnreachableDesc",
+            "Unable to connect to the bridge API. Check if the bridge server is running."
+          )}
         </p>
         <Button 
           onClick={handleRetryConnection}

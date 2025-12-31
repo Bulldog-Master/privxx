@@ -27,12 +27,9 @@ export function PasskeyForm() {
 
   const normalizeError = (raw: string) => {
     // supabase-js uses this generic message when a function responds with non-2xx.
-    // In passkey auth, this can happen for non-enumeration-safe failures (e.g., no passkey).
+    // We map it to a localized generic failure to avoid leaking details.
     if (raw.toLowerCase().includes("edge function returned a non-2xx status code")) {
-      return t(
-        "passkeyUnavailable",
-        "Passkey sign-in is unavailable for this email. Try Sign In or Sign Up."
-      );
+      return t("connectionFailed", "Connection Failed");
     }
 
     return raw;

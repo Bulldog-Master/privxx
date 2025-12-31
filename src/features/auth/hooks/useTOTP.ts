@@ -31,7 +31,12 @@ export function useTOTP() {
   });
 
   const clearError = useCallback(() => {
-    setState(s => ({ ...s, error: null }));
+    setState((s) => ({ ...s, error: null }));
+  }, []);
+
+  const normalizeError = useCallback((raw: string, fallback: string) => {
+    // Keep raw errors here; components will localize generic failures.
+    return raw || fallback;
   }, []);
 
   /**
@@ -41,19 +46,20 @@ export function useTOTP() {
     setState({ isLoading: true, error: null });
 
     try {
-      const { data, error } = await supabase.functions.invoke('totp-auth', {
-        body: { action: 'status' },
+      const { data, error } = await supabase.functions.invoke("totp-auth", {
+        body: { action: "status" },
       });
 
       if (error) throw new Error(error.message);
       setState({ isLoading: false, error: null });
       return data as TOTPStatus;
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to get 2FA status';
+      const raw = error instanceof Error ? error.message : "";
+      const message = normalizeError(raw, "Failed to get 2FA status");
       setState({ isLoading: false, error: message });
       return null;
     }
-  }, []);
+  }, [normalizeError]);
 
   /**
    * Start 2FA setup - returns secret and QR code data
@@ -62,8 +68,8 @@ export function useTOTP() {
     setState({ isLoading: true, error: null });
 
     try {
-      const { data, error } = await supabase.functions.invoke('totp-auth', {
-        body: { action: 'setup' },
+      const { data, error } = await supabase.functions.invoke("totp-auth", {
+        body: { action: "setup" },
       });
 
       if (error) throw new Error(error.message);
@@ -72,80 +78,93 @@ export function useTOTP() {
       setState({ isLoading: false, error: null });
       return data as TOTPSetupData;
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to start 2FA setup';
+      const raw = error instanceof Error ? error.message : "";
+      const message = normalizeError(raw, "Failed to start 2FA setup");
       setState({ isLoading: false, error: message });
       return null;
     }
-  }, []);
+  }, [normalizeError]);
 
   /**
    * Verify TOTP code and complete setup
    */
-  const verifyCode = useCallback(async (code: string): Promise<{ verified: boolean; backupCodes?: string[] } | null> => {
-    setState({ isLoading: true, error: null });
+  const verifyCode = useCallback(
+    async (code: string): Promise<{ verified: boolean; backupCodes?: string[] } | null> => {
+      setState({ isLoading: true, error: null });
 
-    try {
-      const { data, error } = await supabase.functions.invoke('totp-auth', {
-        body: { action: 'verify', code },
-      });
+      try {
+        const { data, error } = await supabase.functions.invoke("totp-auth", {
+          body: { action: "verify", code },
+        });
 
-      if (error) throw new Error(error.message);
-      if (data.error) throw new Error(data.error);
+        if (error) throw new Error(error.message);
+        if (data.error) throw new Error(data.error);
 
-      setState({ isLoading: false, error: null });
-      return data;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Verification failed';
-      setState({ isLoading: false, error: message });
-      return null;
-    }
-  }, []);
+        setState({ isLoading: false, error: null });
+        return data;
+      } catch (error) {
+        const raw = error instanceof Error ? error.message : "";
+        const message = normalizeError(raw, "Verification failed");
+        setState({ isLoading: false, error: message });
+        return null;
+      }
+    },
+    [normalizeError]
+  );
 
   /**
    * Disable 2FA (requires current TOTP code)
    */
-  const disable = useCallback(async (code: string): Promise<boolean> => {
-    setState({ isLoading: true, error: null });
+  const disable = useCallback(
+    async (code: string): Promise<boolean> => {
+      setState({ isLoading: true, error: null });
 
-    try {
-      const { data, error } = await supabase.functions.invoke('totp-auth', {
-        body: { action: 'disable', code },
-      });
+      try {
+        const { data, error } = await supabase.functions.invoke("totp-auth", {
+          body: { action: "disable", code },
+        });
 
-      if (error) throw new Error(error.message);
-      if (data.error) throw new Error(data.error);
+        if (error) throw new Error(error.message);
+        if (data.error) throw new Error(data.error);
 
-      setState({ isLoading: false, error: null });
-      return true;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to disable 2FA';
-      setState({ isLoading: false, error: message });
-      return false;
-    }
-  }, []);
+        setState({ isLoading: false, error: null });
+        return true;
+      } catch (error) {
+        const raw = error instanceof Error ? error.message : "";
+        const message = normalizeError(raw, "Failed to disable 2FA");
+        setState({ isLoading: false, error: message });
+        return false;
+      }
+    },
+    [normalizeError]
+  );
 
   /**
    * Verify backup code
    */
-  const verifyBackupCode = useCallback(async (code: string): Promise<boolean> => {
-    setState({ isLoading: true, error: null });
+  const verifyBackupCode = useCallback(
+    async (code: string): Promise<boolean> => {
+      setState({ isLoading: true, error: null });
 
-    try {
-      const { data, error } = await supabase.functions.invoke('totp-auth', {
-        body: { action: 'verify-backup', code },
-      });
+      try {
+        const { data, error } = await supabase.functions.invoke("totp-auth", {
+          body: { action: "verify-backup", code },
+        });
 
-      if (error) throw new Error(error.message);
-      if (data.error) throw new Error(data.error);
+        if (error) throw new Error(error.message);
+        if (data.error) throw new Error(data.error);
 
-      setState({ isLoading: false, error: null });
-      return data.verified;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Invalid backup code';
-      setState({ isLoading: false, error: message });
-      return false;
-    }
-  }, []);
+        setState({ isLoading: false, error: null });
+        return data.verified;
+      } catch (error) {
+        const raw = error instanceof Error ? error.message : "";
+        const message = normalizeError(raw, "Invalid backup code");
+        setState({ isLoading: false, error: message });
+        return false;
+      }
+    },
+    [normalizeError]
+  );
 
   return {
     ...state,
