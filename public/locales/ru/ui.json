@@ -181,6 +181,9 @@
   "disconnected": "Отключен",
   "nodes": "Узлы",
   "lastRound": "Последний раунд",
+  "connectionPath": "Путь подключения",
+  "public": "Публичный",
+  "local": "Локальный",
 
   "connectionHistory": "История подключений",
   "connectionHistoryDesc": "Недавние попытки подключения к мосту",

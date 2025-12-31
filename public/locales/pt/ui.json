@@ -181,6 +181,9 @@
   "disconnected": "Desconectado",
   "nodes": "Nós",
   "lastRound": "Última Rodada",
+  "connectionPath": "Caminho de Conexão",
+  "public": "Público",
+  "local": "Local",
 
   "connectionHistory": "Histórico de Conexão",
   "connectionHistoryDesc": "Tentativas recentes de conexão ao bridge",

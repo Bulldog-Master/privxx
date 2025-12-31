@@ -181,6 +181,9 @@
   "disconnected": "डिस्कनेक्टेड",
   "nodes": "नोड्स",
   "lastRound": "अंतिम राउंड",
+  "connectionPath": "कनेक्शन पथ",
+  "public": "सार्वजनिक",
+  "local": "स्थानीय",
 
   "connectionHistory": "कनेक्शन इतिहास",
   "connectionHistoryDesc": "हाल के Bridge कनेक्शन प्रयास",

@@ -181,6 +181,9 @@
   "disconnected": "Bağlantı Kesildi",
   "nodes": "Düğümler",
   "lastRound": "Son Tur",
+  "connectionPath": "Bağlantı Yolu",
+  "public": "Genel",
+  "local": "Yerel",
 
   "connectionHistory": "Bağlantı Geçmişi",
   "connectionHistoryDesc": "Son bridge bağlantı denemeleri",

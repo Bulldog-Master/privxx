@@ -181,6 +181,9 @@
   "disconnected": "切断済み",
   "nodes": "ノード",
   "lastRound": "最終ラウンド",
+  "connectionPath": "接続パス",
+  "public": "パブリック",
+  "local": "ローカル",
 
   "connectionHistory": "接続履歴",
   "connectionHistoryDesc": "最近のBridge接続試行",

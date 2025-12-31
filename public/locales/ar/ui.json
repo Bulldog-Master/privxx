@@ -181,6 +181,9 @@
   "disconnected": "غير متصل",
   "nodes": "العقد",
   "lastRound": "الجولة الأخيرة",
+  "connectionPath": "مسار الاتصال",
+  "public": "عام",
+  "local": "محلي",
   
   "connectionHistory": "سجل الاتصال",
   "connectionHistoryDesc": "محاولات الاتصال الأخيرة بالجسر",
