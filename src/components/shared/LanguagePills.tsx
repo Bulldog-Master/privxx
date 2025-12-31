@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { SUPPORTED_LANGUAGE_CODES } from "@/lib/i18n/languageConstants";
 
+// Short labels for compact pill display
 const languageLabels: Record<string, string> = {
   en: "EN",
   zh: "中",
@@ -21,17 +23,13 @@ const languageLabels: Record<string, string> = {
   yi: "יי",
 };
 
-const supportedLanguages = [
-  'en', 'zh', 'hi', 'es', 'fr', 'ar', 'bn', 'ru', 'pt', 'ur', 'id', 'de', 'ja', 'nl', 'tr', 'ko', 'he', 'yi'
-];
-
 const LanguagePills = () => {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
   return (
     <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide py-0.5 max-w-full">
-      {supportedLanguages.map((lang) => (
+      {SUPPORTED_LANGUAGE_CODES.map((lang) => (
         <button
           key={lang}
           onClick={() => i18n.changeLanguage(lang)}

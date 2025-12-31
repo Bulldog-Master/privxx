@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Globe, Check, AlertTriangle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { buildInfo } from '@/lib/buildInfo';
+import { LANGUAGE_META, SUPPORTED_LANGUAGE_CODES } from '@/lib/i18n/languageConstants';
 
 interface LanguageCoverage {
   code: string;
@@ -12,28 +13,6 @@ interface LanguageCoverage {
   isComplete: boolean;
 }
 
-const LANGUAGE_META: Record<string, string> = {
-  en: 'English',
-  ar: 'Arabic',
-  bn: 'Bengali',
-  de: 'German',
-  es: 'Spanish',
-  fr: 'French',
-  he: 'Hebrew',
-  hi: 'Hindi',
-  id: 'Indonesian',
-  ja: 'Japanese',
-  ko: 'Korean',
-  nl: 'Dutch',
-  pt: 'Portuguese',
-  ru: 'Russian',
-  tr: 'Turkish',
-  ur: 'Urdu',
-  yi: 'Yiddish',
-  zh: 'Chinese',
-};
-
-const SUPPORTED_LANGUAGES = Object.keys(LANGUAGE_META);
 const CACHE_KEY = `privxx_coverage_badge_${buildInfo.build || buildInfo.version}`;
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
@@ -104,19 +83,19 @@ export function TranslationCoverageBadge() {
       const refKeys = getAllKeys(enData);
 
       const results: LanguageCoverage[] = await Promise.all(
-        SUPPORTED_LANGUAGES.map(async (code) => {
+        SUPPORTED_LANGUAGE_CODES.map(async (code) => {
           try {
             const res = await fetch(`/locales/${code}/ui.json?v=${cacheBuster}`);
             if (!res.ok) {
-              return { code, name: LANGUAGE_META[code], completionPercent: 0, isComplete: false };
+              return { code, name: LANGUAGE_META[code].name, completionPercent: 0, isComplete: false };
             }
             const data = await res.json();
             const keys = getAllKeys(data);
             const missing = refKeys.filter((k) => !keys.includes(k)).length;
             const percent = refKeys.length > 0 ? Math.round(((refKeys.length - missing) / refKeys.length) * 100) : 100;
-            return { code, name: LANGUAGE_META[code], completionPercent: percent, isComplete: missing === 0 };
+            return { code, name: LANGUAGE_META[code].name, completionPercent: percent, isComplete: missing === 0 };
           } catch {
-            return { code, name: LANGUAGE_META[code], completionPercent: 0, isComplete: false };
+            return { code, name: LANGUAGE_META[code].name, completionPercent: 0, isComplete: false };
           }
         })
       );
