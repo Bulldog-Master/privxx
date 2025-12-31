@@ -156,6 +156,9 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
           <CardDescription className="text-primary/70">
             {t("passkeysDescription", "Use Touch ID, Face ID, Windows Hello, or security keys to sign in without a password.")}
           </CardDescription>
+          <p className="text-xs text-muted-foreground mt-2">
+            {t("passkeyDeviceNote", "Passkeys are registered per device and browser profile. You'll need to add a passkey on each device you use.")}
+          </p>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Platform authenticator status */}
