@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Server, Wifi, Shield, Loader2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -93,7 +94,11 @@ export function BackendStatusBadges() {
   };
 
   return (
-    <div className="flex items-center gap-1">
+    <Link 
+      to="/diagnostics" 
+      className="flex items-center gap-1 rounded px-1 py-0.5 hover:bg-primary/10 transition-colors"
+      aria-label={t('healthIndicator.clickForDetails', 'Click for details')}
+    >
       <StatusBadge
         label="Proxy"
         status={proxyStatus}
@@ -112,6 +117,6 @@ export function BackendStatusBadges() {
         tooltip={getTooltip('cMixx', cmixxStatus)}
         icon={<Shield className="h-2.5 w-2.5" />}
       />
-    </div>
+    </Link>
   );
 }

@@ -82,7 +82,7 @@ export function ConnectionTimelineDots() {
             {events.map((event, index) => (
               <span
                 key={event.id}
-                className={`w-1.5 h-1.5 rounded-full ${statusColors[event.status]} transition-all`}
+                className={`w-1.5 h-1.5 rounded-full ${statusColors[event.status]} transition-all ${index === 0 ? 'animate-scale-in' : ''}`}
                 style={{ 
                   opacity: 1 - (index * 0.15),
                 }}
