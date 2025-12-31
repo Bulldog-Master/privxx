@@ -6,6 +6,22 @@
     "poor": "खराब",
     "unknown": "अज्ञात"
   },
+  "speedTest": {
+    "run": "स्पीड टेस्ट",
+    "ready": "तैयार",
+    "testingLatency": "विलंबता परीक्षण...",
+    "testingDownload": "डाउनलोड परीक्षण...",
+    "testingUpload": "अपलोड परीक्षण...",
+    "complete": "पूर्ण",
+    "description": "मिक्सनेट कनेक्शन स्पीड मापें",
+    "download": "डाउनलोड",
+    "upload": "अपलोड",
+    "latency": "विलंबता"
+  },
+  "uptime": {
+    "title": "सत्र अवधि",
+    "connected": "{{duration}} से जुड़े हुए"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "उपयोग की शर्तें",

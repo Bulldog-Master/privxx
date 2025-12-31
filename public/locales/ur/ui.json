@@ -6,6 +6,22 @@
     "poor": "خراب",
     "unknown": "نامعلوم"
   },
+  "speedTest": {
+    "run": "سپیڈ ٹیسٹ",
+    "ready": "تیار",
+    "testingLatency": "تاخیر کی جانچ...",
+    "testingDownload": "ڈاؤن لوڈ کی جانچ...",
+    "testingUpload": "اپ لوڈ کی جانچ...",
+    "complete": "مکمل",
+    "description": "مکسنیٹ کنکشن کی رفتار ناپیں",
+    "download": "ڈاؤن لوڈ",
+    "upload": "اپ لوڈ",
+    "latency": "تاخیر"
+  },
+  "uptime": {
+    "title": "سیشن کا وقت",
+    "connected": "{{duration}} سے جڑے ہیں"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "استعمال کی شرائط",

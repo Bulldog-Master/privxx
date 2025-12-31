@@ -6,6 +6,22 @@
     "poor": "Kötü",
     "unknown": "Bilinmiyor"
   },
+  "speedTest": {
+    "run": "Hız Testi",
+    "ready": "Hazır",
+    "testingLatency": "Gecikme test ediliyor...",
+    "testingDownload": "İndirme test ediliyor...",
+    "testingUpload": "Yükleme test ediliyor...",
+    "complete": "Tamamlandı",
+    "description": "Mixnet bağlantı hızını ölç",
+    "download": "İndirme",
+    "upload": "Yükleme",
+    "latency": "Gecikme"
+  },
+  "uptime": {
+    "title": "Oturum Süresi",
+    "connected": "{{duration}} bağlı"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Kullanım Şartları",

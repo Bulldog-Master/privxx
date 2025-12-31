@@ -6,6 +6,22 @@
     "poor": "低速",
     "unknown": "不明"
   },
+  "speedTest": {
+    "run": "速度テスト",
+    "ready": "準備完了",
+    "testingLatency": "レイテンシをテスト中...",
+    "testingDownload": "ダウンロードをテスト中...",
+    "testingUpload": "アップロードをテスト中...",
+    "complete": "完了",
+    "description": "Mixnet接続速度を測定",
+    "download": "ダウンロード",
+    "upload": "アップロード",
+    "latency": "レイテンシ"
+  },
+  "uptime": {
+    "title": "セッション稼働時間",
+    "connected": "{{duration}}接続中"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "利用規約",

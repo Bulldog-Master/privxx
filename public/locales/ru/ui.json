@@ -6,6 +6,22 @@
     "poor": "Плохо",
     "unknown": "Неизвестно"
   },
+  "speedTest": {
+    "run": "Тест скорости",
+    "ready": "Готов",
+    "testingLatency": "Тест задержки...",
+    "testingDownload": "Тест загрузки...",
+    "testingUpload": "Тест отправки...",
+    "complete": "Завершено",
+    "description": "Измерить скорость соединения mixnet",
+    "download": "Загрузка",
+    "upload": "Отправка",
+    "latency": "Задержка"
+  },
+  "uptime": {
+    "title": "Время сессии",
+    "connected": "Подключено {{duration}}"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Условия использования",

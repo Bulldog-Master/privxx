@@ -6,6 +6,22 @@
     "poor": "불량",
     "unknown": "알 수 없음"
   },
+  "speedTest": {
+    "run": "속도 테스트",
+    "ready": "준비됨",
+    "testingLatency": "지연 시간 테스트 중...",
+    "testingDownload": "다운로드 테스트 중...",
+    "testingUpload": "업로드 테스트 중...",
+    "complete": "완료",
+    "description": "믹스넷 연결 속도 측정",
+    "download": "다운로드",
+    "upload": "업로드",
+    "latency": "지연 시간"
+  },
+  "uptime": {
+    "title": "세션 가동 시간",
+    "connected": "{{duration}} 연결됨"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "이용 약관",

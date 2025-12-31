@@ -6,6 +6,22 @@
     "poor": "খারাপ",
     "unknown": "অজানা"
   },
+  "speedTest": {
+    "run": "স্পিড টেস্ট",
+    "ready": "প্রস্তুত",
+    "testingLatency": "বিলম্ব পরীক্ষা করা হচ্ছে...",
+    "testingDownload": "ডাউনলোড পরীক্ষা করা হচ্ছে...",
+    "testingUpload": "আপলোড পরীক্ষা করা হচ্ছে...",
+    "complete": "সম্পন্ন",
+    "description": "মিক্সনেট সংযোগ গতি পরিমাপ করুন",
+    "download": "ডাউনলোড",
+    "upload": "আপলোড",
+    "latency": "বিলম্ব"
+  },
+  "uptime": {
+    "title": "সেশন সময়",
+    "connected": "{{duration}} সংযুক্ত"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "ব্যবহারের শর্তাবলী",

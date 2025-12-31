@@ -6,6 +6,22 @@
     "poor": "Buruk",
     "unknown": "Tidak Diketahui"
   },
+  "speedTest": {
+    "run": "Tes Kecepatan",
+    "ready": "Siap",
+    "testingLatency": "Menguji latensi...",
+    "testingDownload": "Menguji unduh...",
+    "testingUpload": "Menguji unggah...",
+    "complete": "Selesai",
+    "description": "Ukur kecepatan koneksi mixnet",
+    "download": "Unduh",
+    "upload": "Unggah",
+    "latency": "Latensi"
+  },
+  "uptime": {
+    "title": "Waktu Aktif Sesi",
+    "connected": "Terhubung selama {{duration}}"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Ketentuan Penggunaan",
