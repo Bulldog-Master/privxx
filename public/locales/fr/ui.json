@@ -594,5 +594,11 @@
   "healthIndicator.degraded": "Certains services dégradés",
   "healthIndicator.offline": "Services inaccessibles",
   "healthIndicator.checking": "Vérification du statut...",
-  "healthIndicator.clickForDetails": "Cliquez pour les détails"
+  "healthIndicator.clickForDetails": "Cliquez pour les détails",
+  
+  "connectionTimeline.title": "Historique de connexion",
+  "connectionTimeline.connected": "Connecté",
+  "connectionTimeline.degraded": "Dégradé",
+  "connectionTimeline.disconnected": "Déconnecté",
+  "connectionTimeline.recentEvents": "Événements de connectivité récents"
 }

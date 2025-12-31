@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "कुछ सेवाएं प्रभावित",
   "healthIndicator.offline": "सेवाएं पहुंच योग्य नहीं",
   "healthIndicator.checking": "स्थिति जांच रहा है...",
-  "healthIndicator.clickForDetails": "विवरण के लिए क्लिक करें"
+  "healthIndicator.clickForDetails": "विवरण के लिए क्लिक करें",
+  
+  "connectionTimeline.title": "कनेक्शन इतिहास",
+  "connectionTimeline.connected": "जुड़ा हुआ",
+  "connectionTimeline.degraded": "प्रभावित",
+  "connectionTimeline.disconnected": "विच्छेद",
+  "connectionTimeline.recentEvents": "हाल की कनेक्टिविटी घटनाएं"
 }

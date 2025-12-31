@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "部分服务降级",
   "healthIndicator.offline": "服务无法访问",
   "healthIndicator.checking": "正在检查状态...",
-  "healthIndicator.clickForDetails": "点击查看详情"
+  "healthIndicator.clickForDetails": "点击查看详情",
+  
+  "connectionTimeline.title": "连接历史",
+  "connectionTimeline.connected": "已连接",
+  "connectionTimeline.degraded": "降级",
+  "connectionTimeline.disconnected": "已断开",
+  "connectionTimeline.recentEvents": "最近的连接事件"
 }

@@ -7,7 +7,7 @@ import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/connection";
 import { PageBackground } from "@/components/layout/PageBackground";
-import { TranslationCoverageBadge, BackendStatusBadges, HealthIndicatorDot } from "@/components/diagnostics";
+import { TranslationCoverageBadge, BackendStatusBadges, HealthIndicatorDot, ConnectionTimelineDots } from "@/components/diagnostics";
 import {
   Tooltip,
   TooltipContent,
@@ -69,6 +69,7 @@ const Index = () => {
               <HealthIndicatorDot />
               v{buildInfo.version}
             </span>
+            <ConnectionTimelineDots />
             <span className="text-primary/40">·</span>
             <span>{t("demoModeNotice")}</span>
             <span className="text-primary/40">·</span>

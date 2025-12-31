@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "一部のサービスが低下",
   "healthIndicator.offline": "サービスに接続できません",
   "healthIndicator.checking": "ステータスを確認中...",
-  "healthIndicator.clickForDetails": "詳細はクリック"
+  "healthIndicator.clickForDetails": "詳細はクリック",
+  
+  "connectionTimeline.title": "接続履歴",
+  "connectionTimeline.connected": "接続済み",
+  "connectionTimeline.degraded": "低下",
+  "connectionTimeline.disconnected": "切断",
+  "connectionTimeline.recentEvents": "最近の接続イベント"
 }

@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "Beberapa layanan menurun",
   "healthIndicator.offline": "Layanan tidak dapat dijangkau",
   "healthIndicator.checking": "Memeriksa status...",
-  "healthIndicator.clickForDetails": "Klik untuk detail"
+  "healthIndicator.clickForDetails": "Klik untuk detail",
+  
+  "connectionTimeline.title": "Riwayat Koneksi",
+  "connectionTimeline.connected": "Terhubung",
+  "connectionTimeline.degraded": "Menurun",
+  "connectionTimeline.disconnected": "Terputus",
+  "connectionTimeline.recentEvents": "Peristiwa konektivitas terbaru"
 }
