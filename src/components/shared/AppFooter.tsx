@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { buildInfo } from "@/lib/buildInfo";
 
 const AppFooter = () => {
   const { t } = useTranslation();
@@ -7,7 +8,11 @@ const AppFooter = () => {
   return (
     <footer className="mt-auto border-t border-border/50">
       <div className="mx-auto max-w-3xl px-4 py-4 text-sm text-primary/60 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <span>{t("footerTagline")}</span>
+        <div className="flex items-center gap-2">
+          <span>{t("footerTagline")}</span>
+          <span className="text-primary/40">·</span>
+          <span className="text-primary/40">v{buildInfo.version}</span>
+        </div>
         <div className="flex items-center gap-4">
           <Link 
             className="hover:text-primary transition-colors underline underline-offset-4" 
