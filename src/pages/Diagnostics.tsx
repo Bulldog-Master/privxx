@@ -24,6 +24,7 @@ import {
   PaymentIntentPreview,
   ConnectionPathDiagram,
   OverallStatusBar,
+  TranslationCoverageBadge,
 } from '@/components/diagnostics';
 import type { LayerState } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
@@ -114,21 +115,24 @@ export default function Diagnostics() {
       
       <div className="relative z-10 container mx-auto px-4 py-8 max-w-6xl">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button variant="ghost" size="icon" asChild>
-            <Link to="/">
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold flex items-center gap-2">
-              <Activity className="h-6 w-6 text-primary" />
-              {t('diagnostics.pageTitle', 'System Diagnostics')}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {t('diagnostics.pageDescription', 'Monitor system health and translation status')}
-            </p>
+        <div className="flex items-center justify-between gap-4 mb-8">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" asChild>
+              <Link to="/">
+                <ArrowLeft className="h-5 w-5" />
+              </Link>
+            </Button>
+            <div>
+              <h1 className="text-2xl font-bold flex items-center gap-2">
+                <Activity className="h-6 w-6 text-primary" />
+                {t('diagnostics.pageTitle', 'System Diagnostics')}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {t('diagnostics.pageDescription', 'Monitor system health and translation status')}
+              </p>
+            </div>
           </div>
+          <TranslationCoverageBadge />
         </div>
 
         {/* Overall Status Bar */}

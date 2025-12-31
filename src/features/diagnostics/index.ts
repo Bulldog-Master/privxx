@@ -16,6 +16,7 @@ export {
   PaymentIntentPreview,
   ConnectionPathDiagram,
   OverallStatusBar,
+  TranslationCoverageBadge,
 } from "./components";
 export type { LayerState, LayerStatus } from "./components";
 export type { OverallStatus } from "./components";

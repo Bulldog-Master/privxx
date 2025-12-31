@@ -17,6 +17,7 @@ export {
   PaymentIntentPreview,
   ConnectionPathDiagram,
   OverallStatusBar,
+  TranslationCoverageBadge,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,
