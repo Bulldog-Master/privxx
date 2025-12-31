@@ -37,6 +37,7 @@ const LANGUAGE_META: Record<string, { name: string; nativeName: string }> = {
   de: { name: 'German', nativeName: 'Deutsch' },
   es: { name: 'Spanish', nativeName: 'Español' },
   fr: { name: 'French', nativeName: 'Français' },
+  he: { name: 'Hebrew', nativeName: 'עברית' },
   hi: { name: 'Hindi', nativeName: 'हिन्दी' },
   id: { name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
   ja: { name: 'Japanese', nativeName: '日本語' },
@@ -46,6 +47,7 @@ const LANGUAGE_META: Record<string, { name: string; nativeName: string }> = {
   ru: { name: 'Russian', nativeName: 'Русский' },
   tr: { name: 'Turkish', nativeName: 'Türkçe' },
   ur: { name: 'Urdu', nativeName: 'اردو' },
+  yi: { name: 'Yiddish', nativeName: 'ייִדיש' },
   zh: { name: 'Chinese', nativeName: '中文' },
 };
 
