@@ -1,4 +1,11 @@
 {
+  "latency": {
+    "excellent": "Mükemmel",
+    "good": "İyi",
+    "fair": "Orta",
+    "poor": "Kötü",
+    "unknown": "Bilinmiyor"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Kullanım Şartları",

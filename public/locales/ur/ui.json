@@ -1,4 +1,11 @@
 {
+  "latency": {
+    "excellent": "بہترین",
+    "good": "اچھا",
+    "fair": "ٹھیک",
+    "poor": "خراب",
+    "unknown": "نامعلوم"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "استعمال کی شرائط",

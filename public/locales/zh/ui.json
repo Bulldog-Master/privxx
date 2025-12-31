@@ -1,4 +1,11 @@
 {
+  "latency": {
+    "excellent": "极佳",
+    "good": "良好",
+    "fair": "一般",
+    "poor": "较差",
+    "unknown": "未知"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "使用条款",

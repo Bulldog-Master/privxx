@@ -1,4 +1,11 @@
 {
+  "latency": {
+    "excellent": "Sangat Baik",
+    "good": "Baik",
+    "fair": "Cukup",
+    "poor": "Buruk",
+    "unknown": "Tidak Diketahui"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Ketentuan Penggunaan",

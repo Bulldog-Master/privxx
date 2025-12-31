@@ -1,4 +1,11 @@
 {
+  "latency": {
+    "excellent": "চমৎকার",
+    "good": "ভালো",
+    "fair": "মোটামুটি",
+    "poor": "খারাপ",
+    "unknown": "অজানা"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "ব্যবহারের শর্তাবলী",
