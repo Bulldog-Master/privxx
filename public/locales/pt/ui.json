@@ -482,6 +482,7 @@
   "testAlertButton": "Testar Alerta",
   "passkeys": "Chaves de Acesso",
   "passkeysDescription": "Use Touch ID, Face ID, Windows Hello ou chaves de segurança para entrar sem senha.",
+  "passkeyDeviceNote": "As chaves de acesso são registradas por dispositivo e perfil de navegador. Você precisará adicionar uma chave de acesso em cada dispositivo que usar.",
   "platformAuthenticator": "Dispositivo (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Chave de Segurança",
   "hybridAuthenticator": "Telefone ou Tablet",

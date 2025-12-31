@@ -482,6 +482,7 @@
   "testAlertButton": "الرٹ ٹیسٹ",
   "passkeys": "پاس کیز",
   "passkeysDescription": "بغیر پاس ورڈ سائن ان کرنے کے لیے Touch ID، Face ID، Windows Hello یا سیکیورٹی کیز استعمال کریں۔",
+  "passkeyDeviceNote": "پاس کیز ہر ڈیوائس اور براؤزر پروفائل کے لیے رجسٹرڈ ہیں۔ آپ کو ہر ڈیوائس پر پاس کی شامل کرنی ہوگی جو آپ استعمال کرتے ہیں۔",
   "platformAuthenticator": "ڈیوائس (Touch ID / Face ID / Windows Hello)",
   "securityKey": "سیکیورٹی کی",
   "hybridAuthenticator": "فون یا ٹیبلیٹ",

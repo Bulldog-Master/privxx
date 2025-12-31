@@ -482,6 +482,7 @@
   "testAlertButton": "अलर्ट परीक्षण",
   "passkeys": "पासकी",
   "passkeysDescription": "बिना पासवर्ड के साइन इन करने के लिए Touch ID, Face ID, Windows Hello या सुरक्षा कुंजी का उपयोग करें।",
+  "passkeyDeviceNote": "पासकी प्रत्येक डिवाइस और ब्राउज़र प्रोफ़ाइल के लिए पंजीकृत हैं। आपको प्रत्येक डिवाइस पर एक पासकी जोड़नी होगी जिसका आप उपयोग करते हैं।",
   "platformAuthenticator": "उपकरण (Touch ID / Face ID / Windows Hello)",
   "securityKey": "सुरक्षा कुंजी",
   "hybridAuthenticator": "फ़ोन या टैबलेट",

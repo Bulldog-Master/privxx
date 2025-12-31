@@ -557,6 +557,7 @@
   "testAlertButton": "בדוק התראה",
   "passkeys": "מפתחות גישה",
   "passkeysDescription": "השתמש ב-Touch ID, Face ID, Windows Hello או מפתחות אבטחה להתחברות ללא סיסמה.",
+  "passkeyDeviceNote": "מפתחות גישה נרשמים לכל מכשיר ופרופיל דפדפן. תצטרך להוסיף מפתח גישה בכל מכשיר שאתה משתמש בו.",
   "platformAuthenticator": "מכשיר (Touch ID / Face ID / Windows Hello)",
   "securityKey": "מפתח אבטחה",
   "hybridAuthenticator": "טלפון או טאבלט",

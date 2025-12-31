@@ -559,6 +559,7 @@
   "testAlertButton": "সতর্কতা পরীক্ষা",
   "passkeys": "পাসকি",
   "passkeysDescription": "পাসওয়ার্ড ছাড়া সাইন ইন করতে Touch ID, Face ID, Windows Hello বা সিকিউরিটি কী ব্যবহার করুন।",
+  "passkeyDeviceNote": "পাসকি প্রতিটি ডিভাইস এবং ব্রাউজার প্রোফাইলে নিবন্ধিত হয়। আপনি যে প্রতিটি ডিভাইস ব্যবহার করেন তাতে একটি পাসকি যোগ করতে হবে।",
   "platformAuthenticator": "ডিভাইস (Touch ID / Face ID / Windows Hello)",
   "securityKey": "সিকিউরিটি কী",
   "hybridAuthenticator": "ফোন বা ট্যাবলেট",

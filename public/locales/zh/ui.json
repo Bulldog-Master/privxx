@@ -482,6 +482,7 @@
   "testAlertButton": "测试警报",
   "passkeys": "通行密钥",
   "passkeysDescription": "使用 Touch ID、Face ID、Windows Hello 或安全密钥无密码登录。",
+  "passkeyDeviceNote": "通行密钥按设备和浏览器配置文件注册。您需要在使用的每台设备上添加通行密钥。",
   "platformAuthenticator": "设备 (Touch ID / Face ID / Windows Hello)",
   "securityKey": "安全密钥",
   "hybridAuthenticator": "手机或平板电脑",

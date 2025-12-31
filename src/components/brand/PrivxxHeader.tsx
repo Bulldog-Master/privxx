@@ -88,6 +88,21 @@ const PrivxxHeader = () => {
       {/* Language Selector - stays separate */}
       <LanguageSelector />
 
+      {/* Sign In button for unauthenticated users */}
+      {!isAuthenticated && (
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          asChild
+          className="gap-1.5 text-primary/80 hover:text-primary min-h-[44px] px-3"
+        >
+          <Link to="/auth">
+            <LogIn className="w-4 h-4" />
+            {t("signIn", "Sign In")}
+          </Link>
+        </Button>
+      )}
+
       {/* User Menu Dropdown */}
       <DropdownMenu>
           <DropdownMenuTrigger asChild>

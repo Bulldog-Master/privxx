@@ -560,6 +560,7 @@
   "testAlertButton": "Tester l'Alerte",
   "passkeys": "Clés d'Accès",
   "passkeysDescription": "Utilisez Touch ID, Face ID, Windows Hello ou des clés de sécurité pour vous connecter sans mot de passe.",
+  "passkeyDeviceNote": "Les clés d'accès sont enregistrées par appareil et profil de navigateur. Vous devrez ajouter une clé d'accès sur chaque appareil que vous utilisez.",
   "platformAuthenticator": "Appareil (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Clé de Sécurité",
   "hybridAuthenticator": "Téléphone ou Tablette",

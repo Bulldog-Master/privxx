@@ -557,6 +557,7 @@
   "testAlertButton": "טעסט אַלערט",
   "passkeys": "פּאַסקייס",
   "passkeysDescription": "נוצן Touch ID, Face ID, Windows Hello אָדער זיכערהייט שליסלען צו אײַנלאָגן אָן פּאַסוואָרט.",
+  "passkeyDeviceNote": "פּאַסקייס ווערן רעגיסטרירט פּער מיטל און בלעטערער פּראָפיל. איר וועט דאַרפֿן צוגעבן אַ פּאַסקיי אויף יעדער מיטל וואָס איר נוצט.",
   "platformAuthenticator": "מיטל (Touch ID / Face ID / Windows Hello)",
   "securityKey": "זיכערהייט שליסל",
   "hybridAuthenticator": "טעלעפֿאָן אָדער טאַבלעט",

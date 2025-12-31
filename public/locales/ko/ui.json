@@ -482,6 +482,7 @@
   "testAlertButton": "알림 테스트",
   "passkeys": "패스키",
   "passkeysDescription": "Touch ID, Face ID, Windows Hello 또는 보안 키를 사용하여 비밀번호 없이 로그인하세요.",
+  "passkeyDeviceNote": "패스키는 기기 및 브라우저 프로필별로 등록됩니다. 사용하는 각 기기에 패스키를 추가해야 합니다.",
   "platformAuthenticator": "기기 (Touch ID / Face ID / Windows Hello)",
   "securityKey": "보안 키",
   "hybridAuthenticator": "휴대폰 또는 태블릿",
