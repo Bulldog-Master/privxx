@@ -557,6 +557,7 @@
   "testAlertButton": "Alert Testowy",
   "passkeys": "Klucze Dostępu",
   "passkeysDescription": "Użyj Touch ID, Face ID, Windows Hello lub kluczy bezpieczeństwa, aby logować się bez hasła.",
+  "passkeyDeviceNote": "Klucze dostępu są rejestrowane dla każdego urządzenia i profilu przeglądarki. Musisz dodać klucz dostępu na każdym urządzeniu, którego używasz.",
   "platformAuthenticator": "Urządzenie (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Klucz Bezpieczeństwa",
   "hybridAuthenticator": "Telefon lub Tablet",

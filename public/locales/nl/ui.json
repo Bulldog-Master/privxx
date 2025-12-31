@@ -482,6 +482,7 @@
   "testAlertButton": "Test Waarschuwing",
   "passkeys": "Passkeys",
   "passkeysDescription": "Gebruik Touch ID, Face ID, Windows Hello of beveiligingssleutels om in te loggen zonder wachtwoord.",
+  "passkeyDeviceNote": "Passkeys worden per apparaat en browserprofiel geregistreerd. Je moet een passkey toevoegen op elk apparaat dat je gebruikt.",
   "platformAuthenticator": "Apparaat (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Beveiligingssleutel",
   "hybridAuthenticator": "Telefoon of Tablet",

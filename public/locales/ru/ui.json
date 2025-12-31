@@ -482,6 +482,7 @@
   "testAlertButton": "Тестовое Оповещение",
   "passkeys": "Ключи Доступа",
   "passkeysDescription": "Используйте Touch ID, Face ID, Windows Hello или ключи безопасности для входа без пароля.",
+  "passkeyDeviceNote": "Ключи доступа регистрируются для каждого устройства и профиля браузера. Вам нужно будет добавить ключ доступа на каждом используемом устройстве.",
   "platformAuthenticator": "Устройство (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Ключ Безопасности",
   "hybridAuthenticator": "Телефон или Планшет",

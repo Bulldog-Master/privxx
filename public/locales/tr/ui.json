@@ -482,6 +482,7 @@
   "testAlertButton": "Uyarı Testi",
   "passkeys": "Geçiş Anahtarları",
   "passkeysDescription": "Şifresiz oturum açmak için Touch ID, Face ID, Windows Hello veya güvenlik anahtarları kullanın.",
+  "passkeyDeviceNote": "Geçiş anahtarları cihaz ve tarayıcı profili başına kaydedilir. Kullandığınız her cihaza bir geçiş anahtarı eklemeniz gerekecektir.",
   "platformAuthenticator": "Cihaz (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Güvenlik Anahtarı",
   "hybridAuthenticator": "Telefon veya Tablet",

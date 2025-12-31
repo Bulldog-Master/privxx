@@ -482,6 +482,7 @@
   "testAlertButton": "اختبار التنبيه",
   "passkeys": "مفاتيح المرور",
   "passkeysDescription": "استخدم Touch ID أو Face ID أو Windows Hello أو مفاتيح الأمان لتسجيل الدخول بدون كلمة مرور.",
+  "passkeyDeviceNote": "يتم تسجيل مفاتيح المرور لكل جهاز وملف متصفح. ستحتاج إلى إضافة مفتاح مرور على كل جهاز تستخدمه.",
   "platformAuthenticator": "الجهاز (Touch ID / Face ID / Windows Hello)",
   "securityKey": "مفتاح الأمان",
   "hybridAuthenticator": "هاتف أو جهاز لوحي",

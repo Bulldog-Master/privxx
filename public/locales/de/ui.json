@@ -560,6 +560,7 @@
   "testAlertButton": "Alarm testen",
   "passkeys": "Passkeys",
   "passkeysDescription": "Verwende Touch ID, Face ID, Windows Hello oder Sicherheitsschlüssel, um dich ohne Passwort anzumelden.",
+  "passkeyDeviceNote": "Passkeys werden pro Gerät und Browserprofil registriert. Du musst auf jedem Gerät, das du verwendest, einen Passkey hinzufügen.",
   "platformAuthenticator": "Gerät (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Sicherheitsschlüssel",
   "hybridAuthenticator": "Telefon oder Tablet",

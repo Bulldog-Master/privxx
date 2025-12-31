@@ -482,6 +482,7 @@
   "testAlertButton": "Tes Peringatan",
   "passkeys": "Passkey",
   "passkeysDescription": "Gunakan Touch ID, Face ID, Windows Hello, atau kunci keamanan untuk masuk tanpa kata sandi.",
+  "passkeyDeviceNote": "Passkey didaftarkan per perangkat dan profil browser. Anda perlu menambahkan passkey di setiap perangkat yang Anda gunakan.",
   "platformAuthenticator": "Perangkat (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Kunci Keamanan",
   "hybridAuthenticator": "Telepon atau Tablet",

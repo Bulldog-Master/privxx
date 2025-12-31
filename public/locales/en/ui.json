@@ -558,6 +558,7 @@
   "testAlertButton": "Test Alert",
   "passkeys": "Passkeys",
   "passkeysDescription": "Use Touch ID, Face ID, Windows Hello, or security keys to sign in without a password.",
+  "passkeyDeviceNote": "Passkeys are registered per device and browser profile. You'll need to add a passkey on each device you use.",
   "platformAuthenticator": "Device (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Security Key",
   "hybridAuthenticator": "Phone or Tablet",

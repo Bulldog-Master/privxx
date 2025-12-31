@@ -557,6 +557,7 @@
   "testAlertButton": "Test Avviso",
   "passkeys": "Passkey",
   "passkeysDescription": "Usa Touch ID, Face ID, Windows Hello o chiavi di sicurezza per accedere senza password.",
+  "passkeyDeviceNote": "Le passkey sono registrate per dispositivo e profilo browser. Dovrai aggiungere una passkey su ogni dispositivo che utilizzi.",
   "platformAuthenticator": "Dispositivo (Touch ID / Face ID / Windows Hello)",
   "securityKey": "Chiave di Sicurezza",
   "hybridAuthenticator": "Telefono o Tablet",

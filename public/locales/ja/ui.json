@@ -482,6 +482,7 @@
   "testAlertButton": "アラートをテスト",
   "passkeys": "パスキー",
   "passkeysDescription": "Touch ID、Face ID、Windows Hello、またはセキュリティキーを使用してパスワードなしでサインイン。",
+  "passkeyDeviceNote": "パスキーはデバイスとブラウザプロファイルごとに登録されます。使用する各デバイスにパスキーを追加する必要があります。",
   "platformAuthenticator": "デバイス (Touch ID / Face ID / Windows Hello)",
   "securityKey": "セキュリティキー",
   "hybridAuthenticator": "スマートフォンまたはタブレット",
