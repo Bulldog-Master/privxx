@@ -44,6 +44,7 @@
     "testBody": "Les notifications push fonctionnent correctement !",
     "testSent": "Test envoyé",
     "testSentDesc": "Vérifiez vos notifications",
+    "lastDelivered": "Dernière livraison",
     "latencyWarning": "Seuil d'avertissement de latence",
     "latencyWarningDesc": "Afficher un avertissement lorsque la latence dépasse cette valeur",
     "latencyCritical": "Seuil critique de latence",

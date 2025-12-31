@@ -5,7 +5,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Activity, RotateCcw, Gauge, Bell, BellOff } from "lucide-react";
+import { Activity, RotateCcw, Gauge, Bell, BellOff, CheckCircle2 } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -28,6 +29,7 @@ export function ConnectionAlertSettings() {
     isSupported: pushSupported,
     permission: pushPermission,
     isEnabled: pushEnabled,
+    lastDelivered,
     requestPermission,
     setEnabled: setPushEnabled,
     showNotification,
@@ -139,6 +141,12 @@ export function ConnectionAlertSettings() {
                     {pushPermission === 'denied' && (
                       <p className="text-xs text-destructive">
                         {t("connectionAlerts.pushBlocked", "Notifications blocked in browser settings")}
+                      </p>
+                    )}
+                    {lastDelivered && thresholds.pushEnabled && pushEnabled && (
+                      <p className="text-xs text-emerald-500 flex items-center gap-1">
+                        <CheckCircle2 className="h-3 w-3" />
+                        {t("connectionAlerts.lastDelivered", "Last delivered")} {formatDistanceToNow(new Date(lastDelivered), { addSuffix: true })}
                       </p>
                     )}
                   </div>
