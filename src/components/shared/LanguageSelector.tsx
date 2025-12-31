@@ -27,6 +27,7 @@ const languages = [
   { code: 'ru', label: 'Русский' },
   { code: 'tr', label: 'Türkçe' },
   { code: 'ur', label: 'اردو' },
+  { code: 'yi', label: 'ייִדיש' },
   { code: 'zh', label: '中文' },
 ];
 
