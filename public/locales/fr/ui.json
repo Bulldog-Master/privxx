@@ -322,6 +322,8 @@
   "diagnosticsJWT": "Token JWT",
   "diagnosticsValid": "Valide",
   "diagnosticsInvalid": "Invalide",
+  "diagnosticsJWTMethod": "Vérification",
+  "diagnosticsJWTEndpoint": "Endpoint Supabase",
   "diagnosticsTTL": "TTL de session",
   "diagnosticsTTLWarning": "La session expire bientôt",
   "diagnosticsTTLExpired": "Session expirée — déverrouiller à nouveau",

@@ -577,6 +577,8 @@
   "diagnosticsJWT": "Token JWT",
   "diagnosticsValid": "Valid",
   "diagnosticsInvalid": "Tidak Valid",
+  "diagnosticsJWTMethod": "Verifikasi",
+  "diagnosticsJWTEndpoint": "Endpoint Supabase",
   "diagnosticsTTL": "TTL Sesi",
   "diagnosticsTTLWarning": "Sesi akan segera berakhir",
   "diagnosticsTTLExpired": "Sesi kedaluwarsa — buka kunci lagi",

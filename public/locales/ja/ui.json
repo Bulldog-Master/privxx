@@ -577,6 +577,8 @@
   "diagnosticsJWT": "JWTトークン",
   "diagnosticsValid": "有効",
   "diagnosticsInvalid": "無効",
+  "diagnosticsJWTMethod": "検証",
+  "diagnosticsJWTEndpoint": "Supabaseエンドポイント",
   "diagnosticsTTL": "セッションTTL",
   "diagnosticsTTLWarning": "セッションがまもなく期限切れ",
   "diagnosticsTTLExpired": "セッション期限切れ — 再度ロック解除してください",

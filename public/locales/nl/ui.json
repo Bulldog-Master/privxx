@@ -577,6 +577,8 @@
   "diagnosticsJWT": "JWT Token",
   "diagnosticsValid": "Geldig",
   "diagnosticsInvalid": "Ongeldig",
+  "diagnosticsJWTMethod": "Verificatie",
+  "diagnosticsJWTEndpoint": "Supabase Endpoint",
   "diagnosticsTTL": "Sessie TTL",
   "diagnosticsTTLWarning": "Sessie verloopt binnenkort",
   "diagnosticsTTLExpired": "Sessie verlopen — ontgrendel opnieuw",

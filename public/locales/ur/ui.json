@@ -577,6 +577,8 @@
   "diagnosticsJWT": "JWT ٹوکن",
   "diagnosticsValid": "درست",
   "diagnosticsInvalid": "غلط",
+  "diagnosticsJWTMethod": "تصدیق",
+  "diagnosticsJWTEndpoint": "Supabase اینڈ پوائنٹ",
   "diagnosticsTTL": "سیشن TTL",
   "diagnosticsTTLWarning": "سیشن جلد ختم ہونے والا ہے",
   "diagnosticsTTLExpired": "سیشن ختم ہوگیا — دوبارہ کھولیں",

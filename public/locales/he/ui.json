@@ -238,6 +238,8 @@
   "diagnosticsJWT": "טוקן JWT",
   "diagnosticsValid": "תקף",
   "diagnosticsInvalid": "לא תקף",
+  "diagnosticsJWTMethod": "אימות",
+  "diagnosticsJWTEndpoint": "נקודת קצה של Supabase",
   "diagnosticsTTL": "TTL של סשן",
   "diagnosticsTTLWarning": "הסשן עומד לפוג",
   "diagnosticsTTLExpired": "הסשן פג — בטל נעילה שוב",
