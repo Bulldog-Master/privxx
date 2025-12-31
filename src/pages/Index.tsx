@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Sparkles } from "lucide-react";
+import { buildInfo } from "@/lib/buildInfo";
 import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/connection";
@@ -59,6 +60,8 @@ const Index = () => {
             </Suspense>
           </div>
           <div className="flex items-center gap-3 text-xs text-primary/70">
+            <span className="text-primary/40">v{buildInfo.version}</span>
+            <span className="text-primary/40">·</span>
             <span>{t("demoModeNotice")}</span>
             <span className="text-primary/40">·</span>
             <Link to="/privacy" className="hover:text-primary transition-colors">
