@@ -6,7 +6,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon, Unlock, Plus } from "lucide-react";
+import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon, Unlock, Plus, WifiOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -39,7 +39,7 @@ export function Inbox({
   isUnlocked 
 }: InboxProps) {
   const { t } = useTranslation();
-  const { isNone, unlock, createIdentity, isLoading: identityLoading } = useIdentity();
+  const { isNone, isOffline, unlock, createIdentity, checkStatus, isLoading: identityLoading } = useIdentity();
 
   const handleUnlock = async () => {
     const success = await unlock();
@@ -54,6 +54,34 @@ export function Inbox({
       toast.success(t("identityCreated", "Secure identity created"));
     }
   };
+
+  const handleRetryConnection = async () => {
+    await checkStatus();
+  };
+
+  // Bridge offline state (show instead of "no identity" when bridge is unreachable)
+  if (isOffline) {
+    return (
+      <div className="flex flex-col items-center justify-center py-6 text-center px-4">
+        <WifiOff className="h-6 w-6 text-destructive/80 mb-2" />
+        <h3 className="text-sm font-semibold mb-1 text-primary/90">
+          {t("bridgeOfflineTitle", "Bridge Unavailable")}
+        </h3>
+        <p className="text-xs text-primary/60 mb-3">
+          {t("bridgeOfflineBody", "Unable to connect to the secure bridge. Please try again.")}
+        </p>
+        <Button 
+          onClick={handleRetryConnection}
+          disabled={identityLoading}
+          variant="outline"
+          size="sm"
+        >
+          <RefreshCw className="h-4 w-4 mr-2" />
+          {t("retry", "Retry")}
+        </Button>
+      </div>
+    );
+  }
 
   // No identity yet
   if (isNone) {
