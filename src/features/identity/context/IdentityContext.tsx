@@ -9,7 +9,7 @@ import { createContext, useContext, useState, useCallback, useEffect, type React
 import { bridgeClient, type IdentityStatusResponse } from "@/api/bridge";
 import { useAuth } from "@/contexts/AuthContext";
 
-export type IdentityState = "none" | "locked" | "unlocked" | "loading";
+export type IdentityState = "none" | "locked" | "unlocked" | "loading" | "offline";
 
 interface IdentityContextValue {
   state: IdentityState;
@@ -17,6 +17,7 @@ interface IdentityContextValue {
   isLocked: boolean;
   isUnlocked: boolean;
   isLoading: boolean;
+  isOffline: boolean;
   error: string | null;
   unlockExpiresAt: string | null;
   
@@ -66,7 +67,14 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to check identity status";
       setError(message);
-      setState("none");
+      // Distinguish network/bridge errors from "no identity" state
+      // If bridge is unreachable, show offline state instead of none
+      const isNetworkError = message.toLowerCase().includes("network") ||
+        message.toLowerCase().includes("timeout") ||
+        message.toLowerCase().includes("unreachable") ||
+        message.toLowerCase().includes("failed to fetch") ||
+        message.toLowerCase().includes("connection");
+      setState(isNetworkError ? "offline" : "none");
     }
   }, [isAuthenticated]);
 
@@ -140,6 +148,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         isLocked: state === "locked",
         isUnlocked: state === "unlocked",
         isLoading: state === "loading",
+        isOffline: state === "offline",
         error,
         unlockExpiresAt,
         checkStatus,
