@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "उच्च लेटेंसी पाई गई",
+      "description": "कनेक्शन लेटेंसी बढ़ी हुई है ({{latency}}ms)। प्रदर्शन प्रभावित हो सकता है।"
+    },
+    "latencyCritical": {
+      "title": "कनेक्शन बहुत धीमा",
+      "description": "लेटेंसी गंभीर रूप से उच्च है ({{latency}}ms)। कनेक्शन गुणवत्ता गंभीर रूप से खराब है।"
+    },
+    "latencyRecovered": {
+      "title": "कनेक्शन सुधरा",
+      "description": "लेटेंसी सामान्य स्तर पर लौट आई है।"
+    },
+    "connectionLost": {
+      "title": "कनेक्शन टूटा",
+      "description": "मिक्सनेट तक नहीं पहुँच सकते। पुनः कनेक्ट करने का प्रयास..."
+    },
+    "connectionDegraded": {
+      "title": "कनेक्शन खराब",
+      "description": "कुछ सेवाएँ अनुपलब्ध हैं। मुख्य कार्यक्षमता सीमित हो सकती है।"
+    },
+    "connectionRestored": {
+      "title": "कनेक्शन बहाल",
+      "description": "सभी सिस्टम सामान्य रूप से काम कर रहे हैं।"
+    }
+  },
   "latency": {
     "excellent": "उत्कृष्ट",
     "good": "अच्छा",

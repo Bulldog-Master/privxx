@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "高レイテンシを検出",
+      "description": "接続レイテンシが上昇しています（{{latency}}ms）。パフォーマンスに影響が出る可能性があります。"
+    },
+    "latencyCritical": {
+      "title": "接続が非常に遅い",
+      "description": "レイテンシが危険なレベルです（{{latency}}ms）。接続品質が大幅に低下しています。"
+    },
+    "latencyRecovered": {
+      "title": "接続が改善",
+      "description": "レイテンシが正常レベルに戻りました。"
+    },
+    "connectionLost": {
+      "title": "接続が切断",
+      "description": "ミックスネットに接続できません。再接続を試みています..."
+    },
+    "connectionDegraded": {
+      "title": "接続が不安定",
+      "description": "一部のサービスが利用できません。主要機能が制限される可能性があります。"
+    },
+    "connectionRestored": {
+      "title": "接続が復旧",
+      "description": "すべてのシステムが正常に動作しています。"
+    }
+  },
   "latency": {
     "excellent": "優秀",
     "good": "良好",

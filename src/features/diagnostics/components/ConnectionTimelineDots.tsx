@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useBridgeHealthStatus } from '../hooks/useBridgeHealthStatus';
+import { useConnectionQualityAlerts } from '@/hooks/useConnectionQualityAlerts';
 import { formatDistanceToNow } from 'date-fns';
 
 type EventStatus = 'ok' | 'degraded' | 'error';
@@ -101,38 +102,45 @@ export function ConnectionTimelineDots() {
     }
   }, [bridgeHealth.isLoading]);
 
+  // Derive current connection status
+  const proxyOk = bridgeHealth.health === true;
+  const bridgeOk = bridgeHealth.xxdkInfo === true;
+  const cmixxOk = bridgeHealth.cmixxStatus === true;
+
+  let connectionStatus: EventStatus;
+  if (proxyOk && bridgeOk && cmixxOk) {
+    connectionStatus = 'ok';
+  } else if (proxyOk || bridgeOk) {
+    connectionStatus = 'degraded';
+  } else {
+    connectionStatus = 'error';
+  }
+
+  // Enable connection quality alerts
+  useConnectionQualityAlerts({
+    status: connectionStatus,
+    latency: currentLatency,
+  });
+
   useEffect(() => {
     if (bridgeHealth.isLoading) return;
 
-    const proxyOk = bridgeHealth.health === true;
-    const bridgeOk = bridgeHealth.xxdkInfo === true;
-    const cmixxOk = bridgeHealth.cmixxStatus === true;
-
-    let currentStatus: EventStatus;
-    if (proxyOk && bridgeOk && cmixxOk) {
-      currentStatus = 'ok';
-    } else if (proxyOk || bridgeOk) {
-      currentStatus = 'degraded';
-    } else {
-      currentStatus = 'error';
-    }
-
     // Only add event if status changed or it's the first check
-    if (lastStatusRef.current !== currentStatus) {
-      lastStatusRef.current = currentStatus;
+    if (lastStatusRef.current !== connectionStatus) {
+      lastStatusRef.current = connectionStatus;
       eventIdRef.current += 1;
       
       setEvents((prev) => {
         const newEvent: ConnectionEvent = {
           id: eventIdRef.current,
-          status: currentStatus,
+          status: connectionStatus,
           timestamp: new Date(),
           latency: currentLatency,
         };
         return [newEvent, ...prev].slice(0, MAX_EVENTS);
       });
     }
-  }, [bridgeHealth.health, bridgeHealth.xxdkInfo, bridgeHealth.cmixxStatus, bridgeHealth.isLoading, currentLatency]);
+  }, [connectionStatus, bridgeHealth.isLoading, currentLatency]);
 
   const statusColors: Record<EventStatus, string> = {
     ok: 'bg-emerald-500',

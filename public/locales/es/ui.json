@@ -1,4 +1,30 @@
 {
+  "alerts": {
+    "latencyWarning": {
+      "title": "Alta latencia detectada",
+      "description": "La latencia de conexión está elevada ({{latency}}ms). El rendimiento puede verse afectado."
+    },
+    "latencyCritical": {
+      "title": "Conexión muy lenta",
+      "description": "La latencia es críticamente alta ({{latency}}ms). La calidad de conexión está severamente degradada."
+    },
+    "latencyRecovered": {
+      "title": "Conexión mejorada",
+      "description": "La latencia ha vuelto a niveles normales."
+    },
+    "connectionLost": {
+      "title": "Conexión perdida",
+      "description": "No se puede alcanzar la mixnet. Intentando reconectar..."
+    },
+    "connectionDegraded": {
+      "title": "Conexión degradada",
+      "description": "Algunos servicios no están disponibles. La funcionalidad principal puede estar limitada."
+    },
+    "connectionRestored": {
+      "title": "Conexión restaurada",
+      "description": "Todos los sistemas están operativos."
+    }
+  },
   "latency": {
     "excellent": "Excelente",
     "good": "Bueno",
