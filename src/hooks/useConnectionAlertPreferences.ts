@@ -5,6 +5,7 @@ export interface ConnectionAlertThresholds {
   latencyCritical: number;  // ms
   degradedDuration: number; // ms
   alertsEnabled: boolean;
+  pushEnabled: boolean;     // Push notifications
 }
 
 export interface ConnectionAlertHistoryEntry {
@@ -24,6 +25,7 @@ const DEFAULT_THRESHOLDS: ConnectionAlertThresholds = {
   latencyCritical: 1000,
   degradedDuration: 10000,
   alertsEnabled: true,
+  pushEnabled: false,
 };
 
 export function useConnectionAlertPreferences() {
@@ -99,6 +101,15 @@ export function useConnectionAlertPreferences() {
     setHistory([]);
   }, []);
 
+  const getHistoryForExport = useCallback(() => {
+    return {
+      exportedAt: new Date().toISOString(),
+      appVersion: 'Privxx v0.2.0',
+      thresholds,
+      history,
+    };
+  }, [thresholds, history]);
+
   return {
     thresholds,
     updateThreshold,
@@ -106,6 +117,7 @@ export function useConnectionAlertPreferences() {
     history,
     addHistoryEntry,
     clearHistory,
+    getHistoryForExport,
     defaults: DEFAULT_THRESHOLDS,
   };
 }

@@ -5,13 +5,14 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Activity, RotateCcw, Gauge } from "lucide-react";
+import { Activity, RotateCcw, Gauge, Bell, BellOff } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useConnectionAlertPreferences } from "@/hooks/useConnectionAlertPreferences";
+import { usePushNotifications } from "@/hooks/usePushNotifications";
 import { toast } from "@/hooks/useToast";
 
 export function ConnectionAlertSettings() {
@@ -22,6 +23,14 @@ export function ConnectionAlertSettings() {
     resetThresholds,
     defaults,
   } = useConnectionAlertPreferences();
+  
+  const {
+    isSupported: pushSupported,
+    permission: pushPermission,
+    isEnabled: pushEnabled,
+    requestPermission,
+    setEnabled: setPushEnabled,
+  } = usePushNotifications();
 
   const handleToggleAlerts = () => {
     updateThreshold('alertsEnabled', !thresholds.alertsEnabled);
@@ -31,6 +40,36 @@ export function ConnectionAlertSettings() {
         ? t("connectionAlerts.enabled", "Connection quality alerts enabled") 
         : t("connectionAlerts.disabled", "Connection quality alerts disabled"),
     });
+  };
+
+  const handleTogglePush = async () => {
+    if (!thresholds.pushEnabled) {
+      // Enabling push - request permission if needed
+      if (pushPermission !== 'granted') {
+        const granted = await requestPermission();
+        if (!granted) {
+          toast({
+            title: t("connectionAlerts.pushDenied", "Permission denied"),
+            description: t("connectionAlerts.pushDeniedDesc", "Enable notifications in browser settings"),
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+      updateThreshold('pushEnabled', true);
+      setPushEnabled(true);
+      toast({
+        title: t("preferenceUpdated", "Preference updated"),
+        description: t("connectionAlerts.pushEnabled", "Push notifications enabled"),
+      });
+    } else {
+      updateThreshold('pushEnabled', false);
+      setPushEnabled(false);
+      toast({
+        title: t("preferenceUpdated", "Preference updated"),
+        description: t("connectionAlerts.pushDisabled", "Push notifications disabled"),
+      });
+    }
   };
 
   const handleReset = () => {
@@ -80,6 +119,38 @@ export function ConnectionAlertSettings() {
 
         {thresholds.alertsEnabled && (
           <>
+            {/* Push Notifications Toggle */}
+            {pushSupported && (
+              <div className="flex items-center justify-between py-2 border-t border-border/30">
+                <div className="flex items-start gap-3">
+                  {thresholds.pushEnabled ? (
+                    <Bell className="h-5 w-5 text-primary/70 mt-0.5" />
+                  ) : (
+                    <BellOff className="h-5 w-5 text-primary/70 mt-0.5" />
+                  )}
+                  <div className="space-y-0.5">
+                    <Label htmlFor="push-alerts" className="text-sm font-medium text-primary">
+                      {t("connectionAlerts.pushLabel", "Background notifications")}
+                    </Label>
+                    <p className="text-xs text-primary/70">
+                      {t("connectionAlerts.pushDesc", "Receive alerts even when app is in background")}
+                    </p>
+                    {pushPermission === 'denied' && (
+                      <p className="text-xs text-destructive">
+                        {t("connectionAlerts.pushBlocked", "Notifications blocked in browser settings")}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <Switch
+                  id="push-alerts"
+                  checked={thresholds.pushEnabled && pushEnabled}
+                  onCheckedChange={handleTogglePush}
+                  disabled={pushPermission === 'denied'}
+                />
+              </div>
+            )}
+
             {/* Latency Warning Threshold */}
             <div className="space-y-3 pt-2 border-t border-border/30">
               <div className="flex items-center justify-between">

@@ -2,14 +2,16 @@
  * Connection Alert History Component
  * 
  * Displays historical connection quality alerts for debugging.
+ * Includes share functionality for support.
  */
 
 import { useTranslation } from "react-i18next";
-import { History, Trash2, Download, AlertTriangle, CheckCircle, XCircle, Clock } from "lucide-react";
+import { History, Trash2, Download, AlertTriangle, CheckCircle, XCircle, Clock, Share2, Mail } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useConnectionAlertPreferences, ConnectionAlertHistoryEntry } from "@/hooks/useConnectionAlertPreferences";
 import { toast } from "@/hooks/useToast";
 import { format } from "date-fns";
@@ -29,7 +31,7 @@ const alertTypeConfig: Record<ConnectionAlertHistoryEntry['type'], {
 
 export function ConnectionAlertHistory() {
   const { t } = useTranslation("ui");
-  const { history, clearHistory } = useConnectionAlertPreferences();
+  const { history, clearHistory, getHistoryForExport } = useConnectionAlertPreferences();
 
   const handleClearHistory = () => {
     clearHistory();
@@ -40,7 +42,7 @@ export function ConnectionAlertHistory() {
   };
 
   const handleExportHistory = () => {
-    const data = JSON.stringify(history, null, 2);
+    const data = JSON.stringify(getHistoryForExport(), null, 2);
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -55,6 +57,76 @@ export function ConnectionAlertHistory() {
       title: t("connectionAlerts.history.exported", "History exported"),
       description: t("connectionAlerts.history.exportedDesc", "Alert history saved as JSON file"),
     });
+  };
+
+  const handleShareViaEmail = () => {
+    const exportData = getHistoryForExport();
+    const summary = history.slice(0, 10).map(entry => {
+      const date = format(new Date(entry.timestamp), 'MMM d, HH:mm:ss');
+      const latency = entry.latency ? ` (${entry.latency}ms)` : '';
+      return `- ${date}: ${entry.type.replace(/_/g, ' ')}${latency}`;
+    }).join('\n');
+    
+    const body = encodeURIComponent(
+      `Privxx Connection Alert History\n` +
+      `================================\n\n` +
+      `Exported: ${format(new Date(), 'yyyy-MM-dd HH:mm:ss')}\n` +
+      `Total Alerts: ${history.length}\n\n` +
+      `Recent Alerts (last 10):\n${summary}\n\n` +
+      `Thresholds:\n` +
+      `- Latency Warning: ${exportData.thresholds.latencyWarning}ms\n` +
+      `- Latency Critical: ${exportData.thresholds.latencyCritical}ms\n` +
+      `- Degraded Duration: ${exportData.thresholds.degradedDuration / 1000}s\n\n` +
+      `For full history, please request the JSON export.`
+    );
+    
+    const subject = encodeURIComponent('Privxx Connection Alert History');
+    window.open(`mailto:support@privxx.app?subject=${subject}&body=${body}`, '_blank');
+    
+    toast({
+      title: t("connectionAlerts.history.emailOpened", "Email opened"),
+      description: t("connectionAlerts.history.emailOpenedDesc", "Complete your support request in your email app"),
+    });
+  };
+
+  const handleShareNative = async () => {
+    const exportData = getHistoryForExport();
+    const text = `Privxx Alert History - ${history.length} alerts recorded. ` +
+      `Latest: ${history[0]?.type.replace(/_/g, ' ') || 'none'}`;
+    
+    if (navigator.share) {
+      try {
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        const file = new File([blob], `privxx-alerts-${format(new Date(), 'yyyy-MM-dd')}.json`, { type: 'application/json' });
+        
+        await navigator.share({
+          title: 'Privxx Alert History',
+          text,
+          files: [file],
+        });
+        
+        toast({
+          title: t("connectionAlerts.history.shared", "History shared"),
+          description: t("connectionAlerts.history.sharedDesc", "Alert history shared successfully"),
+        });
+      } catch (error) {
+        if ((error as Error).name !== 'AbortError') {
+          // Fallback to copy
+          await navigator.clipboard.writeText(JSON.stringify(exportData, null, 2));
+          toast({
+            title: t("connectionAlerts.history.copied", "Copied to clipboard"),
+            description: t("connectionAlerts.history.copiedDesc", "Alert history copied for sharing"),
+          });
+        }
+      }
+    } else {
+      // Fallback: copy to clipboard
+      await navigator.clipboard.writeText(JSON.stringify(exportData, null, 2));
+      toast({
+        title: t("connectionAlerts.history.copied", "Copied to clipboard"),
+        description: t("connectionAlerts.history.copiedDesc", "Alert history copied for sharing"),
+      });
+    }
   };
 
   return (
@@ -129,6 +201,26 @@ export function ConnectionAlertHistory() {
                 <Download className="h-4 w-4" />
                 {t("connectionAlerts.history.export", "Export")}
               </Button>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="flex-1 gap-2">
+                    <Share2 className="h-4 w-4" />
+                    {t("connectionAlerts.history.share", "Share")}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center">
+                  <DropdownMenuItem onClick={handleShareViaEmail}>
+                    <Mail className="h-4 w-4 mr-2" />
+                    {t("connectionAlerts.history.shareEmail", "Email to Support")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleShareNative}>
+                    <Share2 className="h-4 w-4 mr-2" />
+                    {t("connectionAlerts.history.shareNative", "Share via...")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
               <Button 
                 variant="outline" 
                 size="sm" 
