@@ -13,9 +13,11 @@ interface PushNotificationState {
   permission: NotificationPermission;
   isSupported: boolean;
   isEnabled: boolean;
+  lastDelivered: string | null;
 }
 
 const STORAGE_KEY = 'privxx_push_enabled';
+const LAST_DELIVERED_KEY = 'privxx_push_last_delivered';
 
 export function usePushNotifications() {
   const [state, setState] = useState<PushNotificationState>(() => {
@@ -23,8 +25,10 @@ export function usePushNotifications() {
     const permission = isSupported ? Notification.permission : 'denied';
     
     let isEnabled = false;
+    let lastDelivered: string | null = null;
     try {
       isEnabled = localStorage.getItem(STORAGE_KEY) === 'true';
+      lastDelivered = localStorage.getItem(LAST_DELIVERED_KEY);
     } catch {
       // Ignore storage errors
     }
@@ -33,6 +37,7 @@ export function usePushNotifications() {
       permission,
       isSupported,
       isEnabled: isEnabled && permission === 'granted',
+      lastDelivered,
     };
   });
 
@@ -110,6 +115,15 @@ export function usePushNotifications() {
         ...options,
       });
       
+      // Track delivery time
+      const deliveredAt = new Date().toISOString();
+      setState(prev => ({ ...prev, lastDelivered: deliveredAt }));
+      try {
+        localStorage.setItem(LAST_DELIVERED_KEY, deliveredAt);
+      } catch {
+        // Ignore storage errors
+      }
+      
       // Auto-close after 10 seconds
       setTimeout(() => notification.close(), 10000);
       
@@ -119,10 +133,20 @@ export function usePushNotifications() {
     }
   }, [state.isSupported, state.isEnabled, state.permission]);
 
+  const clearLastDelivered = useCallback(() => {
+    setState(prev => ({ ...prev, lastDelivered: null }));
+    try {
+      localStorage.removeItem(LAST_DELIVERED_KEY);
+    } catch {
+      // Ignore storage errors
+    }
+  }, []);
+
   return {
     ...state,
     requestPermission,
     setEnabled,
     showNotification,
+    clearLastDelivered,
   };
 }

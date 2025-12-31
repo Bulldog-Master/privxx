@@ -44,6 +44,7 @@
     "testBody": "Push notifications are working correctly!",
     "testSent": "Test sent",
     "testSentDesc": "Check your notifications",
+    "lastDelivered": "Last delivered",
     "latencyWarning": "Latency warning threshold",
     "latencyWarningDesc": "Show warning when latency exceeds this value",
     "latencyCritical": "Latency critical threshold",

@@ -44,6 +44,7 @@
     "testBody": "Push-Benachrichtigungen funktionieren korrekt!",
     "testSent": "Test gesendet",
     "testSentDesc": "Überprüfen Sie Ihre Benachrichtigungen",
+    "lastDelivered": "Zuletzt zugestellt",
     "latencyWarning": "Latenz-Warnschwelle",
     "latencyWarningDesc": "Warnung anzeigen, wenn die Latenz diesen Wert überschreitet",
     "latencyCritical": "Kritische Latenz-Schwelle",
