@@ -581,5 +581,15 @@
   "diagnostics.translationStatus.checkFile": "Check file:",
   "diagnostics.translationStatus.syncProgress": "Sync Progress",
   "diagnostics.translationStatus.completionVsQuality": "Structure completion vs translation quality",
-  "diagnostics.translationStatus.validJson": "Valid JSON"
+  "diagnostics.translationStatus.validJson": "Valid JSON",
+  
+  "backendStatus.connected": "{{name}} connected",
+  "backendStatus.unreachable": "{{name}} unreachable",
+  "backendStatus.checking": "Checking {{name}}...",
+  "backendStatus.unknown": "{{name}} status unknown",
+  
+  "healthIndicator.healthy": "All systems operational",
+  "healthIndicator.degraded": "Some services degraded",
+  "healthIndicator.offline": "Services unreachable",
+  "healthIndicator.checking": "Checking status..."
 }

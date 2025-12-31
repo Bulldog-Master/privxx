@@ -583,5 +583,15 @@
   "diagnostics.translationStatus.checkFile": "Datei prüfen:",
   "diagnostics.translationStatus.syncProgress": "Synchronisierungsfortschritt",
   "diagnostics.translationStatus.completionVsQuality": "Strukturvollständigkeit vs. Übersetzungsqualität",
-  "diagnostics.translationStatus.validJson": "Gültiges JSON"
+  "diagnostics.translationStatus.validJson": "Gültiges JSON",
+  
+  "backendStatus.connected": "{{name}} verbunden",
+  "backendStatus.unreachable": "{{name}} nicht erreichbar",
+  "backendStatus.checking": "Prüfe {{name}}...",
+  "backendStatus.unknown": "{{name}} Status unbekannt",
+  
+  "healthIndicator.healthy": "Alle Systeme betriebsbereit",
+  "healthIndicator.degraded": "Einige Dienste beeinträchtigt",
+  "healthIndicator.offline": "Dienste nicht erreichbar",
+  "healthIndicator.checking": "Status wird geprüft..."
 }

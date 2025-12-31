@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "تحقق من الملف:",
   "diagnostics.translationStatus.syncProgress": "تقدم المزامنة",
   "diagnostics.translationStatus.completionVsQuality": "اكتمال البنية مقابل جودة الترجمة",
-  "diagnostics.translationStatus.validJson": "JSON صالح"
+  "diagnostics.translationStatus.validJson": "JSON صالح",
+  
+  "backendStatus.connected": "{{name}} متصل",
+  "backendStatus.unreachable": "{{name}} غير قابل للوصول",
+  "backendStatus.checking": "جارٍ التحقق من {{name}}...",
+  "backendStatus.unknown": "حالة {{name}} غير معروفة",
+  
+  "healthIndicator.healthy": "جميع الأنظمة تعمل",
+  "healthIndicator.degraded": "بعض الخدمات متدهورة",
+  "healthIndicator.offline": "الخدمات غير قابلة للوصول",
+  "healthIndicator.checking": "جارٍ التحقق من الحالة..."
 }

@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "फ़ाइल जांचें:",
   "diagnostics.translationStatus.syncProgress": "सिंक प्रगति",
   "diagnostics.translationStatus.completionVsQuality": "संरचना पूर्णता बनाम अनुवाद गुणवत्ता",
-  "diagnostics.translationStatus.validJson": "वैध JSON"
+  "diagnostics.translationStatus.validJson": "वैध JSON",
+  
+  "backendStatus.connected": "{{name}} जुड़ा हुआ",
+  "backendStatus.unreachable": "{{name}} पहुंच योग्य नहीं",
+  "backendStatus.checking": "{{name}} जांच रहा है...",
+  "backendStatus.unknown": "{{name}} स्थिति अज्ञात",
+  
+  "healthIndicator.healthy": "सभी सिस्टम चालू हैं",
+  "healthIndicator.degraded": "कुछ सेवाएं प्रभावित",
+  "healthIndicator.offline": "सेवाएं पहुंच योग्य नहीं",
+  "healthIndicator.checking": "स्थिति जांच रहा है..."
 }

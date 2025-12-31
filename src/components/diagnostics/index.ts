@@ -19,6 +19,7 @@ export {
   OverallStatusBar,
   TranslationCoverageBadge,
   BackendStatusBadges,
+  HealthIndicatorDot,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,

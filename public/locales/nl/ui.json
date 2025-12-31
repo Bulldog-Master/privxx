@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "Controleer bestand:",
   "diagnostics.translationStatus.syncProgress": "Synchronisatievoortgang",
   "diagnostics.translationStatus.completionVsQuality": "Structuurvolledigheid vs vertaalkwaliteit",
-  "diagnostics.translationStatus.validJson": "Geldige JSON"
+  "diagnostics.translationStatus.validJson": "Geldige JSON",
+  
+  "backendStatus.connected": "{{name}} verbonden",
+  "backendStatus.unreachable": "{{name}} onbereikbaar",
+  "backendStatus.checking": "{{name}} controleren...",
+  "backendStatus.unknown": "{{name}} status onbekend",
+  
+  "healthIndicator.healthy": "Alle systemen operationeel",
+  "healthIndicator.degraded": "Sommige diensten verslechterd",
+  "healthIndicator.offline": "Diensten onbereikbaar",
+  "healthIndicator.checking": "Status controleren..."
 }

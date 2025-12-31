@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "Проверьте файл:",
   "diagnostics.translationStatus.syncProgress": "Прогресс синхронизации",
   "diagnostics.translationStatus.completionVsQuality": "Полнота структуры vs качество перевода",
-  "diagnostics.translationStatus.validJson": "Действительный JSON"
+  "diagnostics.translationStatus.validJson": "Действительный JSON",
+  
+  "backendStatus.connected": "{{name}} подключен",
+  "backendStatus.unreachable": "{{name}} недоступен",
+  "backendStatus.checking": "Проверка {{name}}...",
+  "backendStatus.unknown": "Статус {{name}} неизвестен",
+  
+  "healthIndicator.healthy": "Все системы работают",
+  "healthIndicator.degraded": "Некоторые сервисы ухудшены",
+  "healthIndicator.offline": "Сервисы недоступны",
+  "healthIndicator.checking": "Проверка статуса..."
 }

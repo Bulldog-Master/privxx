@@ -7,7 +7,7 @@ import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/connection";
 import { PageBackground } from "@/components/layout/PageBackground";
-import { TranslationCoverageBadge, BackendStatusBadges } from "@/components/diagnostics";
+import { TranslationCoverageBadge, BackendStatusBadges, HealthIndicatorDot } from "@/components/diagnostics";
 import {
   Tooltip,
   TooltipContent,
@@ -65,7 +65,10 @@ const Index = () => {
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-primary/70">
-            <span className="text-primary/40">v{buildInfo.version}</span>
+            <span className="flex items-center gap-1.5 text-primary/40">
+              <HealthIndicatorDot />
+              v{buildInfo.version}
+            </span>
             <span className="text-primary/40">·</span>
             <span>{t("demoModeNotice")}</span>
             <span className="text-primary/40">·</span>

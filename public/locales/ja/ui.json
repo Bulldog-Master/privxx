@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "ファイルを確認:",
   "diagnostics.translationStatus.syncProgress": "同期進捗",
   "diagnostics.translationStatus.completionVsQuality": "構造の完全性 vs 翻訳品質",
-  "diagnostics.translationStatus.validJson": "有効なJSON"
+  "diagnostics.translationStatus.validJson": "有効なJSON",
+  
+  "backendStatus.connected": "{{name}} 接続済み",
+  "backendStatus.unreachable": "{{name}} に接続できません",
+  "backendStatus.checking": "{{name}} を確認中...",
+  "backendStatus.unknown": "{{name}} のステータス不明",
+  
+  "healthIndicator.healthy": "すべてのシステムが稼働中",
+  "healthIndicator.degraded": "一部のサービスが低下",
+  "healthIndicator.offline": "サービスに接続できません",
+  "healthIndicator.checking": "ステータスを確認中..."
 }

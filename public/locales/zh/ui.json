@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "检查文件：",
   "diagnostics.translationStatus.syncProgress": "同步进度",
   "diagnostics.translationStatus.completionVsQuality": "结构完整性 vs 翻译质量",
-  "diagnostics.translationStatus.validJson": "有效JSON"
+  "diagnostics.translationStatus.validJson": "有效JSON",
+  
+  "backendStatus.connected": "{{name}} 已连接",
+  "backendStatus.unreachable": "{{name}} 无法访问",
+  "backendStatus.checking": "正在检查 {{name}}...",
+  "backendStatus.unknown": "{{name}} 状态未知",
+  
+  "healthIndicator.healthy": "所有系统正常运行",
+  "healthIndicator.degraded": "部分服务降级",
+  "healthIndicator.offline": "服务无法访问",
+  "healthIndicator.checking": "正在检查状态..."
 }

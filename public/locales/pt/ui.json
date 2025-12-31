@@ -584,5 +584,15 @@
   "diagnostics.translationStatus.checkFile": "Verificar arquivo:",
   "diagnostics.translationStatus.syncProgress": "Progresso de sincronização",
   "diagnostics.translationStatus.completionVsQuality": "Completude de estrutura vs qualidade de tradução",
-  "diagnostics.translationStatus.validJson": "JSON válido"
+  "diagnostics.translationStatus.validJson": "JSON válido",
+  
+  "backendStatus.connected": "{{name}} conectado",
+  "backendStatus.unreachable": "{{name}} inacessível",
+  "backendStatus.checking": "Verificando {{name}}...",
+  "backendStatus.unknown": "Status de {{name}} desconhecido",
+  
+  "healthIndicator.healthy": "Todos os sistemas operacionais",
+  "healthIndicator.degraded": "Alguns serviços degradados",
+  "healthIndicator.offline": "Serviços inacessíveis",
+  "healthIndicator.checking": "Verificando status..."
 }

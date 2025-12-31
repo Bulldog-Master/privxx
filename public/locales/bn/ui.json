@@ -587,5 +587,15 @@
   "diagnostics.translationStatus.checkFile": "ফাইল চেক করুন:",
   "diagnostics.translationStatus.syncProgress": "সিঙ্ক অগ্রগতি",
   "diagnostics.translationStatus.completionVsQuality": "কাঠামো সম্পূর্ণতা বনাম অনুবাদ মান",
-  "diagnostics.translationStatus.validJson": "বৈধ JSON"
+  "diagnostics.translationStatus.validJson": "বৈধ JSON",
+  
+  "backendStatus.connected": "{{name}} সংযুক্ত",
+  "backendStatus.unreachable": "{{name}} অ্যাক্সেসযোগ্য নয়",
+  "backendStatus.checking": "{{name}} যাচাই করা হচ্ছে...",
+  "backendStatus.unknown": "{{name}} স্থিতি অজানা",
+  
+  "healthIndicator.healthy": "সমস্ত সিস্টেম চালু",
+  "healthIndicator.degraded": "কিছু পরিষেবা প্রভাবিত",
+  "healthIndicator.offline": "পরিষেবা অ্যাক্সেসযোগ্য নয়",
+  "healthIndicator.checking": "স্থিতি যাচাই করা হচ্ছে..."
 }
