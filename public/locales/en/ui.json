@@ -22,6 +22,26 @@
     "title": "Session Uptime",
     "connected": "Connected for {{duration}}"
   },
+  "bandwidth": {
+    "title": "Bandwidth Usage",
+    "downloaded": "Downloaded",
+    "uploaded": "Uploaded",
+    "note": "Estimated tunnel traffic"
+  },
+  "networkStats": {
+    "title": "Network Statistics",
+    "description": "Speed test history and latency trends",
+    "clear": "Clear",
+    "runTest": "Run Test",
+    "averages": "Averages",
+    "speedHistory": "Speed History",
+    "latencyHistory": "Latency History",
+    "history": "Test History",
+    "tests": "tests",
+    "noTests": "No speed tests yet",
+    "runFirstTest": "Run a test to see your mixnet performance",
+    "disclaimer": "Simulated results — actual mixnet speeds vary based on network conditions"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Terms of Use",

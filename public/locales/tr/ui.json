@@ -22,6 +22,26 @@
     "title": "Oturum Süresi",
     "connected": "{{duration}} bağlı"
   },
+  "bandwidth": {
+    "title": "Bant Genişliği Kullanımı",
+    "downloaded": "İndirildi",
+    "uploaded": "Yüklendi",
+    "note": "Tahmini tünel trafiği"
+  },
+  "networkStats": {
+    "title": "Ağ İstatistikleri",
+    "description": "Hız testi geçmişi ve gecikme trendleri",
+    "clear": "Temizle",
+    "runTest": "Test Çalıştır",
+    "averages": "Ortalamalar",
+    "speedHistory": "Hız Geçmişi",
+    "latencyHistory": "Gecikme Geçmişi",
+    "history": "Test Geçmişi",
+    "tests": "test",
+    "noTests": "Henüz hız testi yok",
+    "runFirstTest": "Mixnet performansınızı görmek için bir test çalıştırın",
+    "disclaimer": "Simüle edilmiş sonuçlar — gerçek mixnet hızları ağ koşullarına göre değişir"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Kullanım Şartları",

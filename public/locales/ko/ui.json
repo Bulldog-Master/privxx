@@ -22,6 +22,26 @@
     "title": "세션 가동 시간",
     "connected": "{{duration}} 연결됨"
   },
+  "bandwidth": {
+    "title": "대역폭 사용량",
+    "downloaded": "다운로드됨",
+    "uploaded": "업로드됨",
+    "note": "예상 터널 트래픽"
+  },
+  "networkStats": {
+    "title": "네트워크 통계",
+    "description": "속도 테스트 기록 및 지연 시간 추세",
+    "clear": "지우기",
+    "runTest": "테스트 실행",
+    "averages": "평균",
+    "speedHistory": "속도 기록",
+    "latencyHistory": "지연 시간 기록",
+    "history": "테스트 기록",
+    "tests": "테스트",
+    "noTests": "아직 속도 테스트가 없습니다",
+    "runFirstTest": "테스트를 실행하여 믹스넷 성능을 확인하세요",
+    "disclaimer": "시뮬레이션 결과 — 실제 믹스넷 속도는 네트워크 조건에 따라 다릅니다"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "이용 약관",

@@ -7,7 +7,7 @@ import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/connection";
 import { PageBackground } from "@/components/layout/PageBackground";
-import { TranslationCoverageBadge, BackendStatusBadges, HealthIndicatorDot, ConnectionTimelineDots, NetworkSpeedTest, UptimeCounter } from "@/components/diagnostics";
+import { TranslationCoverageBadge, BackendStatusBadges, HealthIndicatorDot, ConnectionTimelineDots, NetworkSpeedTest, UptimeCounter, BandwidthTracker } from "@/components/diagnostics";
 import {
   Tooltip,
   TooltipContent,
@@ -70,6 +70,7 @@ const Index = () => {
               v{buildInfo.version}
             </span>
             <UptimeCounter />
+            <BandwidthTracker />
             <ConnectionTimelineDots />
             <span className="text-primary/40">·</span>
             <span>{t("demoModeNotice")}</span>

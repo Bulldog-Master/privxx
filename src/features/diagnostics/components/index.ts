@@ -22,3 +22,5 @@ export { HealthIndicatorDot } from "./HealthIndicatorDot";
 export { ConnectionTimelineDots } from "./ConnectionTimelineDots";
 export { NetworkSpeedTest } from "./NetworkSpeedTest";
 export { UptimeCounter } from "./UptimeCounter";
+export { BandwidthTracker } from "./BandwidthTracker";
+export { NetworkStatsPanel } from "./NetworkStatsPanel";

@@ -22,6 +22,26 @@
     "title": "Tempo de Sessão",
     "connected": "Conectado há {{duration}}"
   },
+  "bandwidth": {
+    "title": "Uso de Largura de Banda",
+    "downloaded": "Baixado",
+    "uploaded": "Enviado",
+    "note": "Tráfego de túnel estimado"
+  },
+  "networkStats": {
+    "title": "Estatísticas de Rede",
+    "description": "Histórico de testes de velocidade e tendências de latência",
+    "clear": "Limpar",
+    "runTest": "Executar Teste",
+    "averages": "Médias",
+    "speedHistory": "Histórico de Velocidade",
+    "latencyHistory": "Histórico de Latência",
+    "history": "Histórico de Testes",
+    "tests": "testes",
+    "noTests": "Nenhum teste de velocidade ainda",
+    "runFirstTest": "Execute um teste para ver o desempenho do seu mixnet",
+    "disclaimer": "Resultados simulados — velocidades reais do mixnet variam conforme condições da rede"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Termos de Uso",

@@ -23,6 +23,8 @@ export {
   ConnectionTimelineDots,
   NetworkSpeedTest,
   UptimeCounter,
+  BandwidthTracker,
+  NetworkStatsPanel,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,
