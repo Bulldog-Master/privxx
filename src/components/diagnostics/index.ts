@@ -21,6 +21,8 @@ export {
   BackendStatusBadges,
   HealthIndicatorDot,
   ConnectionTimelineDots,
+  NetworkSpeedTest,
+  UptimeCounter,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,

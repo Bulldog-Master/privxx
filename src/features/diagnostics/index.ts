@@ -20,6 +20,8 @@ export {
   BackendStatusBadges,
   HealthIndicatorDot,
   ConnectionTimelineDots,
+  NetworkSpeedTest,
+  UptimeCounter,
 } from "./components";
 export type { LayerState, LayerStatus } from "./components";
 export type { OverallStatus } from "./components";

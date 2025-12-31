@@ -6,6 +6,22 @@
     "poor": "Pobre",
     "unknown": "Desconocido"
   },
+  "speedTest": {
+    "run": "Test de Velocidad",
+    "ready": "Listo",
+    "testingLatency": "Probando latencia...",
+    "testingDownload": "Probando descarga...",
+    "testingUpload": "Probando subida...",
+    "complete": "Completo",
+    "description": "Medir velocidad de conexión mixnet",
+    "download": "Descarga",
+    "upload": "Subida",
+    "latency": "Latencia"
+  },
+  "uptime": {
+    "title": "Tiempo de Sesión",
+    "connected": "Conectado durante {{duration}}"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Términos de uso",

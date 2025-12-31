@@ -20,3 +20,5 @@ export { TranslationCoverageBadge } from "./TranslationCoverageBadge";
 export { BackendStatusBadges } from "./BackendStatusBadges";
 export { HealthIndicatorDot } from "./HealthIndicatorDot";
 export { ConnectionTimelineDots } from "./ConnectionTimelineDots";
+export { NetworkSpeedTest } from "./NetworkSpeedTest";
+export { UptimeCounter } from "./UptimeCounter";

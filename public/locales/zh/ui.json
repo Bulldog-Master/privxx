@@ -6,6 +6,22 @@
     "poor": "较差",
     "unknown": "未知"
   },
+  "speedTest": {
+    "run": "速度测试",
+    "ready": "就绪",
+    "testingLatency": "测试延迟...",
+    "testingDownload": "测试下载...",
+    "testingUpload": "测试上传...",
+    "complete": "完成",
+    "description": "测量混合网络连接速度",
+    "download": "下载",
+    "upload": "上传",
+    "latency": "延迟"
+  },
+  "uptime": {
+    "title": "会话时长",
+    "connected": "已连接 {{duration}}"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "使用条款",

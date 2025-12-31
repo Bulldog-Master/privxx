@@ -6,6 +6,22 @@
     "poor": "Slecht",
     "unknown": "Onbekend"
   },
+  "speedTest": {
+    "run": "Snelheidstest",
+    "ready": "Klaar",
+    "testingLatency": "Latentie testen...",
+    "testingDownload": "Download testen...",
+    "testingUpload": "Upload testen...",
+    "complete": "Voltooid",
+    "description": "Mixnet verbindingssnelheid meten",
+    "download": "Download",
+    "upload": "Upload",
+    "latency": "Latentie"
+  },
+  "uptime": {
+    "title": "Sessieduur",
+    "connected": "{{duration}} verbonden"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Gebruiksvoorwaarden",
