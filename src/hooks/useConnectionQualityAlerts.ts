@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from '@/hooks/useToast';
 import { useConnectionAlertPreferences } from './useConnectionAlertPreferences';
+import { usePushNotifications } from './usePushNotifications';
 
 type ConnectionStatus = 'ok' | 'degraded' | 'error';
 type LatencyQuality = 'excellent' | 'good' | 'fair' | 'poor';
@@ -14,6 +15,7 @@ interface ConnectionQualityState {
 export function useConnectionQualityAlerts(state: ConnectionQualityState) {
   const { t } = useTranslation();
   const { thresholds, addHistoryEntry } = useConnectionAlertPreferences();
+  const { showNotification, isEnabled: pushEnabled } = usePushNotifications();
   
   const lastAlertRef = useRef<{
     type: 'latency' | 'status' | 'recovery';
@@ -59,12 +61,21 @@ export function useConnectionQualityAlerts(state: ConnectionQualityState) {
     
     lastAlertRef.current = { type, timestamp: Date.now() };
     
+    // Show in-app toast
     toast({
       title,
       description,
       variant,
     });
-  }, [shouldShowAlert, thresholds.alertsEnabled, addHistoryEntry]);
+    
+    // Show push notification if enabled and document is hidden
+    if (thresholds.pushEnabled && pushEnabled && document.hidden) {
+      showNotification(title, {
+        body: description,
+        tag: `privxx-${historyType}`,
+      });
+    }
+  }, [shouldShowAlert, thresholds.alertsEnabled, thresholds.pushEnabled, pushEnabled, addHistoryEntry, showNotification]);
 
   // Monitor latency quality changes
   useEffect(() => {
