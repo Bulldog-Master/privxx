@@ -1,6 +1,6 @@
 import { Info, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
 import { useBackendStatus } from "@/hooks/useBackendStatus";
 
@@ -33,7 +33,7 @@ const statusConfig = {
     fallback: "Online",
   },
   degraded: {
-    dotColor: "bg-amber-500",
+    dotColor: "bg-amber-400",
     label: "overallStatus.degraded", 
     fallback: "Connecting",
   },
@@ -51,9 +51,10 @@ const statusConfig = {
 
 interface StatusPillProps {
   onClick?: () => void;
+  className?: string;
 }
 
-export function StatusPill({ onClick }: StatusPillProps) {
+export function StatusPill({ onClick, className }: StatusPillProps) {
   const { t } = useTranslation();
   const { status: backendStatus, isLoading: backendLoading } = useBackendStatus();
   const bridgeHealth = useBridgeHealthStatus();
@@ -62,24 +63,38 @@ export function StatusPill({ onClick }: StatusPillProps) {
   const config = statusConfig[overallStatus];
   
   return (
-    <Button
-      variant="ghost"
-      size="sm"
+    <button
+      type="button"
       onClick={onClick}
-      className="h-7 px-2.5 gap-2 text-xs text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+      className={cn(
+        "fixed bottom-3 left-1/2 -translate-x-1/2 z-50",
+        "flex items-center gap-2 rounded-full border border-white/15",
+        "bg-black/25 backdrop-blur-md px-4 py-2",
+        "h-11 shadow-lg",
+        "text-sm text-white/90",
+        "transition-all duration-200 hover:bg-black/35 hover:border-white/25",
+        "active:scale-95",
+        className
+      )}
       aria-label={t("statusPill.openDiagnostics", "View system status")}
     >
       {overallStatus === "loading" ? (
         <Loader2 className="h-2.5 w-2.5 animate-spin" aria-hidden="true" />
       ) : (
         <span 
-          className={`h-2 w-2 rounded-full ${config.dotColor} ${overallStatus === "degraded" ? "animate-pulse" : ""}`}
+          className={cn(
+            "h-2.5 w-2.5 rounded-full",
+            config.dotColor,
+            overallStatus === "degraded" && "animate-pulse"
+          )}
           aria-hidden="true"
         />
       )}
-      <span>{t(config.label, config.fallback)}</span>
-      <Info className="h-3 w-3 opacity-50" aria-hidden="true" />
-    </Button>
+      <span className="whitespace-nowrap font-medium">
+        {t(config.label, config.fallback)}
+      </span>
+      <Info className="h-4 w-4 text-white/60" aria-hidden="true" />
+    </button>
   );
 }
 
