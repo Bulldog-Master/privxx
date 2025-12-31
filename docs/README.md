@@ -72,6 +72,7 @@ These documents define the immutable visual and interaction identity of Privxx.
 |----------|-------------|
 | [PRIVXX-PRIVACY-POLICY.md](./PRIVXX-PRIVACY-POLICY.md) | User-facing privacy policy |
 | [PRIVXX-PRIVACY-LAWS.md](./PRIVXX-PRIVACY-LAWS.md) | Regulatory and legal considerations |
+| [PRIVXX-SECURITY-COMPLIANCE-REPORT.md](./PRIVXX-SECURITY-COMPLIANCE-REPORT.md) | Security compliance report (100/100 rating) |
 | [LANGUAGE-RULES.md](./LANGUAGE-RULES.md) | Privacy-conscious language guidelines |
 | [../SECURITY.md](../SECURITY.md) | Security disclosure policy |
 
