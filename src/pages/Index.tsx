@@ -2,7 +2,6 @@ import { lazy, Suspense } from "react";
 import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { PageBackground } from "@/components/layout/PageBackground";
-import MinimalFooter from "@/components/shared/MinimalFooter";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
 const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/DiagnosticsDrawer"));
@@ -32,7 +31,7 @@ const Index = () => {
       <div className="relative z-10 min-h-screen flex flex-col">
         <PrivxxHeader />
         
-        <main id="main-content" className="flex-1 flex flex-col items-center pt-44 sm:pt-52 px-4 sm:px-6 gap-5 pb-8" tabIndex={-1}>
+        <main id="main-content" className="flex-1 flex flex-col items-center pt-44 sm:pt-52 px-4 sm:px-6 gap-5 pb-20" tabIndex={-1}>
           <PrivxxHeroWithUrl />
           
           {/* Messaging panel with inbox + compose */}
@@ -41,13 +40,10 @@ const Index = () => {
           </div>
         </main>
 
-        {/* Clean footer: Status pill + minimal legal links */}
-        <footer className="flex flex-col items-center gap-3 py-4 px-4">
-          <Suspense fallback={<div className="h-7 w-20" />}>
-            <DiagnosticsDrawer />
-          </Suspense>
-          <MinimalFooter />
-        </footer>
+        {/* Fixed StatusPill + Diagnostics Drawer */}
+        <Suspense fallback={null}>
+          <DiagnosticsDrawer />
+        </Suspense>
       </div>
     </PageBackground>
   );

@@ -307,6 +307,19 @@
 
   "statusPill.openDiagnostics": "View system status",
 
+  "diagnostics.liveStats": "Live Stats",
+  "diagnostics.latency": "Latency",
+  "diagnostics.errors": "Errors",
+  "diagnostics.lastCheck": "Last Check",
+  "diagnostics.actions": "Actions",
+  "diagnostics.retry": "Retry",
+  "diagnostics.copy": "Copy",
+  "diagnostics.noSignals": "Diagnostic only. No signals are sent or stored by this panel.",
+  "diagnostics.showAdvanced": "Show technical details",
+  "diagnostics.hideAdvanced": "Hide technical details",
+  "demoModeLabel": "Preview",
+  "close": "Close",
+
   "connectionHistory": "Connection History",
   "connectionHistoryDesc": "Recent bridge connection attempts",
   "connectionSuccess": "Connected successfully",
