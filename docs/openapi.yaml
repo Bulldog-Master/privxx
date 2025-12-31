@@ -1,0 +1,390 @@
+openapi: 3.0.3
+info:
+  title: Privxx Bridge API
+  version: 1.0.0
+  description: |
+    Privxx Bridge API (Frontend ↔ Bridge contract).
+    The frontend NEVER calls xxDK/cMixx directly. All requests go to Bridge.
+servers:
+  - url: https://privxx.app
+    description: Production (via Proxy → Bridge)
+  - url: http://localhost:8787
+    description: Local Bridge (dev)
+
+tags:
+  - name: Health
+  - name: Status
+  - name: Auth
+  - name: Identity
+  - name: Messages
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  headers:
+    XCorrelationId:
+      description: Correlation ID for tracing (optional).
+      schema:
+        type: string
+        example: "req_01HF8E2YQ9K4FZP6JH7A9C2D3E"
+
+  schemas:
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        error:
+          type: string
+          example: "unauthorized"
+        message:
+          type: string
+          example: "Invalid or expired token"
+      required: [error, message]
+
+    HealthResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        ok:
+          type: boolean
+          example: true
+      required: [ok]
+
+    StatusResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        state:
+          type: string
+          enum: [starting, ready, error]
+        detail:
+          type: string
+          nullable: true
+          example: "Initializing client"
+        now:
+          type: integer
+          format: int64
+          description: Unix ms timestamp (optional)
+          example: 1735600000000
+      required: [state]
+
+    SessionResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        userId:
+          type: string
+          description: Supabase user UUID (sub)
+          example: "b3bbf6c7-1d0a-4bb2-9d9a-111111111111"
+        sessionValid:
+          type: boolean
+          example: true
+        now:
+          type: integer
+          format: int64
+          example: 1735600000000
+      required: [userId, sessionValid]
+
+    IdentityStatusResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        exists:
+          type: boolean
+          example: true
+        state:
+          type: string
+          enum: [none, locked, unlocked]
+          example: "locked"
+        expiresAt:
+          type: string
+          format: date-time
+          nullable: true
+          example: "2025-12-31T18:45:00Z"
+      required: [exists, state]
+
+    IdentityCreateResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        state:
+          type: string
+          enum: [locked]
+          example: "locked"
+      required: [state]
+
+    IdentityUnlockResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        state:
+          type: string
+          enum: [unlocked]
+          example: "unlocked"
+        expiresAt:
+          type: string
+          format: date-time
+          example: "2025-12-31T18:45:00Z"
+      required: [state, expiresAt]
+
+    SendMessageRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        recipient:
+          type: string
+          description: Contact ID / pubkey alias (opaque to UI rules)
+          example: "self"
+        message:
+          type: string
+          example: "Hello from Privxx"
+      required: [recipient, message]
+
+    SendMessageResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        messageId:
+          type: string
+          example: "msg_01HF8E2YQ9K4FZP6JH7A9C2D3E"
+        queued:
+          type: boolean
+          example: true
+      required: [messageId, queued]
+
+    InboxMessage:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          example: "msg_01HF8E2YQ9K4FZP6JH7A9C2D3E"
+        from:
+          type: string
+          description: Sender identifier (sanitized; can be 'self')
+          example: "self"
+        body:
+          type: string
+          example: "Hello from Privxx"
+        timestamp:
+          type: integer
+          format: int64
+          description: Unix ms timestamp
+          example: 1735600000000
+      required: [id, from, body, timestamp]
+
+    InboxResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/InboxMessage"
+      required: [messages]
+
+security:
+  - BearerAuth: []
+
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Health check (public)
+      security: []
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /status:
+    get:
+      tags: [Status]
+      summary: Bridge status (auth required)
+      responses:
+        "200":
+          description: Bridge status
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatusResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /auth/session:
+    post:
+      tags: [Auth]
+      summary: Validate session token and return user context
+      responses:
+        "200":
+          description: Session valid
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /identity/status:
+    get:
+      tags: [Identity]
+      summary: Get identity status (none/locked/unlocked)
+      responses:
+        "200":
+          description: Identity status
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdentityStatusResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /identity/create:
+    post:
+      tags: [Identity]
+      summary: Create identity for authenticated user (one-time)
+      responses:
+        "200":
+          description: Identity created (locked)
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdentityCreateResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /identity/unlock:
+    post:
+      tags: [Identity]
+      summary: Unlock identity (session-based)
+      responses:
+        "200":
+          description: Identity unlocked
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdentityUnlockResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /identity/lock:
+    post:
+      tags: [Identity]
+      summary: Lock identity immediately
+      responses:
+        "204":
+          description: Locked (no content)
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /messages/send:
+    post:
+      tags: [Messages]
+      summary: Send a message (requires unlocked identity)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendMessageRequest"
+      responses:
+        "200":
+          description: Queued
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendMessageResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Locked or session expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /messages/inbox:
+    get:
+      tags: [Messages]
+      summary: Read inbox (requires unlocked identity)
+      responses:
+        "200":
+          description: Inbox messages
+          headers:
+            X-Correlation-Id:
+              $ref: "#/components/headers/XCorrelationId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InboxResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: Locked or session expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"

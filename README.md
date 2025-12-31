@@ -1,5 +1,6 @@
 # Privxx
 
+![Demo Smoke](https://github.com/Bulldog-Master/privxx/actions/workflows/demo-smoke.yml/badge.svg)
 ![Security Rating](https://img.shields.io/badge/Security-100%2F100-brightgreen?style=flat-square&logo=shield&logoColor=white)
 ![RLS Policies](https://img.shields.io/badge/RLS-RESTRICTIVE-blue?style=flat-square)
 ![Languages](https://img.shields.io/badge/i18n-16%20languages-purple?style=flat-square)
@@ -81,6 +82,23 @@ The application is privacy-first by design.
 - ⏳ Messaging enablement
 - ⏳ Native mobile apps (future phase)
 
+See [`docs/ROADMAP.md`](docs/ROADMAP.md) for the full roadmap with Mermaid diagram.
+
+---
+
+## 📚 Docs (GitHub Pages)
+
+Privxx docs are built with **MkDocs Material** and deployed automatically to GitHub Pages.
+
+### Local preview
+
+```bash
+pip install mkdocs-material
+mkdocs serve
+```
+
+Then open: http://127.0.0.1:8000/
+
 ---
 
 ## ℹ️ Transparency
@@ -113,6 +131,8 @@ npm run build
 
 | Document | Description |
 |----------|-------------|
+| [OpenAPI Spec](docs/openapi.yaml) | Bridge API contract (v1) |
+| [Roadmap](docs/ROADMAP.md) | Public roadmap with Mermaid diagram |
 | [Brand & UI Lock](docs/brand-ui-lock.md) | Visual identity rules |
 | [State Machine](docs/state-machine.md) | Connection states and triggers |
 | [Diagnostics View](docs/PRIVXX-DIAGNOSTICS-VIEW.md) | Status UI specification |
