@@ -1,4 +1,11 @@
 {
+  "latency": {
+    "excellent": "Uitstekend",
+    "good": "Goed",
+    "fair": "Redelijk",
+    "poor": "Slecht",
+    "unknown": "Onbekend"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Gebruiksvoorwaarden",

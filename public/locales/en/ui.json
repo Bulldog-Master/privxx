@@ -1,4 +1,11 @@
 {
+  "latency": {
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor",
+    "unknown": "Unknown"
+  },
   "appTitle": "Privxx",
   
   "termsTitle": "Terms of Use",
