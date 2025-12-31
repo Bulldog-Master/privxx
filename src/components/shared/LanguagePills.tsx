@@ -17,10 +17,11 @@ const languageLabels: Record<string, string> = {
   nl: "NL",
   tr: "TR",
   ko: "한",
+  he: "עב",
 };
 
 const supportedLanguages = [
-  'en', 'zh', 'hi', 'es', 'fr', 'ar', 'bn', 'ru', 'pt', 'ur', 'id', 'de', 'ja', 'nl', 'tr', 'ko'
+  'en', 'zh', 'hi', 'es', 'fr', 'ar', 'bn', 'ru', 'pt', 'ur', 'id', 'de', 'ja', 'nl', 'tr', 'ko', 'he'
 ];
 
 const LanguagePills = () => {
