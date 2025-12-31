@@ -22,17 +22,13 @@ import { BridgeClient, type IBridgeClient, type BridgeClientConfig } from "./cli
 import { MockBridgeClient } from "./mockClient";
 import { supabase } from "@/integrations/supabase/client";
 
+// Use mock mode by default for demo/preview phase
+// VPS bridge (66.94.109.237:8090) requires real infrastructure to be running
+// Set VITE_MOCK=false and VITE_BRIDGE_URL to use real bridge
+const USE_MOCK = import.meta.env.VITE_MOCK !== "false";
+
 // VPS production proxy URL (public, frontend-accessible via Proxy on port 8090)
 const VPS_PROXY_URL = "http://66.94.109.237:8090";
-
-// Local development bridge URL (Bridge binds to 8787 locally)
-const LOCAL_BRIDGE_URL = "http://127.0.0.1:8787";
-
-// Environment override or VPS Proxy default
-const BRIDGE_URL = import.meta.env.VITE_BRIDGE_URL || VPS_PROXY_URL;
-
-// Use mock when explicitly set
-const USE_MOCK = import.meta.env.VITE_MOCK === "true";
 
 // Determine effective bridge URL
 function getEffectiveBridgeUrl(): string {
@@ -55,13 +51,12 @@ async function getSupabaseAccessToken(): Promise<string | null> {
 }
 
 function createBridgeClient(): IBridgeClient {
-  const effectiveUrl = getEffectiveBridgeUrl();
-  
   if (USE_MOCK) {
-    console.debug("[Bridge] Using mock client (demo mode)");
+    console.debug("[Bridge] Using mock client (preview mode)");
     return new MockBridgeClient();
   }
 
+  const effectiveUrl = getEffectiveBridgeUrl();
   const config: BridgeClientConfig = {
     baseUrl: effectiveUrl,
     getAccessToken: getSupabaseAccessToken,
