@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { formatDistanceToNow } from 'date-fns';
 import { buildInfo } from '@/lib/buildInfo';
+import { LANGUAGE_META, SUPPORTED_LANGUAGE_CODES } from '@/lib/i18n/languageConstants';
 
 interface LanguageStatus {
   code: string;
@@ -26,28 +27,6 @@ interface CachedData {
   timestamp: number;
 }
 
-const LANGUAGE_META: Record<string, { name: string; nativeName: string }> = {
-  en: { name: 'English', nativeName: 'English' },
-  ar: { name: 'Arabic', nativeName: 'العربية' },
-  bn: { name: 'Bengali', nativeName: 'বাংলা' },
-  de: { name: 'German', nativeName: 'Deutsch' },
-  es: { name: 'Spanish', nativeName: 'Español' },
-  fr: { name: 'French', nativeName: 'Français' },
-  he: { name: 'Hebrew', nativeName: 'עברית' },
-  hi: { name: 'Hindi', nativeName: 'हिन्दी' },
-  id: { name: 'Indonesian', nativeName: 'Bahasa Indonesia' },
-  ja: { name: 'Japanese', nativeName: '日本語' },
-  ko: { name: 'Korean', nativeName: '한국어' },
-  nl: { name: 'Dutch', nativeName: 'Nederlands' },
-  pt: { name: 'Portuguese', nativeName: 'Português' },
-  ru: { name: 'Russian', nativeName: 'Русский' },
-  tr: { name: 'Turkish', nativeName: 'Türkçe' },
-  ur: { name: 'Urdu', nativeName: 'اردو' },
-  yi: { name: 'Yiddish', nativeName: 'ייִדיש' },
-  zh: { name: 'Chinese', nativeName: '中文' },
-};
-
-const SUPPORTED_LANGUAGES = Object.keys(LANGUAGE_META);
 const CACHE_KEY = `privxx_translation_status_cache_${buildInfo.build || buildInfo.version}`;
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -157,7 +136,7 @@ export function TranslationStatusDashboard() {
       const results: LanguageStatus[] = [];
 
       // Fetch all languages in parallel for better performance
-      const fetchPromises = SUPPORTED_LANGUAGES.map(async (langCode) => {
+      const fetchPromises = SUPPORTED_LANGUAGE_CODES.map(async (langCode) => {
         try {
           const response = await fetch(`/locales/${langCode}/ui.json?v=${cacheBuster}`, fetchOptions);
           if (!response.ok) {
