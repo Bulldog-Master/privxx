@@ -40,6 +40,7 @@ These documents define the immutable visual and interaction identity of Privxx.
 | [PRIVXX-DEMO-SCRIPT.md](./PRIVXX-DEMO-SCRIPT.md) | Short-form demo walkthrough |
 | [PRIVXX-VISUAL-WALKTHROUGH.md](./PRIVXX-VISUAL-WALKTHROUGH.md) | Visual explanation of user journey |
 | [PRIVXX-DEMO-VS-LIVE-UX.md](./PRIVXX-DEMO-VS-LIVE-UX.md) | Preview vs live behavior |
+| [PRIVXX-DIAGNOSTICS-UX-SPEC.md](./PRIVXX-DIAGNOSTICS-UX-SPEC.md) | Diagnostics UI, demo script & failure map |
 
 ---
 
