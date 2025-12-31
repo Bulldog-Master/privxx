@@ -7,6 +7,7 @@ import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { ConnectionBadge } from "@/components/connection";
 import { PageBackground } from "@/components/layout/PageBackground";
+import { TranslationCoverageBadge, BackendStatusBadges } from "@/components/diagnostics";
 import {
   Tooltip,
   TooltipContent,
@@ -52,14 +53,18 @@ const Index = () => {
           </div>
         </main>
 
-        <footer className="flex flex-col items-center gap-2 py-4 px-4">
+        <footer className="flex flex-col items-center gap-3 py-4 px-4">
+          {/* Backend Status Badges */}
+          <BackendStatusBadges />
+          
           <div className="flex items-center gap-3">
             <ConnectionBadge />
             <Suspense fallback={<div className="h-8 w-16" />}>
               <DiagnosticsDrawer />
             </Suspense>
           </div>
-          <div className="flex items-center gap-3 text-xs text-primary/70">
+          
+          <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-primary/70">
             <span className="text-primary/40">v{buildInfo.version}</span>
             <span className="text-primary/40">·</span>
             <span>{t("demoModeNotice")}</span>
@@ -81,6 +86,8 @@ const Index = () => {
                 <p>{t("whatsNew")}</p>
               </TooltipContent>
             </Tooltip>
+            <span className="text-primary/40">·</span>
+            <TranslationCoverageBadge />
           </div>
         </footer>
       </div>
