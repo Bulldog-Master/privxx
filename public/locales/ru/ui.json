@@ -355,6 +355,19 @@
 
   "statusPill.openDiagnostics": "Показать состояние системы",
 
+  "diagnostics.liveStats": "Статистика в реальном времени",
+  "diagnostics.latency": "Задержка",
+  "diagnostics.errors": "Ошибки",
+  "diagnostics.lastCheck": "Последняя проверка",
+  "diagnostics.actions": "Действия",
+  "diagnostics.retry": "Повторить",
+  "diagnostics.copy": "Копировать",
+  "diagnostics.noSignals": "Только диагностика. Эта панель не отправляет и не сохраняет сигналы.",
+  "diagnostics.showAdvanced": "Показать технические детали",
+  "diagnostics.hideAdvanced": "Скрыть технические детали",
+  "demoModeLabel": "Предпросмотр",
+  "close": "Закрыть",
+
   "connectionHistory": "История подключений",
   "connectionHistoryDesc": "Недавние попытки подключения к мосту",
   "connectionSuccess": "Успешно подключено",

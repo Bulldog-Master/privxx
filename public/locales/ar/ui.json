@@ -354,6 +354,19 @@
   "overallStatus.secondsAgo": "منذ {{count}} ثانية",
 
   "statusPill.openDiagnostics": "عرض حالة النظام",
+
+  "diagnostics.liveStats": "إحصائيات مباشرة",
+  "diagnostics.latency": "زمن الاستجابة",
+  "diagnostics.errors": "الأخطاء",
+  "diagnostics.lastCheck": "آخر فحص",
+  "diagnostics.actions": "الإجراءات",
+  "diagnostics.retry": "إعادة المحاولة",
+  "diagnostics.copy": "نسخ",
+  "diagnostics.noSignals": "للتشخيص فقط. لا يتم إرسال أو تخزين أي إشارات من هذه اللوحة.",
+  "diagnostics.showAdvanced": "عرض التفاصيل الفنية",
+  "diagnostics.hideAdvanced": "إخفاء التفاصيل الفنية",
+  "demoModeLabel": "معاينة",
+  "close": "إغلاق",
   
   "connectionHistory": "سجل الاتصال",
   "connectionHistoryDesc": "محاولات الاتصال الأخيرة بالجسر",
