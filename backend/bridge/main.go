@@ -9,11 +9,9 @@
 package main
 
 import (
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -241,20 +239,20 @@ func (im *IdentityManager) startCleanupRoutine() {
 	}()
 }
 
-// JWTClaims represents the claims we validate from Supabase JWT
+// JWTClaims represents the user data returned from Supabase /auth/v1/user
 type JWTClaims struct {
-	Sub string `json:"sub"` // User ID
-	Aud string `json:"aud"` // Audience
-	Iss string `json:"iss"` // Issuer
-	Exp int64  `json:"exp"` // Expiration time
-	Iat int64  `json:"iat"` // Issued at
+	Sub   string `json:"id"`    // User ID (mapped from "id" in response)
+	Email string `json:"email"` // User email
+	Aud   string `json:"aud"`   // Audience
 }
 
-// JWTError response for auth failures
-type JWTError struct {
-	Error   string `json:"error"`
-	Code    string `json:"code"`
-	Message string `json:"message,omitempty"`
+// SupabaseUserResponse represents the full response from /auth/v1/user
+type SupabaseUserResponse struct {
+	ID               string `json:"id"`
+	Email            string `json:"email"`
+	EmailConfirmedAt string `json:"email_confirmed_at"`
+	Aud              string `json:"aud"`
+	Role             string `json:"role"`
 }
 
 // RateLimitConfig holds rate limiting configuration
@@ -447,83 +445,119 @@ func isAllowedOrigin(origin string) bool {
 	return false
 }
 
-// verifyJWTSignature performs HMAC-SHA256 signature verification
-func verifyJWTSignature(tokenString string, secret []byte) error {
-	parts := strings.Split(tokenString, ".")
-	if len(parts) != 3 {
-		return fmt.Errorf("invalid token format")
-	}
-
-	// Create the signing input (header.payload)
-	signingInput := parts[0] + "." + parts[1]
-
-	// Decode the signature from the token
-	providedSig, err := base64.RawURLEncoding.DecodeString(parts[2])
-	if err != nil {
-		// Try with padding
-		sig := parts[2]
-		switch len(sig) % 4 {
-		case 2:
-			sig += "=="
-		case 3:
-			sig += "="
-		}
-		providedSig, err = base64.URLEncoding.DecodeString(sig)
-		if err != nil {
-			return fmt.Errorf("failed to decode signature: %v", err)
-		}
-	}
-
-	// Compute expected signature using HMAC-SHA256
-	mac := hmac.New(sha256.New, secret)
-	mac.Write([]byte(signingInput))
-	expectedSig := mac.Sum(nil)
-
-	// Constant-time comparison to prevent timing attacks
-	if !hmac.Equal(providedSig, expectedSig) {
-		return fmt.Errorf("signature verification failed")
-	}
-
-	return nil
+// JWTError response for auth failures
+type JWTError struct {
+	Error   string `json:"error"`
+	Code    string `json:"code"`
+	Message string `json:"message,omitempty"`
 }
 
-// extractJWTClaims extracts and validates claims from a JWT token
-func extractJWTClaims(tokenString string) (*JWTClaims, error) {
-	// JWT format: header.payload.signature
-	parts := strings.Split(tokenString, ".")
-	if len(parts) != 3 {
-		return nil, fmt.Errorf("invalid token format")
-	}
+// Supabase configuration
+var (
+	supabaseURL    = "https://qgzoqsgfqmtcpgfgtfms.supabase.co"
+	supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnem9xc2dmcW10Y3BnZmd0Zm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MzIyNDIsImV4cCI6MjA4MjQwODI0Mn0.oGdVZ-QB_O96hkxYzDtYUj1Kw-viUGbJMho4osgRJqA"
+)
 
-	// Decode payload (second part)
-	payload := parts[1]
-	// Add padding if needed for base64 decoding
-	switch len(payload) % 4 {
-	case 2:
-		payload += "=="
-	case 3:
-		payload += "="
-	}
+// HTTP client with timeout for Supabase API calls
+var httpClient = &http.Client{
+	Timeout: 10 * time.Second,
+}
 
-	decoded, err := base64.URLEncoding.DecodeString(payload)
+// validateJWTViaEndpoint validates a JWT by calling Supabase /auth/v1/user
+// This is the endpoint-based verification approach that doesn't require the JWT secret
+func validateJWTViaEndpoint(token string) (*JWTClaims, *JWTError) {
+	// Build request to Supabase auth endpoint
+	authURL := supabaseURL + "/auth/v1/user"
+	
+	req, err := http.NewRequest("GET", authURL, nil)
 	if err != nil {
-		// Try standard encoding
-		decoded, err = base64.RawURLEncoding.DecodeString(parts[1])
-		if err != nil {
-			return nil, fmt.Errorf("failed to decode payload: %v", err)
+		log.Printf("[JWT] Failed to create request: %v", err)
+		return nil, &JWTError{
+			Error:   "server_error",
+			Code:    "request_failed",
+			Message: "Internal server error",
 		}
 	}
 
-	var claims JWTClaims
-	if err := json.Unmarshal(decoded, &claims); err != nil {
-		return nil, fmt.Errorf("failed to parse claims: %v", err)
+	// Required headers for Supabase API
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("apikey", supabaseAnonKey)
+	req.Header.Set("Content-Type", "application/json")
+
+	// Make the request
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		log.Printf("[JWT] Supabase API request failed: %v", err)
+		return nil, &JWTError{
+			Error:   "server_error",
+			Code:    "supabase_unreachable",
+			Message: "Unable to verify token",
+		}
+	}
+	defer resp.Body.Close()
+
+	// Read response body
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("[JWT] Failed to read response: %v", err)
+		return nil, &JWTError{
+			Error:   "server_error",
+			Code:    "response_error",
+			Message: "Failed to read verification response",
+		}
 	}
 
-	return &claims, nil
+	// Handle non-200 responses
+	if resp.StatusCode != http.StatusOK {
+		log.Printf("[JWT] Supabase returned %d: %s", resp.StatusCode, string(body))
+		
+		if resp.StatusCode == http.StatusUnauthorized {
+			return nil, &JWTError{
+				Error:   "unauthorized",
+				Code:    "invalid_token",
+				Message: "Token is invalid or expired",
+			}
+		}
+		
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "verification_failed",
+			Message: "Token verification failed",
+		}
+	}
+
+	// Parse user response
+	var user SupabaseUserResponse
+	if err := json.Unmarshal(body, &user); err != nil {
+		log.Printf("[JWT] Failed to parse user response: %v", err)
+		return nil, &JWTError{
+			Error:   "server_error",
+			Code:    "parse_error",
+			Message: "Failed to parse user data",
+		}
+	}
+
+	// Validate user ID exists
+	if user.ID == "" {
+		log.Printf("[JWT] User response missing ID")
+		return nil, &JWTError{
+			Error:   "unauthorized",
+			Code:    "invalid_user",
+			Message: "Invalid user data",
+		}
+	}
+
+	log.Printf("[JWT] Token verified via Supabase endpoint for user: %s (%s)", user.ID, user.Email)
+	
+	return &JWTClaims{
+		Sub:   user.ID,
+		Email: user.Email,
+		Aud:   user.Aud,
+	}, nil
 }
 
 // validateJWT validates the JWT token from the Authorization header
-// with full HMAC-SHA256 signature verification
+// Uses Supabase /auth/v1/user endpoint for verification (no local secret required)
 func validateJWT(r *http.Request) (*JWTClaims, *JWTError) {
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
@@ -552,97 +586,8 @@ func validateJWT(r *http.Request) (*JWTClaims, *JWTError) {
 		}
 	}
 
-	// Verify signature using SUPABASE_JWT_SECRET
-	jwtSecret := os.Getenv("SUPABASE_JWT_SECRET")
-	if jwtSecret == "" {
-		log.Printf("[JWT] CRITICAL: SUPABASE_JWT_SECRET not configured")
-		return nil, &JWTError{
-			Error:   "server_error",
-			Code:    "missing_secret",
-			Message: "Server misconfiguration",
-		}
-	}
-
-	// Verify HMAC-SHA256 signature
-	if err := verifyJWTSignature(token, []byte(jwtSecret)); err != nil {
-		log.Printf("[JWT] Signature verification failed: %v", err)
-		return nil, &JWTError{
-			Error:   "unauthorized",
-			Code:    "invalid_signature",
-			Message: "Token signature invalid",
-		}
-	}
-
-	claims, err := extractJWTClaims(token)
-	if err != nil {
-		log.Printf("[JWT] Parse error: %v", err)
-		return nil, &JWTError{
-			Error:   "unauthorized",
-			Code:    "invalid_token",
-			Message: "Failed to parse token",
-		}
-	}
-
-	// Validate expiration
-	now := time.Now().Unix()
-	if claims.Exp > 0 && claims.Exp < now {
-		log.Printf("[JWT] Token expired: exp=%d, now=%d, diff=%ds", claims.Exp, now, now-claims.Exp)
-		return nil, &JWTError{
-			Error:   "unauthorized",
-			Code:    "token_expired",
-			Message: "Token has expired",
-		}
-	}
-
-	// Validate issued at (reject tokens issued in the future)
-	if claims.Iat > 0 && claims.Iat > now+60 { // 60 second clock skew tolerance
-		log.Printf("[JWT] Token issued in future: iat=%d, now=%d", claims.Iat, now)
-		return nil, &JWTError{
-			Error:   "unauthorized",
-			Code:    "invalid_iat",
-			Message: "Token issued in the future",
-		}
-	}
-
-	// Validate subject (user ID) exists
-	if claims.Sub == "" {
-		return nil, &JWTError{
-			Error:   "unauthorized",
-			Code:    "missing_sub",
-			Message: "Token missing subject claim",
-		}
-	}
-
-	// Validate issuer (should be Supabase)
-	expectedIssuer := os.Getenv("JWT_ISSUER")
-	if expectedIssuer == "" {
-		expectedIssuer = "https://qgzoqsgfqmtcpgfgtfms.supabase.co/auth/v1"
-	}
-	if claims.Iss != "" && claims.Iss != expectedIssuer {
-		log.Printf("[JWT] Invalid issuer: got=%s, expected=%s", claims.Iss, expectedIssuer)
-		return nil, &JWTError{
-			Error:   "unauthorized",
-			Code:    "invalid_issuer",
-			Message: "Token issuer mismatch",
-		}
-	}
-
-	// Validate audience (should be "authenticated")
-	expectedAud := os.Getenv("JWT_AUDIENCE")
-	if expectedAud == "" {
-		expectedAud = "authenticated"
-	}
-	if claims.Aud != "" && claims.Aud != expectedAud {
-		log.Printf("[JWT] Invalid audience: got=%s, expected=%s", claims.Aud, expectedAud)
-		return nil, &JWTError{
-			Error:   "unauthorized",
-			Code:    "invalid_audience",
-			Message: "Token audience mismatch",
-		}
-	}
-
-	log.Printf("[JWT] Valid token for user: %s (exp in %ds)", claims.Sub, claims.Exp-now)
-	return claims, nil
+	// Verify token via Supabase endpoint
+	return validateJWTViaEndpoint(token)
 }
 
 // writeJWTError writes a JSON error response for JWT validation failures

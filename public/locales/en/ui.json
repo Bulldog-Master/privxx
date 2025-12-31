@@ -238,6 +238,8 @@
   "diagnosticsJWT": "JWT Token",
   "diagnosticsValid": "Valid",
   "diagnosticsInvalid": "Invalid",
+  "diagnosticsJWTMethod": "Verification",
+  "diagnosticsJWTEndpoint": "Supabase Endpoint",
   "diagnosticsTTL": "Session TTL",
   "diagnosticsTTLWarning": "Session expiring soon",
   "diagnosticsTTLExpired": "Session expired — unlock again",

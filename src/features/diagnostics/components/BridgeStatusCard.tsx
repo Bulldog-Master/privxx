@@ -129,6 +129,16 @@ const BridgeStatusCard = () => {
         subValue={jwtExpiresAt ? `Expires: ${jwtExpiresAt}` : undefined}
       />
 
+      {/* JWT Verification Method */}
+      {hasValidJWT && (
+        <StatusRow
+          icon={<ShieldCheck className="h-4 w-4" />}
+          label={t("diagnosticsJWTMethod") || "Verification"}
+          value={t("diagnosticsJWTEndpoint") || "Supabase Endpoint"}
+          valueColor="text-primary/70"
+        />
+      )}
+
       {/* Identity State */}
       <StatusRow
         icon={identityDisplay.icon}
