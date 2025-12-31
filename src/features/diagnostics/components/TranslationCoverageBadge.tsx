@@ -19,6 +19,7 @@ const LANGUAGE_META: Record<string, string> = {
   de: 'German',
   es: 'Spanish',
   fr: 'French',
+  he: 'Hebrew',
   hi: 'Hindi',
   id: 'Indonesian',
   ja: 'Japanese',
@@ -28,6 +29,7 @@ const LANGUAGE_META: Record<string, string> = {
   ru: 'Russian',
   tr: 'Turkish',
   ur: 'Urdu',
+  yi: 'Yiddish',
   zh: 'Chinese',
 };
 
