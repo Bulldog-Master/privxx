@@ -1,0 +1,37 @@
+site_name: Privxx Docs
+site_description: Privacy-first, metadata-resistant client architecture for Privxx.
+repo_name: Bulldog-Master/privxx
+repo_url: https://github.com/Bulldog-Master/privxx
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - scheme: slate
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.details
+
+nav:
+  - Home: index.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - API Contract: architecture/api-contract.md
+      - Phase 2: architecture/phase-2.md
+  - Security:
+      - Threat Model: security/threat-model.md
+      - Privacy Guarantees: security/privacy-guarantees.md
+  - Runbooks:
+      - Demo Script: runbooks/demo-script.md
+      - Cutover Runbook: runbooks/cutover.md
