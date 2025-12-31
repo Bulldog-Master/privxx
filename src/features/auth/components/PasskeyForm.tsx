@@ -15,10 +15,28 @@ import { toast } from "sonner";
 
 export function PasskeyForm() {
   const { t } = useTranslation();
-  const { authenticateWithPasskey, isLoading, error: passkeyError, clearError } = usePasskey();
+  const {
+    authenticateWithPasskey,
+    isLoading,
+    error: passkeyError,
+    clearError,
+  } = usePasskey();
 
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  const normalizeError = (raw: string) => {
+    // supabase-js uses this generic message when a function responds with non-2xx.
+    // In passkey auth, this can happen for non-enumeration-safe failures (e.g., no passkey).
+    if (raw.toLowerCase().includes("edge function returned a non-2xx status code")) {
+      return t(
+        "passkeyUnavailable",
+        "Passkey sign-in is unavailable for this email. Try Sign In or Sign Up."
+      );
+    }
+
+    return raw;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,11 +76,14 @@ export function PasskeyForm() {
       </div>
 
       <p className="text-xs text-muted-foreground">
-        {t("passkeyDescription", "Use Touch ID, Face ID, Windows Hello, or a security key")}
+        {t(
+          "passkeyDescription",
+          "Use Touch ID, Face ID, Windows Hello, or a security key"
+        )}
       </p>
 
       {displayError && (
-        <p className="text-sm text-destructive">{displayError}</p>
+        <p className="text-sm text-destructive">{normalizeError(displayError)}</p>
       )}
 
       <Button type="submit" className="w-full" disabled={isLoading}>
@@ -76,3 +97,4 @@ export function PasskeyForm() {
     </form>
   );
 }
+
