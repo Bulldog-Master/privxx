@@ -16,3 +16,4 @@ export { ConnectionPathDiagram } from "./ConnectionPathDiagram";
 export type { LayerState, LayerStatus } from "./ConnectionPathDiagram";
 export { OverallStatusBar } from "./OverallStatusBar";
 export type { OverallStatus } from "./OverallStatusBar";
+export { TranslationCoverageBadge } from "./TranslationCoverageBadge";
