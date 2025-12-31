@@ -25,6 +25,42 @@
       "description": "Tüm sistemler çalışır durumda."
     }
   },
+  "connectionAlerts": {
+    "title": "Bağlantı Kalitesi Uyarıları",
+    "description": "Performans bildirimlerini ne zaman alacağınızı yapılandırın",
+    "enabled": "Bağlantı kalitesi uyarıları etkinleştirildi",
+    "disabled": "Bağlantı kalitesi uyarıları devre dışı",
+    "enableLabel": "Bağlantı kalitesi uyarıları",
+    "enableDesc": "Bağlantı kalitesi düştüğünde bildirim göster",
+    "latencyWarning": "Gecikme uyarı eşiği",
+    "latencyWarningDesc": "Gecikme bu değeri aştığında uyarı göster",
+    "latencyCritical": "Gecikme kritik eşik",
+    "latencyCriticalDesc": "Gecikme bu değeri aştığında kritik uyarı göster",
+    "degradedDuration": "Bozulmuş durum uyarı gecikmesi",
+    "degradedDurationDesc": "Bozulmuş bağlantı hakkında uyarmadan önce bu kadar bekle",
+    "reset": "Eşikler sıfırlandı",
+    "resetDesc": "Uyarı eşikleri varsayılana geri yüklendi",
+    "resetButton": "Varsayılana Sıfırla",
+    "history": {
+      "title": "Uyarı Geçmişi",
+      "description": "Hata ayıklama için son bağlantı kalitesi uyarıları",
+      "entries": "kayıt",
+      "empty": "Henüz uyarı kaydedilmedi",
+      "emptyDesc": "Bağlantı sorunları oluştuğunda uyarılar burada görünecek",
+      "export": "Dışa Aktar",
+      "clear": "Temizle",
+      "exported": "Geçmiş dışa aktarıldı",
+      "exportedDesc": "Uyarı geçmişi JSON dosyası olarak kaydedildi",
+      "cleared": "Geçmiş temizlendi",
+      "clearedDesc": "Tüm uyarı geçmişi kaldırıldı",
+      "latencyWarning": "Yüksek Gecikme Uyarısı",
+      "latencyCritical": "Kritik Gecikme",
+      "latencyRecovered": "Gecikme Düzeldi",
+      "connectionLost": "Bağlantı Kesildi",
+      "connectionDegraded": "Bağlantı Bozuldu",
+      "connectionRestored": "Bağlantı Geri Yüklendi"
+    }
+  },
   "latency": {
     "excellent": "Mükemmel",
     "good": "İyi",

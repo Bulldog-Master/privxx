@@ -25,6 +25,42 @@
       "description": "모든 시스템이 정상 작동 중입니다."
     }
   },
+  "connectionAlerts": {
+    "title": "연결 품질 알림",
+    "description": "성능 알림을 받을 시기를 구성",
+    "enabled": "연결 품질 알림 활성화됨",
+    "disabled": "연결 품질 알림 비활성화됨",
+    "enableLabel": "연결 품질 알림",
+    "enableDesc": "연결 품질이 저하되면 알림 표시",
+    "latencyWarning": "지연 경고 임계값",
+    "latencyWarningDesc": "지연이 이 값을 초과하면 경고 표시",
+    "latencyCritical": "지연 심각 임계값",
+    "latencyCriticalDesc": "지연이 이 값을 초과하면 심각한 알림 표시",
+    "degradedDuration": "저하 상태 알림 지연",
+    "degradedDurationDesc": "저하된 연결에 대해 알림하기 전에 이 시간 대기",
+    "reset": "임계값 재설정됨",
+    "resetDesc": "알림 임계값이 기본값으로 복원됨",
+    "resetButton": "기본값으로 재설정",
+    "history": {
+      "title": "알림 기록",
+      "description": "디버깅을 위한 최근 연결 품질 알림",
+      "entries": "개 항목",
+      "empty": "아직 기록된 알림 없음",
+      "emptyDesc": "연결 문제가 발생하면 여기에 알림이 표시됩니다",
+      "export": "내보내기",
+      "clear": "지우기",
+      "exported": "기록 내보내기 완료",
+      "exportedDesc": "알림 기록이 JSON 파일로 저장됨",
+      "cleared": "기록 지워짐",
+      "clearedDesc": "모든 알림 기록이 삭제됨",
+      "latencyWarning": "높은 지연 경고",
+      "latencyCritical": "심각한 지연",
+      "latencyRecovered": "지연 복구됨",
+      "connectionLost": "연결 끊김",
+      "connectionDegraded": "연결 저하",
+      "connectionRestored": "연결 복구됨"
+    }
+  },
   "latency": {
     "excellent": "우수",
     "good": "양호",

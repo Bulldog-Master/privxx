@@ -25,6 +25,42 @@
       "description": "Alle Systeme sind betriebsbereit."
     }
   },
+  "connectionAlerts": {
+    "title": "Verbindungsqualitäts-Warnungen",
+    "description": "Konfigurieren Sie, wann Sie Leistungsbenachrichtigungen erhalten",
+    "enabled": "Verbindungsqualitäts-Warnungen aktiviert",
+    "disabled": "Verbindungsqualitäts-Warnungen deaktiviert",
+    "enableLabel": "Verbindungsqualitäts-Warnungen",
+    "enableDesc": "Benachrichtigungen anzeigen, wenn die Verbindungsqualität abnimmt",
+    "latencyWarning": "Latenz-Warnschwelle",
+    "latencyWarningDesc": "Warnung anzeigen, wenn die Latenz diesen Wert überschreitet",
+    "latencyCritical": "Kritische Latenz-Schwelle",
+    "latencyCriticalDesc": "Kritische Warnung anzeigen, wenn die Latenz diesen Wert überschreitet",
+    "degradedDuration": "Verzögerung bei beeinträchtigtem Zustand",
+    "degradedDurationDesc": "Warten Sie diese Zeit, bevor Sie über eine beeinträchtigte Verbindung warnen",
+    "reset": "Schwellenwerte zurückgesetzt",
+    "resetDesc": "Warnschwellen auf Standardwerte zurückgesetzt",
+    "resetButton": "Auf Standard zurücksetzen",
+    "history": {
+      "title": "Warnungsverlauf",
+      "description": "Aktuelle Verbindungsqualitätswarnungen zur Fehlerbehebung",
+      "entries": "Einträge",
+      "empty": "Noch keine Warnungen aufgezeichnet",
+      "emptyDesc": "Warnungen erscheinen hier, wenn Verbindungsprobleme auftreten",
+      "export": "Exportieren",
+      "clear": "Löschen",
+      "exported": "Verlauf exportiert",
+      "exportedDesc": "Warnungsverlauf als JSON-Datei gespeichert",
+      "cleared": "Verlauf gelöscht",
+      "clearedDesc": "Gesamter Warnungsverlauf wurde entfernt",
+      "latencyWarning": "Hohe Latenz-Warnung",
+      "latencyCritical": "Kritische Latenz",
+      "latencyRecovered": "Latenz wiederhergestellt",
+      "connectionLost": "Verbindung verloren",
+      "connectionDegraded": "Verbindung beeinträchtigt",
+      "connectionRestored": "Verbindung wiederhergestellt"
+    }
+  },
   "latency": {
     "excellent": "Ausgezeichnet",
     "good": "Gut",

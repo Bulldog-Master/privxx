@@ -4,6 +4,7 @@ export { useAvatarUrl } from "./useAvatarUrl";
 export { useBackendStatus } from "./useBackendStatus";
 export type { BackendStatus, ConnectionHealth } from "./useBackendStatus";
 export { useBrowserPolicyDecision } from "./useBrowserPolicyDecision";
+export { useConnectionAlertPreferences, type ConnectionAlertThresholds, type ConnectionAlertHistoryEntry } from "./useConnectionAlertPreferences";
 export { useConnectionQualityAlerts } from "./useConnectionQualityAlerts";
 export { useCountdown } from "./useCountdown";
 export { useFailedAttempts } from "./useFailedAttempts";

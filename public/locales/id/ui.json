@@ -25,6 +25,42 @@
       "description": "Semua sistem beroperasi normal."
     }
   },
+  "connectionAlerts": {
+    "title": "Peringatan Kualitas Koneksi",
+    "description": "Konfigurasi kapan menerima notifikasi performa",
+    "enabled": "Peringatan kualitas koneksi diaktifkan",
+    "disabled": "Peringatan kualitas koneksi dinonaktifkan",
+    "enableLabel": "Peringatan kualitas koneksi",
+    "enableDesc": "Tampilkan notifikasi saat kualitas koneksi menurun",
+    "latencyWarning": "Ambang batas peringatan latensi",
+    "latencyWarningDesc": "Tampilkan peringatan saat latensi melebihi nilai ini",
+    "latencyCritical": "Ambang batas kritis latensi",
+    "latencyCriticalDesc": "Tampilkan peringatan kritis saat latensi melebihi nilai ini",
+    "degradedDuration": "Penundaan peringatan status menurun",
+    "degradedDurationDesc": "Tunggu selama ini sebelum memperingatkan tentang koneksi yang menurun",
+    "reset": "Ambang batas direset",
+    "resetDesc": "Ambang batas peringatan dikembalikan ke default",
+    "resetButton": "Reset ke Default",
+    "history": {
+      "title": "Riwayat Peringatan",
+      "description": "Peringatan kualitas koneksi terbaru untuk debugging",
+      "entries": "entri",
+      "empty": "Belum ada peringatan yang tercatat",
+      "emptyDesc": "Peringatan akan muncul di sini saat terjadi masalah koneksi",
+      "export": "Ekspor",
+      "clear": "Hapus",
+      "exported": "Riwayat diekspor",
+      "exportedDesc": "Riwayat peringatan disimpan sebagai file JSON",
+      "cleared": "Riwayat dihapus",
+      "clearedDesc": "Semua riwayat peringatan telah dihapus",
+      "latencyWarning": "Peringatan Latensi Tinggi",
+      "latencyCritical": "Latensi Kritis",
+      "latencyRecovered": "Latensi Pulih",
+      "connectionLost": "Koneksi Terputus",
+      "connectionDegraded": "Koneksi Menurun",
+      "connectionRestored": "Koneksi Dipulihkan"
+    }
+  },
   "latency": {
     "excellent": "Sangat Baik",
     "good": "Baik",

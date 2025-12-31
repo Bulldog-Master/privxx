@@ -25,6 +25,42 @@
       "description": "所有系统运行正常。"
     }
   },
+  "connectionAlerts": {
+    "title": "连接质量警报",
+    "description": "配置何时接收性能通知",
+    "enabled": "连接质量警报已启用",
+    "disabled": "连接质量警报已禁用",
+    "enableLabel": "连接质量警报",
+    "enableDesc": "当连接质量下降时显示通知",
+    "latencyWarning": "延迟警告阈值",
+    "latencyWarningDesc": "当延迟超过此值时显示警告",
+    "latencyCritical": "延迟危急阈值",
+    "latencyCriticalDesc": "当延迟超过此值时显示严重警报",
+    "degradedDuration": "降级状态警报延迟",
+    "degradedDurationDesc": "在警告连接降级之前等待此时间",
+    "reset": "阈值已重置",
+    "resetDesc": "警报阈值已恢复为默认值",
+    "resetButton": "重置为默认值",
+    "history": {
+      "title": "警报历史",
+      "description": "用于调试的最近连接质量警报",
+      "entries": "条记录",
+      "empty": "尚无警报记录",
+      "emptyDesc": "当发生连接问题时警报将显示在这里",
+      "export": "导出",
+      "clear": "清除",
+      "exported": "历史记录已导出",
+      "exportedDesc": "警报历史已保存为JSON文件",
+      "cleared": "历史记录已清除",
+      "clearedDesc": "所有警报历史已删除",
+      "latencyWarning": "高延迟警告",
+      "latencyCritical": "危急延迟",
+      "latencyRecovered": "延迟恢复",
+      "connectionLost": "连接丢失",
+      "connectionDegraded": "连接降级",
+      "connectionRestored": "连接恢复"
+    }
+  },
   "latency": {
     "excellent": "极佳",
     "good": "良好",

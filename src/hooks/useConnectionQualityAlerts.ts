@@ -1,18 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from '@/hooks/useToast';
-
-interface QualityThresholds {
-  latencyWarning: number;   // ms - show warning
-  latencyCritical: number;  // ms - show error
-  degradedDuration: number; // ms - how long before alerting
-}
-
-const DEFAULT_THRESHOLDS: QualityThresholds = {
-  latencyWarning: 500,
-  latencyCritical: 1000,
-  degradedDuration: 10000, // 10 seconds of poor quality
-};
+import { useConnectionAlertPreferences } from './useConnectionAlertPreferences';
 
 type ConnectionStatus = 'ok' | 'degraded' | 'error';
 type LatencyQuality = 'excellent' | 'good' | 'fair' | 'poor';
@@ -22,12 +11,9 @@ interface ConnectionQualityState {
   latency: number | undefined;
 }
 
-export function useConnectionQualityAlerts(
-  state: ConnectionQualityState,
-  thresholds: Partial<QualityThresholds> = {}
-) {
+export function useConnectionQualityAlerts(state: ConnectionQualityState) {
   const { t } = useTranslation();
-  const mergedThresholds = { ...DEFAULT_THRESHOLDS, ...thresholds };
+  const { thresholds, addHistoryEntry } = useConnectionAlertPreferences();
   
   const lastAlertRef = useRef<{
     type: 'latency' | 'status' | 'recovery';
@@ -61,9 +47,15 @@ export function useConnectionQualityAlerts(
     type: 'latency' | 'status' | 'recovery',
     variant: 'default' | 'destructive',
     title: string,
-    description: string
+    description: string,
+    historyType: Parameters<typeof addHistoryEntry>[0],
+    historyDetails?: Parameters<typeof addHistoryEntry>[1]
   ) => {
-    if (!shouldShowAlert(type)) return;
+    // Always log to history
+    addHistoryEntry(historyType, historyDetails);
+    
+    // Only show toast if alerts are enabled and not in cooldown
+    if (!thresholds.alertsEnabled || !shouldShowAlert(type)) return;
     
     lastAlertRef.current = { type, timestamp: Date.now() };
     
@@ -72,7 +64,7 @@ export function useConnectionQualityAlerts(
       description,
       variant,
     });
-  }, [shouldShowAlert]);
+  }, [shouldShowAlert, thresholds.alertsEnabled, addHistoryEntry]);
 
   // Monitor latency quality changes
   useEffect(() => {
@@ -81,19 +73,23 @@ export function useConnectionQualityAlerts(
     
     // Latency degraded to poor
     if (currentQuality === 'poor' && previousQuality !== 'poor' && state.latency !== undefined) {
-      if (state.latency >= mergedThresholds.latencyCritical) {
+      if (state.latency >= thresholds.latencyCritical) {
         showAlert(
           'latency',
           'destructive',
           t('alerts.latencyCritical.title', 'Connection Very Slow'),
-          t('alerts.latencyCritical.description', 'Latency is critically high ({{latency}}ms). Connection quality is severely degraded.', { latency: state.latency })
+          t('alerts.latencyCritical.description', 'Latency is critically high ({{latency}}ms). Connection quality is severely degraded.', { latency: state.latency }),
+          'latency_critical',
+          { latency: state.latency }
         );
-      } else if (state.latency >= mergedThresholds.latencyWarning) {
+      } else if (state.latency >= thresholds.latencyWarning) {
         showAlert(
           'latency',
           'default',
           t('alerts.latencyWarning.title', 'High Latency Detected'),
-          t('alerts.latencyWarning.description', 'Connection latency is elevated ({{latency}}ms). Performance may be affected.', { latency: state.latency })
+          t('alerts.latencyWarning.description', 'Connection latency is elevated ({{latency}}ms). Performance may be affected.', { latency: state.latency }),
+          'latency_warning',
+          { latency: state.latency }
         );
       }
     }
@@ -105,12 +101,14 @@ export function useConnectionQualityAlerts(
         'recovery',
         'default',
         t('alerts.latencyRecovered.title', 'Connection Improved'),
-        t('alerts.latencyRecovered.description', 'Latency has returned to normal levels.')
+        t('alerts.latencyRecovered.description', 'Latency has returned to normal levels.'),
+        'latency_recovered',
+        { latency: state.latency }
       );
     }
     
     previousLatencyQualityRef.current = currentQuality;
-  }, [state.latency, getLatencyQuality, showAlert, t, mergedThresholds]);
+  }, [state.latency, getLatencyQuality, showAlert, t, thresholds]);
 
   // Monitor connection status changes
   useEffect(() => {
@@ -123,7 +121,9 @@ export function useConnectionQualityAlerts(
         'status',
         'destructive',
         t('alerts.connectionLost.title', 'Connection Lost'),
-        t('alerts.connectionLost.description', 'Unable to reach the mixnet. Attempting to reconnect...')
+        t('alerts.connectionLost.description', 'Unable to reach the mixnet. Attempting to reconnect...'),
+        'connection_lost',
+        { status: currentStatus }
       );
       degradedStartRef.current = null;
     }
@@ -136,12 +136,14 @@ export function useConnectionQualityAlerts(
     // Check if degraded for too long
     if (currentStatus === 'degraded' && degradedStartRef.current) {
       const duration = Date.now() - degradedStartRef.current;
-      if (duration >= mergedThresholds.degradedDuration) {
+      if (duration >= thresholds.degradedDuration) {
         showAlert(
           'status',
           'default',
           t('alerts.connectionDegraded.title', 'Connection Degraded'),
-          t('alerts.connectionDegraded.description', 'Some services are unavailable. Core functionality may be limited.')
+          t('alerts.connectionDegraded.description', 'Some services are unavailable. Core functionality may be limited.'),
+          'connection_degraded',
+          { status: currentStatus }
         );
         degradedStartRef.current = null; // Reset to prevent repeated alerts
       }
@@ -153,13 +155,15 @@ export function useConnectionQualityAlerts(
         'recovery',
         'default',
         t('alerts.connectionRestored.title', 'Connection Restored'),
-        t('alerts.connectionRestored.description', 'All systems are operational.')
+        t('alerts.connectionRestored.description', 'All systems are operational.'),
+        'connection_restored',
+        { status: currentStatus }
       );
       degradedStartRef.current = null;
     }
     
     previousStatusRef.current = currentStatus;
-  }, [state.status, showAlert, t, mergedThresholds]);
+  }, [state.status, showAlert, t, thresholds]);
 
   return null;
 }
