@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from '@/hooks/useToast';
 import { useConnectionAlertPreferences } from './useConnectionAlertPreferences';
 import { usePushNotifications } from './usePushNotifications';
+import { useAlertSound } from './useAlertSound';
 
 type ConnectionStatus = 'ok' | 'degraded' | 'error';
 type LatencyQuality = 'excellent' | 'good' | 'fair' | 'poor';
@@ -16,6 +17,7 @@ export function useConnectionQualityAlerts(state: ConnectionQualityState) {
   const { t } = useTranslation();
   const { thresholds, addHistoryEntry } = useConnectionAlertPreferences();
   const { showNotification, isEnabled: pushEnabled } = usePushNotifications();
+  const { playSound } = useAlertSound();
   
   const lastAlertRef = useRef<{
     type: 'latency' | 'status' | 'recovery';
@@ -61,6 +63,10 @@ export function useConnectionQualityAlerts(state: ConnectionQualityState) {
     
     lastAlertRef.current = { type, timestamp: Date.now() };
     
+    // Play sound if enabled (warning sounds for warnings/errors)
+    const isWarning = variant === 'destructive' || type === 'status';
+    playSound(isWarning);
+    
     // Show in-app toast
     toast({
       title,
@@ -75,7 +81,7 @@ export function useConnectionQualityAlerts(state: ConnectionQualityState) {
         tag: `privxx-${historyType}`,
       });
     }
-  }, [shouldShowAlert, thresholds.alertsEnabled, thresholds.pushEnabled, pushEnabled, addHistoryEntry, showNotification]);
+  }, [shouldShowAlert, thresholds.alertsEnabled, thresholds.pushEnabled, pushEnabled, addHistoryEntry, showNotification, playSound]);
 
   // Monitor latency quality changes
   useEffect(() => {

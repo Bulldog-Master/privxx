@@ -1,11 +1,16 @@
 import { useState, useCallback, useEffect } from 'react';
 
+export type AlertSoundType = 'none' | 'subtle' | 'chime' | 'alert';
+
 export interface ConnectionAlertThresholds {
   latencyWarning: number;   // ms
   latencyCritical: number;  // ms
   degradedDuration: number; // ms
   alertsEnabled: boolean;
   pushEnabled: boolean;     // Push notifications
+  soundEnabled: boolean;    // Sound alerts
+  soundType: AlertSoundType;
+  soundVolume: number;      // 0-100
 }
 
 export interface ConnectionAlertHistoryEntry {
@@ -26,6 +31,9 @@ const DEFAULT_THRESHOLDS: ConnectionAlertThresholds = {
   degradedDuration: 10000,
   alertsEnabled: true,
   pushEnabled: false,
+  soundEnabled: false,
+  soundType: 'subtle',
+  soundVolume: 50,
 };
 
 export function useConnectionAlertPreferences() {
