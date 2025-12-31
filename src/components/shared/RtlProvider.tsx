@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-// RTL language detection
+// RTL language detection (Arabic, Urdu, Hebrew)
 const isRtlLanguage = (lang: string): boolean => {
-  return lang === 'ar' || lang === 'ur';
+  return lang === 'ar' || lang === 'ur' || lang === 'he';
 };
 
 interface RtlProviderProps {
