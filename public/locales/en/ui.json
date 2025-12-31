@@ -592,5 +592,11 @@
   "healthIndicator.degraded": "Some services degraded",
   "healthIndicator.offline": "Services unreachable",
   "healthIndicator.checking": "Checking status...",
-  "healthIndicator.clickForDetails": "Click for details"
+  "healthIndicator.clickForDetails": "Click for details",
+  
+  "connectionTimeline.title": "Connection History",
+  "connectionTimeline.connected": "Connected",
+  "connectionTimeline.degraded": "Degraded",
+  "connectionTimeline.disconnected": "Disconnected",
+  "connectionTimeline.recentEvents": "Recent connectivity events"
 }

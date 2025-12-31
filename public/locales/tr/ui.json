@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "Bazı hizmetler bozulmuş",
   "healthIndicator.offline": "Hizmetlere erişilemiyor",
   "healthIndicator.checking": "Durum kontrol ediliyor...",
-  "healthIndicator.clickForDetails": "Ayrıntılar için tıklayın"
+  "healthIndicator.clickForDetails": "Ayrıntılar için tıklayın",
+  
+  "connectionTimeline.title": "Bağlantı Geçmişi",
+  "connectionTimeline.connected": "Bağlı",
+  "connectionTimeline.degraded": "Bozulmuş",
+  "connectionTimeline.disconnected": "Bağlantı kesildi",
+  "connectionTimeline.recentEvents": "Son bağlantı olayları"
 }

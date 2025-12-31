@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "Некоторые сервисы ухудшены",
   "healthIndicator.offline": "Сервисы недоступны",
   "healthIndicator.checking": "Проверка статуса...",
-  "healthIndicator.clickForDetails": "Нажмите для подробностей"
+  "healthIndicator.clickForDetails": "Нажмите для подробностей",
+  
+  "connectionTimeline.title": "История соединений",
+  "connectionTimeline.connected": "Подключено",
+  "connectionTimeline.degraded": "Ухудшено",
+  "connectionTimeline.disconnected": "Отключено",
+  "connectionTimeline.recentEvents": "Недавние события подключения"
 }

@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "일부 서비스 저하",
   "healthIndicator.offline": "서비스 연결 불가",
   "healthIndicator.checking": "상태 확인 중...",
-  "healthIndicator.clickForDetails": "자세히 보려면 클릭"
+  "healthIndicator.clickForDetails": "자세히 보려면 클릭",
+  
+  "connectionTimeline.title": "연결 기록",
+  "connectionTimeline.connected": "연결됨",
+  "connectionTimeline.degraded": "저하됨",
+  "connectionTimeline.disconnected": "연결 해제",
+  "connectionTimeline.recentEvents": "최근 연결 이벤트"
 }

@@ -20,6 +20,7 @@ export {
   TranslationCoverageBadge,
   BackendStatusBadges,
   HealthIndicatorDot,
+  ConnectionTimelineDots,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,

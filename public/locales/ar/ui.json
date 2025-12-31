@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "بعض الخدمات متدهورة",
   "healthIndicator.offline": "الخدمات غير قابلة للوصول",
   "healthIndicator.checking": "جارٍ التحقق من الحالة...",
-  "healthIndicator.clickForDetails": "انقر للتفاصيل"
+  "healthIndicator.clickForDetails": "انقر للتفاصيل",
+  
+  "connectionTimeline.title": "سجل الاتصال",
+  "connectionTimeline.connected": "متصل",
+  "connectionTimeline.degraded": "متدهور",
+  "connectionTimeline.disconnected": "منفصل",
+  "connectionTimeline.recentEvents": "أحداث الاتصال الأخيرة"
 }

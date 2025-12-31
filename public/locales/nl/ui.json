@@ -595,5 +595,11 @@
   "healthIndicator.degraded": "Sommige diensten verslechterd",
   "healthIndicator.offline": "Diensten onbereikbaar",
   "healthIndicator.checking": "Status controleren...",
-  "healthIndicator.clickForDetails": "Klik voor details"
+  "healthIndicator.clickForDetails": "Klik voor details",
+  
+  "connectionTimeline.title": "Verbindingsgeschiedenis",
+  "connectionTimeline.connected": "Verbonden",
+  "connectionTimeline.degraded": "Verslechterd",
+  "connectionTimeline.disconnected": "Verbroken",
+  "connectionTimeline.recentEvents": "Recente verbindingsgebeurtenissen"
 }

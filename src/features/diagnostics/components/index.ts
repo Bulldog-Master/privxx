@@ -19,3 +19,4 @@ export type { OverallStatus } from "./OverallStatusBar";
 export { TranslationCoverageBadge } from "./TranslationCoverageBadge";
 export { BackendStatusBadges } from "./BackendStatusBadges";
 export { HealthIndicatorDot } from "./HealthIndicatorDot";
+export { ConnectionTimelineDots } from "./ConnectionTimelineDots";

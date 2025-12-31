@@ -600,5 +600,11 @@
   "healthIndicator.degraded": "کچھ خدمات متاثر",
   "healthIndicator.offline": "خدمات ناقابل رسائی",
   "healthIndicator.checking": "حیثیت کی جانچ ہو رہی ہے...",
-  "healthIndicator.clickForDetails": "تفصیلات کے لیے کلک کریں"
+  "healthIndicator.clickForDetails": "تفصیلات کے لیے کلک کریں",
+  
+  "connectionTimeline.title": "کنکشن کی تاریخ",
+  "connectionTimeline.connected": "منسلک",
+  "connectionTimeline.degraded": "متاثر",
+  "connectionTimeline.disconnected": "منقطع",
+  "connectionTimeline.recentEvents": "حالیہ کنیکٹیویٹی واقعات"
 }
