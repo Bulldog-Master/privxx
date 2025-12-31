@@ -21,6 +21,8 @@ const languageLabels: Record<string, string> = {
   ko: "한",
   he: "עב",
   yi: "יי",
+  it: "IT",
+  pl: "PL",
 };
 
 const LanguagePills = () => {
