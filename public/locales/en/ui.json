@@ -133,7 +133,10 @@
   "disconnected": "Disconnected",
   "nodes": "Nodes",
   "lastRound": "Last Round",
-  
+  "connectionPath": "Connection Path",
+  "public": "Public",
+  "local": "Local",
+
   "connectionHistory": "Connection History",
   "connectionHistoryDesc": "Recent bridge connection attempts",
   "connectionSuccess": "Connected successfully",
