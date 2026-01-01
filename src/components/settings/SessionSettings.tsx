@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Clock, Loader2, Save } from "lucide-react";
+import { Clock, Loader2, Save, Check } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -30,6 +30,7 @@ export function SessionSettings() {
   const { notify } = useSecurityNotify();
   const [timeout, setTimeout] = useState<number>(15);
   const [isSaving, setIsSaving] = useState(false);
+  const [justSaved, setJustSaved] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
@@ -50,15 +51,19 @@ export function SessionSettings() {
 
   const handleSave = async () => {
     setIsSaving(true);
+    setJustSaved(false);
     const result = await updateProfile({ session_timeout_minutes: timeout });
     setIsSaving(false);
 
     if (result.error) {
       toast.error(result.error);
     } else {
+      setJustSaved(true);
       toast.success(t("sessionSettingsSaved", "Session settings saved"));
       setHasChanges(false);
       notify("session_timeout_changed", { timeout_minutes: timeout }).catch(console.error);
+      // Reset "Saved" state after 2 seconds
+      window.setTimeout(() => setJustSaved(false), 2000);
     }
   };
 
@@ -97,14 +102,24 @@ export function SessionSettings() {
           </p>
         </div>
 
-        {hasChanges && (
-          <Button onClick={handleSave} disabled={isSaving} className="w-full">
+        {(hasChanges || justSaved) && (
+          <Button 
+            onClick={handleSave} 
+            disabled={isSaving || justSaved} 
+            className={`w-full ${justSaved ? "bg-green-600 hover:bg-green-600" : ""}`}
+          >
             {isSaving ? (
               <Loader2 className="h-4 w-4 animate-spin mr-2" />
+            ) : justSaved ? (
+              <Check className="h-4 w-4 mr-2" />
             ) : (
               <Save className="h-4 w-4 mr-2" />
             )}
-            {t("saveChanges", "Save Changes")}
+            {isSaving 
+              ? t("saving", "Saving...") 
+              : justSaved 
+                ? t("saved", "Saved") 
+                : t("saveChanges", "Save Changes")}
           </Button>
         )}
       </CardContent>
