@@ -2,6 +2,7 @@
  * Backup Code Challenge Form
  * 
  * Alternative 2FA verification using backup codes.
+ * Includes option to remember device for future logins.
  */
 
 import { useState } from "react";
@@ -10,7 +11,14 @@ import { Key, Loader2, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
+import { 
+  getCurrentDeviceFingerprint, 
+  getKnownDevices, 
+  saveKnownDevices,
+  getDeviceName 
+} from "@/lib/deviceFingerprint";
 
 interface BackupCodeChallengeFormProps {
   onVerified: () => void;
@@ -22,6 +30,29 @@ export function BackupCodeChallengeForm({ onVerified, onBack }: BackupCodeChalle
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [rememberDevice, setRememberDevice] = useState(false);
+
+  const markDeviceAsTrusted = () => {
+    const fingerprint = getCurrentDeviceFingerprint();
+    const devices = getKnownDevices();
+    const existingIndex = devices.findIndex(d => d.fingerprint === fingerprint);
+    
+    if (existingIndex !== -1) {
+      devices[existingIndex].trusted = true;
+      devices[existingIndex].lastSeen = new Date().toISOString();
+    } else {
+      // Add as new trusted device
+      devices.push({
+        fingerprint,
+        name: getDeviceName(),
+        firstSeen: new Date().toISOString(),
+        lastSeen: new Date().toISOString(),
+        trusted: true,
+      });
+    }
+    
+    saveKnownDevices(devices);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +81,10 @@ export function BackupCodeChallengeForm({ onVerified, onBack }: BackupCodeChalle
       }
 
       if (data.verified) {
+        // Mark device as trusted if checkbox was checked
+        if (rememberDevice) {
+          markDeviceAsTrusted();
+        }
         onVerified();
       } else {
         setError(t("invalidBackupCode", "Invalid backup code"));
@@ -92,6 +127,22 @@ export function BackupCodeChallengeForm({ onVerified, onBack }: BackupCodeChalle
             disabled={isLoading}
             autoFocus
           />
+        </div>
+
+        {/* Remember this device checkbox */}
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="remember-device-backup"
+            checked={rememberDevice}
+            onCheckedChange={(checked) => setRememberDevice(checked === true)}
+            disabled={isLoading}
+          />
+          <Label 
+            htmlFor="remember-device-backup" 
+            className="text-sm font-normal cursor-pointer"
+          >
+            {t("rememberDevice", "Remember this device for 30 days")}
+          </Label>
         </div>
 
         {error && (
