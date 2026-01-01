@@ -96,20 +96,38 @@ export function useProfile() {
     setError(null);
 
     try {
+      // Get current session token for auth header
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) {
+        setIsLoading(false);
+        return { error: "Session expired, please sign in again" };
+      }
+
       // Upload via backend function for EXIF stripping
+      // Using fetch directly to properly handle FormData with auth
       const formData = new FormData();
       formData.append("file", file);
 
-      const { data, error: invokeError } = await supabase.functions.invoke("process-avatar", {
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-avatar`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: formData,
+        }
+      );
 
-      if (invokeError) {
-        const errMsg = "Failed to upload avatar";
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errMsg = errorData.error || "Failed to upload avatar";
         setError(errMsg);
         setIsLoading(false);
         return { error: errMsg };
       }
+
+      const data = await response.json();
 
       // Refresh profile to get updated avatar path
       await fetchProfile();
