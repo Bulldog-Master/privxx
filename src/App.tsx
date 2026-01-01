@@ -10,7 +10,7 @@ import { AppErrorBoundary } from "@/components/shared";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { IdentityProvider } from "@/features/identity";
 import { SkipToContent } from "@/components/shared";
-import { InstallPrompt } from "@/components/pwa";
+import { InstallPrompt, PwaUpdatePrompt } from "@/components/pwa";
 import { TranslationPlaceholderToast } from "@/components/diagnostics/TranslationPlaceholderToast";
 import { EmailVerificationPending } from "@/components/session";
 import { ProtectedRoute } from "@/components/session";
@@ -101,17 +101,18 @@ function SessionTimeoutManager() {
 // Inner app component that uses auth context
 function AppRoutes() {
   return (
-    <EmailVerificationGuard>
-      <TooltipProvider>
-        <RtlProvider>
-          <Toaster />
-          <Sonner />
-          <TranslationPlaceholderToast />
-          <SessionTimeoutManager />
-          <UnlockExpiryDialog />
-          <BrowserRouter>
-            <SkipToContent />
-            <Routes>
+      <EmailVerificationGuard>
+        <TooltipProvider>
+          <RtlProvider>
+            <Toaster />
+            <Sonner />
+            <PwaUpdatePrompt />
+            <TranslationPlaceholderToast />
+            <SessionTimeoutManager />
+            <UnlockExpiryDialog />
+            <BrowserRouter>
+              <SkipToContent />
+              <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={
                 <Suspense fallback={<PageLoader />}>
