@@ -576,11 +576,20 @@
   "showPassword": "显示密码",
   "hidePassword": "隐藏密码",
   "passwordsDoNotMatch": "密码不匹配",
+  "passwordsMatch": "密码匹配",
   "passwordStrength": {
     "label": "密码强度",
     "weak": "弱",
     "medium": "中等",
     "strong": "强"
+  },
+  "passwordRequirements": {
+    "title": "强密码提示:",
+    "length": "至少8个字符",
+    "uppercase": "大写字母 (A-Z)",
+    "lowercase": "小写字母 (a-z)",
+    "number": "数字 (0-9)",
+    "special": "特殊字符 (!@#$%)"
   },
   "unlock": "解锁",
   "lock": "锁定",

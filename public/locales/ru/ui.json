@@ -576,11 +576,20 @@
   "showPassword": "Показать пароль",
   "hidePassword": "Скрыть пароль",
   "passwordsDoNotMatch": "Пароли не совпадают",
+  "passwordsMatch": "Пароли совпадают",
   "passwordStrength": {
     "label": "Надёжность пароля",
     "weak": "Слабый",
     "medium": "Средний",
     "strong": "Надёжный"
+  },
+  "passwordRequirements": {
+    "title": "Советы для надёжного пароля:",
+    "length": "Минимум 8 символов",
+    "uppercase": "Заглавная буква (A-Z)",
+    "lowercase": "Строчная буква (a-z)",
+    "number": "Цифра (0-9)",
+    "special": "Специальный символ (!@#$%)"
   },
   "unlock": "Разблокировать",
   "lock": "Заблокировать",

@@ -576,11 +576,20 @@
   "showPassword": "Mostrar senha",
   "hidePassword": "Ocultar senha",
   "passwordsDoNotMatch": "As senhas não coincidem",
+  "passwordsMatch": "As senhas coincidem",
   "passwordStrength": {
     "label": "Força da senha",
     "weak": "Fraca",
     "medium": "Média",
     "strong": "Forte"
+  },
+  "passwordRequirements": {
+    "title": "Dicas para senha forte:",
+    "length": "Pelo menos 8 caracteres",
+    "uppercase": "Letra maiúscula (A-Z)",
+    "lowercase": "Letra minúscula (a-z)",
+    "number": "Número (0-9)",
+    "special": "Caractere especial (!@#$%)"
   },
   "unlock": "Desbloquear",
   "lock": "Bloquear",

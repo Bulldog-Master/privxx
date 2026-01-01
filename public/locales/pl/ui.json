@@ -364,11 +364,20 @@
   "showPassword": "Pokaż hasło",
   "hidePassword": "Ukryj hasło",
   "passwordsDoNotMatch": "Hasła nie są zgodne",
+  "passwordsMatch": "Hasła są zgodne",
   "passwordStrength": {
     "label": "Siła hasła",
     "weak": "Słabe",
     "medium": "Średnie",
     "strong": "Silne"
+  },
+  "passwordRequirements": {
+    "title": "Wskazówki silne hasło:",
+    "length": "Minimum 8 znaków",
+    "uppercase": "Wielka litera (A-Z)",
+    "lowercase": "Mała litera (a-z)",
+    "number": "Cyfra (0-9)",
+    "special": "Znak specjalny (!@#$%)"
   },
   "unlock": "Odblokuj",
   "lock": "Zablokuj",

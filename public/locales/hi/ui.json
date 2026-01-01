@@ -576,11 +576,20 @@
   "showPassword": "पासवर्ड दिखाएं",
   "hidePassword": "पासवर्ड छुपाएं",
   "passwordsDoNotMatch": "पासवर्ड मेल नहीं खाते",
+  "passwordsMatch": "पासवर्ड मेल खाते हैं",
   "passwordStrength": {
     "label": "पासवर्ड मजबूती",
     "weak": "कमज़ोर",
     "medium": "मध्यम",
     "strong": "मज़बूत"
+  },
+  "passwordRequirements": {
+    "title": "मज़बूत पासवर्ड टिप्स:",
+    "length": "कम से कम 8 अक्षर",
+    "uppercase": "बड़ा अक्षर (A-Z)",
+    "lowercase": "छोटा अक्षर (a-z)",
+    "number": "संख्या (0-9)",
+    "special": "विशेष अक्षर (!@#$%)"
   },
   "unlock": "अनलॉक करें",
   "lock": "लॉक करें",

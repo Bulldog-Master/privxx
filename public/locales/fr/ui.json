@@ -448,11 +448,20 @@
   "showPassword": "Afficher le mot de passe",
   "hidePassword": "Masquer le mot de passe",
   "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+  "passwordsMatch": "Les mots de passe correspondent",
   "passwordStrength": {
     "label": "Force du mot de passe",
     "weak": "Faible",
     "medium": "Moyen",
     "strong": "Fort"
+  },
+  "passwordRequirements": {
+    "title": "Conseils mot de passe fort:",
+    "length": "Au moins 8 caractères",
+    "uppercase": "Lettre majuscule (A-Z)",
+    "lowercase": "Lettre minuscule (a-z)",
+    "number": "Chiffre (0-9)",
+    "special": "Caractère spécial (!@#$%)"
   },
   "unlock": "Déverrouiller",
   "lock": "Verrouiller",
