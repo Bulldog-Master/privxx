@@ -26,11 +26,9 @@ export function AuthServiceDiagnostics() {
   const checkPasskey = useCallback(async () => {
     setPasskeyService({ status: "checking", lastCheck: passkeyService.lastCheck });
     try {
-      // Simple OPTIONS request to check if function is reachable
       const { error } = await supabase.functions.invoke("passkey-auth", {
-        body: { action: "status-check" },
+        body: { action: "status" },
       });
-      // Any response (including 400 for invalid action) means service is up
       setPasskeyService({ status: error?.message?.includes("non-2xx") ? "unavailable" : "available", lastCheck: new Date() });
     } catch {
       setPasskeyService({ status: "unavailable", lastCheck: new Date() });

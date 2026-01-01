@@ -186,6 +186,13 @@ serve(async (req) => {
     console.log(`[passkey-auth] Action: ${action}, Email: ${email || authenticatedUser?.email}, RP ID: ${rpId}`);
 
     switch (action) {
+      case 'status': {
+        // Lightweight health check (still behind JWT verification unless function is configured public).
+        return new Response(JSON.stringify({ ok: true }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+
       case 'registration-options': {
         // SECURITY: Require valid JWT for registration - do not trust client-provided userId/email
         if (!authenticatedUser) {
