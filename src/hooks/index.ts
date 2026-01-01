@@ -17,3 +17,5 @@ export { useTTLCountdown } from "./useTTLCountdown";
 export { useToast, toast } from "./useToast";
 export { usePushNotifications } from "./usePushNotifications";
 export { useAlertSound } from "./useAlertSound";
+export { useTrustedDevice, isDeviceTrusted } from "./useTrustedDevice";
+export { useDeviceDetection } from "./useDeviceDetection";
