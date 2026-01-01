@@ -379,6 +379,9 @@
     "number": "מספר (0-9)",
     "special": "תו מיוחד (!@#$%)"
   },
+  "generatePassword": "צור סיסמה חזקה",
+  "copyPassword": "העתק סיסמה",
+  "passwordCopied": "הועתק!",
   "unlock": "בטל נעילה",
   "lock": "נעל",
   "cancel": "בטל",

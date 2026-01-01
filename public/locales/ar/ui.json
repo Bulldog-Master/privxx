@@ -591,6 +591,9 @@
     "number": "رقم (0-9)",
     "special": "حرف خاص (!@#$%)"
   },
+  "generatePassword": "إنشاء كلمة مرور قوية",
+  "copyPassword": "نسخ كلمة المرور",
+  "passwordCopied": "تم النسخ!",
   "unlock": "فتح",
   "lock": "قفل",
   "cancel": "إلغاء",

@@ -591,6 +591,9 @@
     "number": "数字 (0-9)",
     "special": "特殊文字 (!@#$%)"
   },
+  "generatePassword": "強力なパスワードを生成",
+  "copyPassword": "パスワードをコピー",
+  "passwordCopied": "コピーしました！",
   "unlock": "ロック解除",
   "lock": "ロック",
   "cancel": "キャンセル",

@@ -591,6 +591,9 @@
     "number": "संख्या (0-9)",
     "special": "विशेष अक्षर (!@#$%)"
   },
+  "generatePassword": "मज़बूत पासवर्ड बनाएं",
+  "copyPassword": "पासवर्ड कॉपी करें",
+  "passwordCopied": "कॉपी हो गया!",
   "unlock": "अनलॉक करें",
   "lock": "लॉक करें",
   "cancel": "रद्द करें",

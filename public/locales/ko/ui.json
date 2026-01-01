@@ -591,6 +591,9 @@
     "number": "숫자 (0-9)",
     "special": "특수문자 (!@#$%)"
   },
+  "generatePassword": "강력한 비밀번호 생성",
+  "copyPassword": "비밀번호 복사",
+  "passwordCopied": "복사됨!",
   "unlock": "잠금 해제",
   "lock": "잠금",
   "cancel": "취소",

@@ -591,6 +591,9 @@
     "number": "Número (0-9)",
     "special": "Caractere especial (!@#$%)"
   },
+  "generatePassword": "Gerar senha forte",
+  "copyPassword": "Copiar senha",
+  "passwordCopied": "Copiado!",
   "unlock": "Desbloquear",
   "lock": "Bloquear",
   "cancel": "Cancelar",
