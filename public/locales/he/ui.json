@@ -793,6 +793,99 @@
     "checkNow": "בדוק עכשיו",
     "available": "זמין",
     "unavailable": "לא זמין",
-    "checking": "בודק..."
-  }
+    "checking": "[HE] בודק..."
+  },
+  
+  "debugBundle": {
+    "title": "[HE] Auth Debug Bundle",
+    "description": "[HE] Capture detailed error bodies and HTTP status codes",
+    "copied": "[HE] Full auth debug bundle copied",
+    "errorsDetected": "[HE] Some services returned errors",
+    "refresh": "[HE] Refresh",
+    "copy": "[HE] Copy Full Bundle"
+  },
+  
+  "backendStatus": {
+    "title": "[HE] Backend Status",
+    "subtitle": "[HE] Reachable vs auth-required vs blocked",
+    "copied": "[HE] Status report copied",
+    "reachable": "[HE] Reachable",
+    "authRequired": "[HE] Auth Required",
+    "blocked": "[HE] Blocked (CORS)",
+    "error": "[HE] Error",
+    "errors": "[HE] Errors",
+    "checking": "[HE] Checking...",
+    "detailedStatus": "[HE] Detailed Status",
+    "detailedDesc": "[HE] Individual function connectivity",
+    "legend": "[HE] Status Legend",
+    "reachableDesc": "[HE] Reachable — Function responded with 200 OK",
+    "authRequiredDesc": "[HE] Auth Required — needs authentication",
+    "blockedDesc": "[HE] Blocked/Error — CORS issue or server error"
+  },
+  
+  "passkeyFlow": {
+    "title": "[HE] Passkey Setup Guide",
+    "progress": "[HE] {{completed}}/{{total}} steps completed",
+    "intro": "[HE] Follow these steps to set up passwordless sign-in:",
+    "stepNumber": "[HE] Step {{number}}",
+    "step1Title": "[HE] Sign in with email/password",
+    "step1Desc": "[HE] You must be logged in to register a passkey.",
+    "step2Title": "[HE] Register a passkey",
+    "step2Desc": "[HE] Use the 'Add Passkey' button above.",
+    "step3Title": "[HE] Sign out",
+    "step3Desc": "[HE] Log out to test passkey sign-in.",
+    "step4Title": "[HE] Sign in with Passkey",
+    "step4Desc": "[HE] Use the Passkey tab to sign in.",
+    "deviceNote": "[HE] Passkeys are registered per device.",
+    "refresh": "[HE] Refresh Status"
+  },
+  
+  "recoveryCodes": {
+    "title": "[HE] Recovery Codes",
+    "description": "[HE] Use these codes if you lose access to your authenticator app.",
+    "warningTitle": "[HE] Keep these codes safe",
+    "warningBody": "[HE] Each code can only be used once.",
+    "regenerate": "[HE] Regenerate Backup Codes",
+    "regenerateNote": "[HE] Regenerating codes will invalidate all previous codes.",
+    "regenerateTitle": "[HE] Regenerate Recovery Codes?",
+    "regenerateWarning": "[HE] This will invalidate all your existing backup codes.",
+    "enterCode": "[HE] Enter your current 2FA code",
+    "confirmRegenerate": "[HE] Regenerate",
+    "regenerated": "[HE] Backup codes regenerated",
+    "newCodesTitle": "[HE] Save Your New Backup Codes",
+    "newCodesDesc": "[HE] These codes replace all previous backup codes.",
+    "reveal": "[HE] Reveal Codes",
+    "hide": "[HE] Hide Codes",
+    "saved": "[HE] I've Saved My Codes"
+  },
+  
+  "securityChecklist": {
+    "title": "[HE] Security Checklist",
+    "checking": "[HE] Checking security settings...",
+    "score": "[HE] {{pass}}/{{total}} checks passed",
+    "emailVerified": "[HE] Email Verified",
+    "emailVerifiedDesc": "[HE] Your email address has been confirmed",
+    "emailVerifiedPass": "[HE] Email verified",
+    "emailVerifiedWarn": "[HE] Check your inbox for verification email",
+    "twoFactor": "[HE] Two-Factor Authentication",
+    "twoFactorDesc": "[HE] Extra security layer for your account",
+    "twoFactorPass": "[HE] 2FA is enabled",
+    "twoFactorWarn": "[HE] Enable 2FA for stronger security",
+    "passkeys": "[HE] Passkeys",
+    "passkeysDesc": "[HE] Passwordless sign-in with biometrics",
+    "passkeysPass": "[HE] {{count}} passkey(s) registered",
+    "passkeysWarn": "[HE] Add a passkey for passwordless sign-in",
+    "sessionTimeout": "[HE] Session Timeout",
+    "sessionTimeoutDesc": "[HE] Auto-logout after inactivity",
+    "sessionTimeoutValue": "[HE] {{minutes}} minute timeout",
+    "backendAvailable": "[HE] Backend Services",
+    "backendAvailableDesc": "[HE] Security infrastructure reachable",
+    "backendAvailablePass": "[HE] All services online",
+    "backendAvailableFail": "[HE] Some services unreachable",
+    "checkFailed": "[HE] Could not check status",
+    "backendNote": "[HE] Settings like 'Leaked Password Protection' are configured in the backend panel."
+  },
+  
+  "invalidCodeLength": "[HE] Code must be 6 digits",
+  "copyAllCodes": "[HE] Copy All Codes"
 }

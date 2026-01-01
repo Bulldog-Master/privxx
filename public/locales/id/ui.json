@@ -796,6 +796,99 @@
     "available": "Tersedia",
     "unavailable": "Tidak tersedia",
     "lastCheck": "Pemeriksaan terakhir",
-    "checkNow": "Periksa Sekarang"
-  }
+    "checkNow": "[ID] Periksa Sekarang"
+  },
+  
+  "debugBundle": {
+    "title": "[ID] Auth Debug Bundle",
+    "description": "[ID] Capture detailed error bodies and HTTP status codes",
+    "copied": "[ID] Full auth debug bundle copied",
+    "errorsDetected": "[ID] Some services returned errors",
+    "refresh": "[ID] Refresh",
+    "copy": "[ID] Copy Full Bundle"
+  },
+  
+  "backendStatus": {
+    "title": "[ID] Backend Status",
+    "subtitle": "[ID] Reachable vs auth-required vs blocked",
+    "copied": "[ID] Status report copied",
+    "reachable": "[ID] Reachable",
+    "authRequired": "[ID] Auth Required",
+    "blocked": "[ID] Blocked (CORS)",
+    "error": "[ID] Error",
+    "errors": "[ID] Errors",
+    "checking": "[ID] Checking...",
+    "detailedStatus": "[ID] Detailed Status",
+    "detailedDesc": "[ID] Individual function connectivity",
+    "legend": "[ID] Status Legend",
+    "reachableDesc": "[ID] Reachable — Function responded with 200 OK",
+    "authRequiredDesc": "[ID] Auth Required — needs authentication",
+    "blockedDesc": "[ID] Blocked/Error — CORS issue or server error"
+  },
+  
+  "passkeyFlow": {
+    "title": "[ID] Passkey Setup Guide",
+    "progress": "[ID] {{completed}}/{{total}} steps completed",
+    "intro": "[ID] Follow these steps to set up passwordless sign-in:",
+    "stepNumber": "[ID] Step {{number}}",
+    "step1Title": "[ID] Sign in with email/password",
+    "step1Desc": "[ID] You must be logged in to register a passkey.",
+    "step2Title": "[ID] Register a passkey",
+    "step2Desc": "[ID] Use the 'Add Passkey' button above.",
+    "step3Title": "[ID] Sign out",
+    "step3Desc": "[ID] Log out to test passkey sign-in.",
+    "step4Title": "[ID] Sign in with Passkey",
+    "step4Desc": "[ID] Use the Passkey tab to sign in.",
+    "deviceNote": "[ID] Passkeys are registered per device.",
+    "refresh": "[ID] Refresh Status"
+  },
+  
+  "recoveryCodes": {
+    "title": "[ID] Recovery Codes",
+    "description": "[ID] Use these codes if you lose access to your authenticator app.",
+    "warningTitle": "[ID] Keep these codes safe",
+    "warningBody": "[ID] Each code can only be used once.",
+    "regenerate": "[ID] Regenerate Backup Codes",
+    "regenerateNote": "[ID] Regenerating codes will invalidate all previous codes.",
+    "regenerateTitle": "[ID] Regenerate Recovery Codes?",
+    "regenerateWarning": "[ID] This will invalidate all your existing backup codes.",
+    "enterCode": "[ID] Enter your current 2FA code",
+    "confirmRegenerate": "[ID] Regenerate",
+    "regenerated": "[ID] Backup codes regenerated",
+    "newCodesTitle": "[ID] Save Your New Backup Codes",
+    "newCodesDesc": "[ID] These codes replace all previous backup codes.",
+    "reveal": "[ID] Reveal Codes",
+    "hide": "[ID] Hide Codes",
+    "saved": "[ID] I've Saved My Codes"
+  },
+  
+  "securityChecklist": {
+    "title": "[ID] Security Checklist",
+    "checking": "[ID] Checking security settings...",
+    "score": "[ID] {{pass}}/{{total}} checks passed",
+    "emailVerified": "[ID] Email Verified",
+    "emailVerifiedDesc": "[ID] Your email address has been confirmed",
+    "emailVerifiedPass": "[ID] Email verified",
+    "emailVerifiedWarn": "[ID] Check your inbox for verification email",
+    "twoFactor": "[ID] Two-Factor Authentication",
+    "twoFactorDesc": "[ID] Extra security layer for your account",
+    "twoFactorPass": "[ID] 2FA is enabled",
+    "twoFactorWarn": "[ID] Enable 2FA for stronger security",
+    "passkeys": "[ID] Passkeys",
+    "passkeysDesc": "[ID] Passwordless sign-in with biometrics",
+    "passkeysPass": "[ID] {{count}} passkey(s) registered",
+    "passkeysWarn": "[ID] Add a passkey for passwordless sign-in",
+    "sessionTimeout": "[ID] Session Timeout",
+    "sessionTimeoutDesc": "[ID] Auto-logout after inactivity",
+    "sessionTimeoutValue": "[ID] {{minutes}} minute timeout",
+    "backendAvailable": "[ID] Backend Services",
+    "backendAvailableDesc": "[ID] Security infrastructure reachable",
+    "backendAvailablePass": "[ID] All services online",
+    "backendAvailableFail": "[ID] Some services unreachable",
+    "checkFailed": "[ID] Could not check status",
+    "backendNote": "[ID] Settings like 'Leaked Password Protection' are configured in the backend panel."
+  },
+  
+  "invalidCodeLength": "[ID] Code must be 6 digits",
+  "copyAllCodes": "[ID] Copy All Codes"
 }

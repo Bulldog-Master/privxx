@@ -796,6 +796,99 @@
     "checkNow": "Jetzt prüfen",
     "available": "Verfügbar",
     "unavailable": "Nicht verfügbar",
-    "checking": "Wird geprüft..."
-  }
+    "checking": "[DE] Wird geprüft..."
+  },
+  
+  "debugBundle": {
+    "title": "[DE] Auth Debug Bundle",
+    "description": "[DE] Capture detailed error bodies and HTTP status codes",
+    "copied": "[DE] Full auth debug bundle copied",
+    "errorsDetected": "[DE] Some services returned errors — see full bundle for details",
+    "refresh": "[DE] Refresh",
+    "copy": "[DE] Copy Full Bundle"
+  },
+  
+  "backendStatus": {
+    "title": "[DE] Backend Status",
+    "subtitle": "[DE] Reachable vs auth-required vs blocked",
+    "copied": "[DE] Status report copied",
+    "reachable": "[DE] Reachable",
+    "authRequired": "[DE] Auth Required",
+    "blocked": "[DE] Blocked (CORS)",
+    "error": "[DE] Error",
+    "errors": "[DE] Errors",
+    "checking": "[DE] Checking...",
+    "detailedStatus": "[DE] Detailed Status",
+    "detailedDesc": "[DE] Individual function connectivity",
+    "legend": "[DE] Status Legend",
+    "reachableDesc": "[DE] Reachable — Function responded with 200 OK",
+    "authRequiredDesc": "[DE] Auth Required — Function reachable but needs authentication",
+    "blockedDesc": "[DE] Blocked/Error — CORS issue or server error"
+  },
+  
+  "passkeyFlow": {
+    "title": "[DE] Passkey Setup Guide",
+    "progress": "[DE] {{completed}}/{{total}} steps completed",
+    "intro": "[DE] Follow these steps to set up passwordless sign-in with passkeys:",
+    "stepNumber": "[DE] Step {{number}}",
+    "step1Title": "[DE] Sign in with email/password",
+    "step1Desc": "[DE] You must be logged in to register a passkey.",
+    "step2Title": "[DE] Register a passkey",
+    "step2Desc": "[DE] Use the 'Add Passkey' button above.",
+    "step3Title": "[DE] Sign out",
+    "step3Desc": "[DE] Log out of your account to test passkey sign-in.",
+    "step4Title": "[DE] Sign in with Passkey",
+    "step4Desc": "[DE] On the login page, use the Passkey tab.",
+    "deviceNote": "[DE] Passkeys are registered per device and browser.",
+    "refresh": "[DE] Refresh Status"
+  },
+  
+  "recoveryCodes": {
+    "title": "[DE] Recovery Codes",
+    "description": "[DE] Use these codes if you lose access to your authenticator app.",
+    "warningTitle": "[DE] Keep these codes safe",
+    "warningBody": "[DE] Each code can only be used once.",
+    "regenerate": "[DE] Regenerate Backup Codes",
+    "regenerateNote": "[DE] Regenerating codes will invalidate all previous codes.",
+    "regenerateTitle": "[DE] Regenerate Recovery Codes?",
+    "regenerateWarning": "[DE] This will invalidate all your existing backup codes.",
+    "enterCode": "[DE] Enter your current 2FA code",
+    "confirmRegenerate": "[DE] Regenerate",
+    "regenerated": "[DE] Backup codes regenerated",
+    "newCodesTitle": "[DE] Save Your New Backup Codes",
+    "newCodesDesc": "[DE] These codes replace all previous backup codes.",
+    "reveal": "[DE] Reveal Codes",
+    "hide": "[DE] Hide Codes",
+    "saved": "[DE] I've Saved My Codes"
+  },
+  
+  "securityChecklist": {
+    "title": "[DE] Security Checklist",
+    "checking": "[DE] Checking security settings...",
+    "score": "[DE] {{pass}}/{{total}} checks passed",
+    "emailVerified": "[DE] Email Verified",
+    "emailVerifiedDesc": "[DE] Your email address has been confirmed",
+    "emailVerifiedPass": "[DE] Email verified",
+    "emailVerifiedWarn": "[DE] Check your inbox for verification email",
+    "twoFactor": "[DE] Two-Factor Authentication",
+    "twoFactorDesc": "[DE] Extra security layer for your account",
+    "twoFactorPass": "[DE] 2FA is enabled",
+    "twoFactorWarn": "[DE] Enable 2FA for stronger security",
+    "passkeys": "[DE] Passkeys",
+    "passkeysDesc": "[DE] Passwordless sign-in with biometrics",
+    "passkeysPass": "[DE] {{count}} passkey(s) registered",
+    "passkeysWarn": "[DE] Add a passkey for passwordless sign-in",
+    "sessionTimeout": "[DE] Session Timeout",
+    "sessionTimeoutDesc": "[DE] Auto-logout after inactivity",
+    "sessionTimeoutValue": "[DE] {{minutes}} minute timeout",
+    "backendAvailable": "[DE] Backend Services",
+    "backendAvailableDesc": "[DE] Security infrastructure reachable",
+    "backendAvailablePass": "[DE] All services online",
+    "backendAvailableFail": "[DE] Some services unreachable",
+    "checkFailed": "[DE] Could not check status",
+    "backendNote": "[DE] Settings like 'Leaked Password Protection' are configured in the backend panel."
+  },
+  
+  "invalidCodeLength": "[DE] Code must be 6 digits",
+  "copyAllCodes": "[DE] Copy All Codes"
 }

@@ -796,6 +796,13 @@
     "available": "Beschikbaar",
     "unavailable": "Niet beschikbaar",
     "lastCheck": "Laatst gecontroleerd",
-    "checkNow": "Nu controleren"
-  }
+    "checkNow": "[NL] Nu controleren"
+  },
+  "debugBundle": { "title": "[NL] Auth Debug Bundle", "description": "[NL] Capture error details", "copied": "[NL] Copied", "errorsDetected": "[NL] Errors detected", "refresh": "[NL] Refresh", "copy": "[NL] Copy" },
+  "backendStatus": { "title": "[NL] Backend Status", "subtitle": "[NL] Reachable vs blocked", "copied": "[NL] Copied", "reachable": "[NL] Reachable", "authRequired": "[NL] Auth Required", "blocked": "[NL] Blocked", "error": "[NL] Error", "errors": "[NL] Errors", "checking": "[NL] Checking...", "detailedStatus": "[NL] Details", "detailedDesc": "[NL] Connectivity", "legend": "[NL] Legend", "reachableDesc": "[NL] 200 OK", "authRequiredDesc": "[NL] 401/403", "blockedDesc": "[NL] CORS/Error" },
+  "passkeyFlow": { "title": "[NL] Passkey Guide", "progress": "[NL] {{completed}}/{{total}}", "intro": "[NL] Setup:", "stepNumber": "[NL] Step {{number}}", "step1Title": "[NL] Sign in", "step1Desc": "[NL] Login first", "step2Title": "[NL] Register", "step2Desc": "[NL] Add passkey", "step3Title": "[NL] Sign out", "step3Desc": "[NL] Logout", "step4Title": "[NL] Use passkey", "step4Desc": "[NL] Sign in", "deviceNote": "[NL] Per device", "refresh": "[NL] Refresh" },
+  "recoveryCodes": { "title": "[NL] Recovery Codes", "description": "[NL] Backup codes", "warningTitle": "[NL] Keep safe", "warningBody": "[NL] One-time", "regenerate": "[NL] Regenerate", "regenerateNote": "[NL] Invalidates old", "regenerateTitle": "[NL] Regenerate?", "regenerateWarning": "[NL] Warning", "enterCode": "[NL] Enter code", "confirmRegenerate": "[NL] Confirm", "regenerated": "[NL] Done", "newCodesTitle": "[NL] Save codes", "newCodesDesc": "[NL] Save now", "reveal": "[NL] Reveal", "hide": "[NL] Hide", "saved": "[NL] Saved" },
+  "securityChecklist": { "title": "[NL] Security Checklist", "checking": "[NL] Checking...", "score": "[NL] {{pass}}/{{total}}", "emailVerified": "[NL] Email Verified", "emailVerifiedDesc": "[NL] Confirmed", "emailVerifiedPass": "[NL] Verified", "emailVerifiedWarn": "[NL] Check inbox", "twoFactor": "[NL] 2FA", "twoFactorDesc": "[NL] Extra security", "twoFactorPass": "[NL] Enabled", "twoFactorWarn": "[NL] Enable 2FA", "passkeys": "[NL] Passkeys", "passkeysDesc": "[NL] Biometrics", "passkeysPass": "[NL] {{count}} registered", "passkeysWarn": "[NL] Add passkey", "sessionTimeout": "[NL] Timeout", "sessionTimeoutDesc": "[NL] Auto-logout", "sessionTimeoutValue": "[NL] {{minutes}}m", "backendAvailable": "[NL] Backend", "backendAvailableDesc": "[NL] Reachable", "backendAvailablePass": "[NL] Online", "backendAvailableFail": "[NL] Unreachable", "checkFailed": "[NL] Check failed", "backendNote": "[NL] Backend config" },
+  "invalidCodeLength": "[NL] 6 digits",
+  "copyAllCodes": "[NL] Copy All"
 }

@@ -796,6 +796,13 @@
     "available": "Kullanılabilir",
     "unavailable": "Kullanılamaz",
     "lastCheck": "Son kontrol",
-    "checkNow": "Şimdi Kontrol Et"
-  }
+    "checkNow": "[TR] Şimdi Kontrol Et"
+  },
+  "debugBundle": { "title": "[TR] Auth Debug Bundle", "description": "[TR] Capture errors", "copied": "[TR] Copied", "errorsDetected": "[TR] Errors", "refresh": "[TR] Refresh", "copy": "[TR] Copy" },
+  "backendStatus": { "title": "[TR] Backend Status", "subtitle": "[TR] Status", "copied": "[TR] Copied", "reachable": "[TR] Reachable", "authRequired": "[TR] Auth Required", "blocked": "[TR] Blocked", "error": "[TR] Error", "errors": "[TR] Errors", "checking": "[TR] Checking...", "detailedStatus": "[TR] Details", "detailedDesc": "[TR] Connectivity", "legend": "[TR] Legend", "reachableDesc": "[TR] 200 OK", "authRequiredDesc": "[TR] 401/403", "blockedDesc": "[TR] CORS/Error" },
+  "passkeyFlow": { "title": "[TR] Passkey Guide", "progress": "[TR] {{completed}}/{{total}}", "intro": "[TR] Setup:", "stepNumber": "[TR] Step {{number}}", "step1Title": "[TR] Sign in", "step1Desc": "[TR] Login", "step2Title": "[TR] Register", "step2Desc": "[TR] Add", "step3Title": "[TR] Sign out", "step3Desc": "[TR] Logout", "step4Title": "[TR] Use passkey", "step4Desc": "[TR] Sign in", "deviceNote": "[TR] Per device", "refresh": "[TR] Refresh" },
+  "recoveryCodes": { "title": "[TR] Recovery Codes", "description": "[TR] Backup", "warningTitle": "[TR] Keep safe", "warningBody": "[TR] One-time", "regenerate": "[TR] Regenerate", "regenerateNote": "[TR] Invalidates", "regenerateTitle": "[TR] Regenerate?", "regenerateWarning": "[TR] Warning", "enterCode": "[TR] Enter code", "confirmRegenerate": "[TR] Confirm", "regenerated": "[TR] Done", "newCodesTitle": "[TR] Save", "newCodesDesc": "[TR] Save now", "reveal": "[TR] Reveal", "hide": "[TR] Hide", "saved": "[TR] Saved" },
+  "securityChecklist": { "title": "[TR] Security Checklist", "checking": "[TR] Checking...", "score": "[TR] {{pass}}/{{total}}", "emailVerified": "[TR] Email", "emailVerifiedDesc": "[TR] Confirmed", "emailVerifiedPass": "[TR] Verified", "emailVerifiedWarn": "[TR] Check inbox", "twoFactor": "[TR] 2FA", "twoFactorDesc": "[TR] Security", "twoFactorPass": "[TR] Enabled", "twoFactorWarn": "[TR] Enable", "passkeys": "[TR] Passkeys", "passkeysDesc": "[TR] Biometrics", "passkeysPass": "[TR] {{count}}", "passkeysWarn": "[TR] Add", "sessionTimeout": "[TR] Timeout", "sessionTimeoutDesc": "[TR] Auto-logout", "sessionTimeoutValue": "[TR] {{minutes}}m", "backendAvailable": "[TR] Backend", "backendAvailableDesc": "[TR] Reachable", "backendAvailablePass": "[TR] Online", "backendAvailableFail": "[TR] Unreachable", "checkFailed": "[TR] Failed", "backendNote": "[TR] Backend" },
+  "invalidCodeLength": "[TR] 6 digits",
+  "copyAllCodes": "[TR] Copy"
 }

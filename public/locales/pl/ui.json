@@ -792,6 +792,13 @@
     "available": "Dostępna",
     "unavailable": "Niedostępna",
     "lastCheck": "Ostatnie sprawdzenie",
-    "checkNow": "Sprawdź teraz"
-  }
+    "checkNow": "[PL] Sprawdź teraz"
+  },
+  "debugBundle": { "title": "[PL] Auth Debug Bundle", "description": "[PL] Capture errors", "copied": "[PL] Copied", "errorsDetected": "[PL] Errors", "refresh": "[PL] Refresh", "copy": "[PL] Copy" },
+  "backendStatus": { "title": "[PL] Backend Status", "subtitle": "[PL] Status", "copied": "[PL] Copied", "reachable": "[PL] Reachable", "authRequired": "[PL] Auth Required", "blocked": "[PL] Blocked", "error": "[PL] Error", "errors": "[PL] Errors", "checking": "[PL] Checking...", "detailedStatus": "[PL] Details", "detailedDesc": "[PL] Connectivity", "legend": "[PL] Legend", "reachableDesc": "[PL] 200 OK", "authRequiredDesc": "[PL] 401/403", "blockedDesc": "[PL] CORS/Error" },
+  "passkeyFlow": { "title": "[PL] Passkey Guide", "progress": "[PL] {{completed}}/{{total}}", "intro": "[PL] Setup:", "stepNumber": "[PL] Step {{number}}", "step1Title": "[PL] Sign in", "step1Desc": "[PL] Login", "step2Title": "[PL] Register", "step2Desc": "[PL] Add", "step3Title": "[PL] Sign out", "step3Desc": "[PL] Logout", "step4Title": "[PL] Use passkey", "step4Desc": "[PL] Sign in", "deviceNote": "[PL] Per device", "refresh": "[PL] Refresh" },
+  "recoveryCodes": { "title": "[PL] Recovery Codes", "description": "[PL] Backup", "warningTitle": "[PL] Keep safe", "warningBody": "[PL] One-time", "regenerate": "[PL] Regenerate", "regenerateNote": "[PL] Invalidates", "regenerateTitle": "[PL] Regenerate?", "regenerateWarning": "[PL] Warning", "enterCode": "[PL] Enter code", "confirmRegenerate": "[PL] Confirm", "regenerated": "[PL] Done", "newCodesTitle": "[PL] Save", "newCodesDesc": "[PL] Save now", "reveal": "[PL] Reveal", "hide": "[PL] Hide", "saved": "[PL] Saved" },
+  "securityChecklist": { "title": "[PL] Security Checklist", "checking": "[PL] Checking...", "score": "[PL] {{pass}}/{{total}}", "emailVerified": "[PL] Email", "emailVerifiedDesc": "[PL] Confirmed", "emailVerifiedPass": "[PL] Verified", "emailVerifiedWarn": "[PL] Check inbox", "twoFactor": "[PL] 2FA", "twoFactorDesc": "[PL] Security", "twoFactorPass": "[PL] Enabled", "twoFactorWarn": "[PL] Enable", "passkeys": "[PL] Passkeys", "passkeysDesc": "[PL] Biometrics", "passkeysPass": "[PL] {{count}}", "passkeysWarn": "[PL] Add", "sessionTimeout": "[PL] Timeout", "sessionTimeoutDesc": "[PL] Auto-logout", "sessionTimeoutValue": "[PL] {{minutes}}m", "backendAvailable": "[PL] Backend", "backendAvailableDesc": "[PL] Reachable", "backendAvailablePass": "[PL] Online", "backendAvailableFail": "[PL] Unreachable", "checkFailed": "[PL] Failed", "backendNote": "[PL] Backend" },
+  "invalidCodeLength": "[PL] 6 digits",
+  "copyAllCodes": "[PL] Copy"
 }
