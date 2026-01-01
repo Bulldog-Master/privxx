@@ -35,7 +35,7 @@ export function TranslationStatusWidget() {
         const enResponse = await fetch("/locales/en/ui.json");
         if (!enResponse.ok) return;
         const enData = await enResponse.json();
-        
+
         const getAllKeys = (obj: Record<string, unknown>, prefix = ""): string[] => {
           const keys: string[] = [];
           for (const key of Object.keys(obj)) {
@@ -48,12 +48,12 @@ export function TranslationStatusWidget() {
           }
           return keys;
         };
-        
+
         const enKeys = getAllKeys(enData);
-        const enKeyCount = enKeys.length;
-        
+        const enKeySet = new Set(enKeys);
+
         const results: LanguageStatus[] = [];
-        
+
         for (const code of SUPPORTED_LANGUAGE_CODES) {
           try {
             const response = await fetch(`/locales/${code}/ui.json`);
@@ -63,18 +63,23 @@ export function TranslationStatusWidget() {
             }
             const data = await response.json();
             const keys = getAllKeys(data);
+
+            // Only count keys that exist in the English reference
+            const matchingKeyCount = keys.filter((k) => enKeySet.has(k)).length;
+            const missingCount = enKeys.length - matchingKeyCount;
+
             results.push({
               code,
-              keyCount: keys.length,
-              isComplete: keys.length >= enKeyCount,
+              keyCount: matchingKeyCount,
+              isComplete: missingCount === 0,
             });
           } catch {
             results.push({ code, keyCount: 0, isComplete: false });
           }
         }
-        
+
         const complete = results.filter((r) => r.isComplete).length;
-        
+
         setStatus({
           total: SUPPORTED_LANGUAGE_CODES.length,
           complete,
@@ -86,7 +91,7 @@ export function TranslationStatusWidget() {
         setIsLoading(false);
       }
     };
-    
+
     analyzeTranslations();
   }, []);
 
