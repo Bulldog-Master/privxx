@@ -770,8 +770,22 @@
   "connectionTimeline.recentEvents": "हाल की कनेक्टिविटी घटनाएं",
   
   "authErrors": {
-    "serviceFailed": "प्रमाणीकरण सेवा से कनेक्ट करने में विफल",
-    "tryAgain": "एक आंतरिक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
+    "connectionFailed": "प्रमाणीकरण सेवा से कनेक्ट करने में विफल",
+    "registrationFailed": "पासकी पंजीकरण विफल",
+    "authenticationFailed": "प्रमाणीकरण विफल",
+    "challengeExpired": "चुनौती समाप्त हो गई। कृपया पुनः प्रयास करें।",
+    "tooManyRequests": "बहुत अधिक अनुरोध। कृपया बाद में पुनः प्रयास करें।",
+    "invalidCode": "अमान्य कोड। कृपया जांचें और पुनः प्रयास करें।",
+    "accountLocked": "खाता अस्थायी रूप से लॉक है। कृपया बाद में पुनः प्रयास करें।",
+    "sessionExpired": "सत्र समाप्त हो गया। कृपया पुनः लॉगिन करें।",
+    "unauthorized": "प्रमाणीकरण आवश्यक",
+    "totpSetupFailed": "2FA सेटअप प्रारंभ करने में विफल",
+    "totpVerifyFailed": "कोड सत्यापन विफल",
+    "totpDisableFailed": "2FA अक्षम करने में विफल",
+    "totpStatusFailed": "2FA स्थिति प्राप्त करने में विफल",
+    "backupCodeInvalid": "अमान्य बैकअप कोड",
+    "passkeyNotSupported": "इस ब्राउज़र में पासकी समर्थित नहीं हैं",
+    "platformAuthUnavailable": "इस डिवाइस पर बायोमेट्रिक प्रमाणीकरण उपलब्ध नहीं है"
   },
   "authDiagnostics": {
     "title": "प्रमाणीकरण सेवाएं",

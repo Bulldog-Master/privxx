@@ -766,8 +766,22 @@
   "connectionTimeline.recentEvents": "Ostatnie zdarzenia połączeniowe",
   
   "authErrors": {
-    "serviceFailed": "Nie udało się połączyć z usługą uwierzytelniania",
-    "tryAgain": "Wystąpił błąd wewnętrzny. Spróbuj ponownie później."
+    "connectionFailed": "Nie udało się połączyć z usługą uwierzytelniania",
+    "registrationFailed": "Rejestracja klucza dostępu nie powiodła się",
+    "authenticationFailed": "Uwierzytelnianie nie powiodło się",
+    "challengeExpired": "Wyzwanie wygasło. Spróbuj ponownie.",
+    "tooManyRequests": "Zbyt wiele żądań. Spróbuj później.",
+    "invalidCode": "Nieprawidłowy kod. Sprawdź i spróbuj ponownie.",
+    "accountLocked": "Konto tymczasowo zablokowane. Spróbuj później.",
+    "sessionExpired": "Sesja wygasła. Zaloguj się ponownie.",
+    "unauthorized": "Wymagane uwierzytelnienie",
+    "totpSetupFailed": "Nie udało się rozpocząć konfiguracji 2FA",
+    "totpVerifyFailed": "Weryfikacja kodu nie powiodła się",
+    "totpDisableFailed": "Nie udało się wyłączyć 2FA",
+    "totpStatusFailed": "Nie udało się pobrać statusu 2FA",
+    "backupCodeInvalid": "Nieprawidłowy kod zapasowy",
+    "passkeyNotSupported": "Klucze dostępu nie są obsługiwane w tej przeglądarce",
+    "platformAuthUnavailable": "Uwierzytelnianie biometryczne niedostępne na tym urządzeniu"
   },
   "authDiagnostics": {
     "title": "Usługi uwierzytelniania",

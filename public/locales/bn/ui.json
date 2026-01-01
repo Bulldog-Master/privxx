@@ -773,8 +773,22 @@
   "connectionTimeline.recentEvents": "সাম্প্রতিক সংযোগ ঘটনা",
   
   "authErrors": {
-    "serviceFailed": "প্রমাণীকরণ পরিষেবায় সংযোগ করতে ব্যর্থ",
-    "tryAgain": "একটি অভ্যন্তরীণ ত্রুটি ঘটেছে। অনুগ্রহ করে পরে আবার চেষ্টা করুন।"
+    "connectionFailed": "প্রমাণীকরণ পরিষেবায় সংযোগ করতে ব্যর্থ",
+    "registrationFailed": "পাসকি নিবন্ধন ব্যর্থ",
+    "authenticationFailed": "প্রমাণীকরণ ব্যর্থ",
+    "challengeExpired": "চ্যালেঞ্জের মেয়াদ শেষ। অনুগ্রহ করে আবার চেষ্টা করুন।",
+    "tooManyRequests": "অনেক বেশি অনুরোধ। পরে আবার চেষ্টা করুন।",
+    "invalidCode": "অবৈধ কোড। পরীক্ষা করে আবার চেষ্টা করুন।",
+    "accountLocked": "অ্যাকাউন্ট সাময়িকভাবে লক করা হয়েছে। পরে আবার চেষ্টা করুন।",
+    "sessionExpired": "সেশনের মেয়াদ শেষ। অনুগ্রহ করে আবার লগইন করুন।",
+    "unauthorized": "প্রমাণীকরণ প্রয়োজন",
+    "totpSetupFailed": "2FA সেটআপ শুরু করতে ব্যর্থ",
+    "totpVerifyFailed": "কোড যাচাই ব্যর্থ",
+    "totpDisableFailed": "2FA নিষ্ক্রিয় করতে ব্যর্থ",
+    "totpStatusFailed": "2FA স্থিতি পেতে ব্যর্থ",
+    "backupCodeInvalid": "অবৈধ ব্যাকআপ কোড",
+    "passkeyNotSupported": "এই ব্রাউজারে পাসকি সমর্থিত নয়",
+    "platformAuthUnavailable": "এই ডিভাইসে বায়োমেট্রিক প্রমাণীকরণ উপলব্ধ নয়"
   },
   "authDiagnostics": {
     "title": "প্রমাণীকরণ পরিষেবা",

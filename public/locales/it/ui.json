@@ -766,8 +766,22 @@
   "connectionTimeline.recentEvents": "Eventi connettività recenti",
   
   "authErrors": {
-    "serviceFailed": "Impossibile connettersi al servizio di autenticazione",
-    "tryAgain": "Si è verificato un errore interno. Riprova più tardi."
+    "connectionFailed": "Impossibile connettersi al servizio di autenticazione",
+    "registrationFailed": "Registrazione passkey fallita",
+    "authenticationFailed": "Autenticazione fallita",
+    "challengeExpired": "Sfida scaduta. Riprova.",
+    "tooManyRequests": "Troppe richieste. Riprova più tardi.",
+    "invalidCode": "Codice non valido. Verifica e riprova.",
+    "accountLocked": "Account temporaneamente bloccato. Riprova più tardi.",
+    "sessionExpired": "Sessione scaduta. Effettua nuovamente l'accesso.",
+    "unauthorized": "Autenticazione richiesta",
+    "totpSetupFailed": "Impossibile avviare la configurazione 2FA",
+    "totpVerifyFailed": "Verifica codice fallita",
+    "totpDisableFailed": "Impossibile disattivare 2FA",
+    "totpStatusFailed": "Impossibile ottenere lo stato 2FA",
+    "backupCodeInvalid": "Codice di backup non valido",
+    "passkeyNotSupported": "Le passkey non sono supportate in questo browser",
+    "platformAuthUnavailable": "Autenticazione biometrica non disponibile su questo dispositivo"
   },
   "authDiagnostics": {
     "title": "Servizi di Autenticazione",
