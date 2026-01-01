@@ -16,3 +16,7 @@ verify_jwt = false
 
 [functions.security-notify]
 verify_jwt = true
+
+# Avatar processing handles its own JWT verification from auth header
+[functions.process-avatar]
+verify_jwt = false
