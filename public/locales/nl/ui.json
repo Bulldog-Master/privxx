@@ -576,11 +576,20 @@
   "showPassword": "Wachtwoord tonen",
   "hidePassword": "Wachtwoord verbergen",
   "passwordsDoNotMatch": "Wachtwoorden komen niet overeen",
+  "passwordsMatch": "Wachtwoorden komen overeen",
   "passwordStrength": {
     "label": "Wachtwoordsterkte",
     "weak": "Zwak",
     "medium": "Gemiddeld",
     "strong": "Sterk"
+  },
+  "passwordRequirements": {
+    "title": "Tips sterk wachtwoord:",
+    "length": "Minimaal 8 tekens",
+    "uppercase": "Hoofdletter (A-Z)",
+    "lowercase": "Kleine letter (a-z)",
+    "number": "Cijfer (0-9)",
+    "special": "Speciaal teken (!@#$%)"
   },
   "unlock": "Ontgrendelen",
   "lock": "Vergrendelen",

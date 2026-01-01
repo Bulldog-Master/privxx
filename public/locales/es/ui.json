@@ -448,11 +448,20 @@
   "showPassword": "Mostrar contraseña",
   "hidePassword": "Ocultar contraseña",
   "passwordsDoNotMatch": "Las contraseñas no coinciden",
+  "passwordsMatch": "Las contraseñas coinciden",
   "passwordStrength": {
     "label": "Seguridad de contraseña",
     "weak": "Débil",
     "medium": "Media",
     "strong": "Fuerte"
+  },
+  "passwordRequirements": {
+    "title": "Consejos para contraseña segura:",
+    "length": "Al menos 8 caracteres",
+    "uppercase": "Letra mayúscula (A-Z)",
+    "lowercase": "Letra minúscula (a-z)",
+    "number": "Número (0-9)",
+    "special": "Carácter especial (!@#$%)"
   },
   "unlock": "Desbloquear",
   "lock": "Bloquear",

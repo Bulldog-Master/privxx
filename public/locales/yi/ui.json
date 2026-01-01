@@ -364,11 +364,20 @@
   "showPassword": "ווײַזן פּאַסוואָרט",
   "hidePassword": "באַהאַלטן פּאַסוואָרט",
   "passwordsDoNotMatch": "פּאַסוואָרטן שטימען נישט",
+  "passwordsMatch": "פּאַסוואָרטן שטימען",
   "passwordStrength": {
     "label": "פּאַסוואָרט שטאַרקייט",
     "weak": "שוואַך",
     "medium": "מיטל",
     "strong": "שטאַרק"
+  },
+  "passwordRequirements": {
+    "title": "שטאַרקע פּאַסוואָרט עצות:",
+    "length": "מינימום 8 אותיות",
+    "uppercase": "גרויסע אות (A-Z)",
+    "lowercase": "קליינע אות (a-z)",
+    "number": "נומער (0-9)",
+    "special": "באַזונדער צייכן (!@#$%)"
   },
   "unlock": "אַנטשפּאַרן",
   "lock": "פֿאַרשפּאַרן",

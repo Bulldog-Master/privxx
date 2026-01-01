@@ -538,11 +538,20 @@
   "showPassword": "Show password",
   "hidePassword": "Hide password",
   "passwordsDoNotMatch": "Passwords do not match",
+  "passwordsMatch": "Passwords match",
   "passwordStrength": {
     "label": "Password strength",
     "weak": "Weak",
     "medium": "Medium",
     "strong": "Strong"
+  },
+  "passwordRequirements": {
+    "title": "Strong password tips:",
+    "length": "At least 8 characters",
+    "uppercase": "Uppercase letter (A-Z)",
+    "lowercase": "Lowercase letter (a-z)",
+    "number": "Number (0-9)",
+    "special": "Special character (!@#$%)"
   },
   "signOut": "Sign Out",
   "signedOut": "Signed out successfully",

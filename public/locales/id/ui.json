@@ -576,11 +576,20 @@
   "showPassword": "Tampilkan kata sandi",
   "hidePassword": "Sembunyikan kata sandi",
   "passwordsDoNotMatch": "Kata sandi tidak cocok",
+  "passwordsMatch": "Kata sandi cocok",
   "passwordStrength": {
     "label": "Kekuatan kata sandi",
     "weak": "Lemah",
     "medium": "Sedang",
     "strong": "Kuat"
+  },
+  "passwordRequirements": {
+    "title": "Tips kata sandi kuat:",
+    "length": "Minimal 8 karakter",
+    "uppercase": "Huruf besar (A-Z)",
+    "lowercase": "Huruf kecil (a-z)",
+    "number": "Angka (0-9)",
+    "special": "Karakter khusus (!@#$%)"
   },
   "unlock": "Buka Kunci",
   "lock": "Kunci",

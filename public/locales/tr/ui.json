@@ -576,11 +576,20 @@
   "showPassword": "Şifreyi göster",
   "hidePassword": "Şifreyi gizle",
   "passwordsDoNotMatch": "Şifreler eşleşmiyor",
+  "passwordsMatch": "Şifreler eşleşiyor",
   "passwordStrength": {
     "label": "Şifre gücü",
     "weak": "Zayıf",
     "medium": "Orta",
     "strong": "Güçlü"
+  },
+  "passwordRequirements": {
+    "title": "Güçlü şifre ipuçları:",
+    "length": "En az 8 karakter",
+    "uppercase": "Büyük harf (A-Z)",
+    "lowercase": "Küçük harf (a-z)",
+    "number": "Rakam (0-9)",
+    "special": "Özel karakter (!@#$%)"
   },
   "unlock": "Aç",
   "lock": "Kilitle",

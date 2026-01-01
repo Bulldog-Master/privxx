@@ -364,11 +364,20 @@
   "showPassword": "הצג סיסמה",
   "hidePassword": "הסתר סיסמה",
   "passwordsDoNotMatch": "הסיסמאות אינן תואמות",
+  "passwordsMatch": "הסיסמאות תואמות",
   "passwordStrength": {
     "label": "חוזק סיסמה",
     "weak": "חלשה",
     "medium": "בינונית",
     "strong": "חזקה"
+  },
+  "passwordRequirements": {
+    "title": "טיפים לסיסמה חזקה:",
+    "length": "לפחות 8 תווים",
+    "uppercase": "אות גדולה (A-Z)",
+    "lowercase": "אות קטנה (a-z)",
+    "number": "מספר (0-9)",
+    "special": "תו מיוחד (!@#$%)"
   },
   "unlock": "בטל נעילה",
   "lock": "נעל",

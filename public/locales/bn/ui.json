@@ -364,11 +364,20 @@
   "showPassword": "পাসওয়ার্ড দেখান",
   "hidePassword": "পাসওয়ার্ড লুকান",
   "passwordsDoNotMatch": "পাসওয়ার্ড মিলছে না",
+  "passwordsMatch": "পাসওয়ার্ড মিলেছে",
   "passwordStrength": {
     "label": "পাসওয়ার্ড শক্তি",
     "weak": "দুর্বল",
     "medium": "মাঝারি",
     "strong": "শক্তিশালী"
+  },
+  "passwordRequirements": {
+    "title": "শক্তিশালী পাসওয়ার্ড টিপস:",
+    "length": "কমপক্ষে ৮টি অক্ষর",
+    "uppercase": "বড় হাতের অক্ষর (A-Z)",
+    "lowercase": "ছোট হাতের অক্ষর (a-z)",
+    "number": "সংখ্যা (০-৯)",
+    "special": "বিশেষ অক্ষর (!@#$%)"
   },
   "unlock": "আনলক",
   "lock": "লক",

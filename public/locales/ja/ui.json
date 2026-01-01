@@ -576,11 +576,20 @@
   "showPassword": "パスワードを表示",
   "hidePassword": "パスワードを非表示",
   "passwordsDoNotMatch": "パスワードが一致しません",
+  "passwordsMatch": "パスワードが一致しました",
   "passwordStrength": {
     "label": "パスワード強度",
     "weak": "弱い",
     "medium": "普通",
     "strong": "強い"
+  },
+  "passwordRequirements": {
+    "title": "強いパスワードのヒント:",
+    "length": "8文字以上",
+    "uppercase": "大文字 (A-Z)",
+    "lowercase": "小文字 (a-z)",
+    "number": "数字 (0-9)",
+    "special": "特殊文字 (!@#$%)"
   },
   "unlock": "ロック解除",
   "lock": "ロック",

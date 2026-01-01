@@ -576,11 +576,20 @@
   "showPassword": "إظهار كلمة المرور",
   "hidePassword": "إخفاء كلمة المرور",
   "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+  "passwordsMatch": "كلمات المرور متطابقة",
   "passwordStrength": {
     "label": "قوة كلمة المرور",
     "weak": "ضعيفة",
     "medium": "متوسطة",
     "strong": "قوية"
+  },
+  "passwordRequirements": {
+    "title": "نصائح لكلمة مرور قوية:",
+    "length": "8 أحرف على الأقل",
+    "uppercase": "حرف كبير (A-Z)",
+    "lowercase": "حرف صغير (a-z)",
+    "number": "رقم (0-9)",
+    "special": "حرف خاص (!@#$%)"
   },
   "unlock": "فتح",
   "lock": "قفل",

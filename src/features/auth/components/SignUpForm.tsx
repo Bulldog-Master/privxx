@@ -9,11 +9,12 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, Loader2, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Loader2, ArrowRight, Eye, EyeOff, Check, X, Info } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { signUpSchema, type SignUpValues } from "../validation/schemas";
 import { PasswordStrengthIndicator } from "./PasswordStrengthIndicator";
 
@@ -63,7 +64,26 @@ export function SignUpForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="signup-password">{t("password", "Password")}</Label>
+        <div className="flex items-center gap-2">
+          <Label htmlFor="signup-password">{t("password", "Password")}</Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-xs">
+                <p className="font-medium mb-1">{t("passwordRequirements.title", "Strong password tips:")}</p>
+                <ul className="text-xs space-y-0.5 list-disc list-inside">
+                  <li>{t("passwordRequirements.length", "At least 8 characters")}</li>
+                  <li>{t("passwordRequirements.uppercase", "Uppercase letter (A-Z)")}</li>
+                  <li>{t("passwordRequirements.lowercase", "Lowercase letter (a-z)")}</li>
+                  <li>{t("passwordRequirements.number", "Number (0-9)")}</li>
+                  <li>{t("passwordRequirements.special", "Special character (!@#$%)")}</li>
+                </ul>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <div className="relative">
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -94,9 +114,6 @@ export function SignUpForm() {
           </p>
         )}
         <PasswordStrengthIndicator password={form.watch("password")} />
-        <p className="text-xs text-muted-foreground">
-          {t("passwordRequirement", "Password must be at least 6 characters")}
-        </p>
       </div>
 
       <div className="space-y-2">
@@ -108,26 +125,40 @@ export function SignUpForm() {
             type={showConfirmPassword ? "text" : "password"}
             {...form.register("confirmPassword")}
             placeholder={t("confirmPasswordPlaceholder", "Confirm your password")}
-            className="pl-10 pr-10"
+            className="pl-10 pr-16"
             disabled={isSubmitting}
           />
-          <button
-            type="button"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-            tabIndex={-1}
-            aria-label={showConfirmPassword ? t("hidePassword", "Hide password") : t("showPassword", "Show password")}
-          >
-            {showConfirmPassword ? (
-              <EyeOff className="h-4 w-4" />
-            ) : (
-              <Eye className="h-4 w-4" />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+            {form.watch("confirmPassword") && (
+              form.watch("password") === form.watch("confirmPassword") ? (
+                <Check className="h-4 w-4 text-green-500" />
+              ) : (
+                <X className="h-4 w-4 text-destructive" />
+              )
             )}
-          </button>
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+              tabIndex={-1}
+              aria-label={showConfirmPassword ? t("hidePassword", "Hide password") : t("showPassword", "Show password")}
+            >
+              {showConfirmPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </div>
         {form.formState.errors.confirmPassword && (
           <p className="text-sm text-destructive" role="alert">
             {form.formState.errors.confirmPassword.message}
+          </p>
+        )}
+        {form.watch("confirmPassword") && form.watch("password") === form.watch("confirmPassword") && (
+          <p className="text-xs text-green-600 dark:text-green-400">
+            {t("passwordsMatch", "Passwords match")}
           </p>
         )}
       </div>

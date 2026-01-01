@@ -576,11 +576,20 @@
   "showPassword": "پاس ورڈ دکھائیں",
   "hidePassword": "پاس ورڈ چھپائیں",
   "passwordsDoNotMatch": "پاس ورڈ مماثل نہیں ہیں",
+  "passwordsMatch": "پاس ورڈ مماثل ہیں",
   "passwordStrength": {
     "label": "پاس ورڈ کی مضبوطی",
     "weak": "کمزور",
     "medium": "درمیانہ",
     "strong": "مضبوط"
+  },
+  "passwordRequirements": {
+    "title": "مضبوط پاس ورڈ کی تجاویز:",
+    "length": "کم از کم 8 حروف",
+    "uppercase": "بڑے حروف (A-Z)",
+    "lowercase": "چھوٹے حروف (a-z)",
+    "number": "عدد (0-9)",
+    "special": "خاص حروف (!@#$%)"
   },
   "unlock": "کھولیں",
   "lock": "لاک کریں",

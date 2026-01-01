@@ -448,11 +448,20 @@
   "showPassword": "Passwort anzeigen",
   "hidePassword": "Passwort verbergen",
   "passwordsDoNotMatch": "Passwörter stimmen nicht überein",
+  "passwordsMatch": "Passwörter stimmen überein",
   "passwordStrength": {
     "label": "Passwortstärke",
     "weak": "Schwach",
     "medium": "Mittel",
     "strong": "Stark"
+  },
+  "passwordRequirements": {
+    "title": "Tipps für starkes Passwort:",
+    "length": "Mindestens 8 Zeichen",
+    "uppercase": "Großbuchstabe (A-Z)",
+    "lowercase": "Kleinbuchstabe (a-z)",
+    "number": "Zahl (0-9)",
+    "special": "Sonderzeichen (!@#$%)"
   },
   "unlock": "Entsperren",
   "lock": "Sperren",
