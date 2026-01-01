@@ -3,6 +3,7 @@
  * 
  * Shows 2FA code input after successful password authentication.
  * Blocks login until valid TOTP code is provided.
+ * Includes option to remember device for future logins.
  */
 
 import { useState } from "react";
@@ -11,7 +12,14 @@ import { Shield, Loader2, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
+import { 
+  getCurrentDeviceFingerprint, 
+  getKnownDevices, 
+  saveKnownDevices,
+  getDeviceName 
+} from "@/lib/deviceFingerprint";
 
 interface TOTPChallengeFormProps {
   onVerified: () => void;
@@ -24,6 +32,29 @@ export function TOTPChallengeForm({ onVerified, onCancel, onUseBackupCode }: TOT
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [rememberDevice, setRememberDevice] = useState(false);
+
+  const markDeviceAsTrusted = () => {
+    const fingerprint = getCurrentDeviceFingerprint();
+    const devices = getKnownDevices();
+    const existingIndex = devices.findIndex(d => d.fingerprint === fingerprint);
+    
+    if (existingIndex !== -1) {
+      devices[existingIndex].trusted = true;
+      devices[existingIndex].lastSeen = new Date().toISOString();
+    } else {
+      // Add as new trusted device
+      devices.push({
+        fingerprint,
+        name: getDeviceName(),
+        firstSeen: new Date().toISOString(),
+        lastSeen: new Date().toISOString(),
+        trusted: true,
+      });
+    }
+    
+    saveKnownDevices(devices);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,6 +83,10 @@ export function TOTPChallengeForm({ onVerified, onCancel, onUseBackupCode }: TOT
       }
 
       if (data.verified) {
+        // Mark device as trusted if checkbox was checked
+        if (rememberDevice) {
+          markDeviceAsTrusted();
+        }
         onVerified();
       } else {
         setError(t("invalidCode", "Invalid verification code"));
@@ -99,6 +134,22 @@ export function TOTPChallengeForm({ onVerified, onCancel, onUseBackupCode }: TOT
             disabled={isLoading}
             autoFocus
           />
+        </div>
+
+        {/* Remember this device checkbox */}
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="remember-device"
+            checked={rememberDevice}
+            onCheckedChange={(checked) => setRememberDevice(checked === true)}
+            disabled={isLoading}
+          />
+          <Label 
+            htmlFor="remember-device" 
+            className="text-sm font-normal cursor-pointer"
+          >
+            {t("rememberDevice", "Remember this device for 30 days")}
+          </Label>
         </div>
 
         {error && (
