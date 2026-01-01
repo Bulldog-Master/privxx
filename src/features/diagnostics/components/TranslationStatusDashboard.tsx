@@ -189,23 +189,28 @@ export function TranslationStatusDashboard() {
           const missingKeys = referenceKeys.filter((k) => !langKeys.includes(k));
           const placeholderKeys: string[] = [];
 
-          // Count placeholder values
-          for (const key of langKeys) {
+          // Track which reference keys have real translations (not placeholders)
+          let translatedReferenceCount = 0;
+
+          for (const key of referenceKeys) {
             const value = getValueAtPath(langData, key);
-            if (typeof value === 'string' && isPlaceholder(value, langCode)) {
-              placeholderKeys.push(key);
+            if (typeof value === 'string') {
+              if (isPlaceholder(value, langCode)) {
+                placeholderKeys.push(key);
+              } else {
+                translatedReferenceCount++;
+              }
             }
           }
 
-          // Completion % = keys present (regardless of placeholder status)
+          // Completion % = reference keys present (regardless of placeholder status)
           const completionPercent = referenceKeys.length > 0
             ? Math.round(((referenceKeys.length - missingKeys.length) / referenceKeys.length) * 100)
             : 100;
 
-          // Quality % = keys that are NOT placeholders (actual translations)
-          const translatedKeys = langKeys.length - placeholderKeys.length;
+          // Quality % = reference keys with actual translations (not placeholders)
           const qualityPercent = referenceKeys.length > 0
-            ? Math.round((translatedKeys / referenceKeys.length) * 100)
+            ? Math.round((translatedReferenceCount / referenceKeys.length) * 100)
             : 100;
 
           return {

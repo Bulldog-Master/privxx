@@ -96,33 +96,18 @@ export function useProfile() {
     setError(null);
 
     try {
-      // Get current session for auth token
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.access_token) {
-        setIsLoading(false);
-        setError("Not authenticated");
-        return { error: "Not authenticated" };
-      }
-
-      // Upload via edge function for EXIF stripping
+      // Upload via backend function for EXIF stripping
       const formData = new FormData();
       formData.append("file", file);
 
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const response = await fetch(`${supabaseUrl}/functions/v1/process-avatar`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${session.access_token}`,
-        },
+      const { data, error: invokeError } = await supabase.functions.invoke("process-avatar", {
         body: formData,
       });
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        setIsLoading(false);
-        const errMsg = result.error || "Failed to upload avatar";
+      if (invokeError) {
+        const errMsg = "Failed to upload avatar";
         setError(errMsg);
+        setIsLoading(false);
         return { error: errMsg };
       }
 
@@ -130,7 +115,7 @@ export function useProfile() {
       await fetchProfile();
       setIsLoading(false);
 
-      return { error: null, data: result };
+      return { error: null, data };
     } catch (err) {
       setIsLoading(false);
       const errMsg = err instanceof Error ? err.message : "Upload failed";
