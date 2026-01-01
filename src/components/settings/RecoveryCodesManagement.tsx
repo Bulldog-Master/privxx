@@ -30,6 +30,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { useSecurityNotify } from "@/hooks/useSecurityNotify";
 
 interface RecoveryCodesManagementProps {
   userId: string;
@@ -38,6 +39,7 @@ interface RecoveryCodesManagementProps {
 
 export function RecoveryCodesManagement({ userId, is2FAEnabled }: RecoveryCodesManagementProps) {
   const { t } = useTranslation();
+  const { notify } = useSecurityNotify();
   const [showRegenerateDialog, setShowRegenerateDialog] = useState(false);
   const [showCodesDialog, setShowCodesDialog] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
@@ -70,6 +72,7 @@ export function RecoveryCodesManagement({ userId, is2FAEnabled }: RecoveryCodesM
         setShowCodesDialog(true);
         setVerificationCode("");
         toast.success(t("recoveryCodes.regenerated", "Backup codes regenerated"));
+        notify("recovery_codes_regenerated").catch(console.error);
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to regenerate codes";

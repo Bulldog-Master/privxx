@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { useSecurityNotify } from "@/hooks/useSecurityNotify";
 
 const TIMEOUT_OPTIONS = [
   { value: 5, label: "5 minutes" },
@@ -26,6 +27,7 @@ const TIMEOUT_OPTIONS = [
 export function SessionSettings() {
   const { t } = useTranslation();
   const { profile, fetchProfile, updateProfile, isLoading } = useProfile();
+  const { notify } = useSecurityNotify();
   const [timeout, setTimeout] = useState<number>(15);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -56,6 +58,7 @@ export function SessionSettings() {
     } else {
       toast.success(t("sessionSettingsSaved", "Session settings saved"));
       setHasChanges(false);
+      notify("session_timeout_changed", { timeout_minutes: timeout }).catch(console.error);
     }
   };
 
