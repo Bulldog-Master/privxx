@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import { useSecurityNotify } from "@/hooks/useSecurityNotify";
 
 interface Passkey {
   id: string;
@@ -40,6 +41,7 @@ interface PasskeyManagementProps {
 export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
   const { t } = useTranslation();
   const { isSupported, registerPasskey, isLoading: registering, error: registerError, checkPlatformAuthenticator, clearError } = usePasskey();
+  const { notify } = useSecurityNotify();
 
   const [passkeys, setPasskeys] = useState<Passkey[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,6 +78,7 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
     if (success) {
       toast.success(t("passkeyRegistered", "Passkey registered successfully"));
       fetchPasskeys();
+      notify("passkey_added").catch(console.error);
     } else if (registerError) {
       toast.error(registerError);
     }
@@ -95,6 +98,7 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
 
       toast.success(t("passkeyDeleted", "Passkey deleted"));
       setPasskeys(p => p.filter(pk => pk.id !== deleteId));
+      notify("passkey_removed").catch(console.error);
     } catch (error) {
       console.error('[PasskeyManagement] Failed to delete passkey:', error);
       toast.error(t("passkeyDeleteError", "Failed to delete passkey"));

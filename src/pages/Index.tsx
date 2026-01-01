@@ -2,11 +2,15 @@ import { lazy, Suspense } from "react";
 import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { PageBackground } from "@/components/layout/PageBackground";
+import { SecurityScoreIndicator } from "@/components/settings/SecurityScoreIndicator";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
 const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/DiagnosticsDrawer"));
 
 const Index = () => {
+  const { user } = useAuth();
+  
   return (
     <PageBackground>
       {/* Small teal sphere - left side (Index-specific) */}
@@ -33,6 +37,15 @@ const Index = () => {
         
         <main id="main-content" className="flex-1 flex flex-col items-center pt-44 sm:pt-52 px-4 sm:px-6 gap-5 pb-20" tabIndex={-1}>
           <PrivxxHeroWithUrl />
+          
+          {/* Security Score - only show when logged in */}
+          {user && (
+            <div className="w-full max-w-md flex justify-center">
+              <div className="px-6 py-4 rounded-lg border bg-card/80 backdrop-blur-sm">
+                <SecurityScoreIndicator size="sm" showLabel />
+              </div>
+            </div>
+          )}
           
           {/* Messaging panel with inbox + compose */}
           <div className="w-full max-w-md rounded-lg border bg-card/80 backdrop-blur-sm overflow-hidden">

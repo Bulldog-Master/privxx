@@ -31,6 +31,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { useSecurityNotify } from "@/hooks/useSecurityNotify";
 
 interface TOTPManagementProps {
   userId: string;
@@ -39,6 +40,7 @@ interface TOTPManagementProps {
 export function TOTPManagement({ userId }: TOTPManagementProps) {
   const { t } = useTranslation();
   const { getStatus, startSetup, verifyCode, disable, isLoading, error, clearError } = useTOTP();
+  const { notify } = useSecurityNotify();
 
   const [isEnabled, setIsEnabled] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
@@ -111,6 +113,7 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
     setSetupData(null);
     setIsEnabled(true);
     toast.success(t("twoFactorEnabled", "Two-factor authentication enabled"));
+    notify("2fa_enabled").catch(console.error);
   };
 
   const handleDisable = async () => {
@@ -125,6 +128,7 @@ export function TOTPManagement({ userId }: TOTPManagementProps) {
       setShowDisableDialog(false);
       setDisableCode("");
       toast.success(t("twoFactorDisabled", "Two-factor authentication disabled"));
+      notify("2fa_disabled").catch(console.error);
     }
   };
 
