@@ -8,3 +8,4 @@ export { NavLink } from "./NavLink";
 export { default as AppFooter } from "./AppFooter";
 export { AppErrorBoundary } from "./AppErrorBoundary";
 export { default as PrivacyDrawer } from "./PrivacyDrawer";
+export { BuildVersionBadge } from "./BuildVersionBadge";
