@@ -16,41 +16,61 @@ type ServiceStatus = "unknown" | "checking" | "available" | "unavailable";
 interface ServiceState {
   status: ServiceStatus;
   lastCheck: Date | null;
+  lastError: string | null;
+}
+
+type ServiceKey = "passkey" | "totp";
+
+function formatInvokeError(err: unknown): string {
+  if (!err) return "Unknown error";
+  if (typeof err === "string") return err;
+  if (err instanceof Error) return err.message;
+  try {
+    return JSON.stringify(err);
+  } catch {
+    return String(err);
+  }
 }
 
 export function AuthServiceDiagnostics() {
   const { t } = useTranslation();
-  const [passkeyService, setPasskeyService] = useState<ServiceState>({ status: "unknown", lastCheck: null });
-  const [totpService, setTotpService] = useState<ServiceState>({ status: "unknown", lastCheck: null });
+  const [passkeyService, setPasskeyService] = useState<ServiceState>({
+    status: "unknown",
+    lastCheck: null,
+    lastError: null,
+  });
+  const [totpService, setTotpService] = useState<ServiceState>({
+    status: "unknown",
+    lastCheck: null,
+    lastError: null,
+  });
 
-  const checkPasskey = useCallback(async () => {
-    setPasskeyService({ status: "checking", lastCheck: passkeyService.lastCheck });
+  const checkService = useCallback(async (service: ServiceKey) => {
+    const setState = service === "passkey" ? setPasskeyService : setTotpService;
+    const fnName = service === "passkey" ? "passkey-auth" : "totp-auth";
+
+    setState((prev) => ({ ...prev, status: "checking" }));
+
     try {
-      const { error } = await supabase.functions.invoke("passkey-auth", {
+      const { error } = await supabase.functions.invoke(fnName, {
         body: { action: "status" },
       });
-      setPasskeyService({ status: error?.message?.includes("non-2xx") ? "unavailable" : "available", lastCheck: new Date() });
-    } catch {
-      setPasskeyService({ status: "unavailable", lastCheck: new Date() });
-    }
-  }, [passkeyService.lastCheck]);
 
-  const checkTotp = useCallback(async () => {
-    setTotpService({ status: "checking", lastCheck: totpService.lastCheck });
-    try {
-      const { error } = await supabase.functions.invoke("totp-auth", {
-        body: { action: "status" },
-      });
-      setTotpService({ status: error?.message?.includes("non-2xx") ? "unavailable" : "available", lastCheck: new Date() });
-    } catch {
-      setTotpService({ status: "unavailable", lastCheck: new Date() });
+      if (error) {
+        setState({ status: "unavailable", lastCheck: new Date(), lastError: formatInvokeError(error) });
+        return;
+      }
+
+      setState({ status: "available", lastCheck: new Date(), lastError: null });
+    } catch (err) {
+      setState({ status: "unavailable", lastCheck: new Date(), lastError: formatInvokeError(err) });
     }
-  }, [totpService.lastCheck]);
+  }, []);
 
   const checkAll = useCallback(() => {
-    checkPasskey();
-    checkTotp();
-  }, [checkPasskey, checkTotp]);
+    checkService("passkey");
+    checkService("totp");
+  }, [checkService]);
 
   const getStatusIcon = (status: ServiceStatus) => {
     switch (status) {
@@ -104,6 +124,11 @@ export function AuthServiceDiagnostics() {
                     {t("authDiagnostics.lastCheck", "Last checked")} {formatDistanceToNow(passkeyService.lastCheck, { addSuffix: true })}
                   </p>
                 )}
+                {passkeyService.lastError && (
+                  <p className="text-xs text-destructive break-words">
+                    {passkeyService.lastError}
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -123,6 +148,11 @@ export function AuthServiceDiagnostics() {
                 {totpService.lastCheck && (
                   <p className="text-xs text-muted-foreground">
                     {t("authDiagnostics.lastCheck", "Last checked")} {formatDistanceToNow(totpService.lastCheck, { addSuffix: true })}
+                  </p>
+                )}
+                {totpService.lastError && (
+                  <p className="text-xs text-destructive break-words">
+                    {totpService.lastError}
                   </p>
                 )}
               </div>

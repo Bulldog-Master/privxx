@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageBackground } from "@/components/layout/PageBackground";
 import { PrivxxLogo } from "@/components/brand";
+import { AuthServiceDiagnostics } from "@/components/settings/AuthServiceDiagnostics";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { AccountSection } from "@/components/settings/AccountSection";
@@ -83,6 +84,9 @@ export default function Settings() {
 
           {/* Connection Alert History */}
           <ConnectionAlertHistory />
+
+          {/* Authentication Services Diagnostics */}
+          <AuthServiceDiagnostics />
 
           {/* Two-Factor Authentication */}
           <TOTPManagement userId={user.id} />
