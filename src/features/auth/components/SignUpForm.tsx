@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signUpSchema, type SignUpValues } from "../validation/schemas";
+import { PasswordStrengthIndicator } from "./PasswordStrengthIndicator";
 
 export function SignUpForm() {
   const { t } = useTranslation();
@@ -92,6 +93,7 @@ export function SignUpForm() {
             {form.formState.errors.password.message}
           </p>
         )}
+        <PasswordStrengthIndicator password={form.watch("password")} />
         <p className="text-xs text-muted-foreground">
           {t("passwordRequirement", "Password must be at least 6 characters")}
         </p>

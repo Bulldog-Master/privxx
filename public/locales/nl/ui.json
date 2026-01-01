@@ -570,6 +570,18 @@
   "identityUnlockDescription": "Voer je wachtwoord in om je privé-identiteit te ontgrendelen.",
   "password": "Wachtwoord",
   "passwordPlaceholder": "Voer je wachtwoord in",
+  "confirmPassword": "Bevestig wachtwoord",
+  "createPasswordPlaceholder": "Maak een wachtwoord",
+  "confirmPasswordPlaceholder": "Bevestig je wachtwoord",
+  "showPassword": "Wachtwoord tonen",
+  "hidePassword": "Wachtwoord verbergen",
+  "passwordsDoNotMatch": "Wachtwoorden komen niet overeen",
+  "passwordStrength": {
+    "label": "Wachtwoordsterkte",
+    "weak": "Zwak",
+    "medium": "Gemiddeld",
+    "strong": "Sterk"
+  },
   "unlock": "Ontgrendelen",
   "lock": "Vergrendelen",
   "cancel": "Annuleren",

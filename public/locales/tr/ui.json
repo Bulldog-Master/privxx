@@ -570,6 +570,18 @@
   "identityUnlockDescription": "Özel kimliğinizi açmak için şifrenizi girin.",
   "password": "Şifre",
   "passwordPlaceholder": "Şifrenizi girin",
+  "confirmPassword": "Şifreyi onayla",
+  "createPasswordPlaceholder": "Şifre oluşturun",
+  "confirmPasswordPlaceholder": "Şifrenizi onaylayın",
+  "showPassword": "Şifreyi göster",
+  "hidePassword": "Şifreyi gizle",
+  "passwordsDoNotMatch": "Şifreler eşleşmiyor",
+  "passwordStrength": {
+    "label": "Şifre gücü",
+    "weak": "Zayıf",
+    "medium": "Orta",
+    "strong": "Güçlü"
+  },
   "unlock": "Aç",
   "lock": "Kilitle",
   "cancel": "İptal",

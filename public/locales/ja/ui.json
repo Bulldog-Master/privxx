@@ -570,6 +570,18 @@
   "identityUnlockDescription": "パスワードを入力してプライベートIDをロック解除してください。",
   "password": "パスワード",
   "passwordPlaceholder": "パスワードを入力",
+  "confirmPassword": "パスワードを確認",
+  "createPasswordPlaceholder": "パスワードを作成",
+  "confirmPasswordPlaceholder": "パスワードを確認入力",
+  "showPassword": "パスワードを表示",
+  "hidePassword": "パスワードを非表示",
+  "passwordsDoNotMatch": "パスワードが一致しません",
+  "passwordStrength": {
+    "label": "パスワード強度",
+    "weak": "弱い",
+    "medium": "普通",
+    "strong": "強い"
+  },
   "unlock": "ロック解除",
   "lock": "ロック",
   "cancel": "キャンセル",

@@ -570,6 +570,18 @@
   "identityUnlockDescription": "输入密码以解锁您的私密身份。",
   "password": "密码",
   "passwordPlaceholder": "输入您的密码",
+  "confirmPassword": "确认密码",
+  "createPasswordPlaceholder": "创建密码",
+  "confirmPasswordPlaceholder": "确认您的密码",
+  "showPassword": "显示密码",
+  "hidePassword": "隐藏密码",
+  "passwordsDoNotMatch": "密码不匹配",
+  "passwordStrength": {
+    "label": "密码强度",
+    "weak": "弱",
+    "medium": "中等",
+    "strong": "强"
+  },
   "unlock": "解锁",
   "lock": "锁定",
   "cancel": "取消",

@@ -358,6 +358,18 @@
   "identityUnlockDescription": "הזן את הסיסמה שלך כדי לבטל את נעילת הזהות הפרטית שלך.",
   "password": "סיסמה",
   "passwordPlaceholder": "הזן את הסיסמה שלך",
+  "confirmPassword": "אשר סיסמה",
+  "createPasswordPlaceholder": "צור סיסמה",
+  "confirmPasswordPlaceholder": "אשר את הסיסמה שלך",
+  "showPassword": "הצג סיסמה",
+  "hidePassword": "הסתר סיסמה",
+  "passwordsDoNotMatch": "הסיסמאות אינן תואמות",
+  "passwordStrength": {
+    "label": "חוזק סיסמה",
+    "weak": "חלשה",
+    "medium": "בינונית",
+    "strong": "חזקה"
+  },
   "unlock": "בטל נעילה",
   "lock": "נעל",
   "cancel": "בטל",

@@ -358,6 +358,18 @@
   "identityUnlockDescription": "আপনার প্রাইভেট পরিচয় আনলক করতে পাসওয়ার্ড দিন।",
   "password": "পাসওয়ার্ড",
   "passwordPlaceholder": "আপনার পাসওয়ার্ড দিন",
+  "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+  "createPasswordPlaceholder": "একটি পাসওয়ার্ড তৈরি করুন",
+  "confirmPasswordPlaceholder": "আপনার পাসওয়ার্ড নিশ্চিত করুন",
+  "showPassword": "পাসওয়ার্ড দেখান",
+  "hidePassword": "পাসওয়ার্ড লুকান",
+  "passwordsDoNotMatch": "পাসওয়ার্ড মিলছে না",
+  "passwordStrength": {
+    "label": "পাসওয়ার্ড শক্তি",
+    "weak": "দুর্বল",
+    "medium": "মাঝারি",
+    "strong": "শক্তিশালী"
+  },
   "unlock": "আনলক",
   "lock": "লক",
   "cancel": "বাতিল",

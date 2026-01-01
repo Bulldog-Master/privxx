@@ -570,6 +570,18 @@
   "identityUnlockDescription": "अपनी निजी पहचान अनलॉक करने के लिए पासवर्ड दर्ज करें।",
   "password": "पासवर्ड",
   "passwordPlaceholder": "अपना पासवर्ड दर्ज करें",
+  "confirmPassword": "पासवर्ड की पुष्टि करें",
+  "createPasswordPlaceholder": "पासवर्ड बनाएं",
+  "confirmPasswordPlaceholder": "अपना पासवर्ड दोबारा दर्ज करें",
+  "showPassword": "पासवर्ड दिखाएं",
+  "hidePassword": "पासवर्ड छुपाएं",
+  "passwordsDoNotMatch": "पासवर्ड मेल नहीं खाते",
+  "passwordStrength": {
+    "label": "पासवर्ड मजबूती",
+    "weak": "कमज़ोर",
+    "medium": "मध्यम",
+    "strong": "मज़बूत"
+  },
   "unlock": "अनलॉक करें",
   "lock": "लॉक करें",
   "cancel": "रद्द करें",

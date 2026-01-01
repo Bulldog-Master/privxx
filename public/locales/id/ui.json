@@ -570,6 +570,18 @@
   "identityUnlockDescription": "Masukkan kata sandi untuk membuka kunci identitas privat Anda.",
   "password": "Kata Sandi",
   "passwordPlaceholder": "Masukkan kata sandi Anda",
+  "confirmPassword": "Konfirmasi Kata Sandi",
+  "createPasswordPlaceholder": "Buat kata sandi",
+  "confirmPasswordPlaceholder": "Konfirmasi kata sandi Anda",
+  "showPassword": "Tampilkan kata sandi",
+  "hidePassword": "Sembunyikan kata sandi",
+  "passwordsDoNotMatch": "Kata sandi tidak cocok",
+  "passwordStrength": {
+    "label": "Kekuatan kata sandi",
+    "weak": "Lemah",
+    "medium": "Sedang",
+    "strong": "Kuat"
+  },
   "unlock": "Buka Kunci",
   "lock": "Kunci",
   "cancel": "Batal",
