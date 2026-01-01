@@ -46,17 +46,30 @@ type Session struct {
 
 var session = &Session{State: StateIdle}
 
-// ConnectRequest is the payload for POST /connect
-type ConnectRequest struct {
-	TargetURL string `json:"targetUrl"`
+// ConnectIntent is the payload for POST /connect (Phase D schema)
+type ConnectIntent struct {
+	V         int    `json:"v"`               // Schema version (Phase D: 1)
+	Type      string `json:"type"`            // Must be "connect_intent"
+	RequestID string `json:"requestId"`       // Unique request identifier
+	SessionID string `json:"sessionId"`       // Session identifier
+	TargetURL string `json:"targetUrl"`       // URL entered by user
+	ClientTime string `json:"clientTime"`     // ISO timestamp
 }
 
-// ConnectResponse is returned from POST /connect
-type ConnectResponse struct {
-	Success   bool   `json:"success"`
-	SessionID string `json:"sessionId,omitempty"`
-	Error     string `json:"error,omitempty"`
+// ConnectAck is returned from POST /connect (Phase D schema)
+type ConnectAck struct {
+	V          int    `json:"v"`                       // Schema version (Phase D: 1)
+	Type       string `json:"type"`                    // Always "connect_ack"
+	RequestID  string `json:"requestId"`               // Must match intent
+	SessionID  string `json:"sessionId"`               // Must match intent
+	Ack        bool   `json:"ack"`                     // true = success
+	Status     string `json:"status"`                  // "connected" or "error"
+	ServerTime string `json:"serverTime,omitempty"`    // ISO timestamp
+	ErrorCode  string `json:"errorCode,omitempty"`     // Error code if ack=false
 }
+
+// Phase D schema version
+const PhaseDSchemaVersion = 1
 
 // StatusResponse is returned from GET /status
 type StatusResponse struct {
@@ -819,30 +832,60 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-// handleConnect initiates a cMixx connection
+// handleConnect processes Phase D connect_intent and returns connect_ack
 func handleConnect(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	var req ConnectRequest
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+	var intent ConnectIntent
+	if err := json.NewDecoder(r.Body).Decode(&intent); err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(ConnectResponse{
-			Success: false,
-			Error:   "Invalid request body",
+		json.NewEncoder(w).Encode(ConnectAck{
+			V:         PhaseDSchemaVersion,
+			Type:      "connect_ack",
+			RequestID: "",
+			SessionID: "",
+			Ack:       false,
+			Status:    "error",
+			ErrorCode: "INVALID_MESSAGE",
+			ServerTime: time.Now().UTC().Format(time.RFC3339),
 		})
 		return
 	}
 
-	if req.TargetURL == "" {
+	// Validate intent type
+	if intent.Type != "connect_intent" {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(ConnectResponse{
-			Success: false,
-			Error:   "targetUrl is required",
+		json.NewEncoder(w).Encode(ConnectAck{
+			V:         PhaseDSchemaVersion,
+			Type:      "connect_ack",
+			RequestID: intent.RequestID,
+			SessionID: intent.SessionID,
+			Ack:       false,
+			Status:    "error",
+			ErrorCode: "INVALID_MESSAGE",
+			ServerTime: time.Now().UTC().Format(time.RFC3339),
+		})
+		return
+	}
+
+	// Validate required fields
+	if intent.TargetURL == "" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(ConnectAck{
+			V:         PhaseDSchemaVersion,
+			Type:      "connect_ack",
+			RequestID: intent.RequestID,
+			SessionID: intent.SessionID,
+			Ack:       false,
+			Status:    "error",
+			ErrorCode: "INVALID_URL",
+			ServerTime: time.Now().UTC().Format(time.RFC3339),
 		})
 		return
 	}
@@ -850,39 +893,45 @@ func handleConnect(w http.ResponseWriter, r *http.Request) {
 	// Update session state
 	session.mu.Lock()
 	session.State = StateConnecting
-	session.TargetURL = req.TargetURL
+	session.TargetURL = intent.TargetURL
+	session.SessionID = intent.SessionID
 	now := time.Now()
 	session.StartedAt = &now
 	session.mu.Unlock()
 
 	// Privacy-preserving logging: only log domain, not full URL with parameters
-	if parsedURL, err := url.Parse(req.TargetURL); err == nil {
-		log.Printf("[CONNECT] Domain: %s", parsedURL.Host)
+	if parsedURL, err := url.Parse(intent.TargetURL); err == nil {
+		log.Printf("[CONNECT] Domain: %s, RequestID: %s", parsedURL.Host, intent.RequestID)
 	} else {
-		log.Printf("[CONNECT] Request received (URL parse error)")
+		log.Printf("[CONNECT] Request received (URL parse error), RequestID: %s", intent.RequestID)
 	}
 
 	// TODO: Replace with real xxDK/cMixx integration
-	// For now, simulate connection delay
-	go func() {
-		time.Sleep(2 * time.Second) // Simulated cMixx handshake
+	// For now, simulate synchronous connection (Phase D)
+	// In real implementation:
+	// 1. Send connect_intent via cMixx
+	// 2. Wait for connect_ack from server
+	// 3. Return the ack to frontend
+	
+	// Simulated cMixx handshake delay (in production, this would be async)
+	time.Sleep(500 * time.Millisecond)
 
-		session.mu.Lock()
-		defer session.mu.Unlock()
+	session.mu.Lock()
+	session.State = StateSecure
+	session.mu.Unlock()
 
-		// TODO: Actual cMixx message send/receive here
-		// msg := Message{Type: "connect", TargetURL: req.TargetURL, Timestamp: time.Now().Unix()}
-		// response, err := cmix.Send(serverReceptionID, msg)
+	log.Printf("[SECURE] Session: %s, RequestID: %s", intent.SessionID, intent.RequestID)
 
-		// Simulated success
-		session.State = StateSecure
-		session.SessionID = fmt.Sprintf("sim-%d", time.Now().UnixNano())
-		log.Printf("[SECURE] Session: %s", session.SessionID)
-	}()
-
+	// Return successful connect_ack
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(ConnectResponse{
-		Success: true,
+	json.NewEncoder(w).Encode(ConnectAck{
+		V:         PhaseDSchemaVersion,
+		Type:      "connect_ack",
+		RequestID: intent.RequestID,
+		SessionID: intent.SessionID,
+		Ack:       true,
+		Status:    "connected",
+		ServerTime: time.Now().UTC().Format(time.RFC3339),
 	})
 }
 
