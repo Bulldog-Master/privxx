@@ -16,13 +16,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 
 const DISMISSED_KEY = "privxx_passkey_onboarding_dismissed";
+const SETUP_COMPLETE_KEY = "privxx_passkey_setup_complete";
 const CHECK_DELAY_MS = 2000; // Wait 2s after auth before showing
 
 interface PasskeyOnboardingPromptProps {
   className?: string;
+  /** If true, show even if user dismissed on another page (useful for Settings) */
+  ignoreDismissed?: boolean;
 }
 
-export function PasskeyOnboardingPrompt({ className }: PasskeyOnboardingPromptProps) {
+export function PasskeyOnboardingPrompt({ className, ignoreDismissed = false }: PasskeyOnboardingPromptProps) {
   const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const { registerPasskey, isLoading, isSupported, checkPlatformAuthenticator } = usePasskey();
@@ -39,11 +42,20 @@ export function PasskeyOnboardingPrompt({ className }: PasskeyOnboardingPromptPr
       return;
     }
 
-    // Check if already dismissed
-    const dismissed = localStorage.getItem(DISMISSED_KEY);
-    if (dismissed === user.id) {
+    // Check if setup was completed (always respect this)
+    const setupComplete = localStorage.getItem(SETUP_COMPLETE_KEY);
+    if (setupComplete === user.id) {
       setShow(false);
       return;
+    }
+
+    // Check if already dismissed (skip if ignoreDismissed is true)
+    if (!ignoreDismissed) {
+      const dismissed = localStorage.getItem(DISMISSED_KEY);
+      if (dismissed === user.id) {
+        setShow(false);
+        return;
+      }
     }
 
     // Check platform authenticator support
@@ -85,7 +97,7 @@ export function PasskeyOnboardingPrompt({ className }: PasskeyOnboardingPromptPr
 
     checkSupport();
     checkPasskeys();
-  }, [isAuthenticated, user, checkPlatformAuthenticator]);
+  }, [isAuthenticated, user, checkPlatformAuthenticator, ignoreDismissed]);
 
   const handleDismiss = () => {
     if (user) {
@@ -102,9 +114,9 @@ export function PasskeyOnboardingPrompt({ className }: PasskeyOnboardingPromptPr
     if (success) {
       toast.success(t("passkeyRegistered", "Passkey set up successfully!"));
       setShow(false);
-      // Mark as completed so we don't show again
+      // Mark as completed so we don't show again anywhere
       if (user) {
-        localStorage.setItem(DISMISSED_KEY, user.id);
+        localStorage.setItem(SETUP_COMPLETE_KEY, user.id);
       }
     } else {
       toast.error(t("passkeySetupFailed", "Failed to set up passkey. You can try again later in Settings."));
