@@ -26,13 +26,13 @@ export function usePasskey() {
   /**
    * Register a new passkey for the current logged-in user
    */
-  const registerPasskey = useCallback(async (userId: string, email: string) => {
+  const registerPasskey = useCallback(async () => {
     setState({ isLoading: true, error: null });
 
     try {
-      // Get registration options from edge function
+      // Get registration options from edge function (JWT validated server-side)
       const { data: optionsData, error: optionsError } = await supabase.functions.invoke('passkey-auth', {
-        body: { action: 'registration-options', userId, email },
+        body: { action: 'registration-options' },
       });
 
       if (optionsError || !optionsData?.options) {
@@ -46,19 +46,17 @@ export function usePasskey() {
         optionsJSON: optionsData.options,
       });
 
-      // Verify and store credential
+      // Verify and store credential (JWT validated server-side)
       const { data: verifyData, error: verifyError } = await supabase.functions.invoke('passkey-auth', {
         body: {
           action: 'registration-verify',
-          userId,
-          email,
           credential: {
             id: credential.id,
-            publicKey: credential.response.publicKey,
-            counter: 0,
-            deviceType: credential.authenticatorAttachment || 'platform',
-            backedUp: credential.clientExtensionResults?.credProps?.rk || false,
-            transports: credential.response.transports || [],
+            rawId: credential.rawId,
+            response: credential.response,
+            authenticatorAttachment: credential.authenticatorAttachment,
+            clientExtensionResults: credential.clientExtensionResults,
+            type: credential.type,
           },
         },
       });

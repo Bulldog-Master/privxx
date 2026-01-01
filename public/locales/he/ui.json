@@ -763,5 +763,36 @@
   "connectionTimeline.connected": "מחובר",
   "connectionTimeline.degraded": "מוגבל",
   "connectionTimeline.disconnected": "מנותק",
-  "connectionTimeline.recentEvents": "אירועי קישוריות אחרונים"
+  "connectionTimeline.recentEvents": "אירועי קישוריות אחרונים",
+  
+  "authErrors": {
+    "connectionFailed": "החיבור לשירות האימות נכשל",
+    "registrationFailed": "רישום מפתח הגישה נכשל",
+    "authenticationFailed": "האימות נכשל",
+    "challengeExpired": "האתגר פג תוקף. אנא נסה שוב.",
+    "tooManyRequests": "יותר מדי בקשות. אנא נסה שוב מאוחר יותר.",
+    "invalidCode": "קוד לא תקין. אנא בדוק ונסה שוב.",
+    "accountLocked": "החשבון נעול זמנית. אנא נסה שוב מאוחר יותר.",
+    "sessionExpired": "הפגישה פגה תוקף. אנא התחבר שוב.",
+    "unauthorized": "נדרש אימות",
+    "totpSetupFailed": "התחלת הגדרת אימות דו-שלבי נכשלה",
+    "totpVerifyFailed": "אימות הקוד נכשל",
+    "totpDisableFailed": "השבתת אימות דו-שלבי נכשלה",
+    "totpStatusFailed": "קבלת סטטוס אימות דו-שלבי נכשלה",
+    "backupCodeInvalid": "קוד גיבוי לא תקין",
+    "passkeyNotSupported": "מפתחות גישה אינם נתמכים בדפדפן זה",
+    "platformAuthUnavailable": "אימות ביומטרי אינו זמין במכשיר זה"
+  },
+  
+  "authDiagnostics": {
+    "title": "שירותי אימות",
+    "description": "סטטוס נקודות קצה של מפתח גישה ואימות דו-שלבי",
+    "passkeyService": "שירות מפתח גישה",
+    "totpService": "שירות אימות דו-שלבי",
+    "lastCheck": "בדיקה אחרונה",
+    "checkNow": "בדוק עכשיו",
+    "available": "זמין",
+    "unavailable": "לא זמין",
+    "checking": "בודק..."
+  }
 }

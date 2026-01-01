@@ -767,5 +767,36 @@
   "connectionTimeline.connected": "已连接",
   "connectionTimeline.degraded": "降级",
   "connectionTimeline.disconnected": "已断开",
-  "connectionTimeline.recentEvents": "最近的连接事件"
+  "connectionTimeline.recentEvents": "最近的连接事件",
+  
+  "authErrors": {
+    "connectionFailed": "连接认证服务失败",
+    "registrationFailed": "通行密钥注册失败",
+    "authenticationFailed": "认证失败",
+    "challengeExpired": "挑战已过期。请重试。",
+    "tooManyRequests": "请求过多。请稍后重试。",
+    "invalidCode": "无效代码。请检查后重试。",
+    "accountLocked": "账户暂时锁定。请稍后重试。",
+    "sessionExpired": "会话已过期。请重新登录。",
+    "unauthorized": "需要认证",
+    "totpSetupFailed": "启动2FA设置失败",
+    "totpVerifyFailed": "验证代码失败",
+    "totpDisableFailed": "禁用2FA失败",
+    "totpStatusFailed": "获取2FA状态失败",
+    "backupCodeInvalid": "无效的备份代码",
+    "passkeyNotSupported": "此浏览器不支持通行密钥",
+    "platformAuthUnavailable": "此设备不支持生物识别认证"
+  },
+  
+  "authDiagnostics": {
+    "title": "认证服务",
+    "description": "通行密钥和2FA端点状态",
+    "passkeyService": "通行密钥服务",
+    "totpService": "2FA服务",
+    "lastCheck": "上次检查",
+    "checkNow": "立即检查",
+    "available": "可用",
+    "unavailable": "不可用",
+    "checking": "检查中..."
+  }
 }

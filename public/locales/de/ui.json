@@ -766,5 +766,36 @@
   "connectionTimeline.connected": "Verbunden",
   "connectionTimeline.degraded": "Beeinträchtigt",
   "connectionTimeline.disconnected": "Getrennt",
-  "connectionTimeline.recentEvents": "Aktuelle Verbindungsereignisse"
+  "connectionTimeline.recentEvents": "Aktuelle Verbindungsereignisse",
+  
+  "authErrors": {
+    "connectionFailed": "Verbindung zum Authentifizierungsdienst fehlgeschlagen",
+    "registrationFailed": "Passkey-Registrierung fehlgeschlagen",
+    "authenticationFailed": "Authentifizierung fehlgeschlagen",
+    "challengeExpired": "Challenge abgelaufen. Bitte erneut versuchen.",
+    "tooManyRequests": "Zu viele Anfragen. Bitte später erneut versuchen.",
+    "invalidCode": "Ungültiger Code. Bitte überprüfen und erneut versuchen.",
+    "accountLocked": "Konto vorübergehend gesperrt. Bitte später erneut versuchen.",
+    "sessionExpired": "Sitzung abgelaufen. Bitte erneut anmelden.",
+    "unauthorized": "Authentifizierung erforderlich",
+    "totpSetupFailed": "2FA-Einrichtung konnte nicht gestartet werden",
+    "totpVerifyFailed": "Code konnte nicht verifiziert werden",
+    "totpDisableFailed": "2FA konnte nicht deaktiviert werden",
+    "totpStatusFailed": "2FA-Status konnte nicht abgerufen werden",
+    "backupCodeInvalid": "Ungültiger Backup-Code",
+    "passkeyNotSupported": "Passkeys werden in diesem Browser nicht unterstützt",
+    "platformAuthUnavailable": "Biometrische Authentifizierung auf diesem Gerät nicht verfügbar"
+  },
+  
+  "authDiagnostics": {
+    "title": "Authentifizierungsdienste",
+    "description": "Status der Passkey- und 2FA-Endpunkte",
+    "passkeyService": "Passkey-Dienst",
+    "totpService": "2FA-Dienst",
+    "lastCheck": "Zuletzt geprüft",
+    "checkNow": "Jetzt prüfen",
+    "available": "Verfügbar",
+    "unavailable": "Nicht verfügbar",
+    "checking": "Wird geprüft..."
+  }
 }
