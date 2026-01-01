@@ -4,41 +4,53 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { PrivxxLogo } from "@/components/brand";
+import { useConnection, type ConnectionState } from "@/features/connection";
+import { useToast } from "@/hooks/useToast";
 
-export type ConnectionState = "idle" | "connecting" | "connected";
+// Re-export for backward compatibility
+export type { ConnectionState } from "@/features/connection";
 
 interface ConnectionCardProps {
   onConnect: (url: string, latency: number) => void;
-  connectionState: ConnectionState;
-  onStateChange: (state: ConnectionState) => void;
+  connectionState?: ConnectionState;
+  onStateChange?: (state: ConnectionState) => void;
 }
 
-const ConnectionCard = ({ onConnect, connectionState, onStateChange }: ConnectionCardProps) => {
+const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChange }: ConnectionCardProps) => {
   const [url, setUrl] = useState("");
   const { t } = useTranslation();
+  const { toast } = useToast();
+
+  // Use the new event-driven connection hook
+  const { state: internalState, connectTo, isConnecting } = useConnection({
+    onConnect: (result) => {
+      // Notify parent of successful connection with real latency
+      onConnect(url.trim().startsWith("http") ? url.trim() : `https://${url.trim()}`, result.latency);
+      onStateChange?.("connected");
+    },
+    onError: (result) => {
+      // Show user-friendly error toast
+      toast({
+        title: t("connectionFailed", "Connection failed"),
+        description: result.errorMessage || t("tryAgainLater", "Please try again later"),
+        variant: "destructive",
+      });
+      onStateChange?.("idle");
+    },
+    onStateChange: (newState) => {
+      onStateChange?.(newState);
+    },
+  });
+
+  // Use external state if provided (backward compatibility), otherwise use internal
+  const connectionState = externalState ?? internalState;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!url.trim() || connectionState === "connecting") return;
+    if (!url.trim() || isConnecting) return;
 
-    onStateChange("connecting");
-
-    // Randomized delay between 2-3 seconds
-    const delay = 2000 + Math.random() * 1000;
-    await new Promise((resolve) => setTimeout(resolve, delay));
-
-    // Generate simulated latency between 500-2500ms
-    const latency = Math.floor(500 + Math.random() * 2000);
-
-    onStateChange("connected");
-    
-    // Process URL
-    let processedUrl = url.trim();
-    if (!processedUrl.startsWith("http://") && !processedUrl.startsWith("https://")) {
-      processedUrl = "https://" + processedUrl;
-    }
-    
-    onConnect(processedUrl, latency);
+    // Use the connection service (handles demo/live mode internally)
+    await connectTo(url.trim());
   };
 
   const getStatusText = () => {
