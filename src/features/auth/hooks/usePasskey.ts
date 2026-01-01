@@ -175,12 +175,31 @@ export function usePasskey() {
     }
   }, [isSupported]);
 
+  /**
+   * Check if the device/browser likely supports usernameless (discoverable) passkey sign-in.
+   * We treat either a platform authenticator OR conditional mediation as sufficient.
+   */
+  const checkDiscoverableSupport = useCallback(async () => {
+    if (!isSupported) return false;
+
+    try {
+      const uvpaa = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      const cma = typeof (PublicKeyCredential as any).isConditionalMediationAvailable === "function"
+        ? await (PublicKeyCredential as any).isConditionalMediationAvailable()
+        : false;
+      return Boolean(uvpaa || cma);
+    } catch {
+      return false;
+    }
+  }, [isSupported]);
+
   return {
     ...state,
     isSupported,
     registerPasskey,
     authenticateWithPasskey,
     checkPlatformAuthenticator,
+    checkDiscoverableSupport,
     clearError,
   };
 }

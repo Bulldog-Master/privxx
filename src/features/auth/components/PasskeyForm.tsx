@@ -21,7 +21,7 @@ export function PasskeyForm() {
     isLoading,
     error: passkeyError,
     clearError,
-    checkPlatformAuthenticator,
+    checkDiscoverableSupport,
   } = usePasskey();
 
   const [email, setEmail] = useState("");
@@ -29,18 +29,18 @@ export function PasskeyForm() {
   const [supportsDiscoverable, setSupportsDiscoverable] = useState<boolean | null>(null);
   const [showEmailField, setShowEmailField] = useState(false);
 
-  // Check if device supports platform authenticator (discoverable passkeys)
+  // Check if device supports usernameless (discoverable) passkeys
   useEffect(() => {
     const checkSupport = async () => {
-      const supported = await checkPlatformAuthenticator();
+      const supported = await checkDiscoverableSupport();
       setSupportsDiscoverable(supported);
-      // If not supported, always show the email field
+      // If not supported, default to showing the email field
       if (!supported) {
         setShowEmailField(true);
       }
     };
     checkSupport();
-  }, [checkPlatformAuthenticator]);
+  }, [checkDiscoverableSupport]);
 
   const normalizeError = (raw: string) => {
     if (raw.toLowerCase().includes("edge function returned a non-2xx status code")) {
