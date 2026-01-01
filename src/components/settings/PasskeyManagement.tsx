@@ -6,12 +6,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Fingerprint, Plus, Trash2, Loader2, KeyRound, Smartphone, Monitor, AlertCircle, CheckCircle, Pencil, Check, X } from "lucide-react";
+import { Fingerprint, Plus, Trash2, Loader2, KeyRound, Smartphone, Monitor, AlertCircle, CheckCircle, Pencil, Check, X, Star } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { usePasskey } from "@/features/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { 
   AlertDialog,
   AlertDialogAction,
@@ -25,6 +26,7 @@ import {
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { useSecurityNotify } from "@/hooks/useSecurityNotify";
+import { getPasskeyNames, savePasskeyName, getDefaultPasskey, setDefaultPasskey } from "@/lib/deviceFingerprint";
 
 interface Passkey {
   id: string;
@@ -40,26 +42,9 @@ interface PasskeyManagementProps {
   email: string;
 }
 
-// Storage key for passkey custom names
-const PASSKEY_NAMES_KEY = "privxx_passkey_names";
-
-function getPasskeyNames(): Record<string, string> {
-  try {
-    const stored = localStorage.getItem(PASSKEY_NAMES_KEY);
-    return stored ? JSON.parse(stored) : {};
-  } catch {
-    return {};
-  }
-}
-
-function savePasskeyName(credentialId: string, name: string) {
-  const names = getPasskeyNames();
-  if (name.trim()) {
-    names[credentialId] = name.trim();
-  } else {
-    delete names[credentialId];
-  }
-  localStorage.setItem(PASSKEY_NAMES_KEY, JSON.stringify(names));
+// Passkey interface with local custom name
+interface PasskeyWithName extends Passkey {
+  isDefault?: boolean;
 }
 
 export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
@@ -67,13 +52,14 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
   const { isSupported, registerPasskey, isLoading: registering, error: registerError, checkPlatformAuthenticator, clearError } = usePasskey();
   const { notify } = useSecurityNotify();
 
-  const [passkeys, setPasskeys] = useState<Passkey[]>([]);
+  const [passkeys, setPasskeys] = useState<PasskeyWithName[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [hasPlatformAuth, setHasPlatformAuth] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
+  const [defaultCredentialId, setDefaultCredentialId] = useState<string | null>(null);
 
   const fetchPasskeys = useCallback(async () => {
     setIsLoading(true);
@@ -86,11 +72,15 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
 
       if (error) throw error;
       
-      // Merge with custom names from localStorage
+      // Merge with custom names and default status from localStorage
       const customNames = getPasskeyNames();
-      const passkeysWithNames = (data || []).map(p => ({
+      const defaultId = getDefaultPasskey();
+      setDefaultCredentialId(defaultId);
+      
+      const passkeysWithNames: PasskeyWithName[] = (data || []).map(p => ({
         ...p,
         custom_name: customNames[p.credential_id],
+        isDefault: p.credential_id === defaultId,
       }));
       
       setPasskeys(passkeysWithNames);
@@ -162,6 +152,24 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
   const handleCancelEdit = () => {
     setEditingId(null);
     setEditName("");
+  };
+
+  const handleSetDefault = (credentialId: string) => {
+    const isCurrentlyDefault = credentialId === defaultCredentialId;
+    const newDefault = isCurrentlyDefault ? null : credentialId;
+    
+    setDefaultPasskey(newDefault);
+    setDefaultCredentialId(newDefault);
+    setPasskeys(p => p.map(pk => ({
+      ...pk,
+      isDefault: pk.credential_id === newDefault,
+    })));
+    
+    toast.success(
+      isCurrentlyDefault 
+        ? t("defaultPasskeyCleared", "Default passkey cleared")
+        : t("defaultPasskeySet", "Set as default passkey")
+    );
   };
 
   const getDeviceIcon = (deviceType: string | null) => {
@@ -283,10 +291,16 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
                           </Button>
                         </div>
                       ) : (
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <p className="text-sm font-medium text-primary">
                             {passkey.custom_name || getDeviceLabel(passkey.device_type)}
                           </p>
+                          {passkey.isDefault && (
+                            <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 text-amber-600 border-amber-500/30 bg-amber-500/10">
+                              <Star className="h-2.5 w-2.5 mr-0.5 fill-amber-600" />
+                              {t("default", "Default")}
+                            </Badge>
+                          )}
                           <Button
                             variant="ghost"
                             size="icon"
@@ -305,14 +319,28 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
                       </p>
                     </div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setDeleteId(passkey.id)}
-                    className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleSetDefault(passkey.credential_id)}
+                      className={passkey.isDefault 
+                        ? "text-amber-600 hover:text-amber-700" 
+                        : "text-muted-foreground hover:text-amber-600"
+                      }
+                      title={passkey.isDefault ? t("clearDefault", "Clear default") : t("setAsDefault", "Set as default")}
+                    >
+                      <Star className={`h-4 w-4 ${passkey.isDefault ? "fill-amber-600" : ""}`} />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setDeleteId(passkey.id)}
+                      className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
