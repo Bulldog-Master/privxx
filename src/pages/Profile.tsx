@@ -19,6 +19,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PageBackground } from "@/components/layout/PageBackground";
 import { PrivxxLogo } from "@/components/brand";
+import { AvatarCropperDialog } from "@/components/profile";
 import { toast } from "sonner";
 
 export default function Profile() {
@@ -33,6 +34,8 @@ export default function Profile() {
   const [bio, setBio] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [cropperOpen, setCropperOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   // Fetch profile on mount
   useEffect(() => {
@@ -63,7 +66,7 @@ export default function Profile() {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -79,6 +82,20 @@ export default function Profile() {
       return;
     }
 
+    // Open cropper dialog
+    setSelectedFile(file);
+    setCropperOpen(true);
+
+    // Clear input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleCropComplete = async (croppedBlob: Blob) => {
+    // Convert blob to file for upload
+    const file = new File([croppedBlob], "avatar.png", { type: "image/png" });
+    
     setIsUploading(true);
     const result = await uploadAvatar(file);
     setIsUploading(false);
@@ -88,11 +105,8 @@ export default function Profile() {
     } else {
       toast.success(t("avatarUploaded", "Avatar uploaded successfully"));
     }
-
-    // Clear input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    
+    setSelectedFile(null);
   };
 
   const handleRemoveAvatar = async () => {
@@ -265,6 +279,14 @@ export default function Profile() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Avatar Cropper Dialog */}
+      <AvatarCropperDialog
+        open={cropperOpen}
+        onOpenChange={setCropperOpen}
+        imageFile={selectedFile}
+        onCropComplete={handleCropComplete}
+      />
     </PageBackground>
   );
 }

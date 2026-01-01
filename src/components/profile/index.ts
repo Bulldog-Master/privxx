@@ -1,0 +1,1 @@
+export { AvatarCropperDialog } from "./AvatarCropperDialog";
