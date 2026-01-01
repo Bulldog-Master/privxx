@@ -5,3 +5,5 @@ export { PasskeyForm } from "./PasskeyForm";
 export { ForgotPasswordForm } from "./ForgotPasswordForm";
 export { ResetPasswordForm } from "./ResetPasswordForm";
 export { AuthCard } from "./AuthCard";
+export { TOTPChallengeForm } from "./TOTPChallengeForm";
+export { BackupCodeChallengeForm } from "./BackupCodeChallengeForm";

@@ -3,7 +3,7 @@
  * 
  * Email/password sign-in with Zod validation.
  * Includes Cloudflare Turnstile CAPTCHA after 3 failed attempts.
- * Features password visibility toggle.
+ * Features password visibility toggle and 2FA challenge support.
  */
 
 import { useState, useEffect } from "react";
@@ -18,12 +18,17 @@ import { Label } from "@/components/ui/label";
 import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { useFailedAttempts } from "@/hooks/useFailedAttempts";
 import { supabase } from "@/integrations/supabase/client";
+import { isDeviceTrusted } from "@/hooks/useTrustedDevice";
 import { signInSchema, type SignInValues } from "../validation/schemas";
+import { TOTPChallengeForm } from "./TOTPChallengeForm";
+import { BackupCodeChallengeForm } from "./BackupCodeChallengeForm";
 import type { AuthMode } from "../hooks/useAuthMode";
 
 interface SignInFormProps {
   onModeChange: (mode: AuthMode) => void;
 }
+
+type ChallengeMode = "none" | "totp" | "backup";
 
 export function SignInForm({ onModeChange }: SignInFormProps) {
   const { t } = useTranslation();
@@ -33,6 +38,8 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
   const [resetTrigger, setResetTrigger] = useState(0);
   const [isVerifyingCaptcha, setIsVerifyingCaptcha] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [challengeMode, setChallengeMode] = useState<ChallengeMode>("none");
+  const [pendingCredentials, setPendingCredentials] = useState<SignInValues | null>(null);
 
   const {
     requiresCaptcha,
@@ -79,6 +86,24 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
     }
   };
 
+  const checkTOTPStatus = async (): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.functions.invoke("totp-auth", {
+        body: { action: "status" },
+      });
+
+      if (error) {
+        console.error("TOTP status check error:", error);
+        return false;
+      }
+
+      return data?.enabled === true;
+    } catch (err) {
+      console.error("Failed to check TOTP status:", err);
+      return false;
+    }
+  };
+
   const onSubmit = async (values: SignInValues) => {
     setServerError(null);
 
@@ -115,9 +140,41 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
       setTurnstileToken(null);
       setResetTrigger(prev => prev + 1);
     } else {
-      // Clear attempts on successful login
-      clearAttempts(values.email);
+      // Password auth succeeded - now check if 2FA is required
+      const hasTOTP = await checkTOTPStatus();
+      
+      if (hasTOTP) {
+        // Check if device is trusted
+        if (isDeviceTrusted()) {
+          // Device is trusted, allow login without 2FA challenge
+          console.log("[SignInForm] Device is trusted, skipping 2FA");
+          clearAttempts(values.email);
+        } else {
+          // Show 2FA challenge
+          setPendingCredentials(values);
+          setChallengeMode("totp");
+        }
+      } else {
+        // No 2FA, login complete
+        clearAttempts(values.email);
+      }
     }
+  };
+
+  const handleTOTPVerified = () => {
+    if (pendingCredentials) {
+      clearAttempts(pendingCredentials.email);
+    }
+    setChallengeMode("none");
+    setPendingCredentials(null);
+    // User is already authenticated, just clear the challenge state
+  };
+
+  const handleCancelChallenge = async () => {
+    // Sign out since they didn't complete 2FA
+    await supabase.auth.signOut();
+    setChallengeMode("none");
+    setPendingCredentials(null);
   };
 
   const handleTurnstileVerify = (token: string) => {
@@ -136,6 +193,27 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
   };
 
   const isFormDisabled = isSubmitting || isVerifyingCaptcha;
+
+  // Show TOTP challenge if required
+  if (challengeMode === "totp") {
+    return (
+      <TOTPChallengeForm
+        onVerified={handleTOTPVerified}
+        onCancel={handleCancelChallenge}
+        onUseBackupCode={() => setChallengeMode("backup")}
+      />
+    );
+  }
+
+  // Show backup code challenge
+  if (challengeMode === "backup") {
+    return (
+      <BackupCodeChallengeForm
+        onVerified={handleTOTPVerified}
+        onBack={() => setChallengeMode("totp")}
+      />
+    );
+  }
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
