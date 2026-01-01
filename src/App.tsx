@@ -31,6 +31,7 @@ const Settings = lazy(() => import("./pages/Settings"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Security = lazy(() => import("./pages/Security"));
 const Health = lazy(() => import("./pages/Health"));
+const BackendStatus = lazy(() => import("./pages/BackendStatus"));
 const ComponentDocs = lazy(() => import("./pages/ComponentDocs"));
 const Diagnostics = lazy(() => import("./pages/Diagnostics"));
 
@@ -138,6 +139,13 @@ function AppRoutes() {
                 <ProtectedRoute>
                   <Suspense fallback={<PageLoader />}>
                     <Health />
+                  </Suspense>
+                </ProtectedRoute>
+              } />
+              <Route path="/backend-status" element={
+                <ProtectedRoute>
+                  <Suspense fallback={<PageLoader />}>
+                    <BackendStatus />
                   </Suspense>
                 </ProtectedRoute>
               } />
