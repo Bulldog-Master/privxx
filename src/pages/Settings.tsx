@@ -20,6 +20,7 @@ import { NotificationSettings } from "@/components/settings/NotificationSettings
 import { AlertSettings } from "@/components/settings/AlertSettings";
 import { ConnectionAlertSettings } from "@/components/settings/ConnectionAlertSettings";
 import { ConnectionAlertHistory } from "@/components/settings/ConnectionAlertHistory";
+import { buildInfo } from "@/lib/buildInfo";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -109,8 +110,11 @@ export default function Settings() {
         </div>
 
         {/* Footer */}
-        <div className="mt-12 flex justify-center">
+        <div className="mt-12 flex flex-col items-center gap-2">
           <PrivxxLogo size="sm" />
+          <p className="text-xs text-muted-foreground font-mono select-all">
+            v{buildInfo.version}{buildInfo.build ? `+${buildInfo.build}` : ""}
+          </p>
         </div>
       </div>
     </PageBackground>
