@@ -37,6 +37,7 @@ import { KnownDevicesManagement } from "@/components/settings/KnownDevicesManage
 import { AlertSettings } from "@/components/settings/AlertSettings";
 import { ConnectionAlertSettings } from "@/components/settings/ConnectionAlertSettings";
 import { ConnectionAlertHistory } from "@/components/settings/ConnectionAlertHistory";
+import { TranslationStatusWidget } from "@/components/settings/TranslationStatusWidget";
 import { buildInfo } from "@/lib/buildInfo";
 
 export default function Settings() {
@@ -249,6 +250,9 @@ export default function Settings() {
               </CardContent>
             </Link>
           </Card>
+
+          {/* Translation Status */}
+          <TranslationStatusWidget />
         </div>
 
         {/* Footer */}
