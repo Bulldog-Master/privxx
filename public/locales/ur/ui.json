@@ -570,6 +570,18 @@
   "identityUnlockDescription": "اپنی نجی شناخت کھولنے کے لیے پاس ورڈ درج کریں۔",
   "password": "پاس ورڈ",
   "passwordPlaceholder": "اپنا پاس ورڈ درج کریں",
+  "confirmPassword": "پاس ورڈ کی تصدیق کریں",
+  "createPasswordPlaceholder": "پاس ورڈ بنائیں",
+  "confirmPasswordPlaceholder": "اپنے پاس ورڈ کی تصدیق کریں",
+  "showPassword": "پاس ورڈ دکھائیں",
+  "hidePassword": "پاس ورڈ چھپائیں",
+  "passwordsDoNotMatch": "پاس ورڈ مماثل نہیں ہیں",
+  "passwordStrength": {
+    "label": "پاس ورڈ کی مضبوطی",
+    "weak": "کمزور",
+    "medium": "درمیانہ",
+    "strong": "مضبوط"
+  },
   "unlock": "کھولیں",
   "lock": "لاک کریں",
   "cancel": "منسوخ کریں",

@@ -570,6 +570,18 @@
   "identityUnlockDescription": "Digite sua senha para desbloquear sua identidade privada.",
   "password": "Senha",
   "passwordPlaceholder": "Digite sua senha",
+  "confirmPassword": "Confirmar senha",
+  "createPasswordPlaceholder": "Crie uma senha",
+  "confirmPasswordPlaceholder": "Confirme sua senha",
+  "showPassword": "Mostrar senha",
+  "hidePassword": "Ocultar senha",
+  "passwordsDoNotMatch": "As senhas não coincidem",
+  "passwordStrength": {
+    "label": "Força da senha",
+    "weak": "Fraca",
+    "medium": "Média",
+    "strong": "Forte"
+  },
   "unlock": "Desbloquear",
   "lock": "Bloquear",
   "cancel": "Cancelar",

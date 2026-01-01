@@ -358,6 +358,18 @@
   "identityUnlockDescription": "אײַנגעבן אײַער פּאַסוואָרט צו אַנטשפּאַרן אײַער פּריוואַטע אידענטיטעט.",
   "password": "פּאַסוואָרט",
   "passwordPlaceholder": "אײַנגעבן אײַער פּאַסוואָרט",
+  "confirmPassword": "באַשטעטיקן פּאַסוואָרט",
+  "createPasswordPlaceholder": "שאַפֿן אַ פּאַסוואָרט",
+  "confirmPasswordPlaceholder": "באַשטעטיקן אײַער פּאַסוואָרט",
+  "showPassword": "ווײַזן פּאַסוואָרט",
+  "hidePassword": "באַהאַלטן פּאַסוואָרט",
+  "passwordsDoNotMatch": "פּאַסוואָרטן שטימען נישט",
+  "passwordStrength": {
+    "label": "פּאַסוואָרט שטאַרקייט",
+    "weak": "שוואַך",
+    "medium": "מיטל",
+    "strong": "שטאַרק"
+  },
   "unlock": "אַנטשפּאַרן",
   "lock": "פֿאַרשפּאַרן",
   "cancel": "אָפּזאָגן",

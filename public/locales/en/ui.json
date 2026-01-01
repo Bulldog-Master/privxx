@@ -538,6 +538,12 @@
   "showPassword": "Show password",
   "hidePassword": "Hide password",
   "passwordsDoNotMatch": "Passwords do not match",
+  "passwordStrength": {
+    "label": "Password strength",
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong"
+  },
   "signOut": "Sign Out",
   "signedOut": "Signed out successfully",
   "signOutError": "Failed to sign out",

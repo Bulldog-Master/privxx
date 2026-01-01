@@ -570,6 +570,18 @@
   "identityUnlockDescription": "Введите пароль для разблокировки приватной личности.",
   "password": "Пароль",
   "passwordPlaceholder": "Введите пароль",
+  "confirmPassword": "Подтвердите пароль",
+  "createPasswordPlaceholder": "Создайте пароль",
+  "confirmPasswordPlaceholder": "Подтвердите ваш пароль",
+  "showPassword": "Показать пароль",
+  "hidePassword": "Скрыть пароль",
+  "passwordsDoNotMatch": "Пароли не совпадают",
+  "passwordStrength": {
+    "label": "Надёжность пароля",
+    "weak": "Слабый",
+    "medium": "Средний",
+    "strong": "Надёжный"
+  },
   "unlock": "Разблокировать",
   "lock": "Заблокировать",
   "cancel": "Отмена",

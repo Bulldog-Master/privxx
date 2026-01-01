@@ -570,6 +570,18 @@
   "identityUnlockDescription": "개인 신원을 잠금 해제하려면 비밀번호를 입력하세요.",
   "password": "비밀번호",
   "passwordPlaceholder": "비밀번호를 입력하세요",
+  "confirmPassword": "비밀번호 확인",
+  "createPasswordPlaceholder": "비밀번호를 만드세요",
+  "confirmPasswordPlaceholder": "비밀번호를 다시 입력하세요",
+  "showPassword": "비밀번호 표시",
+  "hidePassword": "비밀번호 숨기기",
+  "passwordsDoNotMatch": "비밀번호가 일치하지 않습니다",
+  "passwordStrength": {
+    "label": "비밀번호 강도",
+    "weak": "약함",
+    "medium": "보통",
+    "strong": "강함"
+  },
   "unlock": "잠금 해제",
   "lock": "잠금",
   "cancel": "취소",

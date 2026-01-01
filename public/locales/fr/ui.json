@@ -442,6 +442,18 @@
   "identityUnlockDescription": "Entrez votre mot de passe pour déverrouiller votre identité privée.",
   "password": "Mot de passe",
   "passwordPlaceholder": "Entrez votre mot de passe",
+  "confirmPassword": "Confirmer le mot de passe",
+  "createPasswordPlaceholder": "Créez un mot de passe",
+  "confirmPasswordPlaceholder": "Confirmez votre mot de passe",
+  "showPassword": "Afficher le mot de passe",
+  "hidePassword": "Masquer le mot de passe",
+  "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
+  "passwordStrength": {
+    "label": "Force du mot de passe",
+    "weak": "Faible",
+    "medium": "Moyen",
+    "strong": "Fort"
+  },
   "unlock": "Déverrouiller",
   "lock": "Verrouiller",
   "cancel": "Annuler",

@@ -358,6 +358,18 @@
   "identityUnlockDescription": "Inserisci la tua password per sbloccare la tua identità privata.",
   "password": "Password",
   "passwordPlaceholder": "Inserisci la tua password",
+  "confirmPassword": "Conferma password",
+  "createPasswordPlaceholder": "Crea una password",
+  "confirmPasswordPlaceholder": "Conferma la tua password",
+  "showPassword": "Mostra password",
+  "hidePassword": "Nascondi password",
+  "passwordsDoNotMatch": "Le password non corrispondono",
+  "passwordStrength": {
+    "label": "Sicurezza password",
+    "weak": "Debole",
+    "medium": "Media",
+    "strong": "Forte"
+  },
   "unlock": "Sblocca",
   "lock": "Blocca",
   "cancel": "Annulla",

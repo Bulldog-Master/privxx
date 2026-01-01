@@ -442,6 +442,18 @@
   "identityUnlockDescription": "Geben Sie Ihr Passwort ein, um Ihre private Identität zu entsperren.",
   "password": "Passwort",
   "passwordPlaceholder": "Passwort eingeben",
+  "confirmPassword": "Passwort bestätigen",
+  "createPasswordPlaceholder": "Passwort erstellen",
+  "confirmPasswordPlaceholder": "Passwort bestätigen",
+  "showPassword": "Passwort anzeigen",
+  "hidePassword": "Passwort verbergen",
+  "passwordsDoNotMatch": "Passwörter stimmen nicht überein",
+  "passwordStrength": {
+    "label": "Passwortstärke",
+    "weak": "Schwach",
+    "medium": "Mittel",
+    "strong": "Stark"
+  },
   "unlock": "Entsperren",
   "lock": "Sperren",
   "cancel": "Abbrechen",

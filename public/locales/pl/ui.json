@@ -358,6 +358,18 @@
   "identityUnlockDescription": "Wprowadź hasło, aby odblokować swoją prywatną tożsamość.",
   "password": "Hasło",
   "passwordPlaceholder": "Wprowadź hasło",
+  "confirmPassword": "Potwierdź hasło",
+  "createPasswordPlaceholder": "Utwórz hasło",
+  "confirmPasswordPlaceholder": "Potwierdź swoje hasło",
+  "showPassword": "Pokaż hasło",
+  "hidePassword": "Ukryj hasło",
+  "passwordsDoNotMatch": "Hasła nie są zgodne",
+  "passwordStrength": {
+    "label": "Siła hasła",
+    "weak": "Słabe",
+    "medium": "Średnie",
+    "strong": "Silne"
+  },
   "unlock": "Odblokuj",
   "lock": "Zablokuj",
   "cancel": "Anuluj",
