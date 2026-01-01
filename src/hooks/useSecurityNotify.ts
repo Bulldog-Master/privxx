@@ -13,7 +13,8 @@ type SecurityEventType =
   | "passkey_removed"
   | "recovery_codes_regenerated"
   | "email_changed"
-  | "session_timeout_changed";
+  | "session_timeout_changed"
+  | "new_device_login";
 
 export function useSecurityNotify() {
   const notify = useCallback(async (

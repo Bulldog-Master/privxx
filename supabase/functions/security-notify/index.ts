@@ -23,7 +23,8 @@ interface NotifyRequest {
     | "passkey_removed"
     | "recovery_codes_regenerated"
     | "email_changed"
-    | "session_timeout_changed";
+    | "session_timeout_changed"
+    | "new_device_login";
   metadata?: Record<string, unknown>;
 }
 
@@ -67,6 +68,11 @@ const eventTemplates: Record<string, { subject: string; heading: string; message
     subject: "Session timeout settings changed on Privxx",
     heading: "Session Settings Changed",
     message: "Your session timeout settings have been updated.",
+  },
+  new_device_login: {
+    subject: "New device sign-in to your Privxx account",
+    heading: "New Device Sign-In",
+    message: "Your account was accessed from a new device. If this was you, you can ignore this email. If you don't recognize this activity, please secure your account immediately.",
   },
 };
 
@@ -115,12 +121,20 @@ const handler = async (req: Request): Promise<Response> => {
     // Check user's notification preferences
     const { data: prefData } = await supabase
       .from("notification_preferences")
-      .select("security_alerts")
+      .select("security_alerts, new_device_login")
       .eq("user_id", user.id)
       .maybeSingle();
 
-    // If preference exists and security_alerts is false, skip sending
-    if (prefData && prefData.security_alerts === false) {
+    // If preference exists and security_alerts is false, skip sending (except for new_device_login which has its own toggle)
+    if (event_type === "new_device_login") {
+      if (prefData && prefData.new_device_login === false) {
+        console.log(`User ${user.id} has new device login notifications disabled, skipping`);
+        return new Response(
+          JSON.stringify({ success: true, skipped: true, reason: "notifications_disabled" }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    } else if (prefData && prefData.security_alerts === false) {
       console.log(`User ${user.id} has security email notifications disabled, skipping`);
       return new Response(
         JSON.stringify({ success: true, skipped: true, reason: "notifications_disabled" }),
