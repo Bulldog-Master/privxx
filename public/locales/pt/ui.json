@@ -940,6 +940,8 @@
     "needsWork": "Precisa Melhorar"
   },
   
+  "saving": "Salvando...",
+  "saved": "Salvo",
   "invalidCodeLength": "O código deve ter 6 dígitos",
   "copyAllCodes": "Copiar Todos os Códigos"
 }

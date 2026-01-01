@@ -920,6 +920,8 @@
     "needsWork": "İyileştirme Gerekli"
   },
   
+  "saving": "Kaydediliyor...",
+  "saved": "Kaydedildi",
   "invalidCodeLength": "Kod 6 haneli olmalıdır",
   "copyAllCodes": "Tüm Kodları Kopyala"
 }

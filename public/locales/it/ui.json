@@ -922,6 +922,8 @@
     "needsWork": "Da Migliorare"
   },
   
+  "saving": "Salvataggio...",
+  "saved": "Salvato",
   "invalidCodeLength": "Il codice deve essere di 6 cifre",
   "copyAllCodes": "Copia Tutti i Codici"
 }

@@ -947,6 +947,8 @@
     "needsWork": "يحتاج تحسين"
   },
   
+  "saving": "جارٍ الحفظ...",
+  "saved": "تم الحفظ",
   "invalidCodeLength": "يجب أن يكون الرمز 6 أرقام",
   "copyAllCodes": "نسخ جميع الرموز"
 }

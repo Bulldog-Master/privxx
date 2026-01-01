@@ -926,6 +926,8 @@
     "needsWork": "Perlu Diperbaiki"
   },
   
+  "saving": "Menyimpan...",
+  "saved": "Tersimpan",
   "invalidCodeLength": "Kode harus 6 digit",
   "copyAllCodes": "Salin Semua Kode"
 }

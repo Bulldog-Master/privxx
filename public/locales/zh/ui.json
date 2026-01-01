@@ -940,6 +940,8 @@
     "needsWork": "需要改进"
   },
   
+  "saving": "保存中...",
+  "saved": "已保存",
   "invalidCodeLength": "代码必须为6位数字",
   "copyAllCodes": "复制所有代码"
 }

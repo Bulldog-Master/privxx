@@ -940,6 +940,8 @@
     "needsWork": "개선 필요"
   },
   
+  "saving": "저장 중...",
+  "saved": "저장됨",
   "invalidCodeLength": "코드는 6자리여야 합니다",
   "copyAllCodes": "모든 코드 복사"
 }

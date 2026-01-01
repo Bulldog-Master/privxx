@@ -920,6 +920,8 @@
     "needsWork": "Verbetering Nodig"
   },
   
+  "saving": "Opslaan...",
+  "saved": "Opgeslagen",
   "invalidCodeLength": "Code moet 6 cijfers zijn",
   "copyAllCodes": "Kopieer Alle Codes"
 }
