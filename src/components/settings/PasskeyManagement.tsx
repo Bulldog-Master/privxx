@@ -6,10 +6,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Fingerprint, Plus, Trash2, Loader2, KeyRound, Smartphone, Monitor, AlertCircle, CheckCircle } from "lucide-react";
+import { Fingerprint, Plus, Trash2, Loader2, KeyRound, Smartphone, Monitor, AlertCircle, CheckCircle, Pencil, Check, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { usePasskey } from "@/features/auth";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   AlertDialog,
@@ -31,11 +32,34 @@ interface Passkey {
   device_type: string | null;
   created_at: string;
   last_used_at: string | null;
+  custom_name?: string; // Local storage name
 }
 
 interface PasskeyManagementProps {
   userId: string;
   email: string;
+}
+
+// Storage key for passkey custom names
+const PASSKEY_NAMES_KEY = "privxx_passkey_names";
+
+function getPasskeyNames(): Record<string, string> {
+  try {
+    const stored = localStorage.getItem(PASSKEY_NAMES_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+}
+
+function savePasskeyName(credentialId: string, name: string) {
+  const names = getPasskeyNames();
+  if (name.trim()) {
+    names[credentialId] = name.trim();
+  } else {
+    delete names[credentialId];
+  }
+  localStorage.setItem(PASSKEY_NAMES_KEY, JSON.stringify(names));
 }
 
 export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
@@ -48,6 +72,8 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [hasPlatformAuth, setHasPlatformAuth] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
 
   const fetchPasskeys = useCallback(async () => {
     setIsLoading(true);
@@ -59,7 +85,15 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setPasskeys(data || []);
+      
+      // Merge with custom names from localStorage
+      const customNames = getPasskeyNames();
+      const passkeysWithNames = (data || []).map(p => ({
+        ...p,
+        custom_name: customNames[p.credential_id],
+      }));
+      
+      setPasskeys(passkeysWithNames);
     } catch (error) {
       console.error('[PasskeyManagement] Failed to fetch passkeys:', error);
     } finally {
@@ -106,6 +140,28 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
       setIsDeleting(false);
       setDeleteId(null);
     }
+  };
+
+  const handleStartEdit = (passkey: Passkey) => {
+    setEditingId(passkey.credential_id);
+    setEditName(passkey.custom_name || getDeviceLabel(passkey.device_type));
+  };
+
+  const handleSaveEdit = (credentialId: string) => {
+    savePasskeyName(credentialId, editName);
+    setPasskeys(p => p.map(pk => 
+      pk.credential_id === credentialId 
+        ? { ...pk, custom_name: editName.trim() || undefined }
+        : pk
+    ));
+    setEditingId(null);
+    setEditName("");
+    toast.success(t("passkeyRenamed", "Passkey renamed"));
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditName("");
   };
 
   const getDeviceIcon = (deviceType: string | null) => {
@@ -196,9 +252,51 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
                       {getDeviceIcon(passkey.device_type)}
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-primary">
-                        {getDeviceLabel(passkey.device_type)}
-                      </p>
+                      {editingId === passkey.credential_id ? (
+                        <div className="flex items-center gap-1">
+                          <Input
+                            value={editName}
+                            onChange={(e) => setEditName(e.target.value)}
+                            className="h-7 text-sm max-w-[180px]"
+                            placeholder={getDeviceLabel(passkey.device_type)}
+                            autoFocus
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") handleSaveEdit(passkey.credential_id);
+                              if (e.key === "Escape") handleCancelEdit();
+                            }}
+                          />
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 text-green-600 hover:text-green-700"
+                            onClick={() => handleSaveEdit(passkey.credential_id)}
+                          >
+                            <Check className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 text-muted-foreground hover:text-destructive"
+                            onClick={handleCancelEdit}
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-medium text-primary">
+                            {passkey.custom_name || getDeviceLabel(passkey.device_type)}
+                          </p>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-5 w-5 text-muted-foreground hover:text-primary"
+                            onClick={() => handleStartEdit(passkey)}
+                          >
+                            <Pencil className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      )}
                       <p className="text-xs text-primary/70">
                         {t("addedOn", "Added")} {formatDistanceToNow(new Date(passkey.created_at), { addSuffix: true })}
                         {passkey.last_used_at && (
