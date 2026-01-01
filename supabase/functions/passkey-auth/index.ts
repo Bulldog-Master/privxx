@@ -34,6 +34,16 @@ function base64UrlDecode(str: string): Uint8Array {
   return bytes;
 }
 
+// Normalize base64/base64url strings to base64url (no padding)
+function normalizeBase64Url(value: string): string {
+  // Accept base64url or base64. Convert to base64url without padding.
+  return value
+    .trim()
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/g, '');
+}
+
 // Get expected origin(s) for WebAuthn verification
 function getExpectedOrigins(origin: string | null): string[] {
   const origins: string[] = [];
@@ -480,11 +490,16 @@ serve(async (req) => {
           });
         }
 
+        // Normalize incoming credential IDs (some browsers may send padded base64)
+        const credentialId = normalizeBase64Url(String(credential.id));
+        const rawId = credential.rawId ? normalizeBase64Url(String(credential.rawId)) : credentialId;
+        const credentialForVerify = { ...credential, id: credentialId, rawId };
+
         // Find the credential by ID
         const { data: storedCred, error: credError } = await supabase
           .from('passkey_credentials')
           .select('*')
-          .eq('credential_id', credential.id)
+          .eq('credential_id', credentialId)
           .single();
 
         if (credError || !storedCred) {
@@ -497,17 +512,17 @@ serve(async (req) => {
         // Perform cryptographic verification of the authentication response
         let verification;
         try {
-          verification = await verifyAuthenticationResponse({
-            response: credential,
-            expectedChallenge: challengeData.challenge,
-            expectedOrigin: getExpectedOrigins(requestOrigin),
-            expectedRPID: rpId,
-            credential: {
-              id: storedCred.credential_id,
-              publicKey: base64UrlDecode(storedCred.public_key),
-              counter: storedCred.counter,
-            },
-          });
+           verification = await verifyAuthenticationResponse({
+             response: credentialForVerify,
+             expectedChallenge: challengeData.challenge,
+             expectedOrigin: getExpectedOrigins(requestOrigin),
+             expectedRPID: rpId,
+             credential: {
+               id: storedCred.credential_id,
+               publicKey: base64UrlDecode(storedCred.public_key),
+               counter: storedCred.counter,
+             },
+           });
         } catch (verifyError) {
           console.error('[passkey-auth] Authentication verification failed:', verifyError);
           // Log failed authentication
@@ -532,9 +547,11 @@ serve(async (req) => {
           });
         }
 
-        // Verify counter to prevent replay attacks
+        // Verify counter to prevent replay attacks.
+        // Some authenticators legitimately return 0 for all assertions; treat (0 -> 0) as "counter not supported".
         const { authenticationInfo } = verification;
-        if (authenticationInfo.newCounter <= storedCred.counter) {
+        const countersInUse = storedCred.counter > 0 || authenticationInfo.newCounter > 0;
+        if (countersInUse && authenticationInfo.newCounter <= storedCred.counter) {
           console.error('[passkey-auth] Counter replay detected:', {
             storedCounter: storedCred.counter,
             newCounter: authenticationInfo.newCounter,
@@ -545,9 +562,11 @@ serve(async (req) => {
           });
         }
 
-        // Update counter and last used with verified counter
+        // Update counter and last used
+        // If counters aren't in use, keep stored counter unchanged.
+        const nextCounter = countersInUse ? authenticationInfo.newCounter : storedCred.counter;
         await supabase.from('passkey_credentials').update({
-          counter: authenticationInfo.newCounter,
+          counter: nextCounter,
           last_used_at: new Date().toISOString(),
         }).eq('id', storedCred.id);
 

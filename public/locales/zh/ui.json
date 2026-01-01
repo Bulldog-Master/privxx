@@ -877,7 +877,7 @@
     "step1Title": "使用邮箱/密码登录",
     "step1Desc": "您必须先登录才能注册通行密钥。",
     "step2Title": "注册通行密钥",
-    "step2Desc": "使用上方的"添加通行密钥"按钮注册Touch ID、Face ID或安全密钥。",
+    "step2Desc": "使用上方的\"添加通行密钥\"按钮注册Touch ID、Face ID或安全密钥。",
     "step3Title": "退出登录",
     "step3Desc": "退出账户以测试通行密钥登录。",
     "step4Title": "使用通行密钥登录",
