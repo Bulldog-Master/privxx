@@ -915,6 +915,17 @@
     "backendNote": "Configuraciones como 'Protección contra Contraseñas Filtradas' se configuran en el panel de backend y no se pueden verificar desde la aplicación."
   },
   
+  "securityScore": {
+    "title": "Puntuación de Seguridad",
+    "description": "Basada en la configuración de seguridad de tu cuenta",
+    "outOf": "/ 100",
+    "unknown": "Desconocido",
+    "excellent": "Excelente",
+    "good": "Bueno",
+    "fair": "Regular",
+    "needsWork": "Necesita Mejoras"
+  },
+  
   "invalidCodeLength": "El código debe tener 6 dígitos",
   "copyAllCodes": "Copiar Todos los Códigos"
 }

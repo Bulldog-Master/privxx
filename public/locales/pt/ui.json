@@ -910,6 +910,17 @@
     "checkFailed": "Não foi possível verificar o status",
     "backendNote": "Configurações como 'Proteção contra Senhas Vazadas' são configuradas no painel do backend e não podem ser verificadas a partir do aplicativo."
   },
+  "securityScore": {
+    "title": "Pontuação de Segurança",
+    "description": "Baseada nas configurações de segurança da sua conta",
+    "outOf": "/ 100",
+    "unknown": "Desconhecido",
+    "excellent": "Excelente",
+    "good": "Bom",
+    "fair": "Regular",
+    "needsWork": "Precisa Melhorar"
+  },
+  
   "invalidCodeLength": "O código deve ter 6 dígitos",
   "copyAllCodes": "Copiar Todos os Códigos"
 }

@@ -915,6 +915,17 @@
     "backendNote": "Einstellungen wie 'Schutz vor kompromittierten Passwörtern' werden im Backend-Panel konfiguriert und können nicht aus der App überprüft werden."
   },
   
+  "securityScore": {
+    "title": "Sicherheitsbewertung",
+    "description": "Basierend auf Ihren Konto-Sicherheitseinstellungen",
+    "outOf": "/ 100",
+    "unknown": "Unbekannt",
+    "excellent": "Ausgezeichnet",
+    "good": "Gut",
+    "fair": "Akzeptabel",
+    "needsWork": "Verbesserungsbedarf"
+  },
+  
   "invalidCodeLength": "Der Code muss 6 Ziffern haben",
   "copyAllCodes": "Alle Codes Kopieren"
 }

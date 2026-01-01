@@ -910,6 +910,17 @@
     "checkFailed": "상태 확인 실패",
     "backendNote": "'유출 비밀번호 보호'와 같은 설정은 백엔드 패널에서 구성됩니다."
   },
+  "securityScore": {
+    "title": "보안 점수",
+    "description": "계정 보안 설정 기준",
+    "outOf": "/ 100",
+    "unknown": "알 수 없음",
+    "excellent": "우수",
+    "good": "좋음",
+    "fair": "보통",
+    "needsWork": "개선 필요"
+  },
+  
   "invalidCodeLength": "코드는 6자리여야 합니다",
   "copyAllCodes": "모든 코드 복사"
 }

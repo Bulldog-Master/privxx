@@ -910,6 +910,17 @@
     "checkFailed": "无法检查状态",
     "backendNote": ""泄露密码保护"等设置在后端面板中配置，无法从应用中检查。"
   },
+  "securityScore": {
+    "title": "安全评分",
+    "description": "基于您的账户安全设置",
+    "outOf": "/ 100",
+    "unknown": "未知",
+    "excellent": "优秀",
+    "good": "良好",
+    "fair": "一般",
+    "needsWork": "需要改进"
+  },
+  
   "invalidCodeLength": "代码必须为6位数字",
   "copyAllCodes": "复制所有代码"
 }

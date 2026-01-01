@@ -915,6 +915,17 @@
     "backendNote": "Les paramètres comme 'Protection contre les Mots de Passe Compromis' sont configurés dans le panneau backend et ne peuvent pas être vérifiés depuis l'application."
   },
   
+  "securityScore": {
+    "title": "Score de Sécurité",
+    "description": "Basé sur les paramètres de sécurité de votre compte",
+    "outOf": "/ 100",
+    "unknown": "Inconnu",
+    "excellent": "Excellent",
+    "good": "Bon",
+    "fair": "Correct",
+    "needsWork": "À Améliorer"
+  },
+  
   "invalidCodeLength": "Le code doit contenir 6 chiffres",
   "copyAllCodes": "Copier Tous les Codes"
 }
