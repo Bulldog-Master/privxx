@@ -591,6 +591,9 @@
     "number": "Rakam (0-9)",
     "special": "Özel karakter (!@#$%)"
   },
+  "generatePassword": "Güçlü şifre oluştur",
+  "copyPassword": "Şifreyi kopyala",
+  "passwordCopied": "Kopyalandı!",
   "unlock": "Aç",
   "lock": "Kilitle",
   "cancel": "İptal",

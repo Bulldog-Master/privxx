@@ -379,6 +379,9 @@
     "number": "Numero (0-9)",
     "special": "Carattere speciale (!@#$%)"
   },
+  "generatePassword": "Genera password sicura",
+  "copyPassword": "Copia password",
+  "passwordCopied": "Copiato!",
   "unlock": "Sblocca",
   "lock": "Blocca",
   "cancel": "Annulla",

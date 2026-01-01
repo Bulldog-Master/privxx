@@ -591,6 +591,9 @@
     "number": "Cijfer (0-9)",
     "special": "Speciaal teken (!@#$%)"
   },
+  "generatePassword": "Sterk wachtwoord genereren",
+  "copyPassword": "Wachtwoord kopiëren",
+  "passwordCopied": "Gekopieerd!",
   "unlock": "Ontgrendelen",
   "lock": "Vergrendelen",
   "cancel": "Annuleren",

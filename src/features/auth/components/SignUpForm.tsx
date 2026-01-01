@@ -9,14 +9,15 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, Loader2, ArrowRight, Eye, EyeOff, Check, X, Info } from "lucide-react";
+import { Mail, Lock, Loader2, ArrowRight, Eye, EyeOff, Check, X } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { signUpSchema, type SignUpValues } from "../validation/schemas";
 import { PasswordStrengthIndicator } from "./PasswordStrengthIndicator";
+import { PasswordRequirementsList } from "./PasswordRequirementsList";
+import { PasswordGenerator } from "./PasswordGenerator";
 
 export function SignUpForm() {
   const { t } = useTranslation();
@@ -64,25 +65,16 @@ export function SignUpForm() {
       </div>
 
       <div className="space-y-2">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between">
           <Label htmlFor="signup-password">{t("password", "Password")}</Label>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent className="max-w-xs">
-                <p className="font-medium mb-1">{t("passwordRequirements.title", "Strong password tips:")}</p>
-                <ul className="text-xs space-y-0.5 list-disc list-inside">
-                  <li>{t("passwordRequirements.length", "At least 8 characters")}</li>
-                  <li>{t("passwordRequirements.uppercase", "Uppercase letter (A-Z)")}</li>
-                  <li>{t("passwordRequirements.lowercase", "Lowercase letter (a-z)")}</li>
-                  <li>{t("passwordRequirements.number", "Number (0-9)")}</li>
-                  <li>{t("passwordRequirements.special", "Special character (!@#$%)")}</li>
-                </ul>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <PasswordGenerator 
+            onGenerate={(password) => {
+              form.setValue("password", password);
+              form.setValue("confirmPassword", password);
+              setShowPassword(true);
+              setShowConfirmPassword(true);
+            }} 
+          />
         </div>
         <div className="relative">
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -114,6 +106,7 @@ export function SignUpForm() {
           </p>
         )}
         <PasswordStrengthIndicator password={form.watch("password")} />
+        <PasswordRequirementsList password={form.watch("password")} />
       </div>
 
       <div className="space-y-2">

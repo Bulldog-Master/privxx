@@ -591,6 +591,9 @@
     "number": "Angka (0-9)",
     "special": "Karakter khusus (!@#$%)"
   },
+  "generatePassword": "Buat kata sandi kuat",
+  "copyPassword": "Salin kata sandi",
+  "passwordCopied": "Tersalin!",
   "unlock": "Buka Kunci",
   "lock": "Kunci",
   "cancel": "Batal",

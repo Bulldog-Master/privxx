@@ -553,6 +553,9 @@
     "number": "Number (0-9)",
     "special": "Special character (!@#$%)"
   },
+  "generatePassword": "Generate strong password",
+  "copyPassword": "Copy password",
+  "passwordCopied": "Copied!",
   "signOut": "Sign Out",
   "signedOut": "Signed out successfully",
   "signOutError": "Failed to sign out",
