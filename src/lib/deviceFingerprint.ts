@@ -76,6 +76,7 @@ export interface KnownDevice {
   name: string;
   firstSeen: string;
   lastSeen: string;
+  trusted?: boolean;
 }
 
 /**
@@ -93,7 +94,7 @@ export function getKnownDevices(): KnownDevice[] {
 /**
  * Saves the list of known devices.
  */
-function saveKnownDevices(devices: KnownDevice[]): void {
+export function saveKnownDevices(devices: KnownDevice[]): void {
   try {
     localStorage.setItem(KNOWN_DEVICES_KEY, JSON.stringify(devices));
   } catch {

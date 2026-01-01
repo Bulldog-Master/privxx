@@ -81,6 +81,7 @@ export type Database = {
           digest_frequency: string
           id: string
           new_device_login: boolean
+          notification_channels: Json
           security_alerts: boolean
           session_warnings: boolean
           updated_at: string
@@ -92,6 +93,7 @@ export type Database = {
           digest_frequency?: string
           id?: string
           new_device_login?: boolean
+          notification_channels?: Json
           security_alerts?: boolean
           session_warnings?: boolean
           updated_at?: string
@@ -103,6 +105,7 @@ export type Database = {
           digest_frequency?: string
           id?: string
           new_device_login?: boolean
+          notification_channels?: Json
           security_alerts?: boolean
           session_warnings?: boolean
           updated_at?: string
