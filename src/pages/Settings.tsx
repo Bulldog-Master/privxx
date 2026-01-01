@@ -15,6 +15,7 @@ import { BuildVersionBadge, StaleBuildWarning } from "@/components/shared";
 import { PrivxxLogo } from "@/components/brand";
 import { AuthServiceDiagnostics } from "@/components/settings/AuthServiceDiagnostics";
 import { BackendHealthPanel } from "@/components/settings/BackendHealthPanel";
+import { ForceRefreshCard } from "@/components/settings/ForceRefreshCard";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { AccountSection } from "@/components/settings/AccountSection";
@@ -55,6 +56,11 @@ export default function Settings() {
 
         {/* Stale Build Warning */}
         <StaleBuildWarning />
+
+        {/* Force Refresh (stale cache breaker) */}
+        <div className="mt-4">
+          <ForceRefreshCard />
+        </div>
 
         <div className="space-y-6 mt-6">
           {/* Profile Link */}
