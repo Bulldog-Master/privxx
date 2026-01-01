@@ -29,6 +29,8 @@ import { AccountSection } from "@/components/settings/AccountSection";
 import { SessionSettings } from "@/components/settings/SessionSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { PushNotificationSettings } from "@/components/settings/PushNotificationSettings";
+import { NotificationDigestSettings } from "@/components/settings/NotificationDigestSettings";
+import { KnownDevicesManagement } from "@/components/settings/KnownDevicesManagement";
 import { AlertSettings } from "@/components/settings/AlertSettings";
 import { ConnectionAlertSettings } from "@/components/settings/ConnectionAlertSettings";
 import { ConnectionAlertHistory } from "@/components/settings/ConnectionAlertHistory";
@@ -121,6 +123,12 @@ export default function Settings() {
 
           {/* Push Notifications */}
           <PushNotificationSettings />
+
+          {/* Email Digest Settings */}
+          <NotificationDigestSettings />
+
+          {/* Known Devices Management */}
+          <KnownDevicesManagement />
 
           {/* Alert Settings (Sound/Vibration) */}
           <AlertSettings />

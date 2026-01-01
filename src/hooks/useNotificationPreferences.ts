@@ -13,6 +13,7 @@ export interface NotificationPreferences {
   security_alerts: boolean;
   connection_updates: boolean;
   new_device_login: boolean;
+  digest_frequency: "immediate" | "daily" | "weekly";
   created_at: string;
   updated_at: string;
 }
@@ -68,7 +69,7 @@ export function useNotificationPreferences() {
   }, [fetchPreferences]);
 
   const updatePreference = useCallback(
-    async (key: keyof Pick<NotificationPreferences, "session_warnings" | "security_alerts" | "connection_updates" | "new_device_login">, value: boolean) => {
+    async (key: keyof Pick<NotificationPreferences, "session_warnings" | "security_alerts" | "connection_updates" | "new_device_login" | "digest_frequency">, value: boolean | string) => {
       if (!user || !preferences) return;
 
       try {

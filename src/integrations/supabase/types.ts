@@ -78,6 +78,7 @@ export type Database = {
         Row: {
           connection_updates: boolean
           created_at: string
+          digest_frequency: string
           id: string
           new_device_login: boolean
           security_alerts: boolean
@@ -88,6 +89,7 @@ export type Database = {
         Insert: {
           connection_updates?: boolean
           created_at?: string
+          digest_frequency?: string
           id?: string
           new_device_login?: boolean
           security_alerts?: boolean
@@ -98,6 +100,7 @@ export type Database = {
         Update: {
           connection_updates?: boolean
           created_at?: string
+          digest_frequency?: string
           id?: string
           new_device_login?: boolean
           security_alerts?: boolean
