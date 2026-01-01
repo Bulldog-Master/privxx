@@ -770,8 +770,22 @@
   "connectionTimeline.recentEvents": "Recente verbindingsgebeurtenissen",
   
   "authErrors": {
-    "serviceFailed": "Kan geen verbinding maken met authenticatieservice",
-    "tryAgain": "Er is een interne fout opgetreden. Probeer het later opnieuw."
+    "connectionFailed": "Kan geen verbinding maken met authenticatieservice",
+    "registrationFailed": "Passkey registratie mislukt",
+    "authenticationFailed": "Authenticatie mislukt",
+    "challengeExpired": "Uitdaging verlopen. Probeer opnieuw.",
+    "tooManyRequests": "Te veel verzoeken. Probeer later opnieuw.",
+    "invalidCode": "Ongeldige code. Controleer en probeer opnieuw.",
+    "accountLocked": "Account tijdelijk vergrendeld. Probeer later opnieuw.",
+    "sessionExpired": "Sessie verlopen. Log opnieuw in.",
+    "unauthorized": "Authenticatie vereist",
+    "totpSetupFailed": "Kan 2FA-configuratie niet starten",
+    "totpVerifyFailed": "Codeverificatie mislukt",
+    "totpDisableFailed": "Kan 2FA niet uitschakelen",
+    "totpStatusFailed": "Kan 2FA-status niet ophalen",
+    "backupCodeInvalid": "Ongeldige back-upcode",
+    "passkeyNotSupported": "Passkeys worden niet ondersteund in deze browser",
+    "platformAuthUnavailable": "Biometrische authenticatie niet beschikbaar op dit apparaat"
   },
   "authDiagnostics": {
     "title": "Authenticatieservices",

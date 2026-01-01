@@ -770,8 +770,22 @@
   "connectionTimeline.recentEvents": "Peristiwa konektivitas terbaru",
   
   "authErrors": {
-    "serviceFailed": "Gagal terhubung ke layanan autentikasi",
-    "tryAgain": "Terjadi kesalahan internal. Silakan coba lagi nanti."
+    "connectionFailed": "Gagal terhubung ke layanan autentikasi",
+    "registrationFailed": "Pendaftaran passkey gagal",
+    "authenticationFailed": "Autentikasi gagal",
+    "challengeExpired": "Tantangan kedaluwarsa. Silakan coba lagi.",
+    "tooManyRequests": "Terlalu banyak permintaan. Coba lagi nanti.",
+    "invalidCode": "Kode tidak valid. Periksa dan coba lagi.",
+    "accountLocked": "Akun sementara terkunci. Coba lagi nanti.",
+    "sessionExpired": "Sesi berakhir. Silakan masuk kembali.",
+    "unauthorized": "Autentikasi diperlukan",
+    "totpSetupFailed": "Gagal memulai pengaturan 2FA",
+    "totpVerifyFailed": "Verifikasi kode gagal",
+    "totpDisableFailed": "Gagal menonaktifkan 2FA",
+    "totpStatusFailed": "Gagal mendapatkan status 2FA",
+    "backupCodeInvalid": "Kode cadangan tidak valid",
+    "passkeyNotSupported": "Passkey tidak didukung di browser ini",
+    "platformAuthUnavailable": "Autentikasi biometrik tidak tersedia di perangkat ini"
   },
   "authDiagnostics": {
     "title": "Layanan Autentikasi",

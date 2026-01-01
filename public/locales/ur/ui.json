@@ -775,8 +775,22 @@
   "connectionTimeline.recentEvents": "حالیہ کنیکٹیویٹی واقعات",
   
   "authErrors": {
-    "serviceFailed": "تصدیقی سروس سے کنکشن ناکام",
-    "tryAgain": "ایک اندرونی خرابی پیش آئی۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"
+    "connectionFailed": "تصدیقی سروس سے کنکشن ناکام",
+    "registrationFailed": "پاسکی رجسٹریشن ناکام",
+    "authenticationFailed": "تصدیق ناکام",
+    "challengeExpired": "چیلنج کی میعاد ختم ہو گئی۔ براہ کرم دوبارہ کوشش کریں۔",
+    "tooManyRequests": "بہت زیادہ درخواستیں۔ بعد میں دوبارہ کوشش کریں۔",
+    "invalidCode": "غلط کوڈ۔ براہ کرم چیک کریں اور دوبارہ کوشش کریں۔",
+    "accountLocked": "اکاؤنٹ عارضی طور پر مقفل۔ بعد میں دوبارہ کوشش کریں۔",
+    "sessionExpired": "سیشن کی میعاد ختم۔ براہ کرم دوبارہ لاگ ان کریں۔",
+    "unauthorized": "تصدیق ضروری ہے",
+    "totpSetupFailed": "2FA سیٹ اپ شروع کرنے میں ناکام",
+    "totpVerifyFailed": "کوڈ کی تصدیق ناکام",
+    "totpDisableFailed": "2FA غیر فعال کرنے میں ناکام",
+    "totpStatusFailed": "2FA کی حیثیت حاصل کرنے میں ناکام",
+    "backupCodeInvalid": "غلط بیک اپ کوڈ",
+    "passkeyNotSupported": "اس براؤزر میں پاسکیز سپورٹ نہیں ہیں",
+    "platformAuthUnavailable": "اس ڈیوائس پر بائیومیٹرک تصدیق دستیاب نہیں"
   },
   "authDiagnostics": {
     "title": "تصدیقی خدمات",

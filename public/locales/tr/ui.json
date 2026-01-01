@@ -770,8 +770,22 @@
   "connectionTimeline.recentEvents": "Son bağlantı olayları",
   
   "authErrors": {
-    "serviceFailed": "Kimlik doğrulama servisine bağlanılamadı",
-    "tryAgain": "Dahili bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+    "connectionFailed": "Kimlik doğrulama servisine bağlanılamadı",
+    "registrationFailed": "Passkey kaydı başarısız",
+    "authenticationFailed": "Kimlik doğrulama başarısız",
+    "challengeExpired": "Meydan okuma süresi doldu. Lütfen tekrar deneyin.",
+    "tooManyRequests": "Çok fazla istek. Lütfen daha sonra tekrar deneyin.",
+    "invalidCode": "Geçersiz kod. Kontrol edip tekrar deneyin.",
+    "accountLocked": "Hesap geçici olarak kilitlendi. Lütfen daha sonra tekrar deneyin.",
+    "sessionExpired": "Oturum süresi doldu. Lütfen tekrar giriş yapın.",
+    "unauthorized": "Kimlik doğrulama gerekli",
+    "totpSetupFailed": "2FA kurulumu başlatılamadı",
+    "totpVerifyFailed": "Kod doğrulama başarısız",
+    "totpDisableFailed": "2FA devre dışı bırakılamadı",
+    "totpStatusFailed": "2FA durumu alınamadı",
+    "backupCodeInvalid": "Geçersiz yedek kod",
+    "passkeyNotSupported": "Bu tarayıcıda passkey desteklenmiyor",
+    "platformAuthUnavailable": "Bu cihazda biyometrik kimlik doğrulama kullanılamıyor"
   },
   "authDiagnostics": {
     "title": "Kimlik Doğrulama Servisleri",
