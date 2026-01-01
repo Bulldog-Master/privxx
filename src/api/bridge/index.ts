@@ -14,8 +14,12 @@
  * - Automatically attaches Supabase session JWT to all requests
  * - Bridge verifies JWT via Supabase /auth/v1/user endpoint
  * 
- * VPS PUBLIC BRIDGE: https://bridge.privxx.app
+ * VPS PUBLIC BRIDGE: http://66.94.109.237:8090 (default, override with VITE_BRIDGE_URL)
  * LOCAL DEV BRIDGE: http://127.0.0.1:8090
+ * 
+ * Environment Variables:
+ * - VITE_BRIDGE_URL: Override the default bridge URL (e.g., https://bridge.privxx.app for TLS)
+ * - VITE_MOCK: Set to "false" to use real bridge instead of mock
  */
 
 import { BridgeClient, type IBridgeClient, type BridgeClientConfig } from "./client";
@@ -23,13 +27,12 @@ import { MockBridgeClient } from "./mockClient";
 import { supabase } from "@/integrations/supabase/client";
 
 // Use mock mode by default for demo/preview phase
-// VPS bridge requires real infrastructure with TLS configured
-// Set VITE_MOCK=false and VITE_BRIDGE_URL to use real bridge
+// Set VITE_MOCK=false and optionally VITE_BRIDGE_URL to use real bridge
 const USE_MOCK = import.meta.env.VITE_MOCK !== "false";
 
-// VPS production proxy URL (public, frontend-accessible via HTTPS)
-// TLS termination handled by reverse proxy (nginx/caddy with Let's Encrypt)
-const VPS_PROXY_URL = "https://bridge.privxx.app";
+// Default VPS proxy URL (HTTP until TLS is configured)
+// Override with VITE_BRIDGE_URL for HTTPS (e.g., https://bridge.privxx.app)
+const DEFAULT_VPS_URL = "http://66.94.109.237:8090";
 
 // Determine effective bridge URL
 function getEffectiveBridgeUrl(): string {
@@ -38,8 +41,8 @@ function getEffectiveBridgeUrl(): string {
     return import.meta.env.VITE_BRIDGE_URL;
   }
   
-  // Default to VPS Proxy (public entry point)
-  return VPS_PROXY_URL;
+  // Default to VPS URL (public entry point)
+  return DEFAULT_VPS_URL;
 }
 
 /**
