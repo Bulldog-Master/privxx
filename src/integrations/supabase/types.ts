@@ -79,6 +79,7 @@ export type Database = {
           connection_updates: boolean
           created_at: string
           id: string
+          new_device_login: boolean
           security_alerts: boolean
           session_warnings: boolean
           updated_at: string
@@ -88,6 +89,7 @@ export type Database = {
           connection_updates?: boolean
           created_at?: string
           id?: string
+          new_device_login?: boolean
           security_alerts?: boolean
           session_warnings?: boolean
           updated_at?: string
@@ -97,6 +99,7 @@ export type Database = {
           connection_updates?: boolean
           created_at?: string
           id?: string
+          new_device_login?: boolean
           security_alerts?: boolean
           session_warnings?: boolean
           updated_at?: string
