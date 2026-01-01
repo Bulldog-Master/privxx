@@ -31,6 +31,7 @@ import { NotificationSettings } from "@/components/settings/NotificationSettings
 import { PushNotificationSettings } from "@/components/settings/PushNotificationSettings";
 import { NotificationDigestSettings } from "@/components/settings/NotificationDigestSettings";
 import { NotificationChannelSettings } from "@/components/settings/NotificationChannelSettings";
+import { NotificationSoundSettings } from "@/components/settings/NotificationSoundSettings";
 import { KnownDevicesManagement } from "@/components/settings/KnownDevicesManagement";
 import { AlertSettings } from "@/components/settings/AlertSettings";
 import { ConnectionAlertSettings } from "@/components/settings/ConnectionAlertSettings";
@@ -130,6 +131,9 @@ export default function Settings() {
 
           {/* Multi-Channel Notification Settings */}
           <NotificationChannelSettings />
+
+          {/* Notification Sound Settings */}
+          <NotificationSoundSettings />
 
           {/* Known Devices Management */}
           <KnownDevicesManagement />

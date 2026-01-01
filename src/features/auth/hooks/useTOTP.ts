@@ -2,10 +2,12 @@
  * TOTP 2FA Hook
  * 
  * Provides TOTP setup, verification, and management functionality.
+ * Supports trusted device bypass.
  */
 
 import { useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { isDeviceTrusted } from "@/hooks/useTrustedDevice";
 
 interface TOTPStatus {
   enabled: boolean;
@@ -22,6 +24,10 @@ interface TOTPSetupData {
 interface TOTPState {
   isLoading: boolean;
   error: string | null;
+}
+
+interface TOTPVerifyOptions {
+  skipTrustedCheck?: boolean;
 }
 
 export function useTOTP() {
@@ -107,9 +113,16 @@ export function useTOTP() {
 
   /**
    * Verify TOTP code and complete setup
+   * Returns { verified: true, skipped: true } if device is trusted and skipTrustedCheck is false
    */
   const verifyCode = useCallback(
-    async (code: string): Promise<{ verified: boolean; backupCodes?: string[] } | null> => {
+    async (code: string, options?: TOTPVerifyOptions): Promise<{ verified: boolean; skipped?: boolean; backupCodes?: string[] } | null> => {
+      // Check for trusted device bypass (unless explicitly skipped, e.g., during setup)
+      if (!options?.skipTrustedCheck && isDeviceTrusted()) {
+        console.log("[useTOTP] Device is trusted, skipping 2FA verification");
+        return { verified: true, skipped: true };
+      }
+
       setState({ isLoading: true, error: null });
 
       try {
