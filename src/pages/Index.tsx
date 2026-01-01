@@ -48,7 +48,7 @@ const Index = () => {
           {/* Passkey onboarding prompt - shows to users without passkeys */}
           {user && (
             <div className="w-full max-w-md">
-              <PasskeyOnboardingPrompt />
+              <PasskeyOnboardingPrompt ignoreDismissed />
             </div>
           )}
 
