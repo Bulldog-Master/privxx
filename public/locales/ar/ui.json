@@ -853,6 +853,26 @@
     "blockedDesc": "[AR] Blocked/Error — CORS issue or server error"
   },
   
+  "passkey": {
+    "setupRecommended": "يُوصى بإعداد مفتاح المرور",
+    "setupRecommendedDesc": "قم بإعداد مفتاح مرور لتسجيل دخول أسرع وحماية أقوى للحساب.",
+    "notSet": "غير مُعد",
+    "goToSection": "انتقل إلى مفاتيح المرور",
+    "discoverableHint": "فقط اضغط على الزر أدناه لتسجيل الدخول بمفتاح المرور الخاص بك.",
+    "authSuccess": "تم تسجيل الدخول بمفتاح المرور",
+    "registered": "تم تسجيل مفتاح المرور بنجاح",
+    "setupFailed": "فشل إعداد مفتاح المرور. يمكنك المحاولة لاحقًا في الإعدادات.",
+    "description": "استخدم Touch ID أو Face ID أو Windows Hello أو مفتاح أمان",
+    "emailOptionalHint": "اتركه فارغًا لاختيار مفتاح مرور من هذا الجهاز.",
+    "enterEmailInstead": "أدخل البريد الإلكتروني بدلاً من ذلك",
+    "hideEmail": "إخفاء",
+    "emailOptional": "البريد الإلكتروني (اختياري)",
+    "setupTitle": "إعداد مفتاح مرور",
+    "onboardingDesc": "سجل الدخول بشكل أسرع وأكثر أمانًا باستخدام Touch ID أو Face ID أو Windows Hello.",
+    "setupNow": "إعداد الآن",
+    "maybeLater": "ربما لاحقًا"
+  },
+  
   "passkeyFlow": {
     "title": "دليل إعداد مفتاح المرور",
     "progress": "{{completed}}/{{total}} خطوات مكتملة",

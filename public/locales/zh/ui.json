@@ -850,6 +850,25 @@
     "authRequiredDesc": "端点返回401/403（预期）",
     "blockedDesc": "CORS或网络错误"
   },
+  "passkey": {
+    "setupRecommended": "建议设置通行密钥",
+    "setupRecommendedDesc": "设置通行密钥以获得更快的登录速度和更强的账户保护。",
+    "notSet": "未设置",
+    "goToSection": "前往通行密钥",
+    "discoverableHint": "只需点击下方按钮即可使用通行密钥登录。",
+    "authSuccess": "已使用通行密钥登录",
+    "registered": "通行密钥注册成功",
+    "setupFailed": "通行密钥设置失败。您可以稍后在设置中重试。",
+    "description": "使用 Touch ID、Face ID、Windows Hello 或安全密钥",
+    "emailOptionalHint": "留空以从此设备选择通行密钥。",
+    "enterEmailInstead": "改为输入邮箱",
+    "hideEmail": "隐藏",
+    "emailOptional": "邮箱（可选）",
+    "setupTitle": "设置通行密钥",
+    "onboardingDesc": "使用 Touch ID、Face ID 或 Windows Hello 更快、更安全地登录。",
+    "setupNow": "立即设置",
+    "maybeLater": "以后再说"
+  },
   "passkeyFlow": {
     "title": "通行密钥设置指南",
     "progress": "已完成 {{completed}}/{{total}} 步",

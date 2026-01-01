@@ -43,7 +43,7 @@ export function PasskeyForm() {
     const emailToUse = email.trim() ? email.trim() : null;
     const success = await authenticateWithPasskey(emailToUse);
     if (success) {
-      toast.success(t("passkeyAuthSuccess", "Signed in with passkey"));
+      toast.success(t("passkey.authSuccess", "Signed in with passkey"));
     }
   };
 
@@ -56,7 +56,7 @@ export function PasskeyForm() {
         <div className="text-center space-y-2">
           <p className="text-sm text-muted-foreground">
             {t(
-              "passkeyDiscoverableHint",
+              "passkey.discoverableHint",
               "Just tap the button below to sign in with your passkey."
             )}
           </p>
@@ -65,7 +65,7 @@ export function PasskeyForm() {
             onClick={() => setShowEmailField(true)}
             className="text-xs text-primary/70 hover:text-primary flex items-center justify-center gap-1 mx-auto transition-colors"
           >
-            {t("enterEmailInstead", "Enter email instead")}
+            {t("passkey.enterEmailInstead", "Enter email instead")}
             <ChevronDown className="h-3 w-3" />
           </button>
         </div>
@@ -73,7 +73,7 @@ export function PasskeyForm() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="passkey-email">
-              {t("emailOptional", "Email (optional)")}
+              {t("passkey.emailOptional", "Email (optional)")}
             </Label>
             <button
               type="button"
@@ -83,7 +83,7 @@ export function PasskeyForm() {
               }}
               className="text-xs text-primary/70 hover:text-primary flex items-center gap-1 transition-colors"
             >
-              {t("hideEmail", "Hide")}
+              {t("passkey.hideEmail", "Hide")}
               <ChevronUp className="h-3 w-3" />
             </button>
           </div>
@@ -101,7 +101,7 @@ export function PasskeyForm() {
           </div>
           <p className="text-xs text-muted-foreground">
             {t(
-              "passkeyEmailOptionalHint",
+              "passkey.emailOptionalHint",
               "Leave blank to choose a passkey from this device."
             )}
           </p>
@@ -110,7 +110,7 @@ export function PasskeyForm() {
 
       <p className="text-xs text-muted-foreground text-center">
         {t(
-          "passkeyDescription",
+          "passkey.description",
           "Use Touch ID, Face ID, Windows Hello, or a security key"
         )}
       </p>

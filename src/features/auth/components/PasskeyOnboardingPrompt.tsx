@@ -112,14 +112,14 @@ export function PasskeyOnboardingPrompt({ className, ignoreDismissed = false }: 
     setIsRegistering(false);
 
     if (success) {
-      toast.success(t("passkeyRegistered", "Passkey set up successfully!"));
+      toast.success(t("passkey.registered", "Passkey set up successfully!"));
       setShow(false);
       // Mark as completed so we don't show again anywhere
       if (user) {
         localStorage.setItem(SETUP_COMPLETE_KEY, user.id);
       }
     } else {
-      toast.error(t("passkeySetupFailed", "Failed to set up passkey. You can try again later in Settings."));
+      toast.error(t("passkey.setupFailed", "Failed to set up passkey. You can try again later in Settings."));
     }
   };
 
@@ -141,11 +141,11 @@ export function PasskeyOnboardingPrompt({ className, ignoreDismissed = false }: 
               <div>
                 <h4 className="font-medium text-sm flex items-center gap-1.5">
                   <Sparkles className="h-3.5 w-3.5 text-primary" />
-                  {t("setupPasskey", "Set up a Passkey")}
+                  {t("passkey.setupTitle", "Set up a Passkey")}
                 </h4>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   {t(
-                    "passkeyOnboardingDesc",
+                    "passkey.onboardingDesc",
                     "Sign in faster and more securely with Touch ID, Face ID, or Windows Hello."
                   )}
                 </p>
@@ -171,7 +171,7 @@ export function PasskeyOnboardingPrompt({ className, ignoreDismissed = false }: 
                 ) : (
                   <Shield className="h-3.5 w-3.5 mr-1.5" />
                 )}
-                {t("setupNow", "Set up now")}
+                {t("passkey.setupNow", "Set up now")}
               </Button>
               <Button
                 size="sm"
@@ -179,7 +179,7 @@ export function PasskeyOnboardingPrompt({ className, ignoreDismissed = false }: 
                 onClick={handleDismiss}
                 className="h-8 text-xs text-muted-foreground"
               >
-                {t("maybeLater", "Maybe later")}
+                {t("passkey.maybeLater", "Maybe later")}
               </Button>
             </div>
           </div>

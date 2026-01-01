@@ -850,6 +850,25 @@
     "authRequiredDesc": "Endpoint retornou 401/403 (esperado)",
     "blockedDesc": "Erro de CORS ou rede"
   },
+  "passkey": {
+    "setupRecommended": "Configuração de passkey recomendada",
+    "setupRecommendedDesc": "Configure uma passkey para login mais rápido e proteção de conta mais forte.",
+    "notSet": "Não configurado",
+    "goToSection": "Ir para Passkeys",
+    "discoverableHint": "Basta tocar no botão abaixo para entrar com sua passkey.",
+    "authSuccess": "Conectado com passkey",
+    "registered": "Passkey registrada com sucesso",
+    "setupFailed": "Falha ao configurar passkey. Você pode tentar novamente em Configurações.",
+    "description": "Use Touch ID, Face ID, Windows Hello ou uma chave de segurança",
+    "emailOptionalHint": "Deixe em branco para escolher uma passkey deste dispositivo.",
+    "enterEmailInstead": "Inserir email em vez disso",
+    "hideEmail": "Ocultar",
+    "emailOptional": "Email (opcional)",
+    "setupTitle": "Configurar uma Passkey",
+    "onboardingDesc": "Entre mais rápido e com mais segurança com Touch ID, Face ID ou Windows Hello.",
+    "setupNow": "Configurar agora",
+    "maybeLater": "Talvez depois"
+  },
   "passkeyFlow": {
     "title": "Guia de Configuração de Passkey",
     "progress": "{{completed}}/{{total}} etapas concluídas",

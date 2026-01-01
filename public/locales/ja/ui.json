@@ -853,6 +853,26 @@
     "blockedDesc": "[JA] Blocked/Error — CORS issue or server error"
   },
   
+  "passkey": {
+    "setupRecommended": "パスキーの設定を推奨",
+    "setupRecommendedDesc": "より速いサインインとアカウント保護のためにパスキーを設定してください。",
+    "notSet": "未設定",
+    "goToSection": "パスキーへ移動",
+    "discoverableHint": "下のボタンをタップするだけでパスキーでサインインできます。",
+    "authSuccess": "パスキーでサインインしました",
+    "registered": "パスキーが正常に登録されました",
+    "setupFailed": "パスキーの設定に失敗しました。設定で後で再試行できます。",
+    "description": "Touch ID、Face ID、Windows Hello、またはセキュリティキーを使用",
+    "emailOptionalHint": "このデバイスからパスキーを選択する場合は空白のままにしてください。",
+    "enterEmailInstead": "代わりにメールを入力",
+    "hideEmail": "非表示",
+    "emailOptional": "メール（任意）",
+    "setupTitle": "パスキーを設定",
+    "onboardingDesc": "Touch ID、Face ID、またはWindows Helloでより速く安全にサインインできます。",
+    "setupNow": "今すぐ設定",
+    "maybeLater": "後で"
+  },
+  
   "passkeyFlow": {
     "title": "パスキー設定ガイド",
     "progress": "{{completed}}/{{total}} ステップ完了",
