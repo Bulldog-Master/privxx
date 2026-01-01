@@ -22,7 +22,10 @@ interface AuthContextValue {
   updatePassword: (newPassword: string) => Promise<{ error: string | null }>;
   resendVerificationEmail: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
+  /** @deprecated Use getAccessTokenAsync for fresh tokens */
   getAccessToken: () => string | null;
+  /** Fetches a FRESH access token via supabase.auth.getSession() - never cached */
+  getAccessTokenAsync: () => Promise<string | null>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -151,6 +154,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return session?.access_token ?? null;
   }, [session]);
 
+  /** 
+   * ALWAYS fetch fresh token from Supabase - NEVER cache or reuse.
+   * This relies on Supabase's built-in auto-refresh using refresh tokens.
+   */
+  const getAccessTokenAsync = useCallback(async (): Promise<string | null> => {
+    const { data: { session: freshSession } } = await supabase.auth.getSession();
+    return freshSession?.access_token ?? null;
+  }, []);
+
   // Check if email is verified
   const isEmailVerified = !!user?.email_confirmed_at;
 
@@ -170,6 +182,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         resendVerificationEmail,
         signOut,
         getAccessToken,
+        getAccessTokenAsync,
       }}
     >
       {children}
