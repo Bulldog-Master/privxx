@@ -12,10 +12,7 @@ import { IdentityProvider } from "@/features/identity";
 import { SkipToContent } from "@/components/shared";
 import { InstallPrompt, PwaUpdatePrompt } from "@/components/pwa";
 import { TranslationPlaceholderToast } from "@/components/diagnostics/TranslationPlaceholderToast";
-import { EmailVerificationPending } from "@/components/session";
-import { ProtectedRoute } from "@/components/session";
-import { SessionTimeoutWarning } from "@/components/session";
-import { UnlockExpiryDialog } from "@/components/session";
+import { EmailVerificationPending, ProtectedRoute, SessionTimeoutWarning, UnlockExpiryDialog, DeviceDetectionManager } from "@/components/session";
 import { SecurityAlertProvider } from "@/components/security";
 import { useSessionTimeout } from "@/hooks/useSessionTimeout";
 import { supabase } from "@/integrations/supabase/client";
@@ -112,6 +109,7 @@ function AppRoutes() {
             <TranslationPlaceholderToast />
             <SessionTimeoutManager />
             <UnlockExpiryDialog />
+            <DeviceDetectionManager />
             <BrowserRouter>
               <SkipToContent />
               <Routes>
