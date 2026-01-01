@@ -4,10 +4,12 @@
  * Allows users to manage their account and passkeys.
  */
 
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, User, ChevronRight, Shield, HeartPulse } from "lucide-react";
+import { ArrowLeft, User, ChevronRight, Shield, HeartPulse, Activity } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageBackground } from "@/components/layout/PageBackground";
@@ -17,7 +19,11 @@ import { AuthServiceDiagnostics } from "@/components/settings/AuthServiceDiagnos
 import { BackendHealthPanel } from "@/components/settings/BackendHealthPanel";
 import { ForceRefreshCard } from "@/components/settings/ForceRefreshCard";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
+import { PasskeyGuidedFlow } from "@/components/settings/PasskeyGuidedFlow";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
+import { RecoveryCodesManagement } from "@/components/settings/RecoveryCodesManagement";
+import { SecurityChecklist } from "@/components/settings/SecurityChecklist";
+import { EnhancedAuthDebugBundle } from "@/components/settings/EnhancedAuthDebugBundle";
 import { AccountSection } from "@/components/settings/AccountSection";
 import { SessionSettings } from "@/components/settings/SessionSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
@@ -29,6 +35,24 @@ import { buildInfo } from "@/lib/buildInfo";
 export default function Settings() {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+
+  // Check 2FA status for recovery codes management
+  const check2FAStatus = useCallback(async () => {
+    if (!user) return;
+    try {
+      const { data } = await supabase.functions.invoke("totp-auth", {
+        body: { action: "status" },
+      });
+      setIs2FAEnabled(data?.enabled ?? false);
+    } catch {
+      setIs2FAEnabled(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    check2FAStatus();
+  }, [check2FAStatus]);
 
   // ProtectedRoute handles auth check, but we need user for rendering
   if (!user) {
@@ -108,11 +132,23 @@ export default function Settings() {
           {/* Authentication Services Diagnostics */}
           <AuthServiceDiagnostics />
 
+          {/* Security Checklist */}
+          <SecurityChecklist />
+
           {/* Two-Factor Authentication */}
           <TOTPManagement userId={user.id} />
 
+          {/* 2FA Recovery Codes */}
+          <RecoveryCodesManagement userId={user.id} is2FAEnabled={is2FAEnabled} />
+
           {/* Passkey Management */}
           <PasskeyManagement userId={user.id} email={user.email || ""} />
+
+          {/* Passkey Guided Flow */}
+          <PasskeyGuidedFlow userId={user.id} />
+
+          {/* Enhanced Auth Debug Bundle */}
+          <EnhancedAuthDebugBundle />
 
           {/* Security Dashboard Link */}
           <Card className="bg-card/90 backdrop-blur-sm border-border/50">
@@ -125,6 +161,24 @@ export default function Settings() {
                   <div>
                     <p className="font-medium text-primary">{t("security.dashboardTitle", "Security Dashboard")}</p>
                     <p className="text-sm text-primary/70">{t("security.dashboardDesc", "View audit logs and security activity")}</p>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-primary/70" />
+              </CardContent>
+            </Link>
+          </Card>
+
+          {/* Backend Status Link */}
+          <Card className="bg-card/90 backdrop-blur-sm border-border/50">
+            <Link to="/backend-status" className="block">
+              <CardContent className="flex items-center justify-between py-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Activity className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-primary">{t("backendStatus.title", "Backend Status")}</p>
+                    <p className="text-sm text-primary/70">{t("backendStatus.settingsDesc", "Check service reachability and CORS")}</p>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-primary/70" />
