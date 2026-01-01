@@ -11,6 +11,14 @@ Type=simple
 User=xxuser
 Group=xxuser
 WorkingDirectory=/opt/xx/bridge
+
+# Runtime config (do not hardcode secrets in binaries)
+# Create: /etc/privxx/bridge.env
+# With:
+#   SUPABASE_URL=...
+#   SUPABASE_ANON_KEY=...
+EnvironmentFile=-/etc/privxx/bridge.env
+
 ExecStart=/opt/xx/bridge/bin/privxx-bridge \
     --listen 127.0.0.1:8090 \
     --state /opt/xx/bridge/state \
