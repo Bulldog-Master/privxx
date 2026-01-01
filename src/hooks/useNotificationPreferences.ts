@@ -6,6 +6,9 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
+export type NotificationChannel = "email" | "push";
+export type NotificationChannels = Record<string, NotificationChannel[]>;
+
 export interface NotificationPreferences {
   id: string;
   user_id: string;
@@ -14,6 +17,7 @@ export interface NotificationPreferences {
   connection_updates: boolean;
   new_device_login: boolean;
   digest_frequency: "immediate" | "daily" | "weekly";
+  notification_channels: NotificationChannels;
   created_at: string;
   updated_at: string;
 }
@@ -69,7 +73,7 @@ export function useNotificationPreferences() {
   }, [fetchPreferences]);
 
   const updatePreference = useCallback(
-    async (key: keyof Pick<NotificationPreferences, "session_warnings" | "security_alerts" | "connection_updates" | "new_device_login" | "digest_frequency">, value: boolean | string) => {
+    async (key: keyof Pick<NotificationPreferences, "session_warnings" | "security_alerts" | "connection_updates" | "new_device_login" | "digest_frequency" | "notification_channels">, value: boolean | string | NotificationChannels) => {
       if (!user || !preferences) return;
 
       try {

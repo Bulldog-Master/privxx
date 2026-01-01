@@ -30,6 +30,7 @@ import { SessionSettings } from "@/components/settings/SessionSettings";
 import { NotificationSettings } from "@/components/settings/NotificationSettings";
 import { PushNotificationSettings } from "@/components/settings/PushNotificationSettings";
 import { NotificationDigestSettings } from "@/components/settings/NotificationDigestSettings";
+import { NotificationChannelSettings } from "@/components/settings/NotificationChannelSettings";
 import { KnownDevicesManagement } from "@/components/settings/KnownDevicesManagement";
 import { AlertSettings } from "@/components/settings/AlertSettings";
 import { ConnectionAlertSettings } from "@/components/settings/ConnectionAlertSettings";
@@ -126,6 +127,9 @@ export default function Settings() {
 
           {/* Email Digest Settings */}
           <NotificationDigestSettings />
+
+          {/* Multi-Channel Notification Settings */}
+          <NotificationChannelSettings />
 
           {/* Known Devices Management */}
           <KnownDevicesManagement />
