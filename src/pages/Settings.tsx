@@ -136,13 +136,19 @@ export default function Settings() {
           <SecurityChecklist />
 
           {/* Two-Factor Authentication */}
-          <TOTPManagement userId={user.id} />
+          <div id="totp-section">
+            <TOTPManagement userId={user.id} />
+          </div>
 
           {/* 2FA Recovery Codes */}
-          <RecoveryCodesManagement userId={user.id} is2FAEnabled={is2FAEnabled} />
+          <div id="recovery-section">
+            <RecoveryCodesManagement userId={user.id} is2FAEnabled={is2FAEnabled} />
+          </div>
 
           {/* Passkey Management */}
-          <PasskeyManagement userId={user.id} email={user.email || ""} />
+          <div id="passkey-section">
+            <PasskeyManagement userId={user.id} email={user.email || ""} />
+          </div>
 
           {/* Passkey Guided Flow */}
           <PasskeyGuidedFlow userId={user.id} />
