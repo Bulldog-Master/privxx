@@ -27,11 +27,12 @@ const FORBIDDEN = [
   "fully anonymous",
 ];
 
-// Language prefixes for placeholder values
+// Language prefixes for placeholder values (all 19 non-English languages)
 const LANG_PREFIXES = {
   ar: "[AR]", bn: "[BN]", de: "[DE]", es: "[ES]", fr: "[FR]",
-  hi: "[HI]", id: "[ID]", ja: "[JA]", ko: "[KO]", nl: "[NL]",
-  pt: "[PT]", ru: "[RU]", tr: "[TR]", ur: "[UR]", zh: "[ZH]",
+  he: "[HE]", hi: "[HI]", id: "[ID]", it: "[IT]", ja: "[JA]", 
+  ko: "[KO]", nl: "[NL]", pl: "[PL]", pt: "[PT]", ru: "[RU]", 
+  tr: "[TR]", ur: "[UR]", yi: "[YI]", zh: "[ZH]",
 };
 
 const autoFix = process.argv.includes("--fix");
@@ -195,7 +196,7 @@ if (fs.existsSync(enPath)) {
 
 // === Check 3: Placeholder strings (strict mode) ===
 if (strictMode) {
-  const placeholderPattern = /^\[(AR|BN|DE|ES|FR|HI|ID|JA|KO|NL|PT|RU|TR|UR|ZH|XX)\]/;
+  const placeholderPattern = /^\[(AR|BN|DE|ES|FR|HE|HI|ID|IT|JA|KO|NL|PL|PT|RU|TR|UR|YI|ZH|XX)\]/;
   const placeholderViolations = [];
 
   for (const file of walk(ROOT)) {
