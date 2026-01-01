@@ -146,20 +146,22 @@ export function BackendHealthPanel({ autoRun, onReportChange }: BackendHealthPan
           const state = states[fn.key];
           const Icon = fn.icon;
           return (
-            <div
-              key={fn.key}
-              className="flex items-center justify-between p-2 rounded border bg-background/50 text-sm"
-            >
-              <div className="flex items-center gap-2">
-                <Icon className="h-4 w-4 text-primary/70" />
-                <span className="text-primary">{fn.name}</span>
+            <div key={fn.key} className="space-y-1">
+              <div className="flex items-center justify-between p-2 rounded border bg-background/50 text-sm">
+                <div className="flex items-center gap-2">
+                  <Icon className="h-4 w-4 text-primary/70" />
+                  <span className="text-primary">{fn.name}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {state.latency !== null && (
+                    <span className="text-xs text-muted-foreground">{state.latency}ms</span>
+                  )}
+                  {statusIcon(state.status)}
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                {state.latency !== null && (
-                  <span className="text-xs text-muted-foreground">{state.latency}ms</span>
-                )}
-                {statusIcon(state.status)}
-              </div>
+              {state.error && (
+                <p className="text-xs text-destructive px-2 break-all">{state.error}</p>
+              )}
             </div>
           );
         })}

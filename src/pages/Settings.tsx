@@ -6,7 +6,7 @@
 
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, User, ChevronRight, Shield } from "lucide-react";
+import { ArrowLeft, User, ChevronRight, Shield, HeartPulse } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -60,6 +60,9 @@ export default function Settings() {
         {/* Force Refresh (stale cache breaker) */}
         <div className="mt-4">
           <ForceRefreshCard />
+          <p className="text-xs text-muted-foreground mt-2 text-center">
+            {t("refresh.iosHint", "On iOS/Safari, close and reopen the app after clearing cache.")}
+          </p>
         </div>
 
         <div className="space-y-6 mt-6">
@@ -122,6 +125,24 @@ export default function Settings() {
                   <div>
                     <p className="font-medium text-primary">{t("security.dashboardTitle", "Security Dashboard")}</p>
                     <p className="text-sm text-primary/70">{t("security.dashboardDesc", "View audit logs and security activity")}</p>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-primary/70" />
+              </CardContent>
+            </Link>
+          </Card>
+
+          {/* Health Page Link */}
+          <Card className="bg-card/90 backdrop-blur-sm border-border/50">
+            <Link to="/health" className="block">
+              <CardContent className="flex items-center justify-between py-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <HeartPulse className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-primary">{t("health.title", "Health")}</p>
+                    <p className="text-sm text-primary/70">{t("health.settingsDesc", "Backend connectivity checks & debug report")}</p>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-primary/70" />
