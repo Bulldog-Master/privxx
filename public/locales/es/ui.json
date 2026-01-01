@@ -796,6 +796,99 @@
     "checkNow": "Verificar Ahora",
     "available": "Disponible",
     "unavailable": "No disponible",
-    "checking": "Verificando..."
-  }
+    "checking": "[ES] Verificando..."
+  },
+  
+  "debugBundle": {
+    "title": "[ES] Auth Debug Bundle",
+    "description": "[ES] Capture detailed error bodies and HTTP status codes",
+    "copied": "[ES] Full auth debug bundle copied",
+    "errorsDetected": "[ES] Some services returned errors — see full bundle for details",
+    "refresh": "[ES] Refresh",
+    "copy": "[ES] Copy Full Bundle"
+  },
+  
+  "backendStatus": {
+    "title": "[ES] Backend Status",
+    "subtitle": "[ES] Reachable vs auth-required vs blocked",
+    "copied": "[ES] Status report copied",
+    "reachable": "[ES] Reachable",
+    "authRequired": "[ES] Auth Required",
+    "blocked": "[ES] Blocked (CORS)",
+    "error": "[ES] Error",
+    "errors": "[ES] Errors",
+    "checking": "[ES] Checking...",
+    "detailedStatus": "[ES] Detailed Status",
+    "detailedDesc": "[ES] Individual function connectivity",
+    "legend": "[ES] Status Legend",
+    "reachableDesc": "[ES] Reachable — Function responded with 200 OK",
+    "authRequiredDesc": "[ES] Auth Required — Function reachable but needs authentication (401/403)",
+    "blockedDesc": "[ES] Blocked/Error — CORS issue or server error"
+  },
+  
+  "passkeyFlow": {
+    "title": "[ES] Passkey Setup Guide",
+    "progress": "[ES] {{completed}}/{{total}} steps completed",
+    "intro": "[ES] Follow these steps to set up passwordless sign-in with passkeys:",
+    "stepNumber": "[ES] Step {{number}}",
+    "step1Title": "[ES] Sign in with email/password",
+    "step1Desc": "[ES] You must be logged in to register a passkey.",
+    "step2Title": "[ES] Register a passkey",
+    "step2Desc": "[ES] Use the 'Add Passkey' button above to register Touch ID, Face ID, or a security key.",
+    "step3Title": "[ES] Sign out",
+    "step3Desc": "[ES] Log out of your account to test passkey sign-in.",
+    "step4Title": "[ES] Sign in with Passkey",
+    "step4Desc": "[ES] On the login page, use the Passkey tab to sign in passwordlessly.",
+    "deviceNote": "[ES] Passkeys are registered per device and browser. You'll need to repeat this process on each device you want to use.",
+    "refresh": "[ES] Refresh Status"
+  },
+  
+  "recoveryCodes": {
+    "title": "[ES] Recovery Codes",
+    "description": "[ES] Use these codes if you lose access to your authenticator app.",
+    "warningTitle": "[ES] Keep these codes safe",
+    "warningBody": "[ES] Each code can only be used once. Store them in a secure location like a password manager.",
+    "regenerate": "[ES] Regenerate Backup Codes",
+    "regenerateNote": "[ES] Regenerating codes will invalidate all previous codes.",
+    "regenerateTitle": "[ES] Regenerate Recovery Codes?",
+    "regenerateWarning": "[ES] This will invalidate all your existing backup codes. You'll need to save the new codes immediately.",
+    "enterCode": "[ES] Enter your current 2FA code",
+    "confirmRegenerate": "[ES] Regenerate",
+    "regenerated": "[ES] Backup codes regenerated",
+    "newCodesTitle": "[ES] Save Your New Backup Codes",
+    "newCodesDesc": "[ES] These codes replace all previous backup codes. Save them now — you won't see them again.",
+    "reveal": "[ES] Reveal Codes",
+    "hide": "[ES] Hide Codes",
+    "saved": "[ES] I've Saved My Codes"
+  },
+  
+  "securityChecklist": {
+    "title": "[ES] Security Checklist",
+    "checking": "[ES] Checking security settings...",
+    "score": "[ES] {{pass}}/{{total}} checks passed",
+    "emailVerified": "[ES] Email Verified",
+    "emailVerifiedDesc": "[ES] Your email address has been confirmed",
+    "emailVerifiedPass": "[ES] Email verified",
+    "emailVerifiedWarn": "[ES] Check your inbox for verification email",
+    "twoFactor": "[ES] Two-Factor Authentication",
+    "twoFactorDesc": "[ES] Extra security layer for your account",
+    "twoFactorPass": "[ES] 2FA is enabled",
+    "twoFactorWarn": "[ES] Enable 2FA for stronger security",
+    "passkeys": "[ES] Passkeys",
+    "passkeysDesc": "[ES] Passwordless sign-in with biometrics",
+    "passkeysPass": "[ES] {{count}} passkey(s) registered",
+    "passkeysWarn": "[ES] Add a passkey for passwordless sign-in",
+    "sessionTimeout": "[ES] Session Timeout",
+    "sessionTimeoutDesc": "[ES] Auto-logout after inactivity",
+    "sessionTimeoutValue": "[ES] {{minutes}} minute timeout",
+    "backendAvailable": "[ES] Backend Services",
+    "backendAvailableDesc": "[ES] Security infrastructure reachable",
+    "backendAvailablePass": "[ES] All services online",
+    "backendAvailableFail": "[ES] Some services unreachable",
+    "checkFailed": "[ES] Could not check status",
+    "backendNote": "[ES] Settings like 'Leaked Password Protection' are configured in the backend panel and cannot be checked from the app."
+  },
+  
+  "invalidCodeLength": "[ES] Code must be 6 digits",
+  "copyAllCodes": "[ES] Copy All Codes"
 }

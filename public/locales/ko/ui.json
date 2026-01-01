@@ -797,6 +797,13 @@
     "checkNow": "지금 확인",
     "available": "사용 가능",
     "unavailable": "사용 불가",
-    "checking": "확인 중..."
-  }
+    "checking": "[KO] 확인 중..."
+  },
+  "debugBundle": { "title": "[KO] Auth Debug Bundle", "description": "[KO] Capture detailed error bodies", "copied": "[KO] Bundle copied", "errorsDetected": "[KO] Errors detected", "refresh": "[KO] Refresh", "copy": "[KO] Copy" },
+  "backendStatus": { "title": "[KO] Backend Status", "subtitle": "[KO] Reachable vs blocked", "copied": "[KO] Copied", "reachable": "[KO] Reachable", "authRequired": "[KO] Auth Required", "blocked": "[KO] Blocked", "error": "[KO] Error", "errors": "[KO] Errors", "checking": "[KO] Checking...", "detailedStatus": "[KO] Detailed Status", "detailedDesc": "[KO] Function connectivity", "legend": "[KO] Legend", "reachableDesc": "[KO] 200 OK", "authRequiredDesc": "[KO] 401/403", "blockedDesc": "[KO] CORS/Error" },
+  "passkeyFlow": { "title": "[KO] Passkey Guide", "progress": "[KO] {{completed}}/{{total}} done", "intro": "[KO] Setup passkeys:", "stepNumber": "[KO] Step {{number}}", "step1Title": "[KO] Sign in", "step1Desc": "[KO] Login first", "step2Title": "[KO] Register", "step2Desc": "[KO] Add passkey", "step3Title": "[KO] Sign out", "step3Desc": "[KO] Logout", "step4Title": "[KO] Use passkey", "step4Desc": "[KO] Sign in", "deviceNote": "[KO] Per device", "refresh": "[KO] Refresh" },
+  "recoveryCodes": { "title": "[KO] Recovery Codes", "description": "[KO] Backup codes", "warningTitle": "[KO] Keep safe", "warningBody": "[KO] One-time use", "regenerate": "[KO] Regenerate", "regenerateNote": "[KO] Invalidates old", "regenerateTitle": "[KO] Regenerate?", "regenerateWarning": "[KO] Warning", "enterCode": "[KO] Enter code", "confirmRegenerate": "[KO] Confirm", "regenerated": "[KO] Done", "newCodesTitle": "[KO] Save codes", "newCodesDesc": "[KO] Save now", "reveal": "[KO] Reveal", "hide": "[KO] Hide", "saved": "[KO] Saved" },
+  "securityChecklist": { "title": "[KO] Security Checklist", "checking": "[KO] Checking...", "score": "[KO] {{pass}}/{{total}}", "emailVerified": "[KO] Email Verified", "emailVerifiedDesc": "[KO] Confirmed", "emailVerifiedPass": "[KO] Verified", "emailVerifiedWarn": "[KO] Check inbox", "twoFactor": "[KO] 2FA", "twoFactorDesc": "[KO] Extra security", "twoFactorPass": "[KO] Enabled", "twoFactorWarn": "[KO] Enable 2FA", "passkeys": "[KO] Passkeys", "passkeysDesc": "[KO] Biometrics", "passkeysPass": "[KO] {{count}} registered", "passkeysWarn": "[KO] Add passkey", "sessionTimeout": "[KO] Timeout", "sessionTimeoutDesc": "[KO] Auto-logout", "sessionTimeoutValue": "[KO] {{minutes}}m", "backendAvailable": "[KO] Backend", "backendAvailableDesc": "[KO] Reachable", "backendAvailablePass": "[KO] Online", "backendAvailableFail": "[KO] Unreachable", "checkFailed": "[KO] Check failed", "backendNote": "[KO] Backend config" },
+  "invalidCodeLength": "[KO] 6 digits required",
+  "copyAllCodes": "[KO] Copy All"
 }

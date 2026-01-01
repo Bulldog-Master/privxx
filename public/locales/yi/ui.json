@@ -792,6 +792,13 @@
     "available": "צוגענגלעך",
     "unavailable": "נישט צוגענגלעך",
     "lastCheck": "לעצט געטשעקט",
-    "checkNow": "טשעקן איצט"
-  }
+    "checkNow": "[YI] טשעקן איצט"
+  },
+  "debugBundle": { "title": "[YI] Auth Debug Bundle", "description": "[YI] Capture errors", "copied": "[YI] Copied", "errorsDetected": "[YI] Errors", "refresh": "[YI] Refresh", "copy": "[YI] Copy" },
+  "backendStatus": { "title": "[YI] Backend Status", "subtitle": "[YI] Status", "copied": "[YI] Copied", "reachable": "[YI] Reachable", "authRequired": "[YI] Auth Required", "blocked": "[YI] Blocked", "error": "[YI] Error", "errors": "[YI] Errors", "checking": "[YI] Checking...", "detailedStatus": "[YI] Details", "detailedDesc": "[YI] Connectivity", "legend": "[YI] Legend", "reachableDesc": "[YI] 200 OK", "authRequiredDesc": "[YI] 401/403", "blockedDesc": "[YI] CORS/Error" },
+  "passkeyFlow": { "title": "[YI] Passkey Guide", "progress": "[YI] {{completed}}/{{total}}", "intro": "[YI] Setup:", "stepNumber": "[YI] Step {{number}}", "step1Title": "[YI] Sign in", "step1Desc": "[YI] Login", "step2Title": "[YI] Register", "step2Desc": "[YI] Add", "step3Title": "[YI] Sign out", "step3Desc": "[YI] Logout", "step4Title": "[YI] Use passkey", "step4Desc": "[YI] Sign in", "deviceNote": "[YI] Per device", "refresh": "[YI] Refresh" },
+  "recoveryCodes": { "title": "[YI] Recovery Codes", "description": "[YI] Backup", "warningTitle": "[YI] Keep safe", "warningBody": "[YI] One-time", "regenerate": "[YI] Regenerate", "regenerateNote": "[YI] Invalidates", "regenerateTitle": "[YI] Regenerate?", "regenerateWarning": "[YI] Warning", "enterCode": "[YI] Enter code", "confirmRegenerate": "[YI] Confirm", "regenerated": "[YI] Done", "newCodesTitle": "[YI] Save", "newCodesDesc": "[YI] Save now", "reveal": "[YI] Reveal", "hide": "[YI] Hide", "saved": "[YI] Saved" },
+  "securityChecklist": { "title": "[YI] Security Checklist", "checking": "[YI] Checking...", "score": "[YI] {{pass}}/{{total}}", "emailVerified": "[YI] Email", "emailVerifiedDesc": "[YI] Confirmed", "emailVerifiedPass": "[YI] Verified", "emailVerifiedWarn": "[YI] Check inbox", "twoFactor": "[YI] 2FA", "twoFactorDesc": "[YI] Security", "twoFactorPass": "[YI] Enabled", "twoFactorWarn": "[YI] Enable", "passkeys": "[YI] Passkeys", "passkeysDesc": "[YI] Biometrics", "passkeysPass": "[YI] {{count}}", "passkeysWarn": "[YI] Add", "sessionTimeout": "[YI] Timeout", "sessionTimeoutDesc": "[YI] Auto-logout", "sessionTimeoutValue": "[YI] {{minutes}}m", "backendAvailable": "[YI] Backend", "backendAvailableDesc": "[YI] Reachable", "backendAvailablePass": "[YI] Online", "backendAvailableFail": "[YI] Unreachable", "checkFailed": "[YI] Failed", "backendNote": "[YI] Backend" },
+  "invalidCodeLength": "[YI] 6 digits",
+  "copyAllCodes": "[YI] Copy"
 }

@@ -796,6 +796,13 @@
     "available": "Доступен",
     "unavailable": "Недоступен",
     "lastCheck": "Последняя проверка",
-    "checkNow": "Проверить сейчас"
-  }
+    "checkNow": "[RU] Проверить"
+  },
+  "debugBundle": { "title": "[RU] Auth Debug Bundle", "description": "[RU] Capture errors", "copied": "[RU] Copied", "errorsDetected": "[RU] Errors", "refresh": "[RU] Refresh", "copy": "[RU] Copy" },
+  "backendStatus": { "title": "[RU] Backend Status", "subtitle": "[RU] Status", "copied": "[RU] Copied", "reachable": "[RU] Reachable", "authRequired": "[RU] Auth Required", "blocked": "[RU] Blocked", "error": "[RU] Error", "errors": "[RU] Errors", "checking": "[RU] Checking...", "detailedStatus": "[RU] Details", "detailedDesc": "[RU] Connectivity", "legend": "[RU] Legend", "reachableDesc": "[RU] 200 OK", "authRequiredDesc": "[RU] 401/403", "blockedDesc": "[RU] CORS/Error" },
+  "passkeyFlow": { "title": "[RU] Passkey Guide", "progress": "[RU] {{completed}}/{{total}}", "intro": "[RU] Setup:", "stepNumber": "[RU] Step {{number}}", "step1Title": "[RU] Sign in", "step1Desc": "[RU] Login", "step2Title": "[RU] Register", "step2Desc": "[RU] Add", "step3Title": "[RU] Sign out", "step3Desc": "[RU] Logout", "step4Title": "[RU] Use passkey", "step4Desc": "[RU] Sign in", "deviceNote": "[RU] Per device", "refresh": "[RU] Refresh" },
+  "recoveryCodes": { "title": "[RU] Recovery Codes", "description": "[RU] Backup", "warningTitle": "[RU] Keep safe", "warningBody": "[RU] One-time", "regenerate": "[RU] Regenerate", "regenerateNote": "[RU] Invalidates", "regenerateTitle": "[RU] Regenerate?", "regenerateWarning": "[RU] Warning", "enterCode": "[RU] Enter code", "confirmRegenerate": "[RU] Confirm", "regenerated": "[RU] Done", "newCodesTitle": "[RU] Save", "newCodesDesc": "[RU] Save now", "reveal": "[RU] Reveal", "hide": "[RU] Hide", "saved": "[RU] Saved" },
+  "securityChecklist": { "title": "[RU] Security Checklist", "checking": "[RU] Checking...", "score": "[RU] {{pass}}/{{total}}", "emailVerified": "[RU] Email", "emailVerifiedDesc": "[RU] Confirmed", "emailVerifiedPass": "[RU] Verified", "emailVerifiedWarn": "[RU] Check inbox", "twoFactor": "[RU] 2FA", "twoFactorDesc": "[RU] Security", "twoFactorPass": "[RU] Enabled", "twoFactorWarn": "[RU] Enable", "passkeys": "[RU] Passkeys", "passkeysDesc": "[RU] Biometrics", "passkeysPass": "[RU] {{count}}", "passkeysWarn": "[RU] Add", "sessionTimeout": "[RU] Timeout", "sessionTimeoutDesc": "[RU] Auto-logout", "sessionTimeoutValue": "[RU] {{minutes}}m", "backendAvailable": "[RU] Backend", "backendAvailableDesc": "[RU] Reachable", "backendAvailablePass": "[RU] Online", "backendAvailableFail": "[RU] Unreachable", "checkFailed": "[RU] Failed", "backendNote": "[RU] Backend" },
+  "invalidCodeLength": "[RU] 6 digits",
+  "copyAllCodes": "[RU] Copy"
 }

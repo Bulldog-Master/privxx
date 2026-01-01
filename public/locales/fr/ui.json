@@ -796,6 +796,99 @@
     "checkNow": "Vérifier maintenant",
     "available": "Disponible",
     "unavailable": "Indisponible",
-    "checking": "Vérification..."
-  }
+    "checking": "[FR] Vérification..."
+  },
+  
+  "debugBundle": {
+    "title": "[FR] Auth Debug Bundle",
+    "description": "[FR] Capture detailed error bodies and HTTP status codes",
+    "copied": "[FR] Full auth debug bundle copied",
+    "errorsDetected": "[FR] Some services returned errors — see full bundle for details",
+    "refresh": "[FR] Refresh",
+    "copy": "[FR] Copy Full Bundle"
+  },
+  
+  "backendStatus": {
+    "title": "[FR] Backend Status",
+    "subtitle": "[FR] Reachable vs auth-required vs blocked",
+    "copied": "[FR] Status report copied",
+    "reachable": "[FR] Reachable",
+    "authRequired": "[FR] Auth Required",
+    "blocked": "[FR] Blocked (CORS)",
+    "error": "[FR] Error",
+    "errors": "[FR] Errors",
+    "checking": "[FR] Checking...",
+    "detailedStatus": "[FR] Detailed Status",
+    "detailedDesc": "[FR] Individual function connectivity",
+    "legend": "[FR] Status Legend",
+    "reachableDesc": "[FR] Reachable — Function responded with 200 OK",
+    "authRequiredDesc": "[FR] Auth Required — Function reachable but needs authentication",
+    "blockedDesc": "[FR] Blocked/Error — CORS issue or server error"
+  },
+  
+  "passkeyFlow": {
+    "title": "[FR] Passkey Setup Guide",
+    "progress": "[FR] {{completed}}/{{total}} steps completed",
+    "intro": "[FR] Follow these steps to set up passwordless sign-in with passkeys:",
+    "stepNumber": "[FR] Step {{number}}",
+    "step1Title": "[FR] Sign in with email/password",
+    "step1Desc": "[FR] You must be logged in to register a passkey.",
+    "step2Title": "[FR] Register a passkey",
+    "step2Desc": "[FR] Use the 'Add Passkey' button above.",
+    "step3Title": "[FR] Sign out",
+    "step3Desc": "[FR] Log out of your account to test passkey sign-in.",
+    "step4Title": "[FR] Sign in with Passkey",
+    "step4Desc": "[FR] On the login page, use the Passkey tab.",
+    "deviceNote": "[FR] Passkeys are registered per device and browser.",
+    "refresh": "[FR] Refresh Status"
+  },
+  
+  "recoveryCodes": {
+    "title": "[FR] Recovery Codes",
+    "description": "[FR] Use these codes if you lose access to your authenticator app.",
+    "warningTitle": "[FR] Keep these codes safe",
+    "warningBody": "[FR] Each code can only be used once.",
+    "regenerate": "[FR] Regenerate Backup Codes",
+    "regenerateNote": "[FR] Regenerating codes will invalidate all previous codes.",
+    "regenerateTitle": "[FR] Regenerate Recovery Codes?",
+    "regenerateWarning": "[FR] This will invalidate all your existing backup codes.",
+    "enterCode": "[FR] Enter your current 2FA code",
+    "confirmRegenerate": "[FR] Regenerate",
+    "regenerated": "[FR] Backup codes regenerated",
+    "newCodesTitle": "[FR] Save Your New Backup Codes",
+    "newCodesDesc": "[FR] These codes replace all previous backup codes.",
+    "reveal": "[FR] Reveal Codes",
+    "hide": "[FR] Hide Codes",
+    "saved": "[FR] I've Saved My Codes"
+  },
+  
+  "securityChecklist": {
+    "title": "[FR] Security Checklist",
+    "checking": "[FR] Checking security settings...",
+    "score": "[FR] {{pass}}/{{total}} checks passed",
+    "emailVerified": "[FR] Email Verified",
+    "emailVerifiedDesc": "[FR] Your email address has been confirmed",
+    "emailVerifiedPass": "[FR] Email verified",
+    "emailVerifiedWarn": "[FR] Check your inbox for verification email",
+    "twoFactor": "[FR] Two-Factor Authentication",
+    "twoFactorDesc": "[FR] Extra security layer for your account",
+    "twoFactorPass": "[FR] 2FA is enabled",
+    "twoFactorWarn": "[FR] Enable 2FA for stronger security",
+    "passkeys": "[FR] Passkeys",
+    "passkeysDesc": "[FR] Passwordless sign-in with biometrics",
+    "passkeysPass": "[FR] {{count}} passkey(s) registered",
+    "passkeysWarn": "[FR] Add a passkey for passwordless sign-in",
+    "sessionTimeout": "[FR] Session Timeout",
+    "sessionTimeoutDesc": "[FR] Auto-logout after inactivity",
+    "sessionTimeoutValue": "[FR] {{minutes}} minute timeout",
+    "backendAvailable": "[FR] Backend Services",
+    "backendAvailableDesc": "[FR] Security infrastructure reachable",
+    "backendAvailablePass": "[FR] All services online",
+    "backendAvailableFail": "[FR] Some services unreachable",
+    "checkFailed": "[FR] Could not check status",
+    "backendNote": "[FR] Settings like 'Leaked Password Protection' are configured in the backend panel."
+  },
+  
+  "invalidCodeLength": "[FR] Code must be 6 digits",
+  "copyAllCodes": "[FR] Copy All Codes"
 }

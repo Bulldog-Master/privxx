@@ -797,6 +797,99 @@
     "checkNow": "今すぐ確認",
     "available": "利用可能",
     "unavailable": "利用不可",
-    "checking": "確認中..."
-  }
+    "checking": "[JA] 確認中..."
+  },
+  
+  "debugBundle": {
+    "title": "[JA] Auth Debug Bundle",
+    "description": "[JA] Capture detailed error bodies and HTTP status codes",
+    "copied": "[JA] Full auth debug bundle copied",
+    "errorsDetected": "[JA] Some services returned errors",
+    "refresh": "[JA] Refresh",
+    "copy": "[JA] Copy Full Bundle"
+  },
+  
+  "backendStatus": {
+    "title": "[JA] Backend Status",
+    "subtitle": "[JA] Reachable vs auth-required vs blocked",
+    "copied": "[JA] Status report copied",
+    "reachable": "[JA] Reachable",
+    "authRequired": "[JA] Auth Required",
+    "blocked": "[JA] Blocked (CORS)",
+    "error": "[JA] Error",
+    "errors": "[JA] Errors",
+    "checking": "[JA] Checking...",
+    "detailedStatus": "[JA] Detailed Status",
+    "detailedDesc": "[JA] Individual function connectivity",
+    "legend": "[JA] Status Legend",
+    "reachableDesc": "[JA] Reachable — Function responded with 200 OK",
+    "authRequiredDesc": "[JA] Auth Required — needs authentication",
+    "blockedDesc": "[JA] Blocked/Error — CORS issue or server error"
+  },
+  
+  "passkeyFlow": {
+    "title": "[JA] Passkey Setup Guide",
+    "progress": "[JA] {{completed}}/{{total}} steps completed",
+    "intro": "[JA] Follow these steps to set up passwordless sign-in:",
+    "stepNumber": "[JA] Step {{number}}",
+    "step1Title": "[JA] Sign in with email/password",
+    "step1Desc": "[JA] You must be logged in to register a passkey.",
+    "step2Title": "[JA] Register a passkey",
+    "step2Desc": "[JA] Use the 'Add Passkey' button above.",
+    "step3Title": "[JA] Sign out",
+    "step3Desc": "[JA] Log out to test passkey sign-in.",
+    "step4Title": "[JA] Sign in with Passkey",
+    "step4Desc": "[JA] Use the Passkey tab to sign in.",
+    "deviceNote": "[JA] Passkeys are registered per device.",
+    "refresh": "[JA] Refresh Status"
+  },
+  
+  "recoveryCodes": {
+    "title": "[JA] Recovery Codes",
+    "description": "[JA] Use these codes if you lose access to your authenticator app.",
+    "warningTitle": "[JA] Keep these codes safe",
+    "warningBody": "[JA] Each code can only be used once.",
+    "regenerate": "[JA] Regenerate Backup Codes",
+    "regenerateNote": "[JA] Regenerating codes will invalidate all previous codes.",
+    "regenerateTitle": "[JA] Regenerate Recovery Codes?",
+    "regenerateWarning": "[JA] This will invalidate all your existing backup codes.",
+    "enterCode": "[JA] Enter your current 2FA code",
+    "confirmRegenerate": "[JA] Regenerate",
+    "regenerated": "[JA] Backup codes regenerated",
+    "newCodesTitle": "[JA] Save Your New Backup Codes",
+    "newCodesDesc": "[JA] These codes replace all previous backup codes.",
+    "reveal": "[JA] Reveal Codes",
+    "hide": "[JA] Hide Codes",
+    "saved": "[JA] I've Saved My Codes"
+  },
+  
+  "securityChecklist": {
+    "title": "[JA] Security Checklist",
+    "checking": "[JA] Checking security settings...",
+    "score": "[JA] {{pass}}/{{total}} checks passed",
+    "emailVerified": "[JA] Email Verified",
+    "emailVerifiedDesc": "[JA] Your email address has been confirmed",
+    "emailVerifiedPass": "[JA] Email verified",
+    "emailVerifiedWarn": "[JA] Check your inbox for verification email",
+    "twoFactor": "[JA] Two-Factor Authentication",
+    "twoFactorDesc": "[JA] Extra security layer for your account",
+    "twoFactorPass": "[JA] 2FA is enabled",
+    "twoFactorWarn": "[JA] Enable 2FA for stronger security",
+    "passkeys": "[JA] Passkeys",
+    "passkeysDesc": "[JA] Passwordless sign-in with biometrics",
+    "passkeysPass": "[JA] {{count}} passkey(s) registered",
+    "passkeysWarn": "[JA] Add a passkey for passwordless sign-in",
+    "sessionTimeout": "[JA] Session Timeout",
+    "sessionTimeoutDesc": "[JA] Auto-logout after inactivity",
+    "sessionTimeoutValue": "[JA] {{minutes}} minute timeout",
+    "backendAvailable": "[JA] Backend Services",
+    "backendAvailableDesc": "[JA] Security infrastructure reachable",
+    "backendAvailablePass": "[JA] All services online",
+    "backendAvailableFail": "[JA] Some services unreachable",
+    "checkFailed": "[JA] Could not check status",
+    "backendNote": "[JA] Settings like 'Leaked Password Protection' are configured in the backend panel."
+  },
+  
+  "invalidCodeLength": "[JA] Code must be 6 digits",
+  "copyAllCodes": "[JA] Copy All Codes"
 }

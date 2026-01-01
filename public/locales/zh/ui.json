@@ -797,6 +797,13 @@
     "checkNow": "立即检查",
     "available": "可用",
     "unavailable": "不可用",
-    "checking": "检查中..."
-  }
+    "checking": "[ZH] 检查中..."
+  },
+  "debugBundle": { "title": "[ZH] Auth Debug Bundle", "description": "[ZH] Capture errors", "copied": "[ZH] Copied", "errorsDetected": "[ZH] Errors", "refresh": "[ZH] Refresh", "copy": "[ZH] Copy" },
+  "backendStatus": { "title": "[ZH] Backend Status", "subtitle": "[ZH] Status", "copied": "[ZH] Copied", "reachable": "[ZH] Reachable", "authRequired": "[ZH] Auth Required", "blocked": "[ZH] Blocked", "error": "[ZH] Error", "errors": "[ZH] Errors", "checking": "[ZH] Checking...", "detailedStatus": "[ZH] Details", "detailedDesc": "[ZH] Connectivity", "legend": "[ZH] Legend", "reachableDesc": "[ZH] 200 OK", "authRequiredDesc": "[ZH] 401/403", "blockedDesc": "[ZH] CORS/Error" },
+  "passkeyFlow": { "title": "[ZH] Passkey Guide", "progress": "[ZH] {{completed}}/{{total}}", "intro": "[ZH] Setup:", "stepNumber": "[ZH] Step {{number}}", "step1Title": "[ZH] Sign in", "step1Desc": "[ZH] Login", "step2Title": "[ZH] Register", "step2Desc": "[ZH] Add", "step3Title": "[ZH] Sign out", "step3Desc": "[ZH] Logout", "step4Title": "[ZH] Use passkey", "step4Desc": "[ZH] Sign in", "deviceNote": "[ZH] Per device", "refresh": "[ZH] Refresh" },
+  "recoveryCodes": { "title": "[ZH] Recovery Codes", "description": "[ZH] Backup", "warningTitle": "[ZH] Keep safe", "warningBody": "[ZH] One-time", "regenerate": "[ZH] Regenerate", "regenerateNote": "[ZH] Invalidates", "regenerateTitle": "[ZH] Regenerate?", "regenerateWarning": "[ZH] Warning", "enterCode": "[ZH] Enter code", "confirmRegenerate": "[ZH] Confirm", "regenerated": "[ZH] Done", "newCodesTitle": "[ZH] Save", "newCodesDesc": "[ZH] Save now", "reveal": "[ZH] Reveal", "hide": "[ZH] Hide", "saved": "[ZH] Saved" },
+  "securityChecklist": { "title": "[ZH] Security Checklist", "checking": "[ZH] Checking...", "score": "[ZH] {{pass}}/{{total}}", "emailVerified": "[ZH] Email", "emailVerifiedDesc": "[ZH] Confirmed", "emailVerifiedPass": "[ZH] Verified", "emailVerifiedWarn": "[ZH] Check inbox", "twoFactor": "[ZH] 2FA", "twoFactorDesc": "[ZH] Security", "twoFactorPass": "[ZH] Enabled", "twoFactorWarn": "[ZH] Enable", "passkeys": "[ZH] Passkeys", "passkeysDesc": "[ZH] Biometrics", "passkeysPass": "[ZH] {{count}}", "passkeysWarn": "[ZH] Add", "sessionTimeout": "[ZH] Timeout", "sessionTimeoutDesc": "[ZH] Auto-logout", "sessionTimeoutValue": "[ZH] {{minutes}}m", "backendAvailable": "[ZH] Backend", "backendAvailableDesc": "[ZH] Reachable", "backendAvailablePass": "[ZH] Online", "backendAvailableFail": "[ZH] Unreachable", "checkFailed": "[ZH] Failed", "backendNote": "[ZH] Backend" },
+  "invalidCodeLength": "[ZH] 6 digits",
+  "copyAllCodes": "[ZH] Copy"
 }

@@ -795,5 +795,98 @@
     "available": "Available",
     "unavailable": "Unavailable",
     "checking": "Checking..."
-  }
+  },
+  
+  "debugBundle": {
+    "title": "Auth Debug Bundle",
+    "description": "Capture detailed error bodies and HTTP status codes",
+    "copied": "Full auth debug bundle copied",
+    "errorsDetected": "Some services returned errors — see full bundle for details",
+    "refresh": "Refresh",
+    "copy": "Copy Full Bundle"
+  },
+  
+  "backendStatus": {
+    "title": "Backend Status",
+    "subtitle": "Reachable vs auth-required vs blocked",
+    "copied": "Status report copied",
+    "reachable": "Reachable",
+    "authRequired": "Auth Required",
+    "blocked": "Blocked (CORS)",
+    "error": "Error",
+    "errors": "Errors",
+    "checking": "Checking...",
+    "detailedStatus": "Detailed Status",
+    "detailedDesc": "Individual function connectivity",
+    "legend": "Status Legend",
+    "reachableDesc": "Reachable — Function responded with 200 OK",
+    "authRequiredDesc": "Auth Required — Function reachable but needs authentication (401/403)",
+    "blockedDesc": "Blocked/Error — CORS issue or server error"
+  },
+  
+  "passkeyFlow": {
+    "title": "Passkey Setup Guide",
+    "progress": "{{completed}}/{{total}} steps completed",
+    "intro": "Follow these steps to set up passwordless sign-in with passkeys:",
+    "stepNumber": "Step {{number}}",
+    "step1Title": "Sign in with email/password",
+    "step1Desc": "You must be logged in to register a passkey.",
+    "step2Title": "Register a passkey",
+    "step2Desc": "Use the 'Add Passkey' button above to register Touch ID, Face ID, or a security key.",
+    "step3Title": "Sign out",
+    "step3Desc": "Log out of your account to test passkey sign-in.",
+    "step4Title": "Sign in with Passkey",
+    "step4Desc": "On the login page, use the Passkey tab to sign in passwordlessly.",
+    "deviceNote": "Passkeys are registered per device and browser. You'll need to repeat this process on each device you want to use.",
+    "refresh": "Refresh Status"
+  },
+  
+  "recoveryCodes": {
+    "title": "Recovery Codes",
+    "description": "Use these codes if you lose access to your authenticator app.",
+    "warningTitle": "Keep these codes safe",
+    "warningBody": "Each code can only be used once. Store them in a secure location like a password manager.",
+    "regenerate": "Regenerate Backup Codes",
+    "regenerateNote": "Regenerating codes will invalidate all previous codes.",
+    "regenerateTitle": "Regenerate Recovery Codes?",
+    "regenerateWarning": "This will invalidate all your existing backup codes. You'll need to save the new codes immediately.",
+    "enterCode": "Enter your current 2FA code",
+    "confirmRegenerate": "Regenerate",
+    "regenerated": "Backup codes regenerated",
+    "newCodesTitle": "Save Your New Backup Codes",
+    "newCodesDesc": "These codes replace all previous backup codes. Save them now — you won't see them again.",
+    "reveal": "Reveal Codes",
+    "hide": "Hide Codes",
+    "saved": "I've Saved My Codes"
+  },
+  
+  "securityChecklist": {
+    "title": "Security Checklist",
+    "checking": "Checking security settings...",
+    "score": "{{pass}}/{{total}} checks passed",
+    "emailVerified": "Email Verified",
+    "emailVerifiedDesc": "Your email address has been confirmed",
+    "emailVerifiedPass": "Email verified",
+    "emailVerifiedWarn": "Check your inbox for verification email",
+    "twoFactor": "Two-Factor Authentication",
+    "twoFactorDesc": "Extra security layer for your account",
+    "twoFactorPass": "2FA is enabled",
+    "twoFactorWarn": "Enable 2FA for stronger security",
+    "passkeys": "Passkeys",
+    "passkeysDesc": "Passwordless sign-in with biometrics",
+    "passkeysPass": "{{count}} passkey(s) registered",
+    "passkeysWarn": "Add a passkey for passwordless sign-in",
+    "sessionTimeout": "Session Timeout",
+    "sessionTimeoutDesc": "Auto-logout after inactivity",
+    "sessionTimeoutValue": "{{minutes}} minute timeout",
+    "backendAvailable": "Backend Services",
+    "backendAvailableDesc": "Security infrastructure reachable",
+    "backendAvailablePass": "All services online",
+    "backendAvailableFail": "Some services unreachable",
+    "checkFailed": "Could not check status",
+    "backendNote": "Settings like 'Leaked Password Protection' are configured in the backend panel and cannot be checked from the app."
+  },
+  
+  "invalidCodeLength": "Code must be 6 digits",
+  "copyAllCodes": "Copy All Codes"
 }

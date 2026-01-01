@@ -792,6 +792,99 @@
     "available": "Disponibile",
     "unavailable": "Non disponibile",
     "lastCheck": "Ultimo controllo",
-    "checkNow": "Controlla ora"
-  }
+    "checkNow": "[IT] Controlla ora"
+  },
+  
+  "debugBundle": {
+    "title": "[IT] Auth Debug Bundle",
+    "description": "[IT] Capture detailed error bodies and HTTP status codes",
+    "copied": "[IT] Full auth debug bundle copied",
+    "errorsDetected": "[IT] Some services returned errors",
+    "refresh": "[IT] Refresh",
+    "copy": "[IT] Copy Full Bundle"
+  },
+  
+  "backendStatus": {
+    "title": "[IT] Backend Status",
+    "subtitle": "[IT] Reachable vs auth-required vs blocked",
+    "copied": "[IT] Status report copied",
+    "reachable": "[IT] Reachable",
+    "authRequired": "[IT] Auth Required",
+    "blocked": "[IT] Blocked (CORS)",
+    "error": "[IT] Error",
+    "errors": "[IT] Errors",
+    "checking": "[IT] Checking...",
+    "detailedStatus": "[IT] Detailed Status",
+    "detailedDesc": "[IT] Individual function connectivity",
+    "legend": "[IT] Status Legend",
+    "reachableDesc": "[IT] Reachable — Function responded with 200 OK",
+    "authRequiredDesc": "[IT] Auth Required — needs authentication",
+    "blockedDesc": "[IT] Blocked/Error — CORS issue or server error"
+  },
+  
+  "passkeyFlow": {
+    "title": "[IT] Passkey Setup Guide",
+    "progress": "[IT] {{completed}}/{{total}} steps completed",
+    "intro": "[IT] Follow these steps to set up passwordless sign-in:",
+    "stepNumber": "[IT] Step {{number}}",
+    "step1Title": "[IT] Sign in with email/password",
+    "step1Desc": "[IT] You must be logged in to register a passkey.",
+    "step2Title": "[IT] Register a passkey",
+    "step2Desc": "[IT] Use the 'Add Passkey' button above.",
+    "step3Title": "[IT] Sign out",
+    "step3Desc": "[IT] Log out to test passkey sign-in.",
+    "step4Title": "[IT] Sign in with Passkey",
+    "step4Desc": "[IT] Use the Passkey tab to sign in.",
+    "deviceNote": "[IT] Passkeys are registered per device.",
+    "refresh": "[IT] Refresh Status"
+  },
+  
+  "recoveryCodes": {
+    "title": "[IT] Recovery Codes",
+    "description": "[IT] Use these codes if you lose access to your authenticator app.",
+    "warningTitle": "[IT] Keep these codes safe",
+    "warningBody": "[IT] Each code can only be used once.",
+    "regenerate": "[IT] Regenerate Backup Codes",
+    "regenerateNote": "[IT] Regenerating codes will invalidate all previous codes.",
+    "regenerateTitle": "[IT] Regenerate Recovery Codes?",
+    "regenerateWarning": "[IT] This will invalidate all your existing backup codes.",
+    "enterCode": "[IT] Enter your current 2FA code",
+    "confirmRegenerate": "[IT] Regenerate",
+    "regenerated": "[IT] Backup codes regenerated",
+    "newCodesTitle": "[IT] Save Your New Backup Codes",
+    "newCodesDesc": "[IT] These codes replace all previous backup codes.",
+    "reveal": "[IT] Reveal Codes",
+    "hide": "[IT] Hide Codes",
+    "saved": "[IT] I've Saved My Codes"
+  },
+  
+  "securityChecklist": {
+    "title": "[IT] Security Checklist",
+    "checking": "[IT] Checking security settings...",
+    "score": "[IT] {{pass}}/{{total}} checks passed",
+    "emailVerified": "[IT] Email Verified",
+    "emailVerifiedDesc": "[IT] Your email address has been confirmed",
+    "emailVerifiedPass": "[IT] Email verified",
+    "emailVerifiedWarn": "[IT] Check your inbox for verification email",
+    "twoFactor": "[IT] Two-Factor Authentication",
+    "twoFactorDesc": "[IT] Extra security layer for your account",
+    "twoFactorPass": "[IT] 2FA is enabled",
+    "twoFactorWarn": "[IT] Enable 2FA for stronger security",
+    "passkeys": "[IT] Passkeys",
+    "passkeysDesc": "[IT] Passwordless sign-in with biometrics",
+    "passkeysPass": "[IT] {{count}} passkey(s) registered",
+    "passkeysWarn": "[IT] Add a passkey for passwordless sign-in",
+    "sessionTimeout": "[IT] Session Timeout",
+    "sessionTimeoutDesc": "[IT] Auto-logout after inactivity",
+    "sessionTimeoutValue": "[IT] {{minutes}} minute timeout",
+    "backendAvailable": "[IT] Backend Services",
+    "backendAvailableDesc": "[IT] Security infrastructure reachable",
+    "backendAvailablePass": "[IT] All services online",
+    "backendAvailableFail": "[IT] Some services unreachable",
+    "checkFailed": "[IT] Could not check status",
+    "backendNote": "[IT] Settings like 'Leaked Password Protection' are configured in the backend panel."
+  },
+  
+  "invalidCodeLength": "[IT] Code must be 6 digits",
+  "copyAllCodes": "[IT] Copy All Codes"
 }
