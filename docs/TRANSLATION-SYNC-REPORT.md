@@ -1,41 +1,83 @@
 # Translation Synchronization Report
 
-**Generated:** December 2025  
-**Last Updated:** December 30, 2025  
-**Reference File:** `public/locales/en/ui.json` (505 keys)
+**Generated:** January 2026  
+**Last Updated:** January 1, 2026  
+**Reference File:** `public/locales/en/ui.json` (894 keys)
 
 ---
 
 ## Summary
 
-| Language | Code | Key Count | Missing | Placeholders | Status |
-|----------|------|-----------|---------|--------------|--------|
-| English | en | 505 | 0 | 0 | ✅ Complete (Reference) |
-| Arabic | ar | 505 | 0 | 0 | ✅ Complete |
-| Bengali | bn | 505 | 0 | 0 | ✅ Complete |
-| Chinese | zh | 505 | 0 | 0 | ✅ Complete |
-| Dutch | nl | 505 | 0 | 0 | ✅ Complete |
-| French | fr | 505 | 0 | 0 | ✅ Complete |
-| German | de | 505 | 0 | 0 | ✅ Complete |
-| Hindi | hi | 505 | 0 | 0 | ✅ Complete |
-| Indonesian | id | 505 | 0 | 0 | ✅ Complete |
-| Japanese | ja | 505 | 0 | 0 | ✅ Complete |
-| Korean | ko | 505 | 0 | 0 | ✅ Complete |
-| Portuguese | pt | 505 | 0 | 0 | ✅ Complete |
-| Russian | ru | 505 | 0 | 0 | ✅ Complete |
-| Spanish | es | 505 | 0 | 0 | ✅ Complete |
-| Turkish | tr | 505 | 0 | 0 | ✅ Complete |
-| Urdu | ur | 505 | 0 | 0 | ✅ Complete |
+| Language | Code | Key Count | Placeholders | Quality | Status |
+|----------|------|-----------|--------------|---------|--------|
+| English | en | 894 | 0 | 100% | ✅ Reference |
+| Spanish | es | 894 | 0 | 100% | ✅ Complete |
+| French | fr | 894 | 0 | 100% | ✅ Complete |
+| German | de | 894 | 0 | 100% | ✅ Complete |
+| Arabic | ar | 894 | ~95 | ~89% | ⚠️ Needs Translation |
+| Bengali | bn | 894 | ~95 | ~89% | ⚠️ Needs Translation |
+| Hebrew | he | 894 | ~95 | ~89% | ⚠️ Needs Translation |
+| Hindi | hi | 894 | ~95 | ~89% | ⚠️ Needs Translation |
+| Indonesian | id | 894 | ~95 | ~89% | ⚠️ Needs Translation |
+| Italian | it | 894 | ~95 | ~89% | ⚠️ Needs Translation |
+| Japanese | ja | 894 | ~95 | ~89% | ⚠️ Needs Translation |
+| Korean | ko | 894 | ~47 | ~95% | ⚠️ Needs Translation |
+| Dutch | nl | 894 | ~47 | ~95% | ⚠️ Needs Translation |
+| Polish | pl | 894 | ~47 | ~95% | ⚠️ Needs Translation |
+| Portuguese | pt | 894 | ~47 | ~95% | ⚠️ Needs Translation |
+| Russian | ru | 894 | ~47 | ~95% | ⚠️ Needs Translation |
+| Turkish | tr | 894 | ~47 | ~95% | ⚠️ Needs Translation |
+| Urdu | ur | 894 | ~47 | ~95% | ⚠️ Needs Translation |
+| Yiddish | yi | 894 | ~47 | ~95% | ⚠️ Needs Translation |
+| Chinese | zh | 894 | ~47 | ~95% | ⚠️ Needs Translation |
 
-**All 16 languages are fully translated (16/16 complete, 100% quality, 0 placeholders).**
+**Structure Status:** All 20 languages have 100% key completeness (894/894 keys each).  
+**Quality Status:** 4/20 languages are fully translated. 16 languages have placeholder markers.
+
+---
+
+## Recent Update (January 1, 2026)
+
+### New Keys Added (+78 keys)
+
+The following key namespaces were added for new security and diagnostics components:
+
+| Namespace | Keys | Purpose |
+|-----------|------|---------|
+| `debugBundle.*` | 6 | Auth Debug Bundle component |
+| `backendStatus.*` | 17 | Backend Status page |
+| `passkeyFlow.*` | 15 | Passkey Setup Guide |
+| `recoveryCodes.*` | 16 | 2FA Recovery Codes Management |
+| `securityChecklist.*` | 22 | Security Settings Checklist |
+| Root keys | 2 | `invalidCodeLength`, `copyAllCodes` |
+
+### Fully Translated Languages
+
+The following languages received complete native translations for all new keys:
+
+1. ✅ **English** (`en`) — Reference language
+2. ✅ **Spanish** (`es`) — Full native translations
+3. ✅ **French** (`fr`) — Full native translations  
+4. ✅ **German** (`de`) — Full native translations
+
+### Languages with Placeholders
+
+All other 16 languages received structured placeholders (`[XX]` prefix) for easy identification:
+
+```
+[AR] Arabic placeholder text
+[BN] Bengali placeholder text
+[HE] Hebrew placeholder text
+...
+```
 
 ---
 
 ## Automation Status
 
-### Pre-Commit Hook (Fixed December 30, 2025)
+### Pre-Commit Hook
 
-The Husky pre-commit hook now properly syncs **all 16 languages** when English is modified:
+The Husky pre-commit hook syncs all 20 languages when English is modified:
 
 ```bash
 # When en/ui.json is staged:
@@ -44,119 +86,88 @@ The Husky pre-commit hook now properly syncs **all 16 languages** when English i
 # 3. Commits everything together
 ```
 
-**Previous Issue:** Hook only ran on already-staged files, missing the 15 other languages.
-
-**Current Behavior:** Editing `en/ui.json` triggers full sync across all locales.
-
 ### CI/CD Workflow
 
-GitHub Actions (`.github/workflows/ci.yml`) also runs the sync:
+GitHub Actions (`.github/workflows/ci.yml`):
 - Executes `check-language.js --fix` on every push to main
 - Auto-commits synced translations with `chore: auto-sync translations [skip ci]`
-
----
-
-## Recent Changes (December 30, 2025)
-
-### Added Keys (Quality Metrics)
-- `diagnostics.translationQuality` — Quality percentage label
-- `diagnostics.qualityExplanation` — Quality metric tooltip
-- `diagnostics.invalidJsonDetected` — Invalid JSON warning
-- `diagnostics.invalidJson` — Invalid JSON badge
-- `diagnostics.parseError` — Parse error label
-- `diagnostics.parseErrorHint` — Parse error help text
-- `diagnostics.needsTranslation` — Needs translation badge
-- `diagnostics.translationStatus.jsonParseError` — JSON parse error message
-- `diagnostics.translationStatus.checkFile` — File check label
-- `diagnostics.translationStatus.syncProgress` — Sync progress label
-- `diagnostics.translationStatus.completionVsQuality` — Quality metric explanation
-- `diagnostics.translationStatus.validJson` — Valid JSON indicator
-
-### Fixed
-- Pre-commit hook now syncs ALL languages when English is modified
-- Added missing quality metric keys to all 15 non-English locales
 
 ---
 
 ## Governance Compliance
 
 ### Verified
-- ✅ All files use identical key structure (505 keys each)
-- ✅ No forbidden terms detected ("anonymous", "untraceable", "perfect privacy", "guaranteed")
+- ✅ All files use identical key structure (894 keys each)
+- ✅ No forbidden terms detected ("anonymous", "untraceable", "perfect privacy")
 - ✅ Brand terms preserved untranslated: Privxx, cMixx, xxDK, XX Network
-- ✅ RTL languages (ar, ur) properly configured
+- ✅ RTL languages (ar, he, ur, yi) properly configured
 
 ### Language Governance Rules
 Per `docs/LANGUAGE-RULES.md`:
 - **Never translate**: Privxx, cMixx, xxDK, XX Network
 - **Forbidden words**: "anonymous", "untraceable", "perfect privacy", "guaranteed"
 - **Preferred terms**: "private", "metadata reduction", "private routing"
-- **RTL support**: Arabic (ar) and Urdu (ur) require RTL rendering
+- **RTL support**: Arabic (ar), Hebrew (he), Urdu (ur), Yiddish (yi)
 
 ---
 
-## Key Categories (505 total)
+## Key Categories (894 total)
 
 | Category | Key Count |
 |----------|-----------|
-| Backend Status | 7 |
-| Connection & Timeout | 6 |
-| Inbox/Messages | 7 |
-| Offline/Starting States | 4 |
-| Identity Management | 16 |
-| Diagnostics/Bridge | 10 |
-| Browser/Tunnel | 9 |
-| Compose/Messaging | 10 |
-| Component Documentation | 13 |
-| Auth & Settings | ~100 |
-| Privacy/Terms | ~100 |
-| General UI | ~92 |
-| Diagnostics Page | 35 |
-| Security Dashboard | 36 |
-| Translation Status Dashboard | 15 |
+| Auth & Security | ~180 |
+| Diagnostics/Bridge | ~120 |
+| Connection Alerts | ~60 |
+| Settings & Profile | ~100 |
+| Privacy/Terms | ~50 |
+| Messages & Compose | ~40 |
+| Browser/Tunnel | ~30 |
+| Payments | ~25 |
+| General UI | ~100 |
+| **New Components** | **78** |
 
 ---
 
-## Translation Status Dashboard Features
+## Translation Priority
 
-The diagnostics page includes a **Translation Status Dashboard** with:
+### Priority 1 (High-traffic)
+- 🔶 Chinese (`zh`) — 47 placeholders
+- 🔶 Japanese (`ja`) — 95 placeholders
+- 🔶 Portuguese (`pt`) — 47 placeholders
 
-1. **Dual Metrics**
-   - **Sync Completion**: Measures structure completeness (all keys present)
-   - **Quality Metric**: Measures actual translation quality (non-placeholder strings)
+### Priority 2 (RTL languages)
+- 🔶 Arabic (`ar`) — 95 placeholders
+- 🔶 Hebrew (`he`) — 95 placeholders
+- 🔶 Urdu (`ur`) — 47 placeholders
+- 🔶 Yiddish (`yi`) — 47 placeholders
 
-2. **JSON Validation**
-   - Detects invalid JSON in locale files
-   - Shows specific file that failed to parse
-   - Displays in development mode only
-
-3. **Placeholder Detection**
-   - Identifies `[XX]` style placeholder strings
-   - Reports per-language placeholder counts
-   - Separates completion from quality metrics
+### Priority 3 (Other)
+- 🔶 Bengali (`bn`), Hindi (`hi`), Indonesian (`id`), Italian (`it`)
+- 🔶 Korean (`ko`), Dutch (`nl`), Polish (`pl`), Russian (`ru`), Turkish (`tr`)
 
 ---
 
 ## Maintenance
 
-### Adding New Keys (Automated Workflow)
+### Adding New Keys
 
 1. **Edit only** `public/locales/en/ui.json`
-2. **Commit normally** — pre-commit hook auto-syncs all 16 languages
+2. **Commit normally** — pre-commit hook auto-syncs all 20 languages
 3. All other locale files receive `[XX]` placeholders automatically
 
 ### Manual Sync Command
 
-To manually sync (if needed outside git):
 ```bash
-node scripts/check-language.js --fix
-```
+# Sync all languages (writes placeholders)
+node scripts/sync-translations.js --write
 
-To verify synchronization without fixing:
-```bash
-node scripts/check-language.js
+# Dry-run (show what would be added)
+node scripts/sync-translations.js --dry-run
+
+# Check for placeholder markers
+grep -r "\[AR\]\|\[BN\]\|\[ZH\]" public/locales/
 ```
 
 ---
 
-*Report updated by Privxx i18n sync - December 30, 2025*
+*Report updated by Privxx i18n sync — January 1, 2026*
