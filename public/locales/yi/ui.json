@@ -379,9 +379,11 @@
     "number": "נומער (0-9)",
     "special": "באַזונדער צייכן (!@#$%)"
   },
-  "generatePassword": "שאַפֿן שטאַרק פּאַסוואָרט",
+  "generatePassword": "שאַפֿן",
   "copyPassword": "קאָפּירן פּאַסוואָרט",
   "passwordCopied": "קאָפּירט!",
+  "passwordSettings": "פּאַסוואָרט אײנשטעלונגען",
+  "passwordLength": "לענג",
   "unlock": "אַנטשפּאַרן",
   "lock": "פֿאַרשפּאַרן",
   "cancel": "אָפּזאָגן",

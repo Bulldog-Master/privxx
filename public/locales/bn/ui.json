@@ -379,9 +379,11 @@
     "number": "সংখ্যা (০-৯)",
     "special": "বিশেষ অক্ষর (!@#$%)"
   },
-  "generatePassword": "শক্তিশালী পাসওয়ার্ড তৈরি করুন",
+  "generatePassword": "তৈরি করুন",
   "copyPassword": "পাসওয়ার্ড কপি করুন",
   "passwordCopied": "কপি হয়েছে!",
+  "passwordSettings": "পাসওয়ার্ড সেটিংস",
+  "passwordLength": "দৈর্ঘ্য",
   "unlock": "আনলক",
   "lock": "লক",
   "cancel": "বাতিল",

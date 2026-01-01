@@ -9,15 +9,16 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, Loader2, ArrowRight, Eye, EyeOff, Check, X } from "lucide-react";
+import { Mail, Lock, Loader2, ArrowRight, Check, X, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { signUpSchema, type SignUpValues } from "../validation/schemas";
 import { PasswordStrengthIndicator } from "./PasswordStrengthIndicator";
 import { PasswordRequirementsList } from "./PasswordRequirementsList";
 import { PasswordGenerator } from "./PasswordGenerator";
+import { RevealOnTypeInput } from "./RevealOnTypeInput";
 
 export function SignUpForm() {
   const { t } = useTranslation();
@@ -77,28 +78,18 @@ export function SignUpForm() {
           />
         </div>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
+          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
+          <RevealOnTypeInput
             id="signup-password"
-            type={showPassword ? "text" : "password"}
-            {...form.register("password")}
+            value={form.watch("password")}
+            onChange={(val) => form.setValue("password", val, { shouldValidate: form.formState.isSubmitted })}
             placeholder={t("createPasswordPlaceholder", "Create a password")}
-            className="pl-10 pr-10"
+            className="pl-10"
             disabled={isSubmitting}
+            showPassword={showPassword}
+            onToggleVisibility={() => setShowPassword(!showPassword)}
+            revealOnType={!showPassword}
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-            tabIndex={-1}
-            aria-label={showPassword ? t("hidePassword", "Hide password") : t("showPassword", "Show password")}
-          >
-            {showPassword ? (
-              <EyeOff className="h-4 w-4" />
-            ) : (
-              <Eye className="h-4 w-4" />
-            )}
-          </button>
         </div>
         {form.formState.errors.password && (
           <p className="text-sm text-destructive" role="alert">

@@ -379,9 +379,11 @@
     "number": "Cyfra (0-9)",
     "special": "Znak specjalny (!@#$%)"
   },
-  "generatePassword": "Wygeneruj silne hasło",
+  "generatePassword": "Wygeneruj",
   "copyPassword": "Kopiuj hasło",
   "passwordCopied": "Skopiowano!",
+  "passwordSettings": "Ustawienia hasła",
+  "passwordLength": "Długość",
   "unlock": "Odblokuj",
   "lock": "Zablokuj",
   "cancel": "Anuluj",

@@ -463,9 +463,11 @@
     "number": "Zahl (0-9)",
     "special": "Sonderzeichen (!@#$%)"
   },
-  "generatePassword": "Starkes Passwort generieren",
+  "generatePassword": "Generieren",
   "copyPassword": "Passwort kopieren",
   "passwordCopied": "Kopiert!",
+  "passwordSettings": "Passwort-Einstellungen",
+  "passwordLength": "Länge",
   "unlock": "Entsperren",
   "lock": "Sperren",
   "cancel": "Abbrechen",

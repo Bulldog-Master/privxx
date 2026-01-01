@@ -591,9 +591,11 @@
     "number": "数字 (0-9)",
     "special": "特殊字符 (!@#$%)"
   },
-  "generatePassword": "生成强密码",
+  "generatePassword": "生成",
   "copyPassword": "复制密码",
   "passwordCopied": "已复制！",
+  "passwordSettings": "密码设置",
+  "passwordLength": "长度",
   "unlock": "解锁",
   "lock": "锁定",
   "cancel": "取消",

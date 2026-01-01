@@ -1,13 +1,16 @@
 /**
  * Password Generator Component
  * 
- * Generates a secure random password and copies it to clipboard.
+ * Generates a secure random password with customizable length and copies to clipboard.
  */
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Wand2, Copy, Check } from "lucide-react";
+import { Wand2, Copy, Check, Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 interface PasswordGeneratorProps {
@@ -45,9 +48,11 @@ export function PasswordGenerator({ onGenerate }: PasswordGeneratorProps) {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [lastGenerated, setLastGenerated] = useState<string | null>(null);
+  const [length, setLength] = useState(16);
+  const [showSettings, setShowSettings] = useState(false);
 
   const handleGenerate = async () => {
-    const password = generateSecurePassword(16);
+    const password = generateSecurePassword(length);
     setLastGenerated(password);
     onGenerate(password);
     
@@ -73,7 +78,42 @@ export function PasswordGenerator({ onGenerate }: PasswordGeneratorProps) {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1">
+      <Popover open={showSettings} onOpenChange={setShowSettings}>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-7 w-7 p-0"
+            title={t("passwordSettings", "Password settings")}
+          >
+            <Settings2 className="h-3.5 w-3.5" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-64" align="end">
+          <div className="space-y-3">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs">{t("passwordLength", "Length")}</Label>
+                <span className="text-xs font-mono text-muted-foreground">{length}</span>
+              </div>
+              <Slider
+                value={[length]}
+                onValueChange={([val]) => setLength(val)}
+                min={8}
+                max={32}
+                step={1}
+                className="w-full"
+              />
+              <div className="flex justify-between text-[10px] text-muted-foreground">
+                <span>8</span>
+                <span>32</span>
+              </div>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
       <Button
         type="button"
         variant="outline"
@@ -82,7 +122,7 @@ export function PasswordGenerator({ onGenerate }: PasswordGeneratorProps) {
         className="h-7 text-xs gap-1.5"
       >
         <Wand2 className="h-3 w-3" />
-        {t("generatePassword", "Generate strong password")}
+        {t("generatePassword", "Generate")}
       </Button>
       {lastGenerated && (
         <Button
