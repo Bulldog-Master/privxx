@@ -36,19 +36,29 @@ export function isAllowedOrigin(origin: string | null): boolean {
  * Returns origin-specific headers for allowed origins, or rejects with empty headers
  */
 export function getCorsHeaders(requestOrigin: string | null): Record<string, string> {
+  // Some environments (notably iOS/Safari) may omit the Origin header for fetch requests.
+  // If we cannot determine the origin, fall back to a permissive CORS response.
+  // Authenticated endpoints still enforce authorization at the application layer.
+  if (!requestOrigin) {
+    return {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    };
+  }
+
   // SECURITY: Always validate origin against allowlist - no development bypass
   // This prevents accidental CORS bypass if ENVIRONMENT is misconfigured
-  
-  if (requestOrigin && isAllowedOrigin(requestOrigin)) {
+  if (isAllowedOrigin(requestOrigin)) {
     return {
       'Access-Control-Allow-Origin': requestOrigin,
       'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
       'Access-Control-Allow-Credentials': 'true',
-      'Vary': 'Origin',
+      Vary: 'Origin',
     };
   }
-  
+
   // Default: return canonical origin (will fail CORS for unauthorized origins)
   return {
     'Access-Control-Allow-Origin': CANONICAL_ORIGIN,
