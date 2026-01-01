@@ -33,6 +33,7 @@ export function AccountSection() {
   const { notify } = useSecurityNotify();
   const [isLoading, setIsLoading] = useState(false);
   const [isSettingPassword, setIsSettingPassword] = useState(false);
+  const [justSavedPassword, setJustSavedPassword] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
   const [passwordAction, setPasswordAction] = useState<"set" | "change">("set");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -115,6 +116,7 @@ export function AccountSection() {
     }
     
     setIsSettingPassword(true);
+    setJustSavedPassword(false);
     try {
       // For changing password, verify current password first
       if (passwordAction === "change" && currentPassword) {
@@ -142,8 +144,14 @@ export function AccountSection() {
         : t("passwordChanged", "Password changed successfully!");
       
       toast.success(successMsg);
-      resetPasswordForm();
+      setJustSavedPassword(true);
       setAuthMethods(prev => ({ ...prev, password: true }));
+      
+      // Reset form after delay
+      window.setTimeout(() => {
+        resetPasswordForm();
+        setJustSavedPassword(false);
+      }, 2000);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "Failed to update password";
       toast.error(message);
@@ -364,21 +372,29 @@ export function AccountSection() {
                   variant="default"
                   size="sm"
                   onClick={handlePasswordSubmit}
-                  disabled={isSettingPassword || newPassword.length < 8 || (passwordAction === "change" && !currentPassword)}
+                  disabled={isSettingPassword || justSavedPassword || newPassword.length < 8 || (passwordAction === "change" && !currentPassword)}
+                  className={justSavedPassword ? "bg-green-600 hover:bg-green-600" : ""}
                 >
                   {isSettingPassword ? (
                     <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : justSavedPassword ? (
+                    <Check className="h-4 w-4 mr-2" />
                   ) : (
                     <Check className="h-4 w-4 mr-2" />
                   )}
-                  {passwordAction === "set" 
-                    ? t("savePassword", "Save Password")
-                    : t("updatePassword", "Update Password")}
+                  {isSettingPassword 
+                    ? t("saving", "Saving...")
+                    : justSavedPassword
+                      ? t("saved", "Saved")
+                      : passwordAction === "set" 
+                        ? t("savePassword", "Save Password")
+                        : t("updatePassword", "Update Password")}
                 </Button>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={resetPasswordForm}
+                  disabled={justSavedPassword}
                 >
                   {t("cancel", "Cancel")}
                 </Button>
