@@ -39,6 +39,7 @@ import { AlertSettings } from "@/components/settings/AlertSettings";
 import { ConnectionAlertSettings } from "@/components/settings/ConnectionAlertSettings";
 import { ConnectionAlertHistory } from "@/components/settings/ConnectionAlertHistory";
 import { TranslationStatusWidget } from "@/components/settings/TranslationStatusWidget";
+import { PasskeySetupIndicator } from "@/components/settings/PasskeySetupIndicator";
 import { buildInfo } from "@/lib/buildInfo";
 
 export default function Settings() {
@@ -99,6 +100,7 @@ export default function Settings() {
         </div>
 
         <div className="space-y-6 mt-6">
+          <PasskeySetupIndicator />
           {/* Profile Link */}
           <Card className="bg-card/90 backdrop-blur-sm border-border/50">
             <Link to="/profile" className="block">
