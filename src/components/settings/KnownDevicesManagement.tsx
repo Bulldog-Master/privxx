@@ -7,13 +7,14 @@
 
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Smartphone, Laptop, Monitor, Trash2, Clock, CheckCircle, ShieldCheck, Shield } from "lucide-react";
+import { Smartphone, Laptop, Monitor, Trash2, Clock, CheckCircle, ShieldCheck, Shield, Pencil, Check, X } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   AlertDialog,
@@ -46,6 +47,8 @@ export function KnownDevicesManagement() {
   const [devices, setDevices] = useState<KnownDevice[]>([]);
   const [currentFingerprint, setCurrentFingerprint] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
+  const [editingDevice, setEditingDevice] = useState<string | null>(null);
+  const [editName, setEditName] = useState("");
 
   useEffect(() => {
     setDevices(getKnownDevices());
@@ -77,6 +80,30 @@ export function KnownDevicesManagement() {
         ? t("deviceTrustedDesc", "This device can skip 2FA challenges.")
         : t("deviceUntrustedDesc", "This device will require 2FA verification."),
     });
+  };
+
+  const handleStartEdit = (device: KnownDevice) => {
+    setEditingDevice(device.fingerprint);
+    setEditName(device.customName || device.name);
+  };
+
+  const handleSaveEdit = (fingerprint: string) => {
+    const updatedDevices = devices.map(d =>
+      d.fingerprint === fingerprint ? { ...d, customName: editName.trim() || undefined } : d
+    );
+    saveKnownDevices(updatedDevices);
+    setDevices(updatedDevices);
+    setEditingDevice(null);
+    setEditName("");
+    toast({
+      title: t("deviceRenamed", "Device renamed"),
+      description: t("deviceRenamedDesc", "Device name has been updated."),
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingDevice(null);
+    setEditName("");
   };
 
   const handleClearAllDevices = () => {
@@ -170,9 +197,51 @@ export function KnownDevicesManagement() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <p className="text-sm font-medium text-primary truncate">
-                            {device.name}
-                          </p>
+                          {editingDevice === device.fingerprint ? (
+                            <div className="flex items-center gap-1 flex-1">
+                              <Input
+                                value={editName}
+                                onChange={(e) => setEditName(e.target.value)}
+                                className="h-7 text-sm max-w-[180px]"
+                                placeholder={device.name}
+                                autoFocus
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter") handleSaveEdit(device.fingerprint);
+                                  if (e.key === "Escape") handleCancelEdit();
+                                }}
+                              />
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6 text-green-600 hover:text-green-700"
+                                onClick={() => handleSaveEdit(device.fingerprint)}
+                              >
+                                <Check className="h-3.5 w-3.5" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-6 w-6 text-muted-foreground hover:text-destructive"
+                                onClick={handleCancelEdit}
+                              >
+                                <X className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <>
+                              <p className="text-sm font-medium text-primary truncate">
+                                {device.customName || device.name}
+                              </p>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-5 w-5 text-muted-foreground hover:text-primary"
+                                onClick={() => handleStartEdit(device)}
+                              >
+                                <Pencil className="h-3 w-3" />
+                              </Button>
+                            </>
+                          )}
                           {isCurrentDevice && (
                             <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 text-blue-600 border-blue-500/30 bg-blue-500/10">
                               <CheckCircle className="h-2.5 w-2.5 mr-0.5" />

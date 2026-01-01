@@ -74,6 +74,7 @@ export function getDeviceName(): string {
 export interface KnownDevice {
   fingerprint: string;
   name: string;
+  customName?: string;
   firstSeen: string;
   lastSeen: string;
   trusted?: boolean;
