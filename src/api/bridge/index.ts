@@ -42,8 +42,9 @@ function getEffectiveBridgeUrl(): string {
 }
 
 /**
- * Get the current Supabase session access token.
- * Returns null if user is not authenticated.
+ * Get a FRESH Supabase session access token on every call.
+ * NEVER cache or reuse - always fetch via getSession().
+ * Relies on Supabase's built-in auto-refresh using refresh tokens.
  */
 async function getSupabaseAccessToken(): Promise<string | null> {
   const { data: { session } } = await supabase.auth.getSession();

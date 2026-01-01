@@ -1,9 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { 
   X, Copy, RefreshCw, Gauge, Check, ChevronDown, ChevronUp,
-  Monitor, Server, Wifi, Shield, Key
+  Monitor, Server, Wifi, Shield, Key, ShieldCheck, AlertCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ import { buildInfo } from "@/lib/buildInfo";
 import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
 import { NetworkSpeedTest } from "@/features/diagnostics/components/NetworkSpeedTest";
 import { useAuth } from "@/contexts/AuthContext";
+import { bridgeClient } from "@/api/bridge";
 
 type NodeState = "ok" | "warn" | "bad" | "loading";
 
@@ -59,17 +60,49 @@ const DiagnosticsDrawer = () => {
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [copied, setCopied] = useState(false);
   const [tokenCopied, setTokenCopied] = useState(false);
+  const [authTestState, setAuthTestState] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [authTestMessage, setAuthTestMessage] = useState<string | null>(null);
   
-  const { getAccessToken, isAuthenticated } = useAuth();
+  const { getAccessToken, getAccessTokenAsync, isAuthenticated } = useAuth();
   const bridgeHealth = useBridgeHealthStatus();
   
-  // Get JWT token info
+  // Get JWT token info including expiry
   const token = getAccessToken();
-  const tokenInfo = useMemo(() => ({
-    present: !!token,
-    length: token?.length ?? 0,
-    preview: token ? `${token.substring(0, 12)}...` : null,
-  }), [token]);
+  const tokenInfo = useMemo(() => {
+    if (!token) {
+      return { present: false, length: 0, preview: null, expiresAt: null, expiresIn: null };
+    }
+    
+    // Decode JWT to get exp claim (JWT is base64url encoded)
+    let expiresAt: Date | null = null;
+    let expiresIn: string | null = null;
+    try {
+      const payloadBase64 = token.split('.')[1];
+      const payload = JSON.parse(atob(payloadBase64));
+      if (payload.exp) {
+        expiresAt = new Date(payload.exp * 1000);
+        const now = Date.now();
+        const diffMs = expiresAt.getTime() - now;
+        if (diffMs > 0) {
+          const mins = Math.floor(diffMs / 60000);
+          const secs = Math.floor((diffMs % 60000) / 1000);
+          expiresIn = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+        } else {
+          expiresIn = "Expired";
+        }
+      }
+    } catch {
+      // Failed to decode JWT
+    }
+    
+    return {
+      present: true,
+      length: token.length,
+      preview: `${token.substring(0, 12)}...`,
+      expiresAt,
+      expiresIn,
+    };
+  }, [token]);
   
   const handleCopyToken = async () => {
     if (!token) return;
@@ -81,6 +114,42 @@ const DiagnosticsDrawer = () => {
       // Clipboard API not available
     }
   };
+  
+  // Test Auth button - calls bridge /status to verify JWT acceptance
+  const handleTestAuth = useCallback(async () => {
+    setAuthTestState("loading");
+    setAuthTestMessage(null);
+    
+    try {
+      // Get fresh token
+      const freshToken = await getAccessTokenAsync();
+      if (!freshToken) {
+        setAuthTestState("error");
+        setAuthTestMessage("No token available");
+        return;
+      }
+      
+      // Call bridge status endpoint
+      const result = await bridgeClient.status();
+      setAuthTestState("success");
+      setAuthTestMessage(`Authenticated (backend: ${result.backend})`);
+    } catch (err) {
+      setAuthTestState("error");
+      const message = err instanceof Error ? err.message : "Unknown error";
+      // Check for 401 in error message
+      if (message.includes("401") || message.toLowerCase().includes("unauthorized")) {
+        setAuthTestMessage("401 Unauthorized - JWT rejected");
+      } else {
+        setAuthTestMessage(message);
+      }
+    }
+    
+    // Reset after 5 seconds
+    setTimeout(() => {
+      setAuthTestState("idle");
+      setAuthTestMessage(null);
+    }, 5000);
+  }, [getAccessTokenAsync]);
   
   // Derive connection path states
   const connectionPath: ConnectionNode[] = useMemo(() => {
@@ -285,6 +354,27 @@ const DiagnosticsDrawer = () => {
                   <>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-muted-foreground">
+                        {t("diagnostics.jwtExpiry", "Expires in")}
+                      </span>
+                      <span className={cn(
+                        "text-sm font-mono",
+                        tokenInfo.expiresIn === "Expired" ? "text-red-500" : "text-foreground"
+                      )}>
+                        {tokenInfo.expiresIn ?? "—"}
+                      </span>
+                    </div>
+                    {tokenInfo.expiresAt && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">
+                          {t("diagnostics.jwtExpiresAt", "Expires at")}
+                        </span>
+                        <span className="text-xs font-mono text-muted-foreground">
+                          {tokenInfo.expiresAt.toLocaleTimeString()}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground">
                         {t("diagnostics.jwtLength", "Token length")}
                       </span>
                       <span className="text-sm font-mono">{tokenInfo.length}</span>
@@ -314,6 +404,41 @@ const DiagnosticsDrawer = () => {
                   <p className="text-xs text-muted-foreground">
                     {t("diagnostics.notLoggedIn", "Sign in to generate a JWT token.")}
                   </p>
+                )}
+                
+                {/* Test Auth Button */}
+                {tokenInfo.present && (
+                  <div className="pt-2 border-t border-border/30">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleTestAuth}
+                      disabled={authTestState === "loading"}
+                      className="w-full h-9 gap-2"
+                    >
+                      {authTestState === "loading" && (
+                        <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                      )}
+                      {authTestState === "success" && (
+                        <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+                      )}
+                      {authTestState === "error" && (
+                        <AlertCircle className="h-3.5 w-3.5 text-red-500" />
+                      )}
+                      {authTestState === "idle" && (
+                        <ShieldCheck className="h-3.5 w-3.5" />
+                      )}
+                      {t("diagnostics.testAuth", "Test Auth")}
+                    </Button>
+                    {authTestMessage && (
+                      <p className={cn(
+                        "text-xs mt-2 text-center",
+                        authTestState === "success" ? "text-emerald-500" : "text-red-500"
+                      )}>
+                        {authTestMessage}
+                      </p>
+                    )}
+                  </div>
                 )}
               </div>
             </section>
