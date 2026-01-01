@@ -763,5 +763,21 @@
   "connectionTimeline.connected": "Connesso",
   "connectionTimeline.degraded": "Degradato",
   "connectionTimeline.disconnected": "Disconnesso",
-  "connectionTimeline.recentEvents": "Eventi connettività recenti"
+  "connectionTimeline.recentEvents": "Eventi connettività recenti",
+  
+  "authErrors": {
+    "serviceFailed": "Impossibile connettersi al servizio di autenticazione",
+    "tryAgain": "Si è verificato un errore interno. Riprova più tardi."
+  },
+  "authDiagnostics": {
+    "title": "Servizi di Autenticazione",
+    "description": "Stato degli endpoint passkey e 2FA",
+    "passkeyService": "Servizio Passkey",
+    "totpService": "Servizio 2FA",
+    "checking": "Verifica...",
+    "available": "Disponibile",
+    "unavailable": "Non disponibile",
+    "lastCheck": "Ultimo controllo",
+    "checkNow": "Controlla ora"
+  }
 }

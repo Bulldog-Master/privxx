@@ -767,5 +767,21 @@
   "connectionTimeline.connected": "Verbonden",
   "connectionTimeline.degraded": "Verslechterd",
   "connectionTimeline.disconnected": "Verbroken",
-  "connectionTimeline.recentEvents": "Recente verbindingsgebeurtenissen"
+  "connectionTimeline.recentEvents": "Recente verbindingsgebeurtenissen",
+  
+  "authErrors": {
+    "serviceFailed": "Kan geen verbinding maken met authenticatieservice",
+    "tryAgain": "Er is een interne fout opgetreden. Probeer het later opnieuw."
+  },
+  "authDiagnostics": {
+    "title": "Authenticatieservices",
+    "description": "Status van passkey- en 2FA-endpoints",
+    "passkeyService": "Passkey Service",
+    "totpService": "2FA Service",
+    "checking": "Controleren...",
+    "available": "Beschikbaar",
+    "unavailable": "Niet beschikbaar",
+    "lastCheck": "Laatst gecontroleerd",
+    "checkNow": "Nu controleren"
+  }
 }

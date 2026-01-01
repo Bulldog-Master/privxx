@@ -767,5 +767,21 @@
   "connectionTimeline.connected": "Подключено",
   "connectionTimeline.degraded": "Ухудшено",
   "connectionTimeline.disconnected": "Отключено",
-  "connectionTimeline.recentEvents": "Недавние события подключения"
+  "connectionTimeline.recentEvents": "Недавние события подключения",
+  
+  "authErrors": {
+    "serviceFailed": "Ошибка подключения к сервису аутентификации",
+    "tryAgain": "Произошла внутренняя ошибка. Пожалуйста, попробуйте позже."
+  },
+  "authDiagnostics": {
+    "title": "Сервисы аутентификации",
+    "description": "Статус точек passkey и 2FA",
+    "passkeyService": "Сервис Passkey",
+    "totpService": "Сервис 2FA",
+    "checking": "Проверка...",
+    "available": "Доступен",
+    "unavailable": "Недоступен",
+    "lastCheck": "Последняя проверка",
+    "checkNow": "Проверить сейчас"
+  }
 }

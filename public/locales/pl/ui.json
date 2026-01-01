@@ -763,5 +763,21 @@
   "connectionTimeline.connected": "Połączony",
   "connectionTimeline.degraded": "Zdegradowany",
   "connectionTimeline.disconnected": "Rozłączony",
-  "connectionTimeline.recentEvents": "Ostatnie zdarzenia połączeniowe"
+  "connectionTimeline.recentEvents": "Ostatnie zdarzenia połączeniowe",
+  
+  "authErrors": {
+    "serviceFailed": "Nie udało się połączyć z usługą uwierzytelniania",
+    "tryAgain": "Wystąpił błąd wewnętrzny. Spróbuj ponownie później."
+  },
+  "authDiagnostics": {
+    "title": "Usługi uwierzytelniania",
+    "description": "Status punktów końcowych passkey i 2FA",
+    "passkeyService": "Usługa Passkey",
+    "totpService": "Usługa 2FA",
+    "checking": "Sprawdzanie...",
+    "available": "Dostępna",
+    "unavailable": "Niedostępna",
+    "lastCheck": "Ostatnie sprawdzenie",
+    "checkNow": "Sprawdź teraz"
+  }
 }

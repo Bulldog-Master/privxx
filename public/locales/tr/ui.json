@@ -767,5 +767,21 @@
   "connectionTimeline.connected": "Bağlı",
   "connectionTimeline.degraded": "Bozulmuş",
   "connectionTimeline.disconnected": "Bağlantı kesildi",
-  "connectionTimeline.recentEvents": "Son bağlantı olayları"
+  "connectionTimeline.recentEvents": "Son bağlantı olayları",
+  
+  "authErrors": {
+    "serviceFailed": "Kimlik doğrulama servisine bağlanılamadı",
+    "tryAgain": "Dahili bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+  },
+  "authDiagnostics": {
+    "title": "Kimlik Doğrulama Servisleri",
+    "description": "Passkey ve 2FA uç noktalarının durumu",
+    "passkeyService": "Passkey Servisi",
+    "totpService": "2FA Servisi",
+    "checking": "Kontrol ediliyor...",
+    "available": "Kullanılabilir",
+    "unavailable": "Kullanılamaz",
+    "lastCheck": "Son kontrol",
+    "checkNow": "Şimdi Kontrol Et"
+  }
 }
