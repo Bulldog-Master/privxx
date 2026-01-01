@@ -591,9 +591,11 @@
     "number": "عدد (0-9)",
     "special": "خاص حروف (!@#$%)"
   },
-  "generatePassword": "مضبوط پاس ورڈ بنائیں",
+  "generatePassword": "بنائیں",
   "copyPassword": "پاس ورڈ کاپی کریں",
   "passwordCopied": "کاپی ہو گیا!",
+  "passwordSettings": "پاس ورڈ ترتیبات",
+  "passwordLength": "لمبائی",
   "unlock": "کھولیں",
   "lock": "لاک کریں",
   "cancel": "منسوخ کریں",

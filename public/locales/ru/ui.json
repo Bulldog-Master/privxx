@@ -591,9 +591,11 @@
     "number": "Цифра (0-9)",
     "special": "Специальный символ (!@#$%)"
   },
-  "generatePassword": "Сгенерировать надёжный пароль",
+  "generatePassword": "Сгенерировать",
   "copyPassword": "Копировать пароль",
   "passwordCopied": "Скопировано!",
+  "passwordSettings": "Настройки пароля",
+  "passwordLength": "Длина",
   "unlock": "Разблокировать",
   "lock": "Заблокировать",
   "cancel": "Отмена",

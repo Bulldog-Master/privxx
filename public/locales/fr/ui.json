@@ -463,9 +463,11 @@
     "number": "Chiffre (0-9)",
     "special": "Caractère spécial (!@#$%)"
   },
-  "generatePassword": "Générer mot de passe fort",
+  "generatePassword": "Générer",
   "copyPassword": "Copier mot de passe",
   "passwordCopied": "Copié !",
+  "passwordSettings": "Paramètres mot de passe",
+  "passwordLength": "Longueur",
   "unlock": "Déverrouiller",
   "lock": "Verrouiller",
   "cancel": "Annuler",
