@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { PageBackground } from "@/components/layout/PageBackground";
+import { BridgeConnectivityWarning } from "@/components/connection";
 import { SecurityScoreIndicator } from "@/components/settings/SecurityScoreIndicator";
 import { PasskeyOnboardingPrompt } from "@/features/auth/components";
 import { useAuth } from "@/contexts/AuthContext";
@@ -43,6 +44,11 @@ const Index = () => {
           className="flex-1 flex flex-col items-center pt-44 sm:pt-52 px-4 sm:px-6 gap-5 pb-20"
           tabIndex={-1}
         >
+          {/* Bridge connectivity warning - shows when bridge unreachable */}
+          <div className="w-full max-w-md">
+            <BridgeConnectivityWarning minFailures={2} />
+          </div>
+
           <PrivxxHeroWithUrl />
 
           {/* Passkey onboarding prompt - shows to users without passkeys */}
