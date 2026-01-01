@@ -947,6 +947,8 @@
     "needsWork": "改善が必要"
   },
   
+  "saving": "保存中...",
+  "saved": "保存しました",
   "invalidCodeLength": "コードは6桁である必要があります",
   "copyAllCodes": "すべてのコードをコピー"
 }

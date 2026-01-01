@@ -916,6 +916,8 @@
     "needsWork": "Wymaga Poprawy"
   },
   
+  "saving": "Zapisywanie...",
+  "saved": "Zapisano",
   "invalidCodeLength": "Kod musi mieć 6 cyfr",
   "copyAllCodes": "Kopiuj Wszystkie Kody"
 }

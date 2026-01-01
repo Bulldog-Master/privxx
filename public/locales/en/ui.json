@@ -962,6 +962,8 @@
     "failures": "failures"
   },
 
+  "saving": "Saving...",
+  "saved": "Saved",
   "invalidCodeLength": "Code must be 6 digits",
   "copyAllCodes": "Copy All Codes"
 }
