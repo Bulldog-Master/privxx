@@ -554,6 +554,8 @@
   },
 
   "settings": "Configuración",
+  "settings.translations": "Estado de Traducciones",
+  "settings.translationsDesc": "{{count}} idiomas sincronizados",
   "editProfile": "Editar Perfil",
   "editProfileDesc": "Cambia tu nombre de usuario y avatar",
   "account": "Cuenta",

@@ -526,6 +526,8 @@
   "releaseFooter": "Privxx Team — Privacy-first by design",
   
   "settings": "Settings",
+  "settings.translations": "Translation Status",
+  "settings.translationsDesc": "{{count}} languages synced",
   "editProfile": "Edit Profile",
   "editProfileDesc": "Change your display name and avatar",
   "account": "Account",
