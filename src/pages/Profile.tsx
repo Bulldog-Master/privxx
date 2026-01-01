@@ -7,7 +7,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { User, Camera, Loader2, Save, Trash2, ArrowLeft } from "lucide-react";
+import { User, Camera, Loader2, Save, Trash2, ArrowLeft, Check } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
 import { useAvatarUrl } from "@/hooks/useAvatarUrl";
@@ -33,6 +33,7 @@ export default function Profile() {
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [justSaved, setJustSaved] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [cropperOpen, setCropperOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -52,13 +53,17 @@ export default function Profile() {
 
   const handleSave = async () => {
     setIsSaving(true);
+    setJustSaved(false);
     const result = await updateProfile({ display_name: displayName, bio });
     setIsSaving(false);
 
     if (result.error) {
       toast.error(result.error);
     } else {
+      setJustSaved(true);
       toast.success(t("profileSaved", "Profile saved successfully"));
+      // Reset "Saved" state after 2 seconds
+      setTimeout(() => setJustSaved(false), 2000);
     }
   };
 
@@ -267,14 +272,20 @@ export default function Profile() {
             <Button
               onClick={handleSave}
               disabled={isSaving}
-              className="w-full"
+              className={`w-full ${justSaved ? "bg-green-600 hover:bg-green-600" : ""}`}
             >
               {isSaving ? (
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : justSaved ? (
+                <Check className="h-4 w-4 mr-2" />
               ) : (
                 <Save className="h-4 w-4 mr-2" />
               )}
-              {t("saveChanges", "Save Changes")}
+              {isSaving 
+                ? t("saving", "Saving...") 
+                : justSaved 
+                  ? t("saved", "Saved") 
+                  : t("saveChanges", "Save Changes")}
             </Button>
           </CardContent>
         </Card>
