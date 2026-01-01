@@ -38,9 +38,9 @@ export function useAuditLogs(options: UseAuditLogsOptions = {}) {
         return;
       }
 
-      // Use privacy-safe view that excludes IP addresses and user agents
+      // Use privacy-safe table that excludes IP addresses and user agents
       const { data, error: fetchError } = await (supabase
-        .from('audit_logs_safe' as any)
+        .from('audit_events_safe' as any)
         .select('id, event_type, success, metadata, created_at')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
