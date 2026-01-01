@@ -40,6 +40,7 @@ import { ConnectionAlertSettings } from "@/components/settings/ConnectionAlertSe
 import { ConnectionAlertHistory } from "@/components/settings/ConnectionAlertHistory";
 import { TranslationStatusWidget } from "@/components/settings/TranslationStatusWidget";
 import { PasskeySetupIndicator } from "@/components/settings/PasskeySetupIndicator";
+import { PasskeyHeaderBadge } from "@/components/settings/PasskeyHeaderBadge";
 import { buildInfo } from "@/lib/buildInfo";
 
 export default function Settings() {
@@ -80,9 +81,10 @@ export default function Settings() {
             </Link>
           </Button>
           <div className="flex-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-2xl font-bold text-primary">{t("settings", "Settings")}</h1>
               <BuildVersionBadge />
+              <PasskeyHeaderBadge />
             </div>
             <p className="text-sm text-primary/70">{user.email}</p>
           </div>
