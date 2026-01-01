@@ -767,5 +767,36 @@
   "connectionTimeline.connected": "متصل",
   "connectionTimeline.degraded": "متدهور",
   "connectionTimeline.disconnected": "منفصل",
-  "connectionTimeline.recentEvents": "أحداث الاتصال الأخيرة"
+  "connectionTimeline.recentEvents": "أحداث الاتصال الأخيرة",
+  
+  "authErrors": {
+    "connectionFailed": "فشل الاتصال بخدمة المصادقة",
+    "registrationFailed": "فشل تسجيل مفتاح المرور",
+    "authenticationFailed": "فشلت المصادقة",
+    "challengeExpired": "انتهت صلاحية التحدي. يرجى المحاولة مرة أخرى.",
+    "tooManyRequests": "طلبات كثيرة جداً. يرجى المحاولة لاحقاً.",
+    "invalidCode": "رمز غير صالح. يرجى التحقق والمحاولة مرة أخرى.",
+    "accountLocked": "الحساب مقفل مؤقتاً. يرجى المحاولة لاحقاً.",
+    "sessionExpired": "انتهت الجلسة. يرجى تسجيل الدخول مرة أخرى.",
+    "unauthorized": "المصادقة مطلوبة",
+    "totpSetupFailed": "فشل بدء إعداد المصادقة الثنائية",
+    "totpVerifyFailed": "فشل التحقق من الرمز",
+    "totpDisableFailed": "فشل تعطيل المصادقة الثنائية",
+    "totpStatusFailed": "فشل الحصول على حالة المصادقة الثنائية",
+    "backupCodeInvalid": "رمز احتياطي غير صالح",
+    "passkeyNotSupported": "مفاتيح المرور غير مدعومة في هذا المتصفح",
+    "platformAuthUnavailable": "المصادقة البيومترية غير متاحة على هذا الجهاز"
+  },
+  
+  "authDiagnostics": {
+    "title": "خدمات المصادقة",
+    "description": "حالة نقاط نهاية مفتاح المرور والمصادقة الثنائية",
+    "passkeyService": "خدمة مفتاح المرور",
+    "totpService": "خدمة المصادقة الثنائية",
+    "lastCheck": "آخر فحص",
+    "checkNow": "فحص الآن",
+    "available": "متاح",
+    "unavailable": "غير متاح",
+    "checking": "جاري الفحص..."
+  }
 }

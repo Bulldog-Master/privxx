@@ -767,5 +767,36 @@
   "connectionTimeline.connected": "接続済み",
   "connectionTimeline.degraded": "低下",
   "connectionTimeline.disconnected": "切断",
-  "connectionTimeline.recentEvents": "最近の接続イベント"
+  "connectionTimeline.recentEvents": "最近の接続イベント",
+  
+  "authErrors": {
+    "connectionFailed": "認証サービスへの接続に失敗しました",
+    "registrationFailed": "パスキーの登録に失敗しました",
+    "authenticationFailed": "認証に失敗しました",
+    "challengeExpired": "チャレンジの有効期限が切れました。再試行してください。",
+    "tooManyRequests": "リクエストが多すぎます。後でもう一度お試しください。",
+    "invalidCode": "無効なコードです。確認して再試行してください。",
+    "accountLocked": "アカウントが一時的にロックされています。後でもう一度お試しください。",
+    "sessionExpired": "セッションの有効期限が切れました。再度ログインしてください。",
+    "unauthorized": "認証が必要です",
+    "totpSetupFailed": "2FA設定の開始に失敗しました",
+    "totpVerifyFailed": "コードの確認に失敗しました",
+    "totpDisableFailed": "2FAの無効化に失敗しました",
+    "totpStatusFailed": "2FAステータスの取得に失敗しました",
+    "backupCodeInvalid": "無効なバックアップコードです",
+    "passkeyNotSupported": "このブラウザではパスキーはサポートされていません",
+    "platformAuthUnavailable": "このデバイスでは生体認証を利用できません"
+  },
+  
+  "authDiagnostics": {
+    "title": "認証サービス",
+    "description": "パスキーと2FAエンドポイントのステータス",
+    "passkeyService": "パスキーサービス",
+    "totpService": "2FAサービス",
+    "lastCheck": "最終確認",
+    "checkNow": "今すぐ確認",
+    "available": "利用可能",
+    "unavailable": "利用不可",
+    "checking": "確認中..."
+  }
 }

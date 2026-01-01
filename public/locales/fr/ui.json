@@ -766,5 +766,36 @@
   "connectionTimeline.connected": "Connecté",
   "connectionTimeline.degraded": "Dégradé",
   "connectionTimeline.disconnected": "Déconnecté",
-  "connectionTimeline.recentEvents": "Événements de connectivité récents"
+  "connectionTimeline.recentEvents": "Événements de connectivité récents",
+  
+  "authErrors": {
+    "connectionFailed": "Échec de la connexion au service d'authentification",
+    "registrationFailed": "Échec de l'enregistrement du passkey",
+    "authenticationFailed": "Échec de l'authentification",
+    "challengeExpired": "Défi expiré. Veuillez réessayer.",
+    "tooManyRequests": "Trop de demandes. Veuillez réessayer plus tard.",
+    "invalidCode": "Code invalide. Veuillez vérifier et réessayer.",
+    "accountLocked": "Compte temporairement verrouillé. Veuillez réessayer plus tard.",
+    "sessionExpired": "Session expirée. Veuillez vous reconnecter.",
+    "unauthorized": "Authentification requise",
+    "totpSetupFailed": "Échec du démarrage de la configuration 2FA",
+    "totpVerifyFailed": "Échec de la vérification du code",
+    "totpDisableFailed": "Échec de la désactivation de 2FA",
+    "totpStatusFailed": "Échec de l'obtention du statut 2FA",
+    "backupCodeInvalid": "Code de sauvegarde invalide",
+    "passkeyNotSupported": "Les passkeys ne sont pas pris en charge dans ce navigateur",
+    "platformAuthUnavailable": "Authentification biométrique non disponible sur cet appareil"
+  },
+  
+  "authDiagnostics": {
+    "title": "Services d'authentification",
+    "description": "État des points de terminaison passkey et 2FA",
+    "passkeyService": "Service Passkey",
+    "totpService": "Service 2FA",
+    "lastCheck": "Dernière vérification",
+    "checkNow": "Vérifier maintenant",
+    "available": "Disponible",
+    "unavailable": "Indisponible",
+    "checking": "Vérification..."
+  }
 }

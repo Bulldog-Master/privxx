@@ -72,7 +72,7 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
 
   const handleRegister = async () => {
     clearError();
-    const success = await registerPasskey(userId, email);
+    const success = await registerPasskey();
     if (success) {
       toast.success(t("passkeyRegistered", "Passkey registered successfully"));
       fetchPasskeys();

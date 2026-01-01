@@ -767,5 +767,36 @@
   "connectionTimeline.connected": "연결됨",
   "connectionTimeline.degraded": "저하됨",
   "connectionTimeline.disconnected": "연결 해제",
-  "connectionTimeline.recentEvents": "최근 연결 이벤트"
+  "connectionTimeline.recentEvents": "최근 연결 이벤트",
+  
+  "authErrors": {
+    "connectionFailed": "인증 서비스 연결 실패",
+    "registrationFailed": "패스키 등록 실패",
+    "authenticationFailed": "인증 실패",
+    "challengeExpired": "챌린지가 만료되었습니다. 다시 시도해 주세요.",
+    "tooManyRequests": "요청이 너무 많습니다. 나중에 다시 시도해 주세요.",
+    "invalidCode": "잘못된 코드입니다. 확인 후 다시 시도해 주세요.",
+    "accountLocked": "계정이 일시적으로 잠겼습니다. 나중에 다시 시도해 주세요.",
+    "sessionExpired": "세션이 만료되었습니다. 다시 로그인해 주세요.",
+    "unauthorized": "인증이 필요합니다",
+    "totpSetupFailed": "2FA 설정 시작 실패",
+    "totpVerifyFailed": "코드 확인 실패",
+    "totpDisableFailed": "2FA 비활성화 실패",
+    "totpStatusFailed": "2FA 상태 가져오기 실패",
+    "backupCodeInvalid": "잘못된 백업 코드",
+    "passkeyNotSupported": "이 브라우저에서는 패스키가 지원되지 않습니다",
+    "platformAuthUnavailable": "이 기기에서는 생체 인증을 사용할 수 없습니다"
+  },
+  
+  "authDiagnostics": {
+    "title": "인증 서비스",
+    "description": "패스키 및 2FA 엔드포인트 상태",
+    "passkeyService": "패스키 서비스",
+    "totpService": "2FA 서비스",
+    "lastCheck": "마지막 확인",
+    "checkNow": "지금 확인",
+    "available": "사용 가능",
+    "unavailable": "사용 불가",
+    "checking": "확인 중..."
+  }
 }

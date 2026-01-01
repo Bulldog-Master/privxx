@@ -148,11 +148,24 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { action, email, credential, userId } = await req.json();
+    const { action, email, credential } = await req.json();
     const rpId = new URL(requestOrigin || supabaseUrl).hostname;
     const rpName = 'Privxx';
     const clientIP = getClientIP(req);
     const auditContext = createAuditContext(req);
+
+    // For registration actions, validate JWT and extract user server-side
+    // This prevents clients from spoofing userId/email
+    let authenticatedUser: { id: string; email: string } | null = null;
+    const authHeader = req.headers.get('authorization');
+    
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+      if (!userError && user) {
+        authenticatedUser = { id: user.id, email: user.email || '' };
+      }
+    }
 
     // Rate limit check for all actions
     const rateLimitIdentifier = email ? `${clientIP}_${email}` : clientIP;
@@ -170,17 +183,20 @@ serve(async (req) => {
       });
     }
 
-    console.log(`[passkey-auth] Action: ${action}, Email: ${email}, RP ID: ${rpId}`);
+    console.log(`[passkey-auth] Action: ${action}, Email: ${email || authenticatedUser?.email}, RP ID: ${rpId}`);
 
     switch (action) {
       case 'registration-options': {
-        // Generate registration options for a logged-in user
-        if (!userId || !email) {
-          return new Response(JSON.stringify({ error: 'userId and email required' }), {
-            status: 400,
+        // SECURITY: Require valid JWT for registration - do not trust client-provided userId/email
+        if (!authenticatedUser) {
+          return new Response(JSON.stringify({ error: 'Authentication required' }), {
+            status: 401,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
+
+        const userId = authenticatedUser.id;
+        const userEmail = authenticatedUser.email;
 
         // Get existing credentials for this user
         const { data: existingCreds } = await supabase
@@ -193,8 +209,8 @@ serve(async (req) => {
           rpName,
           rpID: rpId,
           userID: new TextEncoder().encode(userId),
-          userName: email,
-          userDisplayName: email.split('@')[0],
+          userName: userEmail,
+          userDisplayName: userEmail.split('@')[0],
           attestationType: 'none',
           excludeCredentials: (existingCreds || []).map(c => ({
             id: c.credential_id,
@@ -209,7 +225,7 @@ serve(async (req) => {
 
         // Store challenge for verification
         await supabase.from('passkey_challenges').insert({
-          user_email: email,
+          user_email: userEmail,
           challenge: options.challenge,
           type: 'registration',
           expires_at: expiresAt,
@@ -221,7 +237,7 @@ serve(async (req) => {
           eventType: 'passkey_registration_start',
           success: true,
           ...auditContext,
-          metadata: { email, rpId },
+          metadata: { email: userEmail, rpId },
         });
 
         return new Response(JSON.stringify({ options }), {
@@ -230,9 +246,19 @@ serve(async (req) => {
       }
 
       case 'registration-verify': {
-        // Verify registration with cryptographic validation
-        if (!credential || !userId || !email) {
-          return new Response(JSON.stringify({ error: 'credential, userId, email required' }), {
+        // SECURITY: Require valid JWT for registration verification
+        if (!authenticatedUser) {
+          return new Response(JSON.stringify({ error: 'Authentication required' }), {
+            status: 401,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        const userId = authenticatedUser.id;
+        const userEmail = authenticatedUser.email;
+
+        if (!credential) {
+          return new Response(JSON.stringify({ error: 'credential required' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
@@ -242,7 +268,7 @@ serve(async (req) => {
         const { data: challengeData, error: challengeError } = await supabase
           .from('passkey_challenges')
           .select('*')
-          .eq('user_email', email)
+          .eq('user_email', userEmail)
           .eq('type', 'registration')
           .gt('expires_at', new Date().toISOString())
           .order('created_at', { ascending: false })
@@ -320,7 +346,7 @@ serve(async (req) => {
           eventType: 'passkey_registration_complete',
           success: true,
           ...auditContext,
-          metadata: { email, deviceType: credentialDeviceType || 'unknown', backedUp: credentialBackedUp },
+          metadata: { email: userEmail, deviceType: credentialDeviceType || 'unknown', backedUp: credentialBackedUp },
         });
 
         console.log('[passkey-auth] Passkey registered successfully with cryptographic verification');
