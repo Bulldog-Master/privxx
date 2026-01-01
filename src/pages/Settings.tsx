@@ -11,9 +11,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageBackground } from "@/components/layout/PageBackground";
-import { BuildVersionBadge } from "@/components/shared";
+import { BuildVersionBadge, StaleBuildWarning } from "@/components/shared";
 import { PrivxxLogo } from "@/components/brand";
 import { AuthServiceDiagnostics } from "@/components/settings/AuthServiceDiagnostics";
+import { BackendHealthPanel } from "@/components/settings/BackendHealthPanel";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { AccountSection } from "@/components/settings/AccountSection";
@@ -52,7 +53,10 @@ export default function Settings() {
           </div>
         </div>
 
-        <div className="space-y-6">
+        {/* Stale Build Warning */}
+        <StaleBuildWarning />
+
+        <div className="space-y-6 mt-6">
           {/* Profile Link */}
           <Card className="bg-card/90 backdrop-blur-sm border-border/50">
             <Link to="/profile" className="block">
@@ -88,6 +92,9 @@ export default function Settings() {
 
           {/* Connection Alert History */}
           <ConnectionAlertHistory />
+
+          {/* Backend Health Panel */}
+          <BackendHealthPanel />
 
           {/* Authentication Services Diagnostics */}
           <AuthServiceDiagnostics />
