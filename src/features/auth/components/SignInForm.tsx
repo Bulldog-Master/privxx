@@ -3,13 +3,14 @@
  * 
  * Email/password sign-in with Zod validation.
  * Includes Cloudflare Turnstile CAPTCHA after 3 failed attempts.
+ * Features password visibility toggle.
  */
 
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, Loader2, ArrowRight, ShieldAlert } from "lucide-react";
+import { Mail, Lock, Loader2, ArrowRight, ShieldAlert, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +32,7 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [resetTrigger, setResetTrigger] = useState(0);
   const [isVerifyingCaptcha, setIsVerifyingCaptcha] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     requiresCaptcha,
@@ -163,12 +165,25 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             id="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             {...form.register("password")}
             placeholder={t("passwordPlaceholder", "Enter your password")}
-            className="pl-10"
+            className="pl-10 pr-10"
             disabled={isFormDisabled}
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+            tabIndex={-1}
+            aria-label={showPassword ? t("hidePassword", "Hide password") : t("showPassword", "Show password")}
+          >
+            {showPassword ? (
+              <EyeOff className="h-4 w-4" />
+            ) : (
+              <Eye className="h-4 w-4" />
+            )}
+          </button>
         </div>
         {form.formState.errors.password && (
           <p className="text-sm text-destructive" role="alert">

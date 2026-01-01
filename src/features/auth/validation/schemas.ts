@@ -23,10 +23,16 @@ export const signInSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-export const signUpSchema = z.object({
-  email: emailSchema,
-  password: passwordSchema,
-});
+export const signUpSchema = z
+  .object({
+    email: emailSchema,
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match",
+  });
 
 export const magicLinkSchema = z.object({
   email: emailSchema,
