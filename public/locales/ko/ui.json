@@ -850,6 +850,25 @@
     "authRequiredDesc": "인증 필요 — 함수 연결 가능하나 인증 필요 (401/403)",
     "blockedDesc": "차단됨/오류 — CORS 문제 또는 서버 오류"
   },
+  "passkey": {
+    "setupRecommended": "패스키 설정 권장",
+    "setupRecommendedDesc": "더 빠른 로그인과 강력한 계정 보호를 위해 패스키를 설정하세요.",
+    "notSet": "미설정",
+    "goToSection": "패스키로 이동",
+    "discoverableHint": "아래 버튼을 탭하기만 하면 패스키로 로그인할 수 있습니다.",
+    "authSuccess": "패스키로 로그인했습니다",
+    "registered": "패스키가 성공적으로 등록되었습니다",
+    "setupFailed": "패스키 설정에 실패했습니다. 설정에서 나중에 다시 시도할 수 있습니다.",
+    "description": "Touch ID, Face ID, Windows Hello 또는 보안 키 사용",
+    "emailOptionalHint": "이 기기에서 패스키를 선택하려면 비워 두세요.",
+    "enterEmailInstead": "대신 이메일 입력",
+    "hideEmail": "숨기기",
+    "emailOptional": "이메일 (선택사항)",
+    "setupTitle": "패스키 설정",
+    "onboardingDesc": "Touch ID, Face ID 또는 Windows Hello로 더 빠르고 안전하게 로그인하세요.",
+    "setupNow": "지금 설정",
+    "maybeLater": "나중에"
+  },
   "passkeyFlow": {
     "title": "패스키 설정 가이드",
     "progress": "{{completed}}/{{total}} 단계 완료",

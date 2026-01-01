@@ -100,7 +100,7 @@ export function PasskeyManagement({ userId, email }: PasskeyManagementProps) {
     clearError();
     const success = await registerPasskey();
     if (success) {
-      toast.success(t("passkeyRegistered", "Passkey registered successfully"));
+      toast.success(t("passkey.registered", "Passkey registered successfully"));
       fetchPasskeys();
       notify("passkey_added").catch(console.error);
     } else if (registerError) {

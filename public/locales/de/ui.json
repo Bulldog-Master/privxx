@@ -854,6 +854,26 @@
     "blockedDesc": "Blockiert/Fehler — CORS-Problem oder Serverfehler"
   },
   
+  "passkey": {
+    "setupRecommended": "Passkey-Einrichtung empfohlen",
+    "setupRecommendedDesc": "Richten Sie einen Passkey für schnellere Anmeldung und stärkeren Kontoschutz ein.",
+    "notSet": "Nicht eingerichtet",
+    "goToSection": "Zu Passkeys gehen",
+    "discoverableHint": "Tippen Sie einfach auf die Schaltfläche unten, um sich mit Ihrem Passkey anzumelden.",
+    "authSuccess": "Mit Passkey angemeldet",
+    "registered": "Passkey erfolgreich registriert",
+    "setupFailed": "Passkey-Einrichtung fehlgeschlagen. Sie können es später in den Einstellungen erneut versuchen.",
+    "description": "Touch ID, Face ID, Windows Hello oder einen Sicherheitsschlüssel verwenden",
+    "emailOptionalHint": "Leer lassen, um einen Passkey von diesem Gerät auszuwählen.",
+    "enterEmailInstead": "Stattdessen E-Mail eingeben",
+    "hideEmail": "Ausblenden",
+    "emailOptional": "E-Mail (optional)",
+    "setupTitle": "Passkey einrichten",
+    "onboardingDesc": "Melden Sie sich schneller und sicherer mit Touch ID, Face ID oder Windows Hello an.",
+    "setupNow": "Jetzt einrichten",
+    "maybeLater": "Vielleicht später"
+  },
+  
   "passkeyFlow": {
     "title": "Passkey-Einrichtungsanleitung",
     "progress": "{{completed}}/{{total}} Schritte abgeschlossen",

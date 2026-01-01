@@ -853,6 +853,26 @@
     "blockedDesc": "Blocked/Error — CORS issue or server error"
   },
   
+  "passkey": {
+    "setupRecommended": "Passkey setup recommended",
+    "setupRecommendedDesc": "Set up a passkey for faster sign-in and stronger account protection.",
+    "notSet": "Not set",
+    "goToSection": "Go to Passkeys",
+    "discoverableHint": "Just tap the button below to sign in with your passkey.",
+    "authSuccess": "Signed in with passkey",
+    "registered": "Passkey registered successfully",
+    "setupFailed": "Failed to set up passkey. You can try again later in Settings.",
+    "description": "Use Touch ID, Face ID, Windows Hello, or a security key",
+    "emailOptionalHint": "Leave blank to choose a passkey from this device.",
+    "enterEmailInstead": "Enter email instead",
+    "hideEmail": "Hide",
+    "emailOptional": "Email (optional)",
+    "setupTitle": "Set up a Passkey",
+    "onboardingDesc": "Sign in faster and more securely with Touch ID, Face ID, or Windows Hello.",
+    "setupNow": "Set up now",
+    "maybeLater": "Maybe later"
+  },
+  
   "passkeyFlow": {
     "title": "Passkey Setup Guide",
     "progress": "{{completed}}/{{total}} steps completed",
