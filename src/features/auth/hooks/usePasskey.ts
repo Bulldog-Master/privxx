@@ -69,11 +69,17 @@ export function usePasskey() {
       setState({ isLoading: false, error: null });
       return true;
     } catch (error) {
-      const raw = error instanceof Error ? error.message : "";
-      // Handle non-2xx status code errors with a friendly message
-      const message = raw.includes("non-2xx") 
-        ? "Failed to connect to authentication service" 
-        : raw || "Passkey registration failed";
+      const anyErr = error as any;
+      const status = anyErr?.context?.status ?? anyErr?.status;
+      const bodyError = anyErr?.context?.body?.error;
+      const raw = typeof bodyError === "string" && bodyError
+        ? bodyError
+        : (error instanceof Error ? error.message : "");
+
+      const message = raw
+        ? (status ? `${raw} (HTTP ${status})` : raw)
+        : (status ? `Passkey registration failed (HTTP ${status})` : "Passkey registration failed");
+
       console.error('[usePasskey] Registration error:', error);
       setState({ isLoading: false, error: message });
       return false;

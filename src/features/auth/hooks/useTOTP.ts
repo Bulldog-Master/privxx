@@ -35,8 +35,25 @@ export function useTOTP() {
   }, []);
 
   const normalizeError = useCallback((raw: string, fallback: string) => {
-    // Keep raw errors here; components will localize generic failures.
     return raw || fallback;
+  }, []);
+
+  const extractInvokeErrorMessage = useCallback((err: unknown, fallback: string) => {
+    const anyErr = err as any;
+
+    // Supabase Functions errors often carry useful context (status/body) but end up as "non-2xx status code".
+    const status = anyErr?.context?.status ?? anyErr?.status;
+    const bodyError = anyErr?.context?.body?.error;
+    const msg = typeof anyErr?.message === "string" ? anyErr.message : "";
+
+    // Prefer server-provided error string when present.
+    const best = (typeof bodyError === "string" && bodyError) ? bodyError : msg;
+
+    if (best) {
+      return status ? `${best} (HTTP ${status})` : best;
+    }
+
+    return status ? `${fallback} (HTTP ${status})` : fallback;
   }, []);
 
   /**
@@ -54,11 +71,8 @@ export function useTOTP() {
       setState({ isLoading: false, error: null });
       return data as TOTPStatus;
     } catch (error) {
-      const raw = error instanceof Error ? error.message : "";
-      // Handle non-2xx status code errors with a friendly message
-      const message = raw.includes("non-2xx") 
-        ? "Failed to connect to authentication service" 
-        : normalizeError(raw, "Failed to get 2FA status");
+      const message = extractInvokeErrorMessage(error, "Failed to get 2FA status");
+      console.error("[useTOTP] getStatus error:", error);
       setState({ isLoading: false, error: message });
       return null;
     }
@@ -81,10 +95,8 @@ export function useTOTP() {
       setState({ isLoading: false, error: null });
       return data as TOTPSetupData;
     } catch (error) {
-      const raw = error instanceof Error ? error.message : "";
-      const message = raw.includes("non-2xx") 
-        ? "Failed to connect to authentication service" 
-        : normalizeError(raw, "Failed to start 2FA setup");
+      const message = extractInvokeErrorMessage(error, "Failed to start 2FA setup");
+      console.error("[useTOTP] startSetup error:", error);
       setState({ isLoading: false, error: message });
       return null;
     }
