@@ -947,6 +947,21 @@
     "needsWork": "Needs Work"
   },
   
+  "bridgeWarning": {
+    "title": "Bridge Unreachable",
+    "description": "Unable to connect to the privacy bridge. Your connection is not protected.",
+    "suggestions": "Possible causes:",
+    "tlsNotConfigured": "TLS certificate not configured on server",
+    "dnsNotResolved": "Domain DNS not pointing to server",
+    "reverseProxyDown": "Reverse proxy (nginx/Caddy) not running",
+    "serverDown": "Bridge server is not running",
+    "firewallBlocking": "Firewall blocking connection",
+    "networkIssue": "Network connectivity issue",
+    "docs": "Setup Guide",
+    "errorCode": "Error",
+    "failures": "failures"
+  },
+
   "invalidCodeLength": "Code must be 6 digits",
   "copyAllCodes": "Copy All Codes"
 }
