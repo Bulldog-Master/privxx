@@ -71,17 +71,38 @@ export function BackendHealthPanel({ autoRun, onReportChange }: BackendHealthPan
     try {
       // For functions that require auth, we still invoke but expect a 401 if not authed
       // We consider 401 "reachable" since the function itself responded
-      const { error } = await supabase.functions.invoke(fnKey, {
-        body: fnKey === "turnstile-config" ? undefined : { action: "status" },
-      });
+      
+      // Build appropriate body for each function type
+      let body: Record<string, unknown> | undefined = undefined;
+      
+      switch (fnKey) {
+        case "turnstile-config":
+          // No body needed
+          break;
+        case "passkey-auth":
+          // Use a health-check action that doesn't require email/rate limiting
+          body = { action: "health" };
+          break;
+        case "totp-auth":
+          body = { action: "status" };
+          break;
+        case "process-avatar":
+          // Avatar expects FormData - send health check action
+          body = { action: "health" };
+          break;
+        default:
+          body = { action: "status" };
+      }
+
+      const { error } = await supabase.functions.invoke(fnKey, { body });
 
       const latency = Math.round(performance.now() - start);
 
       if (error) {
         // Check if error indicates function is reachable but returned error
         const msg = typeof error === "object" && "message" in error ? (error as { message: string }).message : String(error);
-        // 401/403 means function is reachable
-        if (msg.includes("401") || msg.includes("403") || msg.includes("Unauthorized")) {
+        // 401/403 means function is reachable, also handle "health" or "status" action not found (still reachable)
+        if (msg.includes("401") || msg.includes("403") || msg.includes("Unauthorized") || msg.includes("Unknown action")) {
           setStates((prev) => ({ ...prev, [fnKey]: { status: "ok", error: null, latency } }));
           return;
         }

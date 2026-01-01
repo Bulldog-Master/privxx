@@ -159,6 +159,15 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const { action, email, credential } = await req.json();
+
+    // Health check action - no rate limiting, just confirm the function is running
+    if (action === 'health') {
+      return new Response(JSON.stringify({ status: 'ok', service: 'passkey-auth' }), {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const rpId = new URL(requestOrigin || supabaseUrl).hostname;
     const rpName = 'Privxx';
     const clientIP = getClientIP(req);
@@ -177,7 +186,7 @@ serve(async (req) => {
       }
     }
 
-    // Rate limit check for all actions
+    // Rate limit check for all actions (except health which is handled above)
     const rateLimitIdentifier = email ? `${clientIP}_${email}` : clientIP;
     const rateLimit = await checkRateLimit(supabase, rateLimitIdentifier, `passkey_${action}`);
     

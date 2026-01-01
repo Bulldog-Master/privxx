@@ -155,6 +155,22 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Check for health check action (JSON body with action: "health")
+    const contentType = req.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      try {
+        const body = await req.json();
+        if (body.action === 'health') {
+          return new Response(
+            JSON.stringify({ status: 'ok', service: 'process-avatar' }),
+            { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+      } catch {
+        // Not valid JSON, continue to normal processing
+      }
+    }
+
     // Get auth header
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
