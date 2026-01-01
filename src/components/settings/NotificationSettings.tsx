@@ -84,16 +84,16 @@ export function NotificationSettings() {
           />
         </div>
 
-        {/* Security Alerts */}
+        {/* Security Alerts (Email) */}
         <div className="flex items-center justify-between py-2">
           <div className="flex items-start gap-3">
             <Shield className="h-5 w-5 text-primary/70 mt-0.5" />
             <div className="space-y-0.5">
               <Label htmlFor="security-alerts" className="text-sm font-medium text-primary">
-                {t("securityAlerts", "Security alerts")}
+                {t("securityAlerts", "Security email alerts")}
               </Label>
               <p className="text-xs text-primary/70">
-                {t("securityAlertsDesc", "Get notified about security-related events")}
+                {t("securityAlertsDesc", "Receive emails when passwords, 2FA, or passkeys change")}
               </p>
             </div>
           </div>

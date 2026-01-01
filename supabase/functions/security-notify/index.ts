@@ -112,6 +112,22 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Check user's notification preferences
+    const { data: prefData } = await supabase
+      .from("notification_preferences")
+      .select("security_alerts")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    // If preference exists and security_alerts is false, skip sending
+    if (prefData && prefData.security_alerts === false) {
+      console.log(`User ${user.id} has security email notifications disabled, skipping`);
+      return new Response(
+        JSON.stringify({ success: true, skipped: true, reason: "notifications_disabled" }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const template = eventTemplates[event_type];
     const timestamp = new Date().toLocaleString("en-US", {
       dateStyle: "full",
