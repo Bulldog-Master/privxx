@@ -914,6 +914,17 @@
     "backendNote": "Settings like 'Leaked Password Protection' are configured in the backend panel and cannot be checked from the app."
   },
   
+  "securityScore": {
+    "title": "Security Score",
+    "description": "Based on your account security settings",
+    "outOf": "/ 100",
+    "unknown": "Unknown",
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "needsWork": "Needs Work"
+  },
+  
   "invalidCodeLength": "Code must be 6 digits",
   "copyAllCodes": "Copy All Codes"
 }

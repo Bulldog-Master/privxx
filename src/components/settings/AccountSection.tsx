@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { useSecurityNotify } from "@/hooks/useSecurityNotify";
 
 interface AuthMethods {
   password: boolean;
@@ -29,6 +30,7 @@ export function AccountSection() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
+  const { notify } = useSecurityNotify();
   const [isLoading, setIsLoading] = useState(false);
   const [isSettingPassword, setIsSettingPassword] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -131,6 +133,9 @@ export function AccountSection() {
       const { error } = await supabase.auth.updateUser({ password: newPassword });
       
       if (error) throw error;
+      
+      // Send security notification email
+      notify("password_changed").catch(console.error);
       
       const successMsg = passwordAction === "set" 
         ? t("passwordSet", "Password set successfully! You can now sign in with email and password.")
