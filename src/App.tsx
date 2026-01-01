@@ -30,6 +30,7 @@ const Auth = lazy(() => import("./pages/Auth"));
 const Settings = lazy(() => import("./pages/Settings"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Security = lazy(() => import("./pages/Security"));
+const Health = lazy(() => import("./pages/Health"));
 const ComponentDocs = lazy(() => import("./pages/ComponentDocs"));
 const Diagnostics = lazy(() => import("./pages/Diagnostics"));
 
@@ -130,6 +131,13 @@ function AppRoutes() {
                 <ProtectedRoute>
                   <Suspense fallback={<PageLoader />}>
                     <Security />
+                  </Suspense>
+                </ProtectedRoute>
+              } />
+              <Route path="/health" element={
+                <ProtectedRoute>
+                  <Suspense fallback={<PageLoader />}>
+                    <Health />
                   </Suspense>
                 </ProtectedRoute>
               } />

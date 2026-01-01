@@ -3,7 +3,7 @@
  * Pings all Edge Functions in one click and shows aggregate health.
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Activity,
@@ -28,6 +28,16 @@ interface FunctionState {
   latency: number | null;
 }
 
+export interface BackendHealthReport {
+  generatedAt: string;
+  functions: Record<string, FunctionState>;
+}
+
+interface BackendHealthPanelProps {
+  autoRun?: boolean;
+  onReportChange?: (report: BackendHealthReport) => void;
+}
+
 const FUNCTIONS: { key: string; name: string; icon: typeof Shield; requiresAuth: boolean }[] = [
   { key: "turnstile-config", name: "Turnstile", icon: ShieldCheck, requiresAuth: false },
   { key: "passkey-auth", name: "Passkey", icon: Fingerprint, requiresAuth: false },
@@ -38,10 +48,22 @@ const FUNCTIONS: { key: string; name: string; icon: typeof Shield; requiresAuth:
 const initialState = (): Record<string, FunctionState> =>
   Object.fromEntries(FUNCTIONS.map((f) => [f.key, { status: "idle" as Status, error: null, latency: null }]));
 
-export function BackendHealthPanel() {
+function buildReport(states: Record<string, FunctionState>): BackendHealthReport {
+  return {
+    generatedAt: new Date().toISOString(),
+    functions: states,
+  };
+}
+
+export function BackendHealthPanel({ autoRun, onReportChange }: BackendHealthPanelProps) {
   const { t } = useTranslation();
   const [states, setStates] = useState<Record<string, FunctionState>>(initialState);
   const [running, setRunning] = useState(false);
+  const didAutoRunRef = useRef(false);
+
+  useEffect(() => {
+    onReportChange?.(buildReport(states));
+  }, [onReportChange, states]);
 
   const pingFunction = useCallback(async (fnKey: string, requiresAuth: boolean) => {
     setStates((prev) => ({ ...prev, [fnKey]: { status: "checking", error: null, latency: null } }));
@@ -82,6 +104,13 @@ export function BackendHealthPanel() {
     await Promise.all(FUNCTIONS.map((f) => pingFunction(f.key, f.requiresAuth)));
     setRunning(false);
   }, [pingFunction]);
+
+  useEffect(() => {
+    if (!autoRun) return;
+    if (didAutoRunRef.current) return;
+    didAutoRunRef.current = true;
+    runAll();
+  }, [autoRun, runAll]);
 
   const statusIcon = (s: Status) => {
     switch (s) {

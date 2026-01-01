@@ -3,7 +3,7 @@
  * Shows status of passkey-auth and totp-auth edge functions
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Shield, Fingerprint, RefreshCw, CheckCircle, XCircle, Loader2, Copy, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -74,6 +74,14 @@ export function AuthServiceDiagnostics() {
     checkService("passkey");
     checkService("totp");
   }, [checkService]);
+
+  // Auto-check once on mount (helps catch stale-build issues without extra clicks)
+  const didAutoCheckRef = useRef(false);
+  useEffect(() => {
+    if (didAutoCheckRef.current) return;
+    didAutoCheckRef.current = true;
+    checkAll();
+  }, [checkAll]);
 
   const copyDebugBundle = useCallback(() => {
     const bundle = {
