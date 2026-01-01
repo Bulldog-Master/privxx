@@ -28,21 +28,11 @@ const URGENT_EVENTS = [
   "auth_password_reset_complete",
 ] as const;
 
-// All failed events (for tracking patterns)
-const FAILED_EVENTS = [
-  "auth_signin_failure",
-  "auth_signup_failure",
-  "passkey_auth_failure",
-  "totp_verify_failure",
-] as const;
-
 interface AuditLogPayload {
   id: string;
   user_id: string | null;
   event_type: string;
   success: boolean;
-  ip_address: string | null;
-  user_agent: string | null;
   metadata: Record<string, unknown> | null;
   created_at: string;
 }
@@ -67,47 +57,48 @@ export function useRealtimeAuditAlerts(options: UseRealtimeAuditAlertsOptions = 
   const { user } = useAuth();
   const { preferences } = useNotificationPreferences();
   const { toast } = useToast();
-  
+
   // Track recent failures for pattern detection
   const recentFailures = useRef<{ timestamp: number; eventType: string }[]>([]);
-  
+
   // Clean up old failures (older than 5 minutes)
   const cleanupOldFailures = useCallback(() => {
     const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
-    recentFailures.current = recentFailures.current.filter(
-      (f) => f.timestamp > fiveMinutesAgo
-    );
+    recentFailures.current = recentFailures.current.filter((f) => f.timestamp > fiveMinutesAgo);
   }, []);
-  
+
   // Check for suspicious patterns (multiple failures in short time)
-  const checkForPatterns = useCallback((eventType: string): boolean => {
-    cleanupOldFailures();
-    
-    // Add current failure
-    recentFailures.current.push({
-      timestamp: Date.now(),
-      eventType,
-    });
-    
-    // Check if there are 3+ failures in the last 5 minutes
-    return recentFailures.current.length >= 3;
-  }, [cleanupOldFailures]);
-  
+  const checkForPatterns = useCallback(
+    (eventType: string): boolean => {
+      cleanupOldFailures();
+
+      // Add current failure
+      recentFailures.current.push({
+        timestamp: Date.now(),
+        eventType,
+      });
+
+      // Check if there are 3+ failures in the last 5 minutes
+      return recentFailures.current.length >= 3;
+    },
+    [cleanupOldFailures]
+  );
+
   // Handle incoming audit event
   const handleAuditEvent = useCallback(
     (payload: RealtimePostgresInsertPayload<AuditLogPayload>) => {
       const event = payload.new;
-      
+
       // Only process events for the current user
       if (event.user_id !== user?.id) return;
-      
+
       // Check if security alerts are enabled
       if (!preferences?.security_alerts) return;
-      
+
       const eventType = event.event_type;
-      const isSuspicious = SUSPICIOUS_EVENTS.includes(eventType as typeof SUSPICIOUS_EVENTS[number]);
-      const isUrgent = URGENT_EVENTS.includes(eventType as typeof URGENT_EVENTS[number]);
-      
+      const isSuspicious = SUSPICIOUS_EVENTS.includes(eventType as (typeof SUSPICIOUS_EVENTS)[number]);
+      const isUrgent = URGENT_EVENTS.includes(eventType as (typeof URGENT_EVENTS)[number]);
+
       // Handle urgent events
       if (isUrgent) {
         alertUrgent();
@@ -118,11 +109,11 @@ export function useRealtimeAuditAlerts(options: UseRealtimeAuditAlertsOptions = 
         });
         return;
       }
-      
+
       // Handle suspicious events
       if (isSuspicious && !event.success) {
         const isPattern = checkForPatterns(eventType);
-        
+
         if (isPattern) {
           // Multiple failures detected - urgent alert
           alertUrgent();
@@ -148,7 +139,7 @@ export function useRealtimeAuditAlerts(options: UseRealtimeAuditAlertsOptions = 
   useEffect(() => {
     if (!enabled || !user) return;
 
-    // Subscribe to audit_logs inserts for current user
+    // Subscribe to privacy-safe audit events (no IP/User-Agent)
     const channel = supabase
       .channel("audit-alerts")
       .on<AuditLogPayload>(
@@ -156,7 +147,7 @@ export function useRealtimeAuditAlerts(options: UseRealtimeAuditAlertsOptions = 
         {
           event: "INSERT",
           schema: "public",
-          table: "audit_logs",
+          table: "audit_events_safe",
           filter: `user_id=eq.${user.id}`,
         },
         handleAuditEvent

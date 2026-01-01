@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_events_safe: {
+        Row: {
+          created_at: string
+          event_type: Database["public"]["Enums"]["audit_event_type"]
+          id: string
+          metadata: Json | null
+          success: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: Database["public"]["Enums"]["audit_event_type"]
+          id?: string
+          metadata?: Json | null
+          success?: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: Database["public"]["Enums"]["audit_event_type"]
+          id?: string
+          metadata?: Json | null
+          success?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           created_at: string
@@ -274,33 +301,7 @@ export type Database = {
       }
     }
     Views: {
-      audit_logs_safe: {
-        Row: {
-          created_at: string | null
-          event_type: Database["public"]["Enums"]["audit_event_type"] | null
-          id: string | null
-          metadata: Json | null
-          success: boolean | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          event_type?: Database["public"]["Enums"]["audit_event_type"] | null
-          id?: string | null
-          metadata?: Json | null
-          success?: boolean | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          event_type?: Database["public"]["Enums"]["audit_event_type"] | null
-          id?: string | null
-          metadata?: Json | null
-          success?: boolean | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       cleanup_rate_limits: { Args: never; Returns: undefined }
