@@ -11,6 +11,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageBackground } from "@/components/layout/PageBackground";
+import { BuildVersionBadge } from "@/components/shared";
 import { PrivxxLogo } from "@/components/brand";
 import { AuthServiceDiagnostics } from "@/components/settings/AuthServiceDiagnostics";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
@@ -42,8 +43,11 @@ export default function Settings() {
               <ArrowLeft className="h-5 w-5" />
             </Link>
           </Button>
-          <div>
-            <h1 className="text-2xl font-bold text-primary">{t("settings", "Settings")}</h1>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-primary">{t("settings", "Settings")}</h1>
+              <BuildVersionBadge />
+            </div>
             <p className="text-sm text-primary/70">{user.email}</p>
           </div>
         </div>

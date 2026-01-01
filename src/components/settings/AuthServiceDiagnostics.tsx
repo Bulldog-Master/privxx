@@ -5,11 +5,13 @@
 
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { Shield, Fingerprint, RefreshCw, CheckCircle, XCircle, Loader2 } from "lucide-react";
+import { Shield, Fingerprint, RefreshCw, CheckCircle, XCircle, Loader2, Copy, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
+import { buildInfo } from "@/lib/buildInfo";
+import { toast } from "sonner";
 
 type ServiceStatus = "unknown" | "checking" | "available" | "unavailable";
 
@@ -34,6 +36,7 @@ function formatInvokeError(err: unknown): string {
 
 export function AuthServiceDiagnostics() {
   const { t } = useTranslation();
+  const [copied, setCopied] = useState(false);
   const [passkeyService, setPasskeyService] = useState<ServiceState>({
     status: "unknown",
     lastCheck: null,
@@ -71,6 +74,29 @@ export function AuthServiceDiagnostics() {
     checkService("passkey");
     checkService("totp");
   }, [checkService]);
+
+  const copyDebugBundle = useCallback(() => {
+    const bundle = {
+      build: `v${buildInfo.version}${buildInfo.build ? `+${buildInfo.build}` : ""}`,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      origin: window.location.origin,
+      passkey: {
+        status: passkeyService.status,
+        lastCheck: passkeyService.lastCheck?.toISOString() ?? null,
+        error: passkeyService.lastError,
+      },
+      totp: {
+        status: totpService.status,
+        lastCheck: totpService.lastCheck?.toISOString() ?? null,
+        error: totpService.lastError,
+      },
+    };
+    navigator.clipboard.writeText(JSON.stringify(bundle, null, 2));
+    setCopied(true);
+    toast.success(t("authDiagnostics.copiedToast", "Diagnostics copied to clipboard"));
+    setTimeout(() => setCopied(false), 2000);
+  }, [passkeyService, totpService, t]);
 
   const getStatusIcon = (status: ServiceStatus) => {
     switch (status) {
@@ -164,15 +190,20 @@ export function AuthServiceDiagnostics() {
           </div>
         </div>
 
-        <Button
-          variant="outline"
-          onClick={checkAll}
-          disabled={passkeyService.status === "checking" || totpService.status === "checking"}
-          className="w-full"
-        >
-          <RefreshCw className="h-4 w-4 mr-2" />
-          {t("authDiagnostics.checkNow", "Check Now")}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={checkAll}
+            disabled={passkeyService.status === "checking" || totpService.status === "checking"}
+            className="flex-1"
+          >
+            <RefreshCw className="h-4 w-4 mr-2" />
+            {t("authDiagnostics.checkNow", "Check Now")}
+          </Button>
+          <Button variant="ghost" size="icon" onClick={copyDebugBundle} aria-label={t("authDiagnostics.copyBundle", "Copy debug bundle")}>
+            {copied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
