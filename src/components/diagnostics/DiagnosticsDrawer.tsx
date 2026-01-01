@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { 
   X, Copy, RefreshCw, Gauge, Check, ChevronDown, ChevronUp,
-  Monitor, Server, Wifi, Shield
+  Monitor, Server, Wifi, Shield, Key
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { StatusPill } from "./StatusPill";
 import { buildInfo } from "@/lib/buildInfo";
 import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
 import { NetworkSpeedTest } from "@/features/diagnostics/components/NetworkSpeedTest";
+import { useAuth } from "@/contexts/AuthContext";
 
 type NodeState = "ok" | "warn" | "bad" | "loading";
 
@@ -57,8 +58,29 @@ const DiagnosticsDrawer = () => {
   const [open, setOpen] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [tokenCopied, setTokenCopied] = useState(false);
   
+  const { getAccessToken, isAuthenticated } = useAuth();
   const bridgeHealth = useBridgeHealthStatus();
+  
+  // Get JWT token info
+  const token = getAccessToken();
+  const tokenInfo = useMemo(() => ({
+    present: !!token,
+    length: token?.length ?? 0,
+    preview: token ? `${token.substring(0, 12)}...` : null,
+  }), [token]);
+  
+  const handleCopyToken = async () => {
+    if (!token) return;
+    try {
+      await navigator.clipboard.writeText(token);
+      setTokenCopied(true);
+      setTimeout(() => setTokenCopied(false), 2000);
+    } catch {
+      // Clipboard API not available
+    }
+  };
   
   // Derive connection path states
   const connectionPath: ConnectionNode[] = useMemo(() => {
@@ -238,6 +260,61 @@ const DiagnosticsDrawer = () => {
                   <div className="text-xs text-muted-foreground">{t("diagnostics.lastCheck", "Last Check")}</div>
                   <div className="text-sm font-medium">{stats.lastCheck ?? "—"}</div>
                 </div>
+              </div>
+            </section>
+            
+            {/* Section B2: JWT Token Status */}
+            <section>
+              <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
+                <Key className="h-4 w-4" />
+                {t("diagnostics.jwtStatus", "JWT Token")}
+              </h3>
+              <div className="bg-muted/30 rounded-lg p-3 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">
+                    {t("diagnostics.jwtPresent", "Token present")}
+                  </span>
+                  <span className={cn(
+                    "text-sm font-medium",
+                    tokenInfo.present ? "text-emerald-500" : "text-red-500"
+                  )}>
+                    {tokenInfo.present ? t("common.yes", "Yes") : t("common.no", "No")}
+                  </span>
+                </div>
+                {tokenInfo.present && (
+                  <>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground">
+                        {t("diagnostics.jwtLength", "Token length")}
+                      </span>
+                      <span className="text-sm font-mono">{tokenInfo.length}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground font-mono truncate max-w-[140px]">
+                        {tokenInfo.preview}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleCopyToken}
+                        className="h-8 px-2 gap-1.5"
+                      >
+                        {tokenCopied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                        {t("diagnostics.copyToken", "Copy JWT")}
+                      </Button>
+                    </div>
+                  </>
+                )}
+                {!tokenInfo.present && isAuthenticated && (
+                  <p className="text-xs text-amber-500">
+                    {t("diagnostics.jwtMissing", "Logged in but no token found. Try refreshing.")}
+                  </p>
+                )}
+                {!isAuthenticated && (
+                  <p className="text-xs text-muted-foreground">
+                    {t("diagnostics.notLoggedIn", "Sign in to generate a JWT token.")}
+                  </p>
+                )}
               </div>
             </section>
             
