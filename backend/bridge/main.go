@@ -452,11 +452,23 @@ type JWTError struct {
 	Message string `json:"message,omitempty"`
 }
 
-// Supabase configuration
+// Backend configuration (provided at runtime via environment variables)
 var (
-	supabaseURL    = "https://qgzoqsgfqmtcpgfgtfms.supabase.co"
-	supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnem9xc2dmcW10Y3BnZmd0Zm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY4MzIyNDIsImV4cCI6MjA4MjQwODI0Mn0.oGdVZ-QB_O96hkxYzDtYUj1Kw-viUGbJMho4osgRJqA"
+	supabaseURL     string
+	supabaseAnonKey string
 )
+
+func init() {
+	supabaseURL = strings.TrimSpace(os.Getenv("SUPABASE_URL"))
+	supabaseAnonKey = strings.TrimSpace(os.Getenv("SUPABASE_ANON_KEY"))
+
+	if supabaseURL == "" {
+		log.Fatal("[CONFIG] SUPABASE_URL is required")
+	}
+	if supabaseAnonKey == "" {
+		log.Fatal("[CONFIG] SUPABASE_ANON_KEY is required")
+	}
+}
 
 // HTTP client with timeout for Supabase API calls
 var httpClient = &http.Client{
