@@ -911,6 +911,17 @@
     "backendNote": "Impostazioni come 'Protezione Password Compromessa' sono configurate nel pannello backend."
   },
   
+  "securityScore": {
+    "title": "Punteggio di Sicurezza",
+    "description": "Basato sulle impostazioni di sicurezza del tuo account",
+    "outOf": "/ 100",
+    "unknown": "Sconosciuto",
+    "excellent": "Eccellente",
+    "good": "Buono",
+    "fair": "Discreto",
+    "needsWork": "Da Migliorare"
+  },
+  
   "invalidCodeLength": "Il codice deve essere di 6 cifre",
   "copyAllCodes": "Copia Tutti i Codici"
 }

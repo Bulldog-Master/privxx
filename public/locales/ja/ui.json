@@ -916,6 +916,17 @@
     "backendNote": "「漏洩パスワード保護」などの設定はバックエンドパネルで構成されており、アプリから確認することはできません。"
   },
   
+  "securityScore": {
+    "title": "セキュリティスコア",
+    "description": "アカウントのセキュリティ設定に基づく",
+    "outOf": "/ 100",
+    "unknown": "不明",
+    "excellent": "優秀",
+    "good": "良好",
+    "fair": "普通",
+    "needsWork": "改善が必要"
+  },
+  
   "invalidCodeLength": "コードは6桁である必要があります",
   "copyAllCodes": "すべてのコードをコピー"
 }

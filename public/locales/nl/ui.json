@@ -909,6 +909,17 @@
     "checkFailed": "Kon status niet controleren",
     "backendNote": "Instellingen zoals 'Gelekte Wachtwoord Bescherming' worden geconfigureerd in het backend paneel."
   },
+  "securityScore": {
+    "title": "Beveiligingsscore",
+    "description": "Gebaseerd op uw accountbeveiligingsinstellingen",
+    "outOf": "/ 100",
+    "unknown": "Onbekend",
+    "excellent": "Uitstekend",
+    "good": "Goed",
+    "fair": "Redelijk",
+    "needsWork": "Verbetering Nodig"
+  },
+  
   "invalidCodeLength": "Code moet 6 cijfers zijn",
   "copyAllCodes": "Kopieer Alle Codes"
 }

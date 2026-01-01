@@ -909,6 +909,17 @@
     "checkFailed": "Durum kontrol edilemedi",
     "backendNote": "'Sızdırılmış Şifre Koruması' gibi ayarlar backend panelinde yapılandırılır."
   },
+  "securityScore": {
+    "title": "Güvenlik Puanı",
+    "description": "Hesap güvenlik ayarlarınıza dayalı",
+    "outOf": "/ 100",
+    "unknown": "Bilinmiyor",
+    "excellent": "Mükemmel",
+    "good": "İyi",
+    "fair": "Orta",
+    "needsWork": "İyileştirme Gerekli"
+  },
+  
   "invalidCodeLength": "Kod 6 haneli olmalıdır",
   "copyAllCodes": "Tüm Kodları Kopyala"
 }

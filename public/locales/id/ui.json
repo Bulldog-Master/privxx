@@ -915,6 +915,17 @@
     "backendNote": "Pengaturan seperti 'Perlindungan Password Bocor' dikonfigurasi di panel backend."
   },
   
+  "securityScore": {
+    "title": "Skor Keamanan",
+    "description": "Berdasarkan pengaturan keamanan akun Anda",
+    "outOf": "/ 100",
+    "unknown": "Tidak Diketahui",
+    "excellent": "Sangat Baik",
+    "good": "Baik",
+    "fair": "Cukup",
+    "needsWork": "Perlu Diperbaiki"
+  },
+  
   "invalidCodeLength": "Kode harus 6 digit",
   "copyAllCodes": "Salin Semua Kode"
 }

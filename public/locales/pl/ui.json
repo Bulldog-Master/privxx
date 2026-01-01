@@ -905,6 +905,17 @@
     "checkFailed": "Nie można sprawdzić statusu",
     "backendNote": "Ustawienia takie jak 'Ochrona przed Wyciekiem Hasła' są konfigurowane w panelu backendu."
   },
+  "securityScore": {
+    "title": "Ocena Bezpieczeństwa",
+    "description": "Na podstawie ustawień bezpieczeństwa konta",
+    "outOf": "/ 100",
+    "unknown": "Nieznana",
+    "excellent": "Doskonała",
+    "good": "Dobra",
+    "fair": "Średnia",
+    "needsWork": "Wymaga Poprawy"
+  },
+  
   "invalidCodeLength": "Kod musi mieć 6 cyfr",
   "copyAllCodes": "Kopiuj Wszystkie Kody"
 }
