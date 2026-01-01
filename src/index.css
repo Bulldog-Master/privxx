@@ -133,6 +133,28 @@
   }
 }
 
+/* Override browser autofill styling to maintain dark theme */
+@layer base {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px hsl(200 40% 28%) inset !important;
+    -webkit-text-fill-color: hsl(210 9% 96%) !important;
+    caret-color: hsl(210 9% 96%) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+  
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover,
+  .dark input:-webkit-autofill:focus,
+  .dark input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px hsl(212 10% 25%) inset !important;
+    -webkit-text-fill-color: hsl(210 9% 96%) !important;
+    caret-color: hsl(210 9% 96%) !important;
+  }
+}
+
 /* RTL support */
 [dir="rtl"] {
   text-align: right;
