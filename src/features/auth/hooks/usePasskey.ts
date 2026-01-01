@@ -90,14 +90,15 @@ export function usePasskey() {
 
   /**
    * Authenticate with a passkey
+   * If email is omitted, uses discoverable (usernameless) credentials.
    */
-  const authenticateWithPasskey = useCallback(async (email: string) => {
+  const authenticateWithPasskey = useCallback(async (email?: string | null) => {
     setState({ isLoading: true, error: null });
 
     try {
       // Get authentication options
       const { data: optionsData, error: optionsError } = await supabase.functions.invoke('passkey-auth', {
-        body: { action: 'authentication-options', email },
+        body: { action: 'authentication-options', ...(email ? { email } : {}) },
       });
 
       // IMPORTANT: throw the original invoke error to preserve status/body context
@@ -112,14 +113,18 @@ export function usePasskey() {
         optionsJSON: optionsData.options,
       });
 
-      // Verify authentication
+      // Verify authentication (send full credential response)
       const { data: verifyData, error: verifyError } = await supabase.functions.invoke('passkey-auth', {
         body: {
           action: 'authentication-verify',
-          email,
+          ...(email ? { email } : {}),
           credential: {
             id: credential.id,
-            counter: 0,
+            rawId: credential.rawId,
+            response: credential.response,
+            authenticatorAttachment: credential.authenticatorAttachment,
+            clientExtensionResults: credential.clientExtensionResults,
+            type: credential.type,
           },
         },
       });

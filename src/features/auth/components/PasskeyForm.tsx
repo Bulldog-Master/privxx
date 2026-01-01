@@ -40,12 +40,9 @@ export function PasskeyForm() {
     setError(null);
     clearError();
 
-    if (!email) {
-      setError(t("emailRequired", "Email is required"));
-      return;
-    }
-
-    const success = await authenticateWithPasskey(email);
+    // Passkeys can be usernameless (discoverable credentials).
+    // Email is optional and only used to narrow to a specific account.
+    const success = await authenticateWithPasskey(email.trim() ? email.trim() : null);
     if (success) {
       toast.success(t("passkeyAuthSuccess", "Signed in with passkey"));
     }
@@ -56,7 +53,9 @@ export function PasskeyForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="passkey-email">{t("email", "Email")}</Label>
+        <Label htmlFor="passkey-email">
+          {t("emailOptional", "Email (optional)")}
+        </Label>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
@@ -66,10 +65,15 @@ export function PasskeyForm() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder={t("emailPlaceholder", "you@example.com")}
             className="pl-10"
-            required
             disabled={isLoading}
           />
         </div>
+        <p className="text-xs text-muted-foreground">
+          {t(
+            "passkeyEmailOptionalHint",
+            "Leave blank to choose a passkey from this device."
+          )}
+        </p>
       </div>
 
       <p className="text-xs text-muted-foreground">

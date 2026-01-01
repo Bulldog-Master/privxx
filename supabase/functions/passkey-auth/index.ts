@@ -364,17 +364,11 @@ serve(async (req) => {
 
       case 'authentication-options': {
         // Generate authentication options
-        if (!email) {
-          return new Response(JSON.stringify({ error: 'email required' }), {
-            status: 400,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
-        }
+        // Email is optional for usernameless (discoverable) passkeys.
 
-        // Find user by email (case-insensitive)
-        const normalizedEmail = email.toLowerCase();
-        const { data: userData } = await supabase.auth.admin.listUsers();
-        const user = userData?.users?.find((u: any) => u.email?.toLowerCase() === normalizedEmail);
+        const normalizedEmail = typeof email === 'string' && email.trim()
+          ? email.trim().toLowerCase()
+          : null;
 
         // Generic error message to prevent user enumeration
         // Add consistent delay to prevent timing attacks
@@ -382,64 +376,78 @@ serve(async (req) => {
         await new Promise(resolve => setTimeout(resolve, delay));
 
         const authFailedResponse = new Response(
-          JSON.stringify({ error: 'Authentication failed' }), 
+          JSON.stringify({ error: 'Authentication failed' }),
           {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           }
         );
 
-        if (!user) {
-          console.error('[passkey-auth] User not found:', email);
-          return authFailedResponse;
-        }
+        // If email is provided, narrow to that user's credentials
+        let user: any | null = null;
+        let allowCredentials: any[] | undefined;
 
-        // Get user's passkeys
-        const { data: credentials } = await supabase
-          .from('passkey_credentials')
-          .select('credential_id, transports')
-          .eq('user_id', user.id);
+        if (normalizedEmail) {
+          const { data: userData } = await supabase.auth.admin.listUsers();
+          user = userData?.users?.find((u: any) => u.email?.toLowerCase() === normalizedEmail) ?? null;
 
-        if (!credentials || credentials.length === 0) {
-          return authFailedResponse;
+          if (!user) {
+            console.error('[passkey-auth] User not found:', normalizedEmail);
+            return authFailedResponse;
+          }
+
+          const { data: credentials } = await supabase
+            .from('passkey_credentials')
+            .select('credential_id, transports')
+            .eq('user_id', user.id);
+
+          if (!credentials || credentials.length === 0) {
+            return authFailedResponse;
+          }
+
+          allowCredentials = credentials.map((c: any) => ({
+            id: c.credential_id,
+            transports: c.transports || [],
+          }));
         }
 
         // Generate authentication options using @simplewebauthn/server
+        // If allowCredentials is omitted, the client can use discoverable credentials (no email needed).
         const options = await generateAuthenticationOptions({
           rpID: rpId,
           userVerification: 'preferred',
-          allowCredentials: credentials.map((c: any) => ({
-            id: c.credential_id,
-            transports: c.transports || [],
-          })),
+          ...(allowCredentials ? { allowCredentials } : {}),
         });
 
         const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
 
-        // Store challenge for verification (use normalized email for consistency)
+        // Store challenge for verification
         await supabase.from('passkey_challenges').insert({
-          user_email: normalizedEmail,
+          user_email: normalizedEmail ?? '__discoverable__',
           challenge: options.challenge,
           type: 'authentication',
           expires_at: expiresAt,
         });
 
-        return new Response(JSON.stringify({ options, userId: user.id }), {
+        return new Response(JSON.stringify({ options, userId: user?.id ?? null }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }
 
       case 'authentication-verify': {
         // Verify authentication with cryptographic validation
-        if (!credential || !email) {
-          return new Response(JSON.stringify({ error: 'credential and email required' }), {
+        if (!credential) {
+          return new Response(JSON.stringify({ error: 'credential required' }), {
             status: 400,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
         }
 
-        // Verify challenge exists and not expired (use normalized email)
-        const normalizedEmail = email.toLowerCase();
+        const normalizedEmail = typeof email === 'string' && email.trim()
+          ? email.trim().toLowerCase()
+          : '__discoverable__';
+
+        // Verify challenge exists and not expired
         const { data: challengeData, error: challengeError } = await supabase
           .from('passkey_challenges')
           .select('*')
@@ -493,7 +501,7 @@ serve(async (req) => {
             eventType: 'passkey_auth_failure',
             success: false,
             ...auditContext,
-            metadata: { email, reason: 'verification_failed' },
+            metadata: { email: email ?? null, reason: 'verification_failed' },
           });
           return new Response(JSON.stringify({ error: 'Authentication verification failed' }), {
             status: 400,
@@ -531,10 +539,22 @@ serve(async (req) => {
         // Clean up challenge
         await supabase.from('passkey_challenges').delete().eq('id', challengeData.id);
 
+        // Resolve user's email from the credential's user_id
+        const { data: userById } = await supabase.auth.admin.getUserById(storedCred.user_id);
+        const resolvedEmail = userById?.user?.email;
+
+        if (!resolvedEmail) {
+          console.error('[passkey-auth] Failed to resolve user email for:', storedCred.user_id);
+          return new Response(JSON.stringify({ error: 'Failed to create session' }), {
+            status: 500,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
         // Generate a magic link token for this user
         const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
           type: 'magiclink',
-          email: email,
+          email: resolvedEmail,
         });
 
         if (linkError || !linkData) {
@@ -556,12 +576,12 @@ serve(async (req) => {
           eventType: 'passkey_auth_success',
           success: true,
           ...auditContext,
-          metadata: { email },
+          metadata: { email: resolvedEmail },
         });
 
-        console.log('[passkey-auth] Authentication successful with cryptographic verification for:', email);
-        return new Response(JSON.stringify({ 
-          success: true, 
+        console.log('[passkey-auth] Authentication successful with cryptographic verification for:', storedCred.user_id);
+        return new Response(JSON.stringify({
+          success: true,
           token,
           tokenType,
           userId: storedCred.user_id,
