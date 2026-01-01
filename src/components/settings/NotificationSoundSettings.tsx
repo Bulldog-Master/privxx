@@ -2,19 +2,22 @@
  * Notification Sound Settings Component
  * 
  * Allows users to configure custom notification sounds per event type.
+ * Respects Do Not Disturb schedule.
  */
 
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Volume2, VolumeX, Play, Bell } from "lucide-react";
+import { Volume2, VolumeX, Play, Moon } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/hooks/useToast";
+import { isDNDActive } from "./DoNotDisturbSettings";
 
 type SoundType = 'none' | 'subtle' | 'chime' | 'alert' | 'urgent';
 type EventType = 'password_changed' | '2fa_enabled' | 'new_device_login' | 'passkey_added';
@@ -121,6 +124,15 @@ export function NotificationSoundSettings() {
   const audioContextRef = useRef<AudioContext | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [preferences, setPreferences] = useState<NotificationSoundPreferences>(DEFAULT_PREFERENCES);
+  const [dndActive, setDndActive] = useState(false);
+
+  // Check DND status periodically
+  useEffect(() => {
+    const checkDND = () => setDndActive(isDNDActive());
+    checkDND();
+    const interval = setInterval(checkDND, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     try {
@@ -208,13 +220,23 @@ export function NotificationSoundSettings() {
   return (
     <Card className="bg-card/90 backdrop-blur-sm border-border/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-primary">
-          <Volume2 className="h-5 w-5" />
-          {t("notificationSounds", "Notification Sounds")}
-        </CardTitle>
-        <CardDescription className="text-primary/70">
-          {t("notificationSoundsDesc", "Customize audio alerts for security events")}
-        </CardDescription>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2 text-primary">
+              <Volume2 className="h-5 w-5" />
+              {t("notificationSounds", "Notification Sounds")}
+            </CardTitle>
+            <CardDescription className="text-primary/70">
+              {t("notificationSoundsDesc", "Customize audio alerts for security events")}
+            </CardDescription>
+          </div>
+          {dndActive && preferences.globalEnabled && (
+            <Badge variant="secondary" className="bg-purple-500/10 text-purple-600 border-purple-500/30">
+              <Moon className="h-3 w-3 mr-1" />
+              {t("muted", "Muted")}
+            </Badge>
+          )}
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Global Toggle */}
