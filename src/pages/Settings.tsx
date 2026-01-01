@@ -23,6 +23,7 @@ import { PasskeyGuidedFlow } from "@/components/settings/PasskeyGuidedFlow";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { RecoveryCodesManagement } from "@/components/settings/RecoveryCodesManagement";
 import { SecurityChecklist } from "@/components/settings/SecurityChecklist";
+import { SecurityScoreIndicator } from "@/components/settings/SecurityScoreIndicator";
 import { EnhancedAuthDebugBundle } from "@/components/settings/EnhancedAuthDebugBundle";
 import { AccountSection } from "@/components/settings/AccountSection";
 import { SessionSettings } from "@/components/settings/SessionSettings";
@@ -132,7 +133,22 @@ export default function Settings() {
           {/* Authentication Services Diagnostics */}
           <AuthServiceDiagnostics />
 
-          {/* Security Checklist */}
+          {/* Security Score & Checklist */}
+          <Card className="bg-card/90 backdrop-blur-sm border-border/50">
+            <CardContent className="py-6">
+              <div className="flex flex-col sm:flex-row items-center gap-6">
+                <SecurityScoreIndicator size="lg" />
+                <div className="flex-1 text-center sm:text-left">
+                  <h3 className="text-lg font-semibold text-primary mb-1">
+                    {t("securityScore.title", "Security Score")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {t("securityScore.description", "Based on your account security settings")}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           <SecurityChecklist />
 
           {/* Two-Factor Authentication */}

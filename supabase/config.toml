@@ -13,3 +13,6 @@ verify_jwt = false
 
 [functions.totp-auth]
 verify_jwt = false
+
+[functions.security-notify]
+verify_jwt = true
