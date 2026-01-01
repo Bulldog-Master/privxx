@@ -767,5 +767,21 @@
   "connectionTimeline.connected": "Terhubung",
   "connectionTimeline.degraded": "Menurun",
   "connectionTimeline.disconnected": "Terputus",
-  "connectionTimeline.recentEvents": "Peristiwa konektivitas terbaru"
+  "connectionTimeline.recentEvents": "Peristiwa konektivitas terbaru",
+  
+  "authErrors": {
+    "serviceFailed": "Gagal terhubung ke layanan autentikasi",
+    "tryAgain": "Terjadi kesalahan internal. Silakan coba lagi nanti."
+  },
+  "authDiagnostics": {
+    "title": "Layanan Autentikasi",
+    "description": "Status endpoint passkey dan 2FA",
+    "passkeyService": "Layanan Passkey",
+    "totpService": "Layanan 2FA",
+    "checking": "Memeriksa...",
+    "available": "Tersedia",
+    "unavailable": "Tidak tersedia",
+    "lastCheck": "Pemeriksaan terakhir",
+    "checkNow": "Periksa Sekarang"
+  }
 }

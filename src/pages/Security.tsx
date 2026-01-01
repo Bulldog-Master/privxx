@@ -30,6 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageBackground } from "@/components/layout/PageBackground";
 import { PrivxxLogo } from "@/components/brand";
 import { SecurityTrendChart, EventTypeChart } from "@/components/security";
+import { AuthServiceDiagnostics } from "@/components/settings/AuthServiceDiagnostics";
 import {
   Select,
   SelectContent,
@@ -303,6 +304,11 @@ export default function Security() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <SecurityTrendChart logs={logs} />
           <EventTypeChart logs={logs} />
+        </div>
+
+        {/* Auth Service Diagnostics */}
+        <div className="mb-6">
+          <AuthServiceDiagnostics />
         </div>
 
         {/* Filters and Search */}

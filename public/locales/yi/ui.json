@@ -763,5 +763,21 @@
   "connectionTimeline.connected": "פֿאַרבונדן",
   "connectionTimeline.degraded": "באַגרענעצט",
   "connectionTimeline.disconnected": "אָפּגעשיידט",
-  "connectionTimeline.recentEvents": "לעצטיקע קאָנעקטיוויטי געשעענישן"
+  "connectionTimeline.recentEvents": "לעצטיקע קאָנעקטיוויטי געשעענישן",
+  
+  "authErrors": {
+    "serviceFailed": "מישלונג צו פֿאַרבינדן צו אויטענטיפֿיקאַציע סערוויס",
+    "tryAgain": "אַן אינערלעכע גרײַז איז פֿאָרגעקומען. ביטע פּרובירט ווידער שפּעטער."
+  },
+  "authDiagnostics": {
+    "title": "אויטענטיפֿיקאַציע סערוויסעס",
+    "description": "סטאַטוס פֿון passkey און 2FA ענדפּוינטס",
+    "passkeyService": "Passkey סערוויס",
+    "totpService": "2FA סערוויס",
+    "checking": "טשעקט...",
+    "available": "צוגענגלעך",
+    "unavailable": "נישט צוגענגלעך",
+    "lastCheck": "לעצט געטשעקט",
+    "checkNow": "טשעקן איצט"
+  }
 }

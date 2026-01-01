@@ -772,5 +772,21 @@
   "connectionTimeline.connected": "منسلک",
   "connectionTimeline.degraded": "متاثر",
   "connectionTimeline.disconnected": "منقطع",
-  "connectionTimeline.recentEvents": "حالیہ کنیکٹیویٹی واقعات"
+  "connectionTimeline.recentEvents": "حالیہ کنیکٹیویٹی واقعات",
+  
+  "authErrors": {
+    "serviceFailed": "تصدیقی سروس سے کنکشن ناکام",
+    "tryAgain": "ایک اندرونی خرابی پیش آئی۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"
+  },
+  "authDiagnostics": {
+    "title": "تصدیقی خدمات",
+    "description": "پاسکی اور 2FA اینڈ پوائنٹس کی حیثیت",
+    "passkeyService": "پاسکی سروس",
+    "totpService": "2FA سروس",
+    "checking": "جانچ ہو رہی ہے...",
+    "available": "دستیاب",
+    "unavailable": "غیر دستیاب",
+    "lastCheck": "آخری جانچ",
+    "checkNow": "ابھی جانچیں"
+  }
 }

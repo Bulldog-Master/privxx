@@ -767,5 +767,21 @@
   "connectionTimeline.connected": "जुड़ा हुआ",
   "connectionTimeline.degraded": "प्रभावित",
   "connectionTimeline.disconnected": "विच्छेद",
-  "connectionTimeline.recentEvents": "हाल की कनेक्टिविटी घटनाएं"
+  "connectionTimeline.recentEvents": "हाल की कनेक्टिविटी घटनाएं",
+  
+  "authErrors": {
+    "serviceFailed": "प्रमाणीकरण सेवा से कनेक्ट करने में विफल",
+    "tryAgain": "एक आंतरिक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
+  },
+  "authDiagnostics": {
+    "title": "प्रमाणीकरण सेवाएं",
+    "description": "पासकी और 2FA एंडपॉइंट की स्थिति",
+    "passkeyService": "पासकी सेवा",
+    "totpService": "2FA सेवा",
+    "checking": "जांच रहा है...",
+    "available": "उपलब्ध",
+    "unavailable": "अनुपलब्ध",
+    "lastCheck": "अंतिम जांच",
+    "checkNow": "अभी जांचें"
+  }
 }

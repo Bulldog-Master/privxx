@@ -770,5 +770,21 @@
   "connectionTimeline.connected": "সংযুক্ত",
   "connectionTimeline.degraded": "প্রভাবিত",
   "connectionTimeline.disconnected": "বিচ্ছিন্ন",
-  "connectionTimeline.recentEvents": "সাম্প্রতিক সংযোগ ঘটনা"
+  "connectionTimeline.recentEvents": "সাম্প্রতিক সংযোগ ঘটনা",
+  
+  "authErrors": {
+    "serviceFailed": "প্রমাণীকরণ পরিষেবায় সংযোগ করতে ব্যর্থ",
+    "tryAgain": "একটি অভ্যন্তরীণ ত্রুটি ঘটেছে। অনুগ্রহ করে পরে আবার চেষ্টা করুন।"
+  },
+  "authDiagnostics": {
+    "title": "প্রমাণীকরণ পরিষেবা",
+    "description": "পাসকি এবং 2FA এন্ডপয়েন্টের স্থিতি",
+    "passkeyService": "পাসকি পরিষেবা",
+    "totpService": "2FA পরিষেবা",
+    "checking": "পরীক্ষা করা হচ্ছে...",
+    "available": "উপলব্ধ",
+    "unavailable": "অনুপলব্ধ",
+    "lastCheck": "শেষ পরীক্ষা",
+    "checkNow": "এখনই পরীক্ষা করুন"
+  }
 }
