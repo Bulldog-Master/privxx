@@ -35,8 +35,9 @@ export function usePasskey() {
         body: { action: 'registration-options' },
       });
 
+      // IMPORTANT: throw the original invoke error to preserve status/body context
       if (optionsError || !optionsData?.options) {
-        throw new Error(optionsError?.message || 'Failed to get registration options');
+        throw optionsError || new Error('Failed to get registration options');
       }
 
       console.log('[usePasskey] Starting registration...');
@@ -61,8 +62,9 @@ export function usePasskey() {
         },
       });
 
+      // IMPORTANT: throw the original invoke error to preserve status/body context
       if (verifyError || !verifyData?.success) {
-        throw new Error(verifyError?.message || 'Failed to verify registration');
+        throw verifyError || new Error('Failed to verify registration');
       }
 
       console.log('[usePasskey] Passkey registered successfully');
@@ -98,8 +100,9 @@ export function usePasskey() {
         body: { action: 'authentication-options', email },
       });
 
+      // IMPORTANT: throw the original invoke error to preserve status/body context
       if (optionsError || !optionsData?.options) {
-        throw new Error(optionsError?.message || optionsData?.error || 'Failed to get authentication options');
+        throw optionsError || new Error(optionsData?.error || 'Failed to get authentication options');
       }
 
       console.log('[usePasskey] Starting authentication...');
@@ -121,8 +124,9 @@ export function usePasskey() {
         },
       });
 
+      // IMPORTANT: throw the original invoke error to preserve status/body context
       if (verifyError || !verifyData?.success) {
-        throw new Error(verifyError?.message || 'Authentication failed');
+        throw verifyError || new Error('Authentication failed');
       }
 
       // Use the token to sign in

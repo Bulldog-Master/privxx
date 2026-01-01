@@ -67,7 +67,9 @@ export function useTOTP() {
         body: { action: "status" },
       });
 
-      if (error) throw new Error(error.message);
+      // IMPORTANT: throw the original invoke error to preserve status/body context
+      if (error) throw error;
+
       setState({ isLoading: false, error: null });
       return data as TOTPStatus;
     } catch (error) {
@@ -76,7 +78,7 @@ export function useTOTP() {
       setState({ isLoading: false, error: message });
       return null;
     }
-  }, [normalizeError]);
+  }, [extractInvokeErrorMessage]);
 
   /**
    * Start 2FA setup - returns secret and QR code data
@@ -89,7 +91,8 @@ export function useTOTP() {
         body: { action: "setup" },
       });
 
-      if (error) throw new Error(error.message);
+      // IMPORTANT: throw the original invoke error to preserve status/body context
+      if (error) throw error;
       if (data.error) throw new Error(data.error);
 
       setState({ isLoading: false, error: null });
@@ -100,7 +103,7 @@ export function useTOTP() {
       setState({ isLoading: false, error: message });
       return null;
     }
-  }, [normalizeError]);
+  }, [extractInvokeErrorMessage]);
 
   /**
    * Verify TOTP code and complete setup
@@ -114,19 +117,19 @@ export function useTOTP() {
           body: { action: "verify", code },
         });
 
-        if (error) throw new Error(error.message);
+        // IMPORTANT: throw the original invoke error to preserve status/body context
+        if (error) throw error;
         if (data.error) throw new Error(data.error);
 
         setState({ isLoading: false, error: null });
         return data;
       } catch (error) {
-        const raw = error instanceof Error ? error.message : "";
-        const message = normalizeError(raw, "Verification failed");
+        const message = extractInvokeErrorMessage(error, "Verification failed");
         setState({ isLoading: false, error: message });
         return null;
       }
     },
-    [normalizeError]
+    [extractInvokeErrorMessage]
   );
 
   /**
@@ -141,19 +144,19 @@ export function useTOTP() {
           body: { action: "disable", code },
         });
 
-        if (error) throw new Error(error.message);
+        // IMPORTANT: throw the original invoke error to preserve status/body context
+        if (error) throw error;
         if (data.error) throw new Error(data.error);
 
         setState({ isLoading: false, error: null });
         return true;
       } catch (error) {
-        const raw = error instanceof Error ? error.message : "";
-        const message = normalizeError(raw, "Failed to disable 2FA");
+        const message = extractInvokeErrorMessage(error, "Failed to disable 2FA");
         setState({ isLoading: false, error: message });
         return false;
       }
     },
-    [normalizeError]
+    [extractInvokeErrorMessage]
   );
 
   /**
@@ -168,19 +171,19 @@ export function useTOTP() {
           body: { action: "verify-backup", code },
         });
 
-        if (error) throw new Error(error.message);
+        // IMPORTANT: throw the original invoke error to preserve status/body context
+        if (error) throw error;
         if (data.error) throw new Error(data.error);
 
         setState({ isLoading: false, error: null });
         return data.verified;
       } catch (error) {
-        const raw = error instanceof Error ? error.message : "";
-        const message = normalizeError(raw, "Invalid backup code");
+        const message = extractInvokeErrorMessage(error, "Invalid backup code");
         setState({ isLoading: false, error: message });
         return false;
       }
     },
-    [normalizeError]
+    [extractInvokeErrorMessage]
   );
 
   return {
