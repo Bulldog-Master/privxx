@@ -196,11 +196,13 @@ export function AvatarCropperDialog({
       outputSize
     );
 
+    // Compress as JPEG with 0.85 quality for smaller file size
+    // Target: ~50-100KB for 256x256 avatar (vs ~200-400KB for PNG)
     return new Promise((resolve) => {
       canvas.toBlob(
         (blob) => resolve(blob),
-        "image/png",
-        1.0
+        "image/jpeg",
+        0.85
       );
     });
   }, [completedCrop, scale, rotate, brightness, contrast]);
