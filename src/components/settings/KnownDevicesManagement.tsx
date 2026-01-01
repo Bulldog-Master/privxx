@@ -32,7 +32,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getKnownDevices, KnownDevice, getCurrentDeviceFingerprint, clearKnownDevices, saveKnownDevices } from "@/lib/deviceFingerprint";
+import { getKnownDevices, KnownDevice, getCurrentDeviceFingerprint, clearKnownDevices, saveKnownDevices, getPasskeyNames, savePasskeyName } from "@/lib/deviceFingerprint";
 import { toast } from "@/hooks/useToast";
 import { formatDistanceToNow } from "date-fns";
 

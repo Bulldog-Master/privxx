@@ -80,6 +80,11 @@ export interface KnownDevice {
   trusted?: boolean;
 }
 
+// Storage key for passkey custom names (synced with passkey management)
+const PASSKEY_NAMES_KEY = "privxx_passkey_names";
+// Storage key for default passkey
+const DEFAULT_PASSKEY_KEY = "privxx_default_passkey";
+
 /**
  * Gets the list of known devices for this user.
  */
@@ -98,6 +103,57 @@ export function getKnownDevices(): KnownDevice[] {
 export function saveKnownDevices(devices: KnownDevice[]): void {
   try {
     localStorage.setItem(KNOWN_DEVICES_KEY, JSON.stringify(devices));
+  } catch {
+    // Ignore storage errors
+  }
+}
+
+/**
+ * Gets passkey custom names (shared storage).
+ */
+export function getPasskeyNames(): Record<string, string> {
+  try {
+    const stored = localStorage.getItem(PASSKEY_NAMES_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Saves a passkey custom name (shared storage).
+ */
+export function savePasskeyName(credentialId: string, name: string): void {
+  const names = getPasskeyNames();
+  if (name.trim()) {
+    names[credentialId] = name.trim();
+  } else {
+    delete names[credentialId];
+  }
+  localStorage.setItem(PASSKEY_NAMES_KEY, JSON.stringify(names));
+}
+
+/**
+ * Gets the default passkey credential ID.
+ */
+export function getDefaultPasskey(): string | null {
+  try {
+    return localStorage.getItem(DEFAULT_PASSKEY_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Sets the default passkey credential ID.
+ */
+export function setDefaultPasskey(credentialId: string | null): void {
+  try {
+    if (credentialId) {
+      localStorage.setItem(DEFAULT_PASSKEY_KEY, credentialId);
+    } else {
+      localStorage.removeItem(DEFAULT_PASSKEY_KEY);
+    }
   } catch {
     // Ignore storage errors
   }
