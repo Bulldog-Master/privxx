@@ -371,9 +371,10 @@ serve(async (req) => {
           });
         }
 
-        // Find user by email
+        // Find user by email (case-insensitive)
+        const normalizedEmail = email.toLowerCase();
         const { data: userData } = await supabase.auth.admin.listUsers();
-        const user = userData?.users?.find((u: any) => u.email === email);
+        const user = userData?.users?.find((u: any) => u.email?.toLowerCase() === normalizedEmail);
 
         // Generic error message to prevent user enumeration
         // Add consistent delay to prevent timing attacks
@@ -415,9 +416,9 @@ serve(async (req) => {
 
         const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
 
-        // Store challenge for verification
+        // Store challenge for verification (use normalized email for consistency)
         await supabase.from('passkey_challenges').insert({
-          user_email: email,
+          user_email: normalizedEmail,
           challenge: options.challenge,
           type: 'authentication',
           expires_at: expiresAt,
@@ -437,11 +438,12 @@ serve(async (req) => {
           });
         }
 
-        // Verify challenge exists and not expired
+        // Verify challenge exists and not expired (use normalized email)
+        const normalizedEmail = email.toLowerCase();
         const { data: challengeData, error: challengeError } = await supabase
           .from('passkey_challenges')
           .select('*')
-          .eq('user_email', email)
+          .eq('user_email', normalizedEmail)
           .eq('type', 'authentication')
           .gt('expires_at', new Date().toISOString())
           .order('created_at', { ascending: false })
