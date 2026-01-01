@@ -19,6 +19,7 @@ import { AuthServiceDiagnostics } from "@/components/settings/AuthServiceDiagnos
 import { BackendHealthPanel } from "@/components/settings/BackendHealthPanel";
 import { ForceRefreshCard } from "@/components/settings/ForceRefreshCard";
 import { PasskeyManagement } from "@/components/settings/PasskeyManagement";
+import { PasskeyOnboardingPrompt } from "@/features/auth/components";
 import { PasskeyGuidedFlow } from "@/components/settings/PasskeyGuidedFlow";
 import { TOTPManagement } from "@/components/settings/TOTPManagement";
 import { RecoveryCodesManagement } from "@/components/settings/RecoveryCodesManagement";
@@ -185,6 +186,9 @@ export default function Settings() {
           <div id="recovery-section">
             <RecoveryCodesManagement userId={user.id} is2FAEnabled={is2FAEnabled} />
           </div>
+
+          {/* Passkey Onboarding Prompt (for users who dismissed it) */}
+          <PasskeyOnboardingPrompt className="mb-4" ignoreDismissed />
 
           {/* Passkey Management */}
           <div id="passkey-section">
