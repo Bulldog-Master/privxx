@@ -55,7 +55,10 @@ export function useTOTP() {
       return data as TOTPStatus;
     } catch (error) {
       const raw = error instanceof Error ? error.message : "";
-      const message = normalizeError(raw, "Failed to get 2FA status");
+      // Handle non-2xx status code errors with a friendly message
+      const message = raw.includes("non-2xx") 
+        ? "Failed to connect to authentication service" 
+        : normalizeError(raw, "Failed to get 2FA status");
       setState({ isLoading: false, error: message });
       return null;
     }
@@ -79,7 +82,9 @@ export function useTOTP() {
       return data as TOTPSetupData;
     } catch (error) {
       const raw = error instanceof Error ? error.message : "";
-      const message = normalizeError(raw, "Failed to start 2FA setup");
+      const message = raw.includes("non-2xx") 
+        ? "Failed to connect to authentication service" 
+        : normalizeError(raw, "Failed to start 2FA setup");
       setState({ isLoading: false, error: message });
       return null;
     }
