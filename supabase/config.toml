@@ -5,3 +5,11 @@ verify_jwt = false
 
 [functions.verify-turnstile]
 verify_jwt = false
+
+# Auth-related functions perform their own JWT validation (when required)
+# and must be callable from unauthenticated contexts (e.g., passkey sign-in).
+[functions.passkey-auth]
+verify_jwt = false
+
+[functions.totp-auth]
+verify_jwt = false

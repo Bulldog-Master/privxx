@@ -60,7 +60,14 @@ export function AuthServiceDiagnostics() {
       });
 
       if (error) {
-        setState({ status: "unavailable", lastCheck: new Date(), lastError: formatInvokeError(error) });
+        const msg = formatInvokeError(error);
+        // 401/403 means the function is reachable, but auth is required.
+        if (msg.includes("401") || msg.includes("403") || msg.toLowerCase().includes("unauthorized")) {
+          setState({ status: "available", lastCheck: new Date(), lastError: msg });
+          return;
+        }
+
+        setState({ status: "unavailable", lastCheck: new Date(), lastError: msg });
         return;
       }
 

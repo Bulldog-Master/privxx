@@ -1,0 +1,2 @@
+-- No database changes required.
+-- This migration is intentionally empty.
