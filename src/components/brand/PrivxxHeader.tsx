@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock, Activity } from "lucide-react";
+import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock, Activity, HeartPulse } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/features/identity";
 import { useAvatarUrl } from "@/hooks/useAvatarUrl";
@@ -176,6 +176,14 @@ const PrivxxHeader = () => {
             <Link to="/whats-new" className="gap-2 cursor-pointer">
               <Sparkles className="w-4 h-4" />
               {t("whatsNew", "What's New")}
+            </Link>
+          </DropdownMenuItem>
+
+          {/* Health */}
+          <DropdownMenuItem asChild>
+            <Link to="/health" className="gap-2 cursor-pointer">
+              <HeartPulse className="w-4 h-4" />
+              {t("health.title", "Health")}
             </Link>
           </DropdownMenuItem>
 
