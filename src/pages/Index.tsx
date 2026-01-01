@@ -3,6 +3,7 @@ import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { PageBackground } from "@/components/layout/PageBackground";
 import { SecurityScoreIndicator } from "@/components/settings/SecurityScoreIndicator";
+import { PasskeyOnboardingPrompt } from "@/features/auth/components";
 import { useAuth } from "@/contexts/AuthContext";
 import MinimalFooter from "@/components/shared/MinimalFooter";
 
@@ -43,6 +44,13 @@ const Index = () => {
           tabIndex={-1}
         >
           <PrivxxHeroWithUrl />
+
+          {/* Passkey onboarding prompt - shows to users without passkeys */}
+          {user && (
+            <div className="w-full max-w-md">
+              <PasskeyOnboardingPrompt />
+            </div>
+          )}
 
           {/* Security Score - only show when logged in */}
           {user && (

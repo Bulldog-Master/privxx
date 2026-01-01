@@ -187,8 +187,23 @@ serve(async (req) => {
 
     switch (action) {
       case 'status': {
-        // Lightweight health check (still behind JWT verification unless function is configured public).
-        return new Response(JSON.stringify({ ok: true }), {
+        // Check passkey status for the authenticated user
+        if (!authenticatedUser) {
+          // Unauthenticated status check - just return ok
+          return new Response(JSON.stringify({ ok: true, credentialCount: 0 }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
+        // Get credential count for authenticated user
+        const { data: credentials, error: credError } = await supabase
+          .from('passkey_credentials')
+          .select('id')
+          .eq('user_id', authenticatedUser.id);
+
+        const credentialCount = credError ? 0 : (credentials?.length ?? 0);
+
+        return new Response(JSON.stringify({ ok: true, credentialCount }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }

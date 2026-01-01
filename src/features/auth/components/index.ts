@@ -7,3 +7,4 @@ export { ResetPasswordForm } from "./ResetPasswordForm";
 export { AuthCard } from "./AuthCard";
 export { TOTPChallengeForm } from "./TOTPChallengeForm";
 export { BackupCodeChallengeForm } from "./BackupCodeChallengeForm";
+export { PasskeyOnboardingPrompt } from "./PasskeyOnboardingPrompt";
