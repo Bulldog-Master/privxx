@@ -860,22 +860,22 @@
     "refresh": "Atualizar",
     "copy": "Copiar Pacote de Depuração"
   },
-  "backendStatusPage": {
+  "backendStatus": {
     "title": "Status do Backend",
-    "subtitle": "Monitoramento de conectividade de serviços",
-    "copied": "Status copiado",
+    "subtitle": "Acessível vs auth-necessária vs bloqueado",
+    "copied": "Relatório de status copiado",
     "reachable": "Acessível",
-    "authRequired": "Autenticação Necessária",
-    "blocked": "Bloqueado",
+    "authRequired": "Auth Necessária",
+    "blocked": "Bloqueado (CORS)",
     "error": "Erro",
-    "errors": "erros",
+    "errors": "Erros",
     "checking": "Verificando...",
     "detailedStatus": "Status Detalhado",
-    "detailedDesc": "Conectividade dos endpoints do backend",
-    "legend": "Legenda",
-    "reachableDesc": "Endpoint retornou 200 OK",
-    "authRequiredDesc": "Endpoint retornou 401/403 (esperado)",
-    "blockedDesc": "Erro de CORS ou rede"
+    "detailedDesc": "Conectividade de funções individuais",
+    "legend": "Legenda de Status",
+    "reachableDesc": "Acessível — Função respondeu com 200 OK",
+    "authRequiredDesc": "Auth Necessária — Função acessível mas precisa autenticação (401/403)",
+    "blockedDesc": "Bloqueado/Erro — Problema de CORS ou erro do servidor"
   },
   "passkey": {
     "setupRecommended": "Configuração de passkey recomendada",

@@ -864,22 +864,22 @@
     "refresh": "ریفریش کریں",
     "copy": "ڈیبگ بنڈل کاپی کریں"
   },
-  "backendStatusPage": {
+  "backendStatus": {
     "title": "بیک اینڈ کی حیثیت",
     "subtitle": "سروسز کی کنیکٹیویٹی کی نگرانی",
     "copied": "حیثیت کاپی ہو گئی",
     "reachable": "قابل رسائی",
     "authRequired": "تصدیق ضروری",
-    "blocked": "مسدود",
+    "blocked": "مسدود (CORS)",
     "error": "خامی",
     "errors": "غلطیاں",
     "checking": "جانچ ہو رہی ہے...",
     "detailedStatus": "تفصیلی حیثیت",
     "detailedDesc": "بیک اینڈ اینڈ پوائنٹس کی کنیکٹیویٹی",
     "legend": "علامات",
-    "reachableDesc": "اینڈ پوائنٹ نے 200 OK لوٹایا",
-    "authRequiredDesc": "اینڈ پوائنٹ نے 401/403 لوٹایا (متوقع)",
-    "blockedDesc": "CORS یا نیٹ ورک کی خامی"
+    "reachableDesc": "قابل رسائی — فنکشن نے 200 OK جواب دیا",
+    "authRequiredDesc": "تصدیق ضروری — فنکشن قابل رسائی لیکن تصدیق درکار (401/403)",
+    "blockedDesc": "مسدود/خامی — CORS مسئلہ یا سرور کی خامی"
   },
   "passkeyFlow": {
     "title": "پاسکی سیٹ اپ گائیڈ",

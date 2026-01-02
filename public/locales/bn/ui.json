@@ -882,6 +882,26 @@
     "blockedDesc": "ব্লকড/ত্রুটি — CORS সমস্যা বা সার্ভার ত্রুটি"
   },
   
+  "passkey": {
+    "setupRecommended": "পাসকি সেটআপ প্রস্তাবিত",
+    "setupRecommendedDesc": "দ্রুত সাইন-ইন এবং শক্তিশালী অ্যাকাউন্ট সুরক্ষার জন্য একটি পাসকি সেট করুন।",
+    "notSet": "সেট করা হয়নি",
+    "goToSection": "পাসকি-তে যান",
+    "discoverableHint": "আপনার পাসকি দিয়ে সাইন ইন করতে নীচের বোতামে ট্যাপ করুন।",
+    "authSuccess": "পাসকি দিয়ে সাইন ইন হয়েছে",
+    "registered": "পাসকি সফলভাবে নিবন্ধিত হয়েছে",
+    "setupFailed": "পাসকি সেট করতে ব্যর্থ। আপনি পরে সেটিংসে আবার চেষ্টা করতে পারেন।",
+    "description": "Touch ID, Face ID, Windows Hello, বা সিকিউরিটি কী ব্যবহার করুন",
+    "emailOptionalHint": "এই ডিভাইস থেকে একটি পাসকি বেছে নিতে ফাঁকা রাখুন।",
+    "enterEmailInstead": "পরিবর্তে ইমেইল দিন",
+    "hideEmail": "লুকান",
+    "emailOptional": "ইমেইল (ঐচ্ছিক)",
+    "setupTitle": "একটি পাসকি সেট করুন",
+    "onboardingDesc": "Touch ID, Face ID, বা Windows Hello দিয়ে দ্রুত এবং আরও নিরাপদে সাইন ইন করুন।",
+    "setupNow": "এখনই সেট করুন",
+    "maybeLater": "পরে হয়তো"
+  },
+  
   "passkeyFlow": {
     "title": "পাসকি সেটআপ গাইড",
     "progress": "{{completed}}/{{total}} ধাপ সম্পন্ন",

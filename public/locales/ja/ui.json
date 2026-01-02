@@ -854,30 +854,30 @@
   },
   
   "debugBundle": {
-    "title": "[JA] Auth Debug Bundle",
-    "description": "[JA] Capture detailed error bodies and HTTP status codes",
-    "copied": "[JA] Full auth debug bundle copied",
-    "errorsDetected": "[JA] Some services returned errors",
-    "refresh": "[JA] Refresh",
-    "copy": "[JA] Copy Full Bundle"
+    "title": "認証デバッグバンドル",
+    "description": "詳細なエラー本体とHTTPステータスコードをキャプチャ",
+    "copied": "完全な認証デバッグバンドルをコピーしました",
+    "errorsDetected": "一部のサービスでエラーが発生しました",
+    "refresh": "更新",
+    "copy": "完全なバンドルをコピー"
   },
   
   "backendStatus": {
-    "title": "[JA] Backend Status",
-    "subtitle": "[JA] Reachable vs auth-required vs blocked",
-    "copied": "[JA] Status report copied",
-    "reachable": "[JA] Reachable",
-    "authRequired": "[JA] Auth Required",
-    "blocked": "[JA] Blocked (CORS)",
-    "error": "[JA] Error",
-    "errors": "[JA] Errors",
-    "checking": "[JA] Checking...",
-    "detailedStatus": "[JA] Detailed Status",
-    "detailedDesc": "[JA] Individual function connectivity",
-    "legend": "[JA] Status Legend",
-    "reachableDesc": "[JA] Reachable — Function responded with 200 OK",
-    "authRequiredDesc": "[JA] Auth Required — needs authentication",
-    "blockedDesc": "[JA] Blocked/Error — CORS issue or server error"
+    "title": "バックエンドステータス",
+    "subtitle": "到達可能 vs 認証必要 vs ブロック",
+    "copied": "ステータスレポートをコピーしました",
+    "reachable": "到達可能",
+    "authRequired": "認証必要",
+    "blocked": "ブロック (CORS)",
+    "error": "エラー",
+    "errors": "エラー",
+    "checking": "確認中...",
+    "detailedStatus": "詳細ステータス",
+    "detailedDesc": "個別機能の接続性",
+    "legend": "ステータス凡例",
+    "reachableDesc": "到達可能 — 機能が200 OKで応答",
+    "authRequiredDesc": "認証必要 — 機能は到達可能だが認証が必要 (401/403)",
+    "blockedDesc": "ブロック/エラー — CORSの問題またはサーバーエラー"
   },
   
   "passkey": {
