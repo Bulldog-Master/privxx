@@ -953,6 +953,26 @@
     "needsWork": "Perlu Diperbaiki"
   },
   
+  "passkey": {
+    "setupRecommended": "Pengaturan passkey disarankan",
+    "setupRecommendedDesc": "Siapkan passkey untuk masuk lebih cepat dan perlindungan akun yang lebih kuat.",
+    "notSet": "Belum diatur",
+    "goToSection": "Buka Passkey",
+    "discoverableHint": "Cukup ketuk tombol di bawah untuk masuk dengan passkey Anda.",
+    "authSuccess": "Berhasil masuk dengan passkey",
+    "registered": "Passkey berhasil didaftarkan",
+    "setupFailed": "Gagal menyiapkan passkey. Anda dapat mencoba lagi nanti di Pengaturan.",
+    "description": "Gunakan Touch ID, Face ID, Windows Hello, atau kunci keamanan",
+    "emailOptionalHint": "Kosongkan untuk memilih passkey dari perangkat ini.",
+    "enterEmailInstead": "Masukkan email sebagai gantinya",
+    "hideEmail": "Sembunyikan",
+    "emailOptional": "Email (opsional)",
+    "setupTitle": "Siapkan Passkey",
+    "onboardingDesc": "Masuk lebih cepat dan lebih aman dengan Touch ID, Face ID, atau Windows Hello.",
+    "setupNow": "Siapkan sekarang",
+    "maybeLater": "Nanti saja"
+  },
+  
   "saving": "Menyimpan...",
   "saved": "Tersimpan",
   "invalidCodeLength": "Kode harus 6 digit",

@@ -943,6 +943,26 @@
     "needsWork": "Wymaga Poprawy"
   },
   
+  "passkey": {
+    "setupRecommended": "Zalecana konfiguracja passkey",
+    "setupRecommendedDesc": "Skonfiguruj passkey dla szybszego logowania i silniejszej ochrony konta.",
+    "notSet": "Nie ustawiono",
+    "goToSection": "Przejdź do Passkey",
+    "discoverableHint": "Po prostu dotknij przycisku poniżej, aby zalogować się za pomocą passkey.",
+    "authSuccess": "Zalogowano za pomocą passkey",
+    "registered": "Passkey zarejestrowany pomyślnie",
+    "setupFailed": "Nie udało się skonfigurować passkey. Możesz spróbować ponownie później w Ustawieniach.",
+    "description": "Użyj Touch ID, Face ID, Windows Hello lub klucza bezpieczeństwa",
+    "emailOptionalHint": "Pozostaw puste, aby wybrać passkey z tego urządzenia.",
+    "enterEmailInstead": "Wprowadź email zamiast tego",
+    "hideEmail": "Ukryj",
+    "emailOptional": "Email (opcjonalnie)",
+    "setupTitle": "Skonfiguruj Passkey",
+    "onboardingDesc": "Loguj się szybciej i bezpieczniej za pomocą Touch ID, Face ID lub Windows Hello.",
+    "setupNow": "Skonfiguruj teraz",
+    "maybeLater": "Może później"
+  },
+  
   "saving": "Zapisywanie...",
   "saved": "Zapisano",
   "invalidCodeLength": "Kod musi mieć 6 cyfr",
