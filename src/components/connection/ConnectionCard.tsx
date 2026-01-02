@@ -1,10 +1,19 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useCallback } from "react";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { PrivxxLogo } from "@/components/brand";
-import { useConnection, ConnectionErrorAlert, type ConnectionState, type ConnectErrorCode } from "@/features/connection";
+import { 
+  useConnection, 
+  useConnectionHistory,
+  useOfflineDetection,
+  ConnectionErrorAlert, 
+  ConnectionSuccessAnimation,
+  OfflineWarning,
+  type ConnectionState, 
+  type ConnectErrorCode 
+} from "@/features/connection";
 import { useToast } from "@/hooks/useToast";
 
 // Re-export for backward compatibility
@@ -19,14 +28,27 @@ interface ConnectionCardProps {
 const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChange }: ConnectionCardProps) => {
   const [url, setUrl] = useState("");
   const [lastError, setLastError] = useState<{ code?: ConnectErrorCode; message?: string } | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successLatency, setSuccessLatency] = useState<number | undefined>();
   const { t } = useTranslation();
   const { toast } = useToast();
+  
+  // Connection history tracking
+  const { addEntry } = useConnectionHistory();
+  
+  // Offline detection
+  const { isOffline, offlineDuration } = useOfflineDetection();
 
   // Use the new event-driven connection hook
   const { state: internalState, connectTo, isConnecting, reset } = useConnection({
     onConnect: (result) => {
       // Clear any previous error
       setLastError(null);
+      // Track in history
+      addEntry(url.trim(), result);
+      // Show success animation
+      setSuccessLatency(result.latency);
+      setShowSuccess(true);
       // Notify parent of successful connection with real latency
       onConnect(url.trim().startsWith("http") ? url.trim() : `https://${url.trim()}`, result.latency);
       onStateChange?.("connected");
@@ -34,6 +56,8 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
     onError: (result) => {
       // Store error for display
       setLastError({ code: result.errorCode, message: result.errorMessage });
+      // Track in history
+      addEntry(url.trim(), result);
       // Show user-friendly error toast
       toast({
         title: t("connectionFailed", "Connection failed"),
@@ -49,6 +73,11 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
 
   // Use external state if provided (backward compatibility), otherwise use internal
   const connectionState = externalState ?? internalState;
+
+  const handleSuccessAnimationComplete = useCallback(() => {
+    setShowSuccess(false);
+    setSuccessLatency(undefined);
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -84,9 +113,24 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
   const status = getStatusText();
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full max-w-md space-y-3">
+      {/* Offline warning */}
+      {isOffline && (
+        <OfflineWarning 
+          offlineDuration={offlineDuration} 
+          onRetryClick={() => window.location.reload()} 
+        />
+      )}
+      
       {/* Glassmorphic card */}
       <div className="relative w-full p-6 bg-[hsl(172_30%_25%/0.6)] backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl space-y-4">
+        {/* Success animation overlay */}
+        <ConnectionSuccessAnimation 
+          show={showSuccess} 
+          latency={successLatency}
+          onComplete={handleSuccessAnimationComplete}
+        />
+        
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* URL Input with globe icon */}
           <div className="relative">

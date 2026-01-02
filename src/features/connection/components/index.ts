@@ -4,3 +4,5 @@
 
 export { ConnectionErrorAlert } from "./ConnectionErrorAlert";
 export { ConnectionRetryButton } from "./ConnectionRetryButton";
+export { ConnectionSuccessAnimation } from "./ConnectionSuccessAnimation";
+export { OfflineWarning } from "./OfflineWarning";
