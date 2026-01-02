@@ -1,13 +1,13 @@
 /**
  * QR Code Dialog Component
  * 
- * Shows QR code for sharing own ID and provides scanning capability
+ * Shows QR code for sharing own ID and provides real-time scanning capability
  */
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { QRCodeSVG } from "qrcode.react";
-import { QrCode, Camera, Copy, Check, X } from "lucide-react";
+import { QrCode, Camera, Copy, Check, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import jsQR from "jsqr";
 import { isValidCmixxId } from "../types";
 
 interface QRCodeDialogProps {
@@ -35,8 +36,12 @@ export function QRCodeDialog({ myId, onScan }: QRCodeDialogProps) {
   const [manualId, setManualId] = useState("");
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
+  const [scanStatus, setScanStatus] = useState<"idle" | "scanning" | "found">("idle");
+  
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const animationRef = useRef<number | null>(null);
 
   const handleCopy = async () => {
     try {
@@ -64,48 +69,111 @@ export function QRCodeDialog({ myId, onScan }: QRCodeDialogProps) {
     toast.success(t("recipientAdded", "Recipient added"));
   };
 
+  const handleScannedCode = useCallback((code: string) => {
+    // Check if it's a valid cMixx ID
+    if (isValidCmixxId(code)) {
+      setScanStatus("found");
+      stopCamera();
+      onScan(code);
+      setIsOpen(false);
+      toast.success(t("recipientAdded", "Recipient scanned successfully"));
+    }
+  }, [onScan, t]);
+
+  // Scan QR code from video frame
+  const scanFrame = useCallback(() => {
+    if (!videoRef.current || !canvasRef.current || !isScanning) return;
+
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx || video.readyState !== video.HAVE_ENOUGH_DATA) {
+      animationRef.current = requestAnimationFrame(scanFrame);
+      return;
+    }
+
+    // Set canvas size to match video
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // Draw video frame to canvas
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Get image data for jsQR
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const code = jsQR(imageData.data, imageData.width, imageData.height, {
+      inversionAttempts: "dontInvert",
+    });
+
+    if (code && code.data) {
+      handleScannedCode(code.data);
+      return; // Stop scanning after finding a code
+    }
+
+    // Continue scanning
+    animationRef.current = requestAnimationFrame(scanFrame);
+  }, [isScanning, handleScannedCode]);
+
   // Start camera for scanning
   const startCamera = async () => {
     setCameraError(null);
     setIsScanning(true);
+    setScanStatus("scanning");
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
+        video: { 
+          facingMode: "environment",
+          width: { ideal: 640 },
+          height: { ideal: 480 }
+        },
       });
       streamRef.current = stream;
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play();
+          // Start scanning loop
+          animationRef.current = requestAnimationFrame(scanFrame);
+        };
       }
     } catch (err) {
       console.error("Camera access error:", err);
       setCameraError(t("cameraAccessDenied", "Camera access denied or unavailable"));
       setIsScanning(false);
+      setScanStatus("idle");
     }
   };
 
   // Stop camera
-  const stopCamera = () => {
+  const stopCamera = useCallback(() => {
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     }
     setIsScanning(false);
-  };
+    setScanStatus("idle");
+  }, []);
 
-  // Cleanup on dialog close
+  // Cleanup on dialog close or tab change
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen || tab !== "scan") {
       stopCamera();
-      setTab("show");
-      setManualId("");
-      setCameraError(null);
     }
-  }, [isOpen]);
+  }, [isOpen, tab, stopCamera]);
 
-  // Note: Full QR scanning requires additional library (jsQR or similar)
-  // For now, we provide manual input as fallback
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopCamera();
+    };
+  }, [stopCamera]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -173,8 +241,11 @@ export function QRCodeDialog({ myId, onScan }: QRCodeDialogProps) {
           </TabsContent>
 
           <TabsContent value="scan" className="space-y-4">
-            {/* Camera scanning (placeholder for future jsQR integration) */}
+            {/* Camera scanning with jsQR */}
             <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
+              {/* Hidden canvas for QR processing */}
+              <canvas ref={canvasRef} className="hidden" />
+              
               {isScanning ? (
                 <>
                   <video
@@ -184,8 +255,22 @@ export function QRCodeDialog({ myId, onScan }: QRCodeDialogProps) {
                     muted
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-48 h-48 border-2 border-primary/60 rounded-lg" />
+                  {/* Scanning overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-48 h-48 relative">
+                      {/* Corner markers */}
+                      <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-primary" />
+                      <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-primary" />
+                      <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-primary" />
+                      <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-primary" />
+                      {/* Scanning line animation */}
+                      <div className="absolute inset-x-0 h-0.5 bg-primary/80 animate-pulse top-1/2" />
+                    </div>
+                  </div>
+                  {/* Status indicator */}
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2">
+                    <Loader2 className="h-3 w-3 animate-spin text-primary" />
+                    <span className="text-xs">{t("scanning", "Scanning...")}</span>
                   </div>
                   <Button
                     type="button"
