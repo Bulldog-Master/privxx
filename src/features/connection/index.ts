@@ -33,11 +33,13 @@ export type { UseOfflineDetectionReturn } from "./hooks";
 
 // Utils
 export { getConnectionQuality, getQualityLabel, getQualityColorClass, getQualityBgClass } from "./utils";
-export type { ConnectionQuality, QualityThresholds } from "./utils";
+export { calculateConnectionHealth, getHealthColorClass, getHealthBgClass } from "./utils";
+export type { ConnectionQuality, QualityThresholds, ConnectionHealthScore } from "./utils";
 
 // Components
 export { 
-  ConnectionErrorAlert, 
+  ConnectionErrorAlert,
+  ConnectionHealthBadge,
   ConnectionHistoryPanel,
   ConnectionQualityBadge,
   ConnectionRetryButton, 

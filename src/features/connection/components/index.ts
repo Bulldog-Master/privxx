@@ -3,6 +3,7 @@
  */
 
 export { ConnectionErrorAlert } from "./ConnectionErrorAlert";
+export { ConnectionHealthBadge } from "./ConnectionHealthBadge";
 export { ConnectionHistoryPanel } from "./ConnectionHistoryPanel";
 export { ConnectionQualityBadge } from "./ConnectionQualityBadge";
 export { ConnectionRetryButton } from "./ConnectionRetryButton";
