@@ -94,18 +94,22 @@ export function SignInForm({ onModeChange, onRequires2FA }: SignInFormProps) {
 
   const checkTOTPStatus = async (): Promise<boolean> => {
     try {
+      console.log("[SignInForm] Checking TOTP status...");
       const { data, error } = await supabase.functions.invoke("totp-auth", {
         body: { action: "status" },
       });
 
       if (error) {
-        console.error("TOTP status check error:", error);
+        console.error("[SignInForm] TOTP status check error:", error);
         return false;
       }
 
-      return data?.enabled === true;
+      console.log("[SignInForm] TOTP status response:", data);
+      const enabled = data?.enabled === true;
+      console.log("[SignInForm] TOTP enabled:", enabled);
+      return enabled;
     } catch (err) {
-      console.error("Failed to check TOTP status:", err);
+      console.error("[SignInForm] Failed to check TOTP status:", err);
       return false;
     }
   };
