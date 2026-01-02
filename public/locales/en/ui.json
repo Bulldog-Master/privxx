@@ -99,6 +99,19 @@
     "poor": "Poor",
     "unknown": "Unknown"
   },
+  "health": {
+    "title": "Connection Health",
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor",
+    "critical": "Critical",
+    "latency": "Latency",
+    "successRate": "Success Rate",
+    "basedOn": "Based on {{count}} recent attempts",
+    "score": "Health Score",
+    "overall": "Overall Health"
+  },
   "speedTest": {
     "run": "Speed Test",
     "ready": "Ready",

@@ -99,6 +99,19 @@
     "poor": "Schlecht",
     "unknown": "Unbekannt"
   },
+  "health": {
+    "title": "Verbindungsgesundheit",
+    "excellent": "Ausgezeichnet",
+    "good": "Gut",
+    "fair": "Akzeptabel",
+    "poor": "Schlecht",
+    "critical": "Kritisch",
+    "latency": "Latenz",
+    "successRate": "Erfolgsrate",
+    "basedOn": "Basiert auf {{count}} letzten Versuchen",
+    "score": "Gesundheitswert",
+    "overall": "Gesamtgesundheit"
+  },
   "speedTest": {
     "run": "Geschwindigkeitstest",
     "ready": "Bereit",

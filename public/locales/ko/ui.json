@@ -99,6 +99,19 @@
     "poor": "불량",
     "unknown": "알 수 없음"
   },
+  "health": {
+    "title": "연결 상태",
+    "excellent": "우수",
+    "good": "양호",
+    "fair": "보통",
+    "poor": "불량",
+    "critical": "심각",
+    "latency": "지연",
+    "successRate": "성공률",
+    "basedOn": "{{count}}회 최근 시도 기준",
+    "score": "상태 점수",
+    "overall": "전체 상태"
+  },
   "speedTest": {
     "run": "속도 테스트",
     "ready": "준비됨",

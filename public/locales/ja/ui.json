@@ -99,6 +99,19 @@
     "poor": "低速",
     "unknown": "不明"
   },
+  "health": {
+    "title": "接続の健康状態",
+    "excellent": "優秀",
+    "good": "良好",
+    "fair": "普通",
+    "poor": "不良",
+    "critical": "危機的",
+    "latency": "レイテンシ",
+    "successRate": "成功率",
+    "basedOn": "{{count}}回の最近の試行に基づく",
+    "score": "健康スコア",
+    "overall": "全体的な健康"
+  },
   "speedTest": {
     "run": "速度テスト",
     "ready": "準備完了",

@@ -2,6 +2,7 @@
  * Connection Feature Components
  */
 
+export { ConnectionDiagnosticsPanel } from "./ConnectionDiagnosticsPanel";
 export { ConnectionErrorAlert } from "./ConnectionErrorAlert";
 export { ConnectionHealthBadge } from "./ConnectionHealthBadge";
 export { ConnectionHistoryPanel } from "./ConnectionHistoryPanel";

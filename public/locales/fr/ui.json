@@ -99,6 +99,19 @@
     "poor": "Mauvais",
     "unknown": "Inconnu"
   },
+  "health": {
+    "title": "Santé de Connexion",
+    "excellent": "Excellent",
+    "good": "Bon",
+    "fair": "Correct",
+    "poor": "Mauvais",
+    "critical": "Critique",
+    "latency": "Latence",
+    "successRate": "Taux de Réussite",
+    "basedOn": "Basé sur {{count}} tentatives récentes",
+    "score": "Score de Santé",
+    "overall": "Santé Globale"
+  },
   "speedTest": {
     "run": "Test de Vitesse",
     "ready": "Prêt",

@@ -99,6 +99,19 @@
     "poor": "Słabe",
     "unknown": "Nieznane"
   },
+  "health": {
+    "title": "Stan Połączenia",
+    "excellent": "Doskonały",
+    "good": "Dobry",
+    "fair": "Przeciętny",
+    "poor": "Słaby",
+    "critical": "Krytyczny",
+    "latency": "Opóźnienie",
+    "successRate": "Wskaźnik Sukcesu",
+    "basedOn": "Na podstawie {{count}} ostatnich prób",
+    "score": "Wynik Zdrowia",
+    "overall": "Ogólny Stan"
+  },
   "speedTest": {
     "run": "Test Prędkości",
     "ready": "Gotowy",
