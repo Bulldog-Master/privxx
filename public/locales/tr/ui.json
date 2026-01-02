@@ -477,6 +477,8 @@
   },
 
   "settings": "Ayarlar",
+  "settings.translations": "Çeviri Durumu",
+  "settings.translationsDesc": "{{count}} dil senkronize edildi",
   "editProfile": "Profili Düzenle",
   "editProfileDesc": "Görünen adınızı ve avatarınızı değiştirin",
   "account": "Hesap",

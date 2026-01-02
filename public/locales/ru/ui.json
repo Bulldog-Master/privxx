@@ -477,6 +477,8 @@
   },
 
   "settings": "Настройки",
+  "settings.translations": "Статус переводов",
+  "settings.translationsDesc": "{{count}} языков синхронизировано",
   "editProfile": "Редактировать Профиль",
   "editProfileDesc": "Измените отображаемое имя и аватар",
   "account": "Аккаунт",

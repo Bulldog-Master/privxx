@@ -477,6 +477,8 @@
   },
 
   "settings": "设置",
+  "settings.translations": "翻译状态",
+  "settings.translationsDesc": "{{count}} 种语言已同步",
   "editProfile": "编辑个人资料",
   "editProfileDesc": "更改您的显示名称和头像",
   "account": "账户",

@@ -477,6 +477,8 @@
   },
 
   "settings": "ترتیبات",
+  "settings.translations": "ترجمے کی حیثیت",
+  "settings.translationsDesc": "{{count}} زبانیں مطابقت پذیر ہیں",
   "editProfile": "پروفائل ترمیم",
   "editProfileDesc": "اپنا ڈسپلے نام اور اوتار تبدیل کریں",
   "account": "اکاؤنٹ",

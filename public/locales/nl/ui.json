@@ -477,6 +477,8 @@
   },
 
   "settings": "Instellingen",
+  "settings.translations": "Vertaalstatus",
+  "settings.translationsDesc": "{{count}} talen gesynchroniseerd",
   "editProfile": "Profiel Bewerken",
   "editProfileDesc": "Wijzig je weergavenaam en avatar",
   "account": "Account",

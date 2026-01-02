@@ -477,6 +477,8 @@
   },
 
   "settings": "الإعدادات",
+  "settings.translations": "حالة الترجمة",
+  "settings.translationsDesc": "{{count}} لغات متزامنة",
   "editProfile": "تعديل الملف الشخصي",
   "editProfileDesc": "غيّر اسم العرض والصورة الرمزية",
   "account": "الحساب",

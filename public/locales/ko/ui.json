@@ -477,6 +477,8 @@
   },
 
   "settings": "설정",
+  "settings.translations": "번역 상태",
+  "settings.translationsDesc": "{{count}}개 언어 동기화됨",
   "editProfile": "프로필 편집",
   "editProfileDesc": "표시 이름과 아바타 변경",
   "account": "계정",

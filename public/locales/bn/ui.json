@@ -580,6 +580,8 @@
   "releaseFooter": "Privxx টিম — ডিজাইনে গোপনীয়তা",
   
   "settings": "সেটিংস",
+  "settings.translations": "অনুবাদ স্থিতি",
+  "settings.translationsDesc": "{{count}} ভাষা সিঙ্ক হয়েছে",
   "editProfile": "প্রোফাইল সম্পাদনা",
   "editProfileDesc": "আপনার প্রদর্শন নাম এবং অবতার পরিবর্তন করুন",
   "account": "অ্যাকাউন্ট",
