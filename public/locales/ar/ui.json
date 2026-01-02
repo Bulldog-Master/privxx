@@ -850,16 +850,16 @@
     "checkNow": "فحص الآن",
     "available": "متاح",
     "unavailable": "غير متاح",
-    "checking": "[AR] Checking..."
+    "checking": "جاري التحقق..."
   },
   
   "debugBundle": {
-    "title": "[AR] Auth Debug Bundle",
-    "description": "[AR] Capture detailed error bodies and HTTP status codes",
-    "copied": "[AR] Full auth debug bundle copied",
-    "errorsDetected": "[AR] Some services returned errors — see full bundle for details",
-    "refresh": "[AR] Refresh",
-    "copy": "[AR] Copy Full Bundle"
+    "title": "حزمة تصحيح المصادقة",
+    "description": "التقاط تفاصيل الأخطاء ورموز حالة HTTP",
+    "copied": "تم نسخ حزمة التصحيح الكاملة",
+    "errorsDetected": "بعض الخدمات أرجعت أخطاء — راجع الحزمة الكاملة للتفاصيل",
+    "refresh": "تحديث",
+    "copy": "نسخ الحزمة الكاملة"
   },
   
   "backendStatus": {

@@ -849,7 +849,7 @@
     "available": "Tersedia",
     "unavailable": "Tidak tersedia",
     "lastCheck": "Pemeriksaan terakhir",
-    "checkNow": "[ID] Periksa Sekarang"
+    "checkNow": "Periksa Sekarang"
   },
   
   "debugBundle": {
