@@ -8,6 +8,9 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, User, ChevronRight, Shield, HeartPulse, Activity } from "lucide-react";
+import { useProfile } from "@/hooks/useProfile";
+import { useAvatarUrl } from "@/hooks/useAvatarUrl";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -47,7 +50,13 @@ export default function Settings() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+  const { profile, fetchProfile } = useProfile();
+  const { avatarUrl } = useAvatarUrl(profile?.avatar_url || null);
 
+  // Fetch profile on mount
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
   // Check 2FA status for recovery codes management
   const check2FAStatus = useCallback(async () => {
     if (!user) return;
@@ -108,9 +117,14 @@ export default function Settings() {
             <Link to="/profile" className="block">
               <CardContent className="flex items-center justify-between py-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <User className="h-5 w-5 text-primary" />
-                  </div>
+                  <Avatar className="h-10 w-10">
+                    {avatarUrl ? (
+                      <AvatarImage src={avatarUrl} alt={profile?.display_name || "User"} />
+                    ) : null}
+                    <AvatarFallback className="bg-primary/10 text-primary">
+                      {profile?.display_name?.[0]?.toUpperCase() || <User className="h-5 w-5" />}
+                    </AvatarFallback>
+                  </Avatar>
                   <div>
                     <p className="font-medium text-primary">{t("editProfile", "Edit Profile")}</p>
                     <p className="text-sm text-primary/70">{t("editProfileDesc", "Change your display name and avatar")}</p>
