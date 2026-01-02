@@ -8,6 +8,7 @@ import { useIdentity } from "@/features/identity";
 import LanguageSelector from "@/components/shared/LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +23,7 @@ const PrivacyDrawer = lazy(() => import("@/components/shared/PrivacyDrawer"));
 const PrivxxHeader = () => {
   const { t } = useTranslation("ui");
   const { isAuthenticated, user, signOut } = useAuth();
-  const { profile, avatarUrl } = useProfileContext();
+  const { profile, avatarUrl, isLoading: isProfileLoading } = useProfileContext();
   const { isUnlocked, isLocked, lock } = useIdentity();
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
@@ -83,12 +84,16 @@ const PrivxxHeader = () => {
               className="gap-1.5 text-primary/80 hover:text-primary min-h-[44px] px-2"
             >
             {isAuthenticated ? (
+              isProfileLoading ? (
+                <Skeleton className="h-6 w-6 rounded-full" />
+              ) : (
                 <Avatar className="h-6 w-6 border border-primary/40">
                   <AvatarImage src={avatarUrl || undefined} alt={getDisplayName()} />
                   <AvatarFallback className="text-xs bg-primary/10 text-primary">
                     {getInitials()}
                   </AvatarFallback>
                 </Avatar>
+              )
             ) : (
               <User className="w-5 h-5 text-primary/80" />
             )}
