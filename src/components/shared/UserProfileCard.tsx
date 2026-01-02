@@ -2,7 +2,7 @@
  * UserProfileCard Component
  * 
  * A reusable card that displays user avatar, name, and email.
- * Supports different sizes for various contexts (header, settings, etc.)
+ * Uses the centralized ProfileContext for fast avatar loading.
  */
 
 import { forwardRef } from "react";
@@ -10,8 +10,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { User, ChevronRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useProfile } from "@/hooks/useProfile";
-import { useAvatarUrl } from "@/hooks/useAvatarUrl";
+import { useProfileContext } from "@/contexts/ProfileContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -27,13 +26,6 @@ interface UserProfileCardProps {
   showChevron?: boolean;
   /** Additional className */
   className?: string;
-  /** Custom profile data (if not provided, fetches from hook) */
-  profile?: {
-    display_name: string | null;
-    avatar_url: string | null;
-  } | null;
-  /** Custom avatar URL (if already resolved) */
-  avatarUrl?: string | null;
 }
 
 const sizeConfig = {
@@ -62,26 +54,12 @@ const UserProfileCard = forwardRef<HTMLDivElement, UserProfileCardProps>(
       showDescription = true,
       showChevron = true,
       className,
-      profile: externalProfile,
-      avatarUrl: externalAvatarUrl,
     },
     ref
   ) => {
     const { t } = useTranslation("ui");
     const { user } = useAuth();
-    const { profile: hookProfile, fetchProfile } = useProfile();
-    
-    // Use external profile if provided, otherwise use hook
-    const profile = externalProfile !== undefined ? externalProfile : hookProfile;
-    const { avatarUrl: hookAvatarUrl } = useAvatarUrl(
-      externalAvatarUrl !== undefined ? null : (profile?.avatar_url || null)
-    );
-    const avatarUrl = externalAvatarUrl !== undefined ? externalAvatarUrl : hookAvatarUrl;
-
-    // Fetch profile on mount if using internal hook
-    if (externalProfile === undefined && !hookProfile && user) {
-      fetchProfile();
-    }
+    const { profile, avatarUrl } = useProfileContext();
 
     const config = sizeConfig[size];
 

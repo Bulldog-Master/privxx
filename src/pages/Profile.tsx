@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { User, Camera, Loader2, Save, Trash2, ArrowLeft, Check } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfileContext } from "@/contexts/ProfileContext";
 import { useProfile } from "@/hooks/useProfile";
-import { useAvatarUrl } from "@/hooks/useAvatarUrl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,8 +26,8 @@ export default function Profile() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { avatarUrl, refreshProfile: refreshContext } = useProfileContext();
   const { profile, isLoading, fetchProfile, updateProfile, uploadAvatar, removeAvatar } = useProfile();
-  const { avatarUrl, isLoading: isAvatarLoading } = useAvatarUrl(profile?.avatar_url || null);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [displayName, setDisplayName] = useState("");
@@ -109,6 +109,8 @@ export default function Profile() {
       toast.error(result.error);
     } else {
       toast.success(t("avatarUploaded", "Avatar uploaded successfully"));
+      // Refresh context so header updates immediately
+      refreshContext();
     }
     
     setSelectedFile(null);
@@ -123,6 +125,8 @@ export default function Profile() {
       toast.error(result.error);
     } else {
       toast.success(t("avatarRemoved", "Avatar removed"));
+      // Refresh context so header updates immediately
+      refreshContext();
     }
   };
 

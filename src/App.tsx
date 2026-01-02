@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 import { RtlProvider } from "@/components/shared";
 import { AppErrorBoundary } from "@/components/shared";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { ProfileProvider } from "@/contexts/ProfileContext";
 import { IdentityProvider } from "@/features/identity";
 import { SkipToContent } from "@/components/shared";
 import { InstallPrompt, PwaUpdatePrompt } from "@/components/pwa";
@@ -195,11 +196,13 @@ const App = () => (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <IdentityProvider>
-            <SecurityAlertProvider>
-              <AppRoutes />
-            </SecurityAlertProvider>
-          </IdentityProvider>
+          <ProfileProvider>
+            <IdentityProvider>
+              <SecurityAlertProvider>
+                <AppRoutes />
+              </SecurityAlertProvider>
+            </IdentityProvider>
+          </ProfileProvider>
         </AuthProvider>
       </QueryClientProvider>
     </ThemeProvider>
