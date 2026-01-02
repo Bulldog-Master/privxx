@@ -27,13 +27,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { profile, isLoading, fetchProfile, updateProfile, uploadAvatar, removeAvatar } = useProfile();
-  
-  // Debug logging
-  console.log('[Profile] profile?.avatar_url:', profile?.avatar_url);
-  
   const { avatarUrl, isLoading: isAvatarLoading } = useAvatarUrl(profile?.avatar_url || null);
-  
-  console.log('[Profile] avatarUrl from hook:', avatarUrl, 'isAvatarLoading:', isAvatarLoading);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [displayName, setDisplayName] = useState("");
