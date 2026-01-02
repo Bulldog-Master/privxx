@@ -578,6 +578,8 @@
   "releaseFooter": "Privxx טים — פּריוואַטקייט-ערשט דורך דיזײַן",
   
   "settings": "סעטטינגס",
+  "settings.translations": "איבערזעצונג סטאַטוס",
+  "settings.translationsDesc": "{{count}} שפּראַכן סינכראָניזירט",
   "editProfile": "רעדאַגירן פּראָפֿיל",
   "editProfileDesc": "ענדערן אײַער אָנווײַז נאָמען און אַוואַטאַר",
   "account": "קאָנטע",

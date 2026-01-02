@@ -477,6 +477,8 @@
   },
 
   "settings": "設定",
+  "settings.translations": "翻訳状態",
+  "settings.translationsDesc": "{{count}} 言語が同期済み",
   "editProfile": "プロフィールを編集",
   "editProfileDesc": "表示名とアバターを変更",
   "account": "アカウント",

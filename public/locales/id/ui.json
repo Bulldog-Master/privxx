@@ -477,6 +477,8 @@
   },
 
   "settings": "Pengaturan",
+  "settings.translations": "Status Terjemahan",
+  "settings.translationsDesc": "{{count}} bahasa disinkronkan",
   "editProfile": "Edit Profil",
   "editProfileDesc": "Ubah nama tampilan dan avatar Anda",
   "account": "Akun",

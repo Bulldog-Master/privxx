@@ -578,6 +578,8 @@
   "releaseFooter": "Zespół Privxx — Privacy-first z założenia",
   
   "settings": "Ustawienia",
+  "settings.translations": "Status Tłumaczeń",
+  "settings.translationsDesc": "{{count}} języków zsynchronizowanych",
   "editProfile": "Edytuj Profil",
   "editProfileDesc": "Zmień nazwę wyświetlaną i awatar",
   "account": "Konto",

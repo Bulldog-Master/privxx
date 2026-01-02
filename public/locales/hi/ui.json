@@ -477,6 +477,8 @@
   },
 
   "settings": "सेटिंग्स",
+  "settings.translations": "अनुवाद स्थिति",
+  "settings.translationsDesc": "{{count}} भाषाएं सिंक हैं",
   "editProfile": "प्रोफ़ाइल संपादित करें",
   "editProfileDesc": "अपना प्रदर्शन नाम और अवतार बदलें",
   "account": "खाता",
