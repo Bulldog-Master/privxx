@@ -29,6 +29,10 @@ export function MessagesPanel() {
           className={`grid w-full grid-cols-4 transition-opacity duration-200 ${tabsMuted ? "opacity-40 pointer-events-none" : ""}`}
           aria-label={t("messagingTabs", "Messaging navigation")}
         >
+          <style>{`
+            [data-state="inactive"] { color: hsl(var(--foreground) / 0.85); }
+            [data-state="active"] { color: hsl(var(--foreground)); font-weight: 500; }
+          `}</style>
           <TabsTrigger 
             value="inbox"
             aria-label={messages.length > 0 
