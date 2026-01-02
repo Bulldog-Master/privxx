@@ -66,7 +66,6 @@ export function useAvatarUrl(avatarPath: string | null): UseAvatarUrlResult {
 
   const generateSignedUrl = useCallback(async (path: string): Promise<string | null> => {
     try {
-      console.log('[useAvatarUrl] Generating signed URL for path:', path);
       const { data, error } = await supabase.storage
         .from('avatars')
         .createSignedUrl(path, SIGNED_URL_EXPIRY_SECONDS);
@@ -76,7 +75,6 @@ export function useAvatarUrl(avatarPath: string | null): UseAvatarUrlResult {
         return null;
       }
       
-      console.log('[useAvatarUrl] Generated signed URL successfully');
       return data?.signedUrl || null;
     } catch (error) {
       console.error('[useAvatarUrl] Error generating signed URL:', error);
@@ -148,11 +146,8 @@ export function useAvatarUrl(avatarPath: string | null): UseAvatarUrlResult {
 
   useEffect(() => {
     const handleAvatarPath = async () => {
-      console.log('[useAvatarUrl] Processing avatarPath:', avatarPath);
-      
       // If no path, clear everything
       if (!avatarPath) {
-        console.log('[useAvatarUrl] No avatar path provided');
         currentPathRef.current = null;
         setAvatarUrl(null);
         if (refreshTimeoutRef.current) {
@@ -164,12 +159,10 @@ export function useAvatarUrl(avatarPath: string | null): UseAvatarUrlResult {
 
       // If it's already a signed URL, check if valid
       const isPath = isStoragePath(avatarPath);
-      console.log('[useAvatarUrl] isStoragePath:', isPath, 'for value:', avatarPath);
       
       if (!isPath) {
         if (!isUrlExpiredOrExpiring(avatarPath)) {
           // URL is still valid
-          console.log('[useAvatarUrl] Existing signed URL is still valid');
           setAvatarUrl(avatarPath);
           scheduleRefresh(avatarPath);
           return;
@@ -177,22 +170,18 @@ export function useAvatarUrl(avatarPath: string | null): UseAvatarUrlResult {
         
         // URL is expired, we need the path to regenerate
         // Try to extract path from URL if possible
-        console.log('[useAvatarUrl] Signed URL expired, extracting path');
         try {
           const urlObj = new URL(avatarPath);
           const pathMatch = urlObj.pathname.match(/\/avatars\/(.+)/);
           if (pathMatch) {
             currentPathRef.current = pathMatch[1];
-            console.log('[useAvatarUrl] Extracted path:', pathMatch[1]);
           }
         } catch {
-          console.error('[useAvatarUrl] Failed to parse URL');
           setAvatarUrl(null);
           return;
         }
       } else {
         // It's a storage path
-        console.log('[useAvatarUrl] Using storage path directly:', avatarPath);
         currentPathRef.current = avatarPath;
       }
 
