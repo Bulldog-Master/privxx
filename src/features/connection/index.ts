@@ -25,3 +25,6 @@ export { connect, isLiveMode } from "./connectionService";
 // Hook
 export { useConnection } from "./useConnection";
 export type { UseConnectionOptions, UseConnectionReturn } from "./useConnection";
+
+// Components
+export { ConnectionErrorAlert, ConnectionRetryButton } from "./components";
