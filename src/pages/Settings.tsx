@@ -7,16 +7,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, User, ChevronRight, Shield, HeartPulse, Activity } from "lucide-react";
-import { useProfile } from "@/hooks/useProfile";
-import { useAvatarUrl } from "@/hooks/useAvatarUrl";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ArrowLeft, Shield, HeartPulse, Activity, ChevronRight } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageBackground } from "@/components/layout/PageBackground";
-import { BuildVersionBadge, StaleBuildWarning } from "@/components/shared";
+import { BuildVersionBadge, StaleBuildWarning, UserProfileCard } from "@/components/shared";
 import { PrivxxLogo } from "@/components/brand";
 import { AuthServiceDiagnostics } from "@/components/settings/AuthServiceDiagnostics";
 import { BackendHealthPanel } from "@/components/settings/BackendHealthPanel";
@@ -50,13 +47,7 @@ export default function Settings() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
-  const { profile, fetchProfile } = useProfile();
-  const { avatarUrl } = useAvatarUrl(profile?.avatar_url || null);
 
-  // Fetch profile on mount
-  useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
   // Check 2FA status for recovery codes management
   const check2FAStatus = useCallback(async () => {
     if (!user) return;
@@ -113,27 +104,7 @@ export default function Settings() {
         <div className="space-y-6 mt-6">
           <PasskeySetupIndicator />
           {/* Profile Link */}
-          <Card className="bg-card/90 backdrop-blur-sm border-border/50">
-            <Link to="/profile" className="block">
-              <CardContent className="flex items-center justify-between py-4">
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-10 w-10">
-                    {avatarUrl ? (
-                      <AvatarImage src={avatarUrl} alt={profile?.display_name || "User"} />
-                    ) : null}
-                    <AvatarFallback className="bg-primary/10 text-primary">
-                      {profile?.display_name?.[0]?.toUpperCase() || <User className="h-5 w-5" />}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-medium text-primary">{t("editProfile", "Edit Profile")}</p>
-                    <p className="text-sm text-primary/70">{t("editProfileDesc", "Change your display name and avatar")}</p>
-                  </div>
-                </div>
-                <ChevronRight className="h-5 w-5 text-primary/70" />
-              </CardContent>
-            </Link>
-          </Card>
+          <UserProfileCard asLink />
 
           {/* Account Section */}
           <AccountSection />
