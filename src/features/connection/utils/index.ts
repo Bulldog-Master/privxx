@@ -11,3 +11,10 @@ export {
   type ConnectionQuality,
   type QualityThresholds,
 } from "./connectionQuality";
+
+export {
+  calculateConnectionHealth,
+  getHealthColorClass,
+  getHealthBgClass,
+  type ConnectionHealthScore,
+} from "./connectionHealth";

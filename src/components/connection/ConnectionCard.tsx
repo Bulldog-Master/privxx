@@ -1,4 +1,4 @@
-import { useState, FormEvent, useCallback } from "react";
+import { useState, FormEvent, useCallback, useRef } from "react";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,8 +8,10 @@ import {
   useConnection, 
   useConnectionHistory,
   useOfflineDetection,
+  useAutoReconnect,
   ConnectionErrorAlert, 
   ConnectionSuccessAnimation,
+  ConnectionHealthBadge,
   OfflineWarning,
   type ConnectionState, 
   type ConnectErrorCode 
@@ -30,11 +32,13 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
   const [lastError, setLastError] = useState<{ code?: ConnectErrorCode; message?: string } | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [successLatency, setSuccessLatency] = useState<number | undefined>();
+  const [lastLatency, setLastLatency] = useState<number | undefined>();
   const { t } = useTranslation();
   const { toast } = useToast();
+  const urlRef = useRef("");
   
   // Connection history tracking
-  const { addEntry } = useConnectionHistory();
+  const { history, addEntry } = useConnectionHistory();
   
   // Offline detection
   const { isOffline, offlineDuration } = useOfflineDetection();
@@ -45,19 +49,22 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
       // Clear any previous error
       setLastError(null);
       // Track in history
-      addEntry(url.trim(), result);
+      addEntry(urlRef.current || url.trim(), result);
+      // Store latency for health badge
+      setLastLatency(result.latency);
       // Show success animation
       setSuccessLatency(result.latency);
       setShowSuccess(true);
       // Notify parent of successful connection with real latency
-      onConnect(url.trim().startsWith("http") ? url.trim() : `https://${url.trim()}`, result.latency);
+      const targetUrl = urlRef.current || url.trim();
+      onConnect(targetUrl.startsWith("http") ? targetUrl : `https://${targetUrl}`, result.latency);
       onStateChange?.("connected");
     },
     onError: (result) => {
       // Store error for display
       setLastError({ code: result.errorCode, message: result.errorMessage });
       // Track in history
-      addEntry(url.trim(), result);
+      addEntry(urlRef.current || url.trim(), result);
       // Show user-friendly error toast
       toast({
         title: t("connectionFailed", "Connection failed"),
@@ -74,6 +81,22 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
   // Use external state if provided (backward compatibility), otherwise use internal
   const connectionState = externalState ?? internalState;
 
+  // Auto-reconnect when coming back online
+  const handleAutoReconnect = useCallback(() => {
+    if (urlRef.current) {
+      console.debug("[ConnectionCard] Auto-reconnecting to:", urlRef.current);
+      connectTo(urlRef.current);
+    }
+  }, [connectTo]);
+
+  useAutoReconnect({
+    enabled: true,
+    delay: 1500,
+    onReconnect: handleAutoReconnect,
+    isConnecting,
+    isConnected: connectionState === "connected",
+  });
+
   const handleSuccessAnimationComplete = useCallback(() => {
     setShowSuccess(false);
     setSuccessLatency(undefined);
@@ -83,6 +106,8 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
     e.preventDefault();
     if (!url.trim() || isConnecting) return;
 
+    // Store URL for auto-reconnect
+    urlRef.current = url.trim();
     // Clear previous error before new attempt
     setLastError(null);
     // Use the connection service (handles demo/live mode internally)
@@ -217,6 +242,15 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
               </span>
             </div>
           </div>
+          
+          {/* Health badge - shows when we have history */}
+          {history.length > 0 && (
+            <ConnectionHealthBadge 
+              latency={lastLatency} 
+              history={history} 
+              size="sm"
+            />
+          )}
         </div>
       </div>
     </div>
