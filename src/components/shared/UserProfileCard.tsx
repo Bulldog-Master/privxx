@@ -13,6 +13,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useProfileContext } from "@/contexts/ProfileContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 interface UserProfileCardProps {
@@ -59,7 +60,7 @@ const UserProfileCard = forwardRef<HTMLDivElement, UserProfileCardProps>(
   ) => {
     const { t } = useTranslation("ui");
     const { user } = useAuth();
-    const { profile, avatarUrl } = useProfileContext();
+    const { profile, avatarUrl, isLoading } = useProfileContext();
 
     const config = sizeConfig[size];
 
@@ -83,14 +84,18 @@ const UserProfileCard = forwardRef<HTMLDivElement, UserProfileCardProps>(
     const content = (
       <CardContent className="flex items-center justify-between py-4">
         <div className="flex items-center gap-3">
-          <Avatar className={config.avatar}>
-            {avatarUrl ? (
-              <AvatarImage src={avatarUrl} alt={profile?.display_name || "User"} />
-            ) : null}
-            <AvatarFallback className="bg-primary/10 text-primary">
-              {profile?.display_name ? getInitials() : <User className="h-5 w-5" />}
-            </AvatarFallback>
-          </Avatar>
+          {isLoading ? (
+            <Skeleton className={cn("rounded-full", config.avatar)} />
+          ) : (
+            <Avatar className={config.avatar}>
+              {avatarUrl ? (
+                <AvatarImage src={avatarUrl} alt={profile?.display_name || "User"} />
+              ) : null}
+              <AvatarFallback className="bg-primary/10 text-primary">
+                {profile?.display_name ? getInitials() : <User className="h-5 w-5" />}
+              </AvatarFallback>
+            </Avatar>
+          )}
           <div>
             <p className={cn("text-primary", config.name)}>{getDisplayName()}</p>
             {showDescription && (
