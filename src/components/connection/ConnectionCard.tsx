@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
 import { PrivxxLogo } from "@/components/brand";
-import { useConnection, type ConnectionState } from "@/features/connection";
+import { useConnection, ConnectionErrorAlert, type ConnectionState, type ConnectErrorCode } from "@/features/connection";
 import { useToast } from "@/hooks/useToast";
 
 // Re-export for backward compatibility
@@ -18,17 +18,22 @@ interface ConnectionCardProps {
 
 const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChange }: ConnectionCardProps) => {
   const [url, setUrl] = useState("");
+  const [lastError, setLastError] = useState<{ code?: ConnectErrorCode; message?: string } | null>(null);
   const { t } = useTranslation();
   const { toast } = useToast();
 
   // Use the new event-driven connection hook
-  const { state: internalState, connectTo, isConnecting } = useConnection({
+  const { state: internalState, connectTo, isConnecting, reset } = useConnection({
     onConnect: (result) => {
+      // Clear any previous error
+      setLastError(null);
       // Notify parent of successful connection with real latency
       onConnect(url.trim().startsWith("http") ? url.trim() : `https://${url.trim()}`, result.latency);
       onStateChange?.("connected");
     },
     onError: (result) => {
+      // Store error for display
+      setLastError({ code: result.errorCode, message: result.errorMessage });
       // Show user-friendly error toast
       toast({
         title: t("connectionFailed", "Connection failed"),
@@ -49,8 +54,20 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
     e.preventDefault();
     if (!url.trim() || isConnecting) return;
 
+    // Clear previous error before new attempt
+    setLastError(null);
     // Use the connection service (handles demo/live mode internally)
     await connectTo(url.trim());
+  };
+
+  const handleRetry = async () => {
+    if (!url.trim() || isConnecting) return;
+    setLastError(null);
+    await connectTo(url.trim());
+  };
+
+  const handleDismissError = () => {
+    setLastError(null);
   };
 
   const getStatusText = () => {
@@ -110,6 +127,17 @@ const ConnectionCard = ({ onConnect, connectionState: externalState, onStateChan
             )}
           </Button>
         </form>
+
+        {/* Error Alert - shows when connection fails */}
+        {lastError && connectionState === "idle" && (
+          <ConnectionErrorAlert
+            errorCode={lastError.code}
+            errorMessage={lastError.message}
+            onRetry={handleRetry}
+            onDismiss={handleDismissError}
+            isRetrying={isConnecting}
+          />
+        )}
 
         {/* Status bar with gradient background */}
         <div 
