@@ -1008,5 +1008,6 @@
   "recipientRequired": "Recipient ID is required",
   "recipientLengthError": "Recipient ID must be exactly 44 characters",
   "recipientFormatError": "Invalid format: must be base64 ending with '='",
-  "recipientIdHint": "cMixx ID: 44-character base64 string ending with '='"
+  "recipientIdHint": "cMixx ID: 44-character base64 string ending with '='",
+  "scanning": "Scanning..."
 }

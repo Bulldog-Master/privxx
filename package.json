@@ -57,6 +57,7 @@
     "i18next-http-backend": "^3.0.2",
     "input-otp": "^1.4.2",
     "jsdom": "^27.4.0",
+    "jsqr": "^1.4.0",
     "lint-staged": "^16.2.7",
     "lucide-react": "^0.462.0",
     "next-themes": "^0.3.0",
