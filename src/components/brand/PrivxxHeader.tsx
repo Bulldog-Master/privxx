@@ -1,11 +1,10 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Sparkles, Settings, LogIn, User, Shield, ChevronDown, Lock, Unlock, Activity, HeartPulse } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfileContext } from "@/contexts/ProfileContext";
 import { useIdentity } from "@/features/identity";
-import { useAvatarUrl } from "@/hooks/useAvatarUrl";
-import { supabase } from "@/integrations/supabase/client";
 import LanguageSelector from "@/components/shared/LanguageSelector";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -20,40 +19,12 @@ import {
 // Lazy load the privacy drawer - only loaded when user interacts
 const PrivacyDrawer = lazy(() => import("@/components/shared/PrivacyDrawer"));
 
-interface UserProfile {
-  display_name: string | null;
-  avatar_url: string | null;
-}
-
 const PrivxxHeader = () => {
   const { t } = useTranslation("ui");
   const { isAuthenticated, user, signOut } = useAuth();
+  const { profile, avatarUrl } = useProfileContext();
   const { isUnlocked, isLocked, lock } = useIdentity();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [privacyOpen, setPrivacyOpen] = useState(false);
-  const { avatarUrl } = useAvatarUrl(profile?.avatar_url || null);
-
-  // Fetch user profile when authenticated
-  useEffect(() => {
-    if (!isAuthenticated || !user) {
-      setProfile(null);
-      return;
-    }
-
-    const fetchProfile = async () => {
-      const { data } = await supabase
-        .from("profiles")
-        .select("display_name, avatar_url")
-        .eq("user_id", user.id)
-        .maybeSingle();
-
-      if (data) {
-        setProfile(data);
-      }
-    };
-
-    fetchProfile();
-  }, [isAuthenticated, user]);
 
   const getInitials = () => {
     if (profile?.display_name) {
