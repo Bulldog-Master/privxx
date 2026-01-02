@@ -2,6 +2,9 @@
  * Connection Feature Hooks
  */
 
+export { useAutoReconnect } from "./useAutoReconnect";
+export type { UseAutoReconnectOptions, UseAutoReconnectReturn } from "./useAutoReconnect";
+
 export { useConnectionHistory } from "./useConnectionHistory";
 export type { ConnectionHistoryEntry, UseConnectionHistoryReturn } from "./useConnectionHistory";
 
