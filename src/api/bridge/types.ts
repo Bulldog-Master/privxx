@@ -55,6 +55,7 @@ export type IdentityState = "none" | "locked" | "unlocked";
 export type IdentityStatusResponse = {
   exists: boolean;
   state: IdentityState;
+  publicId?: string; // cMixx public ID (base64)
 };
 
 export type IdentityCreateResponse = {

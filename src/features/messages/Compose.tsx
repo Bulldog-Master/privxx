@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Send, Loader2, AlertCircle, User } from "lucide-react";
+import { Send, Loader2, AlertCircle, User, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +8,9 @@ import { Label } from "@/components/ui/label";
 import { bridgeClient } from "@/api/bridge";
 import { toast } from "sonner";
 import { useIdentity } from "@/features/identity";
+import { ContactPicker } from "./components/ContactPicker";
+import { QRCodeDialog } from "./components/QRCodeDialog";
+import { getCmixxIdError, isValidCmixxId } from "./types";
 import type { DemoMessage } from "./types";
 
 interface ComposeProps {
@@ -17,12 +20,13 @@ interface ComposeProps {
 
 export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
   const { t } = useTranslation();
-  const { isUnlocked } = useIdentity();
+  const { isUnlocked, publicId } = useIdentity();
   
   const [recipient, setRecipient] = useState("self");
   const [body, setBody] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | undefined>();
+  const [showValidation, setShowValidation] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Focus textarea when unlocked
@@ -32,12 +36,40 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     }
   }, [isUnlocked]);
 
+  // Validate recipient ID
+  const recipientError = useMemo(() => {
+    if (!showValidation) return null;
+    const errorKey = getCmixxIdError(recipient);
+    if (!errorKey) return null;
+    return t(errorKey, errorKey);
+  }, [recipient, showValidation, t]);
+
+  const isRecipientValid = useMemo(() => {
+    return isValidCmixxId(recipient);
+  }, [recipient]);
+
   const canSend = useMemo(() => {
-    return isUnlocked && !isSending && recipient.trim().length > 0 && body.trim().length > 0;
-  }, [isUnlocked, isSending, recipient, body]);
+    return isUnlocked && !isSending && isRecipientValid && body.trim().length > 0;
+  }, [isUnlocked, isSending, isRecipientValid, body]);
+
+  const handleRecipientBlur = () => {
+    if (recipient.trim() && recipient !== "self") {
+      setShowValidation(true);
+    }
+  };
+
+  const handleRecipientChange = (value: string) => {
+    setRecipient(value);
+    if (showValidation) {
+      setShowValidation(false);
+    }
+  };
 
   const handleSend = async () => {
-    if (!canSend) return;
+    if (!canSend) {
+      setShowValidation(true);
+      return;
+    }
     setError(undefined);
     setIsSending(true);
 
@@ -70,6 +102,9 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     }
   };
 
+  // Generate a demo public ID if not available
+  const myPublicId = publicId || "demo-" + crypto.randomUUID?.()?.slice(0, 8) || "demo-user";
+
   // Locked state hint
   if (!isUnlocked) {
     return (
@@ -86,20 +121,52 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     <div className="border-t border-primary/20 p-4 space-y-4">
       {/* Recipient */}
       <div className="space-y-2">
-        <Label htmlFor="recipient" className="text-xs text-primary/80">
-          {t("composeRecipient", "Recipient")}
-        </Label>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="recipient" className="text-xs text-primary/80">
+            {t("composeRecipient", "Recipient")}
+          </Label>
+          <div className="flex items-center gap-1">
+            <ContactPicker
+              currentRecipient={recipient}
+              onSelect={(id) => {
+                setRecipient(id);
+                setShowValidation(false);
+              }}
+            />
+            <QRCodeDialog
+              myId={myPublicId}
+              onScan={(id) => {
+                setRecipient(id);
+                setShowValidation(false);
+              }}
+            />
+          </div>
+        </div>
         <div className="relative">
           <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/60" />
           <Input
             id="recipient"
             value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
+            onChange={(e) => handleRecipientChange(e.target.value)}
+            onBlur={handleRecipientBlur}
             placeholder={t("composeRecipientPlaceholder", "Enter recipient ID or 'self'")}
             disabled={isSending}
-            className="pl-9 h-10 border-primary/40 text-primary placeholder:text-primary/50"
+            className={`pl-9 h-10 border-primary/40 text-primary placeholder:text-primary/50 font-mono text-sm ${
+              recipientError ? "border-destructive" : ""
+            }`}
           />
         </div>
+        {recipientError && (
+          <div className="flex items-center gap-1.5 text-xs text-destructive">
+            <AlertTriangle className="h-3 w-3" />
+            {recipientError}
+          </div>
+        )}
+        {!recipientError && recipient !== "self" && recipient.length > 0 && (
+          <p className="text-xs text-muted-foreground">
+            {t("recipientIdHint", "cMixx ID: 44-character base64 string ending with '='")}
+          </p>
+        )}
       </div>
 
       {/* Message */}

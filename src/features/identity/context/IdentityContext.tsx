@@ -9,6 +9,18 @@ import { createContext, useContext, useState, useCallback, useEffect, type React
 import { bridgeClient, type IdentityStatusResponse } from "@/api/bridge";
 import { useAuth } from "@/contexts/AuthContext";
 
+/**
+ * Generate a demo public ID (base64 encoded, 44 chars ending with =)
+ * In production, this would come from the Bridge API
+ */
+function generateDemoPublicId(): string {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  // Convert to base64 (will be 44 chars ending with =)
+  const base64 = btoa(String.fromCharCode(...bytes));
+  return base64;
+}
+
 export type IdentityState = "none" | "locked" | "unlocked" | "loading" | "offline";
 
 interface IdentityContextValue {
@@ -20,6 +32,7 @@ interface IdentityContextValue {
   isOffline: boolean;
   error: string | null;
   unlockExpiresAt: string | null;
+  publicId: string | null;
   
   // Actions
   checkStatus: () => Promise<void>;
@@ -36,6 +49,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<IdentityState>("loading");
   const [error, setError] = useState<string | null>(null);
   const [unlockExpiresAt, setUnlockExpiresAt] = useState<string | null>(null);
+  const [publicId, setPublicId] = useState<string | null>(null);
 
   // Sync bridge token with auth token
   useEffect(() => {
@@ -61,8 +75,11 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
       
       if (!response.exists) {
         setState("none");
+        setPublicId(null);
       } else {
         setState(response.state);
+        // Use publicId from response or generate demo ID
+        setPublicId(response.publicId || generateDemoPublicId());
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to check identity status";
@@ -151,6 +168,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         isOffline: state === "offline",
         error,
         unlockExpiresAt,
+        publicId,
         checkStatus,
         createIdentity,
         unlock,
