@@ -952,6 +952,26 @@
     "needsWork": "بہتری کی ضرورت"
   },
   
+  "passkey": {
+    "setupRecommended": "پاسکی سیٹ اپ کی سفارش",
+    "setupRecommendedDesc": "تیز سائن ان اور مضبوط اکاؤنٹ تحفظ کے لیے پاسکی سیٹ کریں۔",
+    "notSet": "سیٹ نہیں",
+    "goToSection": "پاسکیز پر جائیں",
+    "discoverableHint": "اپنی پاسکی سے سائن ان کرنے کے لیے نیچے بٹن پر ٹیپ کریں۔",
+    "authSuccess": "پاسکی سے سائن ان ہو گیا",
+    "registered": "پاسکی کامیابی سے رجسٹر ہو گئی",
+    "setupFailed": "پاسکی سیٹ اپ ناکام۔ آپ بعد میں سیٹنگز میں دوبارہ کوشش کر سکتے ہیں۔",
+    "description": "Touch ID، Face ID، Windows Hello یا سیکیورٹی کی استعمال کریں",
+    "emailOptionalHint": "اس ڈیوائس سے پاسکی منتخب کرنے کے لیے خالی چھوڑیں۔",
+    "enterEmailInstead": "اس کے بجائے ای میل درج کریں",
+    "hideEmail": "چھپائیں",
+    "emailOptional": "ای میل (اختیاری)",
+    "setupTitle": "پاسکی سیٹ کریں",
+    "onboardingDesc": "Touch ID، Face ID یا Windows Hello کے ساتھ تیز اور زیادہ محفوظ طریقے سے سائن ان کریں۔",
+    "setupNow": "ابھی سیٹ کریں",
+    "maybeLater": "شاید بعد میں"
+  },
+  
   "saving": "محفوظ ہو رہا ہے...",
   "saved": "محفوظ ہو گیا",
   "invalidCodeLength": "کوڈ 6 ہندسوں کا ہونا چاہیے",
