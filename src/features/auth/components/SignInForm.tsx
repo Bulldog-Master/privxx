@@ -133,9 +133,19 @@ export function SignInForm({ onModeChange, onRequires2FA }: SignInFormProps) {
       }
     }
 
+    // CRITICAL: Block redirect BEFORE password auth to prevent race condition.
+    // The onAuthStateChange will fire immediately after signInWithEmail succeeds,
+    // but we need to check TOTP status first. Setting pending2FA=true here ensures
+    // the Auth page won't redirect until we've completed the 2FA check.
+    console.log("[SignInForm] Blocking redirect while checking 2FA status");
+    onRequires2FA?.(true);
+
     const result = await signInWithEmail(values.email, values.password);
     
     if (result.error) {
+      // Auth failed, allow redirect (though there's nothing to redirect to)
+      onRequires2FA?.(false);
+      
       // Record the failed attempt
       const needsCaptcha = recordFailedAttempt(values.email);
       
@@ -152,6 +162,7 @@ export function SignInForm({ onModeChange, onRequires2FA }: SignInFormProps) {
     } else {
       // Password auth succeeded - now check if 2FA is required
       const hasTOTP = await checkTOTPStatus();
+      console.log("[SignInForm] TOTP check complete, hasTOTP:", hasTOTP);
       
       if (hasTOTP) {
         // Check if device is trusted
@@ -159,16 +170,19 @@ export function SignInForm({ onModeChange, onRequires2FA }: SignInFormProps) {
           // Device is trusted, allow login without 2FA challenge
           console.log("[SignInForm] Device is trusted, skipping 2FA");
           clearAttempts(values.email);
+          // Now allow redirect
+          onRequires2FA?.(false);
         } else {
-          // Block redirect and show 2FA challenge
+          // Show 2FA challenge (keep pending2FA = true to block redirect)
           console.log("[SignInForm] 2FA required, showing challenge");
-          onRequires2FA?.(true);
           setPendingCredentials(values);
           setChallengeMode("totp");
+          // Note: pending2FA stays true until TOTP verified or cancelled
         }
       } else {
-        // No 2FA, login complete
+        // No 2FA, login complete - allow redirect
         clearAttempts(values.email);
+        onRequires2FA?.(false);
       }
     }
   };
