@@ -850,7 +850,7 @@
     "checkNow": "今すぐ確認",
     "available": "利用可能",
     "unavailable": "利用不可",
-    "checking": "[JA] 確認中..."
+    "checking": "確認中..."
   },
   
   "debugBundle": {
