@@ -4,6 +4,10 @@
  * Email/password sign-in with Zod validation.
  * Includes Cloudflare Turnstile CAPTCHA after 3 failed attempts.
  * Features password visibility toggle and 2FA challenge support.
+ * 
+ * NOTE: The 2FA challenge flow is handled entirely within this component.
+ * After password auth succeeds, if 2FA is enabled, we show the challenge
+ * form which blocks further action until verified. On cancel, we sign out.
  */
 
 import { useState, useEffect } from "react";
@@ -26,11 +30,13 @@ import type { AuthMode } from "../hooks/useAuthMode";
 
 interface SignInFormProps {
   onModeChange: (mode: AuthMode) => void;
+  /** Callback to block automatic redirect while 2FA is pending */
+  onRequires2FA?: (requires: boolean) => void;
 }
 
 type ChallengeMode = "none" | "totp" | "backup";
 
-export function SignInForm({ onModeChange }: SignInFormProps) {
+export function SignInForm({ onModeChange, onRequires2FA }: SignInFormProps) {
   const { t } = useTranslation();
   const { signInWithEmail } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
@@ -150,7 +156,9 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
           console.log("[SignInForm] Device is trusted, skipping 2FA");
           clearAttempts(values.email);
         } else {
-          // Show 2FA challenge
+          // Block redirect and show 2FA challenge
+          console.log("[SignInForm] 2FA required, showing challenge");
+          onRequires2FA?.(true);
           setPendingCredentials(values);
           setChallengeMode("totp");
         }
@@ -165,6 +173,8 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
     if (pendingCredentials) {
       clearAttempts(pendingCredentials.email);
     }
+    // Clear the 2FA block and allow redirect
+    onRequires2FA?.(false);
     setChallengeMode("none");
     setPendingCredentials(null);
     // User is already authenticated, just clear the challenge state
@@ -173,6 +183,8 @@ export function SignInForm({ onModeChange }: SignInFormProps) {
   const handleCancelChallenge = async () => {
     // Sign out since they didn't complete 2FA
     await supabase.auth.signOut();
+    // Clear the 2FA block
+    onRequires2FA?.(false);
     setChallengeMode("none");
     setPendingCredentials(null);
   };
