@@ -99,6 +99,19 @@
     "poor": "Buruk",
     "unknown": "Tidak Diketahui"
   },
+  "health": {
+    "title": "Kesehatan Koneksi",
+    "excellent": "Sangat Baik",
+    "good": "Baik",
+    "fair": "Cukup",
+    "poor": "Buruk",
+    "critical": "Kritis",
+    "latency": "Latensi",
+    "successRate": "Tingkat Keberhasilan",
+    "basedOn": "Berdasarkan {{count}} percobaan terakhir",
+    "score": "Skor Kesehatan",
+    "overall": "Kesehatan Keseluruhan"
+  },
   "speedTest": {
     "run": "Tes Kecepatan",
     "ready": "Siap",

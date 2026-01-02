@@ -99,6 +99,19 @@
     "poor": "ضعيف",
     "unknown": "غير معروف"
   },
+  "health": {
+    "title": "صحة الاتصال",
+    "excellent": "ممتاز",
+    "good": "جيد",
+    "fair": "مقبول",
+    "poor": "ضعيف",
+    "critical": "حرج",
+    "latency": "زمن الاستجابة",
+    "successRate": "معدل النجاح",
+    "basedOn": "بناءً على {{count}} محاولات حديثة",
+    "score": "درجة الصحة",
+    "overall": "الصحة العامة"
+  },
   "speedTest": {
     "run": "اختبار السرعة",
     "ready": "جاهز",

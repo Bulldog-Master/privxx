@@ -99,6 +99,19 @@
     "poor": "Slecht",
     "unknown": "Onbekend"
   },
+  "health": {
+    "title": "Verbindingsgezondheid",
+    "excellent": "Uitstekend",
+    "good": "Goed",
+    "fair": "Redelijk",
+    "poor": "Slecht",
+    "critical": "Kritiek",
+    "latency": "Latentie",
+    "successRate": "Succespercentage",
+    "basedOn": "Gebaseerd op {{count}} recente pogingen",
+    "score": "Gezondheidsscore",
+    "overall": "Algehele Gezondheid"
+  },
   "speedTest": {
     "run": "Snelheidstest",
     "ready": "Klaar",

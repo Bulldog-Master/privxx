@@ -99,6 +99,19 @@
     "poor": "Ruim",
     "unknown": "Desconhecido"
   },
+  "health": {
+    "title": "Saúde da Conexão",
+    "excellent": "Excelente",
+    "good": "Bom",
+    "fair": "Regular",
+    "poor": "Ruim",
+    "critical": "Crítico",
+    "latency": "Latência",
+    "successRate": "Taxa de Sucesso",
+    "basedOn": "Baseado em {{count}} tentativas recentes",
+    "score": "Pontuação de Saúde",
+    "overall": "Saúde Geral"
+  },
   "speedTest": {
     "run": "Teste de Velocidade",
     "ready": "Pronto",

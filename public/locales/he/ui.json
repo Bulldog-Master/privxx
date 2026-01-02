@@ -99,6 +99,19 @@
     "poor": "גרוע",
     "unknown": "לא ידוע"
   },
+  "health": {
+    "title": "בריאות החיבור",
+    "excellent": "מצוין",
+    "good": "טוב",
+    "fair": "סביר",
+    "poor": "גרוע",
+    "critical": "קריטי",
+    "latency": "השהייה",
+    "successRate": "אחוז הצלחה",
+    "basedOn": "מבוסס על {{count}} ניסיונות אחרונים",
+    "score": "ציון בריאות",
+    "overall": "בריאות כללית"
+  },
   "speedTest": {
     "run": "בדיקת מהירות",
     "ready": "מוכן",

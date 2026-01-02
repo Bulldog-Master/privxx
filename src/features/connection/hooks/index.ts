@@ -10,3 +10,6 @@ export type { ConnectionHistoryEntry, UseConnectionHistoryReturn } from "./useCo
 
 export { useOfflineDetection } from "./useOfflineDetection";
 export type { UseOfflineDetectionReturn } from "./useOfflineDetection";
+
+export { useConnectionQualityMonitor } from "./useConnectionQualityMonitor";
+export type { QualityAlertConfig } from "./useConnectionQualityMonitor";

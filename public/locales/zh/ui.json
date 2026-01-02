@@ -99,6 +99,19 @@
     "poor": "较差",
     "unknown": "未知"
   },
+  "health": {
+    "title": "连接健康状态",
+    "excellent": "极佳",
+    "good": "良好",
+    "fair": "一般",
+    "poor": "较差",
+    "critical": "严重",
+    "latency": "延迟",
+    "successRate": "成功率",
+    "basedOn": "基于{{count}}次近期尝试",
+    "score": "健康评分",
+    "overall": "总体健康"
+  },
   "speedTest": {
     "run": "速度测试",
     "ready": "就绪",

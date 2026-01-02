@@ -99,6 +99,19 @@
     "poor": "خراب",
     "unknown": "نامعلوم"
   },
+  "health": {
+    "title": "کنکشن کی صحت",
+    "excellent": "بہترین",
+    "good": "اچھا",
+    "fair": "ٹھیک",
+    "poor": "خراب",
+    "critical": "نازک",
+    "latency": "تاخیر",
+    "successRate": "کامیابی کی شرح",
+    "basedOn": "{{count}} حالیہ کوششوں پر مبنی",
+    "score": "صحت کا سکور",
+    "overall": "مجموعی صحت"
+  },
   "speedTest": {
     "run": "سپیڈ ٹیسٹ",
     "ready": "تیار",

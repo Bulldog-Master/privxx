@@ -99,6 +99,19 @@
     "poor": "Kötü",
     "unknown": "Bilinmiyor"
   },
+  "health": {
+    "title": "Bağlantı Sağlığı",
+    "excellent": "Mükemmel",
+    "good": "İyi",
+    "fair": "Orta",
+    "poor": "Kötü",
+    "critical": "Kritik",
+    "latency": "Gecikme",
+    "successRate": "Başarı Oranı",
+    "basedOn": "{{count}} son denemeye göre",
+    "score": "Sağlık Puanı",
+    "overall": "Genel Sağlık"
+  },
   "speedTest": {
     "run": "Hız Testi",
     "ready": "Hazır",
