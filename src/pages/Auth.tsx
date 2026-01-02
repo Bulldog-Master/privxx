@@ -3,9 +3,13 @@
  * 
  * Thin orchestrator that renders the appropriate auth form based on mode.
  * All form logic is now in src/features/auth/components/.
+ * 
+ * IMPORTANT: The 2FA challenge flow blocks automatic redirect until verified.
+ * When a user signs in and has 2FA enabled, the SignInForm will call
+ * onRequires2FA(true) which sets pending2FA state and prevents redirect.
  */
 
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Loader2, Sparkles, Fingerprint } from "lucide-react";
@@ -32,16 +36,25 @@ export default function Auth() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const { isSupported: passkeySupported } = usePasskey();
   const { mode, setMode } = useAuthMode();
+  
+  // Block redirect while 2FA challenge is pending
+  const [pending2FA, setPending2FA] = useState(false);
 
   // Get the redirect destination from location state (set by ProtectedRoute)
   const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/";
 
-  // Redirect if already authenticated (but not during password reset)
+  // Callback for SignInForm to notify when 2FA is required
+  const handleRequires2FA = useCallback((requires: boolean) => {
+    console.log("[Auth] 2FA requirement changed:", requires);
+    setPending2FA(requires);
+  }, []);
+
+  // Redirect if already authenticated (but not during password reset or 2FA challenge)
   useEffect(() => {
-    if (isAuthenticated && !authLoading && mode !== "reset") {
+    if (isAuthenticated && !authLoading && mode !== "reset" && !pending2FA) {
       navigate(from, { replace: true });
     }
-  }, [isAuthenticated, authLoading, navigate, mode, from]);
+  }, [isAuthenticated, authLoading, navigate, mode, from, pending2FA]);
 
   if (authLoading) {
     return (
@@ -113,7 +126,7 @@ export default function Auth() {
             </TabsList>
 
             <TabsContent value="signin">
-              <SignInForm onModeChange={setMode} />
+              <SignInForm onModeChange={setMode} onRequires2FA={handleRequires2FA} />
             </TabsContent>
 
             <TabsContent value="signup">
