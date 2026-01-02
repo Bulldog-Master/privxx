@@ -876,6 +876,26 @@
     "blockedDesc": "חסום/שגיאה — בעיית CORS או שגיאת שרת"
   },
   
+  "passkey": {
+    "setupRecommended": "מומלץ להגדיר מפתח גישה",
+    "setupRecommendedDesc": "הגדר מפתח גישה לכניסה מהירה יותר והגנה חזקה יותר על החשבון.",
+    "notSet": "לא מוגדר",
+    "goToSection": "עבור למפתחות גישה",
+    "discoverableHint": "פשוט הקש על הכפתור למטה כדי להתחבר עם מפתח הגישה שלך.",
+    "authSuccess": "נכנסת עם מפתח גישה",
+    "registered": "מפתח גישה נרשם בהצלחה",
+    "setupFailed": "הגדרת מפתח הגישה נכשלה. תוכל לנסות שוב מאוחר יותר בהגדרות.",
+    "description": "השתמש ב-Touch ID, Face ID, Windows Hello או מפתח אבטחה",
+    "emailOptionalHint": "השאר ריק כדי לבחור מפתח גישה ממכשיר זה.",
+    "enterEmailInstead": "הזן אימייל במקום",
+    "hideEmail": "הסתר",
+    "emailOptional": "אימייל (אופציונלי)",
+    "setupTitle": "הגדר מפתח גישה",
+    "onboardingDesc": "התחבר מהר יותר ובאופן מאובטח יותר עם Touch ID, Face ID או Windows Hello.",
+    "setupNow": "הגדר עכשיו",
+    "maybeLater": "אולי מאוחר יותר"
+  },
+  
   "passkeyFlow": {
     "title": "מדריך הגדרת מפתח גישה",
     "progress": "{{completed}}/{{total}} שלבים הושלמו",

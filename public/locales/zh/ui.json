@@ -860,22 +860,22 @@
     "refresh": "刷新",
     "copy": "复制调试包"
   },
-  "backendStatusPage": {
+  "backendStatus": {
     "title": "后端状态",
-    "subtitle": "服务连通性监控",
-    "copied": "状态已复制",
+    "subtitle": "可达 vs 需认证 vs 被阻止",
+    "copied": "状态报告已复制",
     "reachable": "可达",
     "authRequired": "需要认证",
-    "blocked": "被阻止",
+    "blocked": "被阻止 (CORS)",
     "error": "错误",
     "errors": "个错误",
     "checking": "检查中...",
     "detailedStatus": "详细状态",
-    "detailedDesc": "后端端点连通性",
-    "legend": "图例",
-    "reachableDesc": "端点返回200 OK",
-    "authRequiredDesc": "端点返回401/403（预期）",
-    "blockedDesc": "CORS或网络错误"
+    "detailedDesc": "各功能连通性",
+    "legend": "状态图例",
+    "reachableDesc": "可达 — 功能返回200 OK",
+    "authRequiredDesc": "需要认证 — 功能可达但需要认证 (401/403)",
+    "blockedDesc": "被阻止/错误 — CORS问题或服务器错误"
   },
   "passkey": {
     "setupRecommended": "建议设置通行密钥",
@@ -954,7 +954,7 @@
     "backendAvailablePass": "所有服务在线",
     "backendAvailableFail": "部分服务不可达",
     "checkFailed": "无法检查状态",
-    "backendNote": ""泄露密码保护"等设置在后端面板中配置，无法从应用中检查。"
+    "backendNote": "\"泄露密码保护\"等设置在后端面板中配置，无法从应用中检查。"
   },
   "securityScore": {
     "title": "安全评分",

@@ -879,6 +879,26 @@
     "blockedDesc": "ब्लॉक्ड/त्रुटि — CORS समस्या या सर्वर त्रुटि"
   },
   
+  "passkey": {
+    "setupRecommended": "पासकी सेटअप की सिफारिश",
+    "setupRecommendedDesc": "तेज़ साइन-इन और मज़बूत खाता सुरक्षा के लिए पासकी सेट करें।",
+    "notSet": "सेट नहीं है",
+    "goToSection": "पासकीज़ पर जाएं",
+    "discoverableHint": "अपनी पासकी से साइन इन करने के लिए नीचे दिए बटन पर टैप करें।",
+    "authSuccess": "पासकी से साइन इन किया",
+    "registered": "पासकी सफलतापूर्वक रजिस्टर हो गई",
+    "setupFailed": "पासकी सेट करने में विफल। आप बाद में सेटिंग्स में पुनः प्रयास कर सकते हैं।",
+    "description": "Touch ID, Face ID, Windows Hello, या सिक्योरिटी की का उपयोग करें",
+    "emailOptionalHint": "इस डिवाइस से पासकी चुनने के लिए खाली छोड़ें।",
+    "enterEmailInstead": "इसके बजाय ईमेल दर्ज करें",
+    "hideEmail": "छुपाएं",
+    "emailOptional": "ईमेल (वैकल्पिक)",
+    "setupTitle": "पासकी सेट करें",
+    "onboardingDesc": "Touch ID, Face ID, या Windows Hello के साथ तेज़ी से और सुरक्षित रूप से साइन इन करें।",
+    "setupNow": "अभी सेट करें",
+    "maybeLater": "शायद बाद में"
+  },
+  
   "passkeyFlow": {
     "title": "पासकी सेटअप गाइड",
     "progress": "{{completed}}/{{total}} चरण पूर्ण",
