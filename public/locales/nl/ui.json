@@ -947,6 +947,26 @@
     "needsWork": "Verbetering Nodig"
   },
   
+  "passkey": {
+    "setupRecommended": "Passkey instellen aanbevolen",
+    "setupRecommendedDesc": "Stel een passkey in voor sneller inloggen en sterkere accountbeveiliging.",
+    "notSet": "Niet ingesteld",
+    "goToSection": "Ga naar Passkeys",
+    "discoverableHint": "Tik gewoon op de knop hieronder om in te loggen met je passkey.",
+    "authSuccess": "Ingelogd met passkey",
+    "registered": "Passkey succesvol geregistreerd",
+    "setupFailed": "Kan passkey niet instellen. Je kunt het later opnieuw proberen in Instellingen.",
+    "description": "Gebruik Touch ID, Face ID, Windows Hello of een beveiligingssleutel",
+    "emailOptionalHint": "Laat leeg om een passkey van dit apparaat te kiezen.",
+    "enterEmailInstead": "Voer in plaats daarvan email in",
+    "hideEmail": "Verbergen",
+    "emailOptional": "Email (optioneel)",
+    "setupTitle": "Stel een Passkey in",
+    "onboardingDesc": "Log sneller en veiliger in met Touch ID, Face ID of Windows Hello.",
+    "setupNow": "Nu instellen",
+    "maybeLater": "Misschien later"
+  },
+  
   "saving": "Opslaan...",
   "saved": "Opgeslagen",
   "invalidCodeLength": "Code moet 6 cijfers zijn",
