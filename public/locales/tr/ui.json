@@ -947,6 +947,26 @@
     "needsWork": "İyileştirme Gerekli"
   },
   
+  "passkey": {
+    "setupRecommended": "Passkey kurulumu önerilir",
+    "setupRecommendedDesc": "Daha hızlı giriş ve güçlü hesap koruması için passkey kurun.",
+    "notSet": "Ayarlanmadı",
+    "goToSection": "Passkey'lere Git",
+    "discoverableHint": "Passkey'iniz ile giriş yapmak için aşağıdaki düğmeye dokunun.",
+    "authSuccess": "Passkey ile giriş yapıldı",
+    "registered": "Passkey başarıyla kaydedildi",
+    "setupFailed": "Passkey kurulumu başarısız oldu. Daha sonra Ayarlar'dan tekrar deneyebilirsiniz.",
+    "description": "Touch ID, Face ID, Windows Hello veya güvenlik anahtarı kullanın",
+    "emailOptionalHint": "Bu cihazdan passkey seçmek için boş bırakın.",
+    "enterEmailInstead": "Bunun yerine e-posta girin",
+    "hideEmail": "Gizle",
+    "emailOptional": "E-posta (isteğe bağlı)",
+    "setupTitle": "Passkey Kur",
+    "onboardingDesc": "Touch ID, Face ID veya Windows Hello ile daha hızlı ve güvenli giriş yapın.",
+    "setupNow": "Şimdi kur",
+    "maybeLater": "Belki daha sonra"
+  },
+  
   "saving": "Kaydediliyor...",
   "saved": "Kaydedildi",
   "invalidCodeLength": "Kod 6 haneli olmalıdır",
