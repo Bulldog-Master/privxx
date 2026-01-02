@@ -863,21 +863,21 @@
   },
   
   "backendStatus": {
-    "title": "[AR] Backend Status",
-    "subtitle": "[AR] Reachable vs auth-required vs blocked",
-    "copied": "[AR] Status report copied",
-    "reachable": "[AR] Reachable",
-    "authRequired": "[AR] Auth Required",
-    "blocked": "[AR] Blocked (CORS)",
-    "error": "[AR] Error",
-    "errors": "[AR] Errors",
-    "checking": "[AR] Checking...",
-    "detailedStatus": "[AR] Detailed Status",
-    "detailedDesc": "[AR] Individual function connectivity",
-    "legend": "[AR] Status Legend",
-    "reachableDesc": "[AR] Reachable — Function responded with 200 OK",
-    "authRequiredDesc": "[AR] Auth Required — Function reachable but needs authentication (401/403)",
-    "blockedDesc": "[AR] Blocked/Error — CORS issue or server error"
+    "title": "حالة الخادم الخلفي",
+    "subtitle": "قابل للوصول مقابل يتطلب مصادقة مقابل محظور",
+    "copied": "تم نسخ تقرير الحالة",
+    "reachable": "قابل للوصول",
+    "authRequired": "يتطلب مصادقة",
+    "blocked": "محظور (CORS)",
+    "error": "خطأ",
+    "errors": "أخطاء",
+    "checking": "جاري الفحص...",
+    "detailedStatus": "الحالة التفصيلية",
+    "detailedDesc": "اتصال الوظائف الفردية",
+    "legend": "دليل الحالة",
+    "reachableDesc": "قابل للوصول — استجابت الوظيفة بـ 200 OK",
+    "authRequiredDesc": "يتطلب مصادقة — الوظيفة قابلة للوصول لكن تحتاج مصادقة (401/403)",
+    "blockedDesc": "محظور/خطأ — مشكلة CORS أو خطأ في الخادم"
   },
   
   "passkey": {
