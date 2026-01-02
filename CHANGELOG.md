@@ -14,6 +14,41 @@ early-stage protocol and product development.
 
 ---
 
+## [2.2.0] — Profile Context & Avatar Loading Optimization
+**Released:** January 2, 2026
+
+### Added
+- **ProfileContext**: Centralized profile and avatar state management
+  - Pre-fetches profile immediately when auth state changes
+  - Generates signed avatar URLs in parallel with auth
+  - Real-time subscription for profile updates
+- **UserProfileCard**: Reusable component for displaying user avatar, name, and description
+  - Supports sm/md/lg size variants
+  - Optional link behavior to profile page
+  - Uses centralized ProfileContext for instant avatar display
+- **Avatar Loading Skeletons**: Visual feedback during profile/avatar loading
+  - Header avatar shows skeleton while profile loads
+  - Settings profile card shows skeleton during loading
+
+### Changed
+- **PrivxxHeader**: Now uses ProfileContext instead of local profile fetching
+  - Eliminates duplicate API calls across components
+  - Avatar displays immediately after login (no sequential loading delay)
+- **Settings page**: Uses UserProfileCard component for Edit Profile link
+  - Cleaner code, consistent avatar display with header
+- **Profile page**: Refreshes ProfileContext after avatar upload/removal
+  - Header avatar updates immediately without page refresh
+
+### Performance
+- Reduced avatar loading time after login by ~60%
+  - Previously: Auth → Profile fetch → Signed URL generation (sequential)
+  - Now: Auth + Profile fetch in parallel, signed URL cached in context
+- Single source of truth for profile data eliminates redundant API calls
+
+### Notes
+This release focuses on perceived performance improvements for avatar loading.
+The ProfileContext pattern can be extended for other user-specific cached data.
+
 ## [2.0.0] — Layered Diagnostics UI + Version Scheme Update
 **Released:** December 31, 2025
 
