@@ -33,6 +33,46 @@ const ProfileContext = createContext<ProfileContextValue | null>(null);
 
 // Signed URL expiry in seconds (4 hours)
 const SIGNED_URL_EXPIRY_SECONDS = 14400;
+// Cache key prefix for signed URLs
+const AVATAR_CACHE_KEY = 'privxx_avatar_cache';
+
+// Get cached avatar URL if still valid
+function getCachedAvatarUrl(userId: string): string | null {
+  try {
+    const cached = sessionStorage.getItem(`${AVATAR_CACHE_KEY}_${userId}`);
+    if (!cached) return null;
+    
+    const { url, expiresAt } = JSON.parse(cached);
+    // Check if URL is still valid (with 10 min buffer)
+    if (Date.now() < expiresAt - 600000) {
+      return url;
+    }
+    // Expired, remove it
+    sessionStorage.removeItem(`${AVATAR_CACHE_KEY}_${userId}`);
+  } catch {
+    // Ignore parse errors
+  }
+  return null;
+}
+
+// Cache avatar URL with expiry
+function cacheAvatarUrl(userId: string, url: string): void {
+  try {
+    const expiresAt = Date.now() + (SIGNED_URL_EXPIRY_SECONDS * 1000);
+    sessionStorage.setItem(`${AVATAR_CACHE_KEY}_${userId}`, JSON.stringify({ url, expiresAt }));
+  } catch {
+    // Ignore storage errors (privacy mode, quota exceeded)
+  }
+}
+
+// Clear cached avatar URL
+function clearCachedAvatarUrl(userId: string): void {
+  try {
+    sessionStorage.removeItem(`${AVATAR_CACHE_KEY}_${userId}`);
+  } catch {
+    // Ignore errors
+  }
+}
 
 export function ProfileProvider({ children }: { children: ReactNode }) {
   const { user, isAuthenticated } = useAuth();
@@ -70,6 +110,12 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    // Check for cached avatar URL first (instant display)
+    const cachedUrl = getCachedAvatarUrl(user.id);
+    if (cachedUrl) {
+      setAvatarUrl(cachedUrl);
+    }
+
     setIsLoading(true);
     setError(null);
 
@@ -102,6 +148,7 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
 
         setProfile(newProfile);
         setAvatarUrl(null);
+        clearCachedAvatarUrl(user.id);
         setIsLoading(false);
         return;
       }
@@ -113,14 +160,29 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
         // Check if it's a path (not already a signed URL)
         const isPath = !data.avatar_url.startsWith('http');
         if (isPath) {
-          const signedUrl = await generateSignedUrl(data.avatar_url);
-          setAvatarUrl(signedUrl);
+          // If we already have a cached URL, don't block on new generation
+          if (!cachedUrl) {
+            const signedUrl = await generateSignedUrl(data.avatar_url);
+            if (signedUrl) {
+              setAvatarUrl(signedUrl);
+              cacheAvatarUrl(user.id, signedUrl);
+            }
+          } else {
+            // Refresh in background without blocking UI
+            generateSignedUrl(data.avatar_url).then((signedUrl) => {
+              if (signedUrl) {
+                setAvatarUrl(signedUrl);
+                cacheAvatarUrl(user.id, signedUrl);
+              }
+            });
+          }
         } else {
           // It's already a URL, use it directly
           setAvatarUrl(data.avatar_url);
         }
       } else {
         setAvatarUrl(null);
+        clearCachedAvatarUrl(user.id);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load profile');
@@ -129,10 +191,13 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
     }
   }, [user, generateSignedUrl]);
 
-  // Refresh profile (public method)
+  // Refresh profile (public method) - clears cache for fresh data
   const refreshProfile = useCallback(async () => {
+    if (user) {
+      clearCachedAvatarUrl(user.id);
+    }
     await fetchProfileAndAvatar();
-  }, [fetchProfileAndAvatar]);
+  }, [user, fetchProfileAndAvatar]);
 
   // Update profile
   const updateProfile = useCallback(async (updates: { display_name?: string; bio?: string; session_timeout_minutes?: number }) => {

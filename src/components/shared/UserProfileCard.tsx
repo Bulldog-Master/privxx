@@ -84,7 +84,7 @@ const UserProfileCard = forwardRef<HTMLDivElement, UserProfileCardProps>(
     const content = (
       <CardContent className="flex items-center justify-between py-4">
         <div className="flex items-center gap-3">
-          {isLoading ? (
+          {isLoading && !avatarUrl ? (
             <Skeleton className={cn("rounded-full", config.avatar)} />
           ) : (
             <Avatar className={config.avatar}>
