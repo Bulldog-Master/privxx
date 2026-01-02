@@ -22,9 +22,13 @@ export {
 // Service
 export { connect, isLiveMode } from "./connectionService";
 
-// Hook
+// Hooks
 export { useConnection } from "./useConnection";
 export type { UseConnectionOptions, UseConnectionReturn } from "./useConnection";
 
+export { useConnectionHistory, useOfflineDetection } from "./hooks";
+export type { ConnectionHistoryEntry, UseConnectionHistoryReturn } from "./hooks";
+export type { UseOfflineDetectionReturn } from "./hooks";
+
 // Components
-export { ConnectionErrorAlert, ConnectionRetryButton } from "./components";
+export { ConnectionErrorAlert, ConnectionRetryButton, ConnectionSuccessAnimation, OfflineWarning } from "./components";
