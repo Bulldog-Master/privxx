@@ -26,9 +26,21 @@ export { connect, isLiveMode } from "./connectionService";
 export { useConnection } from "./useConnection";
 export type { UseConnectionOptions, UseConnectionReturn } from "./useConnection";
 
-export { useConnectionHistory, useOfflineDetection } from "./hooks";
+export { useAutoReconnect, useConnectionHistory, useOfflineDetection } from "./hooks";
+export type { UseAutoReconnectOptions, UseAutoReconnectReturn } from "./hooks";
 export type { ConnectionHistoryEntry, UseConnectionHistoryReturn } from "./hooks";
 export type { UseOfflineDetectionReturn } from "./hooks";
 
+// Utils
+export { getConnectionQuality, getQualityLabel, getQualityColorClass, getQualityBgClass } from "./utils";
+export type { ConnectionQuality, QualityThresholds } from "./utils";
+
 // Components
-export { ConnectionErrorAlert, ConnectionRetryButton, ConnectionSuccessAnimation, OfflineWarning } from "./components";
+export { 
+  ConnectionErrorAlert, 
+  ConnectionHistoryPanel,
+  ConnectionQualityBadge,
+  ConnectionRetryButton, 
+  ConnectionSuccessAnimation, 
+  OfflineWarning 
+} from "./components";
