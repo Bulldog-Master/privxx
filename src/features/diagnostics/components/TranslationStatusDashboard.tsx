@@ -201,6 +201,7 @@ export function TranslationStatusDashboard() {
                 translatedReferenceCount++;
               }
             }
+            // Note: missing keys (value === undefined) are not counted as translated
           }
 
           // Completion % = reference keys present (regardless of placeholder status)
@@ -208,9 +209,11 @@ export function TranslationStatusDashboard() {
             ? Math.round(((referenceKeys.length - missingKeys.length) / referenceKeys.length) * 100)
             : 100;
 
-          // Quality % = reference keys with actual translations (not placeholders)
-          const qualityPercent = referenceKeys.length > 0
-            ? Math.round((translatedReferenceCount / referenceKeys.length) * 100)
+          // Quality % = keys with actual translations / keys that exist in this file
+          // This measures: "of the keys that ARE present, how many have real translations?"
+          const presentKeyCount = referenceKeys.length - missingKeys.length;
+          const qualityPercent = presentKeyCount > 0
+            ? Math.round((translatedReferenceCount / presentKeyCount) * 100)
             : 100;
 
           return {
