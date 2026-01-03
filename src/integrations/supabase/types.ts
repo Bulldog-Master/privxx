@@ -186,9 +186,12 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          referral_code: string | null
+          referred_by: string | null
           session_timeout_minutes: number
           updated_at: string
           user_id: string
+          xx_coins_balance: number
         }
         Insert: {
           avatar_url?: string | null
@@ -196,9 +199,12 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          referral_code?: string | null
+          referred_by?: string | null
           session_timeout_minutes?: number
           updated_at?: string
           user_id: string
+          xx_coins_balance?: number
         }
         Update: {
           avatar_url?: string | null
@@ -206,11 +212,22 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          referral_code?: string | null
+          referred_by?: string | null
           session_timeout_minutes?: number
           updated_at?: string
           user_id?: string
+          xx_coins_balance?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       rate_limits: {
         Row: {
@@ -239,6 +256,39 @@ export type Database = {
           identifier?: string
           last_attempt_at?: string
           locked_until?: string | null
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          coins_earned: number
+          completed_at: string | null
+          created_at: string
+          id: string
+          referred_id: string
+          referrer_id: string
+          rewarded_at: string | null
+          status: string
+        }
+        Insert: {
+          coins_earned?: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          referred_id: string
+          referrer_id: string
+          rewarded_at?: string | null
+          status?: string
+        }
+        Update: {
+          coins_earned?: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          referred_id?: string
+          referrer_id?: string
+          rewarded_at?: string | null
+          status?: string
         }
         Relationships: []
       }
