@@ -130,7 +130,6 @@ const PrivxxHeader = () => {
                   <p className="font-medium truncate">{getDisplayName()}</p>
                   <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                 </div>
-                <DropdownMenuSeparator />
                 
                 {/* Referrals */}
                 <DropdownMenuItem 
@@ -155,7 +154,6 @@ const PrivxxHeader = () => {
                   </DropdownMenuItem>
                 )}
                 
-                <DropdownMenuSeparator />
               </>
             ) : (
               <>
@@ -165,7 +163,6 @@ const PrivxxHeader = () => {
                     {t("signIn", "Sign In")}
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
               </>
             )}
 
@@ -211,7 +208,7 @@ const PrivxxHeader = () => {
                     {t("settings", "Settings")}
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
+                
                 <DropdownMenuItem 
                   onClick={handleSignOut} 
                   className="gap-2 cursor-pointer text-destructive focus:text-destructive"
