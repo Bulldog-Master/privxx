@@ -259,40 +259,56 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
                     "flex items-center justify-between p-3 rounded-lg transition-colors",
                     isCurrentTier && "bg-primary/10 border border-primary/30",
                     !isCurrentTier && isUnlocked && "bg-muted/30",
-                    !isUnlocked && "opacity-50"
+                    !isUnlocked && "opacity-60"
                   )}
                 >
                   <div className="flex items-center gap-3">
                     <div className={cn(
                       "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold",
                       isCurrentTier && "bg-primary text-primary-foreground",
-                      !isCurrentTier && isUnlocked && "bg-muted text-muted-foreground",
+                      !isCurrentTier && isUnlocked && "bg-muted text-foreground",
                       !isUnlocked && "bg-muted/50 text-muted-foreground"
                     )}>
                       {index + 1}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-medium">{tier.tierName}</span>
+                        <span className={cn(
+                          "font-semibold",
+                          isCurrentTier && "text-foreground",
+                          !isCurrentTier && isUnlocked && "text-foreground",
+                          !isUnlocked && "text-foreground/70"
+                        )}>
+                          {tier.tierName}
+                        </span>
                         {isCurrentTier && (
                           <Badge variant="default" className="text-xs">
                             {t('referrals.current', 'Current')}
                           </Badge>
                         )}
                       </div>
-                      <p className="text-xs text-muted-foreground">
+                      <p className={cn(
+                        "text-xs",
+                        isUnlocked ? "text-foreground/60" : "text-foreground/50"
+                      )}>
                         {tier.minReferrals}+ {t('referrals.referrals', 'referrals')}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="flex items-center gap-1 text-yellow-500 font-medium">
-                      <Coins className="h-3 w-3" />
+                    <div className={cn(
+                      "flex items-center gap-1 font-semibold",
+                      isUnlocked ? "text-yellow-400" : "text-yellow-500/70"
+                    )}>
+                      <Coins className="h-3.5 w-3.5" />
                       {tier.coinsPerReferral}
-                      <span className="text-xs text-muted-foreground font-normal">/ea</span>
+                      <span className="text-xs text-foreground/50 font-normal">/ea</span>
                     </div>
                     {tier.bonusCoins > 0 && (
-                      <p className="text-xs text-green-500">
+                      <p className={cn(
+                        "text-xs font-medium",
+                        isUnlocked ? "text-emerald-400" : "text-emerald-500/70"
+                      )}>
                         +{tier.bonusCoins} {t('referrals.bonus', 'bonus')}
                       </p>
                     )}
