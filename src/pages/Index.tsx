@@ -1,4 +1,6 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Coins } from "lucide-react";
 import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { PageBackground } from "@/components/layout/PageBackground";
@@ -7,12 +9,16 @@ import { SecurityScoreIndicator } from "@/components/settings/SecurityScoreIndic
 import { PasskeyOnboardingPrompt } from "@/features/auth/components";
 import { useAuth } from "@/contexts/AuthContext";
 import MinimalFooter from "@/components/shared/MinimalFooter";
+import { Button } from "@/components/ui/button";
+import { ReferralDrawer } from "@/features/referrals";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
 const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/DiagnosticsDrawer"));
 
 const Index = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
+  const [referralOpen, setReferralOpen] = useState(false);
 
   return (
     <PageBackground>
@@ -51,6 +57,19 @@ const Index = () => {
 
           <PrivxxHeroWithUrl />
 
+          {/* Earn XX Coins button - prominent referral CTA for logged-in users */}
+          {user && (
+            <div className="w-full max-w-md">
+              <Button
+                onClick={() => setReferralOpen(true)}
+                className="w-full h-14 text-lg font-semibold gap-3 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg"
+              >
+                <Coins className="h-6 w-6" />
+                {t("referrals.earnCoins", "Earn XX Coins")}
+              </Button>
+            </div>
+          )}
+
           {/* Passkey onboarding prompt - shows to users without passkeys */}
           {user && (
             <div className="w-full max-w-md">
@@ -81,6 +100,9 @@ const Index = () => {
         <Suspense fallback={null}>
           <DiagnosticsDrawer />
         </Suspense>
+
+        {/* Referral Drawer */}
+        <ReferralDrawer open={referralOpen} onOpenChange={setReferralOpen} />
       </div>
     </PageBackground>
   );
