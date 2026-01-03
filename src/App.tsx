@@ -12,6 +12,7 @@ import { ProfileProvider } from "@/contexts/ProfileContext";
 import { IdentityProvider } from "@/features/identity";
 import { SkipToContent } from "@/components/shared";
 import { InstallPrompt, PwaUpdatePrompt } from "@/components/pwa";
+import { StaleBuildWarning } from "@/components/shared/StaleBuildWarning";
 import { TranslationPlaceholderToast } from "@/components/diagnostics/TranslationPlaceholderToast";
 import { EmailVerificationPending, ProtectedRoute, SessionTimeoutWarning, UnlockExpiryDialog, DeviceDetectionManager } from "@/components/session";
 import { SecurityAlertProvider } from "@/components/security";
@@ -32,6 +33,7 @@ const Health = lazy(() => import("./pages/Health"));
 const BackendStatus = lazy(() => import("./pages/BackendStatus"));
 const ComponentDocs = lazy(() => import("./pages/ComponentDocs"));
 const Diagnostics = lazy(() => import("./pages/Diagnostics"));
+const About = lazy(() => import("./pages/About"));
 
 const queryClient = new QueryClient();
 
@@ -106,6 +108,7 @@ function AppRoutes() {
           <RtlProvider>
             <Toaster />
             <Sonner />
+            <StaleBuildWarning />
             <PwaUpdatePrompt />
             <TranslationPlaceholderToast />
             <SessionTimeoutManager />
@@ -178,6 +181,11 @@ function AppRoutes() {
               <Route path="/diagnostics" element={
                 <Suspense fallback={<PageLoader />}>
                   <Diagnostics />
+                </Suspense>
+              } />
+              <Route path="/about" element={
+                <Suspense fallback={<PageLoader />}>
+                  <About />
                 </Suspense>
               } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
