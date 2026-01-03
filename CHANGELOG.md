@@ -14,6 +14,15 @@ early-stage protocol and product development.
 
 ---
 
+## [2.6.2] — Referral Tier Clarity
+**Released:** January 3, 2026
+
+### Changed
+- **Reward Tiers**: Added "/ea" suffix to coin amounts for clarity (e.g., "100 /ea")
+  - Makes it clear these are coins earned per referral
+
+---
+
 ## [2.6.1] — Referral Dialog Scroll Fix & Menu Cleanup
 **Released:** January 3, 2026
 
