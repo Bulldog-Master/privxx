@@ -69,19 +69,6 @@ const PrivxxHeader = () => {
         {/* Language Selector - stays separate */}
         <LanguageSelector />
 
-        {/* Referral Badge - prominent dedicated button for logged-in users */}
-        {isAuthenticated && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setReferralOpen(true)}
-            className="gap-1.5 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 min-h-[44px] px-3"
-          >
-            <Users className="w-4 h-4" />
-            <span className="text-sm font-medium">{t("referrals.earnCoins", "Earn XX Coins")}</span>
-          </Button>
-        )}
-
         {/* Sign In button for unauthenticated users */}
         {!isAuthenticated && (
           <Button 
@@ -107,22 +94,24 @@ const PrivxxHeader = () => {
               >
               {isAuthenticated ? (
                 isProfileLoading ? (
-                  <Skeleton className="h-6 w-6 rounded-full" />
+                  <Skeleton className="h-8 w-8 rounded-full" />
                 ) : (
                   <div className="relative">
-                    <Avatar className="h-6 w-6 border border-primary/40">
+                    <Avatar className="h-8 w-8 border-2 border-primary/40">
                       <AvatarImage src={avatarUrl || undefined} alt={getDisplayName()} />
                       <AvatarFallback className="text-xs bg-primary/10 text-primary">
                         {getInitials()}
                       </AvatarFallback>
                     </Avatar>
-                    {/* Referral badge on avatar */}
-                    <div 
-                      className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground flex items-center justify-center border border-background cursor-pointer hover:scale-110 transition-transform"
+                    {/* Referral badge overlay - more prominent */}
+                    <button
+                      type="button"
                       onClick={handleReferralClick}
+                      className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-yellow-500 text-yellow-950 flex items-center justify-center border-2 border-background cursor-pointer hover:scale-110 hover:bg-yellow-400 transition-all shadow-lg"
+                      title={t("referrals.title", "Referral Program")}
                     >
-                      <Users className="h-2.5 w-2.5" />
-                    </div>
+                      <Users className="h-3 w-3" />
+                    </button>
                   </div>
                 )
               ) : (
