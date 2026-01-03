@@ -3,9 +3,10 @@
  * 
  * A reusable card that displays user avatar, name, and email.
  * Uses the centralized ProfileContext for fast avatar loading.
+ * Includes referral program badge overlay on avatar.
  */
 
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { User, ChevronRight } from "lucide-react";
@@ -14,6 +15,7 @@ import { useProfileContext } from "@/contexts/ProfileContext";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ReferralBadge, ReferralDrawer } from "@/features/referrals";
 import { cn } from "@/lib/utils";
 
 interface UserProfileCardProps {
@@ -25,6 +27,8 @@ interface UserProfileCardProps {
   showDescription?: boolean;
   /** Whether to show the chevron arrow */
   showChevron?: boolean;
+  /** Whether to show the referral badge */
+  showReferralBadge?: boolean;
   /** Additional className */
   className?: string;
 }
@@ -54,6 +58,7 @@ const UserProfileCard = forwardRef<HTMLDivElement, UserProfileCardProps>(
       asLink = false,
       showDescription = true,
       showChevron = true,
+      showReferralBadge = true,
       className,
     },
     ref
@@ -61,6 +66,7 @@ const UserProfileCard = forwardRef<HTMLDivElement, UserProfileCardProps>(
     const { t } = useTranslation("ui");
     const { user } = useAuth();
     const { profile, avatarUrl, isLoading } = useProfileContext();
+    const [referralOpen, setReferralOpen] = useState(false);
 
     const config = sizeConfig[size];
 
@@ -81,21 +87,32 @@ const UserProfileCard = forwardRef<HTMLDivElement, UserProfileCardProps>(
       return t("editProfile", "Edit Profile");
     };
 
+    const handleReferralClick = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setReferralOpen(true);
+    };
+
     const content = (
       <CardContent className="flex items-center justify-between py-4">
         <div className="flex items-center gap-3">
-          {isLoading && !avatarUrl ? (
-            <Skeleton className={cn("rounded-full", config.avatar)} />
-          ) : (
-            <Avatar className={config.avatar}>
-              {avatarUrl ? (
-                <AvatarImage src={avatarUrl} alt={profile?.display_name || "User"} />
-              ) : null}
-              <AvatarFallback className="bg-primary/10 text-primary">
-                {profile?.display_name ? getInitials() : <User className="h-5 w-5" />}
-              </AvatarFallback>
-            </Avatar>
-          )}
+          <div className="relative">
+            {isLoading && !avatarUrl ? (
+              <Skeleton className={cn("rounded-full", config.avatar)} />
+            ) : (
+              <Avatar className={config.avatar}>
+                {avatarUrl ? (
+                  <AvatarImage src={avatarUrl} alt={profile?.display_name || "User"} />
+                ) : null}
+                <AvatarFallback className="bg-primary/10 text-primary">
+                  {profile?.display_name ? getInitials() : <User className="h-5 w-5" />}
+                </AvatarFallback>
+              </Avatar>
+            )}
+            {showReferralBadge && user && (
+              <ReferralBadge onClick={handleReferralClick} />
+            )}
+          </div>
           <div>
             <p className={cn("text-primary", config.name)}>{getDisplayName()}</p>
             {showDescription && (
@@ -109,26 +126,27 @@ const UserProfileCard = forwardRef<HTMLDivElement, UserProfileCardProps>(
       </CardContent>
     );
 
-    if (asLink) {
-      return (
-        <Card
-          ref={ref}
-          className={cn("bg-card/90 backdrop-blur-sm border-border/50", className)}
-        >
-          <Link to="/profile" className="block">
-            {content}
-          </Link>
-        </Card>
-      );
-    }
-
     return (
-      <Card
-        ref={ref}
-        className={cn("bg-card/90 backdrop-blur-sm border-border/50", className)}
-      >
-        {content}
-      </Card>
+      <>
+        {asLink ? (
+          <Card
+            ref={ref}
+            className={cn("bg-card/90 backdrop-blur-sm border-border/50", className)}
+          >
+            <Link to="/profile" className="block">
+              {content}
+            </Link>
+          </Card>
+        ) : (
+          <Card
+            ref={ref}
+            className={cn("bg-card/90 backdrop-blur-sm border-border/50", className)}
+          >
+            {content}
+          </Card>
+        )}
+        <ReferralDrawer open={referralOpen} onOpenChange={setReferralOpen} />
+      </>
     );
   }
 );
