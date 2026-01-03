@@ -289,6 +289,7 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
                     <div className="flex items-center gap-1 text-yellow-500 font-medium">
                       <Coins className="h-3 w-3" />
                       {tier.coinsPerReferral}
+                      <span className="text-xs text-muted-foreground font-normal">/ea</span>
                     </div>
                     {tier.bonusCoins > 0 && (
                       <p className="text-xs text-green-500">
