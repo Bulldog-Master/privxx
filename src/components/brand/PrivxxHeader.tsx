@@ -69,6 +69,19 @@ const PrivxxHeader = () => {
         {/* Language Selector - stays separate */}
         <LanguageSelector />
 
+        {/* Referral Badge - prominent dedicated button for logged-in users */}
+        {isAuthenticated && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setReferralOpen(true)}
+            className="gap-1.5 text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 min-h-[44px] px-3"
+          >
+            <Users className="w-4 h-4" />
+            <span className="text-sm font-medium">{t("referrals.earnCoins", "Earn XX Coins")}</span>
+          </Button>
+        )}
+
         {/* Sign In button for unauthenticated users */}
         {!isAuthenticated && (
           <Button 
