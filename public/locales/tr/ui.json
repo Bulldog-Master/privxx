@@ -1042,7 +1042,37 @@
   "staleBuild": {
     "title": "Güncelleme Mevcut",
     "description": "Şu anda v{{current}}, en son v{{latest}}",
-    "refresh": "Güncelle"
+    "refresh": "Güncelle",
+    "refreshing": "Yenileniyor...",
+    "clearing": "Temizleniyor...",
+    "learnMore": "Daha fazla bilgi"
+  },
+
+  "about": {
+    "title": "Privxx Hakkında",
+    "subtitle": "Sürüm bilgileri ve güncellemeler",
+    "versionInfo": "Sürüm Bilgileri",
+    "versionDesc": "Mevcut kurulum detayları",
+    "currentVersion": "Mevcut Sürüm",
+    "buildHash": "Yapı Hash",
+    "latestVersion": "En Son Sürüm",
+    "upToDate": "Güncel",
+    "updateAvailable": "Güncelleme mevcut",
+    "checkUpdates": "Kontrol Et",
+    "updateApp": "Uygulamayı Güncelle",
+    "updateAvailableDesc": "Yeni bir sürüm mevcut. Güncellemek için aşağıya tıklayın.",
+    "noUpdateDesc": "En son sürümü kullanıyorsunuz.",
+    "softReloading": "Hızlı yenileme deneniyor...",
+    "hardReloading": "Önbellek temizleniyor ve yeniden yükleniyor...",
+    "updating": "Güncelleniyor...",
+    "updateNow": "Şimdi Güncelle",
+    "forceRefresh": "Zorla Yenile",
+    "updateNote": "Bu, önbelleğe alınmış verileri temizleyecek ve uygulamayı yeniden yükleyecektir.",
+    "releaseNotes": "Sürüm Notları"
+  },
+
+  "common": {
+    "dismiss": "Kapat"
   },
 
   "optional": "isteğe bağlı"

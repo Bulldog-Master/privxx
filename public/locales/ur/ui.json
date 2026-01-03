@@ -1047,7 +1047,37 @@
   "staleBuild": {
     "title": "اپڈیٹ دستیاب",
     "description": "آپ v{{current}} پر ہیں، تازہ ترین v{{latest}} ہے",
-    "refresh": "اپڈیٹ کریں"
+    "refresh": "اپڈیٹ کریں",
+    "refreshing": "ریفریش ہو رہا ہے...",
+    "clearing": "صاف ہو رہا ہے...",
+    "learnMore": "مزید جانیں"
+  },
+
+  "about": {
+    "title": "Privxx کے بارے میں",
+    "subtitle": "ورژن کی معلومات اور اپڈیٹس",
+    "versionInfo": "ورژن کی معلومات",
+    "versionDesc": "موجودہ انسٹالیشن کی تفصیلات",
+    "currentVersion": "موجودہ ورژن",
+    "buildHash": "بلڈ ہیش",
+    "latestVersion": "تازہ ترین ورژن",
+    "upToDate": "تازہ ترین",
+    "updateAvailable": "اپڈیٹ دستیاب",
+    "checkUpdates": "چیک کریں",
+    "updateApp": "ایپ اپڈیٹ کریں",
+    "updateAvailableDesc": "نیا ورژن دستیاب ہے۔ اپڈیٹ کرنے کے لیے نیچے کلک کریں۔",
+    "noUpdateDesc": "آپ تازہ ترین ورژن استعمال کر رہے ہیں۔",
+    "softReloading": "فوری ریفریش کی کوشش...",
+    "hardReloading": "کیش صاف کر رہے ہیں اور دوبارہ لوڈ کر رہے ہیں...",
+    "updating": "اپڈیٹ ہو رہا ہے...",
+    "updateNow": "ابھی اپڈیٹ کریں",
+    "forceRefresh": "زبردستی ریفریش",
+    "updateNote": "یہ کیش شدہ ڈیٹا صاف کرے گا اور ایپ کو دوبارہ لوڈ کرے گا۔",
+    "releaseNotes": "ریلیز نوٹس"
+  },
+
+  "common": {
+    "dismiss": "خارج کریں"
   },
 
   "optional": "اختیاری"

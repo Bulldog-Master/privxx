@@ -1042,7 +1042,37 @@
   "staleBuild": {
     "title": "업데이트 가능",
     "description": "현재 v{{current}}, 최신 버전은 v{{latest}}",
-    "refresh": "업데이트"
+    "refresh": "업데이트",
+    "refreshing": "새로고침 중...",
+    "clearing": "삭제 중...",
+    "learnMore": "자세히 알아보기"
+  },
+
+  "about": {
+    "title": "Privxx 정보",
+    "subtitle": "버전 정보 및 업데이트",
+    "versionInfo": "버전 정보",
+    "versionDesc": "현재 설치 세부 정보",
+    "currentVersion": "현재 버전",
+    "buildHash": "빌드 해시",
+    "latestVersion": "최신 버전",
+    "upToDate": "최신 상태",
+    "updateAvailable": "업데이트 가능",
+    "checkUpdates": "확인",
+    "updateApp": "앱 업데이트",
+    "updateAvailableDesc": "새 버전이 있습니다. 아래를 클릭하여 업데이트하세요.",
+    "noUpdateDesc": "최신 버전을 사용 중입니다.",
+    "softReloading": "빠른 새로고침 시도 중...",
+    "hardReloading": "캐시 삭제 및 새로고침 중...",
+    "updating": "업데이트 중...",
+    "updateNow": "지금 업데이트",
+    "forceRefresh": "강제 새로고침",
+    "updateNote": "캐시된 데이터를 삭제하고 앱을 새로고침합니다.",
+    "releaseNotes": "릴리스 노트"
+  },
+
+  "common": {
+    "dismiss": "닫기"
   },
 
   "optional": "선택사항"

@@ -1042,7 +1042,37 @@
   "staleBuild": {
     "title": "Update Beschikbaar",
     "description": "U gebruikt v{{current}}, nieuwste is v{{latest}}",
-    "refresh": "Bijwerken"
+    "refresh": "Bijwerken",
+    "refreshing": "Bezig met vernieuwen...",
+    "clearing": "Bezig met wissen...",
+    "learnMore": "Meer informatie"
+  },
+
+  "about": {
+    "title": "Over Privxx",
+    "subtitle": "Versie-informatie en updates",
+    "versionInfo": "Versie-informatie",
+    "versionDesc": "Huidige installatiedetails",
+    "currentVersion": "Huidige Versie",
+    "buildHash": "Build Hash",
+    "latestVersion": "Nieuwste Versie",
+    "upToDate": "Up-to-date",
+    "updateAvailable": "Update beschikbaar",
+    "checkUpdates": "Controleren",
+    "updateApp": "App Bijwerken",
+    "updateAvailableDesc": "Er is een nieuwe versie beschikbaar. Klik hieronder om bij te werken.",
+    "noUpdateDesc": "U gebruikt de nieuwste versie.",
+    "softReloading": "Snelle vernieuwing proberen...",
+    "hardReloading": "Cache wissen en herladen...",
+    "updating": "Bezig met bijwerken...",
+    "updateNow": "Nu Bijwerken",
+    "forceRefresh": "Forceer Vernieuwing",
+    "updateNote": "Dit wist de gecachte gegevens en herlaadt de app.",
+    "releaseNotes": "Release Notes"
+  },
+
+  "common": {
+    "dismiss": "Sluiten"
   },
 
   "optional": "optioneel"

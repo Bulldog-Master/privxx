@@ -1045,7 +1045,37 @@
   "staleBuild": {
     "title": "עדכון זמין",
     "description": "אתה בגרסה v{{current}}, האחרונה היא v{{latest}}",
-    "refresh": "עדכן"
+    "refresh": "עדכן",
+    "refreshing": "מרענן...",
+    "clearing": "מנקה...",
+    "learnMore": "למידע נוסף"
+  },
+
+  "about": {
+    "title": "אודות Privxx",
+    "subtitle": "מידע על גרסה ועדכונים",
+    "versionInfo": "מידע על גרסה",
+    "versionDesc": "פרטי ההתקנה הנוכחית",
+    "currentVersion": "גרסה נוכחית",
+    "buildHash": "Hash בנייה",
+    "latestVersion": "גרסה אחרונה",
+    "upToDate": "עדכני",
+    "updateAvailable": "עדכון זמין",
+    "checkUpdates": "בדוק",
+    "updateApp": "עדכן אפליקציה",
+    "updateAvailableDesc": "גרסה חדשה זמינה. לחץ למטה לעדכון.",
+    "noUpdateDesc": "אתה משתמש בגרסה האחרונה.",
+    "softReloading": "מנסה רענון מהיר...",
+    "hardReloading": "מנקה מטמון וטוען מחדש...",
+    "updating": "מעדכן...",
+    "updateNow": "עדכן עכשיו",
+    "forceRefresh": "כפה רענון",
+    "updateNote": "פעולה זו תמחק נתונים שמורים ותטען מחדש את האפליקציה.",
+    "releaseNotes": "הערות שחרור"
+  },
+
+  "common": {
+    "dismiss": "סגור"
   },
 
   "optional": "אופציונלי"

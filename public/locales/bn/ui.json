@@ -1051,7 +1051,37 @@
   "staleBuild": {
     "title": "আপডেট উপলব্ধ",
     "description": "আপনি v{{current}} তে আছেন, সর্বশেষ v{{latest}}",
-    "refresh": "আপডেট করুন"
+    "refresh": "আপডেট করুন",
+    "refreshing": "রিফ্রেশ হচ্ছে...",
+    "clearing": "সাফ হচ্ছে...",
+    "learnMore": "আরও জানুন"
+  },
+
+  "about": {
+    "title": "Privxx সম্পর্কে",
+    "subtitle": "সংস্করণ তথ্য এবং আপডেট",
+    "versionInfo": "সংস্করণ তথ্য",
+    "versionDesc": "বর্তমান ইনস্টলেশন বিবরণ",
+    "currentVersion": "বর্তমান সংস্করণ",
+    "buildHash": "বিল্ড হ্যাশ",
+    "latestVersion": "সর্বশেষ সংস্করণ",
+    "upToDate": "আপ টু ডেট",
+    "updateAvailable": "আপডেট উপলব্ধ",
+    "checkUpdates": "যাচাই করুন",
+    "updateApp": "অ্যাপ আপডেট করুন",
+    "updateAvailableDesc": "একটি নতুন সংস্করণ উপলব্ধ। আপডেট করতে নীচে ক্লিক করুন।",
+    "noUpdateDesc": "আপনি সর্বশেষ সংস্করণ ব্যবহার করছেন।",
+    "softReloading": "দ্রুত রিফ্রেশ চেষ্টা করা হচ্ছে...",
+    "hardReloading": "ক্যাশ সাফ করা হচ্ছে এবং পুনরায় লোড করা হচ্ছে...",
+    "updating": "আপডেট হচ্ছে...",
+    "updateNow": "এখনই আপডেট করুন",
+    "forceRefresh": "জোর করে রিফ্রেশ",
+    "updateNote": "এটি ক্যাশ করা ডেটা সাফ করবে এবং অ্যাপ পুনরায় লোড করবে।",
+    "releaseNotes": "রিলিজ নোট"
+  },
+
+  "common": {
+    "dismiss": "বাতিল করুন"
   },
 
   "optional": "ঐচ্ছিক"

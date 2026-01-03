@@ -1038,7 +1038,37 @@
   "staleBuild": {
     "title": "Dostępna Aktualizacja",
     "description": "Masz v{{current}}, najnowsza to v{{latest}}",
-    "refresh": "Aktualizuj"
+    "refresh": "Aktualizuj",
+    "refreshing": "Odświeżanie...",
+    "clearing": "Czyszczenie...",
+    "learnMore": "Dowiedz się więcej"
+  },
+
+  "about": {
+    "title": "O Privxx",
+    "subtitle": "Informacje o wersji i aktualizacje",
+    "versionInfo": "Informacje o Wersji",
+    "versionDesc": "Szczegóły bieżącej instalacji",
+    "currentVersion": "Bieżąca Wersja",
+    "buildHash": "Hash Kompilacji",
+    "latestVersion": "Najnowsza Wersja",
+    "upToDate": "Aktualny",
+    "updateAvailable": "Dostępna aktualizacja",
+    "checkUpdates": "Sprawdź",
+    "updateApp": "Aktualizuj Aplikację",
+    "updateAvailableDesc": "Dostępna jest nowa wersja. Kliknij poniżej, aby zaktualizować.",
+    "noUpdateDesc": "Używasz najnowszej wersji.",
+    "softReloading": "Próba szybkiego odświeżenia...",
+    "hardReloading": "Czyszczenie pamięci podręcznej i ponowne ładowanie...",
+    "updating": "Aktualizowanie...",
+    "updateNow": "Aktualizuj Teraz",
+    "forceRefresh": "Wymuś Odświeżenie",
+    "updateNote": "Spowoduje to wyczyszczenie danych z pamięci podręcznej i ponowne załadowanie aplikacji.",
+    "releaseNotes": "Informacje o Wydaniu"
+  },
+
+  "common": {
+    "dismiss": "Zamknij"
   },
 
   "optional": "opcjonalnie"
