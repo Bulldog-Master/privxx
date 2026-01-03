@@ -14,6 +14,17 @@ early-stage protocol and product development.
 
 ---
 
+## [2.6.1] — Referral Dialog Scroll Fix & Menu Cleanup
+**Released:** January 3, 2026
+
+### Fixed
+- **Referral Dialog**: Removed nested ScrollArea that was causing content cutoff
+  - Stats cards and top content now visible when scrolling
+  - Simplified layout with parent container handling scroll
+- **Header Dropdown Menu**: Removed separator lines for cleaner appearance
+
+---
+
 ## [2.6.0] — In-App Update Flow & Version Badge
 **Released:** January 3, 2026
 
