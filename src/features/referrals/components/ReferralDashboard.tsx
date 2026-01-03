@@ -273,12 +273,7 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className={cn(
-                          "font-semibold",
-                          isCurrentTier && "text-foreground",
-                          !isCurrentTier && isUnlocked && "text-foreground",
-                          !isUnlocked && "text-foreground/70"
-                        )}>
+                        <span className="font-semibold text-foreground">
                           {tier.tierName}
                         </span>
                         {isCurrentTier && (
