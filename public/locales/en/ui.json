@@ -1014,6 +1014,8 @@
   "referrals": {
     "title": "Referral Program",
     "description": "Invite friends and earn XX Coins",
+    "earnCoins": "Earn XX Coins",
+    "settingsDesc": "Earn XX Coins by inviting friends",
     "yourLink": "Your Referral Link",
     "linkDesc": "Share this link to earn XX Coins",
     "noCode": "Loading...",
@@ -1052,7 +1054,26 @@
     "noReferralsYet": "No referrals yet",
     "beFirst": "Be the first to refer someone!",
     "yourRank": "Your Rank",
-    "startReferring": "Start referring to appear on the leaderboard!"
+    "startReferring": "Start referring to appear on the leaderboard!",
+    "streak": {
+      "title": "Daily Streak",
+      "description": "Refer daily to earn bonus coins",
+      "currentStreak": "Current Streak",
+      "days": "days",
+      "day": "day",
+      "longestStreak": "Longest",
+      "bonus": "Streak Bonus",
+      "multiplier": "{{multiplier}}x multiplier",
+      "nextMilestone": "Next milestone in {{days}} days",
+      "milestones": {
+        "7": "7-Day Streak: 2x coins",
+        "14": "14-Day Streak: 3x coins",
+        "30": "30-Day Streak: 5x coins"
+      },
+      "keepItUp": "Keep it up!",
+      "startStreak": "Start your streak today!",
+      "referToday": "Refer someone today to maintain your streak"
+    }
   },
   
   "optional": "optional"

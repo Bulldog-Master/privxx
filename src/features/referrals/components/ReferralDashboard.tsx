@@ -26,8 +26,9 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/useToast';
 import { useReferrals } from '../hooks/useReferrals';
-import { REFERRAL_TIERS, getCurrentTier, getNextTier } from '../types';
+import { REFERRAL_TIERS, getCurrentTier, getNextTier, calculateStreakData } from '../types';
 import { ReferralLeaderboard } from './ReferralLeaderboard';
+import { StreakBonusCard } from './StreakBonusCard';
 import { cn } from '@/lib/utils';
 
 interface ReferralDashboardProps {
@@ -87,6 +88,7 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
   const progressToNext = nextTier && stats
     ? ((stats.completedReferrals - currentTier.minReferrals) / (nextTier.minReferrals - currentTier.minReferrals)) * 100
     : 100;
+  const streakData = calculateStreakData(referrals);
 
   if (isLoading && !stats) {
     return (
@@ -136,6 +138,9 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
             </Button>
           </CardContent>
         </Card>
+
+        {/* Daily Streak Card */}
+        <StreakBonusCard streakData={streakData} />
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3">
