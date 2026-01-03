@@ -16,7 +16,7 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   isEmailVerified: boolean;
   signInWithEmail: (email: string, password: string) => Promise<{ error: string | null }>;
-  signUpWithEmail: (email: string, password: string) => Promise<{ error: string | null }>;
+  signUpWithEmail: (email: string, password: string, referralCode?: string) => Promise<{ error: string | null }>;
   signInWithMagicLink: (email: string) => Promise<{ error: string | null }>;
   resetPassword: (email: string) => Promise<{ error: string | null }>;
   updatePassword: (newPassword: string) => Promise<{ error: string | null }>;
@@ -63,10 +63,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: null };
   }, []);
 
-  const signUpWithEmail = useCallback(async (email: string, password: string) => {
+  const signUpWithEmail = useCallback(async (email: string, password: string, referralCode?: string) => {
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -80,6 +80,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       return { error: error.message };
     }
+
+    // Process referral if code provided and user was created
+    if (referralCode && data.user) {
+      try {
+        const response = await supabase.functions.invoke('process-referral', {
+          body: {
+            referral_code: referralCode,
+            referred_user_id: data.user.id,
+          },
+        });
+        
+        if (response.error) {
+          console.error('[AuthContext] Referral processing error:', response.error);
+        } else {
+          console.log('[AuthContext] Referral processed:', response.data);
+        }
+      } catch (err) {
+        console.error('[AuthContext] Failed to process referral:', err);
+      }
+    }
+
     return { error: null };
   }, []);
 

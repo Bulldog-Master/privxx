@@ -2,18 +2,20 @@
  * Sign Up Form Component
  * 
  * Email/password registration with Zod validation.
- * Includes password visibility toggle and confirmation field.
+ * Includes password visibility toggle, confirmation field, and referral code support.
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, Loader2, ArrowRight, Check, X, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Loader2, ArrowRight, Check, X, Eye, EyeOff, Gift } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import { signUpSchema, type SignUpValues } from "../validation/schemas";
 import { PasswordStrengthIndicator } from "./PasswordStrengthIndicator";
 import { PasswordRequirementsList } from "./PasswordRequirementsList";
@@ -22,10 +24,20 @@ import { RevealOnTypeInput } from "./RevealOnTypeInput";
 
 export function SignUpForm() {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const { signUpWithEmail } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [referralCode, setReferralCode] = useState<string>("");
+
+  // Capture referral code from URL
+  useEffect(() => {
+    const ref = searchParams.get("ref");
+    if (ref) {
+      setReferralCode(ref.toUpperCase());
+    }
+  }, [searchParams]);
 
   const form = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
@@ -37,7 +49,7 @@ export function SignUpForm() {
 
   const onSubmit = async (values: SignUpValues) => {
     setServerError(null);
-    const result = await signUpWithEmail(values.email, values.password);
+    const result = await signUpWithEmail(values.email, values.password, referralCode || undefined);
     if (result.error) {
       setServerError(result.error);
     }
@@ -45,6 +57,40 @@ export function SignUpForm() {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      {/* Referral Code Display */}
+      {referralCode && (
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-primary/10 border border-primary/20">
+          <Gift className="h-4 w-4 text-primary" />
+          <span className="text-sm text-primary">
+            {t("referrals.usingCode", "Using referral code")}:
+          </span>
+          <Badge variant="secondary" className="font-mono">
+            {referralCode}
+          </Badge>
+        </div>
+      )}
+
+      {/* Optional Referral Code Input (if not from URL) */}
+      {!searchParams.get("ref") && (
+        <div className="space-y-2">
+          <Label htmlFor="referral-code" className="flex items-center gap-2">
+            <Gift className="h-4 w-4" />
+            {t("referrals.haveCode", "Have a referral code?")}
+            <span className="text-xs text-muted-foreground">({t("optional", "optional")})</span>
+          </Label>
+          <Input
+            id="referral-code"
+            type="text"
+            value={referralCode}
+            onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+            placeholder={t("referrals.enterCode", "Enter code")}
+            className="font-mono uppercase"
+            maxLength={8}
+            disabled={isSubmitting}
+          />
+        </div>
+      )}
+
       <div className="space-y-2">
         <Label htmlFor="signup-email">{t("email", "Email")}</Label>
         <div className="relative">

@@ -20,3 +20,7 @@ verify_jwt = true
 # Avatar processing handles its own JWT verification from auth header
 [functions.process-avatar]
 verify_jwt = false
+
+# Referral processing uses service role, callable from signup flow
+[functions.process-referral]
+verify_jwt = false

@@ -1042,6 +1042,11 @@
     "recentReferrals": "Recent Referrals",
     "referralUser": "User",
     "completed": "Completed",
-    "rewarded": "Rewarded"
-  }
+    "rewarded": "Rewarded",
+    "usingCode": "Using referral code",
+    "haveCode": "Have a referral code?",
+    "enterCode": "Enter code"
+  },
+  
+  "optional": "optional"
 }
