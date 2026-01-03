@@ -259,16 +259,18 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
                     "flex items-center justify-between p-3 rounded-lg transition-colors",
                     isCurrentTier && "bg-primary/10 border border-primary/30",
                     !isCurrentTier && isUnlocked && "bg-muted/30",
-                    !isUnlocked && "opacity-70"
+                    !isUnlocked && "bg-muted/20"
                   )}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={cn(
-                      "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold",
-                      isCurrentTier && "bg-primary text-primary-foreground",
-                      !isCurrentTier && isUnlocked && "bg-muted text-foreground",
-                      !isUnlocked && "bg-muted/50 text-foreground/80"
-                    )}>
+                    <div
+                      className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold",
+                        isCurrentTier && "bg-primary text-primary-foreground",
+                        !isCurrentTier && isUnlocked && "bg-muted text-foreground",
+                        !isUnlocked && "bg-muted/50 text-foreground/70"
+                      )}
+                    >
                       {index + 1}
                     </div>
                     <div>
@@ -282,7 +284,7 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
                           </Badge>
                         )}
                       </div>
-                      <p className="text-xs text-foreground/80">
+                      <p className="text-xs text-foreground/75">
                         {tier.minReferrals}+ {t('referrals.referrals', 'referrals')}
                       </p>
                     </div>
@@ -291,7 +293,7 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
                     <div className="flex items-center gap-1 font-semibold text-yellow-400">
                       <Coins className="h-3.5 w-3.5" />
                       {tier.coinsPerReferral}
-                      <span className="text-xs text-foreground/70 font-normal">/ea</span>
+                      <span className="text-xs text-foreground/75 font-normal">/ea</span>
                     </div>
                     {tier.bonusCoins > 0 && (
                       <p className="text-xs font-medium text-emerald-400">
