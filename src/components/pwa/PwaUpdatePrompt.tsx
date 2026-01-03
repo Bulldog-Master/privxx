@@ -18,6 +18,15 @@ export default function PwaUpdatePrompt() {
     updateServiceWorker,
   } = useRegisterSW({
     immediate: true,
+    onRegistered(r) {
+      // Periodically check for updates to reduce Safari/iPadOS stale-cache cases.
+      // (No persistent identifiers; just a timer in-memory.)
+      if (!r) return;
+      const intervalMs = 5 * 60 * 1000; // 5 minutes
+      setInterval(() => {
+        r.update();
+      }, intervalMs);
+    },
   });
 
   useEffect(() => {
