@@ -1,4 +1,4 @@
 export const buildInfo = {
-  version: "2.6.4",
-  build: import.meta.env.VITE_APP_BUILD ?? ""
+  version: "2.6.5",
+  build: ""
 };
