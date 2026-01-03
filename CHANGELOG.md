@@ -14,6 +14,20 @@ early-stage protocol and product development.
 
 ---
 
+## [2.6.3] — Stale Build Detection
+**Released:** January 3, 2026
+
+### Added
+- **Stale Build Warning**: Prominent toast notification when running an outdated version
+  - Fetches `/version.json` with cache-busting to detect version mismatch
+  - One-click "Update" button clears service workers, caches, and reloads
+  - Re-checks every 5 minutes for seamless updates
+- **Version Sync Script**: `scripts/sync-version-json.js` keeps version.json in sync
+  - Integrated into pre-commit hook (auto-stages on buildInfo.ts changes)
+  - Integrated into CI workflow (runs before build)
+
+---
+
 ## [2.6.2] — Referral Tier Clarity
 **Released:** January 3, 2026
 

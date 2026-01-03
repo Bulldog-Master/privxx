@@ -1042,5 +1042,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "עדכון זמין",
+    "description": "אתה בגרסה v{{current}}, האחרונה היא v{{latest}}",
+    "refresh": "עדכן"
+  },
+
   "optional": "אופציונלי"
 }

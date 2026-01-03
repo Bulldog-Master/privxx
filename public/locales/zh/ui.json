@@ -1039,5 +1039,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "有可用更新",
+    "description": "您当前版本为v{{current}}，最新版本为v{{latest}}",
+    "refresh": "更新"
+  },
+
   "optional": "可选"
 }

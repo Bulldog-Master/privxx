@@ -1044,5 +1044,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "اپڈیٹ دستیاب",
+    "description": "آپ v{{current}} پر ہیں، تازہ ترین v{{latest}} ہے",
+    "refresh": "اپڈیٹ کریں"
+  },
+
   "optional": "اختیاری"
 }

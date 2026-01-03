@@ -1039,5 +1039,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "Güncelleme Mevcut",
+    "description": "Şu anda v{{current}}, en son v{{latest}}",
+    "refresh": "Güncelle"
+  },
+
   "optional": "isteğe bağlı"
 }
