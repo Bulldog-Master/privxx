@@ -364,6 +364,25 @@ export type Database = {
     }
     Functions: {
       cleanup_rate_limits: { Args: never; Returns: undefined }
+      get_my_referral_rank: {
+        Args: never
+        Returns: {
+          rank: number
+          referral_count: number
+          tier_name: string
+          total_coins_earned: number
+        }[]
+      }
+      get_referral_leaderboard: {
+        Args: { limit_count?: number }
+        Returns: {
+          display_name: string
+          rank: number
+          referral_count: number
+          tier_name: string
+          total_coins_earned: number
+        }[]
+      }
       log_audit_event: {
         Args: {
           _event_type: Database["public"]["Enums"]["audit_event_type"]

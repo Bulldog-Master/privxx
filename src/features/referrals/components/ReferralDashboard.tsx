@@ -27,6 +27,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/useToast';
 import { useReferrals } from '../hooks/useReferrals';
 import { REFERRAL_TIERS, getCurrentTier, getNextTier } from '../types';
+import { ReferralLeaderboard } from './ReferralLeaderboard';
 import { cn } from '@/lib/utils';
 
 interface ReferralDashboardProps {
@@ -345,6 +346,9 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
             </CardContent>
           </Card>
         )}
+
+        {/* Leaderboard */}
+        <ReferralLeaderboard />
       </div>
     </ScrollArea>
   );
