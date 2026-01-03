@@ -39,7 +39,16 @@ async function checkForUpdate(): Promise<boolean> {
   try {
     const reg = await navigator.serviceWorker.getRegistration();
     if (reg) {
-      await reg.update();
+      // Add timeout to prevent hanging on Safari/iOS
+      const updatePromise = reg.update();
+      const timeoutPromise = new Promise<void>((_, reject) => 
+        setTimeout(() => reject(new Error("timeout")), 5000)
+      );
+      
+      await Promise.race([updatePromise, timeoutPromise]).catch(() => {
+        // Timeout or error - continue anyway
+      });
+      
       return !!reg.waiting;
     }
   } catch {
