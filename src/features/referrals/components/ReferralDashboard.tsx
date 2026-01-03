@@ -23,7 +23,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
+
 import { useToast } from '@/hooks/useToast';
 import { useReferrals } from '../hooks/useReferrals';
 import { REFERRAL_TIERS, getCurrentTier, getNextTier, calculateStreakData } from '../types';
@@ -101,8 +101,7 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
   }
 
   return (
-    <ScrollArea className={cn("h-full", className)}>
-      <div className="space-y-4 p-1">
+    <div className={cn("space-y-4 pb-4", className)}>
         {/* Referral Link Card */}
         <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
           <CardHeader className="pb-3">
@@ -354,7 +353,6 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
 
         {/* Leaderboard */}
         <ReferralLeaderboard />
-      </div>
-    </ScrollArea>
+    </div>
   );
 }
