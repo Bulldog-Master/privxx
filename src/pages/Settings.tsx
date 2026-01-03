@@ -7,7 +7,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Shield, HeartPulse, Activity, ChevronRight } from "lucide-react";
+import { ArrowLeft, Shield, HeartPulse, Activity, ChevronRight, Coins } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -42,11 +42,13 @@ import { TranslationStatusWidget } from "@/components/settings/TranslationStatus
 import { PasskeySetupIndicator } from "@/components/settings/PasskeySetupIndicator";
 import { PasskeyHeaderBadge } from "@/components/settings/PasskeyHeaderBadge";
 import { buildInfo } from "@/lib/buildInfo";
+import { ReferralDrawer } from "@/features/referrals";
 
 export default function Settings() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+  const [referralOpen, setReferralOpen] = useState(false);
 
   // Check 2FA status for recovery codes management
   const check2FAStatus = useCallback(async () => {
@@ -103,6 +105,25 @@ export default function Settings() {
 
         <div className="space-y-6 mt-6">
           <PasskeySetupIndicator />
+
+          {/* Referral Program Link */}
+          <Card className="bg-card/90 backdrop-blur-sm border-border/50">
+            <button onClick={() => setReferralOpen(true)} className="block w-full text-left">
+              <CardContent className="flex items-center justify-between py-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Coins className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-primary">{t("referrals.title", "Referral Program")}</p>
+                    <p className="text-sm text-primary/70">{t("referrals.settingsDesc", "Earn XX Coins by inviting friends")}</p>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-primary/70" />
+              </CardContent>
+            </button>
+          </Card>
+
           {/* Profile Link */}
           <UserProfileCard asLink />
 
@@ -255,6 +276,9 @@ export default function Settings() {
             v{buildInfo.version}{buildInfo.build ? `+${buildInfo.build}` : ""}
           </p>
         </div>
+
+        {/* Referral Drawer */}
+        <ReferralDrawer open={referralOpen} onOpenChange={setReferralOpen} />
       </div>
     </PageBackground>
   );
