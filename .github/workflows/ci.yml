@@ -47,6 +47,9 @@ jobs:
           echo "VITE_APP_BUILD=$BUILD" >> $GITHUB_ENV
           echo "Building Privxx v$VERSION ($BUILD)"
 
+      - name: Sync version.json
+        run: node scripts/sync-version-json.js
+
       - name: Build
         run: npm run build
         env:

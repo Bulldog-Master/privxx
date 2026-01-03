@@ -2,6 +2,31 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # ============================================================
+# VERSION.JSON SYNC (keep version.json in sync with buildInfo.ts)
+# ============================================================
+
+STAGED_BUILD_INFO=$(git diff --cached --name-only --diff-filter=ACM | grep "^src/lib/buildInfo\.ts$" || true)
+
+if [ -n "$STAGED_BUILD_INFO" ]; then
+  echo "📦 buildInfo.ts modified — syncing version.json..."
+  
+  node scripts/sync-version-json.js
+  
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo "❌ version.json sync failed."
+    echo ""
+    exit 1
+  fi
+  
+  git add public/version.json
+  
+  echo "✅ version.json synchronized"
+else
+  echo "⏭️  buildInfo.ts not modified, skipping version sync"
+fi
+
+# ============================================================
 # SECURITY CHECKS (run on migrations and source files)
 # ============================================================
 
