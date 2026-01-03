@@ -66,6 +66,10 @@ export default defineConfig(({ mode }) => ({
         ]
       },
       workbox: {
+        // Faster activation on mobile Safari/iPadOS (reduces "stuck on old build" cases)
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: true,
         // Privacy-first: minimal caching, no tracking
         globPatterns: ["**/*.{js,css,html,svg,png,ico,woff2}"],
         runtimeCaching: [
