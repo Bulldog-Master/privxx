@@ -1076,5 +1076,11 @@
     }
   },
   
+  "staleBuild": {
+    "title": "Update Available",
+    "description": "You're on v{{current}}, latest is v{{latest}}",
+    "refresh": "Update"
+  },
+  
   "optional": "optional"
 }

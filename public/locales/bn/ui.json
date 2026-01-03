@@ -1048,5 +1048,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "আপডেট উপলব্ধ",
+    "description": "আপনি v{{current}} তে আছেন, সর্বশেষ v{{latest}}",
+    "refresh": "আপডেট করুন"
+  },
+
   "optional": "ঐচ্ছিক"
 }

@@ -1035,5 +1035,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "Dostępna Aktualizacja",
+    "description": "Masz v{{current}}, najnowsza to v{{latest}}",
+    "refresh": "Aktualizuj"
+  },
+
   "optional": "opcjonalnie"
 }

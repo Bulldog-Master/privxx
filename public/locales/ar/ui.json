@@ -1046,5 +1046,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "تحديث متاح",
+    "description": "أنت على الإصدار v{{current}}، الأحدث هو v{{latest}}",
+    "refresh": "تحديث"
+  },
+
   "optional": "اختياري"
 }

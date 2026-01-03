@@ -1038,5 +1038,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "Доступно обновление",
+    "description": "Вы на v{{current}}, последняя v{{latest}}",
+    "refresh": "Обновить"
+  },
+
   "optional": "необязательно"
 }

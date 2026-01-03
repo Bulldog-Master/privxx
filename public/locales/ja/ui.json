@@ -1046,5 +1046,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "アップデートがあります",
+    "description": "現在v{{current}}、最新はv{{latest}}です",
+    "refresh": "更新"
+  },
+
   "optional": "任意"
 }

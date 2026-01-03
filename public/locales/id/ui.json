@@ -1045,5 +1045,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "Pembaruan Tersedia",
+    "description": "Anda di v{{current}}, terbaru adalah v{{latest}}",
+    "refresh": "Perbarui"
+  },
+
   "optional": "opsional"
 }

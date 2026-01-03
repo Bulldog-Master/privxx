@@ -1045,5 +1045,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "अपडेट उपलब्ध",
+    "description": "आप v{{current}} पर हैं, नवीनतम v{{latest}} है",
+    "refresh": "अपडेट करें"
+  },
+
   "optional": "वैकल्पिक"
 }

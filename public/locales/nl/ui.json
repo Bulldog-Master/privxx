@@ -1039,5 +1039,11 @@
     }
   },
 
+  "staleBuild": {
+    "title": "Update Beschikbaar",
+    "description": "U gebruikt v{{current}}, nieuwste is v{{latest}}",
+    "refresh": "Bijwerken"
+  },
+
   "optional": "optioneel"
 }
