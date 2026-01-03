@@ -1049,7 +1049,37 @@
   "staleBuild": {
     "title": "تحديث متاح",
     "description": "أنت على الإصدار v{{current}}، الأحدث هو v{{latest}}",
-    "refresh": "تحديث"
+    "refresh": "تحديث",
+    "refreshing": "جارٍ التحديث...",
+    "clearing": "جارٍ المسح...",
+    "learnMore": "معرفة المزيد"
+  },
+
+  "about": {
+    "title": "حول Privxx",
+    "subtitle": "معلومات الإصدار والتحديثات",
+    "versionInfo": "معلومات الإصدار",
+    "versionDesc": "تفاصيل التثبيت الحالي",
+    "currentVersion": "الإصدار الحالي",
+    "buildHash": "هاش البناء",
+    "latestVersion": "أحدث إصدار",
+    "upToDate": "محدث",
+    "updateAvailable": "تحديث متاح",
+    "checkUpdates": "تحقق",
+    "updateApp": "تحديث التطبيق",
+    "updateAvailableDesc": "يتوفر إصدار جديد. انقر أدناه للتحديث.",
+    "noUpdateDesc": "أنت تستخدم أحدث إصدار.",
+    "softReloading": "جارٍ محاولة التحديث السريع...",
+    "hardReloading": "جارٍ مسح ذاكرة التخزين المؤقت وإعادة التحميل...",
+    "updating": "جارٍ التحديث...",
+    "updateNow": "تحديث الآن",
+    "forceRefresh": "فرض التحديث",
+    "updateNote": "سيؤدي هذا إلى مسح البيانات المخزنة مؤقتًا وإعادة تحميل التطبيق.",
+    "releaseNotes": "ملاحظات الإصدار"
+  },
+
+  "common": {
+    "dismiss": "تجاهل"
   },
 
   "optional": "اختياري"

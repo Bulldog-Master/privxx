@@ -1042,7 +1042,37 @@
   "staleBuild": {
     "title": "有可用更新",
     "description": "您当前版本为v{{current}}，最新版本为v{{latest}}",
-    "refresh": "更新"
+    "refresh": "更新",
+    "refreshing": "正在刷新...",
+    "clearing": "正在清除...",
+    "learnMore": "了解更多"
+  },
+
+  "about": {
+    "title": "关于 Privxx",
+    "subtitle": "版本信息和更新",
+    "versionInfo": "版本信息",
+    "versionDesc": "当前安装详情",
+    "currentVersion": "当前版本",
+    "buildHash": "构建哈希",
+    "latestVersion": "最新版本",
+    "upToDate": "已是最新",
+    "updateAvailable": "有可用更新",
+    "checkUpdates": "检查",
+    "updateApp": "更新应用",
+    "updateAvailableDesc": "有新版本可用。点击下方更新。",
+    "noUpdateDesc": "您正在使用最新版本。",
+    "softReloading": "正在尝试快速刷新...",
+    "hardReloading": "正在清除缓存并重新加载...",
+    "updating": "正在更新...",
+    "updateNow": "立即更新",
+    "forceRefresh": "强制刷新",
+    "updateNote": "这将清除缓存数据并重新加载应用。",
+    "releaseNotes": "发布说明"
+  },
+
+  "common": {
+    "dismiss": "关闭"
   },
 
   "optional": "可选"

@@ -1041,7 +1041,37 @@
   "staleBuild": {
     "title": "Доступно обновление",
     "description": "Вы на v{{current}}, последняя v{{latest}}",
-    "refresh": "Обновить"
+    "refresh": "Обновить",
+    "refreshing": "Обновление...",
+    "clearing": "Очистка...",
+    "learnMore": "Подробнее"
+  },
+
+  "about": {
+    "title": "О Privxx",
+    "subtitle": "Информация о версии и обновления",
+    "versionInfo": "Информация о версии",
+    "versionDesc": "Детали текущей установки",
+    "currentVersion": "Текущая версия",
+    "buildHash": "Хэш сборки",
+    "latestVersion": "Последняя версия",
+    "upToDate": "Актуально",
+    "updateAvailable": "Доступно обновление",
+    "checkUpdates": "Проверить",
+    "updateApp": "Обновить приложение",
+    "updateAvailableDesc": "Доступна новая версия. Нажмите ниже для обновления.",
+    "noUpdateDesc": "Вы используете последнюю версию.",
+    "softReloading": "Попытка быстрого обновления...",
+    "hardReloading": "Очистка кэша и перезагрузка...",
+    "updating": "Обновление...",
+    "updateNow": "Обновить сейчас",
+    "forceRefresh": "Принудительное обновление",
+    "updateNote": "Это очистит кэшированные данные и перезагрузит приложение.",
+    "releaseNotes": "Примечания к выпуску"
+  },
+
+  "common": {
+    "dismiss": "Закрыть"
   },
 
   "optional": "необязательно"

@@ -1048,7 +1048,37 @@
   "staleBuild": {
     "title": "Pembaruan Tersedia",
     "description": "Anda di v{{current}}, terbaru adalah v{{latest}}",
-    "refresh": "Perbarui"
+    "refresh": "Perbarui",
+    "refreshing": "Menyegarkan...",
+    "clearing": "Membersihkan...",
+    "learnMore": "Pelajari lebih lanjut"
+  },
+
+  "about": {
+    "title": "Tentang Privxx",
+    "subtitle": "Informasi versi dan pembaruan",
+    "versionInfo": "Informasi Versi",
+    "versionDesc": "Detail instalasi saat ini",
+    "currentVersion": "Versi Saat Ini",
+    "buildHash": "Hash Build",
+    "latestVersion": "Versi Terbaru",
+    "upToDate": "Terbaru",
+    "updateAvailable": "Pembaruan tersedia",
+    "checkUpdates": "Periksa",
+    "updateApp": "Perbarui Aplikasi",
+    "updateAvailableDesc": "Versi baru tersedia. Klik di bawah untuk memperbarui.",
+    "noUpdateDesc": "Anda menjalankan versi terbaru.",
+    "softReloading": "Mencoba penyegaran cepat...",
+    "hardReloading": "Membersihkan cache dan memuat ulang...",
+    "updating": "Memperbarui...",
+    "updateNow": "Perbarui Sekarang",
+    "forceRefresh": "Paksa Segarkan",
+    "updateNote": "Ini akan menghapus data cache dan memuat ulang aplikasi.",
+    "releaseNotes": "Catatan Rilis"
+  },
+
+  "common": {
+    "dismiss": "Tutup"
   },
 
   "optional": "opsional"

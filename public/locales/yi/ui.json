@@ -1038,7 +1038,37 @@
   "staleBuild": {
     "title": "דערהייַנטיקונג פאַראַנען",
     "description": "איר זענט אויף v{{current}}, לעצט איז v{{latest}}",
-    "refresh": "דערהייַנטיקן"
+    "refresh": "דערהייַנטיקן",
+    "refreshing": "דערפרישן...",
+    "clearing": "רייניקן...",
+    "learnMore": "לערנען מער"
+  },
+
+  "about": {
+    "title": "וועגן Privxx",
+    "subtitle": "ווערסיע אינפארמאציע און דערהייַנטיקונגען",
+    "versionInfo": "ווערסיע אינפארמאציע",
+    "versionDesc": "איצטיקע אינסטאַלירונג דעטאַלן",
+    "currentVersion": "איצטיקע ווערסיע",
+    "buildHash": "בויען האַש",
+    "latestVersion": "לעצטע ווערסיע",
+    "upToDate": "דערהייַנטיקט",
+    "updateAvailable": "דערהייַנטיקונג פאַראַנען",
+    "checkUpdates": "קאָנטראָלירן",
+    "updateApp": "דערהייַנטיקן אַפּ",
+    "updateAvailableDesc": "א נייע ווערסיע איז פאַראַנען. קליקט אונטן צו דערהייַנטיקן.",
+    "noUpdateDesc": "איר באַניצט די לעצטע ווערסיע.",
+    "softReloading": "פּרובירן גיך דערפרישן...",
+    "hardReloading": "רייניקן קאַש און ווידער לאָדן...",
+    "updating": "דערהייַנטיקן...",
+    "updateNow": "דערהייַנטיקן איצט",
+    "forceRefresh": "צווינגען דערפרישן",
+    "updateNote": "דאָס וועט רייניקן קאַש דאַטע און ווידער לאָדן די אַפּ.",
+    "releaseNotes": "באַפרייונג נאָטיצן"
+  },
+
+  "common": {
+    "dismiss": "אָפּווייזן"
   },
 
   "optional": "אָפּציאָנאַל"

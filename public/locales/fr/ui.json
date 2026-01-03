@@ -1048,7 +1048,37 @@
   "staleBuild": {
     "title": "Mise à Jour Disponible",
     "description": "Vous êtes sur v{{current}}, la dernière est v{{latest}}",
-    "refresh": "Mettre à jour"
+    "refresh": "Mettre à jour",
+    "refreshing": "Actualisation...",
+    "clearing": "Nettoyage...",
+    "learnMore": "En savoir plus"
+  },
+
+  "about": {
+    "title": "À Propos de Privxx",
+    "subtitle": "Informations de version et mises à jour",
+    "versionInfo": "Informations de Version",
+    "versionDesc": "Détails de l'installation actuelle",
+    "currentVersion": "Version Actuelle",
+    "buildHash": "Hash de Build",
+    "latestVersion": "Dernière Version",
+    "upToDate": "À jour",
+    "updateAvailable": "Mise à jour disponible",
+    "checkUpdates": "Vérifier",
+    "updateApp": "Mettre à Jour l'App",
+    "updateAvailableDesc": "Une nouvelle version est disponible. Cliquez ci-dessous pour mettre à jour.",
+    "noUpdateDesc": "Vous utilisez la dernière version.",
+    "softReloading": "Tentative de rafraîchissement rapide...",
+    "hardReloading": "Vidage du cache et rechargement...",
+    "updating": "Mise à jour...",
+    "updateNow": "Mettre à Jour",
+    "forceRefresh": "Forcer le Rafraîchissement",
+    "updateNote": "Ceci effacera les données en cache et rechargera l'application.",
+    "releaseNotes": "Notes de Version"
+  },
+
+  "common": {
+    "dismiss": "Fermer"
   },
 
   "optional": "optionnel"
