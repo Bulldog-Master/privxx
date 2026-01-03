@@ -11,7 +11,12 @@ const AppFooter = () => {
         <div className="flex items-center gap-2">
           <span>{t("footerTagline")}</span>
           <span className="text-primary/40">·</span>
-          <span className="text-primary/40">v{buildInfo.version}</span>
+          <Link 
+            className="hover:text-primary transition-colors" 
+            to="/about"
+          >
+            v{buildInfo.version}
+          </Link>
         </div>
         <div className="flex items-center gap-4">
           <Link 

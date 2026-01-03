@@ -14,6 +14,21 @@ early-stage protocol and product development.
 
 ---
 
+## [2.6.4] — About Page & Enhanced Update UX
+**Released:** January 3, 2026
+
+### Added
+- **About Page** (`/about`): Dedicated version info screen with current version, build hash, latest version check, and one-click update
+- **Top Banner Warning**: Stale build warning now appears as a prominent full-width banner at the top of the screen
+- **Soft Reload First**: Update attempts a quick page refresh first; if version doesn't change, it clears service workers and caches automatically
+- **Dismissible Banner**: Users can dismiss the update banner if needed
+
+### Changed
+- Footer version number now links to the About page
+- Added "Learn more" link in stale build banner
+
+---
+
 ## [2.6.3] — Stale Build Detection
 **Released:** January 3, 2026
 
