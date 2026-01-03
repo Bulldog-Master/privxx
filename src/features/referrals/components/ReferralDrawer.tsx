@@ -42,11 +42,11 @@ export const ReferralDrawer = forwardRef<HTMLDivElement, ReferralDrawerProps>(
       <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerContent className="max-h-[90vh] flex flex-col">
           <DrawerHeader className="text-left flex-shrink-0">
-            <DrawerTitle className="flex items-center gap-2">
+            <DrawerTitle className="flex items-center gap-2 text-foreground">
               <Users className="h-5 w-5 text-primary" />
               {title}
             </DrawerTitle>
-            <DrawerDescription>{description}</DrawerDescription>
+            <DrawerDescription className="text-foreground/80">{description}</DrawerDescription>
           </DrawerHeader>
           <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-6">
             <ReferralDashboard className="h-full" />
@@ -60,11 +60,11 @@ export const ReferralDrawer = forwardRef<HTMLDivElement, ReferralDrawerProps>(
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg max-h-[85vh] overflow-hidden flex flex-col">
         <DialogHeader className="flex-shrink-0">
-          <DialogTitle className="flex items-center gap-2">
+          <DialogTitle className="flex items-center gap-2 text-foreground">
             <Users className="h-5 w-5 text-primary" />
             {title}
           </DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogDescription className="text-foreground/80">{description}</DialogDescription>
         </DialogHeader>
         <div className="flex-1 min-h-0 overflow-y-auto">
           <ReferralDashboard className="h-full" />
