@@ -14,6 +14,27 @@ early-stage protocol and product development.
 
 ---
 
+## [2.6.0] — In-App Update Flow & Version Badge
+**Released:** January 3, 2026
+
+### Added
+- **App Updates Card** (Settings): Enhanced update management
+  - "Check for Updates" button to manually trigger service worker update check
+  - Green "Install Update Now" button when update is available
+  - Shows current version badge in card header
+  - Retains "Clear cache & reload" as fallback option
+- **Version Badge** (Home Footer): Prominent teal-styled version display
+  - Users can instantly confirm they're on the latest build
+
+### Changed
+- **Cache Headers**: Added `no-store` for HTML shell and `no-cache` for service worker
+  - Reduces Safari/iPadOS "stuck on old build" issues at the hosting layer
+
+### Notes
+This release provides users full control over app updates without manual cache clearing.
+
+---
+
 ## [2.5.0] — Referral Dialog & PWA Caching Improvements
 **Released:** January 3, 2026
 
