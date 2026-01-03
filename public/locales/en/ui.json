@@ -1111,6 +1111,11 @@
   "common": {
     "dismiss": "Dismiss"
   },
+
+  "demoMode": {
+    "label": "Preview Mode",
+    "simulated": "routing simulated"
+  },
   
   "optional": "optional"
 }

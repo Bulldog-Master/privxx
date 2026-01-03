@@ -39,6 +39,24 @@ function ErrorFallback() {
     window.location.reload();
   };
 
+  const handleClearAndReload = async () => {
+    try {
+      // Unregister service workers
+      if ("serviceWorker" in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map((r) => r.unregister()));
+      }
+      // Clear caches
+      if ("caches" in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      }
+    } catch {
+      // Continue anyway
+    }
+    window.location.reload();
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-[hsl(215_25%_27%)]">
       <div className="max-w-md w-full text-center space-y-4">
@@ -49,18 +67,27 @@ function ErrorFallback() {
         </div>
         <div className="space-y-2">
           <h1 className="text-lg font-semibold text-foreground">
-            Unable to establish a private route right now.
+            Something went wrong
           </h1>
           <p className="text-sm text-muted-foreground">
-            Please try again.
+            The app encountered an unexpected error. Please try refreshing.
           </p>
         </div>
-        <Button 
-          className="min-h-[44px]" 
-          onClick={handleReload}
-        >
-          Retry
-        </Button>
+        <div className="flex flex-col gap-2">
+          <Button 
+            className="min-h-[44px] w-full" 
+            onClick={handleReload}
+          >
+            Refresh
+          </Button>
+          <Button 
+            variant="outline"
+            className="min-h-[44px] w-full" 
+            onClick={handleClearAndReload}
+          >
+            Clear Cache & Refresh
+          </Button>
+        </div>
       </div>
     </div>
   );
