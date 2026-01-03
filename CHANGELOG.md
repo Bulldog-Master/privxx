@@ -14,6 +14,21 @@ early-stage protocol and product development.
 
 ---
 
+## [2.4.0] — Referral Badge UI Enhancement
+**Released:** January 3, 2026
+
+### Changed
+- **Referral Badge**: Made the referral icon on user avatar more prominent
+  - Increased avatar size from 24px to 32px for better visibility
+  - Badge now uses yellow color scheme for visual distinction
+  - Added thicker border, shadow, and hover effects
+  - Badge is now a proper button with tooltip for accessibility
+
+### Notes
+This release improves discoverability of the XX Coin referral program.
+
+---
+
 ## [2.2.0] — Profile Context & Avatar Loading Optimization
 **Released:** January 2, 2026
 
