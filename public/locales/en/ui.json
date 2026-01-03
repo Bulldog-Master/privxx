@@ -1045,7 +1045,14 @@
     "rewarded": "Rewarded",
     "usingCode": "Using referral code",
     "haveCode": "Have a referral code?",
-    "enterCode": "Enter code"
+    "enterCode": "Enter code",
+    "you": "You",
+    "leaderboard": "Leaderboard",
+    "leaderboardDesc": "Top referrers on the network",
+    "noReferralsYet": "No referrals yet",
+    "beFirst": "Be the first to refer someone!",
+    "yourRank": "Your Rank",
+    "startReferring": "Start referring to appear on the leaderboard!"
   },
   
   "optional": "optional"
