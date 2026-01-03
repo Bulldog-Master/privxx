@@ -38,15 +38,17 @@ export function ReferralDrawer({ open, onOpenChange }: ReferralDrawerProps) {
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[90vh]">
-          <DrawerHeader className="text-left">
+        <DrawerContent className="max-h-[90vh] flex flex-col">
+          <DrawerHeader className="text-left flex-shrink-0">
             <DrawerTitle className="flex items-center gap-2">
               <Users className="h-5 w-5 text-primary" />
               {title}
             </DrawerTitle>
             <DrawerDescription>{description}</DrawerDescription>
           </DrawerHeader>
-          <ReferralDashboard className="px-4 pb-6 max-h-[calc(90vh-100px)]" />
+          <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-6">
+            <ReferralDashboard className="h-full" />
+          </div>
         </DrawerContent>
       </Drawer>
     );
@@ -55,14 +57,16 @@ export function ReferralDrawer({ open, onOpenChange }: ReferralDrawerProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg max-h-[85vh] overflow-hidden flex flex-col">
-        <DialogHeader>
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <Users className="h-5 w-5 text-primary" />
             {title}
           </DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <ReferralDashboard className="flex-1 min-h-0" />
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          <ReferralDashboard className="h-full" />
+        </div>
       </DialogContent>
     </Dialog>
   );
