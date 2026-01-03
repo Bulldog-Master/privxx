@@ -29,6 +29,26 @@ export interface ReferralTier {
   tierName: string;
 }
 
+export interface StreakData {
+  currentStreak: number;
+  longestStreak: number;
+  lastReferralDate: string | null;
+  streakMultiplier: number;
+}
+
+export interface StreakMilestone {
+  days: number;
+  multiplier: number;
+  label: string;
+}
+
+// Streak milestones for bonus multipliers
+export const STREAK_MILESTONES: StreakMilestone[] = [
+  { days: 7, multiplier: 2, label: '7' },
+  { days: 14, multiplier: 3, label: '14' },
+  { days: 30, multiplier: 5, label: '30' },
+];
+
 // Referral reward tiers
 export const REFERRAL_TIERS: ReferralTier[] = [
   { minReferrals: 1, coinsPerReferral: 100, bonusCoins: 0, tierName: 'Starter' },
@@ -77,4 +97,128 @@ export function calculateTotalEarnings(referralCount: number): number {
   }
   
   return total;
+}
+
+export function getStreakMultiplier(streakDays: number): number {
+  let multiplier = 1;
+  for (const milestone of STREAK_MILESTONES) {
+    if (streakDays >= milestone.days) {
+      multiplier = milestone.multiplier;
+    }
+  }
+  return multiplier;
+}
+
+export function getNextStreakMilestone(streakDays: number): StreakMilestone | null {
+  for (const milestone of STREAK_MILESTONES) {
+    if (streakDays < milestone.days) {
+      return milestone;
+    }
+  }
+  return null;
+}
+
+export function calculateStreakData(referrals: Referral[]): StreakData {
+  if (referrals.length === 0) {
+    return {
+      currentStreak: 0,
+      longestStreak: 0,
+      lastReferralDate: null,
+      streakMultiplier: 1,
+    };
+  }
+
+  // Sort referrals by date (newest first)
+  const sortedReferrals = [...referrals]
+    .filter(r => r.status === 'completed' || r.status === 'rewarded')
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+  if (sortedReferrals.length === 0) {
+    return {
+      currentStreak: 0,
+      longestStreak: 0,
+      lastReferralDate: null,
+      streakMultiplier: 1,
+    };
+  }
+
+  const lastReferralDate = sortedReferrals[0].created_at;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const lastDate = new Date(lastReferralDate);
+  lastDate.setHours(0, 0, 0, 0);
+  
+  const daysSinceLastReferral = Math.floor((today.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+
+  // If more than 1 day has passed, streak is broken
+  if (daysSinceLastReferral > 1) {
+    return {
+      currentStreak: 0,
+      longestStreak: calculateLongestStreak(sortedReferrals),
+      lastReferralDate,
+      streakMultiplier: 1,
+    };
+  }
+
+  // Calculate current streak
+  let currentStreak = 1;
+  let previousDate = lastDate;
+
+  for (let i = 1; i < sortedReferrals.length; i++) {
+    const referralDate = new Date(sortedReferrals[i].created_at);
+    referralDate.setHours(0, 0, 0, 0);
+    
+    const daysDiff = Math.floor((previousDate.getTime() - referralDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (daysDiff === 0) {
+      // Same day, continue
+      continue;
+    } else if (daysDiff === 1) {
+      // Consecutive day
+      currentStreak++;
+      previousDate = referralDate;
+    } else {
+      // Streak broken
+      break;
+    }
+  }
+
+  const longestStreak = calculateLongestStreak(sortedReferrals);
+
+  return {
+    currentStreak,
+    longestStreak: Math.max(currentStreak, longestStreak),
+    lastReferralDate,
+    streakMultiplier: getStreakMultiplier(currentStreak),
+  };
+}
+
+function calculateLongestStreak(sortedReferrals: Referral[]): number {
+  if (sortedReferrals.length === 0) return 0;
+
+  let longestStreak = 1;
+  let currentStreak = 1;
+  let previousDate = new Date(sortedReferrals[0].created_at);
+  previousDate.setHours(0, 0, 0, 0);
+
+  for (let i = 1; i < sortedReferrals.length; i++) {
+    const referralDate = new Date(sortedReferrals[i].created_at);
+    referralDate.setHours(0, 0, 0, 0);
+    
+    const daysDiff = Math.floor((previousDate.getTime() - referralDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (daysDiff === 0) {
+      continue;
+    } else if (daysDiff === 1) {
+      currentStreak++;
+      longestStreak = Math.max(longestStreak, currentStreak);
+      previousDate = referralDate;
+    } else {
+      currentStreak = 1;
+      previousDate = referralDate;
+    }
+  }
+
+  return longestStreak;
 }
