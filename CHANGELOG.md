@@ -14,6 +14,29 @@ early-stage protocol and product development.
 
 ---
 
+## [2.5.0] — Referral Dialog & PWA Caching Improvements
+**Released:** January 3, 2026
+
+### Changed
+- **Referral Dialog**: Widened dialog and fixed scroll behavior
+  - Dialog now uses `max-w-lg` for better content display on tablets
+  - Fixed scroll issue where content was cut off and unscrollable
+  - Added proper flex layout with scrollable content area
+- **Referral Badge**: Now displays XX Coins balance instead of icon
+- **Index Page**: Removed redundant "Earn XX Coins" CTA button (accessible via avatar badge)
+
+### Fixed
+- **PWA Caching**: Improved service worker update behavior for Safari/iPadOS
+  - Added `clientsClaim` and `skipWaiting` for faster activation
+  - Added `cleanupOutdatedCaches` to remove stale builds
+  - Service worker now checks for updates every 5 minutes
+  - Reduces "stuck on old build" issues on mobile Safari
+
+### Notes
+This release addresses user-reported caching issues on iPad and improves the referral program UI.
+
+---
+
 ## [2.4.0] — Referral Badge UI Enhancement
 **Released:** January 3, 2026
 
