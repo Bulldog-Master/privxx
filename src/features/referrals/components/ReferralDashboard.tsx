@@ -146,8 +146,8 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
           <Card className="bg-card/50 backdrop-blur-sm border-border/50">
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 mb-1">
-                <Users className="h-4 w-4 text-primary/70" />
-                <span className="text-xs text-muted-foreground">
+                <Users className="h-4 w-4 text-primary" />
+                <span className="text-xs text-foreground/80">
                   {t('referrals.yourReferrals', 'Your Referrals')}
                 </span>
               </div>
@@ -155,7 +155,7 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
                 {stats?.completedReferrals || 0}
               </p>
               {stats?.pendingReferrals ? (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-foreground/70">
                   +{stats.pendingReferrals} {t('referrals.pending', 'pending')}
                 </p>
               ) : null}
@@ -165,15 +165,15 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
           <Card className="bg-card/50 backdrop-blur-sm border-border/50">
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 mb-1">
-                <Coins className="h-4 w-4 text-yellow-500" />
-                <span className="text-xs text-muted-foreground">
+                <Coins className="h-4 w-4 text-yellow-400" />
+                <span className="text-xs text-foreground/80">
                   {t('referrals.xxCoins', 'XX Coins')}
                 </span>
               </div>
-              <p className="text-2xl font-bold text-yellow-500">
+              <p className="text-2xl font-bold text-yellow-400">
                 {stats?.currentBalance.toLocaleString() || 0}
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-foreground/70">
                 {t('referrals.earned', 'earned')}: {stats?.totalCoinsEarned.toLocaleString() || 0}
               </p>
             </CardContent>
@@ -182,12 +182,12 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
           <Card className="bg-card/50 backdrop-blur-sm border-border/50">
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 mb-1">
-                <Users className="h-4 w-4 text-blue-500" />
-                <span className="text-xs text-muted-foreground">
+                <Users className="h-4 w-4 text-blue-400" />
+                <span className="text-xs text-foreground/80">
                   {t('referrals.networkUsers', 'Network Users')}
                 </span>
               </div>
-              <p className="text-2xl font-bold text-blue-500">
+              <p className="text-2xl font-bold text-blue-400">
                 {networkUserCount.toLocaleString()}
               </p>
             </CardContent>
@@ -196,15 +196,15 @@ export function ReferralDashboard({ className }: ReferralDashboardProps) {
           <Card className="bg-card/50 backdrop-blur-sm border-border/50">
             <CardContent className="pt-4 pb-3">
               <div className="flex items-center gap-2 mb-1">
-                <Trophy className="h-4 w-4 text-amber-500" />
-                <span className="text-xs text-muted-foreground">
+                <Trophy className="h-4 w-4 text-amber-400" />
+                <span className="text-xs text-foreground/80">
                   {t('referrals.tier', 'Current Tier')}
                 </span>
               </div>
-              <p className="text-2xl font-bold text-amber-500">
+              <p className="text-2xl font-bold text-amber-400">
                 {currentTier.tierName}
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-foreground/70">
                 {currentTier.coinsPerReferral} {t('referrals.perReferral', 'per referral')}
               </p>
             </CardContent>
