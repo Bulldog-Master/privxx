@@ -1081,5 +1081,10 @@
     "dismiss": "Fermer"
   },
 
+  "demoMode": {
+    "label": "Mode Aperçu",
+    "simulated": "routage simulé"
+  },
+
   "optional": "optionnel"
 }

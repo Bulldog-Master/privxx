@@ -1071,5 +1071,10 @@
     "dismiss": "Zamknij"
   },
 
+  "demoMode": {
+    "label": "Tryb podglądu",
+    "simulated": "symulowane trasowanie"
+  },
+
   "optional": "opcjonalnie"
 }

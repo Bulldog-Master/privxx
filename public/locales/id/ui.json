@@ -1081,5 +1081,10 @@
     "dismiss": "Tutup"
   },
 
+  "demoMode": {
+    "label": "Mode Pratinjau",
+    "simulated": "routing disimulasikan"
+  },
+
   "optional": "opsional"
 }
