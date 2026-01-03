@@ -1075,5 +1075,10 @@
     "dismiss": "关闭"
   },
 
+  "demoMode": {
+    "label": "预览模式",
+    "simulated": "路由模拟"
+  },
+
   "optional": "可选"
 }

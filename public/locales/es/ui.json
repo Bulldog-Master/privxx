@@ -1081,5 +1081,10 @@
     "dismiss": "Descartar"
   },
 
+  "demoMode": {
+    "label": "Modo Vista Previa",
+    "simulated": "enrutamiento simulado"
+  },
+
   "optional": "opcional"
 }

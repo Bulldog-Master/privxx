@@ -1075,5 +1075,10 @@
     "dismiss": "Kapat"
   },
 
+  "demoMode": {
+    "label": "Önizleme Modu",
+    "simulated": "yönlendirme simüle edildi"
+  },
+
   "optional": "isteğe bağlı"
 }

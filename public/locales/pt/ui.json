@@ -1075,5 +1075,10 @@
     "dismiss": "Dispensar"
   },
 
+  "demoMode": {
+    "label": "Modo Visualização",
+    "simulated": "roteamento simulado"
+  },
+
   "optional": "opcional"
 }

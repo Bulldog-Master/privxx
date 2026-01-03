@@ -1075,5 +1075,10 @@
     "dismiss": "Sluiten"
   },
 
+  "demoMode": {
+    "label": "Voorbeeldmodus",
+    "simulated": "routering gesimuleerd"
+  },
+
   "optional": "optioneel"
 }

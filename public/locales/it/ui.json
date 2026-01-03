@@ -1077,5 +1077,10 @@
     "dismiss": "Chiudi"
   },
 
+  "demoMode": {
+    "label": "Modalità Anteprima",
+    "simulated": "routing simulato"
+  },
+
   "optional": "opzionale"
 }

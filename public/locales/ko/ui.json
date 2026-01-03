@@ -1075,5 +1075,10 @@
     "dismiss": "닫기"
   },
 
+  "demoMode": {
+    "label": "미리보기 모드",
+    "simulated": "라우팅 시뮬레이션"
+  },
+
   "optional": "선택사항"
 }
