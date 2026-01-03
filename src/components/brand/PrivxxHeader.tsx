@@ -103,14 +103,16 @@ const PrivxxHeader = () => {
                         {getInitials()}
                       </AvatarFallback>
                     </Avatar>
-                    {/* Referral badge overlay - more prominent */}
+                    {/* XX Coins balance badge overlay */}
                     <button
                       type="button"
                       onClick={handleReferralClick}
-                      className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-yellow-500 text-yellow-950 flex items-center justify-center border-2 border-background cursor-pointer hover:scale-110 hover:bg-yellow-400 transition-all shadow-lg"
-                      title={t("referrals.title", "Referral Program")}
+                      className="absolute -bottom-1.5 -right-1.5 min-w-5 h-5 px-1 rounded-full bg-yellow-500 text-yellow-950 flex items-center justify-center border-2 border-background cursor-pointer hover:scale-110 hover:bg-yellow-400 transition-all shadow-lg"
+                      title={t("referrals.xxCoins", "XX Coins: {{count}}", { count: profile?.xx_coins_balance ?? 0 })}
                     >
-                      <Users className="h-3 w-3" />
+                      <span className="text-[10px] font-bold leading-none">
+                        {profile?.xx_coins_balance ?? 0}
+                      </span>
                     </button>
                   </div>
                 )
