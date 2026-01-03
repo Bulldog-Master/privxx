@@ -3,10 +3,12 @@
  * 
  * Handles referral processing when a new user signs up with a referral code.
  * Awards XX Coins to the referrer based on their current tier.
+ * Sends email notification to the referrer.
  */
 
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { Resend } from "https://esm.sh/resend@2.0.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -39,6 +41,100 @@ function getNextTier(referralCount: number) {
     }
   }
   return null;
+}
+
+// Send referral notification email
+async function sendReferralNotification(
+  referrerEmail: string,
+  coinsEarned: number,
+  newBalance: number,
+  tierName: string,
+  tierUpgraded: boolean,
+  totalReferrals: number
+): Promise<void> {
+  const resendApiKey = Deno.env.get("RESEND_API_KEY");
+  if (!resendApiKey) {
+    console.log("[process-referral] RESEND_API_KEY not configured, skipping email");
+    return;
+  }
+
+  const resend = new Resend(resendApiKey);
+
+  const tierUpgradeMessage = tierUpgraded
+    ? `<p style="color: #10b981; font-weight: bold;">🎉 Congratulations! You've reached the ${tierName} tier!</p>`
+    : "";
+
+  const nextTier = getNextTier(totalReferrals);
+  const progressMessage = nextTier
+    ? `<p style="color: #6b7280; font-size: 14px;">You're ${nextTier.minReferrals - totalReferrals} referral(s) away from the ${nextTier.tierName} tier!</p>`
+    : `<p style="color: #10b981; font-size: 14px;">You've reached the highest tier! Maximum rewards unlocked.</p>`;
+
+  const emailHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #0f172a; color: #e2e8f0; margin: 0; padding: 20px;">
+      <div style="max-width: 500px; margin: 0 auto; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 16px; padding: 32px; border: 1px solid #334155;">
+        
+        <div style="text-align: center; margin-bottom: 24px;">
+          <h1 style="color: #14b8a6; margin: 0; font-size: 28px;">Priv<span style="color: #f59e0b;">xx</span></h1>
+          <p style="color: #94a3b8; margin: 8px 0 0 0;">Referral Program</p>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;">
+          <p style="color: rgba(255,255,255,0.9); margin: 0 0 8px 0; font-size: 14px;">You've earned</p>
+          <h2 style="color: #ffffff; margin: 0; font-size: 36px; font-weight: bold;">+${coinsEarned} XX Coins</h2>
+        </div>
+
+        ${tierUpgradeMessage}
+
+        <div style="background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+            <span style="color: #94a3b8;">New Balance</span>
+            <span style="color: #fbbf24; font-weight: bold;">${newBalance.toLocaleString()} XX</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+            <span style="color: #94a3b8;">Current Tier</span>
+            <span style="color: #14b8a6; font-weight: bold;">${tierName}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: #94a3b8;">Total Referrals</span>
+            <span style="color: #e2e8f0; font-weight: bold;">${totalReferrals}</span>
+          </div>
+        </div>
+
+        ${progressMessage}
+
+        <div style="text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid #334155;">
+          <p style="color: #64748b; font-size: 12px; margin: 0;">
+            Thank you for spreading privacy-first browsing!
+          </p>
+        </div>
+
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const { error } = await resend.emails.send({
+      from: "Privxx <notifications@resend.dev>",
+      to: [referrerEmail],
+      subject: `🎉 You earned ${coinsEarned} XX Coins from a referral!`,
+      html: emailHtml,
+    });
+
+    if (error) {
+      console.error("[process-referral] Failed to send email:", error);
+    } else {
+      console.log("[process-referral] Notification email sent to:", referrerEmail);
+    }
+  } catch (err) {
+    console.error("[process-referral] Email send error:", err);
+  }
 }
 
 serve(async (req) => {
@@ -137,9 +233,10 @@ serve(async (req) => {
     const previousTier = getCurrentTier(completedCount);
     
     let coinsToAward = currentTier.coinsPerReferral;
+    const tierUpgraded = currentTier.tierName !== previousTier.tierName && completedCount > 0;
     
     // Add bonus if they just reached a new tier
-    if (currentTier.tierName !== previousTier.tierName && completedCount > 0) {
+    if (tierUpgraded) {
       coinsToAward += currentTier.bonusCoins;
       console.log(`[process-referral] Tier upgrade! ${previousTier.tierName} -> ${currentTier.tierName}, bonus: ${currentTier.bonusCoins}`);
     }
@@ -184,6 +281,21 @@ serve(async (req) => {
       .update({ referred_by: referrerProfile.user_id })
       .eq("user_id", referred_user_id);
 
+    // Get referrer's email for notification
+    const { data: referrerAuth } = await supabase.auth.admin.getUserById(referrerProfile.user_id);
+    
+    if (referrerAuth?.user?.email) {
+      // Send email notification (don't await to not block response)
+      sendReferralNotification(
+        referrerAuth.user.email,
+        coinsToAward,
+        newBalance,
+        currentTier.tierName,
+        tierUpgraded,
+        newTotalCount
+      ).catch(err => console.error("[process-referral] Email notification failed:", err));
+    }
+
     console.log(`[process-referral] Success! Referrer: ${referrerProfile.user_id}, Referred: ${referred_user_id}, Coins: ${coinsToAward}`);
 
     return new Response(
@@ -192,7 +304,7 @@ serve(async (req) => {
         coins_awarded: coinsToAward,
         new_balance: newBalance,
         tier: currentTier.tierName,
-        tier_upgraded: currentTier.tierName !== previousTier.tierName && completedCount > 0,
+        tier_upgraded: tierUpgraded,
       }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
