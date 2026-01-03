@@ -6,13 +6,15 @@
  * and reloads the page.
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Download } from "lucide-react";
 import { toast } from "sonner";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { buildInfo } from "@/lib/buildInfo";
 
 async function forceRefresh(): Promise<void> {
   // Unregister service workers
@@ -31,11 +33,71 @@ async function forceRefresh(): Promise<void> {
   window.location.reload();
 }
 
+async function checkForUpdate(): Promise<boolean> {
+  if (!("serviceWorker" in navigator)) return false;
+  
+  try {
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (reg) {
+      await reg.update();
+      return !!reg.waiting;
+    }
+  } catch {
+    // Ignore errors
+  }
+  return false;
+}
+
+async function applyUpdate(): Promise<void> {
+  if (!("serviceWorker" in navigator)) {
+    window.location.reload();
+    return;
+  }
+  
+  const reg = await navigator.serviceWorker.getRegistration();
+  if (reg?.waiting) {
+    reg.waiting.postMessage({ type: "SKIP_WAITING" });
+  }
+  window.location.reload();
+}
+
 export function ForceRefreshCard() {
   const { t } = useTranslation();
   const [running, setRunning] = useState(false);
+  const [updateAvailable, setUpdateAvailable] = useState(false);
+  const [checking, setChecking] = useState(false);
 
-  const onRun = async () => {
+  // Check for updates on mount
+  useEffect(() => {
+    checkForUpdate().then(setUpdateAvailable);
+  }, []);
+
+  const onCheckUpdate = async () => {
+    setChecking(true);
+    const hasUpdate = await checkForUpdate();
+    setUpdateAvailable(hasUpdate);
+    setChecking(false);
+    
+    if (hasUpdate) {
+      toast.success(t("refresh.updateFound", "Update available!"), {
+        description: t("refresh.updateFoundDesc", "A new version is ready to install."),
+      });
+    } else {
+      toast.info(t("refresh.noUpdate", "You're up to date"), {
+        description: t("refresh.noUpdateDesc", "You're running the latest version."),
+      });
+    }
+  };
+
+  const onApplyUpdate = async () => {
+    setRunning(true);
+    toast.message(t("refresh.updating", "Updating…"), {
+      description: t("refresh.updatingDesc", "Installing the latest version."),
+    });
+    await applyUpdate();
+  };
+
+  const onForceRefresh = async () => {
     setRunning(true);
     toast.message(t("refresh.forcing", "Refreshing…"), {
       description: t(
@@ -54,22 +116,57 @@ export function ForceRefreshCard() {
     }
   };
 
+  const versionDisplay = buildInfo.build 
+    ? `v${buildInfo.version}+${buildInfo.build.slice(0, 7)}`
+    : `v${buildInfo.version}`;
+
   return (
     <Card className="bg-card/90 backdrop-blur-sm border-border/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-primary">
-          <RotateCcw className="h-5 w-5" />
-          {t("refresh.title", "Force Refresh")}
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2 text-primary">
+            <RotateCcw className="h-5 w-5" />
+            {t("refresh.title", "App Updates")}
+          </CardTitle>
+          <Badge variant="outline" className="font-mono text-xs">
+            {versionDisplay}
+          </Badge>
+        </div>
         <CardDescription className="text-primary/70">
           {t(
             "refresh.description",
-            "If the app looks out of date, this clears cached files and reloads."
+            "Check for updates or force refresh if the app looks out of date."
           )}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <Button variant="outline" onClick={onRun} disabled={running} className="w-full">
+      <CardContent className="space-y-3">
+        {updateAvailable ? (
+          <Button 
+            onClick={onApplyUpdate} 
+            disabled={running} 
+            className="w-full bg-green-600 hover:bg-green-700"
+          >
+            <Download className={"h-4 w-4 mr-2 " + (running ? "animate-bounce" : "")} />
+            {t("refresh.installUpdate", "Install Update Now")}
+          </Button>
+        ) : (
+          <Button 
+            variant="secondary" 
+            onClick={onCheckUpdate} 
+            disabled={checking || running} 
+            className="w-full"
+          >
+            <Download className={"h-4 w-4 mr-2 " + (checking ? "animate-pulse" : "")} />
+            {t("refresh.checkUpdate", "Check for Updates")}
+          </Button>
+        )}
+        
+        <Button 
+          variant="outline" 
+          onClick={onForceRefresh} 
+          disabled={running} 
+          className="w-full"
+        >
           <RotateCcw className={"h-4 w-4 mr-2 " + (running ? "animate-spin" : "")} />
           {t("refresh.action", "Clear cache & reload")}
         </Button>

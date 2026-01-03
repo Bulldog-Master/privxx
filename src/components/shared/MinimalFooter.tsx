@@ -37,7 +37,7 @@ const MinimalFooter = () => {
       </Link>
       <span aria-hidden="true">·</span>
       <span 
-        className="font-mono opacity-70"
+        className="font-mono px-1.5 py-0.5 rounded bg-primary/10 text-primary/80"
         title={t("appVersion", "App version")}
       >
         {versionDisplay}
