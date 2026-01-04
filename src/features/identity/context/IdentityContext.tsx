@@ -45,21 +45,13 @@ interface IdentityContextValue {
 const IdentityContext = createContext<IdentityContextValue | null>(null);
 
 export function IdentityProvider({ children }: { children: ReactNode }) {
-  const { isAuthenticated, getAccessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [state, setState] = useState<IdentityState>("loading");
   const [error, setError] = useState<string | null>(null);
   const [unlockExpiresAt, setUnlockExpiresAt] = useState<string | null>(null);
   const [publicId, setPublicId] = useState<string | null>(null);
 
-  // Sync bridge token with auth token
-  useEffect(() => {
-    if (isAuthenticated) {
-      const token = getAccessToken();
-      if (token) {
-        bridgeClient.setToken(token);
-      }
-    }
-  }, [isAuthenticated, getAccessToken]);
+  // NOTE: No manual token sync needed - BridgeClient auto-fetches fresh JWT via getAccessToken
 
   const checkStatus = useCallback(async () => {
     if (!isAuthenticated) {
