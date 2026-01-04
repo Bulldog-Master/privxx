@@ -21,6 +21,23 @@ export type StatusResponse = {
   targetUrl?: string;
 };
 
+// POST /connect request
+export type ConnectRequest = {
+  targetUrl: string; // Always "http://127.0.0.1:8090" - local to VPS
+};
+
+// POST /connect response
+export type ConnectResponse = {
+  state: "connecting" | "secure";
+  message?: string;
+};
+
+// POST /disconnect response
+export type DisconnectResponse = {
+  state: "idle";
+  message?: string;
+};
+
 // GET /health response (public, no auth)
 export type HealthResponse = {
   ok: boolean;
@@ -94,6 +111,10 @@ export interface IBridgeClient {
   
   // Status (requires auth)
   status(): Promise<StatusResponse>;
+  
+  // Connection (requires auth)
+  connect(): Promise<ConnectResponse>;
+  disconnect(): Promise<DisconnectResponse>;
   
   // Session
   validateSession(): Promise<SessionResponse>;
