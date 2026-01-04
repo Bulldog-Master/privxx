@@ -9,7 +9,8 @@
  * doesn't need to know if it's demo or live.
  */
 
-import { bridgeClient, isMockMode } from "@/api/bridge";
+import { bridgeClient, isMockMode, getBridgeUrl } from "@/api/bridge";
+import { supabase } from "@/integrations/supabase/client";
 import type { 
   ConnectIntent, 
   ConnectAck, 
@@ -177,16 +178,23 @@ async function realConnection(
  * - Bridge returns ack to frontend
  */
 async function sendConnectIntent(intent: ConnectIntent): Promise<ConnectAck> {
-  // TODO: Replace with actual bridge endpoint when available
-  // For now, we call a placeholder that will need to be implemented
-  // in the Go bridge (backend/bridge/main.go)
-  
+  // Get fresh JWT for authorization
+  const { data: { session } } = await supabase.auth.getSession();
+  const accessToken = session?.access_token;
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+
+  if (accessToken) {
+    headers["Authorization"] = `Bearer ${accessToken}`;
+  }
+
+  // Bridge expects { targetUrl: "..." } payload
   const response = await fetch(`${getBridgeUrl()}/connect`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(intent),
+    headers,
+    body: JSON.stringify({ targetUrl: intent.targetUrl }),
   });
 
   if (!response.ok) {
@@ -195,13 +203,6 @@ async function sendConnectIntent(intent: ConnectIntent): Promise<ConnectAck> {
   }
 
   return response.json();
-}
-
-/**
- * Get the current bridge URL
- */
-function getBridgeUrl(): string {
-  return import.meta.env.VITE_BRIDGE_URL || "http://66.94.109.237:8090";
 }
 
 /**
