@@ -30,9 +30,9 @@ import { supabase } from "@/integrations/supabase/client";
 // Set VITE_MOCK=false and optionally VITE_BRIDGE_URL to use real bridge
 const USE_MOCK = import.meta.env.VITE_MOCK !== "false";
 
-// Default VPS proxy URL (HTTP until TLS is configured)
-// Override with VITE_BRIDGE_URL for HTTPS (e.g., https://bridge.privxx.app)
-const DEFAULT_VPS_URL = "http://66.94.109.237:8090";
+// Production URL via Cloudflare Tunnel
+// Override with VITE_BRIDGE_URL if needed
+const DEFAULT_BRIDGE_URL = "https://privxx.app";
 
 // Determine effective bridge URL
 function getEffectiveBridgeUrl(): string {
@@ -42,7 +42,7 @@ function getEffectiveBridgeUrl(): string {
   }
   
   // Default to VPS URL (public entry point)
-  return DEFAULT_VPS_URL;
+  return DEFAULT_BRIDGE_URL;
 }
 
 /**
