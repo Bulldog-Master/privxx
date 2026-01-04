@@ -14,8 +14,6 @@ import type {
   Message,
   IBridgeClient,
   HealthResponse,
-  XxdkInfoResponse,
-  CmixxStatusResponse,
 } from "./types";
 
 function sleep(ms: number): Promise<void> {
@@ -27,8 +25,9 @@ export class MockBridgeClient implements IBridgeClient {
   private identityExists = false;
   private identityState: "none" | "locked" | "unlocked" = "none";
   private unlockExpiresAt: string | null = null;
+  private connectionState: "idle" | "connecting" | "secure" = "idle";
 
-  // Health & Status (public endpoints)
+  // Health (public, no auth)
   async health(): Promise<HealthResponse> {
     await sleep(50);
     return {
@@ -39,36 +38,12 @@ export class MockBridgeClient implements IBridgeClient {
     };
   }
 
-  async xxdkInfo(): Promise<XxdkInfoResponse> {
-    await sleep(100);
-    return {
-      ok: true,
-      mode: "demo",
-      hasIdentity: this.identityExists,
-      receptionId: this.identityExists ? "mock-reception-id" : undefined,
-      ready: this.identityExists && this.identityState === "unlocked",
-      timestamp: Date.now(),
-    };
-  }
-
-  async cmixxStatus(): Promise<CmixxStatusResponse> {
-    await sleep(100);
-    return {
-      ok: true,
-      mode: "demo",
-      connected: true,
-      lastRoundId: 12345,
-      nodeCount: 5,
-      timestamp: Date.now(),
-    };
-  }
-
+  // Status (requires auth)
   async status(): Promise<StatusResponse> {
     await sleep(100);
     return {
-      status: "ok",
-      backend: "connected",
-      network: "ready",
+      state: this.connectionState,
+      connectedAt: this.connectionState === "secure" ? new Date().toISOString() : undefined,
     };
   }
 

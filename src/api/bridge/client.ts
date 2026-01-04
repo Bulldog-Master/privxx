@@ -23,8 +23,6 @@ import type {
   IBridgeClient,
   BridgeClientConfig,
   HealthResponse,
-  XxdkInfoResponse,
-  CmixxStatusResponse,
 } from "./types";
 
 // Error types for better handling
@@ -304,17 +302,14 @@ export class BridgeClient implements IBridgeClient {
     throw lastError || new Error("Request failed after retries");
   }
 
-  // Health & Status (public endpoints)
+  // Health (public, no auth required)
   async health(): Promise<HealthResponse> {
     return this.request("/health");
   }
 
-  async xxdkInfo(): Promise<XxdkInfoResponse> {
-    return this.request("/xxdk/info");
-  }
-
-  async cmixxStatus(): Promise<CmixxStatusResponse> {
-    return this.request("/cmixx/status");
+  // Status (requires auth - returns connection state)
+  async status(): Promise<StatusResponse> {
+    return this.request("/status");
   }
 
   // Session
@@ -353,11 +348,6 @@ export class BridgeClient implements IBridgeClient {
     return res.messages;
   }
 
-  // Legacy compatibility
-  async status(): Promise<StatusResponse> {
-    return this.request("/status");
-  }
-
   setToken(token: string): void {
     this.token = token;
   }
@@ -380,6 +370,4 @@ export type {
   IBridgeClient,
   BridgeClientConfig,
   HealthResponse,
-  XxdkInfoResponse,
-  CmixxStatusResponse,
 } from "./types";

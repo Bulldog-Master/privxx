@@ -5,44 +5,28 @@
  * - Frontend → Bridge (public) → Backend (private localhost)
  * - All requests require Authorization: Bearer <JWT>
  * 
- * ENDPOINTS (Bridge Public):
- * - GET /health
- * - GET /xxdk/info
- * - GET /cmixx/status
+ * VALID ENDPOINTS (Bridge Public):
+ * - GET  /health        (public, no auth)
+ * - GET  /status        (requires auth)
+ * - GET  /unlock/status (requires auth)
+ * - POST /unlock        (requires auth)
+ * - POST /connect       (requires auth)
+ * - POST /disconnect    (requires auth)
  */
 
+// GET /status response
 export type StatusResponse = {
-  status: "ok";
-  backend: "connected" | "disconnected";
-  network: "ready" | "syncing";
+  state: "idle" | "connecting" | "secure";
+  connectedAt?: string;
+  targetUrl?: string;
 };
 
-// GET /health response
+// GET /health response (public, no auth)
 export type HealthResponse = {
   ok: boolean;
   service: string;
   version: string;
   time: string;
-};
-
-// GET /xxdk/info response
-export type XxdkInfoResponse = {
-  ok: boolean;
-  mode: "real" | "demo";
-  hasIdentity: boolean;
-  receptionId?: string;
-  ready: boolean;
-  timestamp: number;
-};
-
-// GET /cmixx/status response
-export type CmixxStatusResponse = {
-  ok: boolean;
-  mode: "real" | "demo";
-  connected: boolean;
-  lastRoundId?: number;
-  nodeCount?: number;
-  timestamp: number;
 };
 
 export type SessionResponse = {
@@ -105,10 +89,11 @@ export interface BridgeClientConfig {
 }
 
 export interface IBridgeClient {
-  // Health & Status (public endpoints)
+  // Health (public, no auth)
   health(): Promise<HealthResponse>;
-  xxdkInfo(): Promise<XxdkInfoResponse>;
-  cmixxStatus(): Promise<CmixxStatusResponse>;
+  
+  // Status (requires auth)
+  status(): Promise<StatusResponse>;
   
   // Session
   validateSession(): Promise<SessionResponse>;
@@ -126,7 +111,4 @@ export interface IBridgeClient {
   // Token management
   setToken(token: string): void;
   clearToken?(): void;
-  
-  // Legacy compatibility
-  status(): Promise<StatusResponse>;
 }

@@ -39,9 +39,9 @@ export function UptimeCounter() {
   useEffect(() => {
     if (bridgeHealth.isLoading) return;
 
-    const proxyOk = bridgeHealth.health === true;
-    const bridgeOk = bridgeHealth.xxdkInfo === true;
-    const currentlyConnected = proxyOk || bridgeOk;
+    const healthOk = bridgeHealth.health === true;
+    const statusOk = bridgeHealth.status === true;
+    const currentlyConnected = healthOk || statusOk;
 
     if (currentlyConnected && !isConnected) {
       // Just connected
@@ -54,7 +54,7 @@ export function UptimeCounter() {
       setIsConnected(false);
       setUptime(0);
     }
-  }, [bridgeHealth.health, bridgeHealth.xxdkInfo, bridgeHealth.isLoading, isConnected]);
+  }, [bridgeHealth.health, bridgeHealth.status, bridgeHealth.isLoading, isConnected]);
 
   // Update uptime counter every second
   useEffect(() => {

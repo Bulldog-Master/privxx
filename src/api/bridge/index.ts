@@ -94,6 +94,4 @@ export type {
   IBridgeClient,
   BridgeClientConfig,
   HealthResponse,
-  XxdkInfoResponse,
-  CmixxStatusResponse,
 } from "./types";

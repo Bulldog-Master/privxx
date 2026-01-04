@@ -103,14 +103,13 @@ export function ConnectionTimelineDots() {
   }, [bridgeHealth.isLoading]);
 
   // Derive current connection status
-  const proxyOk = bridgeHealth.health === true;
-  const bridgeOk = bridgeHealth.xxdkInfo === true;
-  const cmixxOk = bridgeHealth.cmixxStatus === true;
+  const healthOk = bridgeHealth.health === true;
+  const statusOk = bridgeHealth.status === true;
 
   let connectionStatus: EventStatus;
-  if (proxyOk && bridgeOk && cmixxOk) {
+  if (healthOk && statusOk) {
     connectionStatus = 'ok';
-  } else if (proxyOk || bridgeOk) {
+  } else if (healthOk) {
     connectionStatus = 'degraded';
   } else {
     connectionStatus = 'error';

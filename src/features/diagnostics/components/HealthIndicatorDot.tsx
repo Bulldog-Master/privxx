@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useQuery, useIsFetching } from '@tanstack/react-query';
+import { useIsFetching } from '@tanstack/react-query';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useTranslation } from 'react-i18next';
 import { useBridgeHealthStatus } from '../hooks/useBridgeHealthStatus';
@@ -11,20 +11,18 @@ export function HealthIndicatorDot() {
   const bridgeHealth = useBridgeHealthStatus();
   
   // Check if any bridge-related queries are actively fetching
-  const isFetchingBridge = useIsFetching({ queryKey: ['bridge-health'] }) > 0;
-  const isFetchingXxdk = useIsFetching({ queryKey: ['bridge-xxdk-info'] }) > 0;
-  const isFetchingCmixx = useIsFetching({ queryKey: ['bridge-cmixx-status'] }) > 0;
-  const isActivelyChecking = isFetchingBridge || isFetchingXxdk || isFetchingCmixx;
+  const isFetchingHealth = useIsFetching({ queryKey: ['bridge-health'] }) > 0;
+  const isFetchingStatus = useIsFetching({ queryKey: ['bridge-status'] }) > 0;
+  const isActivelyChecking = isFetchingHealth || isFetchingStatus;
 
   const getHealthLevel = (): HealthLevel => {
     if (bridgeHealth.isLoading) return 'loading';
     
-    const proxyOk = bridgeHealth.health === true;
-    const bridgeOk = bridgeHealth.xxdkInfo === true;
-    const cmixxOk = bridgeHealth.cmixxStatus === true;
+    const healthOk = bridgeHealth.health === true;
+    const statusOk = bridgeHealth.status === true;
     
-    if (proxyOk && bridgeOk && cmixxOk) return 'healthy';
-    if (proxyOk || bridgeOk) return 'degraded';
+    if (healthOk && statusOk) return 'healthy';
+    if (healthOk) return 'degraded';
     return 'offline';
   };
 

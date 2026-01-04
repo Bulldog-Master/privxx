@@ -1,11 +1,11 @@
 import { useState, useRef, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Activity, Server, Wifi, WifiOff, CheckCircle2, XCircle, RefreshCw, Loader2, AlertTriangle, Timer, Globe, Network } from "lucide-react";
+import { Activity, Server, CheckCircle2, XCircle, RefreshCw, Loader2, AlertTriangle, Timer, Globe, Network, Shield } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { bridgeClient, getBridgeUrl } from "@/api/bridge";
-import type { XxdkInfoResponse, CmixxStatusResponse, HealthResponse } from "@/api/bridge/types";
+import type { StatusResponse, HealthResponse } from "@/api/bridge/types";
 
 interface StatusRowProps {
   label: string;
@@ -141,8 +141,8 @@ const getConnectionPathInfo = (url: string) => {
   return {
     type: "custom" as const,
     label: "Custom",
-    port: new URL(url).port || "80",
-    visibility: "unknown",
+    port: new URL(url).port || "443",
+    visibility: "public",
   };
 };
 
@@ -155,8 +155,7 @@ const BridgeLiveStatusCard = () => {
   
   // Response time trackers
   const healthTimer = useResponseTime();
-  const xxdkTimer = useResponseTime();
-  const cmixxTimer = useResponseTime();
+  const statusTimer = useResponseTime();
 
   // Fetch bridge health with timing
   const { 
@@ -182,23 +181,23 @@ const BridgeLiveStatusCard = () => {
     retry: 1,
   });
 
-  // Fetch xxdk info with timing
+  // Fetch bridge status with timing (requires auth)
   const { 
-    data: xxdkInfo, 
-    isLoading: xxdkLoading,
-    isError: xxdkError,
-    isFetching: xxdkFetching,
-    refetch: refetchXxdk
-  } = useQuery<XxdkInfoResponse>({
-    queryKey: ["bridge-xxdk-info"],
+    data: statusData, 
+    isLoading: statusLoading,
+    isError: statusError,
+    isFetching: statusFetching,
+    refetch: refetchStatus
+  } = useQuery<StatusResponse>({
+    queryKey: ["bridge-status"],
     queryFn: async () => {
-      xxdkTimer.startTimer();
+      statusTimer.startTimer();
       try {
-        const result = await bridgeClient.xxdkInfo();
-        xxdkTimer.endTimer();
+        const result = await bridgeClient.status();
+        statusTimer.endTimer();
         return result;
       } catch (e) {
-        xxdkTimer.resetTimer();
+        statusTimer.resetTimer();
         throw e;
       }
     },
@@ -206,45 +205,23 @@ const BridgeLiveStatusCard = () => {
     retry: 1,
   });
 
-  // Fetch cmixx status with timing
-  const { 
-    data: cmixxStatus, 
-    isLoading: cmixxLoading,
-    isError: cmixxError,
-    isFetching: cmixxFetching,
-    refetch: refetchCmixx
-  } = useQuery<CmixxStatusResponse>({
-    queryKey: ["bridge-cmixx-status"],
-    queryFn: async () => {
-      cmixxTimer.startTimer();
-      try {
-        const result = await bridgeClient.cmixxStatus();
-        cmixxTimer.endTimer();
-        return result;
-      } catch (e) {
-        cmixxTimer.resetTimer();
-        throw e;
-      }
-    },
-    refetchInterval: 30000,
-    retry: 1,
-  });
-
-  const isLoading = healthLoading || xxdkLoading || cmixxLoading;
-  const isFetching = healthFetching || xxdkFetching || cmixxFetching;
-  const hasError = healthError || xxdkError || cmixxError;
-  const allErrors = healthError && xxdkError && cmixxError;
+  const isLoading = healthLoading || statusLoading;
+  const isFetching = healthFetching || statusFetching;
+  const hasError = healthError || statusError;
+  const allErrors = healthError && statusError;
 
   const handleRefresh = () => {
     refetchHealth();
-    refetchXxdk();
-    refetchCmixx();
+    refetchStatus();
   };
 
-  const formatTimestamp = (ts?: number) => {
-    if (!ts) return "—";
-    const date = new Date(ts);
-    return date.toLocaleTimeString();
+  const getStateDisplay = (state?: string) => {
+    switch (state) {
+      case "idle": return { label: t("stateIdle", "Idle"), color: "text-muted-foreground" };
+      case "connecting": return { label: t("stateConnecting", "Connecting"), color: "text-amber-500" };
+      case "secure": return { label: t("stateSecure", "Secure"), color: "text-emerald-500" };
+      default: return { label: "—", color: "text-muted-foreground" };
+    }
   };
 
   return (
@@ -288,7 +265,7 @@ const BridgeLiveStatusCard = () => {
         {/* Connection Path Indicator */}
         <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-muted/30 border border-border/30">
           <div className="flex items-center gap-2 flex-1">
-            {connectionPath.type === "proxy" ? (
+            {connectionPath.type === "proxy" || connectionPath.type === "custom" ? (
               <Globe className="h-4 w-4 text-primary" />
             ) : (
               <Network className="h-4 w-4 text-amber-500" />
@@ -304,7 +281,7 @@ const BridgeLiveStatusCard = () => {
           </div>
           <div className="flex items-center gap-1.5">
             <span className={`px-1.5 py-0.5 rounded text-[10px] font-medium ${
-              connectionPath.type === "proxy" 
+              connectionPath.type === "proxy" || connectionPath.type === "custom"
                 ? "bg-primary/10 text-primary" 
                 : "bg-amber-500/10 text-amber-500"
             }`}>
@@ -386,19 +363,19 @@ const BridgeLiveStatusCard = () => {
           )}
         </div>
 
-        {/* xxDK Info */}
+        {/* Bridge Status (Authenticated) */}
         <div className="space-y-1 pt-2 border-t border-border/30">
           <div className="flex items-center justify-between">
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">/xxdk/info</p>
-            <LatencyBadge latency={xxdkError ? null : xxdkTimer.latency} isLoading={xxdkFetching} />
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">/status</p>
+            <LatencyBadge latency={statusError ? null : statusTimer.latency} isLoading={statusFetching} />
           </div>
-          {xxdkError ? (
+          {statusError ? (
             <ErrorState 
-              endpoint="/xxdk/info" 
-              onRetry={() => refetchXxdk()} 
-              isRetrying={xxdkFetching}
+              endpoint="/status" 
+              onRetry={() => refetchStatus()} 
+              isRetrying={statusFetching}
             />
-          ) : xxdkLoading ? (
+          ) : statusLoading ? (
             <div className="flex items-center gap-2 py-1.5 text-sm text-muted-foreground">
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
               <span>{t("loading")}</span>
@@ -406,76 +383,19 @@ const BridgeLiveStatusCard = () => {
           ) : (
             <>
               <StatusRow
-                label={t("mode")}
-                value={xxdkInfo?.mode || "—"}
-                icon={<Activity className="h-3.5 w-3.5" />}
-                valueColor={xxdkInfo?.mode === "real" ? "text-emerald-500" : "text-blue-500"}
+                label={t("connectionState", "State")}
+                value={getStateDisplay(statusData?.state).label}
+                icon={<Shield className="h-3.5 w-3.5" />}
+                valueColor={getStateDisplay(statusData?.state).color}
               />
-              <StatusRow
-                label={t("identity")}
-                value={xxdkInfo?.hasIdentity ? t("present") : t("none")}
-                icon={xxdkInfo?.hasIdentity ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> : <XCircle className="h-3.5 w-3.5 text-muted-foreground" />}
-                valueColor={xxdkInfo?.hasIdentity ? "text-emerald-500" : "text-muted-foreground"}
-              />
-              <StatusRow
-                label={t("ready")}
-                value={xxdkInfo?.ready ? t("yes") : t("no")}
-                icon={xxdkInfo?.ready ? <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> : <XCircle className="h-3.5 w-3.5 text-amber-500" />}
-                valueColor={xxdkInfo?.ready ? "text-emerald-500" : "text-amber-500"}
-              />
-              <StatusRow
-                label={t("lastUpdate")}
-                value={formatTimestamp(xxdkInfo?.timestamp)}
-                icon={<Activity className="h-3.5 w-3.5" />}
-              />
-            </>
-          )}
-        </div>
-
-        {/* cMixx Status */}
-        <div className="space-y-1 pt-2 border-t border-border/30">
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-muted-foreground uppercase tracking-wide">/cmixx/status</p>
-            <LatencyBadge latency={cmixxError ? null : cmixxTimer.latency} isLoading={cmixxFetching} />
-          </div>
-          {cmixxError ? (
-            <ErrorState 
-              endpoint="/cmixx/status" 
-              onRetry={() => refetchCmixx()} 
-              isRetrying={cmixxFetching}
-            />
-          ) : cmixxLoading ? (
-            <div className="flex items-center gap-2 py-1.5 text-sm text-muted-foreground">
-              <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              <span>{t("loading")}</span>
-            </div>
-          ) : (
-            <>
-              <StatusRow
-                label={t("mixnetConnection")}
-                value={cmixxStatus?.connected ? t("connected") : t("disconnected")}
-                icon={cmixxStatus?.connected ? <Wifi className="h-3.5 w-3.5 text-emerald-500" /> : <WifiOff className="h-3.5 w-3.5 text-amber-500" />}
-                valueColor={cmixxStatus?.connected ? "text-emerald-500" : "text-amber-500"}
-              />
-              {cmixxStatus?.nodeCount !== undefined && (
+              {statusData?.state === "secure" && (
                 <StatusRow
-                  label={t("nodes")}
-                  value={String(cmixxStatus.nodeCount)}
-                  icon={<Server className="h-3.5 w-3.5" />}
+                  label={t("authStatus", "Auth")}
+                  value={t("authenticated", "Authenticated")}
+                  icon={<CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />}
+                  valueColor="text-emerald-500"
                 />
               )}
-              {cmixxStatus?.lastRoundId !== undefined && (
-                <StatusRow
-                  label={t("lastRound")}
-                  value={String(cmixxStatus.lastRoundId)}
-                  icon={<Activity className="h-3.5 w-3.5" />}
-                />
-              )}
-              <StatusRow
-                label={t("lastUpdate")}
-                value={formatTimestamp(cmixxStatus?.timestamp)}
-                icon={<Activity className="h-3.5 w-3.5" />}
-              />
             </>
           )}
         </div>

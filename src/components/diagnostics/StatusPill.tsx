@@ -3,12 +3,12 @@ import { Info, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
-import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatus, type BackendStatus } from "@/hooks/useBackendStatus";
 
 type OverallStatus = "connected" | "degraded" | "offline" | "loading";
 
 function deriveOverallStatus(
-  backendStatus: { status: string; backend: string; network: string },
+  backendStatus: BackendStatus,
   backendLoading: boolean,
   bridgeHealth: { health: boolean | null; isLoading: boolean; healthError: boolean }
 ): OverallStatus {
@@ -16,11 +16,11 @@ function deriveOverallStatus(
     return "loading";
   }
 
-  if (backendStatus.status === "error" || backendStatus.backend === "error" || bridgeHealth.healthError) {
+  if (backendStatus.state === "error" || bridgeHealth.healthError) {
     return "offline";
   }
 
-  if (backendStatus.backend === "disconnected" || backendStatus.network === "syncing" || bridgeHealth.health === false) {
+  if (backendStatus.state === "connecting" || bridgeHealth.health === false) {
     return "degraded";
   }
 
@@ -103,4 +103,3 @@ export const StatusPill = React.forwardRef<HTMLButtonElement, StatusPillProps>(
 StatusPill.displayName = "StatusPill";
 
 export default StatusPill;
-

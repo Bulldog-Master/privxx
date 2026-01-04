@@ -5,9 +5,10 @@ import { toast } from "sonner";
 
 /** Derive UI state from bridge status */
 function deriveUiState(status: BackendStatus): "error" | "connecting" | "ready" {
-  if (status.status === "error" || status.backend === "error") return "error";
-  if (status.backend === "disconnected" || status.network === "syncing") return "connecting";
-  return "ready";
+  if (status.state === "error") return "error";
+  if (status.state === "connecting") return "connecting";
+  if (status.state === "secure") return "ready";
+  return "ready"; // idle is also considered ready
 }
 
 export function useDiagnosticsState() {

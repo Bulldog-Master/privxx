@@ -5,12 +5,8 @@ import { BridgeError, type BridgeErrorCode } from "@/api/bridge/client";
 export type ConnectionHealth = "healthy" | "degraded" | "offline" | "checking";
 
 export interface BackendStatus {
-  /** Bridge status: ok or error */
-  status: StatusResponse["status"] | "error";
-  /** Backend connection state */
-  backend: StatusResponse["backend"] | "error";
-  /** Network readiness */
-  network: StatusResponse["network"] | "error";
+  /** Bridge connection state: idle, connecting, or secure */
+  state: StatusResponse["state"] | "error";
   /** Running in mock mode (no bridge) */
   isMock: boolean;
   /** Overall connection health */
@@ -28,9 +24,7 @@ export interface BackendStatus {
 }
 
 const initialStatus: BackendStatus = {
-  status: "ok",
-  backend: "disconnected",
-  network: "syncing",
+  state: "idle",
   isMock: isMockMode(),
   health: "checking",
   latencyMs: null,
@@ -46,29 +40,31 @@ const FAILURE_DEGRADED_COUNT = 2; // Degraded after 2 failures
 const FAILURE_OFFLINE_COUNT = 4; // Offline after 4 failures
 
 function calculateHealth(
-  status: StatusResponse["status"] | "error",
-  backend: StatusResponse["backend"] | "error",
-  network: StatusResponse["network"] | "error",
+  state: StatusResponse["state"] | "error",
   latencyMs: number | null,
   failureCount: number
 ): ConnectionHealth {
-  // Offline if status is error or high failure count
-  if (status === "error" || failureCount >= FAILURE_OFFLINE_COUNT) {
+  // Offline if state is error or high failure count
+  if (state === "error" || failureCount >= FAILURE_OFFLINE_COUNT) {
     return "offline";
   }
 
   // Degraded conditions
   if (
-    backend === "disconnected" ||
-    network === "syncing" ||
+    state === "connecting" ||
     failureCount >= FAILURE_DEGRADED_COUNT ||
     (latencyMs !== null && latencyMs > LATENCY_DEGRADED_MS)
   ) {
     return "degraded";
   }
 
-  // Healthy
-  if (status === "ok" && backend === "connected" && network === "ready") {
+  // Healthy when secure
+  if (state === "secure") {
+    return "healthy";
+  }
+
+  // Idle is considered healthy (ready to connect)
+  if (state === "idle") {
     return "healthy";
   }
 
@@ -103,12 +99,10 @@ export function useBackendStatus(pollMs = 30000) {
       // Reset failure count on success
       failureCountRef.current = 0;
       
-      const health = calculateHealth(s.status, s.backend, s.network, latencyMs, 0);
+      const health = calculateHealth(s.state, latencyMs, 0);
       
       setData({
-        status: s.status,
-        backend: s.backend,
-        network: s.network,
+        state: s.state,
         isMock: isMockMode(),
         health,
         latencyMs,
@@ -125,12 +119,10 @@ export function useBackendStatus(pollMs = 30000) {
         ? err.code 
         : "NETWORK_ERROR";
       
-      const health = calculateHealth("error", "error", "error", null, failureCountRef.current);
+      const health = calculateHealth("error", null, failureCountRef.current);
       
       setData(prev => ({
-        status: "error",
-        backend: "error",
-        network: "error",
+        state: "error",
         isMock: isMockMode(),
         health,
         latencyMs: null,
@@ -163,12 +155,10 @@ export function useBackendStatus(pollMs = 30000) {
         // Reset failure count on success
         failureCountRef.current = 0;
         
-        const health = calculateHealth(s.status, s.backend, s.network, latencyMs, 0);
+        const health = calculateHealth(s.state, latencyMs, 0);
         
         setData({
-          status: s.status,
-          backend: s.backend,
-          network: s.network,
+          state: s.state,
           isMock: isMockMode(),
           health,
           latencyMs,
@@ -187,12 +177,10 @@ export function useBackendStatus(pollMs = 30000) {
           ? err.code 
           : "NETWORK_ERROR";
         
-        const health = calculateHealth("error", "error", "error", null, failureCountRef.current);
+        const health = calculateHealth("error", null, failureCountRef.current);
         
         setData(prev => ({
-          status: "error",
-          backend: "error",
-          network: "error",
+          state: "error",
           isMock: isMockMode(),
           health,
           latencyMs: null,
