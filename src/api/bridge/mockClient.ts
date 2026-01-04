@@ -14,6 +14,8 @@ import type {
   Message,
   IBridgeClient,
   HealthResponse,
+  ConnectResponse,
+  DisconnectResponse,
 } from "./types";
 
 function sleep(ms: number): Promise<void> {
@@ -44,6 +46,25 @@ export class MockBridgeClient implements IBridgeClient {
     return {
       state: this.connectionState,
       connectedAt: this.connectionState === "secure" ? new Date().toISOString() : undefined,
+    };
+  }
+
+  // Connection (mock)
+  async connect(): Promise<ConnectResponse> {
+    await sleep(500);
+    this.connectionState = "secure";
+    return {
+      state: "secure",
+      message: "Mock connection established",
+    };
+  }
+
+  async disconnect(): Promise<DisconnectResponse> {
+    await sleep(200);
+    this.connectionState = "idle";
+    return {
+      state: "idle",
+      message: "Mock connection closed",
     };
   }
 

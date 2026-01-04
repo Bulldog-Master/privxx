@@ -23,6 +23,8 @@ import type {
   IBridgeClient,
   BridgeClientConfig,
   HealthResponse,
+  ConnectResponse,
+  DisconnectResponse,
 } from "./types";
 
 // Error types for better handling
@@ -312,6 +314,22 @@ export class BridgeClient implements IBridgeClient {
     return this.request("/status");
   }
 
+  // Connection (requires auth)
+  /**
+   * Connect to the bridge backend.
+   * targetUrl is always http://127.0.0.1:8090 (local to VPS behind Cloudflare)
+   */
+  async connect(): Promise<ConnectResponse> {
+    return this.request("/connect", {
+      method: "POST",
+      body: JSON.stringify({ targetUrl: "http://127.0.0.1:8090" }),
+    });
+  }
+
+  async disconnect(): Promise<DisconnectResponse> {
+    return this.request("/disconnect", { method: "POST" });
+  }
+
   // Session
   async validateSession(): Promise<SessionResponse> {
     return this.request("/auth/session", { method: "POST" });
@@ -370,4 +388,6 @@ export type {
   IBridgeClient,
   BridgeClientConfig,
   HealthResponse,
+  ConnectResponse,
+  DisconnectResponse,
 } from "./types";

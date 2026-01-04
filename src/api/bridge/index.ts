@@ -94,4 +94,6 @@ export type {
   IBridgeClient,
   BridgeClientConfig,
   HealthResponse,
+  ConnectResponse,
+  DisconnectResponse,
 } from "./types";
