@@ -1,18 +1,14 @@
-import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatus, type BackendStatus } from "@/hooks/useBackendStatus";
 import { useTranslation } from "react-i18next";
 import { Wifi, WifiOff, Loader2 } from "lucide-react";
 
 type ConnectionState = "connected" | "degraded" | "error";
 
-function deriveConnectionState(status: {
-  status: string;
-  backend: string;
-  network: string;
-}): ConnectionState {
-  if (status.status === "error" || status.backend === "error") {
+function deriveConnectionState(status: BackendStatus): ConnectionState {
+  if (status.state === "error") {
     return "error";
   }
-  if (status.backend === "disconnected" || status.network === "syncing") {
+  if (status.state === "connecting") {
     return "degraded";
   }
   return "connected";

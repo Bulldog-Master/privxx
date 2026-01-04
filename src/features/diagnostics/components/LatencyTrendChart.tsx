@@ -76,13 +76,9 @@ const chartConfig = {
     label: '/health',
     color: 'hsl(var(--chart-1))',
   },
-  xxdkInfo: {
-    label: '/xxdk/info',
+  status: {
+    label: '/status',
     color: 'hsl(var(--chart-2))',
-  },
-  cmixxStatus: {
-    label: '/cmixx/status',
-    color: 'hsl(var(--chart-3))',
   },
 };
 

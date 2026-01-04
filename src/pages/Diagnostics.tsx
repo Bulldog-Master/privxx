@@ -71,7 +71,7 @@ export default function Diagnostics() {
     // Client is always reachable (it's the browser)
     const client = "reachable" as const;
     
-    // Proxy status - based on health endpoint reachability
+    // Proxy/Health status - based on health endpoint reachability
     let proxy: LayerState["proxy"] = "unknown";
     if (bridgeHealth.isLoading) {
       proxy = "starting";
@@ -81,25 +81,25 @@ export default function Diagnostics() {
       proxy = "unreachable";
     }
 
-    // Bridge status - based on xxdk info reachability
+    // Bridge status - based on status endpoint reachability
     let bridge: LayerState["bridge"] = "unknown";
     if (bridgeHealth.isLoading) {
       bridge = "starting";
-    } else if (bridgeHealth.xxdkInfo) {
+    } else if (bridgeHealth.status) {
       bridge = "reachable";
-    } else if (bridgeHealth.xxdkError) {
+    } else if (bridgeHealth.statusError) {
       bridge = "unreachable";
     }
 
-    // xxDK status - based on cmixx status and xxdk ready state
+    // xxDK status - based on status response state
     let xxdk: LayerState["xxdk"] = "unknown";
     if (bridgeHealth.isLoading) {
       xxdk = "starting";
-    } else if (bridgeHealth.cmixxData?.connected && bridgeHealth.xxdkData?.ready) {
+    } else if (bridgeHealth.statusData?.state === "secure") {
       xxdk = "reachable";
-    } else if (bridgeHealth.cmixxError || bridgeHealth.xxdkError) {
+    } else if (bridgeHealth.statusError) {
       xxdk = "unreachable";
-    } else if (bridgeHealth.xxdkData && !bridgeHealth.xxdkData.ready) {
+    } else if (bridgeHealth.statusData?.state === "connecting") {
       xxdk = "starting";
     }
 
@@ -157,8 +157,8 @@ export default function Diagnostics() {
             {/* Health Score Summary */}
             <HealthScorePanel 
               bridgeHealth={bridgeHealth.health}
-              xxdkInfo={bridgeHealth.xxdkInfo}
-              cmixxStatus={bridgeHealth.cmixxStatus}
+              xxdkInfo={bridgeHealth.status}
+              cmixxStatus={bridgeHealth.status}
               isLoading={isLoading || bridgeHealth.isLoading} 
             />
 

@@ -19,8 +19,8 @@ export async function checkReadiness(): Promise<ReadinessResult> {
 
   try {
     const s = await bridgeClient.status();
-    bridgeReachable = s?.status === "ok";
-    backendReady = s?.backend === "connected" && s?.network === "ready";
+    bridgeReachable = s?.state !== undefined;
+    backendReady = s?.state === "secure";
   } catch {
     bridgeReachable = false;
     backendReady = false;

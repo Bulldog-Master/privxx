@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
-import { Server, Wifi, Shield, Loader2 } from 'lucide-react';
+import { Server, Shield, Loader2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useBridgeHealthStatus } from '../hooks/useBridgeHealthStatus';
 
@@ -62,22 +62,16 @@ export function BackendStatusBadges() {
     return 'unknown';
   };
 
-  const proxyStatus = getStatus(
+  const healthStatus = getStatus(
     bridgeHealth.isLoading,
     bridgeHealth.health,
     bridgeHealth.healthError
   );
 
-  const bridgeStatus = getStatus(
+  const statusStatus = getStatus(
     bridgeHealth.isLoading,
-    bridgeHealth.xxdkInfo,
-    bridgeHealth.xxdkError
-  );
-
-  const cmixxStatus = getStatus(
-    bridgeHealth.isLoading,
-    bridgeHealth.cmixxStatus,
-    bridgeHealth.cmixxError
+    bridgeHealth.status,
+    bridgeHealth.statusError
   );
 
   const getTooltip = (name: string, status: StatusType): string => {
@@ -100,21 +94,15 @@ export function BackendStatusBadges() {
       aria-label={t('healthIndicator.clickForDetails', 'Click for details')}
     >
       <StatusBadge
-        label="Proxy"
-        status={proxyStatus}
-        tooltip={getTooltip('Proxy', proxyStatus)}
+        label="Health"
+        status={healthStatus}
+        tooltip={getTooltip('Health', healthStatus)}
         icon={<Server className="h-2.5 w-2.5" />}
       />
       <StatusBadge
         label="Bridge"
-        status={bridgeStatus}
-        tooltip={getTooltip('Bridge', bridgeStatus)}
-        icon={<Wifi className="h-2.5 w-2.5" />}
-      />
-      <StatusBadge
-        label="xxDK"
-        status={cmixxStatus}
-        tooltip={getTooltip('cMixx', cmixxStatus)}
+        status={statusStatus}
+        tooltip={getTooltip('Bridge', statusStatus)}
         icon={<Shield className="h-2.5 w-2.5" />}
       />
     </Link>

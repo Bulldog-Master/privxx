@@ -132,7 +132,7 @@ const DiagnosticsDrawer = () => {
       // Call bridge status endpoint
       const result = await bridgeClient.status();
       setAuthTestState("success");
-      setAuthTestMessage(`Authenticated (backend: ${result.backend})`);
+      setAuthTestMessage(`Authenticated (state: ${result.state})`);
     } catch (err) {
       setAuthTestState("error");
       const message = err instanceof Error ? err.message : "Unknown error";
@@ -168,25 +168,18 @@ const DiagnosticsDrawer = () => {
         detail: t("connectionPath.clientDesc", "Your browser") 
       },
       { 
-        name: t("connectionPath.proxy", "Proxy"), 
+        name: t("connectionPath.health", "Health"), 
         state: getState(bridgeHealth.health, bridgeHealth.isLoading, bridgeHealth.healthError),
         detail: bridgeHealth.healthError 
-          ? t("connectionPath.proxyUnreachable", "Unreachable") 
-          : t("connectionPath.proxyDesc", "Edge relay")
+          ? t("connectionPath.healthUnreachable", "Unreachable") 
+          : t("connectionPath.healthDesc", "Bridge health")
       },
       { 
         name: t("connectionPath.bridge", "Bridge"), 
-        state: getState(bridgeHealth.xxdkInfo, bridgeHealth.isLoading, bridgeHealth.xxdkError),
-        detail: bridgeHealth.xxdkError 
+        state: getState(bridgeHealth.status, bridgeHealth.isLoading, bridgeHealth.statusError),
+        detail: bridgeHealth.statusError 
           ? t("connectionPath.bridgeUnreachable", "Unreachable")
           : t("connectionPath.bridgeDesc", "API gateway")
-      },
-      { 
-        name: t("connectionPath.xxdk", "xxDK"), 
-        state: getState(bridgeHealth.cmixxStatus, bridgeHealth.isLoading, bridgeHealth.cmixxError),
-        detail: bridgeHealth.cmixxError 
-          ? t("connectionPath.xxdkUnreachable", "Unreachable")
-          : t("connectionPath.xxdkDesc", "Privacy client")
       },
     ];
   }, [bridgeHealth, t]);
@@ -195,7 +188,7 @@ const DiagnosticsDrawer = () => {
   const stats = useMemo(() => ({
     latencyMs: null, // Latency not exposed in current API
     lastCheck: bridgeHealth.isLoading ? null : new Date().toLocaleTimeString(),
-    errorCount: [bridgeHealth.healthError, bridgeHealth.xxdkError, bridgeHealth.cmixxError].filter(Boolean).length,
+    errorCount: [bridgeHealth.healthError, bridgeHealth.statusError].filter(Boolean).length,
     correlationId: null, // Not implemented yet
   }), [bridgeHealth]);
   
@@ -296,9 +289,8 @@ const DiagnosticsDrawer = () => {
               
               {showAdvanced && (
                 <div className="mt-2 bg-muted/20 rounded p-2 text-xs font-mono text-muted-foreground">
-                  <div>Proxy: {bridgeHealth.healthData?.service ?? "—"}</div>
-                  <div>Bridge Mode: {bridgeHealth.xxdkData?.mode ?? "—"}</div>
-                  <div>xxDK Mode: {bridgeHealth.cmixxData?.mode ?? "—"}</div>
+                  <div>Health: {bridgeHealth.healthData?.service ?? "—"}</div>
+                  <div>Status: {bridgeHealth.statusData?.state ?? "—"}</div>
                 </div>
               )}
             </section>
