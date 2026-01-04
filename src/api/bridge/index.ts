@@ -26,9 +26,9 @@ import { BridgeClient, type IBridgeClient, type BridgeClientConfig } from "./cli
 import { MockBridgeClient } from "./mockClient";
 import { supabase } from "@/integrations/supabase/client";
 
-// Use mock mode by default for demo/preview phase
-// Set VITE_MOCK=false and optionally VITE_BRIDGE_URL to use real bridge
-const USE_MOCK = import.meta.env.VITE_MOCK !== "false";
+// Real bridge mode by default for production
+// Set VITE_MOCK=true to enable mock mode for local development
+const USE_MOCK = import.meta.env.VITE_MOCK === "true";
 
 // Production URL via Cloudflare Tunnel
 // Override with VITE_BRIDGE_URL if needed
