@@ -415,10 +415,11 @@ func (rl *RateLimiter) startCleanupRoutine() {
 	}()
 }
 
-// AllowedOrigins for CORS (production + development)
+// AllowedOrigins for CORS (production + development + Lovable preview)
 var allowedOrigins = []string{
 	"https://privxx.app",
 	"https://www.privxx.app",
+	"https://privxx.lovable.app", // Explicit Lovable preview domain
 }
 
 // AllowedOriginSuffixes for Lovable preview domains
