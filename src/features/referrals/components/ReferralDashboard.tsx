@@ -4,7 +4,7 @@
  * Displays referral program stats, link, and reward tiers.
  */
 
-import React, { useState, forwardRef } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { 
   Copy, 
@@ -35,8 +35,7 @@ interface ReferralDashboardProps {
   className?: string;
 }
 
-export const ReferralDashboard = forwardRef<HTMLDivElement, ReferralDashboardProps>(
-  function ReferralDashboard({ className }, ref) {
+export function ReferralDashboard({ className }: ReferralDashboardProps) {
   const { t } = useTranslation('ui');
   const { toast } = useToast();
   const { stats, referrals, isLoading, networkUserCount } = useReferrals();
@@ -93,7 +92,7 @@ export const ReferralDashboard = forwardRef<HTMLDivElement, ReferralDashboardPro
 
   if (isLoading && !stats) {
     return (
-      <div ref={ref} className={cn("space-y-4", className)}>
+      <div className={cn("space-y-4", className)}>
         <Card className="bg-card/50 backdrop-blur-sm border-border/50 animate-pulse">
           <CardContent className="h-48" />
         </Card>
@@ -102,7 +101,7 @@ export const ReferralDashboard = forwardRef<HTMLDivElement, ReferralDashboardPro
   }
 
   return (
-    <div ref={ref} className={cn("space-y-4 pb-4", className)}>
+    <div className={cn("space-y-4 pb-4", className)}>
         {/* Referral Link Card */}
         <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
           <CardHeader className="pb-3">
@@ -361,4 +360,4 @@ export const ReferralDashboard = forwardRef<HTMLDivElement, ReferralDashboardPro
         <ReferralLeaderboard />
     </div>
   );
-});
+}
