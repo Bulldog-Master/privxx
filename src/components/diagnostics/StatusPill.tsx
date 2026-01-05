@@ -3,8 +3,7 @@ import { Info, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
-import { useBackendStatusShared } from "@/contexts/BackendStatusContext";
-import type { BackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatus, type BackendStatus } from "@/hooks/useBackendStatus";
 
 type OverallStatus = "connected" | "degraded" | "offline" | "loading";
 
@@ -59,7 +58,7 @@ interface StatusPillProps {
 export const StatusPill = React.forwardRef<HTMLButtonElement, StatusPillProps>(
   ({ onClick, className }, ref) => {
     const { t } = useTranslation();
-    const { status: backendStatus, isLoading: backendLoading } = useBackendStatusShared();
+    const { status: backendStatus, isLoading: backendLoading } = useBackendStatus();
     const bridgeHealth = useBridgeHealthStatus();
 
     const overallStatus = deriveOverallStatus(backendStatus, backendLoading, bridgeHealth);

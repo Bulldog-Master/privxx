@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useBackendStatusShared } from "@/contexts/BackendStatusContext";
-import type { BackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatus, type BackendStatus } from "@/hooks/useBackendStatus";
 import { toast } from "sonner";
 
 /** Derive UI state from bridge status */
@@ -19,7 +18,7 @@ export function useDiagnosticsState() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isDismissing, setIsDismissing] = useState(false);
   const prevStateRef = useRef<string | null>(null);
-  const { status, isLoading, refetch } = useBackendStatusShared();
+  const { status, isLoading, refetch } = useBackendStatus();
   const { t } = useTranslation();
 
   const uiState = deriveUiState(status);

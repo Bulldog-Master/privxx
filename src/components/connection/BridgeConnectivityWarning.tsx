@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { AlertTriangle, RefreshCw, ExternalLink, X } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { useBackendStatusShared } from "@/contexts/BackendStatusContext";
+import { useBackendStatus } from "@/hooks/useBackendStatus";
 import { isMockMode, getBridgeUrl } from "@/api/bridge";
 
 interface BridgeConnectivityWarningProps {
@@ -25,7 +25,7 @@ export function BridgeConnectivityWarning({
   showInMockMode = false,
 }: BridgeConnectivityWarningProps) {
   const { t } = useTranslation();
-  const { status, refetch, isLoading } = useBackendStatusShared();
+  const { status, refetch, isLoading } = useBackendStatus(15000);
   const [dismissed, setDismissed] = useState(false);
   const [retrying, setRetrying] = useState(false);
 
