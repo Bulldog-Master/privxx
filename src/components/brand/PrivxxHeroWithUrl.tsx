@@ -1,11 +1,18 @@
-import { useState, useEffect, useCallback } from "react";
+/**
+ * PrivxxHeroWithUrl
+ * 
+ * Main hero component with URL input and connection controls.
+ * IMPORTANT: Uses useBackendStatus as the SINGLE source for /status calls
+ * to prevent duplicate polling and rate-limit issues.
+ */
+
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import PrivxxLogo from "./PrivxxLogo";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle } from "lucide-react";
 import { bridgeClient } from "@/api/bridge";
-import { fetchBridgeStatusRaw, type BridgeUiStatus } from "@/api/bridge/statusUtils";
-import { useRateLimitCountdown } from "@/features/diagnostics/hooks/useRateLimitCountdown";
+import { useBackendStatus } from "@/hooks/useBackendStatus";
 import { useAuth } from "@/contexts/AuthContext";
 
 const PrivxxHeroWithUrl = () => {
@@ -14,46 +21,24 @@ const PrivxxHeroWithUrl = () => {
   const [url, setUrl] = useState("https://");
   const [connecting, setConnecting] = useState(false);
   const [disconnecting, setDisconnecting] = useState(false);
-  const [statusUi, setStatusUi] = useState<BridgeUiStatus | null>(null);
-  const [statusLoading, setStatusLoading] = useState(true);
-  const [latency, setLatency] = useState<number | null>(null);
 
-  // Rate limit countdown
-  const rateLimit = useRateLimitCountdown(() => {
-    fetchStatus();
-  });
+  // Use the centralized backend status hook - SINGLE source for /status calls
+  const { status, isLoading: statusLoading, refetch: fetchStatus, rateLimit } = useBackendStatus();
 
-  // Fetch bridge status
-  const fetchStatus = useCallback(async () => {
-    setStatusLoading(true);
-    try {
-      const result = await fetchBridgeStatusRaw();
-      setStatusUi(result.ui);
-      setLatency(result.latencyMs);
-      
-      if (result.ui.kind === "rate_limited") {
-        rateLimit.startCountdown(result.ui.retryUntil);
-      } else {
-        rateLimit.clearCountdown();
-      }
-    } catch {
-      setStatusUi({ kind: "error", message: "Failed to fetch status" });
-    } finally {
-      setStatusLoading(false);
-    }
-  }, [rateLimit]);
-
-  // Initial fetch
-  useEffect(() => {
-    fetchStatus();
-  }, [fetchStatus]);
-
-  const currentState = statusUi?.kind === "ok" ? statusUi.state : undefined;
+  const currentState = status.state;
   const isConnected = currentState === "secure";
   const isConnecting = currentState === "connecting";
   const isIdle = currentState === "idle";
-  const canConnect = url.trim().length > 8 && isIdle && !rateLimit.isRateLimited && user;
-  const canDisconnect = (isConnected || isConnecting) && !rateLimit.isRateLimited;
+  const isError = currentState === "error";
+  
+  // Determine display states
+  const showRateLimited = rateLimit.isRateLimited;
+  const showLoginRequired = status.lastErrorCode === "UNAUTHORIZED" && !user;
+  const showTokenExpired = status.lastErrorCode === "UNAUTHORIZED" && user;
+  const showError = isError && !showLoginRequired && !showTokenExpired && !showRateLimited;
+  
+  const canConnect = url.trim().length > 8 && isIdle && !showRateLimited && user;
+  const canDisconnect = (isConnected || isConnecting) && !showRateLimited;
 
   const onConnect = async () => {
     if (!canConnect) return;
@@ -80,12 +65,6 @@ const PrivxxHeroWithUrl = () => {
       setDisconnecting(false);
     }
   };
-
-  // Determine what to show based on status
-  const showLoginRequired = statusUi?.kind === "login_required";
-  const showTokenExpired = statusUi?.kind === "token_invalid";
-  const showRateLimited = rateLimit.isRateLimited;
-  const showError = statusUi?.kind === "error";
 
   return (
     <div className="flex flex-col items-center text-center space-y-6 relative w-full max-w-md mx-auto">
@@ -145,7 +124,7 @@ const PrivxxHeroWithUrl = () => {
         <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/20">
           <AlertTriangle className="h-5 w-5 text-destructive" />
           <p className="text-sm text-destructive">
-            {statusUi?.kind === "error" ? statusUi.message : t("unknownError", "Unknown error")}
+            {t("connectionError", "Connection error")}
           </p>
         </div>
       )}
@@ -199,9 +178,9 @@ const PrivxxHeroWithUrl = () => {
                 <ShieldCheck className="h-5 w-5" />
                 {t("tunnelConnected") || "Tunnel Active"}
               </div>
-              {latency && (
+              {status.latencyMs && (
                 <div className="text-sm text-muted-foreground">
-                  {t("tunnelLatency") || "Latency"}: {latency}ms
+                  {t("tunnelLatency") || "Latency"}: {status.latencyMs}ms
                 </div>
               )}
               <div className="text-xs text-muted-foreground">
