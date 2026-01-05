@@ -9,6 +9,7 @@ import { RtlProvider } from "@/components/shared";
 import { AppErrorBoundary } from "@/components/shared";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProfileProvider } from "@/contexts/ProfileContext";
+import { BackendStatusProvider } from "@/contexts/BackendStatusContext";
 import { IdentityProvider } from "@/features/identity";
 import { DiagnosticsDrawerProvider } from "@/features/diagnostics";
 import { SkipToContent } from "@/components/shared";
@@ -205,15 +206,17 @@ const App = () => (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <ProfileProvider>
-            <IdentityProvider>
-              <DiagnosticsDrawerProvider>
-                <SecurityAlertProvider>
-                  <AppRoutes />
-                </SecurityAlertProvider>
-              </DiagnosticsDrawerProvider>
-            </IdentityProvider>
-          </ProfileProvider>
+          <BackendStatusProvider>
+            <ProfileProvider>
+              <IdentityProvider>
+                <DiagnosticsDrawerProvider>
+                  <SecurityAlertProvider>
+                    <AppRoutes />
+                  </SecurityAlertProvider>
+                </DiagnosticsDrawerProvider>
+              </IdentityProvider>
+            </ProfileProvider>
+          </BackendStatusProvider>
         </AuthProvider>
       </QueryClientProvider>
     </ThemeProvider>

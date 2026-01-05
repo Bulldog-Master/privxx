@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { useBackendStatus, type ConnectionHealth } from "@/hooks/useBackendStatus";
+import { useBackendStatusShared } from "@/contexts/BackendStatusContext";
+import type { ConnectionHealth } from "@/hooks/useBackendStatus";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const healthConfig: Record<ConnectionHealth, {
@@ -30,7 +31,7 @@ const healthConfig: Record<ConnectionHealth, {
 };
 
 const BackendHealthIndicator = () => {
-  const { status, isLoading, refetch } = useBackendStatus();
+  const { status, isLoading, refetch } = useBackendStatusShared();
   const { t } = useTranslation();
 
   const health: ConnectionHealth = isLoading ? "checking" : status.health;

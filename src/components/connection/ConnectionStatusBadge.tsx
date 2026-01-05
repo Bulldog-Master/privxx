@@ -1,8 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Shield, ShieldAlert, ShieldCheck, Loader2, Clock } from "lucide-react";
-import { fetchBridgeStatusRaw, type BridgeUiStatus } from "@/api/bridge/statusUtils";
-import { useRateLimitCountdown } from "@/features/diagnostics/hooks/useRateLimitCountdown";
+import { useBackendStatusShared } from "@/contexts/BackendStatusContext";
 import { useDiagnosticsDrawerOptional } from "@/features/diagnostics/context";
 import { cn } from "@/lib/utils";
 
@@ -14,40 +12,7 @@ interface ConnectionStatusBadgeProps {
 const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatusBadgeProps) => {
   const { t } = useTranslation();
   const drawerContext = useDiagnosticsDrawerOptional();
-  const [statusUi, setStatusUi] = useState<BridgeUiStatus | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const rateLimit = useRateLimitCountdown(() => {
-    fetchStatus();
-  });
-
-  const fetchStatus = useCallback(async () => {
-    setLoading(true);
-    try {
-      const result = await fetchBridgeStatusRaw();
-      setStatusUi(result.ui);
-      
-      if (result.ui.kind === "rate_limited") {
-        rateLimit.startCountdown(result.ui.retryUntil);
-      } else {
-        rateLimit.clearCountdown();
-      }
-    } catch {
-      setStatusUi({ kind: "error", message: "Failed" });
-    } finally {
-      setLoading(false);
-    }
-  }, [rateLimit]);
-
-  useEffect(() => {
-    fetchStatus();
-    const interval = setInterval(() => {
-      if (!rateLimit.isRateLimited) {
-        fetchStatus();
-      }
-    }, 30000);
-    return () => clearInterval(interval);
-  }, [fetchStatus, rateLimit.isRateLimited]);
+  const { status, isLoading, rateLimit } = useBackendStatusShared();
 
   const handleClick = () => {
     drawerContext?.open();
@@ -55,7 +20,7 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
 
   // Determine state and styling
   const getStateConfig = () => {
-    if (loading && !statusUi) {
+    if (isLoading) {
       return {
         icon: Loader2,
         label: t("loading", "Loading"),
@@ -79,45 +44,33 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
       };
     }
 
-    if (statusUi?.kind === "ok") {
-      switch (statusUi.state) {
-        case "secure":
-          return {
-            icon: ShieldCheck,
-            label: t("stateSecure", "Secure"),
-            bg: "bg-emerald-500/10",
-            text: "text-emerald-600 dark:text-emerald-400",
-            border: "border-emerald-500/20",
-            pulse: false,
-            spin: false,
-          };
-        case "connecting":
-          return {
-            icon: Shield,
-            label: t("stateConnecting", "Connecting"),
-            bg: "bg-amber-500/10",
-            text: "text-amber-600 dark:text-amber-400",
-            border: "border-amber-500/20",
-            pulse: true,
-            spin: false,
-          };
-        case "idle":
-        default:
-          return {
-            icon: Shield,
-            label: t("stateIdle", "Idle"),
-            bg: "bg-muted/50",
-            text: "text-muted-foreground",
-            border: "border-border/50",
-            pulse: false,
-            spin: false,
-          };
-      }
-    }
-    
-    if (statusUi?.kind === "login_required" || statusUi?.kind === "token_invalid") {
+    if (status.state === "secure") {
       return {
-        icon: ShieldAlert,
+        icon: ShieldCheck,
+        label: t("stateSecure", "Secure"),
+        bg: "bg-emerald-500/10",
+        text: "text-emerald-600 dark:text-emerald-400",
+        border: "border-emerald-500/20",
+        pulse: false,
+        spin: false,
+      };
+    }
+
+    if (status.state === "connecting") {
+      return {
+        icon: Shield,
+        label: t("stateConnecting", "Connecting"),
+        bg: "bg-amber-500/10",
+        text: "text-amber-600 dark:text-amber-400",
+        border: "border-amber-500/20",
+        pulse: true,
+        spin: false,
+      };
+    }
+
+    if (status.state === "idle") {
+      return {
+        icon: Shield,
         label: t("stateIdle", "Idle"),
         bg: "bg-muted/50",
         text: "text-muted-foreground",
@@ -138,6 +91,7 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
       spin: false,
     };
   };
+
 
   const config = getStateConfig();
   const Icon = config.icon;
