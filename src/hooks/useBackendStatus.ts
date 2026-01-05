@@ -81,7 +81,16 @@ export function useBackendStatus(pollMs = 30000) {
   const isRateLimitedRef = useRef(false);
 
   const rateLimit = useRateLimitCountdown();
-  
+
+  // Store rate-limit state + functions in refs so polling effects don't re-run every second
+  const startCountdownRef = useRef(rateLimit.startCountdown);
+  const clearCountdownRef = useRef(rateLimit.clearCountdown);
+
+  useEffect(() => {
+    startCountdownRef.current = rateLimit.startCountdown;
+    clearCountdownRef.current = rateLimit.clearCountdown;
+  }, [rateLimit.startCountdown, rateLimit.clearCountdown]);
+
   // Keep ref in sync to avoid dependency issues
   useEffect(() => {
     isRateLimitedRef.current = rateLimit.isRateLimited;
@@ -110,7 +119,7 @@ export function useBackendStatus(pollMs = 30000) {
 
       // Reset failure count on success
       failureCountRef.current = 0;
-      rateLimit.clearCountdown();
+      clearCountdownRef.current();
 
       const health = calculateHealth(s.state, latencyMs, 0);
 
@@ -129,7 +138,7 @@ export function useBackendStatus(pollMs = 30000) {
       // Handle explicit rate limiting without incrementing failure counters
       if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
         const retryAfterSec = err.retryAfterSec ?? 60;
-        rateLimit.startCountdown(Date.now() + retryAfterSec * 1000);
+        startCountdownRef.current(Date.now() + retryAfterSec * 1000);
 
         setData((prev) => ({
           ...prev,
@@ -164,7 +173,7 @@ export function useBackendStatus(pollMs = 30000) {
     } finally {
       setIsLoading(false);
     }
-  }, [rateLimit]);
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -184,7 +193,7 @@ export function useBackendStatus(pollMs = 30000) {
 
         // Reset failure count on success
         failureCountRef.current = 0;
-        rateLimit.clearCountdown();
+        clearCountdownRef.current();
 
         const health = calculateHealth(s.state, latencyMs, 0);
 
@@ -205,7 +214,7 @@ export function useBackendStatus(pollMs = 30000) {
         // Handle explicit rate limiting without incrementing failure counters
         if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
           const retryAfterSec = err.retryAfterSec ?? 60;
-          rateLimit.startCountdown(Date.now() + retryAfterSec * 1000);
+          startCountdownRef.current(Date.now() + retryAfterSec * 1000);
 
           setData((prev) => ({
             ...prev,
@@ -247,7 +256,7 @@ export function useBackendStatus(pollMs = 30000) {
       alive = false;
       clearInterval(interval);
     };
-  }, [pollMs, isActive, rateLimit]);
+  }, [pollMs, isActive]);
 
   return { status: data, error, isLoading, refetch: fetchStatus, rateLimit };
 }
