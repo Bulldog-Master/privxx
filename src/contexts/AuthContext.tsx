@@ -34,22 +34,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
+    // Track if we've already initialized to prevent duplicate state updates
+    let hasInitialized = false;
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setIsLoading(false);
+      (_event, newSession) => {
+        // Only update if already initialized (ignore initial callback)
+        // or if this is our first real update
+        if (hasInitialized) {
+          setSession(newSession);
+          setUser(newSession?.user ?? null);
+        }
       }
     );
 
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsLoading(false);
+    // THEN check for existing session - this is the authoritative initial state
+    supabase.auth.getSession().then(({ data: { session: existingSession } }) => {
+      if (!hasInitialized) {
+        hasInitialized = true;
+        setSession(existingSession);
+        setUser(existingSession?.user ?? null);
+        setIsLoading(false);
+        setInitialized(true);
+      }
     });
 
     return () => subscription.unsubscribe();
