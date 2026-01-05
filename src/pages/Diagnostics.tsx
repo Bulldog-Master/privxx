@@ -28,6 +28,7 @@ import {
   TranslationCoverageBadge,
   NetworkStatsPanel,
   HealthPayloadCard,
+  SimulatedStatusBanner,
 } from '@/components/diagnostics';
 import type { LayerState } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
@@ -144,6 +145,9 @@ export default function Diagnostics() {
           </div>
           <TranslationCoverageBadge />
         </div>
+
+        {/* SIMULATED / LIVE Status Banner - prominent display */}
+        <SimulatedStatusBanner />
 
         {/* Overall Status Bar */}
         <OverallStatusBar
