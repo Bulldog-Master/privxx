@@ -24,6 +24,7 @@ export {
   UptimeCounter,
   BandwidthTracker,
   NetworkStatsPanel,
+  HealthPayloadCard,
 } from "./components";
 export type { LayerState, LayerStatus } from "./components";
 export type { OverallStatus } from "./components";

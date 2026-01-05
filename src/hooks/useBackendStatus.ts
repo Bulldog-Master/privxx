@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import { bridgeClient, isMockMode, BridgeError, type StatusResponse, type BridgeErrorCode } from "@/api/bridge";
+import { useQueryClient } from "@tanstack/react-query";
+import type { HealthResponse } from "@/api/bridge/types";
 
 export type ConnectionHealth = "healthy" | "degraded" | "offline" | "checking";
 
@@ -128,7 +130,18 @@ function setRateLimit(next: Partial<RateLimitSnapshot>) {
   notify();
 }
 
+// Simulated mode tracking (from /health xxdkReady)
+let isSimulatedMode = false;
+
+function setSimulatedMode(simulated: boolean) {
+  isSimulatedMode = simulated;
+}
+
+// Heavy backoff for simulated mode - no point polling /status frequently
+const SIMULATED_POLL_MS = 120000; // 2 minutes
+
 function getPollMs() {
+  if (isSimulatedMode) return SIMULATED_POLL_MS;
   if (pollRequests.size === 0) return 30000;
   return Math.min(...Array.from(pollRequests.values()));
 }
@@ -312,12 +325,23 @@ function subscribe(listener: Listener, pollMs: number, id: symbol) {
 
 export function useBackendStatus(pollMs = 30000) {
   const idRef = useRef<symbol>(Symbol("useBackendStatus"));
+  const queryClient = useQueryClient();
 
   const snapshot = useSyncExternalStore(
     (listener) => subscribe(listener, pollMs, idRef.current!),
     () => store,
     () => store
   );
+
+  // Check health cache for xxdkReady to adjust polling
+  useEffect(() => {
+    const healthData = queryClient.getQueryData<HealthResponse>(["bridge-health"]);
+    if (healthData?.xxdkReady === false) {
+      setSimulatedMode(true);
+    } else if (healthData?.xxdkReady === true) {
+      setSimulatedMode(false);
+    }
+  }, [queryClient]);
 
   const refetch = useMemo(() => {
     return () => {

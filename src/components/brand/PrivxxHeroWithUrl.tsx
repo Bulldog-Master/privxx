@@ -6,11 +6,14 @@ import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle } from "lucide-react"
 import { bridgeClient } from "@/api/bridge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
+import SimulatedModeBanner from "@/components/connection/SimulatedModeBanner";
 
 const PrivxxHeroWithUrl = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { status, isLoading: statusLoading, refetch, rateLimit } = useBackendStatus();
+  const { isSimulated } = useBridgeHealthStatus();
 
   const [url, setUrl] = useState("https://");
   const [connecting, setConnecting] = useState(false);
@@ -25,7 +28,8 @@ const PrivxxHeroWithUrl = () => {
   const showLoginRequired = !user;
   const showError = status.state === "error";
 
-  const canConnect = url.trim().length > 8 && isIdle && !showRateLimited && !!user;
+  // Disable connect when simulated (xxdkReady=false)
+  const canConnect = url.trim().length > 8 && isIdle && !showRateLimited && !!user && !isSimulated;
   const canDisconnect = (isConnected || isConnecting) && !showRateLimited;
 
   const onConnect = async () => {
@@ -69,8 +73,11 @@ const PrivxxHeroWithUrl = () => {
         {t("subtitle")}
       </p>
 
+      {/* Simulated Mode Banner - when xxdkReady=false */}
+      <SimulatedModeBanner />
+
       {/* Rate Limit Banner */}
-      {showRateLimited && (
+      {showRateLimited && !isSimulated && (
         <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
           <Clock className="h-5 w-5 text-amber-500 animate-pulse" />
           <div className="flex-1 text-left">
