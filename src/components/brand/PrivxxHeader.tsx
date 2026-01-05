@@ -7,6 +7,7 @@ import { useProfileContext } from "@/contexts/ProfileContext";
 import { useIdentity } from "@/features/identity";
 import { ReferralBadge, ReferralDrawer } from "@/features/referrals";
 import LanguageSelector from "@/components/shared/LanguageSelector";
+import { ConnectionStatusBadge } from "@/components/connection";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -66,7 +67,10 @@ const PrivxxHeader = () => {
   return (
     <>
       <header className="fixed top-6 left-6 z-20 flex items-center gap-3 opacity-70 hover:opacity-95 transition-opacity">
-        {/* Language Selector - stays separate */}
+        {/* Connection Status Badge */}
+        <ConnectionStatusBadge />
+
+        {/* Language Selector */}
         <LanguageSelector />
 
         {/* Sign In button for unauthenticated users */}
