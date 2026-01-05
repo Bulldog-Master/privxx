@@ -25,7 +25,7 @@ export function BridgeConnectivityWarning({
   showInMockMode = false,
 }: BridgeConnectivityWarningProps) {
   const { t } = useTranslation();
-  const { status, refetch, isLoading } = useBackendStatus(15000);
+  const { status, refetch, isLoading } = useBackendStatus(15000); // Check every 15s
   const [dismissed, setDismissed] = useState(false);
   const [retrying, setRetrying] = useState(false);
 

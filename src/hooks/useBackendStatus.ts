@@ -72,13 +72,10 @@ function calculateHealth(
   return "degraded";
 }
 
-export function useBackendStatus(pollMs = 30000, options?: { enabled?: boolean }) {
-  const enabled = options?.enabled ?? true;
-
+export function useBackendStatus(pollMs = 30000) {
   const [data, setData] = useState<BackendStatus>(initialStatus);
   const [error, setError] = useState<string | null>(null);
-  // Start with isLoading=false to prevent flash; set true only when actually polling
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isActive, setIsActive] = useState(!document.hidden);
   const failureCountRef = useRef(0);
   const isRateLimitedRef = useRef(false);
@@ -101,17 +98,14 @@ export function useBackendStatus(pollMs = 30000, options?: { enabled?: boolean }
 
   // Pause polling when app is backgrounded (privacy + performance)
   useEffect(() => {
-    if (!enabled) return;
-
     const onVisibilityChange = () => {
       setIsActive(!document.hidden);
     };
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
-  }, [enabled]);
+  }, []);
 
   const fetchStatus = useCallback(async () => {
-    if (!enabled) return;
     // Avoid hammering the bridge while rate limited
     if (isRateLimitedRef.current) return;
 
@@ -179,23 +173,9 @@ export function useBackendStatus(pollMs = 30000, options?: { enabled?: boolean }
     } finally {
       setIsLoading(false);
     }
-  }, [enabled]);
+  }, []);
 
   useEffect(() => {
-    if (!enabled) {
-      // Reset to a neutral, non-polling state.
-      setIsLoading(false);
-      setError(null);
-      setData((prev) => ({
-        ...prev,
-        isMock: isMockMode(),
-        health: "checking",
-        lastErrorCode: null,
-        failureCount: 0,
-      }));
-      return;
-    }
-
     let alive = true;
 
     async function tick() {
@@ -276,7 +256,7 @@ export function useBackendStatus(pollMs = 30000, options?: { enabled?: boolean }
       alive = false;
       clearInterval(interval);
     };
-  }, [pollMs, isActive, enabled]);
+  }, [pollMs, isActive]);
 
   return { status: data, error, isLoading, refetch: fetchStatus, rateLimit };
 }

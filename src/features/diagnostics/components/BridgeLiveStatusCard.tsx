@@ -1,27 +1,16 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import {
-  Activity,
-  Server,
-  CheckCircle2,
-  XCircle,
-  RefreshCw,
-  Loader2,
-  AlertTriangle,
-  Timer,
-  Globe,
-  Network,
-  Shield,
-  Clock,
-  Power,
-  PowerOff,
+import { 
+  Activity, Server, CheckCircle2, XCircle, RefreshCw, Loader2, 
+  AlertTriangle, Timer, Globe, Network, Shield, LogIn, Clock, 
+  Power, PowerOff 
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { bridgeClient, getBridgeUrl } from "@/api/bridge";
-import { useBackendStatus } from "@/hooks/useBackendStatus";
-import type { BridgeUiStatus } from "@/api/bridge/statusUtils";
+import { fetchBridgeStatusRaw, type BridgeUiStatus } from "@/api/bridge/statusUtils";
+import { useRateLimitCountdown } from "../hooks/useRateLimitCountdown";
 import type { HealthResponse } from "@/api/bridge/types";
 
 interface StatusRowProps {
@@ -149,6 +138,13 @@ const StatusBadge = ({ status }: { status: BridgeUiStatus }) => {
           <span className="text-sm font-medium">Online</span>
         </div>
       );
+    case "login_required":
+      return (
+        <div className="flex items-center gap-2 text-amber-500">
+          <LogIn className="h-4 w-4" />
+          <span className="text-sm font-medium">Login Required</span>
+        </div>
+      );
     case "token_invalid":
       return (
         <div className="flex items-center gap-2 text-destructive">
@@ -185,33 +181,50 @@ const BridgeLiveStatusCard = () => {
   // Response time tracker for health
   const healthTimer = useResponseTime();
   
-  // Shared backend status
-  const {
-    status: backendStatus,
-    isLoading: backendLoading,
-    refetch: refetchStatus,
-    rateLimit,
-  } = useBackendStatus();
+  // Status state with raw fetching for rate limit support
+  const [statusUi, setStatusUi] = useState<BridgeUiStatus | null>(null);
+  const [statusLatency, setStatusLatency] = useState<number | null>(null);
+  const [statusLoading, setStatusLoading] = useState(true);
 
-  const statusUi: BridgeUiStatus = (() => {
-    if (rateLimit.isRateLimited) {
-      return { kind: "rate_limited", retryAfterSec: rateLimit.remainingSec, retryUntil: Date.now() + rateLimit.remainingSec * 1000 };
+  // Rate limit countdown
+  const rateLimit = useRateLimitCountdown(() => {
+    // Auto-refetch when rate limit expires
+    fetchStatus();
+  });
+
+  // Fetch status with rate limit handling
+  const fetchStatus = useCallback(async () => {
+    setStatusLoading(true);
+    try {
+      const result = await fetchBridgeStatusRaw();
+      setStatusUi(result.ui);
+      setStatusLatency(result.latencyMs);
+      
+      // Start countdown if rate limited
+      if (result.ui.kind === "rate_limited") {
+        rateLimit.startCountdown(result.ui.retryUntil);
+      } else {
+        rateLimit.clearCountdown();
+      }
+    } catch {
+      setStatusUi({ kind: "error", message: "Failed to fetch status" });
+    } finally {
+      setStatusLoading(false);
     }
+  }, [rateLimit]);
 
-    if (backendStatus.state === "idle" || backendStatus.state === "connecting" || backendStatus.state === "secure") {
-      return { kind: "ok", state: backendStatus.state };
-    }
-
-    if (backendStatus.lastErrorCode === "UNAUTHORIZED") {
-      return { kind: "token_invalid" };
-    }
-
-    return { kind: "error", message: backendStatus.lastErrorCode ?? "Error" };
-  })();
-
-  const statusLatency = backendStatus.latencyMs;
-  const statusLoading = backendLoading;
-
+  // Initial fetch and periodic refresh (only if not rate limited)
+  useEffect(() => {
+    fetchStatus();
+    
+    const interval = setInterval(() => {
+      if (!rateLimit.isRateLimited) {
+        fetchStatus();
+      }
+    }, 30000);
+    
+    return () => clearInterval(interval);
+  }, [fetchStatus, rateLimit.isRateLimited]);
 
   // Fetch bridge health with timing
   const { 
@@ -240,7 +253,7 @@ const BridgeLiveStatusCard = () => {
   const handleRefresh = () => {
     refetchHealth();
     if (!rateLimit.isRateLimited) {
-      refetchStatus();
+      fetchStatus();
     }
   };
 
@@ -249,7 +262,7 @@ const BridgeLiveStatusCard = () => {
     setConnecting(true);
     try {
       await bridgeClient.connect();
-      refetchStatus(); // Refresh status after connect
+      fetchStatus(); // Refresh status after connect
     } catch (err) {
       console.error("[Bridge] Connect failed:", err);
     } finally {
@@ -262,7 +275,7 @@ const BridgeLiveStatusCard = () => {
     setDisconnecting(true);
     try {
       await bridgeClient.disconnect();
-      refetchStatus(); // Refresh status after disconnect
+      fetchStatus(); // Refresh status after disconnect
     } catch (err) {
       console.error("[Bridge] Disconnect failed:", err);
     } finally {
@@ -466,6 +479,11 @@ const BridgeLiveStatusCard = () => {
                 />
               )}
             </>
+          ) : statusUi?.kind === "login_required" ? (
+            <div className="flex items-center gap-2 py-1.5 text-sm text-amber-500">
+              <LogIn className="h-3.5 w-3.5" />
+              <span>Please log in to access bridge status</span>
+            </div>
           ) : statusUi?.kind === "token_invalid" ? (
             <div className="flex items-center gap-2 py-1.5 text-sm text-destructive">
               <XCircle className="h-3.5 w-3.5" />
