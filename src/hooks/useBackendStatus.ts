@@ -78,8 +78,14 @@ export function useBackendStatus(pollMs = 30000) {
   const [isLoading, setIsLoading] = useState(true);
   const [isActive, setIsActive] = useState(!document.hidden);
   const failureCountRef = useRef(0);
+  const isRateLimitedRef = useRef(false);
 
   const rateLimit = useRateLimitCountdown();
+  
+  // Keep ref in sync to avoid dependency issues
+  useEffect(() => {
+    isRateLimitedRef.current = rateLimit.isRateLimited;
+  }, [rateLimit.isRateLimited]);
 
   // Pause polling when app is backgrounded (privacy + performance)
   useEffect(() => {
@@ -92,7 +98,7 @@ export function useBackendStatus(pollMs = 30000) {
 
   const fetchStatus = useCallback(async () => {
     // Avoid hammering the bridge while rate limited
-    if (rateLimit.isRateLimited) return;
+    if (isRateLimitedRef.current) return;
 
     setIsLoading(true);
     const startTime = performance.now();
@@ -158,14 +164,14 @@ export function useBackendStatus(pollMs = 30000) {
     } finally {
       setIsLoading(false);
     }
-  }, [rateLimit.isRateLimited, rateLimit.startCountdown, rateLimit.clearCountdown]);
+  }, [rateLimit]);
 
   useEffect(() => {
     let alive = true;
 
     async function tick() {
       if (!isActive) return; // Skip polling when backgrounded
-      if (rateLimit.isRateLimited) return; // Skip polling while rate limited
+      if (isRateLimitedRef.current) return; // Skip polling while rate limited
 
       const startTime = performance.now();
       const checkTime = new Date();
@@ -241,7 +247,7 @@ export function useBackendStatus(pollMs = 30000) {
       alive = false;
       clearInterval(interval);
     };
-  }, [pollMs, isActive, rateLimit.isRateLimited, rateLimit.startCountdown, rateLimit.clearCountdown]);
+  }, [pollMs, isActive, rateLimit]);
 
   return { status: data, error, isLoading, refetch: fetchStatus, rateLimit };
 }
