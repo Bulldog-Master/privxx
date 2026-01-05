@@ -28,6 +28,9 @@ export {
 export type { LayerState, LayerStatus } from "./components";
 export type { OverallStatus } from "./components";
 
+// Context
+export { DiagnosticsDrawerProvider, useDiagnosticsDrawer, useDiagnosticsDrawerOptional } from "./context";
+
 // Hooks
 export { useDiagnosticsState, useBridgeHealthStatus } from "./hooks";
 export type { BridgeHealthStatus } from "./hooks";

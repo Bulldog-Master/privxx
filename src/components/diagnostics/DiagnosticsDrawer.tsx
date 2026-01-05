@@ -11,6 +11,7 @@ import { StatusPill } from "./StatusPill";
 import { buildInfo } from "@/lib/buildInfo";
 import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
 import { NetworkSpeedTest } from "@/features/diagnostics/components/NetworkSpeedTest";
+import { useDiagnosticsDrawerOptional } from "@/features/diagnostics/context";
 import { useAuth } from "@/contexts/AuthContext";
 import { bridgeClient } from "@/api/bridge";
 
@@ -56,7 +57,12 @@ function ConnectionPathNode({ node, isLast }: { node: ConnectionNode; isLast: bo
 
 const DiagnosticsDrawer = () => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
+  // Use context if available, otherwise fallback to local state
+  const drawerContext = useDiagnosticsDrawerOptional();
+  const [localOpen, setLocalOpen] = useState(false);
+  
+  const open = drawerContext?.isOpen ?? localOpen;
+  const setOpen = drawerContext ? (v: boolean) => (v ? drawerContext.open() : drawerContext.close()) : setLocalOpen;
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [copied, setCopied] = useState(false);
   const [tokenCopied, setTokenCopied] = useState(false);
