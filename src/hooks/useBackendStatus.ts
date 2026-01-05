@@ -77,8 +77,9 @@ export function useBackendStatus(pollMs = 30000, options?: { enabled?: boolean }
 
   const [data, setData] = useState<BackendStatus>(initialStatus);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(enabled);
-  const [isActive, setIsActive] = useState(enabled && !document.hidden);
+  // Start with isLoading=false to prevent flash; set true only when actually polling
+  const [isLoading, setIsLoading] = useState(false);
+  const [isActive, setIsActive] = useState(!document.hidden);
   const failureCountRef = useRef(0);
   const isRateLimitedRef = useRef(false);
 
