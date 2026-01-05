@@ -121,7 +121,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
     }
   };
   
-  // Test Auth button - calls bridge /status to verify JWT acceptance
+  // Test Auth button - calls bridge /health to verify reachability (avoids rate-limit on /status)
   const handleTestAuth = useCallback(async () => {
     setAuthTestState("loading");
     setAuthTestMessage(null);
@@ -135,19 +135,19 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
         return;
       }
       
-      // Call bridge status endpoint
-      const result = await bridgeClient.status();
-      setAuthTestState("success");
-      setAuthTestMessage(`Authenticated (state: ${result.state})`);
+      // Call bridge health endpoint (public, no rate limit risk)
+      const result = await bridgeClient.health();
+      if (result.ok) {
+        setAuthTestState("success");
+        setAuthTestMessage("Bridge reachable");
+      } else {
+        setAuthTestState("error");
+        setAuthTestMessage("Bridge returned not ok");
+      }
     } catch (err) {
       setAuthTestState("error");
       const message = err instanceof Error ? err.message : "Unknown error";
-      // Check for 401 in error message
-      if (message.includes("401") || message.toLowerCase().includes("unauthorized")) {
-        setAuthTestMessage("401 Unauthorized - JWT rejected");
-      } else {
-        setAuthTestMessage(message);
-      }
+      setAuthTestMessage(message);
     }
     
     // Reset after 5 seconds
