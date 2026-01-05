@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { bridgeClient } from '@/api/bridge';
+import { BridgeError } from '@/api/bridge/client';
 import type { HealthResponse, StatusResponse } from '@/api/bridge/types';
 
 export interface BridgeHealthStatus {
@@ -22,21 +23,35 @@ export interface BridgeHealthStatus {
   refetchAll: () => void;
 }
 
+const POLL_MS = 60000;
+
+function shouldRetry(_failureCount: number, error: unknown) {
+  // Never retry while rate-limited; it prolongs lockouts and adds load.
+  if (error instanceof BridgeError && error.code === 'RATE_LIMITED') return false;
+  return _failureCount < 1;
+}
+
 export function useBridgeHealthStatus(): BridgeHealthStatus {
   const healthQuery = useQuery({
     queryKey: ['bridge-health'],
     queryFn: () => bridgeClient.health(),
     staleTime: 30000,
-    retry: 1,
-    refetchInterval: 60000,
+    retry: shouldRetry,
+    refetchInterval: (q) => {
+      const err = q.state.error;
+      return err instanceof BridgeError && err.code === 'RATE_LIMITED' ? false : POLL_MS;
+    },
   });
 
   const statusQuery = useQuery({
     queryKey: ['bridge-status'],
     queryFn: () => bridgeClient.status(),
     staleTime: 30000,
-    retry: 1,
-    refetchInterval: 60000,
+    retry: shouldRetry,
+    refetchInterval: (q) => {
+      const err = q.state.error;
+      return err instanceof BridgeError && err.code === 'RATE_LIMITED' ? false : POLL_MS;
+    },
   });
 
   const refetchAll = () => {

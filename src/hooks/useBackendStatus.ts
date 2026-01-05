@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { bridgeClient, isMockMode, type StatusResponse } from "@/api/bridge";
 import { BridgeError, type BridgeErrorCode } from "@/api/bridge/client";
+import { useRateLimitCountdown } from "@/features/diagnostics/hooks/useRateLimitCountdown";
 
 export type ConnectionHealth = "healthy" | "degraded" | "offline" | "checking";
 
@@ -78,6 +79,8 @@ export function useBackendStatus(pollMs = 30000) {
   const [isActive, setIsActive] = useState(!document.hidden);
   const failureCountRef = useRef(0);
 
+  const rateLimit = useRateLimitCountdown();
+
   // Pause polling when app is backgrounded (privacy + performance)
   useEffect(() => {
     const onVisibilityChange = () => {
@@ -88,6 +91,9 @@ export function useBackendStatus(pollMs = 30000) {
   }, []);
 
   const fetchStatus = useCallback(async () => {
+    // Avoid hammering the bridge while rate limited
+    if (rateLimit.isRateLimited) return;
+
     setIsLoading(true);
     const startTime = performance.now();
     const checkTime = new Date();
@@ -95,12 +101,13 @@ export function useBackendStatus(pollMs = 30000) {
     try {
       const s = await bridgeClient.status();
       const latencyMs = Math.round(performance.now() - startTime);
-      
+
       // Reset failure count on success
       failureCountRef.current = 0;
-      
+      rateLimit.clearCountdown();
+
       const health = calculateHealth(s.state, latencyMs, 0);
-      
+
       setData({
         state: s.state,
         isMock: isMockMode(),
@@ -113,15 +120,31 @@ export function useBackendStatus(pollMs = 30000) {
       });
       setError(null);
     } catch (err) {
+      // Handle explicit rate limiting without incrementing failure counters
+      if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
+        const retryAfterSec = err.retryAfterSec ?? 60;
+        rateLimit.startCountdown(Date.now() + retryAfterSec * 1000);
+
+        setData((prev) => ({
+          ...prev,
+          isMock: isMockMode(),
+          // Keep previous state; mark health degraded to avoid showing "Offline"
+          health: "degraded",
+          latencyMs: null,
+          lastErrorCode: "RATE_LIMITED",
+          lastCheckAt: checkTime,
+        }));
+        setError("RATE_LIMITED");
+        return;
+      }
+
       failureCountRef.current += 1;
-      
-      const errorCode: BridgeErrorCode = err instanceof BridgeError 
-        ? err.code 
-        : "NETWORK_ERROR";
-      
+
+      const errorCode: BridgeErrorCode = err instanceof BridgeError ? err.code : "NETWORK_ERROR";
+
       const health = calculateHealth("error", null, failureCountRef.current);
-      
-      setData(prev => ({
+
+      setData((prev) => ({
         state: "error",
         isMock: isMockMode(),
         health,
@@ -135,13 +158,14 @@ export function useBackendStatus(pollMs = 30000) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [rateLimit.isRateLimited, rateLimit.startCountdown, rateLimit.clearCountdown]);
 
   useEffect(() => {
     let alive = true;
 
     async function tick() {
       if (!isActive) return; // Skip polling when backgrounded
+      if (rateLimit.isRateLimited) return; // Skip polling while rate limited
 
       const startTime = performance.now();
       const checkTime = new Date();
@@ -149,14 +173,15 @@ export function useBackendStatus(pollMs = 30000) {
       try {
         const s = await bridgeClient.status();
         if (!alive) return;
-        
+
         const latencyMs = Math.round(performance.now() - startTime);
-        
+
         // Reset failure count on success
         failureCountRef.current = 0;
-        
+        rateLimit.clearCountdown();
+
         const health = calculateHealth(s.state, latencyMs, 0);
-        
+
         setData({
           state: s.state,
           isMock: isMockMode(),
@@ -170,16 +195,31 @@ export function useBackendStatus(pollMs = 30000) {
         setError(null);
       } catch (err) {
         if (!alive) return;
-        
+
+        // Handle explicit rate limiting without incrementing failure counters
+        if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
+          const retryAfterSec = err.retryAfterSec ?? 60;
+          rateLimit.startCountdown(Date.now() + retryAfterSec * 1000);
+
+          setData((prev) => ({
+            ...prev,
+            isMock: isMockMode(),
+            health: "degraded",
+            latencyMs: null,
+            lastErrorCode: "RATE_LIMITED",
+            lastCheckAt: checkTime,
+          }));
+          setError("RATE_LIMITED");
+          return;
+        }
+
         failureCountRef.current += 1;
-        
-        const errorCode: BridgeErrorCode = err instanceof BridgeError 
-          ? err.code 
-          : "NETWORK_ERROR";
-        
+
+        const errorCode: BridgeErrorCode = err instanceof BridgeError ? err.code : "NETWORK_ERROR";
+
         const health = calculateHealth("error", null, failureCountRef.current);
-        
-        setData(prev => ({
+
+        setData((prev) => ({
           state: "error",
           isMock: isMockMode(),
           health,
@@ -201,7 +241,7 @@ export function useBackendStatus(pollMs = 30000) {
       alive = false;
       clearInterval(interval);
     };
-  }, [pollMs, isActive]);
+  }, [pollMs, isActive, rateLimit.isRateLimited, rateLimit.startCountdown, rateLimit.clearCountdown]);
 
-  return { status: data, error, isLoading, refetch: fetchStatus };
+  return { status: data, error, isLoading, refetch: fetchStatus, rateLimit };
 }
