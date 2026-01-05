@@ -1,11 +1,17 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Activity, Server, CheckCircle2, XCircle, RefreshCw, Loader2, AlertTriangle, Timer, Globe, Network, Shield } from "lucide-react";
+import { 
+  Activity, Server, CheckCircle2, XCircle, RefreshCw, Loader2, 
+  AlertTriangle, Timer, Globe, Network, Shield, LogIn, Clock, 
+  Power, PowerOff 
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { bridgeClient, getBridgeUrl } from "@/api/bridge";
-import type { StatusResponse, HealthResponse } from "@/api/bridge/types";
+import { fetchBridgeStatusRaw, type BridgeUiStatus } from "@/api/bridge/statusUtils";
+import { useRateLimitCountdown } from "../hooks/useRateLimitCountdown";
+import type { HealthResponse } from "@/api/bridge/types";
 
 interface StatusRowProps {
   label: string;
@@ -23,44 +29,6 @@ const StatusRow = ({ label, value, icon, valueColor = "text-foreground" }: Statu
     <span className={`text-sm font-medium ${valueColor}`}>{value}</span>
   </div>
 );
-
-interface ErrorStateProps {
-  endpoint: string;
-  onRetry: () => void;
-  isRetrying?: boolean;
-}
-
-const ErrorState = ({ endpoint, onRetry, isRetrying }: ErrorStateProps) => {
-  const { t } = useTranslation();
-  
-  return (
-    <div className="flex items-center justify-between py-2 px-3 rounded-md bg-destructive/10 border border-destructive/20">
-      <div className="flex items-center gap-2">
-        <XCircle className="h-4 w-4 text-destructive" />
-        <div>
-          <p className="text-sm font-medium text-destructive">{t("connectionFailed", "Connection Failed")}</p>
-          <p className="text-xs text-muted-foreground">{t("unableToReach", "Unable to reach")} {endpoint}</p>
-        </div>
-      </div>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={onRetry}
-        disabled={isRetrying}
-        className="h-7 px-2 text-xs border-destructive/30 hover:bg-destructive/10"
-      >
-        {isRetrying ? (
-          <Loader2 className="h-3 w-3 animate-spin" />
-        ) : (
-          <>
-            <RefreshCw className="h-3 w-3 mr-1" />
-            {t("retry")}
-          </>
-        )}
-      </Button>
-    </div>
-  );
-};
 
 interface LatencyBadgeProps {
   latency: number | null;
@@ -146,16 +114,117 @@ const getConnectionPathInfo = (url: string) => {
   };
 };
 
+// Rate limit countdown badge
+const RateLimitBadge = ({ remainingSec, formattedTime }: { remainingSec: number; formattedTime: string }) => (
+  <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-amber-500/10 border border-amber-500/20">
+    <Clock className="h-4 w-4 text-amber-500 animate-pulse" />
+    <div className="flex-1">
+      <p className="text-sm font-medium text-amber-600 dark:text-amber-400">Rate Limited</p>
+      <p className="text-xs text-muted-foreground">Retry in {formattedTime}</p>
+    </div>
+    <span className="font-mono text-lg font-bold text-amber-600 dark:text-amber-400">
+      {formattedTime}
+    </span>
+  </div>
+);
+
+// Status badge based on BridgeUiStatus
+const StatusBadge = ({ status }: { status: BridgeUiStatus }) => {
+  switch (status.kind) {
+    case "ok":
+      return (
+        <div className="flex items-center gap-2 text-emerald-500">
+          <CheckCircle2 className="h-4 w-4" />
+          <span className="text-sm font-medium">Online</span>
+        </div>
+      );
+    case "login_required":
+      return (
+        <div className="flex items-center gap-2 text-amber-500">
+          <LogIn className="h-4 w-4" />
+          <span className="text-sm font-medium">Login Required</span>
+        </div>
+      );
+    case "token_invalid":
+      return (
+        <div className="flex items-center gap-2 text-destructive">
+          <XCircle className="h-4 w-4" />
+          <span className="text-sm font-medium">Session Expired</span>
+        </div>
+      );
+    case "rate_limited":
+      return (
+        <div className="flex items-center gap-2 text-amber-500">
+          <Clock className="h-4 w-4" />
+          <span className="text-sm font-medium">Rate Limited</span>
+        </div>
+      );
+    case "error":
+      return (
+        <div className="flex items-center gap-2 text-destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <span className="text-sm font-medium">Error</span>
+        </div>
+      );
+  }
+};
+
 const BridgeLiveStatusCard = () => {
   const { t } = useTranslation();
+  const [connecting, setConnecting] = useState(false);
+  const [disconnecting, setDisconnecting] = useState(false);
   
   // Get connection path info
   const bridgeUrl = getBridgeUrl();
   const connectionPath = getConnectionPathInfo(bridgeUrl);
   
-  // Response time trackers
+  // Response time tracker for health
   const healthTimer = useResponseTime();
-  const statusTimer = useResponseTime();
+  
+  // Status state with raw fetching for rate limit support
+  const [statusUi, setStatusUi] = useState<BridgeUiStatus | null>(null);
+  const [statusLatency, setStatusLatency] = useState<number | null>(null);
+  const [statusLoading, setStatusLoading] = useState(true);
+
+  // Rate limit countdown
+  const rateLimit = useRateLimitCountdown(() => {
+    // Auto-refetch when rate limit expires
+    fetchStatus();
+  });
+
+  // Fetch status with rate limit handling
+  const fetchStatus = useCallback(async () => {
+    setStatusLoading(true);
+    try {
+      const result = await fetchBridgeStatusRaw();
+      setStatusUi(result.ui);
+      setStatusLatency(result.latencyMs);
+      
+      // Start countdown if rate limited
+      if (result.ui.kind === "rate_limited") {
+        rateLimit.startCountdown(result.ui.retryUntil);
+      } else {
+        rateLimit.clearCountdown();
+      }
+    } catch {
+      setStatusUi({ kind: "error", message: "Failed to fetch status" });
+    } finally {
+      setStatusLoading(false);
+    }
+  }, [rateLimit]);
+
+  // Initial fetch and periodic refresh (only if not rate limited)
+  useEffect(() => {
+    fetchStatus();
+    
+    const interval = setInterval(() => {
+      if (!rateLimit.isRateLimited) {
+        fetchStatus();
+      }
+    }, 30000);
+    
+    return () => clearInterval(interval);
+  }, [fetchStatus, rateLimit.isRateLimited]);
 
   // Fetch bridge health with timing
   const { 
@@ -181,39 +250,43 @@ const BridgeLiveStatusCard = () => {
     retry: 1,
   });
 
-  // Fetch bridge status with timing (requires auth)
-  const { 
-    data: statusData, 
-    isLoading: statusLoading,
-    isError: statusError,
-    isFetching: statusFetching,
-    refetch: refetchStatus
-  } = useQuery<StatusResponse>({
-    queryKey: ["bridge-status"],
-    queryFn: async () => {
-      statusTimer.startTimer();
-      try {
-        const result = await bridgeClient.status();
-        statusTimer.endTimer();
-        return result;
-      } catch (e) {
-        statusTimer.resetTimer();
-        throw e;
-      }
-    },
-    refetchInterval: 30000,
-    retry: 1,
-  });
-
-  const isLoading = healthLoading || statusLoading;
-  const isFetching = healthFetching || statusFetching;
-  const hasError = healthError || statusError;
-  const allErrors = healthError && statusError;
-
   const handleRefresh = () => {
     refetchHealth();
-    refetchStatus();
+    if (!rateLimit.isRateLimited) {
+      fetchStatus();
+    }
   };
+
+  // Connect handler
+  const handleConnect = async () => {
+    setConnecting(true);
+    try {
+      await bridgeClient.connect();
+      fetchStatus(); // Refresh status after connect
+    } catch (err) {
+      console.error("[Bridge] Connect failed:", err);
+    } finally {
+      setConnecting(false);
+    }
+  };
+
+  // Disconnect handler
+  const handleDisconnect = async () => {
+    setDisconnecting(true);
+    try {
+      await bridgeClient.disconnect();
+      fetchStatus(); // Refresh status after disconnect
+    } catch (err) {
+      console.error("[Bridge] Disconnect failed:", err);
+    } finally {
+      setDisconnecting(false);
+    }
+  };
+
+  const isLoading = healthLoading || statusLoading;
+  const isFetching = healthFetching || statusLoading;
+  const hasError = healthError || (statusUi?.kind === "error");
+  const allErrors = healthError && statusUi?.kind === "error";
 
   const getStateDisplay = (state?: string) => {
     switch (state) {
@@ -223,6 +296,10 @@ const BridgeLiveStatusCard = () => {
       default: return { label: "—", color: "text-muted-foreground" };
     }
   };
+
+  const currentState = statusUi?.kind === "ok" ? statusUi.state : undefined;
+  const canConnect = statusUi?.kind === "ok" && currentState === "idle";
+  const canDisconnect = statusUi?.kind === "ok" && (currentState === "connecting" || currentState === "secure");
 
   return (
     <Card className={`bg-card/50 border-border/50 ${hasError ? "border-destructive/30" : ""}`}>
@@ -299,6 +376,14 @@ const BridgeLiveStatusCard = () => {
           </div>
         </div>
 
+        {/* Rate Limit Banner */}
+        {rateLimit.isRateLimited && (
+          <RateLimitBadge 
+            remainingSec={rateLimit.remainingSec} 
+            formattedTime={rateLimit.formattedTime} 
+          />
+        )}
+
         {/* All endpoints failed banner */}
         {allErrors && (
           <div className="flex items-center gap-3 p-3 rounded-md bg-destructive/10 border border-destructive/20">
@@ -337,11 +422,10 @@ const BridgeLiveStatusCard = () => {
             <LatencyBadge latency={healthError ? null : healthTimer.latency} isLoading={healthFetching} />
           </div>
           {healthError ? (
-            <ErrorState 
-              endpoint="/health" 
-              onRetry={() => refetchHealth()} 
-              isRetrying={healthFetching}
-            />
+            <div className="flex items-center gap-2 py-1.5 text-sm text-destructive">
+              <XCircle className="h-3.5 w-3.5" />
+              <span>{t("connectionFailed", "Connection Failed")}</span>
+            </div>
           ) : healthLoading ? (
             <div className="flex items-center gap-2 py-1.5 text-sm text-muted-foreground">
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -367,28 +451,26 @@ const BridgeLiveStatusCard = () => {
         <div className="space-y-1 pt-2 border-t border-border/30">
           <div className="flex items-center justify-between">
             <p className="text-xs text-muted-foreground uppercase tracking-wide">/status</p>
-            <LatencyBadge latency={statusError ? null : statusTimer.latency} isLoading={statusFetching} />
+            <div className="flex items-center gap-2">
+              {statusUi && <StatusBadge status={statusUi} />}
+              <LatencyBadge latency={statusLoading ? null : statusLatency} isLoading={statusLoading} />
+            </div>
           </div>
-          {statusError ? (
-            <ErrorState 
-              endpoint="/status" 
-              onRetry={() => refetchStatus()} 
-              isRetrying={statusFetching}
-            />
-          ) : statusLoading ? (
+          
+          {statusLoading ? (
             <div className="flex items-center gap-2 py-1.5 text-sm text-muted-foreground">
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
               <span>{t("loading")}</span>
             </div>
-          ) : (
+          ) : statusUi?.kind === "ok" ? (
             <>
               <StatusRow
                 label={t("connectionState", "State")}
-                value={getStateDisplay(statusData?.state).label}
+                value={getStateDisplay(statusUi.state).label}
                 icon={<Shield className="h-3.5 w-3.5" />}
-                valueColor={getStateDisplay(statusData?.state).color}
+                valueColor={getStateDisplay(statusUi.state).color}
               />
-              {statusData?.state === "secure" && (
+              {statusUi.state === "secure" && (
                 <StatusRow
                   label={t("authStatus", "Auth")}
                   value={t("authenticated", "Authenticated")}
@@ -397,7 +479,59 @@ const BridgeLiveStatusCard = () => {
                 />
               )}
             </>
-          )}
+          ) : statusUi?.kind === "login_required" ? (
+            <div className="flex items-center gap-2 py-1.5 text-sm text-amber-500">
+              <LogIn className="h-3.5 w-3.5" />
+              <span>Please log in to access bridge status</span>
+            </div>
+          ) : statusUi?.kind === "token_invalid" ? (
+            <div className="flex items-center gap-2 py-1.5 text-sm text-destructive">
+              <XCircle className="h-3.5 w-3.5" />
+              <span>Session expired — please log in again</span>
+            </div>
+          ) : statusUi?.kind === "rate_limited" ? (
+            <div className="flex items-center gap-2 py-1.5 text-sm text-amber-500">
+              <Clock className="h-3.5 w-3.5" />
+              <span>Rate limited — waiting for countdown</span>
+            </div>
+          ) : statusUi?.kind === "error" ? (
+            <div className="flex items-center gap-2 py-1.5 text-sm text-destructive">
+              <AlertTriangle className="h-3.5 w-3.5" />
+              <span>{statusUi.message || "Unknown error"}</span>
+            </div>
+          ) : null}
+        </div>
+
+        {/* Connect/Disconnect Buttons */}
+        <div className="flex gap-2 pt-2 border-t border-border/30">
+          <Button
+            variant="default"
+            size="sm"
+            onClick={handleConnect}
+            disabled={!canConnect || connecting || rateLimit.isRateLimited}
+            className="flex-1"
+          >
+            {connecting ? (
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            ) : (
+              <Power className="h-4 w-4 mr-2" />
+            )}
+            Connect
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDisconnect}
+            disabled={!canDisconnect || disconnecting || rateLimit.isRateLimited}
+            className="flex-1"
+          >
+            {disconnecting ? (
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+            ) : (
+              <PowerOff className="h-4 w-4 mr-2" />
+            )}
+            Disconnect
+          </Button>
         </div>
       </CardContent>
     </Card>
