@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Shield, ShieldAlert, ShieldCheck, Loader2, Clock } from "lucide-react";
-import { useBackendStatusShared } from "@/contexts/BackendStatusContext";
+import { useBackendStatus } from "@/hooks/useBackendStatus";
 import { useDiagnosticsDrawerOptional } from "@/features/diagnostics/context";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ interface ConnectionStatusBadgeProps {
 const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatusBadgeProps) => {
   const { t } = useTranslation();
   const drawerContext = useDiagnosticsDrawerOptional();
-  const { status, isLoading, rateLimit } = useBackendStatusShared();
+  const { status, isLoading, rateLimit } = useBackendStatus();
 
   const handleClick = () => {
     drawerContext?.open();

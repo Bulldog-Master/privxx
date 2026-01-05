@@ -20,7 +20,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { bridgeClient, getBridgeUrl } from "@/api/bridge";
-import { useBackendStatusShared } from "@/contexts/BackendStatusContext";
+import { useBackendStatus } from "@/hooks/useBackendStatus";
 import type { BridgeUiStatus } from "@/api/bridge/statusUtils";
 import type { HealthResponse } from "@/api/bridge/types";
 
@@ -185,13 +185,13 @@ const BridgeLiveStatusCard = () => {
   // Response time tracker for health
   const healthTimer = useResponseTime();
   
-  // Shared backend status (single /status poller for the whole app)
+  // Shared backend status
   const {
     status: backendStatus,
     isLoading: backendLoading,
     refetch: refetchStatus,
     rateLimit,
-  } = useBackendStatusShared();
+  } = useBackendStatus();
 
   const statusUi: BridgeUiStatus = (() => {
     if (rateLimit.isRateLimited) {
