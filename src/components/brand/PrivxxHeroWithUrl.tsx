@@ -1,66 +1,39 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import PrivxxLogo from "./PrivxxLogo";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle } from "lucide-react";
 import { bridgeClient } from "@/api/bridge";
-import { fetchBridgeStatusRaw, type BridgeUiStatus } from "@/api/bridge/statusUtils";
-import { useRateLimitCountdown } from "@/features/diagnostics/hooks/useRateLimitCountdown";
 import { useAuth } from "@/contexts/AuthContext";
+import { useBackendStatus } from "@/hooks/useBackendStatus";
 
 const PrivxxHeroWithUrl = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
+  const { status, isLoading: statusLoading, refetch, rateLimit } = useBackendStatus();
+
   const [url, setUrl] = useState("https://");
   const [connecting, setConnecting] = useState(false);
   const [disconnecting, setDisconnecting] = useState(false);
-  const [statusUi, setStatusUi] = useState<BridgeUiStatus | null>(null);
-  const [statusLoading, setStatusLoading] = useState(true);
-  const [latency, setLatency] = useState<number | null>(null);
 
-  // Rate limit countdown
-  const rateLimit = useRateLimitCountdown(() => {
-    fetchStatus();
-  });
-
-  // Fetch bridge status
-  const fetchStatus = useCallback(async () => {
-    setStatusLoading(true);
-    try {
-      const result = await fetchBridgeStatusRaw();
-      setStatusUi(result.ui);
-      setLatency(result.latencyMs);
-      
-      if (result.ui.kind === "rate_limited") {
-        rateLimit.startCountdown(result.ui.retryUntil);
-      } else {
-        rateLimit.clearCountdown();
-      }
-    } catch {
-      setStatusUi({ kind: "error", message: "Failed to fetch status" });
-    } finally {
-      setStatusLoading(false);
-    }
-  }, [rateLimit]);
-
-  // Initial fetch
-  useEffect(() => {
-    fetchStatus();
-  }, [fetchStatus]);
-
-  const currentState = statusUi?.kind === "ok" ? statusUi.state : undefined;
+  const currentState = status.state;
   const isConnected = currentState === "secure";
   const isConnecting = currentState === "connecting";
   const isIdle = currentState === "idle";
-  const canConnect = url.trim().length > 8 && isIdle && !rateLimit.isRateLimited && user;
-  const canDisconnect = (isConnected || isConnecting) && !rateLimit.isRateLimited;
+
+  const showRateLimited = rateLimit.isRateLimited;
+  const showLoginRequired = !user;
+  const showError = status.state === "error";
+
+  const canConnect = url.trim().length > 8 && isIdle && !showRateLimited && !!user;
+  const canDisconnect = (isConnected || isConnecting) && !showRateLimited;
 
   const onConnect = async () => {
     if (!canConnect) return;
     setConnecting(true);
     try {
       await bridgeClient.connect();
-      await fetchStatus();
+      refetch();
     } catch (err) {
       console.error("[Bridge] Connect failed:", err);
     } finally {
@@ -73,19 +46,13 @@ const PrivxxHeroWithUrl = () => {
     setDisconnecting(true);
     try {
       await bridgeClient.disconnect();
-      await fetchStatus();
+      refetch();
     } catch (err) {
       console.error("[Bridge] Disconnect failed:", err);
     } finally {
       setDisconnecting(false);
     }
   };
-
-  // Determine what to show based on status
-  const showLoginRequired = statusUi?.kind === "login_required";
-  const showTokenExpired = statusUi?.kind === "token_invalid";
-  const showRateLimited = rateLimit.isRateLimited;
-  const showError = statusUi?.kind === "error";
 
   return (
     <div className="flex flex-col items-center text-center space-y-6 relative w-full max-w-md mx-auto">
@@ -96,7 +63,7 @@ const PrivxxHeroWithUrl = () => {
           <PrivxxLogo size="lg" />
         </h1>
       </div>
-      
+
       {/* Tagline */}
       <p className="text-primary/80 text-sm sm:text-base font-medium w-full text-center">
         {t("subtitle")}
@@ -130,22 +97,12 @@ const PrivxxHeroWithUrl = () => {
         </div>
       )}
 
-      {/* Token Expired Banner */}
-      {showTokenExpired && !showRateLimited && (
-        <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/20">
-          <AlertTriangle className="h-5 w-5 text-destructive" />
-          <p className="text-sm text-destructive">
-            {t("sessionExpired", "Session expired — please log in again")}
-          </p>
-        </div>
-      )}
-
       {/* Error Banner */}
-      {showError && !showRateLimited && (
+      {showError && !showRateLimited && !showLoginRequired && (
         <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/20">
           <AlertTriangle className="h-5 w-5 text-destructive" />
           <p className="text-sm text-destructive">
-            {statusUi?.kind === "error" ? statusUi.message : t("unknownError", "Unknown error")}
+            {t("unknownError", "Unknown error")}
           </p>
         </div>
       )}
@@ -167,10 +124,10 @@ const PrivxxHeroWithUrl = () => {
         </div>
 
         {/* Idle / Connect State */}
-        {(isIdle || statusLoading || showLoginRequired || showTokenExpired || showError) && !isConnected && !isConnecting && (
-          <Button 
-            className="min-h-[48px] w-full text-base font-medium px-6" 
-            disabled={!canConnect || statusLoading || connecting} 
+        {(isIdle || statusLoading || showLoginRequired || showError) && !isConnected && !isConnecting && (
+          <Button
+            className="min-h-[48px] w-full text-base font-medium px-6"
+            disabled={!canConnect || statusLoading || connecting}
             onClick={onConnect}
           >
             {statusLoading || connecting ? (
@@ -199,18 +156,18 @@ const PrivxxHeroWithUrl = () => {
                 <ShieldCheck className="h-5 w-5" />
                 {t("tunnelConnected") || "Tunnel Active"}
               </div>
-              {latency && (
+              {typeof status.latencyMs === "number" && (
                 <div className="text-sm text-muted-foreground">
-                  {t("tunnelLatency") || "Latency"}: {latency}ms
+                  {t("tunnelLatency") || "Latency"}: {status.latencyMs}ms
                 </div>
               )}
               <div className="text-xs text-muted-foreground">
                 {t("tunnelTarget") || "Target"}: {url}
               </div>
             </div>
-            <Button 
-              variant="outline" 
-              className="min-h-[48px] w-full" 
+            <Button
+              variant="outline"
+              className="min-h-[48px] w-full"
               onClick={onDisconnect}
               disabled={disconnecting || showRateLimited}
             >
@@ -232,3 +189,4 @@ const PrivxxHeroWithUrl = () => {
 };
 
 export default PrivxxHeroWithUrl;
+
