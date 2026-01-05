@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import {
@@ -26,7 +26,7 @@ import { useBackendStatus } from "@/hooks/useBackendStatus";
 interface StatusRowProps {
   label: string;
   value: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   valueColor?: string;
 }
 
