@@ -1,7 +1,6 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import { bridgeClient, isMockMode, type StatusResponse } from "@/api/bridge";
 import { BridgeError, type BridgeErrorCode } from "@/api/bridge/client";
-import { useRateLimitCountdown } from "@/features/diagnostics/hooks/useRateLimitCountdown";
 
 export type ConnectionHealth = "healthy" | "degraded" | "offline" | "checking";
 
@@ -24,6 +23,22 @@ export interface BackendStatus {
   lastCheckAt: Date | null;
 }
 
+type RateLimitSnapshot = {
+  isRateLimited: boolean;
+  remainingSec: number;
+  retryUntil: number | null;
+  formattedTime: string;
+  startCountdown: (retryUntil: number) => void;
+  clearCountdown: () => void;
+};
+
+type StoreSnapshot = {
+  status: BackendStatus;
+  error: string | null;
+  isLoading: boolean;
+  rateLimit: RateLimitSnapshot;
+};
+
 const initialStatus: BackendStatus = {
   state: "idle",
   isMock: isMockMode(),
@@ -45,12 +60,8 @@ function calculateHealth(
   latencyMs: number | null,
   failureCount: number
 ): ConnectionHealth {
-  // Offline if state is error or high failure count
-  if (state === "error" || failureCount >= FAILURE_OFFLINE_COUNT) {
-    return "offline";
-  }
+  if (state === "error" || failureCount >= FAILURE_OFFLINE_COUNT) return "offline";
 
-  // Degraded conditions
   if (
     state === "connecting" ||
     failureCount >= FAILURE_DEGRADED_COUNT ||
@@ -59,57 +70,132 @@ function calculateHealth(
     return "degraded";
   }
 
-  // Healthy when secure
-  if (state === "secure") {
-    return "healthy";
-  }
-
-  // Idle is considered healthy (ready to connect)
-  if (state === "idle") {
-    return "healthy";
-  }
+  if (state === "secure") return "healthy";
+  if (state === "idle") return "healthy";
 
   return "degraded";
 }
 
-export function useBackendStatus(pollMs = 30000) {
-  const [data, setData] = useState<BackendStatus>(initialStatus);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isActive, setIsActive] = useState(!document.hidden);
-  const failureCountRef = useRef(0);
-  const isRateLimitedRef = useRef(false);
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
 
-  const rateLimit = useRateLimitCountdown();
+// ------------------------------
+// Singleton store (one poller app-wide)
+// ------------------------------
 
-  // Store rate-limit state + functions in refs so polling effects don't re-run every second
-  const startCountdownRef = useRef(rateLimit.startCountdown);
-  const clearCountdownRef = useRef(rateLimit.clearCountdown);
+type Listener = () => void;
 
-  useEffect(() => {
-    startCountdownRef.current = rateLimit.startCountdown;
-    clearCountdownRef.current = rateLimit.clearCountdown;
-  }, [rateLimit.startCountdown, rateLimit.clearCountdown]);
+let store: StoreSnapshot = {
+  status: initialStatus,
+  error: null,
+  isLoading: true,
+  rateLimit: {
+    isRateLimited: false,
+    remainingSec: 0,
+    retryUntil: null,
+    formattedTime: "0:00",
+    startCountdown: () => {},
+    clearCountdown: () => {},
+  },
+};
 
-  // Keep ref in sync to avoid dependency issues
-  useEffect(() => {
-    isRateLimitedRef.current = rateLimit.isRateLimited;
-  }, [rateLimit.isRateLimited]);
+const listeners = new Set<Listener>();
+const pollRequests = new Map<symbol, number>();
 
-  // Pause polling when app is backgrounded (privacy + performance)
-  useEffect(() => {
-    const onVisibilityChange = () => {
-      setIsActive(!document.hidden);
-    };
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
-  }, []);
+let pollTimer: number | null = null;
+let countdownTimer: number | null = null;
+let inFlight: Promise<void> | null = null;
 
-  const fetchStatus = useCallback(async () => {
-    // Avoid hammering the bridge while rate limited
-    if (isRateLimitedRef.current) return;
+function notify() {
+  for (const l of listeners) l();
+}
 
-    setIsLoading(true);
+function setStore(next: Partial<StoreSnapshot>) {
+  store = { ...store, ...next };
+  notify();
+}
+
+function setRateLimit(next: Partial<RateLimitSnapshot>) {
+  store = {
+    ...store,
+    rateLimit: {
+      ...store.rateLimit,
+      ...next,
+    },
+  };
+  notify();
+}
+
+function getPollMs() {
+  if (pollRequests.size === 0) return 30000;
+  return Math.min(...Array.from(pollRequests.values()));
+}
+
+function stopPolling() {
+  if (pollTimer) {
+    window.clearInterval(pollTimer);
+    pollTimer = null;
+  }
+}
+
+function stopCountdown() {
+  if (countdownTimer) {
+    window.clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+}
+
+function clearCountdown() {
+  stopCountdown();
+  setRateLimit({
+    isRateLimited: false,
+    remainingSec: 0,
+    retryUntil: null,
+    formattedTime: "0:00",
+  });
+}
+
+function startCountdown(retryUntil: number) {
+  stopCountdown();
+
+  const update = () => {
+    const remainingSec = Math.max(0, Math.ceil((retryUntil - Date.now()) / 1000));
+    if (remainingSec <= 0) {
+      clearCountdown();
+      // Kick a fresh tick after cooldown
+      void tick({ force: true });
+      return;
+    }
+    setRateLimit({
+      isRateLimited: true,
+      remainingSec,
+      retryUntil,
+      formattedTime: formatTime(remainingSec),
+    });
+  };
+
+  update();
+  countdownTimer = window.setInterval(update, 1000);
+}
+
+// Attach stable countdown fns
+store.rateLimit.startCountdown = startCountdown;
+store.rateLimit.clearCountdown = clearCountdown;
+
+async function tick({ force }: { force: boolean }) {
+  // privacy/perf: pause polling when backgrounded
+  if (!force && document.hidden) return;
+
+  // avoid hammering while rate limited
+  if (!force && store.rateLimit.isRateLimited) return;
+
+  if (inFlight) return inFlight;
+
+  inFlight = (async () => {
+    setStore({ isLoading: true });
     const startTime = performance.now();
     const checkTime = new Date();
 
@@ -117,146 +203,135 @@ export function useBackendStatus(pollMs = 30000) {
       const s = await bridgeClient.status();
       const latencyMs = Math.round(performance.now() - startTime);
 
-      // Reset failure count on success
-      failureCountRef.current = 0;
-      clearCountdownRef.current();
+      clearCountdown();
 
-      const health = calculateHealth(s.state, latencyMs, 0);
-
-      setData({
-        state: s.state,
-        isMock: isMockMode(),
-        health,
-        latencyMs,
-        lastErrorCode: null,
-        failureCount: 0,
-        lastSuccessAt: checkTime,
-        lastCheckAt: checkTime,
-      });
-      setError(null);
-    } catch (err) {
-      // Handle explicit rate limiting without incrementing failure counters
-      if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
-        const retryAfterSec = err.retryAfterSec ?? 60;
-        startCountdownRef.current(Date.now() + retryAfterSec * 1000);
-
-        setData((prev) => ({
-          ...prev,
-          isMock: isMockMode(),
-          // Keep previous state; mark health degraded to avoid showing "Offline"
-          health: "degraded",
-          latencyMs: null,
-          lastErrorCode: "RATE_LIMITED",
-          lastCheckAt: checkTime,
-        }));
-        setError("RATE_LIMITED");
-        return;
-      }
-
-      failureCountRef.current += 1;
-
-      const errorCode: BridgeErrorCode = err instanceof BridgeError ? err.code : "NETWORK_ERROR";
-
-      const health = calculateHealth("error", null, failureCountRef.current);
-
-      setData((prev) => ({
-        state: "error",
-        isMock: isMockMode(),
-        health,
-        latencyMs: null,
-        lastErrorCode: errorCode,
-        failureCount: failureCountRef.current,
-        lastSuccessAt: prev.lastSuccessAt,
-        lastCheckAt: checkTime,
-      }));
-      setError(errorCode);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    let alive = true;
-
-    async function tick() {
-      if (!isActive) return; // Skip polling when backgrounded
-      if (isRateLimitedRef.current) return; // Skip polling while rate limited
-
-      const startTime = performance.now();
-      const checkTime = new Date();
-
-      try {
-        const s = await bridgeClient.status();
-        if (!alive) return;
-
-        const latencyMs = Math.round(performance.now() - startTime);
-
-        // Reset failure count on success
-        failureCountRef.current = 0;
-        clearCountdownRef.current();
-
-        const health = calculateHealth(s.state, latencyMs, 0);
-
-        setData({
+      setStore({
+        status: {
           state: s.state,
           isMock: isMockMode(),
-          health,
+          health: calculateHealth(s.state, latencyMs, 0),
           latencyMs,
           lastErrorCode: null,
           failureCount: 0,
           lastSuccessAt: checkTime,
           lastCheckAt: checkTime,
-        });
-        setError(null);
-      } catch (err) {
-        if (!alive) return;
+        },
+        error: null,
+        isLoading: false,
+      });
+    } catch (err) {
+      // Handle explicit rate limiting without incrementing failure counters
+      if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
+        const retryAfterSec = err.retryAfterSec ?? 60;
+        startCountdown(Date.now() + retryAfterSec * 1000);
 
-        // Handle explicit rate limiting without incrementing failure counters
-        if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
-          const retryAfterSec = err.retryAfterSec ?? 60;
-          startCountdownRef.current(Date.now() + retryAfterSec * 1000);
-
-          setData((prev) => ({
-            ...prev,
+        setStore({
+          status: {
+            ...store.status,
             isMock: isMockMode(),
             health: "degraded",
             latencyMs: null,
             lastErrorCode: "RATE_LIMITED",
             lastCheckAt: checkTime,
-          }));
-          setError("RATE_LIMITED");
-          return;
-        }
+          },
+          error: "RATE_LIMITED",
+          isLoading: false,
+        });
+        return;
+      }
 
-        failureCountRef.current += 1;
+      const nextFailureCount = (store.status.failureCount ?? 0) + 1;
+      const errorCode: BridgeErrorCode = err instanceof BridgeError ? err.code : "NETWORK_ERROR";
 
-        const errorCode: BridgeErrorCode = err instanceof BridgeError ? err.code : "NETWORK_ERROR";
-
-        const health = calculateHealth("error", null, failureCountRef.current);
-
-        setData((prev) => ({
+      setStore({
+        status: {
           state: "error",
           isMock: isMockMode(),
-          health,
+          health: calculateHealth("error", null, nextFailureCount),
           latencyMs: null,
           lastErrorCode: errorCode,
-          failureCount: failureCountRef.current,
-          lastSuccessAt: prev.lastSuccessAt,
+          failureCount: nextFailureCount,
+          lastSuccessAt: store.status.lastSuccessAt,
           lastCheckAt: checkTime,
-        }));
-        setError(errorCode);
-      } finally {
-        if (alive) setIsLoading(false);
-      }
+        },
+        error: errorCode,
+        isLoading: false,
+      });
     }
+  })().finally(() => {
+    inFlight = null;
+  });
 
-    tick();
-    const interval = setInterval(tick, pollMs);
+  return inFlight;
+}
+
+function ensurePolling() {
+  const pollMs = getPollMs();
+
+  if (pollTimer) {
+    // If interval already correct, do nothing
+    // (No reliable way to read interval; restart only when pollMs changes by stopping/starting.)
+    stopPolling();
+  }
+
+  void tick({ force: true });
+  pollTimer = window.setInterval(() => void tick({ force: false }), pollMs);
+}
+
+function subscribe(listener: Listener, pollMs: number, id: symbol) {
+  listeners.add(listener);
+  pollRequests.set(id, pollMs);
+  ensurePolling();
+
+  const onVisibility = () => {
+    // When returning to foreground, do a fast refresh (but still respect rate limit)
+    if (!document.hidden) void tick({ force: false });
+  };
+
+  document.addEventListener("visibilitychange", onVisibility);
+
+  return () => {
+    listeners.delete(listener);
+    pollRequests.delete(id);
+    document.removeEventListener("visibilitychange", onVisibility);
+
+    if (listeners.size === 0) {
+      stopPolling();
+      stopCountdown();
+      inFlight = null;
+      pollRequests.clear();
+      // Keep last snapshot around to avoid UI flicker on remount
+    } else {
+      ensurePolling();
+    }
+  };
+}
+
+// ------------------------------
+// Public hook
+// ------------------------------
+
+export function useBackendStatus(pollMs = 30000) {
+  const idRef = useRef<symbol>();
+  if (!idRef.current) idRef.current = Symbol("useBackendStatus");
+
+  const snapshot = useSyncExternalStore(
+    (listener) => subscribe(listener, pollMs, idRef.current!),
+    () => store,
+    () => store
+  );
+
+  const refetch = useMemo(() => {
     return () => {
-      alive = false;
-      clearInterval(interval);
+      void tick({ force: true });
     };
-  }, [pollMs, isActive]);
+  }, []);
 
-  return { status: data, error, isLoading, refetch: fetchStatus, rateLimit };
+  return {
+    status: snapshot.status,
+    error: snapshot.error,
+    isLoading: snapshot.isLoading,
+    refetch,
+    rateLimit: snapshot.rateLimit,
+  };
 }
