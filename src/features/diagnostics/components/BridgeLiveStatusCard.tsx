@@ -118,12 +118,24 @@ const getConnectionPathInfo = (url: string) => {
       visibility: "local",
     };
   }
-  return {
-    type: "custom" as const,
-    label: "Custom",
-    port: new URL(url).port || "443",
-    visibility: "public",
-  };
+
+  // Defensive parse: env overrides may omit protocol and would crash render.
+  try {
+    const parsed = new URL(url);
+    return {
+      type: "custom" as const,
+      label: "Custom",
+      port: parsed.port || (parsed.protocol === "http:" ? "80" : "443"),
+      visibility: "public",
+    };
+  } catch {
+    return {
+      type: "custom" as const,
+      label: "Custom",
+      port: "—",
+      visibility: "public",
+    };
+  }
 };
 
 const RateLimitBadge = ({ formattedTime }: { formattedTime: string }) => (
