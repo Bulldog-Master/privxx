@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Activity, Server, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
+import { useIdentity } from '@/features/identity';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageBackground } from '@/components/layout';
 import {
@@ -10,7 +12,6 @@ import {
   StatusCardSkeleton,
   DiagnosticsFooter,
   useDiagnosticsState,
-  useBridgeHealthStatus,
   getBackendStatusDisplay,
   getModeDisplay,
   BridgeStatusCard,
@@ -35,6 +36,8 @@ import { collectBrowserAnomalySignals, detectAnomalies } from '@/lib/browserAnom
 export default function Diagnostics() {
   const { t } = useTranslation();
   const [lastCheckTime, setLastCheckTime] = useState<Date>(new Date());
+  const { isAuthenticated } = useAuth();
+  const { isUnlocked } = useIdentity();
   const {
     copied,
     isRetrying,
@@ -46,15 +49,13 @@ export default function Diagnostics() {
     handleRetry,
     copyStatus,
   } = useDiagnosticsState();
-  
-  const bridgeHealth = useBridgeHealthStatus();
 
   // Update last check time when data refreshes
   useEffect(() => {
-    if (!bridgeHealth.isLoading) {
+    if (!isLoading) {
       setLastCheckTime(new Date());
     }
-  }, [bridgeHealth.health, bridgeHealth.isLoading]);
+  }, [status.state, isLoading]);
 
   const backendStatus = getBackendStatusDisplay(uiState, isLoading, t);
   const modeStatus = getModeDisplay(status.isMock, t);
@@ -66,49 +67,56 @@ export default function Diagnostics() {
     return { signals: collected, anomalies: detected };
   }, []);
 
-  // Derive layer states from bridge health data
+  // Derive layer states from unified backend status (not separate bridgeHealth)
   const layerState = useMemo((): LayerState => {
     // Client is always reachable (it's the browser)
     const client = "reachable" as const;
     
-    // Proxy/Health status - based on health endpoint reachability
+    // Map uiState to layer statuses - use the same source for consistency
+    const isReady = uiState === "ready";
+    const isError = uiState === "error";
+    const isConnecting = uiState === "connecting";
+    
+    // Proxy/Health status - based on backend status
     let proxy: LayerState["proxy"] = "unknown";
-    if (bridgeHealth.isLoading) {
+    if (isLoading) {
       proxy = "starting";
-    } else if (bridgeHealth.health) {
+    } else if (isReady || isConnecting) {
       proxy = "reachable";
-    } else if (bridgeHealth.healthError) {
+    } else if (isError) {
       proxy = "unreachable";
     }
 
-    // Bridge status - based on status endpoint reachability
+    // Bridge status - based on backend status
     let bridge: LayerState["bridge"] = "unknown";
-    if (bridgeHealth.isLoading) {
+    if (isLoading) {
       bridge = "starting";
-    } else if (bridgeHealth.status) {
+    } else if (isReady || isConnecting) {
       bridge = "reachable";
-    } else if (bridgeHealth.statusError) {
+    } else if (isError) {
       bridge = "unreachable";
     }
 
-    // xxDK status - based on status response state
+    // xxDK status - based on connection state
     let xxdk: LayerState["xxdk"] = "unknown";
-    if (bridgeHealth.isLoading) {
+    if (isLoading) {
       xxdk = "starting";
-    } else if (bridgeHealth.statusData?.state === "secure") {
+    } else if (status.state === "secure") {
       xxdk = "reachable";
-    } else if (bridgeHealth.statusError) {
-      xxdk = "unreachable";
-    } else if (bridgeHealth.statusData?.state === "connecting") {
+    } else if (status.state === "connecting") {
       xxdk = "starting";
+    } else if (isError) {
+      xxdk = "unreachable";
+    } else if (status.state === "idle") {
+      // Idle means bridge is reachable but not connected yet
+      xxdk = "unknown";
     }
 
     return { client, proxy, bridge, xxdk };
-  }, [bridgeHealth]);
+  }, [uiState, isLoading, status.state]);
 
   const handleRefreshAll = () => {
     refetch();
-    bridgeHealth.refetchAll();
   };
 
   return (
@@ -142,7 +150,7 @@ export default function Diagnostics() {
           isMock={status.isMock}
           lastCheckTime={lastCheckTime}
           onRefresh={handleRefreshAll}
-          isRefreshing={isLoading || bridgeHealth.isLoading}
+          isRefreshing={isLoading}
         />
 
         <div className="grid gap-6 lg:grid-cols-2">
@@ -151,15 +159,17 @@ export default function Diagnostics() {
             {/* Connection Path Diagram */}
             <ConnectionPathDiagram
               layerState={layerState}
-              isLoading={bridgeHealth.isLoading}
+              isLoading={isLoading}
             />
 
             {/* Health Score Summary */}
             <HealthScorePanel 
-              bridgeHealth={bridgeHealth.health}
-              xxdkInfo={bridgeHealth.status}
-              cmixxStatus={bridgeHealth.status}
-              isLoading={isLoading || bridgeHealth.isLoading} 
+              bridgeHealth={uiState === "ready" ? true : uiState === "error" ? false : null}
+              xxdkInfo={uiState === "ready" ? true : uiState === "error" ? false : null}
+              cmixxStatus={uiState === "ready" ? true : uiState === "error" ? false : null}
+              isAuthenticated={isAuthenticated}
+              hasIdentity={isUnlocked}
+              isLoading={isLoading} 
             />
 
             <Card>
