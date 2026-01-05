@@ -26,10 +26,10 @@ export function SimulatedModeBanner() {
       <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0" />
       <div className="flex-1 text-left">
         <p className="text-sm font-semibold text-amber-600 dark:text-amber-400">
-          {t('simulatedMode.title', 'Bridge running in SIMULATED mode')}
+          {t('simulatedMode.title', 'Network Initializing')}
         </p>
         <p className="text-xs text-amber-600/80 dark:text-amber-400/80">
-          {t('simulatedMode.description', 'xxDK not connected — real cMixx routing unavailable')}
+          {t('simulatedMode.description', 'xxDK not connected — waiting for backend integration')}
         </p>
       </div>
       {healthData.version && (
