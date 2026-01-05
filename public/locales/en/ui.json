@@ -755,9 +755,9 @@
   "diagnostics.timestamp": "Timestamp",
   "diagnostics.noData": "No data",
   
-  "simulatedMode.title": "Bridge running in SIMULATED mode",
-  "simulatedMode.description": "xxDK not connected — real cMixx routing unavailable",
-  "simulatedMode.browserDisabled": "Connect disabled — bridge running in simulated mode",
+  "simulatedMode.title": "Network Initializing",
+  "simulatedMode.description": "xxDK not connected — waiting for backend integration",
+  "simulatedMode.browserDisabled": "Connect unavailable — network initializing",
   
   "security.title": "Security Dashboard",
   "security.subtitle": "Monitor and review security activity",
