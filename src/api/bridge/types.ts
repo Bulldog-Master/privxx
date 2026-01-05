@@ -128,8 +128,4 @@ export interface IBridgeClient {
   // Messages
   sendMessage(recipient: string, message: string): Promise<string>;
   getInbox(): Promise<Message[]>;
-  
-  // Token management
-  setToken(token: string): void;
-  clearToken?(): void;
 }

@@ -76,7 +76,6 @@ const RETRYABLE_STATUS_CODES = new Set([408, 429, 500, 502, 503, 504]);
 
 export class BridgeClient implements IBridgeClient {
   private baseUrl: string;
-  private token?: string;
   private retryConfig: RetryConfig;
   private timeoutMs: number;
   private getAccessToken?: () => Promise<string | null>;
@@ -152,10 +151,10 @@ export class BridgeClient implements IBridgeClient {
       "X-Correlation-Id": correlationId,
     };
 
-    // Auto-fetch token from getAccessToken if provided, otherwise use manual token
+    // Always fetch fresh token from getAccessToken - never use cached tokens
     const token = this.getAccessToken 
       ? await this.getAccessToken() 
-      : this.token;
+      : null;
     
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
@@ -375,13 +374,6 @@ export class BridgeClient implements IBridgeClient {
     return res.messages;
   }
 
-  setToken(token: string): void {
-    this.token = token;
-  }
-
-  clearToken(): void {
-    this.token = undefined;
-  }
 }
 
 // Re-export types
