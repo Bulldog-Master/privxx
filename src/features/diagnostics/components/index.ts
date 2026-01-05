@@ -25,3 +25,4 @@ export { UptimeCounter } from "./UptimeCounter";
 export { BandwidthTracker } from "./BandwidthTracker";
 export { NetworkStatsPanel } from "./NetworkStatsPanel";
 export { HealthPayloadCard } from "./HealthPayloadCard";
+export { SimulatedStatusBanner } from "./SimulatedStatusBanner";

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Send, Loader2, AlertCircle, User, AlertTriangle } from "lucide-react";
+import { Send, Loader2, AlertCircle, User, AlertTriangle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { bridgeClient } from "@/api/bridge";
 import { toast } from "sonner";
 import { useIdentity } from "@/features/identity";
+import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
 import { ContactPicker } from "./components/ContactPicker";
 import { QRCodeDialog } from "./components/QRCodeDialog";
 import { getCmixxIdError, isValidCmixxId } from "./types";
@@ -21,6 +22,7 @@ interface ComposeProps {
 export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
   const { t } = useTranslation();
   const { isUnlocked } = useIdentity();
+  const { isSimulated, healthData } = useBridgeHealthStatus();
   
   const [recipient, setRecipient] = useState("self");
   const [body, setBody] = useState("");
@@ -48,9 +50,10 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     return isValidCmixxId(recipient);
   }, [recipient]);
 
+  // Gate sending when simulated mode (xxdkReady=false)
   const canSend = useMemo(() => {
-    return isUnlocked && !isSending && isRecipientValid && body.trim().length > 0;
-  }, [isUnlocked, isSending, isRecipientValid, body]);
+    return isUnlocked && !isSending && isRecipientValid && body.trim().length > 0 && !isSimulated;
+  }, [isUnlocked, isSending, isRecipientValid, body, isSimulated]);
 
   const handleRecipientBlur = () => {
     if (recipient.trim() && recipient !== "self") {
@@ -104,6 +107,28 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
 
   // Generate a demo public ID for QR code
   const myPublicId = "demo-" + (crypto.randomUUID?.()?.slice(0, 8) || "user");
+
+  // Transport offline state (xxdkReady=false)
+  if (isSimulated) {
+    return (
+      <div className="flex flex-col items-center justify-center py-8 text-center border-t border-primary/20">
+        <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center mb-3">
+          <Clock className="h-5 w-5 text-amber-500" />
+        </div>
+        <p className="text-sm font-medium text-foreground mb-1">
+          {t("transportOffline.title", "Transport Offline")}
+        </p>
+        <p className="text-xs text-muted-foreground max-w-xs">
+          {t("composeOfflineHint", "Messaging unavailable until xxDK connects")}
+        </p>
+        {healthData?.version && (
+          <p className="text-xs text-muted-foreground/60 font-mono mt-2">
+            v{healthData.version}
+          </p>
+        )}
+      </div>
+    );
+  }
 
   // Locked state hint
   if (!isUnlocked) {
