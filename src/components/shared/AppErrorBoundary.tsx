@@ -18,10 +18,18 @@ export class AppErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Privacy-first: no external error reporting
-    // Only log to console for debugging in development
-    if (process.env.NODE_ENV === "development") {
-      console.error("AppErrorBoundary caught:", error, errorInfo);
+    // Privacy-first: no external error reporting.
+    // Console-only diagnostics to help recover from unexpected runtime failures.
+    try {
+      // Vite-safe env detection ("process" may be undefined in the browser)
+      const isDev = typeof import.meta !== "undefined" && !!(import.meta as any).env?.DEV;
+      if (isDev) {
+        console.error("AppErrorBoundary caught:", error, errorInfo);
+      } else {
+        console.error("AppErrorBoundary caught:", error);
+      }
+    } catch {
+      // Never throw from error handler
     }
   }
 
