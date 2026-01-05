@@ -759,6 +759,9 @@
   "simulatedMode.description": "xxDK not connected — waiting for backend integration",
   "simulatedMode.browserDisabled": "Connect unavailable — network initializing",
   
+  "transportOffline.title": "Transport Offline",
+  "transportOffline.description": "The privacy network is initializing. Messaging and browsing will be available once the backend connects to xxDK.",
+  
   "security.title": "Security Dashboard",
   "security.subtitle": "Monitor and review security activity",
   "security.dashboardTitle": "Security Dashboard",
