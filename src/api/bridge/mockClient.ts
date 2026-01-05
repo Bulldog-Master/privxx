@@ -6,11 +6,8 @@
 
 import type {
   StatusResponse,
-  SessionResponse,
-  IdentityStatusResponse,
-  IdentityCreateResponse,
-  IdentityUnlockResponse,
-  IdentityLockResponse,
+  UnlockStatusResponse,
+  UnlockResponse,
   Message,
   IBridgeClient,
   HealthResponse,
@@ -24,8 +21,7 @@ function sleep(ms: number): Promise<void> {
 
 export class MockBridgeClient implements IBridgeClient {
   private mockMessages: Message[] = [];
-  private identityExists = false;
-  private identityState: "none" | "locked" | "unlocked" = "none";
+  private locked = true;
   private unlockExpiresAt: string | null = null;
   private connectionState: "idle" | "connecting" | "secure" = "idle";
 
@@ -68,34 +64,18 @@ export class MockBridgeClient implements IBridgeClient {
     };
   }
 
-  async validateSession(): Promise<SessionResponse> {
-    await sleep(50);
-    return {
-      userId: "mock-user-id",
-      sessionValid: true,
-    };
-  }
-
-  async getIdentityStatus(): Promise<IdentityStatusResponse> {
+  // Unlock endpoints (mock)
+  async getUnlockStatus(): Promise<UnlockStatusResponse> {
     await sleep(100);
     return {
-      exists: this.identityExists,
-      state: this.identityState,
+      locked: this.locked,
+      expiresAt: this.unlockExpiresAt || undefined,
     };
   }
 
-  async createIdentity(): Promise<IdentityCreateResponse> {
-    await sleep(500);
-    this.identityExists = true;
-    this.identityState = "locked";
-    return {
-      state: "locked",
-    };
-  }
-
-  async unlockIdentity(): Promise<IdentityUnlockResponse> {
+  async unlock(_password: string): Promise<UnlockResponse> {
     await sleep(300);
-    this.identityState = "unlocked";
+    this.locked = false;
     // Mock 15-minute session
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
     this.unlockExpiresAt = expiresAt;
@@ -110,18 +90,8 @@ export class MockBridgeClient implements IBridgeClient {
     ];
     
     return {
-      state: "unlocked",
+      success: true,
       expiresAt,
-    };
-  }
-
-  async lockIdentity(): Promise<IdentityLockResponse> {
-    await sleep(100);
-    this.identityState = "locked";
-    this.unlockExpiresAt = null;
-    this.mockMessages = [];
-    return {
-      state: "locked",
     };
   }
 

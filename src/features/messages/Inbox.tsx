@@ -6,13 +6,11 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon, Unlock, Plus, WifiOff } from "lucide-react";
+import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
-import { useIdentity } from "@/features/identity";
-import { toast } from "sonner";
 import type { DemoMessage } from "./types";
 
 interface InboxProps {
@@ -39,77 +37,9 @@ export function Inbox({
   isUnlocked 
 }: InboxProps) {
   const { t } = useTranslation();
-  const { isNone, isOffline, unlock, createIdentity, checkStatus, isLoading: identityLoading } = useIdentity();
 
-  const handleUnlock = async () => {
-    const success = await unlock();
-    if (success) {
-      toast.success(t("identityUnlocked", "Identity unlocked"));
-    }
-  };
+  // Locked state - prompt to sign in/unlock
 
-  const handleCreateIdentity = async () => {
-    const success = await createIdentity();
-    if (success) {
-      toast.success(t("identityCreated", "Secure identity created"));
-    }
-  };
-
-  const handleRetryConnection = async () => {
-    await checkStatus();
-  };
-
-  // Bridge offline state (show instead of "no identity" when bridge is unreachable)
-  if (isOffline) {
-    return (
-      <div className="flex flex-col items-center justify-center py-6 text-center px-4">
-        <WifiOff className="h-6 w-6 text-destructive/80 mb-2" />
-        <h3 className="text-sm font-semibold mb-1 text-primary/90">
-          {t("bridgeUnreachable", "Bridge Unreachable")}
-        </h3>
-        <p className="text-xs text-primary/60 mb-3">
-          {t(
-            "bridgeUnreachableDesc",
-            "Unable to connect to the bridge API. Check if the bridge server is running."
-          )}
-        </p>
-        <Button 
-          onClick={handleRetryConnection}
-          disabled={identityLoading}
-          variant="outline"
-          size="sm"
-        >
-          <RefreshCw className="h-4 w-4 mr-2" />
-          {t("retry", "Retry")}
-        </Button>
-      </div>
-    );
-  }
-
-  // No identity yet
-  if (isNone) {
-    return (
-      <div className="flex flex-col items-center justify-center py-6 text-center px-4">
-        <Plus className="h-6 w-6 text-primary/60 mb-2" />
-        <h3 className="text-sm font-semibold mb-1 text-primary/90">
-          {t("noIdentityTitle", "No Identity Yet")}
-        </h3>
-        <p className="text-xs text-primary/60 mb-3">
-          {t("noIdentityBody", "Create your secure identity to start messaging")}
-        </p>
-        <Button 
-          onClick={handleCreateIdentity}
-          disabled={identityLoading}
-          size="sm"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          {t("createIdentity", "Create Identity")}
-        </Button>
-      </div>
-    );
-  }
-
-  // Locked state
   if (!isUnlocked) {
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
@@ -120,14 +50,6 @@ export function Inbox({
         <p className="text-xs text-primary/60 mb-3">
           {t("inboxLockedBody", "Unlock your identity to view messages")}
         </p>
-        <Button 
-          onClick={handleUnlock}
-          disabled={identityLoading}
-          size="sm"
-        >
-          <Unlock className="h-4 w-4 mr-2" />
-          {t("unlockIdentity", "Unlock Identity")}
-        </Button>
       </div>
     );
   }

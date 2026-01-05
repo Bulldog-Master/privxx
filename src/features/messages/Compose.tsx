@@ -20,7 +20,7 @@ interface ComposeProps {
 
 export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
   const { t } = useTranslation();
-  const { isUnlocked, publicId } = useIdentity();
+  const { isUnlocked } = useIdentity();
   
   const [recipient, setRecipient] = useState("self");
   const [body, setBody] = useState("");
@@ -102,8 +102,8 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     }
   };
 
-  // Generate a demo public ID if not available
-  const myPublicId = publicId || "demo-" + crypto.randomUUID?.()?.slice(0, 8) || "demo-user";
+  // Generate a demo public ID for QR code
+  const myPublicId = "demo-" + (crypto.randomUUID?.()?.slice(0, 8) || "user");
 
   // Locked state hint
   if (!isUnlocked) {

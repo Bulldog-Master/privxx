@@ -46,6 +46,24 @@ export type HealthResponse = {
   time: string;
 };
 
+// GET /unlock/status response
+export type UnlockStatusResponse = {
+  locked: boolean;
+  expiresAt?: string; // ISO 8601 when unlocked
+};
+
+// POST /unlock request
+export type UnlockRequest = {
+  password: string;
+};
+
+// POST /unlock response
+export type UnlockResponse = {
+  success: boolean;
+  expiresAt?: string; // ISO 8601
+};
+
+// Legacy types kept for compatibility during transition
 export type SessionResponse = {
   userId: string;
   sessionValid: boolean;
@@ -56,7 +74,7 @@ export type IdentityState = "none" | "locked" | "unlocked";
 export type IdentityStatusResponse = {
   exists: boolean;
   state: IdentityState;
-  publicId?: string; // cMixx public ID (base64)
+  publicId?: string;
 };
 
 export type IdentityCreateResponse = {
@@ -65,7 +83,7 @@ export type IdentityCreateResponse = {
 
 export type IdentityUnlockResponse = {
   state: "unlocked";
-  expiresAt: string; // ISO 8601
+  expiresAt: string;
 };
 
 export type IdentityLockResponse = {
@@ -116,16 +134,11 @@ export interface IBridgeClient {
   connect(): Promise<ConnectResponse>;
   disconnect(): Promise<DisconnectResponse>;
   
-  // Session
-  validateSession(): Promise<SessionResponse>;
+  // Unlock (requires auth)
+  getUnlockStatus(): Promise<UnlockStatusResponse>;
+  unlock(password: string): Promise<UnlockResponse>;
   
-  // Identity
-  getIdentityStatus(): Promise<IdentityStatusResponse>;
-  createIdentity(): Promise<IdentityCreateResponse>;
-  unlockIdentity(): Promise<IdentityUnlockResponse>;
-  lockIdentity(): Promise<IdentityLockResponse>;
-  
-  // Messages
+  // Messages (future)
   sendMessage(recipient: string, message: string): Promise<string>;
   getInbox(): Promise<Message[]>;
 }

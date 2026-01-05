@@ -7,7 +7,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Shield, Lock, Loader2 } from "lucide-react";
+import { Shield, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -27,12 +27,11 @@ const TOAST_WARNING_SECONDS = 120; // Show toast at 2 minutes remaining
 
 export function UnlockExpiryDialog() {
   const { t } = useTranslation();
-  const { isUnlocked, unlockExpiresAt, unlock, lock, isLoading } = useIdentity();
+  const { isUnlocked, unlockExpiresAt, isLoading } = useIdentity();
   const { timeLeft, isExpired, formatted } = useCountdown(unlockExpiresAt);
   
   const [showWarning, setShowWarning] = useState(false);
   const [showExpired, setShowExpired] = useState(false);
-  const [isReauthing, setIsReauthing] = useState(false);
   const [toastShown, setToastShown] = useState(false);
 
   // Show toast warning at 2 minutes (with haptic feedback)
@@ -79,22 +78,9 @@ export function UnlockExpiryDialog() {
     }
   }, [isUnlocked]);
 
-  const handleExtendSession = async () => {
-    setIsReauthing(true);
-    const success = await unlock();
-    setIsReauthing(false);
-    
-    if (success) {
-      setShowWarning(false);
-      setShowExpired(false);
-      toast.success(t("sessionExtended", "Session extended"));
-    } else {
-      toast.error(t("sessionExtendFailed", "Failed to extend session"));
-    }
-  };
-
-  const handleLock = async () => {
-    await lock();
+  // Session extension is no longer supported via simple unlock
+  // User must re-authenticate through normal auth flow
+  const handleDismiss = () => {
     setShowWarning(false);
     setShowExpired(false);
   };
@@ -116,7 +102,7 @@ export function UnlockExpiryDialog() {
             <AlertDialogDescription className="text-base">
               {t(
                 "unlockExpiringDescription",
-                "Your identity unlock will expire soon. Re-authenticate to continue using secure messaging."
+                "Your identity unlock will expire soon. You may need to re-authenticate."
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -135,24 +121,11 @@ export function UnlockExpiryDialog() {
           <AlertDialogFooter className="flex-col sm:flex-row gap-2">
             <Button 
               variant="outline" 
-              onClick={handleLock} 
-              disabled={isReauthing || isLoading}
+              onClick={handleDismiss} 
+              disabled={isLoading}
               className="w-full sm:w-auto"
             >
-              <Lock className="h-4 w-4 mr-2" />
-              {t("lockNow", "Lock Now")}
-            </Button>
-            <Button 
-              onClick={handleExtendSession} 
-              disabled={isReauthing || isLoading}
-              className="w-full sm:w-auto"
-            >
-              {isReauthing ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              ) : (
-                <Shield className="h-4 w-4 mr-2" />
-              )}
-              {t("extendSession", "Extend Session")}
+              {t("dismiss", "Dismiss")}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -177,7 +150,7 @@ export function UnlockExpiryDialog() {
             <AlertDialogDescription className="text-base">
               {t(
                 "unlockExpiredDescription",
-                "Your identity unlock has expired. Please re-authenticate to continue."
+                "Your identity unlock has expired. Please sign in again to continue."
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -189,18 +162,6 @@ export function UnlockExpiryDialog() {
               className="w-full sm:w-auto"
             >
               {t("dismiss", "Dismiss")}
-            </Button>
-            <Button 
-              onClick={handleExtendSession} 
-              disabled={isReauthing || isLoading}
-              className="w-full sm:w-auto"
-            >
-              {isReauthing ? (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              ) : (
-                <Shield className="h-4 w-4 mr-2" />
-              )}
-              {t("reAuthenticate", "Re-authenticate")}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
