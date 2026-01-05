@@ -1,4 +1,4 @@
 export const buildInfo = {
-  version: "2.6.16",
+  version: "2.7",
   build: ""
 };
