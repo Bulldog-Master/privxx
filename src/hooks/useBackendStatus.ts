@@ -204,6 +204,26 @@ async function tick({ force }: { force: boolean }) {
   // avoid hammering while rate limited
   if (!force && store.rateLimit.isRateLimited) return;
 
+  // When bridge is in simulated mode (xxdkReady=false), do not poll /status.
+  // The UI should treat transport as offline until a real binary is deployed.
+  if (isSimulatedMode) {
+    setStore({
+      status: {
+        ...store.status,
+        state: "idle",
+        isMock: isMockMode(),
+        health: "offline",
+        latencyMs: null,
+        lastErrorCode: null,
+        // keep failureCount stable to avoid warning loops
+        lastCheckAt: new Date(),
+      },
+      error: null,
+      isLoading: false,
+    });
+    return;
+  }
+
   if (inFlight) return inFlight;
 
   inFlight = (async () => {
@@ -333,14 +353,17 @@ export function useBackendStatus(pollMs = 30000) {
     () => store
   );
 
-  // Check health cache for xxdkReady to adjust polling
+  // Track /health xxdkReady changes to disable /status polling in simulated mode.
   useEffect(() => {
-    const healthData = queryClient.getQueryData<HealthResponse>(["bridge-health"]);
-    if (healthData?.xxdkReady === false) {
-      setSimulatedMode(true);
-    } else if (healthData?.xxdkReady === true) {
-      setSimulatedMode(false);
-    }
+    const apply = () => {
+      const healthData = queryClient.getQueryData<HealthResponse>(["bridge-health"]);
+      if (healthData?.xxdkReady === false) setSimulatedMode(true);
+      if (healthData?.xxdkReady === true) setSimulatedMode(false);
+    };
+
+    apply();
+    const unsub = queryClient.getQueryCache().subscribe(apply);
+    return () => unsub();
   }, [queryClient]);
 
   const refetch = useMemo(() => {
