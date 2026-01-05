@@ -9,7 +9,7 @@ import { BrowserPanel } from "@/features/browser";
 
 export function MessagesPanel() {
   const { t } = useTranslation();
-  const { isUnlocked, isNone, isOffline } = useIdentity();
+  const { isUnlocked, isOffline } = useIdentity();
   const { 
     messages, 
     isLoading, 
@@ -19,8 +19,8 @@ export function MessagesPanel() {
     removeOptimistic 
   } = useInbox();
 
-  // Tabs are muted when no identity exists or bridge is offline
-  const tabsMuted = isNone || isOffline;
+  // Tabs are muted when bridge is offline
+  const tabsMuted = isOffline;
 
   return (
     <div role="region" aria-label={t("messagingPanel", "Messaging panel")}>

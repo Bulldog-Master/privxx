@@ -26,7 +26,7 @@ const PrivxxHeader = () => {
   const { t } = useTranslation("ui");
   const { isAuthenticated, user, signOut } = useAuth();
   const { profile, avatarUrl, isLoading: isProfileLoading } = useProfileContext();
-  const { isUnlocked, isLocked, lock } = useIdentity();
+  const { isUnlocked, isLocked } = useIdentity();
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [referralOpen, setReferralOpen] = useState(false);
 
@@ -50,9 +50,8 @@ const PrivxxHeader = () => {
     return t("user", "User");
   };
 
-  const handleLock = async () => {
-    await lock();
-  };
+  // Lock functionality removed - identity context no longer supports lock action
+  // Session expiry is handled by the bridge automatically
 
   const handleSignOut = async () => {
     await signOut();
@@ -144,16 +143,16 @@ const PrivxxHeader = () => {
                   {t("referrals.title", "Referral Program")}
                 </DropdownMenuItem>
                 
-                {/* Identity status */}
+                {/* Identity status indicator */}
                 {isUnlocked && (
-                  <DropdownMenuItem onClick={handleLock} className="gap-2 cursor-pointer">
-                    <Lock className="w-4 h-4" />
-                    {t("lock", "Lock")}
+                  <DropdownMenuItem disabled className="gap-2 opacity-60">
+                    <Unlock className="w-4 h-4" />
+                    {t("identityUnlocked", "Identity Unlocked")}
                   </DropdownMenuItem>
                 )}
                 {isLocked && (
                   <DropdownMenuItem disabled className="gap-2 opacity-60">
-                    <Unlock className="w-4 h-4" />
+                    <Lock className="w-4 h-4" />
                     {t("identityLocked", "Identity Locked")}
                   </DropdownMenuItem>
                 )}

@@ -84,11 +84,8 @@ export function getBridgeUrl(): string {
 // Re-export types for convenience
 export type {
   StatusResponse,
-  SessionResponse,
-  IdentityStatusResponse,
-  IdentityCreateResponse,
-  IdentityUnlockResponse,
-  IdentityLockResponse,
+  UnlockStatusResponse,
+  UnlockResponse,
   Message,
   MessageSendResponse,
   IBridgeClient,

@@ -13,11 +13,8 @@
 
 import type {
   StatusResponse,
-  SessionResponse,
-  IdentityStatusResponse,
-  IdentityCreateResponse,
-  IdentityUnlockResponse,
-  IdentityLockResponse,
+  UnlockStatusResponse,
+  UnlockResponse,
   Message,
   MessageSendResponse,
   IBridgeClient,
@@ -338,29 +335,19 @@ export class BridgeClient implements IBridgeClient {
     return this.request("/disconnect", { method: "POST" });
   }
 
-  // Session
-  async validateSession(): Promise<SessionResponse> {
-    return this.request("/auth/session", { method: "POST" });
+  // Unlock (requires auth)
+  async getUnlockStatus(): Promise<UnlockStatusResponse> {
+    return this.request("/unlock/status");
   }
 
-  // Identity
-  async getIdentityStatus(): Promise<IdentityStatusResponse> {
-    return this.request("/identity/status");
+  async unlock(password: string): Promise<UnlockResponse> {
+    return this.request("/unlock", {
+      method: "POST",
+      body: JSON.stringify({ password }),
+    });
   }
 
-  async createIdentity(): Promise<IdentityCreateResponse> {
-    return this.request("/identity/create", { method: "POST" });
-  }
-
-  async unlockIdentity(): Promise<IdentityUnlockResponse> {
-    return this.request("/identity/unlock", { method: "POST" });
-  }
-
-  async lockIdentity(): Promise<IdentityLockResponse> {
-    return this.request("/identity/lock", { method: "POST" });
-  }
-
-  // Messages
+  // Messages (future - kept for interface compatibility)
   async sendMessage(recipient: string, message: string): Promise<string> {
     const res = await this.request<MessageSendResponse>("/messages/send", {
       method: "POST",
@@ -379,11 +366,8 @@ export class BridgeClient implements IBridgeClient {
 // Re-export types
 export type {
   StatusResponse,
-  SessionResponse,
-  IdentityStatusResponse,
-  IdentityCreateResponse,
-  IdentityUnlockResponse,
-  IdentityLockResponse,
+  UnlockStatusResponse,
+  UnlockResponse,
   Message,
   MessageSendResponse,
   IBridgeClient,

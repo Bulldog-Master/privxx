@@ -2,6 +2,7 @@
  * Shared Identity Actions Hook
  * 
  * Extracts common identity action handlers used by IdentityStatus components.
+ * Simplified for new unlock API that requires a password.
  */
 
 import { useTranslation } from "react-i18next";
@@ -13,45 +14,25 @@ export function useIdentityActions() {
   const { t } = useTranslation();
   const { 
     state, 
-    isNone, 
     isLocked, 
     isUnlocked, 
     isLoading, 
     unlockExpiresAt, 
-    createIdentity, 
     unlock, 
-    lock 
   } = useIdentity();
   
   const { formatted, timeLeft, isExpired } = useCountdown(unlockExpiresAt);
 
-  const handleCreateIdentity = async () => {
-    const success = await createIdentity();
-    if (success) {
-      toast.success(t("identityCreated", "Secure identity created"));
-    }
-    return success;
-  };
-
-  const handleUnlock = async () => {
-    const success = await unlock();
+  const handleUnlock = async (password: string) => {
+    const success = await unlock(password);
     if (success) {
       toast.success(t("identityUnlocked", "Identity unlocked"));
     }
     return success;
   };
 
-  const handleLock = async () => {
-    const success = await lock();
-    if (success) {
-      toast.success(t("identityLocked", "Identity locked"));
-    }
-    return success;
-  };
-
   const getStatusText = () => {
     if (isLoading) return t("identityLoading", "Loading...");
-    if (isNone) return t("identityNoneStatus", "Create your secure identity");
     if (isUnlocked && unlockExpiresAt) {
       return t("sessionExpiresIn", "Session expires in {{time}}", { time: formatted });
     }
@@ -65,7 +46,6 @@ export function useIdentityActions() {
   return {
     // State
     state,
-    isNone,
     isLocked,
     isUnlocked,
     isLoading,
@@ -75,9 +55,7 @@ export function useIdentityActions() {
     isExpired,
     isExpiringSoon,
     // Actions
-    handleCreateIdentity,
     handleUnlock,
-    handleLock,
     getStatusText,
     t,
   };
