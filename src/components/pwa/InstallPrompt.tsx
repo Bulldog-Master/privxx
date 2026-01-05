@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback, useRef, forwardRef } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Download, X, Share, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ const isStandalone = (): boolean => {
 
 const SESSION_KEY = "pwa-dismissed";
 
-const InstallPrompt = forwardRef<HTMLDivElement, object>(function InstallPrompt(_props, ref) {
+function InstallPrompt() {
   const { t } = useTranslation();
 
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -265,6 +265,6 @@ const InstallPrompt = forwardRef<HTMLDivElement, object>(function InstallPrompt(
   }
 
   return null;
-});
+}
 
 export default InstallPrompt;

@@ -4,7 +4,6 @@
  * Drawer/dialog containing the referral dashboard.
  */
 
-import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Users } from 'lucide-react';
 import {
@@ -29,8 +28,7 @@ interface ReferralDrawerProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export const ReferralDrawer = forwardRef<HTMLDivElement, ReferralDrawerProps>(
-  function ReferralDrawer({ open, onOpenChange }, ref) {
+export function ReferralDrawer({ open, onOpenChange }: ReferralDrawerProps) {
   const { t } = useTranslation('ui');
   const isMobile = useIsMobile();
 
@@ -72,4 +70,4 @@ export const ReferralDrawer = forwardRef<HTMLDivElement, ReferralDrawerProps>(
       </DialogContent>
     </Dialog>
   );
-});
+}
