@@ -94,3 +94,6 @@ export type {
   ConnectResponse,
   DisconnectResponse,
 } from "./types";
+
+// Re-export error types
+export { BridgeError, type BridgeErrorCode } from "./client";

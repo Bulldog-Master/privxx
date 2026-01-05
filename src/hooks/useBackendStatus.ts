@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
-import { bridgeClient, isMockMode, type StatusResponse } from "@/api/bridge";
-import { BridgeError, type BridgeErrorCode } from "@/api/bridge/client";
+import { bridgeClient, isMockMode, BridgeError, type StatusResponse, type BridgeErrorCode } from "@/api/bridge";
 
 export type ConnectionHealth = "healthy" | "degraded" | "offline" | "checking";
 
