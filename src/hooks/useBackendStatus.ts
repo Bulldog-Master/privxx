@@ -311,8 +311,7 @@ function subscribe(listener: Listener, pollMs: number, id: symbol) {
 // ------------------------------
 
 export function useBackendStatus(pollMs = 30000) {
-  const idRef = useRef<symbol>();
-  if (!idRef.current) idRef.current = Symbol("useBackendStatus");
+  const idRef = useRef<symbol>(Symbol("useBackendStatus"));
 
   const snapshot = useSyncExternalStore(
     (listener) => subscribe(listener, pollMs, idRef.current!),
