@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, forwardRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { 
@@ -55,7 +55,7 @@ function ConnectionPathNode({ node, isLast }: { node: ConnectionNode; isLast: bo
   );
 }
 
-const DiagnosticsDrawer = () => {
+const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(_props, _ref) {
   const { t } = useTranslation();
   // Use context if available, otherwise fallback to local state
   const drawerContext = useDiagnosticsDrawerOptional();
@@ -500,6 +500,6 @@ const DiagnosticsDrawer = () => {
       </div>
     </>
   );
-};
+});
 
 export default DiagnosticsDrawer;
