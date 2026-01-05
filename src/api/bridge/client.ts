@@ -34,7 +34,9 @@ export class BridgeError extends Error {
     public readonly code: BridgeErrorCode,
     public readonly statusCode?: number,
     public readonly correlationId?: string,
-    public readonly retryable: boolean = false
+    public readonly retryable: boolean = false,
+    /** Seconds until retry is allowed (only meaningful for RATE_LIMITED) */
+    public readonly retryAfterSec?: number
   ) {
     super(message);
     this.name = "BridgeError";
@@ -96,7 +98,8 @@ export class BridgeClient implements IBridgeClient {
     if (status === 401) return { code: "UNAUTHORIZED", retryable: false };
     if (status === 403) return { code: "FORBIDDEN", retryable: false };
     if (status === 404) return { code: "NOT_FOUND", retryable: false };
-    if (status === 429) return { code: "RATE_LIMITED", retryable: true };
+    // IMPORTANT: do not auto-retry 429; it prolongs lockouts and increases load
+    if (status === 429) return { code: "RATE_LIMITED", retryable: false };
     if (status >= 500) return { code: "SERVER_ERROR", retryable: true };
     return { code: "CLIENT_ERROR", retryable: false };
   }
@@ -184,9 +187,14 @@ export class BridgeClient implements IBridgeClient {
           
           // Parse error body
           let errorMessage: string;
+          let retryAfterSec: number | undefined;
           try {
             const errorBody = await res.json();
-            errorMessage = (errorBody as { error?: string }).error || `HTTP ${res.status}`;
+            const body = errorBody as { error?: string; message?: string; retryAfter?: number };
+            errorMessage = body.message || body.error || `HTTP ${res.status}`;
+            if (typeof body.retryAfter === "number" && body.retryAfter > 0) {
+              retryAfterSec = Math.ceil(body.retryAfter);
+            }
           } catch {
             errorMessage = `HTTP ${res.status}`;
           }
@@ -196,7 +204,8 @@ export class BridgeClient implements IBridgeClient {
             code,
             res.status,
             correlationId,
-            retryable
+            retryable,
+            retryAfterSec
           );
 
           // Only retry if retryable and idempotent (or explicitly POST for certain endpoints)
