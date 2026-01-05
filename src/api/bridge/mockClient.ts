@@ -149,7 +149,4 @@ export class MockBridgeClient implements IBridgeClient {
     return [...this.mockMessages];
   }
 
-  setToken(_token: string): void {
-    // No-op in mock mode
-  }
 }
