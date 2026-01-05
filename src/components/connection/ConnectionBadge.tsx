@@ -1,4 +1,5 @@
-import { useBackendStatus, type BackendStatus } from "@/hooks/useBackendStatus";
+import type { BackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatusShared } from "@/contexts/BackendStatusContext";
 import { useTranslation } from "react-i18next";
 import { Wifi, WifiOff, Loader2 } from "lucide-react";
 
@@ -16,7 +17,7 @@ function deriveConnectionState(status: BackendStatus): ConnectionState {
 
 export function ConnectionBadge() {
   const { t } = useTranslation();
-  const { status, isLoading } = useBackendStatus();
+  const { status, isLoading } = useBackendStatusShared();
 
   if (isLoading) {
     return (

@@ -72,11 +72,13 @@ function calculateHealth(
   return "degraded";
 }
 
-export function useBackendStatus(pollMs = 30000) {
+export function useBackendStatus(pollMs = 30000, options?: { enabled?: boolean }) {
+  const enabled = options?.enabled ?? true;
+
   const [data, setData] = useState<BackendStatus>(initialStatus);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isActive, setIsActive] = useState(!document.hidden);
+  const [isLoading, setIsLoading] = useState(enabled);
+  const [isActive, setIsActive] = useState(enabled && !document.hidden);
   const failureCountRef = useRef(0);
   const isRateLimitedRef = useRef(false);
 
@@ -98,14 +100,17 @@ export function useBackendStatus(pollMs = 30000) {
 
   // Pause polling when app is backgrounded (privacy + performance)
   useEffect(() => {
+    if (!enabled) return;
+
     const onVisibilityChange = () => {
       setIsActive(!document.hidden);
     };
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
-  }, []);
+  }, [enabled]);
 
   const fetchStatus = useCallback(async () => {
+    if (!enabled) return;
     // Avoid hammering the bridge while rate limited
     if (isRateLimitedRef.current) return;
 
@@ -173,9 +178,23 @@ export function useBackendStatus(pollMs = 30000) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
+    if (!enabled) {
+      // Reset to a neutral, non-polling state.
+      setIsLoading(false);
+      setError(null);
+      setData((prev) => ({
+        ...prev,
+        isMock: isMockMode(),
+        health: "checking",
+        lastErrorCode: null,
+        failureCount: 0,
+      }));
+      return;
+    }
+
     let alive = true;
 
     async function tick() {
@@ -256,7 +275,7 @@ export function useBackendStatus(pollMs = 30000) {
       alive = false;
       clearInterval(interval);
     };
-  }, [pollMs, isActive]);
+  }, [pollMs, isActive, enabled]);
 
   return { status: data, error, isLoading, refetch: fetchStatus, rateLimit };
 }
