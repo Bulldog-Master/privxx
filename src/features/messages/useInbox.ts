@@ -3,7 +3,6 @@ import { DemoMessage, InboxState } from "./types";
 import { mergeMessages } from "./merge";
 import { useIdentity } from "@/features/identity";
 import { bridgeClient } from "@/api/bridge";
-import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
 import type { Message } from "@/api/bridge";
 
 const POLL_MS = 4000; // 3–5s window per spec
@@ -30,7 +29,6 @@ function normalizeMessage(raw: Message, index: number): DemoMessage {
 
 export function useInbox() {
   const { isUnlocked } = useIdentity();
-  const { isSimulated } = useBridgeHealthStatus();
   const [state, setState] = useState<InboxState>({
     messages: [],
     isLoading: false,
@@ -47,8 +45,6 @@ export function useInbox() {
   }, []);
 
   const fetchOnce = useCallback(async () => {
-    // Gate: do not fetch inbox when xxdkReady=false (simulated mode)
-    if (isSimulated) return;
     if (!isUnlocked) return;
     if (inFlightRef.current) return;
     inFlightRef.current = true;
@@ -81,24 +77,24 @@ export function useInbox() {
     } finally {
       inFlightRef.current = false;
     }
-  }, [isUnlocked, isSimulated]);
+  }, [isUnlocked]);
 
-  // Handle lock/unlock state changes and simulated mode
+  // Handle lock/unlock state changes
   useEffect(() => {
-    // Stop polling when locked or simulated
-    if (!isUnlocked || isSimulated) {
+    if (!isUnlocked) {
+      // Stop polling and clear state when locked
       clearPolling();
       setState({ messages: [], isLoading: false, error: undefined });
       return;
     }
 
-    // Start polling when unlocked and NOT simulated
+    // Start polling when unlocked
     fetchOnce();
     clearPolling();
     timerRef.current = window.setInterval(fetchOnce, POLL_MS);
 
     return () => clearPolling();
-  }, [isUnlocked, isSimulated, fetchOnce, clearPolling]);
+  }, [isUnlocked, fetchOnce, clearPolling]);
 
   const status = useMemo(() => {
     if (!isUnlocked) return "locked";

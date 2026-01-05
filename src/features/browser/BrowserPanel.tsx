@@ -2,25 +2,22 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { useIdentity } from "@/features/identity";
-import { Loader2, Shield, AlertTriangle } from "lucide-react";
+import { Loader2, Shield } from "lucide-react";
 import { LockedState } from "@/components/shared";
-import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
 
 type ConnectionState = "idle" | "connecting" | "connected";
 
 export function BrowserPanel() {
   const { t } = useTranslation();
   const { isUnlocked } = useIdentity();
-  const { isSimulated } = useBridgeHealthStatus();
 
   const [url, setUrl] = useState("https://");
   const [state, setState] = useState<ConnectionState>("idle");
   const [latency, setLatency] = useState<number | null>(null);
 
-  // Disable connect when simulated (xxdkReady=false)
   const canConnect = useMemo(() => {
-    return isUnlocked && url.trim().length > 8 && state === "idle" && !isSimulated;
-  }, [isUnlocked, url, state, isSimulated]);
+    return isUnlocked && url.trim().length > 8 && state === "idle";
+  }, [isUnlocked, url, state]);
 
   const onConnect = async () => {
     if (!canConnect) return;
@@ -65,16 +62,6 @@ export function BrowserPanel() {
           {t("browserHint", "Enter a URL to route through the Privxx tunnel (Preview).")}
         </div>
       </div>
-
-      {/* Simulated Mode Warning */}
-      {isSimulated && (
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30">
-          <AlertTriangle className="h-4 w-4 text-amber-500" />
-          <span className="text-xs text-amber-600 dark:text-amber-400">
-            {t("simulatedMode.browserDisabled", "Connect disabled — bridge running in simulated mode")}
-          </span>
-        </div>
-      )}
 
       {state === "idle" && (
         <Button 

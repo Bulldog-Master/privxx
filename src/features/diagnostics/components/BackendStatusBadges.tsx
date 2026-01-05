@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +11,7 @@ interface StatusBadgeProps {
   label: string;
   status: StatusType;
   tooltip: string;
-  icon: ReactNode;
+  icon: React.ReactNode;
 }
 
 function StatusBadge({ label, status, tooltip, icon }: StatusBadgeProps) {

@@ -27,8 +27,6 @@ import {
   OverallStatusBar,
   TranslationCoverageBadge,
   NetworkStatsPanel,
-  HealthPayloadCard,
-  SimulatedStatusBanner,
 } from '@/components/diagnostics';
 import type { LayerState } from '@/components/diagnostics';
 import { RefreshCw } from 'lucide-react';
@@ -146,9 +144,6 @@ export default function Diagnostics() {
           <TranslationCoverageBadge />
         </div>
 
-        {/* SIMULATED / LIVE Status Banner - prominent display */}
-        <SimulatedStatusBanner />
-
         {/* Overall Status Bar */}
         <OverallStatusBar
           layerState={layerState}
@@ -188,9 +183,6 @@ export default function Diagnostics() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* Health Payload - shows /health response including xxdkReady */}
-                <HealthPayloadCard />
-
                 {/* Bridge Status Card */}
                 <BridgeStatusCard />
 

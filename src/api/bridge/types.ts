@@ -44,8 +44,6 @@ export type HealthResponse = {
   service: string;
   version: string;
   time: string;
-  /** True when real xxDK is connected; false = simulated mode */
-  xxdkReady?: boolean;
 };
 
 // GET /unlock/status response

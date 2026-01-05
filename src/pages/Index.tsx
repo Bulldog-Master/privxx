@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useState, type ComponentType } from "react";
+import { lazy, Suspense } from "react";
 import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { PageBackground } from "@/components/layout/PageBackground";
@@ -7,20 +7,12 @@ import { SecurityScoreIndicator } from "@/components/settings/SecurityScoreIndic
 import { PasskeyOnboardingPrompt } from "@/features/auth/components";
 import { useAuth } from "@/contexts/AuthContext";
 import MinimalFooter from "@/components/shared/MinimalFooter";
-import StatusPill from "@/components/diagnostics/StatusPill";
 
-// IMPORTANT: The diagnostics drawer is loaded only after explicit user interaction
-// to avoid any startup stalls or ref-related crashes.
+// Lazy load the diagnostics drawer - only loaded when user interacts
+const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/DiagnosticsDrawer"));
 
 const Index = () => {
   const { user } = useAuth();
-  const [DiagnosticsDrawerCmp, setDiagnosticsDrawerCmp] = useState<ComponentType | null>(null);
-
-  const requestDiagnostics = useCallback(async () => {
-    if (DiagnosticsDrawerCmp) return;
-    const mod = await import("@/components/diagnostics/DiagnosticsDrawer");
-    setDiagnosticsDrawerCmp(() => mod.default);
-  }, [DiagnosticsDrawerCmp]);
 
   return (
     <PageBackground>
@@ -86,14 +78,10 @@ const Index = () => {
           <MinimalFooter />
         </footer>
 
-        {/* Fixed StatusPill (loads drawer only after click) */}
-        {DiagnosticsDrawerCmp ? (
-          <Suspense fallback={null}>
-            <DiagnosticsDrawerCmp />
-          </Suspense>
-        ) : (
-          <StatusPill onClick={requestDiagnostics} />
-        )}
+        {/* Fixed StatusPill + Diagnostics Drawer */}
+        <Suspense fallback={null}>
+          <DiagnosticsDrawer />
+        </Suspense>
 
       </div>
     </PageBackground>

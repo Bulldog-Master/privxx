@@ -6,42 +6,10 @@ import { useInbox } from "./useInbox";
 import { useIdentity } from "@/features/identity";
 import { PaymentsPanel } from "@/features/payments";
 import { BrowserPanel } from "@/features/browser";
-import { useBridgeHealthStatus } from "@/features/diagnostics/hooks/useBridgeHealthStatus";
-import { Clock } from "lucide-react";
-
-function TransportOfflineNotice() {
-  const { t } = useTranslation();
-  const { healthData } = useBridgeHealthStatus();
-
-  return (
-    <div className="p-6 text-center space-y-3">
-      <div className="flex justify-center">
-        <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center">
-          <Clock className="h-6 w-6 text-amber-500" />
-        </div>
-      </div>
-      <h3 className="text-sm font-semibold text-foreground">
-        {t("transportOffline.title", "Transport Offline")}
-      </h3>
-      <p className="text-xs text-muted-foreground max-w-xs mx-auto">
-        {t(
-          "transportOffline.description",
-          "The privacy network is initializing. Messaging and browsing will be available once the backend connects to xxDK."
-        )}
-      </p>
-      {healthData?.version && (
-        <p className="text-xs text-muted-foreground/60 font-mono">
-          Bridge v{healthData.version} • xxdkReady: false
-        </p>
-      )}
-    </div>
-  );
-}
 
 export function MessagesPanel() {
   const { t } = useTranslation();
   const { isUnlocked, isOffline } = useIdentity();
-  const { isSimulated } = useBridgeHealthStatus();
   const { 
     messages, 
     isLoading, 
@@ -50,15 +18,6 @@ export function MessagesPanel() {
     addOptimistic, 
     removeOptimistic 
   } = useInbox();
-
-  // Gate entire panel when xxdkReady=false (transport offline)
-  if (isSimulated) {
-    return (
-      <div role="region" aria-label={t("messagingPanel", "Messaging panel")}>
-        <TransportOfflineNotice />
-      </div>
-    );
-  }
 
   // Tabs are muted when bridge is offline
   const tabsMuted = isOffline;

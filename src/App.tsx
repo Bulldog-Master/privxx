@@ -46,8 +46,6 @@ const PageLoader = () => (
 );
 
 // Wrapper component to check email verification
-// Note: This component returns children directly without wrapping in extra elements
-// to avoid issues with refs being passed to function components
 function EmailVerificationGuard({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isEmailVerified, isLoading } = useAuth();
   
@@ -61,8 +59,7 @@ function EmailVerificationGuard({ children }: { children: React.ReactNode }) {
     return <EmailVerificationPending />;
   }
   
-  // Return children directly - React handles this properly
-  return children as React.ReactElement | null;
+  return <>{children}</>;
 }
 
 // Session timeout manager component

@@ -745,22 +745,6 @@
   "diagnostics.enableAlerts": "Enable Alerts",
   "diagnostics.browserNotifications": "Browser Notifications",
   "diagnostics.browserNotificationsDenied": "Browser notifications blocked",
-  "diagnostics.healthPayload": "Bridge Health Payload",
-  "diagnostics.healthError": "Failed to fetch health",
-  "diagnostics.status": "Status",
-  "diagnostics.service": "Service",
-  "diagnostics.xxdkReady": "xxDK Ready",
-  "diagnostics.realMode": "Real",
-  "diagnostics.simulatedMode": "Simulated",
-  "diagnostics.timestamp": "Timestamp",
-  "diagnostics.noData": "No data",
-  
-  "simulatedMode.title": "Network Initializing",
-  "simulatedMode.description": "xxDK not connected — waiting for backend integration",
-  "simulatedMode.browserDisabled": "Connect unavailable — network initializing",
-  
-  "transportOffline.title": "Transport Offline",
-  "transportOffline.description": "The privacy network is initializing. Messaging and browsing will be available once the backend connects to xxDK.",
   
   "security.title": "Security Dashboard",
   "security.subtitle": "Monitor and review security activity",

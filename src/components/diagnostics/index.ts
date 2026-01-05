@@ -25,8 +25,6 @@ export {
   UptimeCounter,
   BandwidthTracker,
   NetworkStatsPanel,
-  HealthPayloadCard,
-  SimulatedStatusBanner,
   useDiagnosticsState,
   useBridgeHealthStatus,
   getBackendStatusDisplay,
