@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Shield, ShieldAlert, ShieldCheck, Loader2, Clock } from "lucide-react";
 import { fetchBridgeStatusRaw, type BridgeUiStatus } from "@/api/bridge/statusUtils";
 import { useRateLimitCountdown } from "@/features/diagnostics/hooks/useRateLimitCountdown";
+import { useDiagnosticsDrawerOptional } from "@/features/diagnostics/context";
 import { cn } from "@/lib/utils";
 
 interface ConnectionStatusBadgeProps {
@@ -12,6 +13,7 @@ interface ConnectionStatusBadgeProps {
 
 const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatusBadgeProps) => {
   const { t } = useTranslation();
+  const drawerContext = useDiagnosticsDrawerOptional();
   const [statusUi, setStatusUi] = useState<BridgeUiStatus | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -47,35 +49,36 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
     return () => clearInterval(interval);
   }, [fetchStatus, rateLimit.isRateLimited]);
 
-  if (loading && !statusUi) {
-    return (
-      <div className={cn(
-        "inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium",
-        "bg-muted/50 text-muted-foreground",
-        className
-      )}>
-        <Loader2 className="h-3 w-3 animate-spin" />
-        {showLabel && <span>{t("loading", "Loading")}</span>}
-      </div>
-    );
-  }
-
-  // Rate limited
-  if (rateLimit.isRateLimited) {
-    return (
-      <div className={cn(
-        "inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium",
-        "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20",
-        className
-      )}>
-        <Clock className="h-3 w-3" />
-        {showLabel && <span>{rateLimit.formattedTime}</span>}
-      </div>
-    );
-  }
+  const handleClick = () => {
+    drawerContext?.open();
+  };
 
   // Determine state and styling
   const getStateConfig = () => {
+    if (loading && !statusUi) {
+      return {
+        icon: Loader2,
+        label: t("loading", "Loading"),
+        bg: "bg-muted/50",
+        text: "text-muted-foreground",
+        border: "border-transparent",
+        pulse: false,
+        spin: true,
+      };
+    }
+
+    if (rateLimit.isRateLimited) {
+      return {
+        icon: Clock,
+        label: rateLimit.formattedTime,
+        bg: "bg-amber-500/10",
+        text: "text-amber-600 dark:text-amber-400",
+        border: "border-amber-500/20",
+        pulse: false,
+        spin: false,
+      };
+    }
+
     if (statusUi?.kind === "ok") {
       switch (statusUi.state) {
         case "secure":
@@ -86,6 +89,7 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
             text: "text-emerald-600 dark:text-emerald-400",
             border: "border-emerald-500/20",
             pulse: false,
+            spin: false,
           };
         case "connecting":
           return {
@@ -95,6 +99,7 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
             text: "text-amber-600 dark:text-amber-400",
             border: "border-amber-500/20",
             pulse: true,
+            spin: false,
           };
         case "idle":
         default:
@@ -105,6 +110,7 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
             text: "text-muted-foreground",
             border: "border-border/50",
             pulse: false,
+            spin: false,
           };
       }
     }
@@ -117,6 +123,7 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
         text: "text-muted-foreground",
         border: "border-border/50",
         pulse: false,
+        spin: false,
       };
     }
 
@@ -128,6 +135,7 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
       text: "text-destructive",
       border: "border-destructive/20",
       pulse: false,
+      spin: false,
     };
   };
 
@@ -135,16 +143,26 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
   const Icon = config.icon;
 
   return (
-    <div className={cn(
-      "inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium border",
-      config.bg,
-      config.text,
-      config.border,
-      className
-    )}>
-      <Icon className={cn("h-3 w-3", config.pulse && "animate-pulse")} />
+    <button
+      type="button"
+      onClick={handleClick}
+      className={cn(
+        "inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium border",
+        "cursor-pointer hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary/50",
+        config.bg,
+        config.text,
+        config.border,
+        className
+      )}
+      title={t("openDiagnostics", "Open Diagnostics")}
+    >
+      <Icon className={cn(
+        "h-3 w-3", 
+        config.pulse && "animate-pulse",
+        config.spin && "animate-spin"
+      )} />
       {showLabel && <span>{config.label}</span>}
-    </div>
+    </button>
   );
 };
 
