@@ -31,6 +31,10 @@ function shouldRetry(_failureCount: number, error: unknown) {
   return _failureCount < 1;
 }
 
+/**
+ * IMPORTANT: This hook only calls /health (public endpoint).
+ * /status is handled by useBackendStatus to avoid duplicate polling and rate-limit loops.
+ */
 export function useBridgeHealthStatus(): BridgeHealthStatus {
   const healthQuery = useQuery({
     queryKey: ['bridge-health'],
@@ -43,39 +47,26 @@ export function useBridgeHealthStatus(): BridgeHealthStatus {
     },
   });
 
-  const statusQuery = useQuery({
-    queryKey: ['bridge-status'],
-    queryFn: () => bridgeClient.status(),
-    staleTime: 30000,
-    retry: shouldRetry,
-    refetchInterval: (q) => {
-      const err = q.state.error;
-      return err instanceof BridgeError && err.code === 'RATE_LIMITED' ? false : POLL_MS;
-    },
-  });
-
-  const refetchAll = () => {
-    healthQuery.refetch();
-    statusQuery.refetch();
-  };
+  // DO NOT call /status here - useBackendStatus handles it with proper rate-limit protection
+  // This prevents duplicate polling and rate-limit cascades
 
   return {
     // Legacy boolean fields
     health: healthQuery.isError ? false : healthQuery.data?.ok ?? null,
-    status: statusQuery.isError ? false : statusQuery.data ? true : null,
-    isLoading: healthQuery.isLoading || statusQuery.isLoading,
+    status: null, // Derived from useBackendStatus, not here
+    isLoading: healthQuery.isLoading,
     
     // Detailed response data
     healthData: healthQuery.data ?? null,
-    statusData: statusQuery.data ?? null,
+    statusData: null, // Not fetched here
     
     // Error states
     healthError: healthQuery.isError,
-    statusError: statusQuery.isError,
+    statusError: false,
     
     // Refetch functions
     refetchHealth: () => healthQuery.refetch(),
-    refetchStatus: () => statusQuery.refetch(),
-    refetchAll,
+    refetchStatus: () => {}, // No-op - use useBackendStatus
+    refetchAll: () => healthQuery.refetch(),
   };
 }
