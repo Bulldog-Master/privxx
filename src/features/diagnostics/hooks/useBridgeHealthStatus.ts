@@ -13,6 +13,10 @@ export interface BridgeHealthStatus {
   healthData: HealthResponse | null;
   statusData: StatusResponse | null;
   
+  // xxDK readiness - false means simulated mode
+  xxdkReady: boolean;
+  isSimulated: boolean;
+  
   // Error states
   healthError: boolean;
   statusError: boolean;
@@ -24,6 +28,7 @@ export interface BridgeHealthStatus {
 }
 
 const POLL_MS = 60000;
+const SIMULATED_POLL_MS = 300000; // 5 min backoff when simulated
 
 function shouldRetry(_failureCount: number, error: unknown) {
   // Never retry while rate-limited; it prolongs lockouts and adds load.
@@ -43,12 +48,18 @@ export function useBridgeHealthStatus(): BridgeHealthStatus {
     retry: shouldRetry,
     refetchInterval: (q) => {
       const err = q.state.error;
-      return err instanceof BridgeError && err.code === 'RATE_LIMITED' ? false : POLL_MS;
+      if (err instanceof BridgeError && err.code === 'RATE_LIMITED') return false;
+      // Heavy backoff when simulated to reduce unnecessary polling
+      const isSimulated = q.state.data?.xxdkReady === false;
+      return isSimulated ? SIMULATED_POLL_MS : POLL_MS;
     },
   });
 
   // DO NOT call /status here - useBackendStatus handles it with proper rate-limit protection
   // This prevents duplicate polling and rate-limit cascades
+
+  const xxdkReady = healthQuery.data?.xxdkReady === true;
+  const isSimulated = healthQuery.data?.xxdkReady === false;
 
   return {
     // Legacy boolean fields
@@ -59,6 +70,10 @@ export function useBridgeHealthStatus(): BridgeHealthStatus {
     // Detailed response data
     healthData: healthQuery.data ?? null,
     statusData: null, // Not fetched here
+    
+    // xxDK readiness
+    xxdkReady,
+    isSimulated,
     
     // Error states
     healthError: healthQuery.isError,
