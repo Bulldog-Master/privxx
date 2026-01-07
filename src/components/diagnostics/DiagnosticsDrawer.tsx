@@ -1,9 +1,9 @@
-import { useState, useMemo, useCallback, forwardRef } from "react";
+import { useState, useMemo, useCallback, forwardRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { 
   X, Copy, RefreshCw, Gauge, Check, ChevronDown, ChevronUp,
-  Monitor, Server, Wifi, Shield, Key, ShieldCheck, AlertCircle, Clock
+  Monitor, Server, Wifi, Shield, Key, ShieldCheck, AlertCircle, Clock, RotateCcw
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -69,48 +69,70 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
   const [tokenCopied, setTokenCopied] = useState(false);
   const [authTestState, setAuthTestState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [authTestMessage, setAuthTestMessage] = useState<string | null>(null);
+  const [refreshingSession, setRefreshingSession] = useState(false);
+  const [jwtExpiryCountdown, setJwtExpiryCountdown] = useState<number | null>(null);
   
-  const { getAccessToken, getAccessTokenAsync, isAuthenticated } = useAuth();
+  const { getAccessToken, getAccessTokenAsync, isAuthenticated, refreshSession } = useAuth();
   const bridgeHealth = useBridgeHealthStatus();
   const { rateLimit, refetch: refetchBackend } = useBackendStatusContext();
   
-  // Get JWT token info including expiry
+  // Get JWT token info including expiry (static calculation)
   const token = getAccessToken();
-  const tokenInfo = useMemo(() => {
-    if (!token) {
-      return { present: false, length: 0, preview: null, expiresAt: null, expiresIn: null };
-    }
-    
-    // Decode JWT to get exp claim (JWT is base64url encoded)
-    let expiresAt: Date | null = null;
-    let expiresIn: string | null = null;
+  const tokenExpSec = useMemo(() => {
+    if (!token) return null;
     try {
       const payloadBase64 = token.split('.')[1];
       const payload = JSON.parse(atob(payloadBase64));
-      if (payload.exp) {
-        expiresAt = new Date(payload.exp * 1000);
-        const now = Date.now();
-        const diffMs = expiresAt.getTime() - now;
-        if (diffMs > 0) {
-          const mins = Math.floor(diffMs / 60000);
-          const secs = Math.floor((diffMs % 60000) / 1000);
-          expiresIn = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
-        } else {
-          expiresIn = "Expired";
-        }
-      }
+      return typeof payload.exp === "number" ? payload.exp : null;
     } catch {
-      // Failed to decode JWT
+      return null;
     }
+  }, [token]);
+
+  // Live countdown effect for JWT expiry
+  useEffect(() => {
+    if (!tokenExpSec) {
+      setJwtExpiryCountdown(null);
+      return;
+    }
+
+    const updateCountdown = () => {
+      const remaining = Math.floor(tokenExpSec - Date.now() / 1000);
+      setJwtExpiryCountdown(remaining);
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, [tokenExpSec]);
+
+  // Derived token info for display
+  const tokenInfo = useMemo(() => {
+    if (!token) {
+      return { present: false, length: 0, preview: null, expiresAt: null };
+    }
+    
+    const expiresAt = tokenExpSec ? new Date(tokenExpSec * 1000) : null;
     
     return {
       present: true,
       length: token.length,
       preview: `${token.substring(0, 12)}...`,
       expiresAt,
-      expiresIn,
     };
-  }, [token]);
+  }, [token, tokenExpSec]);
+
+  // Format countdown for display
+  const formatCountdown = (secs: number | null): string => {
+    if (secs === null) return "—";
+    if (secs <= 0) return "Expired";
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return m > 0 ? `${m}m ${s}s` : `${s}s`;
+  };
+
+  const isTokenExpired = jwtExpiryCountdown !== null && jwtExpiryCountdown <= 0;
+  const isTokenExpiringSoon = jwtExpiryCountdown !== null && jwtExpiryCountdown > 0 && jwtExpiryCountdown < 120;
   
   const handleCopyToken = async () => {
     if (!token) return;
@@ -122,6 +144,25 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
       // Clipboard API not available
     }
   };
+
+  // Refresh session handler
+  const handleRefreshSession = useCallback(async () => {
+    setRefreshingSession(true);
+    const { error } = await refreshSession();
+    setRefreshingSession(false);
+    
+    if (error) {
+      setAuthTestState("error");
+      setAuthTestMessage(`Refresh failed: ${error}`);
+      setTimeout(() => {
+        setAuthTestState("idle");
+        setAuthTestMessage(null);
+      }, 3000);
+    } else {
+      // Trigger single health check after refresh (not a loop)
+      bridgeHealth.refetchAll();
+    }
+  }, [refreshSession, bridgeHealth]);
   
   // Test Auth button - calls bridge /health to verify reachability (avoids rate-limit on /status)
   const handleTestAuth = useCallback(async () => {
@@ -353,15 +394,32 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
                 </div>
                 {tokenInfo.present && (
                   <>
+                    {/* Expiry warning banner */}
+                    {(isTokenExpired || isTokenExpiringSoon) && (
+                      <div className={cn(
+                        "flex items-center gap-2 p-2 rounded text-xs",
+                        isTokenExpired 
+                          ? "bg-red-500/10 text-red-500 border border-red-500/20" 
+                          : "bg-amber-500/10 text-amber-500 border border-amber-500/20"
+                      )}>
+                        <AlertCircle className="h-3.5 w-3.5 flex-shrink-0" />
+                        <span>
+                          {isTokenExpired 
+                            ? t("diagnostics.jwtExpiredWarning", "JWT expired — refresh session")
+                            : t("diagnostics.jwtExpiringSoon", "JWT expiring soon")}
+                        </span>
+                      </div>
+                    )}
+                    
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-muted-foreground">
                         {t("diagnostics.jwtExpiry", "Expires in")}
                       </span>
                       <span className={cn(
                         "text-sm font-mono",
-                        tokenInfo.expiresIn === "Expired" ? "text-red-500" : "text-foreground"
+                        isTokenExpired ? "text-red-500" : isTokenExpiringSoon ? "text-amber-500" : "text-foreground"
                       )}>
-                        {tokenInfo.expiresIn ?? "—"}
+                        {formatCountdown(jwtExpiryCountdown)}
                       </span>
                     </div>
                     {tokenInfo.expiresAt && (
@@ -380,8 +438,8 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
                       </span>
                       <span className="text-sm font-mono">{tokenInfo.length}</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-muted-foreground font-mono truncate max-w-[140px]">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground font-mono truncate flex-1 max-w-[120px]">
                         {tokenInfo.preview}
                       </span>
                       <Button
@@ -391,15 +449,37 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
                         className="h-8 px-2 gap-1.5"
                       >
                         {tokenCopied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
-                        {t("diagnostics.copyToken", "Copy JWT")}
+                        {t("diagnostics.copyToken", "Copy")}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleRefreshSession}
+                        disabled={refreshingSession}
+                        className="h-8 px-2 gap-1.5"
+                      >
+                        <RotateCcw className={cn("h-3.5 w-3.5", refreshingSession && "animate-spin")} />
+                        {t("diagnostics.refreshSession", "Refresh")}
                       </Button>
                     </div>
                   </>
                 )}
                 {!tokenInfo.present && isAuthenticated && (
-                  <p className="text-xs text-amber-500">
-                    {t("diagnostics.jwtMissing", "Logged in but no token found. Try refreshing.")}
-                  </p>
+                  <div className="space-y-2">
+                    <p className="text-xs text-amber-500">
+                      {t("diagnostics.jwtMissing", "Logged in but no token found.")}
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleRefreshSession}
+                      disabled={refreshingSession}
+                      className="w-full h-8 gap-1.5"
+                    >
+                      <RotateCcw className={cn("h-3.5 w-3.5", refreshingSession && "animate-spin")} />
+                      {t("diagnostics.refreshSession", "Refresh Session")}
+                    </Button>
+                  </div>
                 )}
                 {!isAuthenticated && (
                   <p className="text-xs text-muted-foreground">

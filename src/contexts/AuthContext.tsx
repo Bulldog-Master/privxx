@@ -26,6 +26,8 @@ interface AuthContextValue {
   getAccessToken: () => string | null;
   /** Fetches a FRESH access token via supabase.auth.getSession() - never cached */
   getAccessTokenAsync: () => Promise<string | null>;
+  /** Forces a session refresh and returns the new access token */
+  refreshSession: () => Promise<{ token: string | null; error: string | null }>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -195,6 +197,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return freshSession?.access_token ?? null;
   }, []);
 
+  /**
+   * Force refresh the Supabase session (triggers token rotation).
+   * Use when JWT is expired or about to expire.
+   */
+  const refreshSession = useCallback(async (): Promise<{ token: string | null; error: string | null }> => {
+    const { data, error } = await supabase.auth.refreshSession();
+    if (error) {
+      console.error("[Auth] Session refresh failed:", error.message);
+      return { token: null, error: error.message };
+    }
+    // Update local state with refreshed session
+    if (data.session) {
+      setSession(data.session);
+      setUser(data.session.user);
+    }
+    return { token: data.session?.access_token ?? null, error: null };
+  }, []);
+
   // Check if email is verified
   const isEmailVerified = !!user?.email_confirmed_at;
 
@@ -215,6 +235,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signOut,
         getAccessToken,
         getAccessTokenAsync,
+        refreshSession,
       }}
     >
       {children}
