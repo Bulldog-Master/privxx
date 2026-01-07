@@ -135,6 +135,23 @@ export function useBackendStatus(pollMs = 30000) {
       });
       setError(null);
     } catch (err) {
+      // Handle unauthorized - this means no valid session yet, not a real failure
+      // Skip incrementing failure count; just wait for auth to complete
+      if (err instanceof BridgeError && err.code === "UNAUTHORIZED") {
+        setData((prev) => ({
+          ...prev,
+          isMock: isMockMode(),
+          // Keep previous health (likely "checking") - don't mark as offline
+          health: prev.health === "checking" ? "checking" : prev.health,
+          latencyMs: null,
+          lastErrorCode: "UNAUTHORIZED",
+          lastCheckAt: checkTime,
+        }));
+        setError("UNAUTHORIZED");
+        setIsLoading(false);
+        return;
+      }
+
       // Handle explicit rate limiting without incrementing failure counters
       if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
         const retryAfterSec = err.retryAfterSec ?? 60;
@@ -182,6 +199,12 @@ export function useBackendStatus(pollMs = 30000) {
   }, [fetchStatus]);
 
   useEffect(() => {
+    // Skip polling entirely if pollMs is 0 (disabled)
+    if (pollMs === 0) {
+      setIsLoading(false);
+      return;
+    }
+
     let alive = true;
 
     async function tick() {
