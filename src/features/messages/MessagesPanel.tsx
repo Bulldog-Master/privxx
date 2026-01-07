@@ -4,23 +4,25 @@ import { Inbox } from "./Inbox";
 import { Compose } from "./Compose";
 import { useInbox } from "./useInbox";
 import { useIdentity } from "@/features/identity";
+import { useAuth } from "@/contexts/AuthContext";
 import { PaymentsPanel } from "@/features/payments";
 import { BrowserPanel } from "@/features/browser";
 
 export function MessagesPanel() {
   const { t } = useTranslation();
+  const { isAuthenticated } = useAuth();
   const { isUnlocked, isOffline } = useIdentity();
-  const { 
-    messages, 
-    isLoading, 
-    error, 
-    refresh, 
-    addOptimistic, 
-    removeOptimistic 
+  const {
+    messages,
+    isLoading,
+    error,
+    refresh,
+    addOptimistic,
+    removeOptimistic
   } = useInbox();
 
-  // Tabs are muted when bridge is offline
-  const tabsMuted = isOffline;
+  // Tabs are muted when bridge is offline OR user isn't signed in
+  const tabsMuted = isOffline || !isAuthenticated;
 
   return (
     <div role="region" aria-label={t("messagingPanel", "Messaging panel")}>

@@ -65,10 +65,16 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         setState("locked");
         setUnlockExpiresAt(null);
       } else {
-        // Treat missing/expired TTL as locked to prevent "unlocked-but-expired" UI glitches.
+        // TTL may be omitted by the bridge in some modes.
+        // If we are unlocked but don't have an expiry, treat as unlocked with unknown TTL.
         const expiresAt = response.expiresAt || null;
-        const isExpired = !expiresAt || new Date(expiresAt).getTime() <= Date.now();
+        if (!expiresAt) {
+          setState("unlocked");
+          setUnlockExpiresAt(null);
+          return;
+        }
 
+        const isExpired = new Date(expiresAt).getTime() <= Date.now();
         if (isExpired) {
           setState("locked");
           setUnlockExpiresAt(null);
@@ -129,10 +135,16 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         return false;
       }
 
-      // Treat missing/expired TTL as locked to prevent "unlocked-but-expired" UI glitches.
+      // TTL may be omitted by the bridge in some modes.
+      // If we are unlocked but don't have an expiry, treat as unlocked with unknown TTL.
       const expiresAt = status.expiresAt || null;
-      const isExpired = !expiresAt || new Date(expiresAt).getTime() <= Date.now();
+      if (!expiresAt) {
+        setState("unlocked");
+        setUnlockExpiresAt(null);
+        return true;
+      }
 
+      const isExpired = new Date(expiresAt).getTime() <= Date.now();
       if (isExpired) {
         setState("locked");
         setUnlockExpiresAt(null);

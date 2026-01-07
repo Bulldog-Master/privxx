@@ -12,7 +12,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { formatDistanceToNow } from "date-fns";
+import { Link } from "react-router-dom";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/features/identity";
 import { IdentityUnlockForm } from "@/features/identity/components/IdentityUnlockForm";
 import type { DemoMessage } from "./types";
@@ -42,6 +44,7 @@ export function Inbox({
 }: InboxProps) {
   const { t } = useTranslation();
   const { autoRetry, status } = useBackendStatusContext();
+  const { isAuthenticated } = useAuth();
   const { isInitialized: identityInitialized, isLoading: identityLoading } = useIdentity();
   
   // Determine if this is a network-level error that has auto-retry
@@ -96,20 +99,33 @@ export function Inbox({
     );
   }
 
-  // Locked state - prompt to unlock with password
+  // Locked state
+  // - If not signed in, we can't unlock (bridge requires auth headers)
+  // - If signed in, prompt for identity password
   if (!isUnlocked) {
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
         <Lock className="h-6 w-6 text-primary/60 mb-2" />
         <h3 className="text-sm font-semibold mb-1 text-primary/90">
-          {t("inboxLockedTitle", "Identity Locked")}
+          {isAuthenticated
+            ? t("inboxLockedTitle", "Identity Locked")
+            : t("authRequired", "Sign In Required")}
         </h3>
         <p className="text-xs text-primary/60 mb-4">
-          {t("inboxLockedBody", "Unlock your identity to view messages")}
+          {isAuthenticated
+            ? t("inboxLockedBody", "Unlock your identity to view messages")
+            : t("authRequiredBody", "Sign in to unlock your identity and view messages")}
         </p>
-        <div className="w-full max-w-xs">
-          <IdentityUnlockForm />
-        </div>
+
+        {isAuthenticated ? (
+          <div className="w-full max-w-xs">
+            <IdentityUnlockForm />
+          </div>
+        ) : (
+          <Button asChild variant="outline" size="sm">
+            <Link to="/auth">{t("common.signIn", "Sign In")}</Link>
+          </Button>
+        )}
       </div>
     );
   }
