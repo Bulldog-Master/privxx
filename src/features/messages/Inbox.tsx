@@ -42,7 +42,7 @@ export function Inbox({
 }: InboxProps) {
   const { t } = useTranslation();
   const { autoRetry, status } = useBackendStatusContext();
-  const { isInitialized: identityInitialized, isLoading: identityLoading } = useIdentity();
+  const { isInitialized: identityInitialized } = useIdentity();
   
   // Determine if this is a network-level error that has auto-retry
   const isNetworkError = error && (
@@ -53,8 +53,9 @@ export function Inbox({
     status.lastErrorCode === "TIMEOUT"
   );
 
-  // Show stable skeleton while identity is initializing (prevents flashing)
-  if (!identityInitialized || identityLoading) {
+  // Show stable skeleton ONLY while identity is initializing for the first time
+  // Do NOT show skeleton on subsequent loading states (prevents flashing)
+  if (!identityInitialized) {
     return (
       <div className="space-y-3 p-4">
         <div className="flex items-center justify-between">
