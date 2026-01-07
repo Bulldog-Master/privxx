@@ -14,7 +14,7 @@ import { NetworkSpeedTest } from "@/features/diagnostics/components/NetworkSpeed
 import { useDiagnosticsDrawerOptional } from "@/features/diagnostics/context";
 import { useAuth } from "@/contexts/AuthContext";
 import { bridgeClient } from "@/api/bridge";
-import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 
 type NodeState = "ok" | "warn" | "bad" | "loading";
 
@@ -72,7 +72,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
   
   const { getAccessToken, getAccessTokenAsync, isAuthenticated } = useAuth();
   const bridgeHealth = useBridgeHealthStatus();
-  const { rateLimit, refetch: refetchBackend } = useBackendStatus();
+  const { rateLimit, refetch: refetchBackend } = useBackendStatusContext();
   
   // Get JWT token info including expiry
   const token = getAccessToken();
