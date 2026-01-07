@@ -8,5 +8,6 @@ export { ConnectionHealthBadge } from "./ConnectionHealthBadge";
 export { ConnectionHistoryPanel } from "./ConnectionHistoryPanel";
 export { ConnectionQualityBadge } from "./ConnectionQualityBadge";
 export { ConnectionRetryButton } from "./ConnectionRetryButton";
+export { ConnectionStateIndicator } from "./ConnectionStateIndicator";
 export { ConnectionSuccessAnimation } from "./ConnectionSuccessAnimation";
 export { OfflineWarning } from "./OfflineWarning";
