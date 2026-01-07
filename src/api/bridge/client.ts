@@ -76,6 +76,7 @@ export class BridgeClient implements IBridgeClient {
   private retryConfig: RetryConfig;
   private timeoutMs: number;
   private getAccessToken?: () => Promise<string | null>;
+  private anonKey?: string;
 
   constructor(config: BridgeClientConfig | string) {
     if (typeof config === "string") {
@@ -87,6 +88,7 @@ export class BridgeClient implements IBridgeClient {
       this.retryConfig = config.retry ?? DEFAULT_RETRY_CONFIG;
       this.timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
       this.getAccessToken = config.getAccessToken;
+      this.anonKey = config.anonKey;
     }
   }
 
@@ -155,6 +157,11 @@ export class BridgeClient implements IBridgeClient {
     
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    // Add apikey header (required for all authenticated requests per handoff doc)
+    if (this.anonKey) {
+      headers["apikey"] = this.anonKey;
     }
 
     const requestOptions: RequestInit = {
