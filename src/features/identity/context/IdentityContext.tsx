@@ -59,17 +59,28 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
 
     try {
       const response: UnlockStatusResponse = await bridgeClient.getUnlockStatus();
-      
+
       if (response.locked) {
         setState("locked");
         setUnlockExpiresAt(null);
       } else {
-        setState("unlocked");
-        setUnlockExpiresAt(response.expiresAt || null);
+        // Treat missing/expired TTL as locked to prevent "unlocked-but-expired" UI glitches.
+        const expiresAt = response.expiresAt || null;
+        const isExpired = !expiresAt || new Date(expiresAt).getTime() <= Date.now();
+
+        if (isExpired) {
+          setState("locked");
+          setUnlockExpiresAt(null);
+        } else {
+          setState("unlocked");
+          setUnlockExpiresAt(expiresAt);
+        }
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to check unlock status";
       setError(message);
+      // Clear TTL on errors so we don't surface stale expiry UI after login.
+      setUnlockExpiresAt(null);
       const isNetworkError = message.toLowerCase().includes("network") ||
         message.toLowerCase().includes("timeout") ||
         message.toLowerCase().includes("unreachable") ||
@@ -102,18 +113,30 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
     try {
       const response = await bridgeClient.unlock(password);
       if (response.success) {
+        const expiresAt = response.expiresAt || null;
+        const isExpired = !expiresAt || new Date(expiresAt).getTime() <= Date.now();
+
+        if (isExpired) {
+          setState("locked");
+          setUnlockExpiresAt(null);
+          setError("Unlock expired");
+          return false;
+        }
+
         setState("unlocked");
-        setUnlockExpiresAt(response.expiresAt || null);
+        setUnlockExpiresAt(expiresAt);
         return true;
       } else {
         setError("Unlock failed");
         setState("locked");
+        setUnlockExpiresAt(null);
         return false;
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to unlock";
       setError(message);
       setState("locked");
+      setUnlockExpiresAt(null);
       return false;
     }
   }, []);
