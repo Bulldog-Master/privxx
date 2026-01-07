@@ -67,11 +67,16 @@ export async function fetchBridgeStatusRaw(): Promise<{
   const accessToken = session?.access_token;
 
   try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    
     const res = await fetch(`${baseUrl}/status`, {
       method: "GET",
-      headers: accessToken 
-        ? { "Authorization": `Bearer ${accessToken}` } 
-        : undefined,
+      headers,
     });
 
     const latencyMs = Math.round(performance.now() - startTime);
