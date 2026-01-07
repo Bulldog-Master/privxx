@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { 
   X, Copy, RefreshCw, Gauge, Check, ChevronDown, ChevronUp,
-  Monitor, Server, Wifi, Shield, Key, ShieldCheck, AlertCircle
+  Monitor, Server, Wifi, Shield, Key, ShieldCheck, AlertCircle, Clock
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,7 @@ import { NetworkSpeedTest } from "@/features/diagnostics/components/NetworkSpeed
 import { useDiagnosticsDrawerOptional } from "@/features/diagnostics/context";
 import { useAuth } from "@/contexts/AuthContext";
 import { bridgeClient } from "@/api/bridge";
+import { useBackendStatus } from "@/hooks/useBackendStatus";
 
 type NodeState = "ok" | "warn" | "bad" | "loading";
 
@@ -71,6 +72,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
   
   const { getAccessToken, getAccessTokenAsync, isAuthenticated } = useAuth();
   const bridgeHealth = useBridgeHealthStatus();
+  const { rateLimit, refetch: refetchBackend } = useBackendStatus();
   
   // Get JWT token info including expiry
   const token = getAccessToken();
@@ -226,6 +228,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
   
   const handleRetry = () => {
     bridgeHealth.refetchAll();
+    refetchBackend();
   };
 
   if (!open) {
@@ -441,6 +444,21 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
               </div>
             </section>
             
+            {/* Rate Limit Banner */}
+            {rateLimit.isRateLimited && (
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 flex items-center gap-3">
+                <Clock className="h-5 w-5 text-amber-500 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-amber-500">
+                    {t("diagnostics.rateLimited", "Rate limited")}
+                  </p>
+                  <p className="text-xs text-amber-500/80">
+                    {t("diagnostics.rateLimitWait", "Retry in {{time}}", { time: rateLimit.formattedTime })}
+                  </p>
+                </div>
+              </div>
+            )}
+            
             {/* Section C: Actions */}
             <section>
               <h3 className="text-sm font-medium text-muted-foreground mb-3">
@@ -451,11 +469,13 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
                   variant="outline"
                   size="sm"
                   onClick={handleRetry}
-                  disabled={bridgeHealth.isLoading}
+                  disabled={bridgeHealth.isLoading || rateLimit.isRateLimited}
                   className="h-11 px-4 gap-2"
                 >
                   <RefreshCw className={cn("h-4 w-4", bridgeHealth.isLoading && "animate-spin")} />
-                  {t("diagnostics.retry", "Retry")}
+                  {rateLimit.isRateLimited 
+                    ? rateLimit.formattedTime 
+                    : t("diagnostics.retry", "Retry")}
                 </Button>
                 <Button
                   variant="outline"
