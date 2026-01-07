@@ -16,11 +16,14 @@ interface ConnectionStateIndicatorProps {
 
 export function ConnectionStateIndicator({ className }: ConnectionStateIndicatorProps) {
   const { t } = useTranslation();
-  const { status, isLoading } = useBackendStatusContext();
+  const { status, isLoading, isAuthenticated } = useBackendStatusContext();
 
   const getIndicatorConfig = () => {
-    // Loading state
-    if (isLoading && status.state === "idle" && status.health === "checking") {
+    // Only show "checking" on first load when there's no prior health data
+    // This prevents flashing between states during regular polling
+    const isInitialCheck = isLoading && status.lastCheckAt === null && status.health === "checking";
+    
+    if (isInitialCheck) {
       return {
         icon: Loader2,
         label: t("connection.checking", "Checking..."),
@@ -29,6 +32,20 @@ export function ConnectionStateIndicator({ className }: ConnectionStateIndicator
         bgColor: "bg-muted/30",
         borderColor: "border-muted/50",
         iconSpin: true,
+        pulse: false,
+      };
+    }
+    
+    // Not authenticated - show login prompt state
+    if (!isAuthenticated) {
+      return {
+        icon: Shield,
+        label: t("connection.loginRequired", "Sign In Required"),
+        sublabel: t("connection.loginRequiredSub", "Sign in to connect"),
+        color: "text-muted-foreground",
+        bgColor: "bg-muted/20",
+        borderColor: "border-muted/40",
+        iconSpin: false,
         pulse: false,
       };
     }

@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { formatDistanceToNow } from "date-fns";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
+import { IdentityUnlockForm } from "@/features/identity/components/IdentityUnlockForm";
 import type { DemoMessage } from "./types";
 
 interface InboxProps {
@@ -50,7 +51,7 @@ export function Inbox({
     status.lastErrorCode === "TIMEOUT"
   );
 
-  // Locked state - prompt to sign in/unlock
+  // Locked state - prompt to unlock with password
   if (!isUnlocked) {
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
@@ -58,9 +59,12 @@ export function Inbox({
         <h3 className="text-sm font-semibold mb-1 text-primary/90">
           {t("inboxLockedTitle", "Identity Locked")}
         </h3>
-        <p className="text-xs text-primary/60 mb-3">
+        <p className="text-xs text-primary/60 mb-4">
           {t("inboxLockedBody", "Unlock your identity to view messages")}
         </p>
+        <div className="w-full max-w-xs">
+          <IdentityUnlockForm />
+        </div>
       </div>
     );
   }
