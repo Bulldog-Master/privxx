@@ -71,6 +71,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
   const [authTestMessage, setAuthTestMessage] = useState<string | null>(null);
   const [refreshingSession, setRefreshingSession] = useState(false);
   const [jwtExpiryCountdown, setJwtExpiryCountdown] = useState<number | null>(null);
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
   
   const { getAccessToken, getAccessTokenAsync, isAuthenticated, refreshSession } = useAuth();
   const bridgeHealth = useBridgeHealthStatus();
@@ -88,23 +89,6 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
       return null;
     }
   }, [token]);
-
-  // Live countdown effect for JWT expiry
-  useEffect(() => {
-    if (!tokenExpSec) {
-      setJwtExpiryCountdown(null);
-      return;
-    }
-
-    const updateCountdown = () => {
-      const remaining = Math.floor(tokenExpSec - Date.now() / 1000);
-      setJwtExpiryCountdown(remaining);
-    };
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
-    return () => clearInterval(interval);
-  }, [tokenExpSec]);
 
   // Derived token info for display
   const tokenInfo = useMemo(() => {
@@ -147,7 +131,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
     }
   }, [getAccessToken]);
 
-  // Refresh session handler
+  // Refresh session handler (defined before the effect that uses it)
   const handleRefreshSession = useCallback(async () => {
     setRefreshingSession(true);
     const { error } = await refreshSession();
@@ -161,10 +145,34 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
         setAuthTestMessage(null);
       }, 3000);
     } else {
+      // Track when token was last refreshed
+      setLastRefreshedAt(new Date());
       // Trigger single health check after refresh (not a loop)
       bridgeHealth.refetchAll();
     }
   }, [refreshSession, bridgeHealth]);
+
+  // Live countdown effect for JWT expiry with auto-refresh
+  useEffect(() => {
+    if (!tokenExpSec) {
+      setJwtExpiryCountdown(null);
+      return;
+    }
+
+    const updateCountdown = () => {
+      const remaining = Math.floor(tokenExpSec - Date.now() / 1000);
+      setJwtExpiryCountdown(remaining);
+      
+      // Auto-refresh when expired (and not already refreshing)
+      if (remaining <= 0 && !refreshingSession) {
+        handleRefreshSession();
+      }
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, [tokenExpSec, refreshingSession, handleRefreshSession]);
   
   // Test Auth button - calls bridge /health to verify reachability (avoids rate-limit on /status)
   const handleTestAuth = useCallback(async () => {
@@ -431,6 +439,16 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
                         </span>
                         <span className="text-xs font-mono text-muted-foreground">
                           {tokenInfo.expiresAt.toLocaleTimeString()}
+                        </span>
+                      </div>
+                    )}
+                    {lastRefreshedAt && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">
+                          {t("diagnostics.jwtLastRefreshed", "Last refreshed")}
+                        </span>
+                        <span className="text-xs font-mono text-emerald-500">
+                          {lastRefreshedAt.toLocaleTimeString()}
                         </span>
                       </div>
                     )}
