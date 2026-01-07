@@ -27,16 +27,26 @@ const TOAST_WARNING_SECONDS = 120; // Show toast at 2 minutes remaining
 
 export function UnlockExpiryDialog() {
   const { t } = useTranslation();
-  const { isUnlocked, unlockExpiresAt, isLoading } = useIdentity();
+  const { isUnlocked, unlockExpiresAt, isLoading, isInitialized } = useIdentity();
   const { timeLeft, isExpired, formatted } = useCountdown(unlockExpiresAt);
   
   const [showWarning, setShowWarning] = useState(false);
   const [showExpired, setShowExpired] = useState(false);
   const [toastShown, setToastShown] = useState(false);
+  // Track if user was ever unlocked in this session - prevents showing expiry on fresh login
+  const [wasEverUnlocked, setWasEverUnlocked] = useState(false);
+
+  // Track when user becomes unlocked
+  useEffect(() => {
+    if (isUnlocked && unlockExpiresAt) {
+      setWasEverUnlocked(true);
+    }
+  }, [isUnlocked, unlockExpiresAt]);
 
   // Show toast warning at 2 minutes (with haptic feedback)
+  // Only show if user was ever unlocked (not on fresh login)
   useEffect(() => {
-    if (isUnlocked && unlockExpiresAt && timeLeft > 0 && timeLeft <= TOAST_WARNING_SECONDS && timeLeft > WARNING_THRESHOLD_SECONDS && !toastShown) {
+    if (wasEverUnlocked && isUnlocked && unlockExpiresAt && timeLeft > 0 && timeLeft <= TOAST_WARNING_SECONDS && timeLeft > WARNING_THRESHOLD_SECONDS && !toastShown) {
       // Trigger warning alert (vibration + sound)
       alertWarning();
       
@@ -46,11 +56,12 @@ export function UnlockExpiryDialog() {
       });
       setToastShown(true);
     }
-  }, [isUnlocked, unlockExpiresAt, timeLeft, toastShown, t]);
+  }, [wasEverUnlocked, isUnlocked, unlockExpiresAt, timeLeft, toastShown, t]);
 
   // Show dialog when under 1 minute (with urgent alert)
+  // Only show if user was ever unlocked
   useEffect(() => {
-    if (isUnlocked && unlockExpiresAt && timeLeft > 0 && timeLeft <= WARNING_THRESHOLD_SECONDS) {
+    if (wasEverUnlocked && isUnlocked && unlockExpiresAt && timeLeft > 0 && timeLeft <= WARNING_THRESHOLD_SECONDS) {
       if (!showWarning) {
         // Trigger urgent alert when dialog first appears
         alertUrgent();
@@ -58,25 +69,27 @@ export function UnlockExpiryDialog() {
       setShowWarning(true);
       setShowExpired(false);
     }
-  }, [isUnlocked, unlockExpiresAt, timeLeft, showWarning]);
+  }, [wasEverUnlocked, isUnlocked, unlockExpiresAt, timeLeft, showWarning]);
 
   // Show expired dialog when TTL reaches 0 (with urgent alert)
+  // Only show if user was ever unlocked (prevents showing on fresh login)
   useEffect(() => {
-    if (isUnlocked && unlockExpiresAt && isExpired) {
+    if (wasEverUnlocked && isUnlocked && unlockExpiresAt && isExpired) {
       alertUrgent();
       setShowWarning(false);
       setShowExpired(true);
     }
-  }, [isUnlocked, unlockExpiresAt, isExpired]);
+  }, [wasEverUnlocked, isUnlocked, unlockExpiresAt, isExpired]);
 
-  // Reset state when identity state changes
+  // Reset state when identity becomes locked
   useEffect(() => {
-    if (!isUnlocked) {
+    if (!isUnlocked && isInitialized) {
       setShowWarning(false);
       setShowExpired(false);
       setToastShown(false);
+      // Don't reset wasEverUnlocked here - only reset on fresh page load
     }
-  }, [isUnlocked]);
+  }, [isUnlocked, isInitialized]);
 
   // Session extension is no longer supported via simple unlock
   // User must re-authenticate through normal auth flow
