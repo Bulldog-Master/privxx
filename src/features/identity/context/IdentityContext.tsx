@@ -113,26 +113,36 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
 
     try {
       const response = await bridgeClient.unlock(password);
-      if (response.success) {
-        const expiresAt = response.expiresAt || null;
-        const isExpired = !expiresAt || new Date(expiresAt).getTime() <= Date.now();
-
-        if (isExpired) {
-          setState("locked");
-          setUnlockExpiresAt(null);
-          setError("Unlock expired");
-          return false;
-        }
-
-        setState("unlocked");
-        setUnlockExpiresAt(expiresAt);
-        return true;
-      } else {
+      if (!response.success) {
         setError("Unlock failed");
         setState("locked");
         setUnlockExpiresAt(null);
         return false;
       }
+
+      // Bridge unlock responses may omit TTL; always re-check authoritative status.
+      const status: UnlockStatusResponse = await bridgeClient.getUnlockStatus();
+
+      if (status.locked) {
+        setState("locked");
+        setUnlockExpiresAt(null);
+        return false;
+      }
+
+      // Treat missing/expired TTL as locked to prevent "unlocked-but-expired" UI glitches.
+      const expiresAt = status.expiresAt || null;
+      const isExpired = !expiresAt || new Date(expiresAt).getTime() <= Date.now();
+
+      if (isExpired) {
+        setState("locked");
+        setUnlockExpiresAt(null);
+        setError("Unlock expired");
+        return false;
+      }
+
+      setState("unlocked");
+      setUnlockExpiresAt(expiresAt);
+      return true;
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to unlock";
       setError(message);
