@@ -78,8 +78,9 @@ export function Inbox({
     );
   }
 
-  // While unlocking/locking, avoid flashing the locked prompt.
-  if (identityLoading && messages.length === 0) {
+  // While unlocking/locking (identity transition), avoid flashing the locked prompt.
+  // Important: during transitions `isUnlocked` may briefly be false while the context resolves.
+  if (identityLoading && !isUnlocked) {
     return (
       <div className="space-y-3 p-4">
         <div className="flex items-center justify-between">
