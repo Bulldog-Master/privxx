@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { useTranslation } from "react-i18next";
 import { PrivxxHeader, PrivxxHeroWithUrl } from "@/components/brand";
 import { MessagesPanel } from "@/features/messages";
 import { PageBackground } from "@/components/layout/PageBackground";
@@ -6,13 +7,17 @@ import { BridgeConnectivityWarning } from "@/components/connection";
 import { SecurityScoreIndicator } from "@/components/settings/SecurityScoreIndicator";
 import { PasskeyOnboardingPrompt } from "@/features/auth/components";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIdentity } from "@/features/identity";
+import { IdentityUnlockForm } from "@/features/identity/components/IdentityUnlockForm";
 import MinimalFooter from "@/components/shared/MinimalFooter";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
 const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/DiagnosticsDrawer"));
 
 const Index = () => {
+  const { t } = useTranslation();
   const { user } = useAuth();
+  const { isLocked, isOffline } = useIdentity();
 
   return (
     <PageBackground>
@@ -51,6 +56,18 @@ const Index = () => {
 
           <PrivxxHeroWithUrl />
 
+          {/* Identity unlock (when locked) */}
+          {user && isLocked && !isOffline && (
+            <div className="w-full max-w-md rounded-lg border bg-card/80 backdrop-blur-sm p-4">
+              <div className="text-sm font-semibold text-foreground">
+                {t("identityLocked", "Identity Locked")}
+              </div>
+              <div className="text-xs text-muted-foreground mt-1 mb-3">
+                {t("identityUnlockPrompt", "Unlock your identity to use messaging and payments")}
+              </div>
+              <IdentityUnlockForm />
+            </div>
+          )}
 
           {/* Passkey onboarding prompt - shows to users without passkeys */}
           {user && (

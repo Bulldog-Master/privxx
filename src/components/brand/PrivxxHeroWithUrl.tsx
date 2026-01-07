@@ -158,16 +158,14 @@ const PrivxxHeroWithUrl = () => {
           />
         </div>
 
-        {/* Idle / Connect State */}
-        {(isIdle || statusLoading || showLoginRequired || showTokenExpired || showError) && !isConnected && !isConnecting && (
-          <Button 
-            className="min-h-[48px] w-full text-base font-medium px-6" 
-            disabled={!canConnect || statusLoading || connecting} 
+        {/* Primary action area (kept layout-stable to prevent flashing) */}
+        {!isConnected && (
+          <Button
+            className="min-h-[48px] w-full text-base font-medium px-6"
+            disabled={!canConnect || statusLoading || connecting}
             onClick={onConnect}
           >
-            {statusLoading || connecting ? (
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            ) : null}
+            {statusLoading || connecting ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : null}
             <span className="inline-flex items-center gap-1.5">
               <span>{t("connectThrough") || "Connect through"}</span>
               <PrivxxLogo size="sm" brightenMark />
@@ -175,12 +173,11 @@ const PrivxxHeroWithUrl = () => {
           </Button>
         )}
 
-        {/* Connecting State */}
+        {/* Connecting State (no layout change; just a secondary status line) */}
         {isConnecting && !statusLoading && (
-          <Button className="min-h-[48px] w-full text-base" disabled>
-            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+          <div className="text-xs text-primary/60 text-center">
             {t("tunnelConnecting") || "Routing through mixnet…"}
-          </Button>
+          </div>
         )}
 
         {/* Connected State */}
@@ -200,15 +197,13 @@ const PrivxxHeroWithUrl = () => {
                 {t("tunnelTarget") || "Target"}: {url}
               </div>
             </div>
-            <Button 
-              variant="outline" 
-              className="min-h-[48px] w-full" 
+            <Button
+              variant="outline"
+              className="min-h-[48px] w-full"
               onClick={onDisconnect}
               disabled={disconnecting || showRateLimited}
             >
-              {disconnecting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : null}
+              {disconnecting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
               {t("disconnect") || "Disconnect"}
             </Button>
           </div>
