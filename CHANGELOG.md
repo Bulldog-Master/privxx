@@ -14,6 +14,31 @@ early-stage protocol and product development.
 
 ---
 
+## [2.8] — JWT Expiry Indicator & Session Refresh
+**Released:** January 7, 2026
+
+### Added
+- **JWT Expiry Countdown**: Live countdown timer showing time until token expires
+  - Updates every second in DiagnosticsDrawer
+  - Color-coded: normal → amber (< 2 min) → red (expired)
+- **Expiry Warning Banners**: Visual alerts for token status
+  - Amber banner when JWT expiring soon (< 2 minutes)
+  - Red banner when JWT expired with "refresh session" prompt
+- **Refresh Session Button**: Force token refresh without re-login
+  - Triggers Supabase session refresh
+  - Automatically re-runs health checks after refresh
+  - Located next to Copy JWT button in diagnostics
+
+### Changed
+- **Copy JWT**: Now uses fresh token at click time (fixes stale closure bug)
+- **AuthContext**: Added `refreshSession()` method for programmatic token refresh
+
+### Notes
+This release improves session management visibility for developers and power users.
+JWT status is now transparent without needing browser dev tools.
+
+---
+
 ## [2.6.4] — About Page & Enhanced Update UX
 **Released:** January 3, 2026
 
