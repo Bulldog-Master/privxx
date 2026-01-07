@@ -42,7 +42,7 @@ export function Inbox({
 }: InboxProps) {
   const { t } = useTranslation();
   const { autoRetry, status } = useBackendStatusContext();
-  const { isInitialized: identityInitialized } = useIdentity();
+  const { isInitialized: identityInitialized, isLoading: identityLoading } = useIdentity();
   
   // Determine if this is a network-level error that has auto-retry
   const isNetworkError = error && (
@@ -56,6 +56,27 @@ export function Inbox({
   // Show stable skeleton ONLY while identity is initializing for the first time
   // Do NOT show skeleton on subsequent loading states (prevents flashing)
   if (!identityInitialized) {
+    return (
+      <div className="space-y-3 p-4">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-8 w-8 rounded-md" />
+        </div>
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="rounded-lg border p-3 space-y-2">
+            <div className="flex justify-between">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-3 w-16" />
+            </div>
+            <Skeleton className="h-4 w-full" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // While unlocking/locking, avoid flashing the locked prompt.
+  if (identityLoading && messages.length === 0) {
     return (
       <div className="space-y-3 p-4">
         <div className="flex items-center justify-between">
