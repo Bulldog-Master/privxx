@@ -78,9 +78,9 @@ export function Inbox({
     );
   }
 
-  // While unlocking/locking (identity transition), avoid flashing the locked prompt.
-  // Important: during transitions `isUnlocked` may briefly be false while the context resolves.
-  if (identityLoading && !isUnlocked) {
+  // While identity is loading (unlock/lock in progress), show skeleton to prevent any flashing.
+  // This catches ALL transitions, regardless of the current isUnlocked prop value.
+  if (identityLoading) {
     return (
       <div className="space-y-3 p-4">
         <div className="flex items-center justify-between">
