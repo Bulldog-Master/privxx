@@ -3,6 +3,14 @@ import { bridgeClient, isMockMode, type StatusResponse } from "@/api/bridge";
 import { BridgeError, type BridgeErrorCode } from "@/api/bridge/client";
 import { useRateLimitCountdown } from "@/features/diagnostics/hooks/useRateLimitCountdown";
 
+// Auto-retry configuration
+const AUTO_RETRY_CONFIG = {
+  baseDelayMs: 2000,
+  maxDelayMs: 30000,
+  maxRetries: 5,
+  jitterFactor: 0.2,
+};
+
 export type ConnectionHealth = "healthy" | "degraded" | "offline" | "checking";
 
 export interface BackendStatus {
@@ -24,6 +32,21 @@ export interface BackendStatus {
   lastCheckAt: Date | null;
 }
 
+export interface AutoRetryState {
+  /** Whether auto-retry is active */
+  isWaiting: boolean;
+  /** Seconds remaining until next retry */
+  remainingSec: number;
+  /** Formatted countdown string */
+  formattedTime: string;
+  /** Current attempt number */
+  attempt: number;
+  /** Maximum retries allowed */
+  maxRetries: number;
+  /** Whether retries are exhausted */
+  isExhausted: boolean;
+}
+
 const initialStatus: BackendStatus = {
   state: "idle",
   isMock: isMockMode(),
@@ -35,10 +58,33 @@ const initialStatus: BackendStatus = {
   lastCheckAt: null,
 };
 
+const initialAutoRetry: AutoRetryState = {
+  isWaiting: false,
+  remainingSec: 0,
+  formattedTime: "0:00",
+  attempt: 0,
+  maxRetries: AUTO_RETRY_CONFIG.maxRetries,
+  isExhausted: false,
+};
+
 // Health thresholds
 const LATENCY_DEGRADED_MS = 2000; // Consider degraded if latency > 2s
 const FAILURE_DEGRADED_COUNT = 2; // Degraded after 2 failures
 const FAILURE_OFFLINE_COUNT = 4; // Offline after 4 failures
+
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
+
+function calculateBackoff(attempt: number): number {
+  const { baseDelayMs, maxDelayMs, jitterFactor } = AUTO_RETRY_CONFIG;
+  const exponential = baseDelayMs * Math.pow(2, attempt);
+  const capped = Math.min(exponential, maxDelayMs);
+  const jitterAmount = capped * jitterFactor * (Math.random() * 2 - 1);
+  return Math.round(Math.max(1000, capped + jitterAmount));
+}
 
 function calculateHealth(
   state: StatusResponse["state"] | "error",
@@ -79,6 +125,11 @@ export function useBackendStatus(pollMs = 30000) {
   const [isActive, setIsActive] = useState(!document.hidden);
   const failureCountRef = useRef(0);
   const isRateLimitedRef = useRef(false);
+  
+  // Auto-retry state
+  const [autoRetry, setAutoRetry] = useState<AutoRetryState>(initialAutoRetry);
+  const autoRetryTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const retryAtRef = useRef<number | null>(null);
 
   const rateLimit = useRateLimitCountdown();
 
@@ -104,6 +155,106 @@ export function useBackendStatus(pollMs = 30000) {
     document.addEventListener("visibilitychange", onVisibilityChange);
     return () => document.removeEventListener("visibilitychange", onVisibilityChange);
   }, []);
+  
+  // Clean up auto-retry timer on unmount
+  useEffect(() => {
+    return () => {
+      if (autoRetryTimerRef.current) clearInterval(autoRetryTimerRef.current);
+    };
+  }, []);
+  
+  // Auto-retry countdown tick effect
+  useEffect(() => {
+    if (!autoRetry.isWaiting || !retryAtRef.current) return;
+    
+    const interval = setInterval(() => {
+      const remaining = Math.max(0, Math.ceil((retryAtRef.current! - Date.now()) / 1000));
+      
+      if (remaining <= 0) {
+        clearInterval(interval);
+        retryAtRef.current = null;
+        setAutoRetry(prev => ({
+          ...prev,
+          isWaiting: false,
+          remainingSec: 0,
+          formattedTime: "0:00",
+        }));
+        // Trigger retry
+        fetchStatusRef.current();
+      } else {
+        setAutoRetry(prev => ({
+          ...prev,
+          remainingSec: remaining,
+          formattedTime: formatTime(remaining),
+        }));
+      }
+    }, 1000);
+    
+    autoRetryTimerRef.current = interval;
+    return () => clearInterval(interval);
+  }, [autoRetry.isWaiting]);
+
+  // Start auto-retry countdown
+  const startAutoRetry = useCallback(() => {
+    setAutoRetry(prev => {
+      const nextAttempt = prev.attempt + 1;
+      
+      if (nextAttempt > AUTO_RETRY_CONFIG.maxRetries) {
+        return {
+          ...prev,
+          isWaiting: false,
+          isExhausted: true,
+          formattedTime: "0:00",
+        };
+      }
+      
+      const delayMs = calculateBackoff(nextAttempt - 1);
+      const retryAt = Date.now() + delayMs;
+      retryAtRef.current = retryAt;
+      
+      const remainingSec = Math.ceil(delayMs / 1000);
+      
+      return {
+        attempt: nextAttempt,
+        isWaiting: true,
+        remainingSec,
+        isExhausted: false,
+        formattedTime: formatTime(remainingSec),
+        maxRetries: AUTO_RETRY_CONFIG.maxRetries,
+      };
+    });
+  }, []);
+  
+  // Reset auto-retry state (on success)
+  const resetAutoRetry = useCallback(() => {
+    if (autoRetryTimerRef.current) {
+      clearInterval(autoRetryTimerRef.current);
+      autoRetryTimerRef.current = null;
+    }
+    retryAtRef.current = null;
+    setAutoRetry(initialAutoRetry);
+  }, []);
+  
+  // Skip countdown and retry immediately
+  const retryNow = useCallback(() => {
+    if (autoRetryTimerRef.current) {
+      clearInterval(autoRetryTimerRef.current);
+      autoRetryTimerRef.current = null;
+    }
+    retryAtRef.current = null;
+    setAutoRetry(prev => ({
+      ...prev,
+      isWaiting: false,
+      remainingSec: 0,
+      formattedTime: "0:00",
+    }));
+    fetchStatusRef.current();
+  }, []);
+  
+  // Cancel auto-retry
+  const cancelAutoRetry = useCallback(() => {
+    resetAutoRetry();
+  }, [resetAutoRetry]);
 
   const fetchStatus = useCallback(async () => {
     // Avoid hammering the bridge while rate limited
@@ -117,9 +268,10 @@ export function useBackendStatus(pollMs = 30000) {
       const s = await bridgeClient.status();
       const latencyMs = Math.round(performance.now() - startTime);
 
-      // Reset failure count on success
+      // Reset failure count and auto-retry on success
       failureCountRef.current = 0;
       clearCountdownRef.current();
+      resetAutoRetry();
 
       const health = calculateHealth(s.state, latencyMs, 0);
 
@@ -156,6 +308,7 @@ export function useBackendStatus(pollMs = 30000) {
       if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
         const retryAfterSec = err.retryAfterSec ?? 60;
         startCountdownRef.current(Date.now() + retryAfterSec * 1000);
+        resetAutoRetry(); // Don't auto-retry when rate limited
 
         setData((prev) => ({
           ...prev,
@@ -187,10 +340,16 @@ export function useBackendStatus(pollMs = 30000) {
         lastCheckAt: checkTime,
       }));
       setError(errorCode);
+      
+      // Start auto-retry for network/timeout errors (retryable errors)
+      const isRetryable = errorCode === "NETWORK_ERROR" || errorCode === "TIMEOUT" || errorCode === "SERVER_ERROR";
+      if (isRetryable && !autoRetry.isExhausted) {
+        startAutoRetry();
+      }
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [resetAutoRetry, startAutoRetry, autoRetry.isExhausted]);
 
   // Store fetchStatus in ref to avoid interval recreating on each render
   const fetchStatusRef = useRef(fetchStatus);
@@ -211,6 +370,8 @@ export function useBackendStatus(pollMs = 30000) {
       if (!alive) return;
       if (!isActive) return; // Skip polling when backgrounded
       if (isRateLimitedRef.current) return; // Skip polling while rate limited
+      // Skip regular polling while auto-retry is active
+      if (autoRetry.isWaiting) return;
       await fetchStatusRef.current();
     }
 
@@ -220,7 +381,18 @@ export function useBackendStatus(pollMs = 30000) {
       alive = false;
       clearInterval(interval);
     };
-  }, [pollMs, isActive]);
+  }, [pollMs, isActive, autoRetry.isWaiting]);
 
-  return { status: data, error, isLoading, refetch: fetchStatus, rateLimit };
+  return { 
+    status: data, 
+    error, 
+    isLoading, 
+    refetch: fetchStatus, 
+    rateLimit,
+    autoRetry: {
+      ...autoRetry,
+      retryNow,
+      cancel: cancelAutoRetry,
+    },
+  };
 }
