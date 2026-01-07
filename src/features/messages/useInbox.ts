@@ -28,7 +28,7 @@ function normalizeMessage(raw: Message, index: number): DemoMessage {
 }
 
 export function useInbox() {
-  const { isUnlocked, isInitialized } = useIdentity();
+  const { isUnlocked, isInitialized, state: identityState } = useIdentity();
   const [state, setState] = useState<InboxState>({
     messages: [],
     isLoading: false,
@@ -50,10 +50,10 @@ export function useInbox() {
     inFlightRef.current = true;
 
     const t0 = performance.now();
-    setState((s) => ({ 
-      ...s, 
-      isLoading: s.messages.length === 0, 
-      error: undefined 
+    setState((s) => ({
+      ...s,
+      isLoading: s.messages.length === 0,
+      error: undefined,
     }));
 
     try {
@@ -84,6 +84,13 @@ export function useInbox() {
     // Don't start anything until identity context has finished its first check
     if (!isInitialized) return;
 
+    // During identity transitions (unlock/lock/status refresh), do not clear messages.
+    // This prevents the Inbox from flashing the "locked" prompt mid-transition.
+    if (identityState === "loading") {
+      clearPolling();
+      return;
+    }
+
     if (!isUnlocked) {
       // Stop polling and clear state when locked
       clearPolling();
@@ -97,7 +104,7 @@ export function useInbox() {
     timerRef.current = window.setInterval(fetchOnce, POLL_MS);
 
     return () => clearPolling();
-  }, [isUnlocked, isInitialized, fetchOnce, clearPolling]);
+  }, [isUnlocked, isInitialized, identityState, fetchOnce, clearPolling]);
 
   const status = useMemo(() => {
     if (!isUnlocked) return "locked";
