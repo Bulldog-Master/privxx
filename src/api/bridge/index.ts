@@ -109,6 +109,7 @@ export type {
   StatusResponse,
   UnlockStatusResponse,
   UnlockResponse,
+  LockResponse,
   Message,
   MessageSendResponse,
   IBridgeClient,

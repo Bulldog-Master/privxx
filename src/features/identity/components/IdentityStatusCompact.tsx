@@ -27,8 +27,15 @@ export const IdentityStatusCompact = React.forwardRef<HTMLDivElement, IdentitySt
       formatted,
       isExpiringSoon,
       getStatusText,
+      handleLock,
       t,
     } = useIdentityActions();
+
+    const handleClick = async () => {
+      if (isUnlocked && !isLoading) {
+        await handleLock();
+      }
+    };
 
     return (
       <div ref={ref} className={className} {...props}>
@@ -39,6 +46,7 @@ export const IdentityStatusCompact = React.forwardRef<HTMLDivElement, IdentitySt
                 variant="ghost"
                 size="sm"
                 disabled={isLoading}
+                onClick={handleClick}
                 className={`justify-start gap-2 min-h-[44px] ${
                   isUnlocked 
                     ? isExpiringSoon 
@@ -62,6 +70,7 @@ export const IdentityStatusCompact = React.forwardRef<HTMLDivElement, IdentitySt
             </TooltipTrigger>
             <TooltipContent side="right">
               <p>{getStatusText()}</p>
+              {isUnlocked && <p className="text-xs text-muted-foreground">{t("clickToLock", "Click to lock")}</p>}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

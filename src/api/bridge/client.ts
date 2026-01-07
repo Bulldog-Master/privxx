@@ -15,6 +15,7 @@ import type {
   StatusResponse,
   UnlockStatusResponse,
   UnlockResponse,
+  LockResponse,
   Message,
   MessageSendResponse,
   IBridgeClient,
@@ -354,6 +355,10 @@ export class BridgeClient implements IBridgeClient {
     });
   }
 
+  async lock(): Promise<LockResponse> {
+    return this.request("/lock", { method: "POST" });
+  }
+
   // Messages (future - kept for interface compatibility)
   async sendMessage(recipient: string, message: string): Promise<string> {
     const res = await this.request<MessageSendResponse>("/messages/send", {
@@ -375,6 +380,7 @@ export type {
   StatusResponse,
   UnlockStatusResponse,
   UnlockResponse,
+  LockResponse,
   Message,
   MessageSendResponse,
   IBridgeClient,
