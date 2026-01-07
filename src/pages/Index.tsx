@@ -57,7 +57,7 @@ const Index = () => {
           <PrivxxHeroWithUrl />
 
           {/* Identity unlock (when locked and identity state is known) */}
-          {user && isInitialized && isLocked && !isOffline && (
+          {user && isInitialized && isLocked && (
             <div className="w-full max-w-md rounded-lg border bg-card/80 backdrop-blur-sm p-4">
               <div className="text-sm font-semibold text-foreground">
                 {t("identityLocked", "Identity Locked")}
