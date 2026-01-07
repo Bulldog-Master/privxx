@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, forwardRef, useEffect } from "react";
+import { useState, useMemo, useCallback, forwardRef, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { 
@@ -15,6 +15,7 @@ import { useDiagnosticsDrawerOptional } from "@/features/diagnostics/context";
 import { useAuth } from "@/contexts/AuthContext";
 import { bridgeClient } from "@/api/bridge";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
+import { toast } from "sonner";
 
 type NodeState = "ok" | "warn" | "bad" | "loading";
 
@@ -132,7 +133,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
   }, [getAccessToken]);
 
   // Refresh session handler (defined before the effect that uses it)
-  const handleRefreshSession = useCallback(async () => {
+  const handleRefreshSession = useCallback(async (isAutoRefresh = false) => {
     setRefreshingSession(true);
     const { error } = await refreshSession();
     setRefreshingSession(false);
@@ -147,10 +148,17 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
     } else {
       // Track when token was last refreshed
       setLastRefreshedAt(new Date());
+      // Show toast for auto-refresh so user knows session was renewed
+      if (isAutoRefresh) {
+        toast.success(t("diagnostics.autoRefreshSuccess", "Session auto-renewed"), {
+          description: t("diagnostics.autoRefreshDesc", "Your JWT was about to expire and has been refreshed."),
+          duration: 4000,
+        });
+      }
       // Trigger single health check after refresh (not a loop)
       bridgeHealth.refetchAll();
     }
-  }, [refreshSession, bridgeHealth]);
+  }, [refreshSession, bridgeHealth, t]);
 
   // Live countdown effect for JWT expiry with auto-refresh
   useEffect(() => {
@@ -165,7 +173,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
       
       // Auto-refresh when expired (and not already refreshing)
       if (remaining <= 0 && !refreshingSession) {
-        handleRefreshSession();
+        handleRefreshSession(true); // true = auto-refresh
       }
     };
 
@@ -474,7 +482,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={handleRefreshSession}
+                        onClick={() => handleRefreshSession(false)}
                         disabled={refreshingSession}
                         className="h-8 px-2 gap-1.5"
                       >
@@ -492,7 +500,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={handleRefreshSession}
+                      onClick={() => handleRefreshSession(false)}
                       disabled={refreshingSession}
                       className="w-full h-8 gap-1.5"
                     >
