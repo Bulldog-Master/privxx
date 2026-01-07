@@ -9,8 +9,7 @@
  * doesn't need to know if it's demo or live.
  */
 
-import { bridgeClient, isMockMode, getBridgeUrl } from "@/api/bridge";
-import { supabase } from "@/integrations/supabase/client";
+import { bridgeClient, isMockMode } from "@/api/bridge";
 import type { 
   ConnectIntent, 
   ConnectAck, 
@@ -114,7 +113,7 @@ async function simulateConnection(
 
 /**
  * Real connection via Bridge API
- * Sends connect_intent and validates connect_ack
+ * Uses bridgeClient which includes proper auth headers (Authorization + apikey)
  */
 async function realConnection(
   intent: ConnectIntent,
@@ -125,84 +124,45 @@ async function realConnection(
     setTimeout(() => reject(new Error("Connection timeout")), CONNECTION_TIMEOUT);
   });
 
-  // Send connect request to bridge
-  // The bridge will forward this via cMixx and return the ack
-  const connectionPromise = sendConnectIntent(intent);
+  // Use bridgeClient.connect() - handles auth headers properly
+  const connectionPromise = bridgeClient.connect();
 
   // Race between connection and timeout
-  const ack = await Promise.race([connectionPromise, timeoutPromise]);
+  const response = await Promise.race([connectionPromise, timeoutPromise]);
 
   const latency = Math.round(performance.now() - startTime);
 
-  // Validate the ACK matches our intent
-  const validation = validateConnectAck(ack, intent);
-  
-  if (!validation.valid) {
-    console.warn("[Connection] ACK validation failed", {
+  // Check if response indicates connection is in progress or secure
+  if (response.state === "connecting" || response.state === "secure") {
+    console.debug("[Connection] Real: Connected via Bridge", {
       requestId: intent.requestId,
-      error: validation.error,
+      sessionId: intent.sessionId,
+      state: response.state,
+      latency,
     });
 
     return {
-      success: false,
+      success: true,
       sessionId: intent.sessionId,
       requestId: intent.requestId,
       latency,
-      errorCode: (ack.errorCode as ConnectErrorCode) || "INVALID_MESSAGE",
-      errorMessage: validation.error,
     };
   }
 
-  console.debug("[Connection] Real: Connected via cMixx", {
+  // Unexpected state
+  console.warn("[Connection] Bridge returned unexpected state", {
     requestId: intent.requestId,
-    sessionId: intent.sessionId,
-    latency,
+    state: response.state,
   });
 
   return {
-    success: true,
+    success: false,
     sessionId: intent.sessionId,
     requestId: intent.requestId,
     latency,
+    errorCode: "NETWORK_ERROR",
+    errorMessage: response.message || "Unexpected connection state",
   };
-}
-
-/**
- * Send connect_intent to Bridge and receive connect_ack
- * 
- * Note: This endpoint doesn't exist yet in the Bridge.
- * When implementing Phase D backend:
- * - Add POST /connect endpoint to Go bridge
- * - Bridge sends intent via cMixx
- * - Bridge waits for ack via cMixx
- * - Bridge returns ack to frontend
- */
-async function sendConnectIntent(intent: ConnectIntent): Promise<ConnectAck> {
-  // Get fresh JWT for authorization
-  const { data: { session } } = await supabase.auth.getSession();
-  const accessToken = session?.access_token;
-
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-
-  if (accessToken) {
-    headers["Authorization"] = `Bearer ${accessToken}`;
-  }
-
-  // Bridge expects { targetUrl: "..." } payload
-  const response = await fetch(`${getBridgeUrl()}/connect`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ targetUrl: intent.targetUrl }),
-  });
-
-  if (!response.ok) {
-    const errorBody = await response.json().catch(() => ({}));
-    throw new Error(errorBody.error || `HTTP ${response.status}`);
-  }
-
-  return response.json();
 }
 
 /**
