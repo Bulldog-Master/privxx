@@ -134,16 +134,18 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
   const isTokenExpired = jwtExpiryCountdown !== null && jwtExpiryCountdown <= 0;
   const isTokenExpiringSoon = jwtExpiryCountdown !== null && jwtExpiryCountdown > 0 && jwtExpiryCountdown < 120;
   
-  const handleCopyToken = async () => {
-    if (!token) return;
+  const handleCopyToken = useCallback(async () => {
+    const currentToken = getAccessToken();
+    if (!currentToken) return;
     try {
-      await navigator.clipboard.writeText(token);
+      await navigator.clipboard.writeText(currentToken);
       setTokenCopied(true);
       setTimeout(() => setTokenCopied(false), 2000);
     } catch {
-      // Clipboard API not available
+      // Fallback for browsers that don't support clipboard API
+      console.warn("Clipboard API not available");
     }
-  };
+  }, [getAccessToken]);
 
   // Refresh session handler
   const handleRefreshSession = useCallback(async () => {
