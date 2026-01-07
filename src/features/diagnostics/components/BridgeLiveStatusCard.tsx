@@ -17,7 +17,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { bridgeClient, getBridgeUrl } from "@/api/bridge";
-import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import type { HealthResponse } from "@/api/bridge/types";
 
 interface StatusRowProps {
@@ -184,8 +184,8 @@ const BridgeLiveStatusCard = () => {
   // Response time tracker for health
   const healthTimer = useResponseTime();
   
-  // Use the centralized backend status hook - SINGLE source for /status calls
-  const { status, isLoading: statusLoading, refetch: fetchStatus, rateLimit } = useBackendStatus();
+  // Use the centralized backend status context - SINGLE source for /status calls
+  const { status, isLoading: statusLoading, refetch: fetchStatus, rateLimit } = useBackendStatusContext();
 
   // Fetch bridge health with timing (this only calls /health which is public)
   const { 

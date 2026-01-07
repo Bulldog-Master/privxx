@@ -12,7 +12,7 @@ import PrivxxLogo from "./PrivxxLogo";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle } from "lucide-react";
 import { bridgeClient } from "@/api/bridge";
-import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import { useAuth } from "@/contexts/AuthContext";
 
 const PrivxxHeroWithUrl = () => {
@@ -22,8 +22,8 @@ const PrivxxHeroWithUrl = () => {
   const [connecting, setConnecting] = useState(false);
   const [disconnecting, setDisconnecting] = useState(false);
 
-  // Use the centralized backend status hook - SINGLE source for /status calls
-  const { status, isLoading: statusLoading, refetch: fetchStatus, rateLimit } = useBackendStatus();
+  // Use the centralized backend status context - SINGLE source for /status calls
+  const { status, isLoading: statusLoading, refetch: fetchStatus, rateLimit } = useBackendStatusContext();
 
   const currentState = status.state;
   const isConnected = currentState === "secure";

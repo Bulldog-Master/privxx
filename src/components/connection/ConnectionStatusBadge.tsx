@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { Shield, ShieldAlert, ShieldCheck, Loader2, Clock } from "lucide-react";
-import { useBackendStatus } from "@/hooks/useBackendStatus";
+import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import { useDiagnosticsDrawerOptional } from "@/features/diagnostics/context";
 import { cn } from "@/lib/utils";
 
@@ -21,8 +21,8 @@ const ConnectionStatusBadge = ({ className, showLabel = true }: ConnectionStatus
   const { t } = useTranslation();
   const drawerContext = useDiagnosticsDrawerOptional();
   
-  // Use the centralized backend status hook - SINGLE source for /status calls
-  const { status, isLoading, rateLimit } = useBackendStatus();
+  // Use the centralized backend status context - SINGLE source for /status calls
+  const { status, isLoading, rateLimit } = useBackendStatusContext();
 
   const handleClick = () => {
     drawerContext?.open();

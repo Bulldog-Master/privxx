@@ -11,6 +11,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProfileProvider } from "@/contexts/ProfileContext";
 import { IdentityProvider } from "@/features/identity";
 import { DiagnosticsDrawerProvider } from "@/features/diagnostics";
+import { BackendStatusProvider } from "@/contexts/BackendStatusContext";
 import { SkipToContent } from "@/components/shared";
 import { InstallPrompt, PwaUpdatePrompt } from "@/components/pwa";
 import { StaleBuildWarning } from "@/components/shared/StaleBuildWarning";
@@ -207,11 +208,13 @@ const App = () => (
         <AuthProvider>
           <ProfileProvider>
             <IdentityProvider>
-              <DiagnosticsDrawerProvider>
-                <SecurityAlertProvider>
-                  <AppRoutes />
-                </SecurityAlertProvider>
-              </DiagnosticsDrawerProvider>
+              <BackendStatusProvider>
+                <DiagnosticsDrawerProvider>
+                  <SecurityAlertProvider>
+                    <AppRoutes />
+                  </SecurityAlertProvider>
+                </DiagnosticsDrawerProvider>
+              </BackendStatusProvider>
             </IdentityProvider>
           </ProfileProvider>
         </AuthProvider>
