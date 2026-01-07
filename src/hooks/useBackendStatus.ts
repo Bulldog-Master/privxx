@@ -175,79 +175,20 @@ export function useBackendStatus(pollMs = 30000) {
     }
   }, []);
 
+  // Store fetchStatus in ref to avoid interval recreating on each render
+  const fetchStatusRef = useRef(fetchStatus);
+  useEffect(() => {
+    fetchStatusRef.current = fetchStatus;
+  }, [fetchStatus]);
+
   useEffect(() => {
     let alive = true;
 
     async function tick() {
+      if (!alive) return;
       if (!isActive) return; // Skip polling when backgrounded
       if (isRateLimitedRef.current) return; // Skip polling while rate limited
-
-      const startTime = performance.now();
-      const checkTime = new Date();
-
-      try {
-        const s = await bridgeClient.status();
-        if (!alive) return;
-
-        const latencyMs = Math.round(performance.now() - startTime);
-
-        // Reset failure count on success
-        failureCountRef.current = 0;
-        clearCountdownRef.current();
-
-        const health = calculateHealth(s.state, latencyMs, 0);
-
-        setData({
-          state: s.state,
-          isMock: isMockMode(),
-          health,
-          latencyMs,
-          lastErrorCode: null,
-          failureCount: 0,
-          lastSuccessAt: checkTime,
-          lastCheckAt: checkTime,
-        });
-        setError(null);
-      } catch (err) {
-        if (!alive) return;
-
-        // Handle explicit rate limiting without incrementing failure counters
-        if (err instanceof BridgeError && err.code === "RATE_LIMITED") {
-          const retryAfterSec = err.retryAfterSec ?? 60;
-          startCountdownRef.current(Date.now() + retryAfterSec * 1000);
-
-          setData((prev) => ({
-            ...prev,
-            isMock: isMockMode(),
-            health: "degraded",
-            latencyMs: null,
-            lastErrorCode: "RATE_LIMITED",
-            lastCheckAt: checkTime,
-          }));
-          setError("RATE_LIMITED");
-          return;
-        }
-
-        failureCountRef.current += 1;
-
-        const errorCode: BridgeErrorCode = err instanceof BridgeError ? err.code : "NETWORK_ERROR";
-
-        const health = calculateHealth("error", null, failureCountRef.current);
-
-        setData((prev) => ({
-          state: "error",
-          isMock: isMockMode(),
-          health,
-          latencyMs: null,
-          lastErrorCode: errorCode,
-          failureCount: failureCountRef.current,
-          lastSuccessAt: prev.lastSuccessAt,
-          lastCheckAt: checkTime,
-        }));
-        setError(errorCode);
-      } finally {
-        if (alive) setIsLoading(false);
-      }
+      await fetchStatusRef.current();
     }
 
     tick();
