@@ -49,10 +49,28 @@ function getEffectiveBridgeUrl(): string {
  * Get a FRESH Supabase session access token on every call.
  * NEVER cache or reuse - always fetch via getSession().
  * Relies on Supabase's built-in auto-refresh using refresh tokens.
+ * 
+ * IMPORTANT: If getSession returns null, we try ONE refresh attempt
+ * in case the session just needs initialization.
  */
 async function getSupabaseAccessToken(): Promise<string | null> {
-  const { data: { session } } = await supabase.auth.getSession();
-  return session?.access_token ?? null;
+  // First attempt: get current session
+  const { data: { session }, error } = await supabase.auth.getSession();
+  
+  if (session?.access_token) {
+    return session.access_token;
+  }
+  
+  // If no session and no error, the session might not be initialized yet
+  // This can happen on page load or after the tab is backgrounded
+  if (!session && !error) {
+    // Small delay to let auth state settle, then retry once
+    await new Promise(resolve => setTimeout(resolve, 100));
+    const { data: { session: retrySession } } = await supabase.auth.getSession();
+    return retrySession?.access_token ?? null;
+  }
+  
+  return null;
 }
 
 function createBridgeClient(): IBridgeClient {
