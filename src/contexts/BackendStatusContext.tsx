@@ -10,8 +10,13 @@
 
 import { createContext, useContext, ReactNode, useMemo } from "react";
 import { useBackendStatus } from "@/hooks/useBackendStatus";
-import type { BackendStatus } from "@/hooks/useBackendStatus";
+import type { BackendStatus, AutoRetryState } from "@/hooks/useBackendStatus";
 import { useAuth } from "@/contexts/AuthContext";
+
+interface AutoRetryActions extends AutoRetryState {
+  retryNow: () => void;
+  cancel: () => void;
+}
 
 interface BackendStatusContextValue {
   status: BackendStatus;
@@ -26,6 +31,8 @@ interface BackendStatusContextValue {
     clearCountdown: () => void;
     formattedTime: string;
   };
+  /** Auto-retry state for network errors */
+  autoRetry: AutoRetryActions;
   /** Whether the user is authenticated (required for /status) */
   isAuthenticated: boolean;
 }
@@ -53,6 +60,17 @@ const defaultRateLimit = {
   formattedTime: "",
 };
 
+const defaultAutoRetry: AutoRetryActions = {
+  isWaiting: false,
+  remainingSec: 0,
+  formattedTime: "0:00",
+  attempt: 0,
+  maxRetries: 5,
+  isExhausted: false,
+  retryNow: () => {},
+  cancel: () => {},
+};
+
 export function BackendStatusProvider({ children }: { children: ReactNode }) {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   
@@ -68,12 +86,14 @@ export function BackendStatusProvider({ children }: { children: ReactNode }) {
         isLoading: authLoading,
         refetch: async () => {},
         rateLimit: defaultRateLimit,
+        autoRetry: defaultAutoRetry,
         isAuthenticated: false,
       };
     }
     
     return {
       ...backendStatus,
+      autoRetry: backendStatus.autoRetry,
       isAuthenticated: true,
     };
   }, [authLoading, isAuthenticated, backendStatus]);

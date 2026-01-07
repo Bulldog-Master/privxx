@@ -6,11 +6,13 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon } from "lucide-react";
+import { RefreshCw, Lock, AlertCircle, Inbox as InboxIcon, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Progress } from "@/components/ui/progress";
 import { formatDistanceToNow } from "date-fns";
+import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import type { DemoMessage } from "./types";
 
 interface InboxProps {
@@ -37,9 +39,18 @@ export function Inbox({
   isUnlocked 
 }: InboxProps) {
   const { t } = useTranslation();
+  const { autoRetry, status } = useBackendStatusContext();
+  
+  // Determine if this is a network-level error that has auto-retry
+  const isNetworkError = error && (
+    error.includes("Network") || 
+    error.includes("network") || 
+    error.includes("Failed to fetch") ||
+    status.lastErrorCode === "NETWORK_ERROR" ||
+    status.lastErrorCode === "TIMEOUT"
+  );
 
   // Locked state - prompt to sign in/unlock
-
   if (!isUnlocked) {
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
@@ -75,23 +86,99 @@ export function Inbox({
     );
   }
 
-  // Error state
+  // Error state with auto-retry support
   if (error) {
+    const showAutoRetry = isNetworkError && autoRetry.isWaiting;
+    const isExhausted = isNetworkError && autoRetry.isExhausted;
+    
+    // Calculate progress for countdown visual (max 30 seconds)
+    const progressPercent = showAutoRetry 
+      ? Math.max(0, (autoRetry.remainingSec / 30) * 100)
+      : 0;
+    
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
         <AlertCircle className="h-6 w-6 text-destructive mb-2" />
         <h3 className="text-sm font-semibold mb-1">
           {t("inboxErrorTitle", "Unable to load messages")}
         </h3>
-        <p className="text-xs text-muted-foreground mb-3">{error}</p>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={onRefresh}
-        >
-          <RefreshCw className="h-4 w-4 mr-2" />
-          {t("retry", "Retry")}
-        </Button>
+        <p className="text-xs text-muted-foreground mb-1">
+          {error}
+          {status.failureCount > 1 && (
+            <span className="text-muted-foreground/60">
+              {" "}({status.failureCount} {t("failures", "failures")})
+            </span>
+          )}
+        </p>
+        
+        {/* Auto-retry countdown */}
+        {showAutoRetry && (
+          <div className="w-full max-w-xs mt-3 p-3 bg-background/50 rounded-md border border-border/50">
+            <div className="flex items-center justify-center gap-2 text-sm mb-2">
+              <Timer className="h-4 w-4 text-muted-foreground animate-pulse" />
+              <span className="text-muted-foreground">
+                {t("connection.error.autoRetrying", "Retrying in")}
+              </span>
+              <span className="font-mono font-semibold text-foreground">
+                {autoRetry.formattedTime}
+              </span>
+            </div>
+            <Progress value={progressPercent} className="h-1.5" />
+            <p className="text-xs text-muted-foreground/70 mt-2">
+              {t("connection.error.attempt", "Attempt {{current}} of {{max}}", {
+                current: autoRetry.attempt,
+                max: autoRetry.maxRetries,
+              })}
+            </p>
+          </div>
+        )}
+        
+        {/* Exhausted message */}
+        {isExhausted && (
+          <p className="text-xs text-destructive/80 mt-2 max-w-xs">
+            {t(
+              "connection.error.retriesExhausted",
+              "Automatic retries exhausted. Please check your connection and try manually."
+            )}
+          </p>
+        )}
+        
+        <div className="flex gap-2 mt-3">
+          {/* Retry Now button (when auto-retrying) */}
+          {showAutoRetry && (
+            <Button 
+              variant="default" 
+              size="sm" 
+              onClick={autoRetry.retryNow}
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              {t("connection.error.retryNow", "Retry Now")}
+            </Button>
+          )}
+          
+          {/* Standard retry (when not auto-retrying) */}
+          {!showAutoRetry && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={onRefresh}
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              {t("retry", "Retry")}
+            </Button>
+          )}
+          
+          {/* Cancel auto-retry */}
+          {showAutoRetry && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={autoRetry.cancel}
+            >
+              {t("common.cancel", "Cancel")}
+            </Button>
+          )}
+        </div>
       </div>
     );
   }
