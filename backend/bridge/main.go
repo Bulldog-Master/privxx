@@ -387,6 +387,29 @@ func (rl *RateLimiter) recordSuccess(ip string) {
 	delete(rl.entries, ip)
 }
 
+// resetAll clears ALL rate limit entries (admin use only)
+func (rl *RateLimiter) resetAll() int {
+	rl.mu.Lock()
+	defer rl.mu.Unlock()
+	count := len(rl.entries)
+	rl.entries = make(map[string]*RateLimitEntry)
+	log.Printf("[RATE-LIMIT] Admin reset: cleared %d entries", count)
+	return count
+}
+
+// resetIP clears rate limit for a specific IP (admin use only)
+func (rl *RateLimiter) resetIP(ip string) bool {
+	rl.mu.Lock()
+	defer rl.mu.Unlock()
+	_, exists := rl.entries[ip]
+	if exists {
+		delete(rl.entries, ip)
+		log.Printf("[RATE-LIMIT] Admin reset: cleared IP %s", ip)
+		return true
+	}
+	return false
+}
+
 // cleanup removes expired entries (call periodically)
 func (rl *RateLimiter) cleanup() {
 	rl.mu.Lock()
@@ -980,6 +1003,74 @@ func handleDisconnect(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]bool{"success": true})
 }
 
+// AdminResetRequest is the payload for POST /admin/reset-ratelimit
+type AdminResetRequest struct {
+	IP string `json:"ip,omitempty"` // Optional: specific IP to reset, otherwise resets all
+}
+
+// handleAdminResetRatelimit resets rate limit entries (admin only)
+// Requires ADMIN_SECRET environment variable to be set
+func handleAdminResetRatelimit(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Validate admin secret
+	adminSecret := os.Getenv("ADMIN_SECRET")
+	if adminSecret == "" {
+		log.Printf("[ADMIN] ADMIN_SECRET not configured - admin endpoints disabled")
+		http.Error(w, `{"error":"admin_disabled","message":"Admin endpoints not configured"}`, http.StatusForbidden)
+		return
+	}
+
+	authHeader := r.Header.Get("Authorization")
+	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+		http.Error(w, `{"error":"missing_auth","message":"Authorization header required"}`, http.StatusUnauthorized)
+		return
+	}
+
+	providedSecret := strings.TrimPrefix(authHeader, "Bearer ")
+	if providedSecret != adminSecret {
+		log.Printf("[ADMIN] Invalid admin secret attempt from %s", getClientIP(r))
+		http.Error(w, `{"error":"invalid_secret","message":"Invalid admin secret"}`, http.StatusUnauthorized)
+		return
+	}
+
+	// Parse optional request body
+	var req AdminResetRequest
+	if r.Body != nil {
+		defer r.Body.Close()
+		json.NewDecoder(r.Body).Decode(&req) // Ignore errors, fields are optional
+	}
+
+	var result map[string]interface{}
+
+	if req.IP != "" {
+		// Reset specific IP
+		found := rateLimiter.resetIP(req.IP)
+		result = map[string]interface{}{
+			"success": true,
+			"action":  "reset_ip",
+			"ip":      req.IP,
+			"found":   found,
+		}
+	} else {
+		// Reset all
+		count := rateLimiter.resetAll()
+		result = map[string]interface{}{
+			"success": true,
+			"action":  "reset_all",
+			"cleared": count,
+		}
+	}
+
+	log.Printf("[ADMIN] Rate limit reset by admin from %s: %v", getClientIP(r), result)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(result)
+}
+
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -1021,11 +1112,14 @@ func main() {
 	http.HandleFunc("/connect", corsMiddleware(authMiddleware(unlockRequiredMiddleware(handleConnect))))
 	http.HandleFunc("/status", corsMiddleware(authMiddleware(handleStatus))) // Status doesn't require unlock
 	http.HandleFunc("/disconnect", corsMiddleware(authMiddleware(unlockRequiredMiddleware(handleDisconnect))))
+	
+	// Admin endpoints (protected by ADMIN_SECRET)
+	http.HandleFunc("/admin/reset-ratelimit", corsMiddleware(handleAdminResetRatelimit))
 
 	listenAddr := fmt.Sprintf("%s:%s", bindAddr, port)
 
 	log.Printf("Privxx Bridge v0.4.0 starting on %s", listenAddr)
-	log.Printf("Endpoints: /health, /unlock, /unlock/status, /lock, /connect, /status, /disconnect")
+	log.Printf("Endpoints: /health, /unlock, /unlock/status, /lock, /connect, /status, /disconnect, /admin/reset-ratelimit")
 	log.Printf("CORS: Canonical origin %s", CanonicalOrigin)
 	log.Printf("Allowed origins: %v", allowedOrigins)
 	log.Printf("Allowed suffixes: %v", allowedOriginSuffixes)
