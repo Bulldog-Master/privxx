@@ -14,6 +14,7 @@ import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle, RefreshCw } from "lu
 import { bridgeClient } from "@/api/bridge";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { ConnectionStateIndicator } from "@/features/connection/components";
 
 const PrivxxHeroWithUrl = () => {
   const { t } = useTranslation();
@@ -80,6 +81,9 @@ const PrivxxHeroWithUrl = () => {
       <p className="text-primary/80 text-sm sm:text-base font-medium w-full text-center">
         {t("subtitle")}
       </p>
+
+      {/* Connection State Indicator */}
+      <ConnectionStateIndicator />
 
       {/* Rate Limit Banner */}
       {showRateLimited && (
