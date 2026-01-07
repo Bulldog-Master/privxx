@@ -8,6 +8,7 @@ import type {
   StatusResponse,
   UnlockStatusResponse,
   UnlockResponse,
+  LockResponse,
   Message,
   IBridgeClient,
   HealthResponse,
@@ -93,6 +94,14 @@ export class MockBridgeClient implements IBridgeClient {
       success: true,
       expiresAt,
     };
+  }
+
+  async lock(): Promise<LockResponse> {
+    await sleep(100);
+    this.locked = true;
+    this.unlockExpiresAt = null;
+    this.mockMessages = [];
+    return { success: true };
   }
 
   async sendMessage(recipient: string, message: string): Promise<string> {

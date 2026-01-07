@@ -150,6 +150,17 @@ export type UnlockResponse = {
   expiresAt?: string;
 };
 
+/**
+ * POST /lock - Response
+ * 
+ * @example
+ * { "success": true }
+ */
+export type LockResponse = {
+  /** True if lock succeeded */
+  success: boolean;
+};
+
 // Legacy types kept for compatibility during transition
 export type SessionResponse = {
   userId: string;
@@ -226,9 +237,10 @@ export interface IBridgeClient {
   connect(): Promise<ConnectResponse>;
   disconnect(): Promise<DisconnectResponse>;
   
-  // Unlock (requires auth)
+  // Unlock/Lock (requires auth)
   getUnlockStatus(): Promise<UnlockStatusResponse>;
   unlock(password: string): Promise<UnlockResponse>;
+  lock(): Promise<LockResponse>;
   
   // Messages (future)
   sendMessage(recipient: string, message: string): Promise<string>;

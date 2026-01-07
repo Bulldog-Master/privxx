@@ -18,7 +18,8 @@ export function useIdentityActions() {
     isUnlocked, 
     isLoading, 
     unlockExpiresAt, 
-    unlock, 
+    unlock,
+    lock,
   } = useIdentity();
   
   const { formatted, timeLeft, isExpired } = useCountdown(unlockExpiresAt);
@@ -27,6 +28,14 @@ export function useIdentityActions() {
     const success = await unlock(password);
     if (success) {
       toast.success(t("identityUnlocked", "Identity unlocked"));
+    }
+    return success;
+  };
+
+  const handleLock = async () => {
+    const success = await lock();
+    if (success) {
+      toast.success(t("identityLocked", "Identity locked"));
     }
     return success;
   };
@@ -56,6 +65,7 @@ export function useIdentityActions() {
     isExpiringSoon,
     // Actions
     handleUnlock,
+    handleLock,
     getStatusText,
     t,
   };

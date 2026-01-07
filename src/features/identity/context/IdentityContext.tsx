@@ -25,6 +25,7 @@ interface IdentityContextValue {
   // Actions
   checkStatus: () => Promise<void>;
   unlock: (password: string) => Promise<boolean>;
+  lock: () => Promise<boolean>;
   clearError: () => void;
 }
 
@@ -141,6 +142,27 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const lock = useCallback(async (): Promise<boolean> => {
+    setState("loading");
+    setError(null);
+
+    try {
+      const response = await bridgeClient.lock();
+      if (response.success) {
+        setState("locked");
+        setUnlockExpiresAt(null);
+        return true;
+      } else {
+        setError("Lock failed");
+        return false;
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to lock";
+      setError(message);
+      return false;
+    }
+  }, []);
+
   const clearError = useCallback(() => setError(null), []);
 
   return (
@@ -156,6 +178,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         unlockExpiresAt,
         checkStatus,
         unlock,
+        lock,
         clearError,
       }}
     >
