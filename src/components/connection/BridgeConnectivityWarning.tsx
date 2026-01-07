@@ -2,16 +2,17 @@
  * Bridge Connectivity Warning
  * 
  * Monitors bridge connectivity and shows a warning banner when unreachable.
- * Provides helpful suggestions for troubleshooting.
+ * Provides helpful suggestions for troubleshooting with auto-retry.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { AlertTriangle, RefreshCw, ExternalLink, X } from "lucide-react";
+import { AlertTriangle, RefreshCw, WifiOff, X } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
-import { isMockMode, getBridgeUrl } from "@/api/bridge";
+import { isMockMode } from "@/api/bridge";
 
 interface BridgeConnectivityWarningProps {
   /** Minimum failures before showing warning */
@@ -20,14 +21,44 @@ interface BridgeConnectivityWarningProps {
   showInMockMode?: boolean;
 }
 
+const AUTO_RETRY_DELAY_MS = 15000; // 15 seconds
+
 export function BridgeConnectivityWarning({
   minFailures = 2,
   showInMockMode = false,
 }: BridgeConnectivityWarningProps) {
   const { t } = useTranslation();
-  const { status, refetch, isLoading } = useBackendStatusContext();
+  const { status, refetch, isLoading, autoRetry } = useBackendStatusContext();
   const [dismissed, setDismissed] = useState(false);
   const [retrying, setRetrying] = useState(false);
+  const [localCountdown, setLocalCountdown] = useState<number | null>(null);
+
+  // Start local countdown when bridge becomes unreachable
+  useEffect(() => {
+    if (status.health === "offline" && status.failureCount >= minFailures) {
+      setLocalCountdown(AUTO_RETRY_DELAY_MS / 1000);
+    } else if (status.health === "healthy") {
+      setLocalCountdown(null);
+    }
+  }, [status.health, status.failureCount, minFailures]);
+
+  // Countdown timer for auto-retry
+  useEffect(() => {
+    if (localCountdown === null || localCountdown <= 0) return;
+    
+    const interval = setInterval(() => {
+      setLocalCountdown(prev => {
+        if (prev === null || prev <= 1) {
+          // Auto-retry when countdown reaches 0
+          handleRetry();
+          return null;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [localCountdown]);
 
   // Reset dismissed state when connection recovers
   useEffect(() => {
@@ -35,6 +66,17 @@ export function BridgeConnectivityWarning({
       setDismissed(false);
     }
   }, [status.health]);
+
+  const handleRetry = useCallback(async () => {
+    setRetrying(true);
+    setLocalCountdown(null);
+    await refetch();
+    setRetrying(false);
+    // If still failing, restart countdown
+    if (status.health === "offline") {
+      setLocalCountdown(AUTO_RETRY_DELAY_MS / 1000);
+    }
+  }, [refetch, status.health]);
 
   // Don't show in mock mode unless explicitly requested
   if (isMockMode() && !showInMockMode) {
@@ -51,45 +93,31 @@ export function BridgeConnectivityWarning({
     return null;
   }
 
-  const handleRetry = async () => {
-    setRetrying(true);
-    await refetch();
-    setRetrying(false);
-  };
-
-  const bridgeUrl = getBridgeUrl();
-  const isHttps = bridgeUrl.startsWith("https://");
+  const countdownProgress = localCountdown !== null 
+    ? ((AUTO_RETRY_DELAY_MS / 1000 - localCountdown) / (AUTO_RETRY_DELAY_MS / 1000)) * 100 
+    : 0;
 
   return (
     <Alert variant="destructive" className="relative mb-4 border-destructive/50 bg-destructive/10">
-      <AlertTriangle className="h-4 w-4" />
+      <WifiOff className="h-4 w-4" />
       <AlertTitle className="flex items-center gap-2">
-        {t("bridgeWarning.title", "Bridge Unreachable")}
+        {t("bridgeWarning.title", "Service Temporarily Unavailable")}
       </AlertTitle>
       <AlertDescription className="mt-2 space-y-3">
         <p className="text-sm">
-          {t("bridgeWarning.description", "Unable to connect to the privacy bridge. Your connection is not protected.")}
+          {t("bridgeWarning.description", "Unable to reach the privacy service. Please check your connection.")}
         </p>
         
-        {/* Suggestions based on HTTPS vs HTTP */}
-        <div className="text-xs text-muted-foreground space-y-1">
-          <p className="font-medium">{t("bridgeWarning.suggestions", "Possible causes:")}</p>
-          <ul className="list-disc list-inside space-y-0.5 ml-2">
-            {isHttps ? (
-              <>
-                <li>{t("bridgeWarning.tlsNotConfigured", "TLS certificate not configured on server")}</li>
-                <li>{t("bridgeWarning.dnsNotResolved", "Domain DNS not pointing to server")}</li>
-                <li>{t("bridgeWarning.reverseProxyDown", "Reverse proxy (nginx/Caddy) not running")}</li>
-              </>
-            ) : (
-              <>
-                <li>{t("bridgeWarning.serverDown", "Bridge server is not running")}</li>
-                <li>{t("bridgeWarning.firewallBlocking", "Firewall blocking connection")}</li>
-              </>
-            )}
-            <li>{t("bridgeWarning.networkIssue", "Network connectivity issue")}</li>
-          </ul>
-        </div>
+        {/* Auto-retry countdown */}
+        {localCountdown !== null && localCountdown > 0 && !retrying && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>{t("bridgeWarning.autoRetry", "Auto-retry in")}</span>
+              <span className="font-mono font-medium">{localCountdown}s</span>
+            </div>
+            <Progress value={countdownProgress} className="h-1" />
+          </div>
+        )}
 
         <div className="flex flex-wrap gap-2 pt-1">
           <Button
@@ -100,31 +128,16 @@ export function BridgeConnectivityWarning({
             className="h-8"
           >
             <RefreshCw className={`h-3 w-3 mr-1.5 ${retrying ? "animate-spin" : ""}`} />
-            {t("retry", "Retry")}
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            asChild
-            className="h-8"
-          >
-            <a
-              href="https://docs.lovable.dev/features/security"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ExternalLink className="h-3 w-3 mr-1.5" />
-              {t("bridgeWarning.docs", "Setup Guide")}
-            </a>
+            {retrying 
+              ? t("bridgeWarning.retrying", "Retrying...") 
+              : t("bridgeWarning.retryNow", "Retry Now")}
           </Button>
         </div>
 
         {/* Error details for debugging */}
         {status.lastErrorCode && (
           <p className="text-xs text-muted-foreground/70 font-mono">
-            {t("bridgeWarning.errorCode", "Error")}: {status.lastErrorCode} 
-            {status.failureCount > 1 && ` (${status.failureCount} ${t("bridgeWarning.failures", "failures")})`}
+            {status.failureCount > 1 && `${status.failureCount} ${t("bridgeWarning.attempts", "attempts")}`}
           </p>
         )}
       </AlertDescription>

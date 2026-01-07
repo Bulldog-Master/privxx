@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import PrivxxLogo from "./PrivxxLogo";
 import { Button } from "@/components/ui/button";
-import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle } from "lucide-react";
+import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle, RefreshCw } from "lucide-react";
 import { bridgeClient } from "@/api/bridge";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -119,13 +119,22 @@ const PrivxxHeroWithUrl = () => {
         </div>
       )}
 
-      {/* Error Banner */}
+      {/* Error Banner with Retry */}
       {showError && !showRateLimited && (
         <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/20">
-          <AlertTriangle className="h-5 w-5 text-destructive" />
-          <p className="text-sm text-destructive">
-            {t("connectionError", "Connection error")}
+          <AlertTriangle className="h-5 w-5 text-destructive flex-shrink-0" />
+          <p className="text-sm text-destructive flex-1">
+            {t("connectionError", "Service temporarily unavailable")}
           </p>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => fetchStatus()}
+            disabled={statusLoading}
+            className="h-7 px-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${statusLoading ? 'animate-spin' : ''}`} />
+          </Button>
         </div>
       )}
 
