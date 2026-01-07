@@ -121,6 +121,11 @@ export interface BridgeClientConfig {
    * to automatically attach Authorization headers.
    */
   getAccessToken?: () => Promise<string | null>;
+  /**
+   * Supabase anon key - REQUIRED for all authenticated requests.
+   * Sent as `apikey` header alongside Authorization.
+   */
+  anonKey?: string;
 }
 
 export interface IBridgeClient {

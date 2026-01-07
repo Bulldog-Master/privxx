@@ -80,9 +80,14 @@ function createBridgeClient(): IBridgeClient {
   }
 
   const effectiveUrl = getEffectiveBridgeUrl();
+  
+  // Get the Supabase anon key from environment (REQUIRED per handoff doc)
+  const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  
   const config: BridgeClientConfig = {
     baseUrl: effectiveUrl,
     getAccessToken: getSupabaseAccessToken,
+    anonKey, // Required for all authenticated Bridge requests
   };
 
   console.debug("[Bridge] Using real client with auto-JWT:", effectiveUrl);
