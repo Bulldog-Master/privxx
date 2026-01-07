@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { formatDistanceToNow } from "date-fns";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
+import { useIdentity } from "@/features/identity";
 import { IdentityUnlockForm } from "@/features/identity/components/IdentityUnlockForm";
 import type { DemoMessage } from "./types";
 
@@ -41,6 +42,7 @@ export function Inbox({
 }: InboxProps) {
   const { t } = useTranslation();
   const { autoRetry, status } = useBackendStatusContext();
+  const { isInitialized: identityInitialized, isLoading: identityLoading } = useIdentity();
   
   // Determine if this is a network-level error that has auto-retry
   const isNetworkError = error && (
@@ -50,6 +52,27 @@ export function Inbox({
     status.lastErrorCode === "NETWORK_ERROR" ||
     status.lastErrorCode === "TIMEOUT"
   );
+
+  // Show stable skeleton while identity is initializing (prevents flashing)
+  if (!identityInitialized || identityLoading) {
+    return (
+      <div className="space-y-3 p-4">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-8 w-8 rounded-md" />
+        </div>
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="rounded-lg border p-3 space-y-2">
+            <div className="flex justify-between">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-3 w-16" />
+            </div>
+            <Skeleton className="h-4 w-full" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   // Locked state - prompt to unlock with password
   if (!isUnlocked) {

@@ -5,7 +5,7 @@
  * Uses GET /unlock/status and POST /unlock endpoints.
  */
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from "react";
 import { bridgeClient, type UnlockStatusResponse } from "@/api/bridge";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -17,6 +17,8 @@ interface IdentityContextValue {
   isUnlocked: boolean;
   isLoading: boolean;
   isOffline: boolean;
+  /** True after the first status check completes (prevents UI flashing during init) */
+  isInitialized: boolean;
   error: string | null;
   unlockExpiresAt: string | null;
   
@@ -29,18 +31,30 @@ interface IdentityContextValue {
 const IdentityContext = createContext<IdentityContextValue | null>(null);
 
 export function IdentityProvider({ children }: { children: ReactNode }) {
-  const { isAuthenticated } = useAuth();
-  const [state, setState] = useState<IdentityState>("loading");
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const [state, setState] = useState<IdentityState>("locked");
   const [error, setError] = useState<string | null>(null);
   const [unlockExpiresAt, setUnlockExpiresAt] = useState<string | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
+  
+  // Track in-flight requests to prevent duplicate calls
+  const checkingRef = useRef(false);
 
   const checkStatus = useCallback(async () => {
     if (!isAuthenticated) {
       setState("locked");
+      setIsInitialized(true);
       return;
     }
 
-    setState("loading");
+    // Prevent duplicate calls
+    if (checkingRef.current) return;
+    checkingRef.current = true;
+
+    // Only show loading on first check, not on subsequent polls
+    if (!isInitialized) {
+      setState("loading");
+    }
     setError(null);
 
     try {
@@ -62,18 +76,24 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         message.toLowerCase().includes("failed to fetch") ||
         message.toLowerCase().includes("connection");
       setState(isNetworkError ? "offline" : "locked");
+    } finally {
+      checkingRef.current = false;
+      setIsInitialized(true);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isInitialized]);
 
-  // Check status when authentication changes
+  // Check status when authentication changes (but wait for auth to finish loading)
   useEffect(() => {
+    if (authLoading) return; // Wait for auth to initialize
+    
     if (isAuthenticated) {
       checkStatus();
     } else {
       setState("locked");
       setUnlockExpiresAt(null);
+      setIsInitialized(true);
     }
-  }, [isAuthenticated, checkStatus]);
+  }, [isAuthenticated, authLoading, checkStatus]);
 
   const unlock = useCallback(async (password: string): Promise<boolean> => {
     setState("loading");
@@ -108,6 +128,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         isUnlocked: state === "unlocked",
         isLoading: state === "loading",
         isOffline: state === "offline",
+        isInitialized,
         error,
         unlockExpiresAt,
         checkStatus,

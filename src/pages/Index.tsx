@@ -17,7 +17,7 @@ const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/Diagnostic
 const Index = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { isLocked, isOffline } = useIdentity();
+  const { isLocked, isOffline, isInitialized } = useIdentity();
 
   return (
     <PageBackground>
@@ -56,8 +56,8 @@ const Index = () => {
 
           <PrivxxHeroWithUrl />
 
-          {/* Identity unlock (when locked) */}
-          {user && isLocked && !isOffline && (
+          {/* Identity unlock (when locked and identity state is known) */}
+          {user && isInitialized && isLocked && !isOffline && (
             <div className="w-full max-w-md rounded-lg border bg-card/80 backdrop-blur-sm p-4">
               <div className="text-sm font-semibold text-foreground">
                 {t("identityLocked", "Identity Locked")}

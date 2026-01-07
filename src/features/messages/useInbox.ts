@@ -28,7 +28,7 @@ function normalizeMessage(raw: Message, index: number): DemoMessage {
 }
 
 export function useInbox() {
-  const { isUnlocked } = useIdentity();
+  const { isUnlocked, isInitialized } = useIdentity();
   const [state, setState] = useState<InboxState>({
     messages: [],
     isLoading: false,
@@ -79,8 +79,11 @@ export function useInbox() {
     }
   }, [isUnlocked]);
 
-  // Handle lock/unlock state changes
+  // Handle lock/unlock state changes - BUT wait for identity to be initialized
   useEffect(() => {
+    // Don't start anything until identity context has finished its first check
+    if (!isInitialized) return;
+
     if (!isUnlocked) {
       // Stop polling and clear state when locked
       clearPolling();
@@ -94,7 +97,7 @@ export function useInbox() {
     timerRef.current = window.setInterval(fetchOnce, POLL_MS);
 
     return () => clearPolling();
-  }, [isUnlocked, fetchOnce, clearPolling]);
+  }, [isUnlocked, isInitialized, fetchOnce, clearPolling]);
 
   const status = useMemo(() => {
     if (!isUnlocked) return "locked";
