@@ -19,6 +19,8 @@ interface IdentityContextValue {
   isOffline: boolean;
   /** True after the first status check completes (prevents UI flashing during init) */
   isInitialized: boolean;
+  /** True for a brief period after unlock to allow UI to show stable skeleton */
+  isSettling: boolean;
   error: string | null;
   unlockExpiresAt: string | null;
   
@@ -31,17 +33,22 @@ interface IdentityContextValue {
 
 const IdentityContext = createContext<IdentityContextValue | null>(null);
 
+const SETTLE_MS = 1500; // Time after unlock to show stable skeleton
+
 export function IdentityProvider({ children }: { children: ReactNode }) {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [state, setState] = useState<IdentityState>("locked");
   const [error, setError] = useState<string | null>(null);
   const [unlockExpiresAt, setUnlockExpiresAt] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isSettling, setIsSettling] = useState(false);
   
   // Track in-flight requests to prevent duplicate calls
   const checkingRef = useRef(false);
   // Track manual unlock/lock mutations so background status checks can't fight UI state
   const mutatingRef = useRef(false);
+  // Track settle timer
+  const settleTimerRef = useRef<number | null>(null);
 
   const checkStatus = useCallback(async () => {
     if (!isAuthenticated) {
@@ -122,6 +129,12 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
     mutatingRef.current = true;
     setState("loading");
     setError(null);
+    
+    // Clear any existing settle timer
+    if (settleTimerRef.current) {
+      window.clearTimeout(settleTimerRef.current);
+      settleTimerRef.current = null;
+    }
 
     try {
       const response = await bridgeClient.unlock(password);
@@ -147,6 +160,12 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
       if (!expiresAt) {
         setState("unlocked");
         setUnlockExpiresAt(null);
+        // Start settling period to prevent UI flash
+        setIsSettling(true);
+        settleTimerRef.current = window.setTimeout(() => {
+          setIsSettling(false);
+          settleTimerRef.current = null;
+        }, SETTLE_MS);
         return true;
       }
 
@@ -160,6 +179,12 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
 
       setState("unlocked");
       setUnlockExpiresAt(expiresAt);
+      // Start settling period to prevent UI flash
+      setIsSettling(true);
+      settleTimerRef.current = window.setTimeout(() => {
+        setIsSettling(false);
+        settleTimerRef.current = null;
+      }, SETTLE_MS);
       return true;
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to unlock";
@@ -207,6 +232,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         isLoading: state === "loading",
         isOffline: state === "offline",
         isInitialized,
+        isSettling,
         error,
         unlockExpiresAt,
         checkStatus,

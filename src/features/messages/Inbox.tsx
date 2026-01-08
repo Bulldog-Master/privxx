@@ -47,7 +47,7 @@ export function Inbox({
   const { t } = useTranslation();
   const { autoRetry, status } = useBackendStatusContext();
   const { isAuthenticated, isLoading: authLoading, isInitialized: authInitialized } = useAuth();
-  const { isInitialized: identityInitialized, isLoading: identityLoading } = useIdentity();
+  const { isInitialized: identityInitialized, isLoading: identityLoading, isSettling } = useIdentity();
   
   // Determine if this is a network-level error that has auto-retry
   const isNetworkError = error && (
@@ -80,9 +80,9 @@ export function Inbox({
     );
   }
 
-  // While identity is loading (unlock/lock in progress) or warming up post-unlock,
-  // show skeleton to prevent any flashing of locked/error states.
-  if (identityLoading || isWarmingUp) {
+  // While identity is loading (unlock/lock in progress), settling post-unlock, 
+  // or warming up, show skeleton to prevent any flashing of locked/error states.
+  if (identityLoading || isSettling || isWarmingUp) {
     return (
       <div className="space-y-3 p-4">
         <div className="flex items-center justify-between">
