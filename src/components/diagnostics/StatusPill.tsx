@@ -18,7 +18,13 @@ function deriveOverallStatus(
   backendLoading: boolean,
   bridgeHealth: { health: boolean | null; isLoading: boolean; healthError: boolean }
 ): OverallStatus {
-  if (backendLoading || bridgeHealth.isLoading) {
+  // Only show "Checking..." during the very first load.
+  // During regular polling, keep the last known state to prevent UI flashing.
+  const isInitialBackendCheck =
+    backendLoading && backendStatus.lastCheckAt === null && backendStatus.health === "checking";
+  const isInitialHealthCheck = bridgeHealth.isLoading && bridgeHealth.health === null;
+
+  if (isInitialBackendCheck || isInitialHealthCheck) {
     return "loading";
   }
 
