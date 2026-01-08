@@ -18,7 +18,12 @@ function deriveOverallStatus(
   backendLoading: boolean,
   bridgeHealth: { health: boolean | null; isLoading: boolean; healthError: boolean }
 ): OverallStatus {
-  if (backendLoading || bridgeHealth.isLoading) {
+  const hasEverChecked = backendStatus.lastCheckAt !== null || backendStatus.lastSuccessAt !== null;
+
+  // Only show "loading" during the very first initialization check.
+  // After we have any prior result, keep the last known state during background polls
+  // to avoid flicker between "Checking..." and "Offline".
+  if (!hasEverChecked && (backendLoading || bridgeHealth.isLoading)) {
     return "loading";
   }
 
