@@ -34,33 +34,56 @@ export function useInbox() {
     isLoading: false,
   });
 
+
   const timerRef = useRef<number | null>(null);
   const inFlightRef = useRef(false);
   const lastUnlockedAtRef = useRef<number | null>(null);
   const prevUnlockedRef = useRef<boolean>(isUnlocked);
 
+  // Prevent brief error-state flashing (e.g., during unlock/session settle or transient fetch failures)
+  const errorTimerRef = useRef<number | null>(null);
+  const consecutiveFailuresRef = useRef(0);
+
+  const clearErrorTimer = useCallback(() => {
+    if (errorTimerRef.current) {
+      window.clearTimeout(errorTimerRef.current);
+      errorTimerRef.current = null;
+    }
+  }, []);
+
   const clearPolling = useCallback(() => {
+    clearErrorTimer();
     if (timerRef.current) {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     }
-  }, []);
+  }, [clearErrorTimer]);
+
 
   const fetchOnce = useCallback(async () => {
     if (!isUnlocked) return;
     if (inFlightRef.current) return;
     inFlightRef.current = true;
 
+
     const t0 = performance.now();
+
+    // If a new request is starting, cancel any pending "show error" timer.
+    clearErrorTimer();
+
     setState((s) => ({
       ...s,
       isLoading: s.messages.length === 0,
       error: undefined,
     }));
 
+
     try {
       const raw = await bridgeClient.getInbox();
       const incoming = raw.map(normalizeMessage);
+
+      consecutiveFailuresRef.current = 0;
+      clearErrorTimer();
 
       setState((s) => ({
         ...s,
@@ -85,12 +108,33 @@ export function useInbox() {
         return;
       }
 
-      setState((s) => ({ ...s, isLoading: false, error: msg }));
-      console.warn("[inbox] error", { ms: dt, error: msg });
+      consecutiveFailuresRef.current += 1;
+
+      // If we already have messages, never swap the whole panel into an error state.
+      // This avoids "flash on/off" when a single poll fails.
+      if (state.messages.length > 0) {
+        console.warn("[inbox] soft-error", {
+          ms: dt,
+          error: msg,
+          failures: consecutiveFailuresRef.current,
+        });
+        setState((s) => ({ ...s, isLoading: false }));
+        return;
+      }
+
+      // Debounce error display to avoid brief flashes when the next poll succeeds.
+      if (!errorTimerRef.current) {
+        errorTimerRef.current = window.setTimeout(() => {
+          errorTimerRef.current = null;
+          setState((s) => ({ ...s, isLoading: false, error: msg }));
+        }, 600);
+      }
+
+      console.warn("[inbox] error", { ms: dt, error: msg, failures: consecutiveFailuresRef.current });
     } finally {
       inFlightRef.current = false;
     }
-  }, [isUnlocked]);
+  }, [isUnlocked, clearErrorTimer, state.messages.length]);
 
   // Handle lock/unlock state changes - BUT wait for identity to be initialized
   useEffect(() => {
