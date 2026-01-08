@@ -15,6 +15,7 @@ export function MessagesPanel() {
   const {
     messages,
     isLoading,
+    isWarmingUp,
     error,
     refresh,
     addOptimistic,
@@ -65,6 +66,7 @@ export function MessagesPanel() {
           <Inbox
             messages={messages}
             isLoading={isLoading}
+            isWarmingUp={isWarmingUp}
             error={error}
             onRefresh={refresh}
             isUnlocked={isUnlocked}
