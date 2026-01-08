@@ -329,13 +329,13 @@ export class BridgeClient implements IBridgeClient {
 
   // Connection (requires auth)
   /**
-   * Connect to the bridge backend.
-   * targetUrl is always http://127.0.0.1:8090 (local to VPS behind Cloudflare)
+   * Connect through the Privxx tunnel to a target URL.
+   * @param targetUrl - The destination URL to route through cMixx
    */
-  async connect(): Promise<ConnectResponse> {
+  async connect(targetUrl: string): Promise<ConnectResponse> {
     return this.request("/connect", {
       method: "POST",
-      body: JSON.stringify({ targetUrl: "http://127.0.0.1:8090" }),
+      body: JSON.stringify({ targetUrl }),
     });
   }
 

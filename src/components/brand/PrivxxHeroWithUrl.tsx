@@ -45,7 +45,7 @@ const PrivxxHeroWithUrl = () => {
     if (!canConnect) return;
     setConnecting(true);
     try {
-      await bridgeClient.connect();
+      await bridgeClient.connect(url.trim());
       await fetchStatus();
     } catch (err) {
       console.error("[Bridge] Connect failed:", err);

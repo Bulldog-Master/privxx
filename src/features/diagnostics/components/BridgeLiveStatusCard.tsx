@@ -218,11 +218,11 @@ const BridgeLiveStatusCard = () => {
     }
   };
 
-  // Connect handler
+  // Connect handler (uses placeholder URL for diagnostics testing)
   const handleConnect = async () => {
     setConnecting(true);
     try {
-      await bridgeClient.connect();
+      await bridgeClient.connect("https://privxx.app");
       fetchStatus(); // Refresh status after connect
     } catch (err) {
       console.error("[Bridge] Connect failed:", err);

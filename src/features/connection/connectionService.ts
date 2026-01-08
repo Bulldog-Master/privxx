@@ -125,7 +125,7 @@ async function realConnection(
   });
 
   // Use bridgeClient.connect() - handles auth headers properly
-  const connectionPromise = bridgeClient.connect();
+  const connectionPromise = bridgeClient.connect(intent.targetUrl);
 
   // Race between connection and timeout
   const response = await Promise.race([connectionPromise, timeoutPromise]);
