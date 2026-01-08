@@ -27,6 +27,8 @@ function normalizeMessage(raw: Message, index: number): DemoMessage {
   };
 }
 
+const WARMUP_MS = 1200; // Delay after unlock before first fetch
+
 export function useInbox() {
   const { isUnlocked, isInitialized, state: identityState } = useIdentity();
   const [state, setState] = useState<InboxState>({
@@ -34,8 +36,11 @@ export function useInbox() {
     isLoading: false,
   });
 
+  // Track if we're in warmup phase (just unlocked, waiting for bridge session to settle)
+  const [isWarmingUp, setIsWarmingUp] = useState(false);
 
   const timerRef = useRef<number | null>(null);
+  const warmupTimerRef = useRef<number | null>(null);
   const inFlightRef = useRef(false);
   const lastUnlockedAtRef = useRef<number | null>(null);
   const prevUnlockedRef = useRef<boolean>(isUnlocked);
@@ -51,13 +56,21 @@ export function useInbox() {
     }
   }, []);
 
+  const clearWarmupTimer = useCallback(() => {
+    if (warmupTimerRef.current) {
+      window.clearTimeout(warmupTimerRef.current);
+      warmupTimerRef.current = null;
+    }
+  }, []);
+
   const clearPolling = useCallback(() => {
     clearErrorTimer();
+    clearWarmupTimer();
     if (timerRef.current) {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     }
-  }, [clearErrorTimer]);
+  }, [clearErrorTimer, clearWarmupTimer]);
 
 
   const fetchOnce = useCallback(async () => {
@@ -138,8 +151,10 @@ export function useInbox() {
 
   // Handle lock/unlock state changes - BUT wait for identity to be initialized
   useEffect(() => {
+    const justUnlocked = !prevUnlockedRef.current && isUnlocked;
+    
     // Track unlock transitions for warmup suppression
-    if (!prevUnlockedRef.current && isUnlocked) {
+    if (justUnlocked) {
       lastUnlockedAtRef.current = Date.now();
     }
     prevUnlockedRef.current = isUnlocked;
@@ -151,20 +166,40 @@ export function useInbox() {
     // This prevents the Inbox from flashing the "locked" prompt mid-transition.
     if (identityState === "loading") {
       clearPolling();
+      setIsWarmingUp(false);
       return;
     }
 
     if (!isUnlocked) {
       // Stop polling and clear state when locked
       clearPolling();
+      setIsWarmingUp(false);
       setState({ messages: [], isLoading: false, error: undefined });
       return;
     }
 
-    // Start polling when unlocked
-    fetchOnce();
-    clearPolling();
-    timerRef.current = window.setInterval(fetchOnce, POLL_MS);
+    // When transitioning to unlocked, enter warmup phase to let bridge session settle
+    if (justUnlocked) {
+      setIsWarmingUp(true);
+      clearPolling();
+      
+      // Wait for bridge session to settle before first fetch
+      warmupTimerRef.current = window.setTimeout(() => {
+        warmupTimerRef.current = null;
+        setIsWarmingUp(false);
+        consecutiveFailuresRef.current = 0;
+        fetchOnce();
+        timerRef.current = window.setInterval(fetchOnce, POLL_MS);
+      }, WARMUP_MS);
+      
+      return () => clearPolling();
+    }
+
+    // Already unlocked (not a fresh transition) - start/continue polling
+    if (!warmupTimerRef.current && !timerRef.current) {
+      fetchOnce();
+      timerRef.current = window.setInterval(fetchOnce, POLL_MS);
+    }
 
     return () => clearPolling();
   }, [isUnlocked, isInitialized, identityState, fetchOnce, clearPolling]);
@@ -194,6 +229,7 @@ export function useInbox() {
   return { 
     ...state, 
     status, 
+    isWarmingUp,
     refresh: fetchOnce,
     addOptimistic,
     removeOptimistic,

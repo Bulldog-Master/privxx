@@ -22,6 +22,7 @@ import type { DemoMessage } from "./types";
 interface InboxProps {
   messages: DemoMessage[];
   isLoading: boolean;
+  isWarmingUp?: boolean;
   error?: string;
   onRefresh: () => void;
   isUnlocked: boolean;
@@ -38,6 +39,7 @@ function formatTimestamp(ts: number): string {
 export function Inbox({ 
   messages, 
   isLoading, 
+  isWarmingUp = false,
   error, 
   onRefresh, 
   isUnlocked 
@@ -78,9 +80,9 @@ export function Inbox({
     );
   }
 
-  // While identity is loading (unlock/lock in progress), show skeleton to prevent any flashing.
-  // This catches ALL transitions, regardless of the current isUnlocked prop value.
-  if (identityLoading) {
+  // While identity is loading (unlock/lock in progress) or warming up post-unlock,
+  // show skeleton to prevent any flashing of locked/error states.
+  if (identityLoading || isWarmingUp) {
     return (
       <div className="space-y-3 p-4">
         <div className="flex items-center justify-between">
