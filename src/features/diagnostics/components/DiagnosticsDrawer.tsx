@@ -1,4 +1,4 @@
-import { Info, RefreshCw } from "lucide-react";
+import { Info, RefreshCw, Clock, Activity, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,6 +14,8 @@ import BridgeStatusCard from "./BridgeStatusCard";
 import ReadinessPanel from "./ReadinessPanel";
 import { useDiagnosticsState } from "@/features/diagnostics/hooks";
 import { getBackendStatusDisplay, getModeDisplay } from "@/features/diagnostics/utils";
+import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
+import { formatDistanceToNow } from "date-fns";
 
 const DiagnosticsDrawer = () => {
   const {
@@ -32,8 +34,15 @@ const DiagnosticsDrawer = () => {
     t,
   } = useDiagnosticsState();
 
+  const { autoRetry, rateLimit } = useBackendStatusContext();
+
   const backendStatus = getBackendStatusDisplay(uiState, isLoading, t);
   const modeStatus = getModeDisplay(status.isMock, t);
+
+  // Format last check time
+  const lastCheckDisplay = status.lastCheckAt
+    ? formatDistanceToNow(new Date(status.lastCheckAt), { addSuffix: true })
+    : null;
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -58,6 +67,36 @@ const DiagnosticsDrawer = () => {
           </SheetHeader>
 
           <div className="space-y-4 pb-6" role="region" aria-label="System status information">
+            {/* Rate Limit Warning */}
+            {rateLimit.isRateLimited && (
+              <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 animate-fade-in">
+                <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                  <AlertCircle className="h-4 w-4" />
+                  <span className="text-sm font-medium">
+                    {t("rateLimit.active", "Rate limited")}
+                  </span>
+                  <span className="ml-auto font-mono text-xs">
+                    {rateLimit.formattedTime}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Auto-Retry Status */}
+            {autoRetry.isWaiting && !autoRetry.isExhausted && (
+              <div className="rounded-lg border border-blue-500/30 bg-blue-500/10 p-3 animate-fade-in">
+                <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                  <RefreshCw className="h-4 w-4 animate-spin" />
+                  <span className="text-sm font-medium">
+                    {t("autoRetry.waiting", "Auto-retrying")}
+                  </span>
+                  <span className="ml-auto font-mono text-xs">
+                    {autoRetry.formattedTime} ({autoRetry.attempt}/{autoRetry.maxRetries})
+                  </span>
+                </div>
+              </div>
+            )}
+
             {/* Bridge Status Card (JWT, Identity, TTL) */}
             <BridgeStatusCard />
 
@@ -93,6 +132,45 @@ const DiagnosticsDrawer = () => {
                   ) : undefined
                 }
               />
+            )}
+
+            {/* Connection Details */}
+            {!isLoading && (
+              <div className="rounded-lg border border-border/50 bg-muted/30 p-3 space-y-2">
+                <h4 className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                  <Activity className="h-3 w-3" />
+                  {t("diagnostics.connectionDetails", "Connection Details")}
+                </h4>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  {status.latencyMs !== null && (
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">{t("diagnostics.latency", "Latency")}</span>
+                      <span className="font-mono">{status.latencyMs}ms</span>
+                    </div>
+                  )}
+                  {status.failureCount > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">{t("diagnostics.failures", "Failures")}</span>
+                      <span className="font-mono text-destructive">{status.failureCount}</span>
+                    </div>
+                  )}
+                  {lastCheckDisplay && (
+                    <div className="flex justify-between col-span-2">
+                      <span className="text-muted-foreground flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {t("diagnostics.lastCheck", "Last check")}
+                      </span>
+                      <span className="text-foreground/70">{lastCheckDisplay}</span>
+                    </div>
+                  )}
+                  {status.lastErrorCode && (
+                    <div className="flex justify-between col-span-2">
+                      <span className="text-muted-foreground">{t("diagnostics.lastError", "Last error")}</span>
+                      <span className="font-mono text-destructive text-[10px]">{status.lastErrorCode}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
             )}
 
             {/* Mode Status */}

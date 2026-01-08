@@ -3,16 +3,20 @@
  * 
  * Monitors bridge connectivity and shows a warning banner when unreachable.
  * Provides helpful suggestions for troubleshooting with auto-retry.
+ * 
+ * STABILITY: Uses a debounced show/hide to prevent flickering during
+ * transient network issues or polling cycles.
  */
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { AlertTriangle, RefreshCw, WifiOff, X } from "lucide-react";
+import { RefreshCw, WifiOff, X } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import { isMockMode } from "@/api/bridge";
+import { cn } from "@/lib/utils";
 
 interface BridgeConnectivityWarningProps {
   /** Minimum failures before showing warning */
@@ -22,6 +26,8 @@ interface BridgeConnectivityWarningProps {
 }
 
 const AUTO_RETRY_DELAY_MS = 15000; // 15 seconds
+const SHOW_DEBOUNCE_MS = 1500; // Debounce before showing to prevent flicker
+const HIDE_DEBOUNCE_MS = 500; // Quick hide on recovery
 
 export function BridgeConnectivityWarning({
   minFailures = 2,
@@ -32,15 +38,63 @@ export function BridgeConnectivityWarning({
   const [dismissed, setDismissed] = useState(false);
   const [retrying, setRetrying] = useState(false);
   const [localCountdown, setLocalCountdown] = useState<number | null>(null);
+  
+  // Debounced visibility state to prevent flickering
+  const [visible, setVisible] = useState(false);
+  const showTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Start local countdown when bridge becomes unreachable
+  // Determine if warning should be shown (raw, before debounce)
+  const shouldShow = 
+    !dismissed &&
+    status.failureCount >= minFailures &&
+    status.health !== "healthy" &&
+    (showInMockMode || !isMockMode());
+
+  // Debounced visibility control
   useEffect(() => {
-    if (status.health === "offline" && status.failureCount >= minFailures) {
+    if (shouldShow) {
+      // Clear any pending hide
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+        hideTimeoutRef.current = null;
+      }
+      // If not already visible, debounce the show
+      if (!visible && !showTimeoutRef.current) {
+        showTimeoutRef.current = setTimeout(() => {
+          setVisible(true);
+          showTimeoutRef.current = null;
+        }, SHOW_DEBOUNCE_MS);
+      }
+    } else {
+      // Clear any pending show
+      if (showTimeoutRef.current) {
+        clearTimeout(showTimeoutRef.current);
+        showTimeoutRef.current = null;
+      }
+      // If visible, debounce the hide (shorter for snappy recovery feedback)
+      if (visible && !hideTimeoutRef.current) {
+        hideTimeoutRef.current = setTimeout(() => {
+          setVisible(false);
+          hideTimeoutRef.current = null;
+        }, HIDE_DEBOUNCE_MS);
+      }
+    }
+
+    return () => {
+      if (showTimeoutRef.current) clearTimeout(showTimeoutRef.current);
+      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    };
+  }, [shouldShow, visible]);
+
+  // Start local countdown when bridge becomes unreachable and visible
+  useEffect(() => {
+    if (visible && status.health === "offline" && status.failureCount >= minFailures) {
       setLocalCountdown(AUTO_RETRY_DELAY_MS / 1000);
     } else if (status.health === "healthy") {
       setLocalCountdown(null);
     }
-  }, [status.health, status.failureCount, minFailures]);
+  }, [visible, status.health, status.failureCount, minFailures]);
 
   // Countdown timer for auto-retry
   useEffect(() => {
@@ -78,18 +132,8 @@ export function BridgeConnectivityWarning({
     }
   }, [refetch, status.health]);
 
-  // Don't show in mock mode unless explicitly requested
-  if (isMockMode() && !showInMockMode) {
-    return null;
-  }
-
-  // Don't show if dismissed or not enough failures
-  if (dismissed || status.failureCount < minFailures) {
-    return null;
-  }
-
-  // Don't show if healthy
-  if (status.health === "healthy") {
+  // Don't render if not visible
+  if (!visible) {
     return null;
   }
 
@@ -98,7 +142,13 @@ export function BridgeConnectivityWarning({
     : 0;
 
   return (
-    <Alert variant="destructive" className="relative mb-4 border-destructive/50 bg-destructive/10">
+    <Alert 
+      variant="destructive" 
+      className={cn(
+        "relative mb-4 border-destructive/50 bg-destructive/10",
+        "animate-fade-in"
+      )}
+    >
       <WifiOff className="h-4 w-4" />
       <AlertTitle className="flex items-center gap-2">
         {t("bridgeWarning.title", "Service Temporarily Unavailable")}
@@ -137,7 +187,8 @@ export function BridgeConnectivityWarning({
         {/* Error details for debugging */}
         {status.lastErrorCode && (
           <p className="text-xs text-muted-foreground/70 font-mono">
-            {status.failureCount > 1 && `${status.failureCount} ${t("bridgeWarning.attempts", "attempts")}`}
+            {status.lastErrorCode}
+            {status.failureCount > 1 && ` · ${status.failureCount} ${t("bridgeWarning.attempts", "attempts")}`}
           </p>
         )}
       </AlertDescription>
