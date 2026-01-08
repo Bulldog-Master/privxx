@@ -47,8 +47,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, newSession) => {
-        // Only update if already initialized (ignore initial callback)
-        // or if this is our first real update
+        // If we receive a real session before getSession() resolves,
+        // adopt it immediately to avoid "signed-in then signed-out" flashing.
+        if (!hasInitialized && newSession) {
+          hasInitialized = true;
+          setSession(newSession);
+          setUser(newSession.user);
+          setIsLoading(false);
+          setInitialized(true);
+          return;
+        }
+
+        // After initialization, keep state in sync with auth changes.
         if (hasInitialized) {
           setSession(newSession);
           setUser(newSession?.user ?? null);
@@ -56,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    // THEN check for existing session - this is the authoritative initial state
+    // THEN check for existing session - authoritative initial state
     supabase.auth.getSession().then(({ data: { session: existingSession } }) => {
       if (!hasInitialized) {
         hasInitialized = true;
