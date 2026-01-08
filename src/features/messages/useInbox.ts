@@ -36,6 +36,8 @@ export function useInbox() {
 
   const timerRef = useRef<number | null>(null);
   const inFlightRef = useRef(false);
+  const lastUnlockedAtRef = useRef<number | null>(null);
+  const prevUnlockedRef = useRef<boolean>(isUnlocked);
 
   const clearPolling = useCallback(() => {
     if (timerRef.current) {
@@ -71,8 +73,19 @@ export function useInbox() {
       console.debug("[inbox] ok", { count: incoming.length, ms: dt });
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Failed to load messages";
-      setState((s) => ({ ...s, isLoading: false, error: msg }));
       const dt = Math.round(performance.now() - t0);
+
+      // Prevent post-unlock error flashing: immediately after unlocking, the bridge can briefly
+      // reject inbox reads while internal session state settles.
+      const lastUnlockedAt = lastUnlockedAtRef.current;
+      const isWithinWarmup = lastUnlockedAt !== null && Date.now() - lastUnlockedAt < 1500;
+      if (isWithinWarmup) {
+        console.warn("[inbox] warmup-suppressed", { ms: dt, error: msg });
+        setState((s) => ({ ...s, isLoading: false }));
+        return;
+      }
+
+      setState((s) => ({ ...s, isLoading: false, error: msg }));
       console.warn("[inbox] error", { ms: dt, error: msg });
     } finally {
       inFlightRef.current = false;
@@ -81,6 +94,12 @@ export function useInbox() {
 
   // Handle lock/unlock state changes - BUT wait for identity to be initialized
   useEffect(() => {
+    // Track unlock transitions for warmup suppression
+    if (!prevUnlockedRef.current && isUnlocked) {
+      lastUnlockedAtRef.current = Date.now();
+    }
+    prevUnlockedRef.current = isUnlocked;
+
     // Don't start anything until identity context has finished its first check
     if (!isInitialized) return;
 
