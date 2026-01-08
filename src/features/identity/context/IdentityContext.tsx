@@ -40,6 +40,8 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
   
   // Track in-flight requests to prevent duplicate calls
   const checkingRef = useRef(false);
+  // Track manual unlock/lock mutations so background status checks can't fight UI state
+  const mutatingRef = useRef(false);
 
   const checkStatus = useCallback(async () => {
     if (!isAuthenticated) {
@@ -47,6 +49,9 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
       setIsInitialized(true);
       return;
     }
+
+    // If we are in the middle of an unlock/lock request, don't run a competing status check.
+    if (mutatingRef.current) return;
 
     // Prevent duplicate calls
     if (checkingRef.current) return;
@@ -103,7 +108,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
   // Check status when authentication changes (but wait for auth to finish loading)
   useEffect(() => {
     if (authLoading) return; // Wait for auth to initialize
-    
+
     if (isAuthenticated) {
       checkStatus();
     } else {
@@ -114,6 +119,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
   }, [isAuthenticated, authLoading, checkStatus]);
 
   const unlock = useCallback(async (password: string): Promise<boolean> => {
+    mutatingRef.current = true;
     setState("loading");
     setError(null);
 
@@ -161,10 +167,13 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
       setState("locked");
       setUnlockExpiresAt(null);
       return false;
+    } finally {
+      mutatingRef.current = false;
     }
   }, []);
 
   const lock = useCallback(async (): Promise<boolean> => {
+    mutatingRef.current = true;
     setState("loading");
     setError(null);
 
@@ -182,6 +191,8 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
       const message = err instanceof Error ? err.message : "Failed to lock";
       setError(message);
       return false;
+    } finally {
+      mutatingRef.current = false;
     }
   }, []);
 
