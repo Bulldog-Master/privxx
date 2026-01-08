@@ -47,7 +47,7 @@ export class MockBridgeClient implements IBridgeClient {
   }
 
   // Connection (mock)
-  async connect(): Promise<ConnectResponse> {
+  async connect(_targetUrl: string): Promise<ConnectResponse> {
     await sleep(500);
     this.connectionState = "secure";
     return {

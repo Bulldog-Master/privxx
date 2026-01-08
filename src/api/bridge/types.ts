@@ -234,7 +234,7 @@ export interface IBridgeClient {
   status(): Promise<StatusResponse>;
   
   // Connection (requires auth)
-  connect(): Promise<ConnectResponse>;
+  connect(targetUrl: string): Promise<ConnectResponse>;
   disconnect(): Promise<DisconnectResponse>;
   
   // Unlock/Lock (requires auth)
