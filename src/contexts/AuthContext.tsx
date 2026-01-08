@@ -13,6 +13,8 @@ interface AuthContextValue {
   user: User | null;
   session: Session | null;
   isLoading: boolean;
+  /** True after the initial session check completes (prevents UI flashing) */
+  isInitialized: boolean;
   isAuthenticated: boolean;
   isEmailVerified: boolean;
   signInWithEmail: (email: string, password: string) => Promise<{ error: string | null }>;
@@ -224,6 +226,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user,
         session,
         isLoading,
+        isInitialized: initialized,
         isAuthenticated: !!user,
         isEmailVerified,
         signInWithEmail,

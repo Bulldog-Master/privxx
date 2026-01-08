@@ -46,7 +46,7 @@ export function Inbox({
 }: InboxProps) {
   const { t } = useTranslation();
   const { autoRetry, status } = useBackendStatusContext();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading: authLoading, isInitialized: authInitialized } = useAuth();
   const { isInitialized: identityInitialized, isLoading: identityLoading } = useIdentity();
   
   // Determine if this is a network-level error that has auto-retry
@@ -103,9 +103,30 @@ export function Inbox({
   }
 
   // Locked state
+  // - While auth is still initializing, don't flash "Sign In Required".
   // - If not signed in, we can't unlock (bridge requires auth headers)
   // - If signed in, prompt for identity password
   if (!isUnlocked) {
+    if (authLoading || !authInitialized) {
+      return (
+        <div className="space-y-3 p-4">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-8 w-8 rounded-md" />
+          </div>
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="rounded-lg border p-3 space-y-2">
+              <div className="flex justify-between">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-3 w-16" />
+              </div>
+              <Skeleton className="h-4 w-full" />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-col items-center justify-center py-6 text-center px-4">
         <Lock className="h-6 w-6 text-primary/60 mb-2" />
