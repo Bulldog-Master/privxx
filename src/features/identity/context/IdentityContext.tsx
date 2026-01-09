@@ -75,30 +75,32 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
     try {
       const response: UnlockStatusResponse = await bridgeClient.getUnlockStatus();
 
+      // CRITICAL: Drive state from response.unlocked FIRST
       if (!response.unlocked) {
+        // Locked — zero-date expiresAt is expected for locked state
+        setState("locked");
+        setUnlockExpiresAt(null);
+        return;
+      }
+
+      // Unlocked — handle expiresAt
+      const expiresAt = response.expiresAt || null;
+      const isZeroDate = expiresAt === "0001-01-01T00:00:00Z";
+      
+      if (!expiresAt || isZeroDate) {
+        // Unlocked with unknown TTL
+        setState("unlocked");
+        setUnlockExpiresAt(null);
+        return;
+      }
+
+      const isExpired = new Date(expiresAt).getTime() <= Date.now();
+      if (isExpired) {
         setState("locked");
         setUnlockExpiresAt(null);
       } else {
-        // TTL may be omitted by the bridge in some modes.
-        // expiresAt may be missing OR may be the "zero date" "0001-01-01T00:00:00Z" when locked.
-        const expiresAt = response.expiresAt || null;
-        const isZeroDate = expiresAt === "0001-01-01T00:00:00Z";
-        
-        if (!expiresAt || isZeroDate) {
-          // Unlocked with unknown or zero TTL — treat as unlocked
-          setState("unlocked");
-          setUnlockExpiresAt(null);
-          return;
-        }
-
-        const isExpired = new Date(expiresAt).getTime() <= Date.now();
-        if (isExpired) {
-          setState("locked");
-          setUnlockExpiresAt(null);
-        } else {
-          setState("unlocked");
-          setUnlockExpiresAt(expiresAt);
-        }
+        setState("unlocked");
+        setUnlockExpiresAt(expiresAt);
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to check unlock status";

@@ -94,4 +94,28 @@ describe("SessionLockedError handling", () => {
     vi.mocked(fetch).mockResolvedValue(sessionLockedResponse);
     await expect(client.status()).rejects.toThrow(SessionLockedError);
   });
+
+  it("SessionLockedError.message exactly matches body.message", async () => {
+    const exactMessage = "Identity session is locked. Call POST /unlock first.";
+    
+    vi.mocked(fetch).mockResolvedValue({
+      ok: false,
+      status: 403,
+      json: async () => ({
+        code: "session_locked",
+        error: "forbidden",
+        message: exactMessage,
+      }),
+      headers: new Headers(),
+    } as Response);
+
+    try {
+      await client.connect("https://example.com");
+      expect.fail("Should have thrown");
+    } catch (err) {
+      expect(err).toBeInstanceOf(SessionLockedError);
+      // CRITICAL: message must be EXACTLY body.message, not "HTTP 403"
+      expect((err as SessionLockedError).message).toBe(exactMessage);
+    }
+  });
 });

@@ -97,13 +97,12 @@ describe("useConnectWithPolling", () => {
         result.current.connect("https://example.com");
       });
 
-      // Wait for all polls (first immediate, then 9 more at 1s intervals)
+      // First poll is immediate (no timer needed) - flush microtasks
       await act(async () => {
-        // First poll is immediate after connect
-        await vi.advanceTimersByTimeAsync(100);
+        await Promise.resolve();
       });
 
-      // 9 more polls at 1s intervals
+      // 9 more polls at 1s intervals (total 10)
       for (let i = 0; i < 9; i++) {
         await act(async () => {
           await vi.advanceTimersByTimeAsync(1000);
