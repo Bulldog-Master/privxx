@@ -2,33 +2,54 @@
  * PrivxxHeroWithUrl
  * 
  * Main hero component with URL input and connection controls.
- * IMPORTANT: Uses useBackendStatus as the SINGLE source for /status calls
- * to prevent duplicate polling and rate-limit issues.
+ * Uses useConnectWithPolling for connect flow with /status polling.
+ * Handles 403 session_locked by redirecting to unlock screen.
  */
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import PrivxxLogo from "./PrivxxLogo";
 import { Button } from "@/components/ui/button";
-import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle, RefreshCw } from "lucide-react";
+import { Loader2, ShieldCheck, Clock, LogIn, AlertTriangle, RefreshCw, Lock } from "lucide-react";
 import { bridgeClient } from "@/api/bridge";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIdentity } from "@/features/identity/context/IdentityContext";
 import { ConnectionStateIndicator } from "@/features/connection/components";
+import { useConnectWithPolling } from "@/features/connection/hooks";
 
 const PrivxxHeroWithUrl = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { user } = useAuth();
-  const [url, setUrl] = useState("https://");
-  const [connecting, setConnecting] = useState(false);
+  const { isLocked, isUnlocked, checkStatus: refreshIdentity } = useIdentity();
+  const [url, setUrl] = useState("https://example.com");
   const [disconnecting, setDisconnecting] = useState(false);
 
   // Use the centralized backend status context - SINGLE source for /status calls
   const { status, isLoading: statusLoading, refetch: fetchStatus, rateLimit } = useBackendStatusContext();
 
+  // Handle session_locked: set identity to locked and show unlock screen
+  const handleSessionLocked = useCallback(() => {
+    refreshIdentity();
+    // Navigate to unlock flow if needed (identity context will show unlock form)
+  }, [refreshIdentity]);
+
+  // Connect with polling hook
+  const {
+    result: connectResult,
+    connect,
+    reset: resetConnect,
+    isConnecting,
+    isPolling,
+    isSecure,
+    isTimeout,
+    isSessionLocked,
+  } = useConnectWithPolling(handleSessionLocked);
+
   const currentState = status.state;
-  const isConnected = currentState === "secure";
-  const isConnecting = currentState === "connecting";
+  const isConnectedFromStatus = currentState === "secure";
   const isIdle = currentState === "idle";
   const isError = currentState === "error";
   
@@ -38,20 +59,15 @@ const PrivxxHeroWithUrl = () => {
   const showTokenExpired = status.lastErrorCode === "UNAUTHORIZED" && user;
   const showError = isError && !showLoginRequired && !showTokenExpired && !showRateLimited;
   
-  const canConnect = url.trim().length > 8 && isIdle && !showRateLimited && user;
-  const canDisconnect = (isConnected || isConnecting) && !showRateLimited;
+  // Show unlock required if session is locked
+  const showUnlockRequired = isLocked && user && !showRateLimited;
+  
+  const canConnect = url.trim().length > 8 && isIdle && !showRateLimited && user && isUnlocked && !isConnecting && !isPolling;
+  const canDisconnect = (isConnectedFromStatus || isSecure) && !showRateLimited;
 
   const onConnect = async () => {
     if (!canConnect) return;
-    setConnecting(true);
-    try {
-      await bridgeClient.connect(url.trim());
-      await fetchStatus();
-    } catch (err) {
-      console.error("[Bridge] Connect failed:", err);
-    } finally {
-      setConnecting(false);
-    }
+    await connect(url.trim());
   };
 
   const onDisconnect = async () => {
@@ -59,6 +75,7 @@ const PrivxxHeroWithUrl = () => {
     setDisconnecting(true);
     try {
       await bridgeClient.disconnect();
+      resetConnect();
       await fetchStatus();
     } catch (err) {
       console.error("[Bridge] Disconnect failed:", err);
@@ -66,6 +83,12 @@ const PrivxxHeroWithUrl = () => {
       setDisconnecting(false);
     }
   };
+
+  // Use data from polling result if secure, otherwise from status context
+  const displayState = isSecure ? connectResult.statusData?.state : currentState;
+  const displayTargetUrl = isSecure ? connectResult.statusData?.targetUrl : url;
+  const displaySessionId = isSecure ? connectResult.statusData?.sessionId : undefined;
+  const displayLatency = isSecure ? connectResult.statusData?.latency : status.latencyMs;
 
   return (
     <div className="flex flex-col items-center text-center space-y-6 relative w-full max-w-md mx-auto">
@@ -103,6 +126,26 @@ const PrivxxHeroWithUrl = () => {
         </div>
       )}
 
+      {/* Unlock Required Banner */}
+      {showUnlockRequired && !showRateLimited && (
+        <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+          <Lock className="h-5 w-5 text-amber-500" />
+          <p className="text-sm text-amber-600 dark:text-amber-400">
+            {t("unlockRequired", "Identity locked — unlock to connect")}
+          </p>
+        </div>
+      )}
+
+      {/* Session Locked Banner (from 403 response) */}
+      {isSessionLocked && (
+        <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/20">
+          <Lock className="h-5 w-5 text-destructive" />
+          <p className="text-sm text-destructive">
+            {t("sessionLocked", "Session locked — please unlock your identity")}
+          </p>
+        </div>
+      )}
+
       {/* Login Required Banner */}
       {showLoginRequired && !showRateLimited && (
         <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-primary/10 border border-primary/20">
@@ -123,8 +166,31 @@ const PrivxxHeroWithUrl = () => {
         </div>
       )}
 
+      {/* Timeout Banner */}
+      {isTimeout && (
+        <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+          <AlertTriangle className="h-5 w-5 text-amber-500" />
+          <div className="flex-1 text-left">
+            <p className="text-sm font-medium text-amber-600 dark:text-amber-400">
+              {t("connectionPending", "Connection pending")}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {connectResult.error || t("tryAgain", "Please try again")}
+            </p>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => resetConnect()}
+            className="h-7 px-2"
+          >
+            <RefreshCw className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+      )}
+
       {/* Error Banner with Retry */}
-      {showError && !showRateLimited && (
+      {showError && !showRateLimited && !isTimeout && (
         <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/20">
           <AlertTriangle className="h-5 w-5 text-destructive flex-shrink-0" />
           <p className="text-sm text-destructive flex-1">
@@ -154,47 +220,65 @@ const PrivxxHeroWithUrl = () => {
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
-            disabled={isConnected || isConnecting || showRateLimited}
+            disabled={isConnectedFromStatus || isSecure || isConnecting || isPolling || showRateLimited}
           />
         </div>
 
         {/* Primary action area (kept layout-stable to prevent flashing) */}
-        {!isConnected && (
+        {!isConnectedFromStatus && !isSecure && (
           <Button
             className="min-h-[48px] w-full text-base font-medium px-6"
-            disabled={!canConnect || statusLoading || connecting}
+            disabled={!canConnect || statusLoading || isConnecting || isPolling}
             onClick={onConnect}
           >
-            {statusLoading || connecting ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : null}
+            {(statusLoading || isConnecting || isPolling) ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : null}
             <span className="inline-flex items-center gap-1.5">
-              <span>{t("connectThrough") || "Connect through"}</span>
-              <PrivxxLogo size="sm" brightenMark />
+              <span>
+                {isPolling 
+                  ? t("connectingPolling", `Connecting (${connectResult.pollAttempt}/10)...`)
+                  : isConnecting 
+                    ? t("connecting", "Connecting...")
+                    : t("connectThrough", "Connect through")
+                }
+              </span>
+              {!isConnecting && !isPolling && <PrivxxLogo size="sm" brightenMark />}
             </span>
           </Button>
         )}
 
-        {/* Connecting State (no layout change; just a secondary status line) */}
-        {isConnecting && !statusLoading && (
-          <div className="text-xs text-primary/60 text-center">
-            {t("tunnelConnecting") || "Routing through mixnet…"}
-          </div>
-        )}
-
         {/* Connected State */}
-        {isConnected && !statusLoading && (
+        {(isConnectedFromStatus || isSecure) && !statusLoading && (
           <div className="space-y-3">
             <div className="rounded-lg border border-primary/30 bg-primary/10 p-4 space-y-2">
               <div className="flex items-center justify-center gap-2 text-primary font-semibold">
                 <ShieldCheck className="h-5 w-5" />
                 {t("tunnelConnected") || "Tunnel Active"}
               </div>
-              {status.latencyMs && (
-                <div className="text-sm text-muted-foreground">
-                  {t("tunnelLatency") || "Latency"}: {status.latencyMs}ms
+              
+              {/* Session details */}
+              <div className="space-y-1 text-sm text-muted-foreground">
+                <div className="flex justify-between">
+                  <span>{t("state", "State")}:</span>
+                  <span className="font-medium text-primary">{displayState}</span>
                 </div>
-              )}
-              <div className="text-xs text-muted-foreground">
-                {t("tunnelTarget") || "Target"}: {url}
+                {displayTargetUrl && (
+                  <div className="flex justify-between">
+                    <span>{t("targetUrl", "Target")}:</span>
+                    <span className="font-mono text-xs truncate max-w-[200px]">{displayTargetUrl}</span>
+                  </div>
+                )}
+                {displaySessionId && (
+                  <div className="flex justify-between">
+                    <span>{t("sessionId", "Session")}:</span>
+                    <span className="font-mono text-xs">{displaySessionId}</span>
+                  </div>
+                )}
+                {displayLatency != null && (
+                  <div className="flex justify-between">
+                    <span>{t("latency", "Latency")}:</span>
+                    <span className="font-mono">{displayLatency}ms</span>
+                  </div>
+                )}
               </div>
             </div>
             <Button

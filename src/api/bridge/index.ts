@@ -22,9 +22,12 @@
  * - VITE_MOCK: Set to "false" to use real bridge instead of mock
  */
 
-import { BridgeClient, type IBridgeClient, type BridgeClientConfig } from "./client";
+import { BridgeClient, SessionLockedError, type IBridgeClient, type BridgeClientConfig } from "./client";
 import { MockBridgeClient } from "./mockClient";
 import { supabase } from "@/integrations/supabase/client";
+
+// Re-export SessionLockedError for UI layer consumption
+export { SessionLockedError } from "./client";
 
 // Real bridge mode by default for production
 // Set VITE_MOCK=true to enable mock mode for local development
