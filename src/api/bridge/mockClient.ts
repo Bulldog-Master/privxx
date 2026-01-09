@@ -81,8 +81,8 @@ export class MockBridgeClient implements IBridgeClient {
   async unlock(_password: string): Promise<UnlockResponse> {
     await sleep(300);
     this.locked = false;
-    // Mock 15-minute session
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
+    // Mock 15-minute session (899 seconds to match live bridge)
+    const expiresAt = new Date(Date.now() + 899 * 1000).toISOString();
     this.unlockExpiresAt = expiresAt;
     
     // Add welcome message on unlock
@@ -97,6 +97,7 @@ export class MockBridgeClient implements IBridgeClient {
     return {
       success: true,
       expiresAt,
+      ttlSeconds: 899,
     };
   }
 

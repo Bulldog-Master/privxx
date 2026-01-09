@@ -29,6 +29,8 @@ interface IdentityContextValue {
   unlock: (password: string) => Promise<boolean>;
   lock: () => Promise<boolean>;
   clearError: () => void;
+  /** Force immediate transition to locked state (used for 403 session_locked) */
+  forceSetLocked: () => void;
 }
 
 const IdentityContext = createContext<IdentityContextValue | null>(null);
@@ -78,9 +80,12 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         setUnlockExpiresAt(null);
       } else {
         // TTL may be omitted by the bridge in some modes.
-        // If we are unlocked but don't have an expiry, treat as unlocked with unknown TTL.
+        // expiresAt may be missing OR may be the "zero date" "0001-01-01T00:00:00Z" when locked.
         const expiresAt = response.expiresAt || null;
-        if (!expiresAt) {
+        const isZeroDate = expiresAt === "0001-01-01T00:00:00Z";
+        
+        if (!expiresAt || isZeroDate) {
+          // Unlocked with unknown or zero TTL — treat as unlocked
           setState("unlocked");
           setUnlockExpiresAt(null);
           return;
@@ -155,9 +160,11 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
       }
 
       // TTL may be omitted by the bridge in some modes.
-      // If we are unlocked but don't have an expiry, treat as unlocked with unknown TTL.
+      // expiresAt may be missing OR may be the "zero date" "0001-01-01T00:00:00Z" when locked.
       const expiresAt = status.expiresAt || null;
-      if (!expiresAt) {
+      const isZeroDate = expiresAt === "0001-01-01T00:00:00Z";
+      
+      if (!expiresAt || isZeroDate) {
         setState("unlocked");
         setUnlockExpiresAt(null);
         // Start settling period to prevent UI flash
@@ -223,6 +230,13 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
 
   const clearError = useCallback(() => setError(null), []);
 
+  // Force immediate transition to locked state (used for 403 session_locked)
+  const forceSetLocked = useCallback(() => {
+    setState("locked");
+    setUnlockExpiresAt(null);
+    setError(null);
+  }, []);
+
   return (
     <IdentityContext.Provider
       value={{
@@ -239,6 +253,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
         unlock,
         lock,
         clearError,
+        forceSetLocked,
       }}
     >
       {children}
