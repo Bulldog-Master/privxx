@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { AlertTriangle, RefreshCw, X } from "lucide-react";
 import { buildInfo } from "@/lib/buildInfo";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 export function StaleBuildWarning() {
   const { t } = useTranslation();
@@ -114,9 +113,12 @@ export function StaleBuildWarning() {
                 { current: buildInfo.version, latest: latestVersion || "?" }
               )}
             </span>
-            <Link to="/about" className="ml-2 underline underline-offset-2 hover:no-underline">
+            <a
+              href="/about"
+              className="ml-2 underline underline-offset-2 hover:no-underline"
+            >
               {t("staleBuild.learnMore", "Learn more")}
-            </Link>
+            </a>
           </div>
         </div>
         <div className="flex items-center gap-2">
