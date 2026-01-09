@@ -78,6 +78,24 @@
           animation: spin 1s linear infinite;
         "></div>
         
+        <!-- Progress bar -->
+        <div style="
+          margin-top: 1.5rem;
+          width: 180px;
+          height: 4px;
+          background: rgba(255,255,255,0.1);
+          border-radius: 2px;
+          overflow: hidden;
+        ">
+          <div id="loader-progress" style="
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, hsl(172 60% 50%), hsl(172 70% 60%));
+            border-radius: 2px;
+            transition: width 0.3s ease-out;
+          "></div>
+        </div>
+        
         <!-- Progress steps -->
         <div id="loader-steps" style="
           margin-top: 1.5rem;
@@ -115,18 +133,20 @@
         // Progress simulation for initial loader
         (function() {
           var steps = [
-            'Initializing...',
-            'Loading secure modules...',
-            'Preparing tunnel interface...'
+            { text: 'Initializing...', progress: 15 },
+            { text: 'Loading secure modules...', progress: 50 },
+            { text: 'Preparing tunnel interface...', progress: 85 }
           ];
           var stepIndex = 0;
           var statusEl = document.getElementById('loader-status');
+          var progressEl = document.getElementById('loader-progress');
           
           function nextStep() {
-            if (stepIndex < steps.length && statusEl) {
+            if (stepIndex < steps.length && statusEl && progressEl) {
               statusEl.style.opacity = '0';
               setTimeout(function() {
-                statusEl.textContent = steps[stepIndex];
+                statusEl.textContent = steps[stepIndex].text;
+                progressEl.style.width = steps[stepIndex].progress + '%';
                 statusEl.style.opacity = '1';
                 stepIndex++;
                 if (stepIndex < steps.length) {
@@ -136,17 +156,22 @@
             }
           }
           
-          setTimeout(nextStep, 600);
+          setTimeout(nextStep, 400);
           
           // Fade out when React takes over
           window.hideInitialLoader = function() {
-            var loader = document.getElementById('initial-loader');
-            if (loader) {
-              loader.classList.add('loader-fade-out');
-              setTimeout(function() {
-                loader.remove();
-              }, 400);
-            }
+            var progressEl = document.getElementById('loader-progress');
+            if (progressEl) progressEl.style.width = '100%';
+            
+            setTimeout(function() {
+              var loader = document.getElementById('initial-loader');
+              if (loader) {
+                loader.classList.add('loader-fade-out');
+                setTimeout(function() {
+                  loader.remove();
+                }, 400);
+              }
+            }, 200);
           };
         })();
       </script>
