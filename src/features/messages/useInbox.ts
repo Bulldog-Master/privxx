@@ -108,6 +108,24 @@ export function useInbox() {
       const dt = Math.round(performance.now() - t0);
       console.debug("[inbox] ok", { count: incoming.length, ms: dt });
     } catch (e: unknown) {
+      // Handle 404/NOT_FOUND gracefully - endpoint may not exist yet
+      // Treat as empty inbox rather than error
+      const isBridgeError = e && typeof e === "object" && "code" in e;
+      const errorCode = isBridgeError ? (e as { code: string }).code : undefined;
+      
+      if (errorCode === "NOT_FOUND" || errorCode === "SERVER_ERROR") {
+        // Endpoint not implemented - show empty state, not error
+        console.debug("[inbox] endpoint not available, showing empty state");
+        setState((s) => ({
+          ...s,
+          isLoading: false,
+          messages: [],
+          lastUpdated: Date.now(),
+        }));
+        consecutiveFailuresRef.current = 0;
+        return;
+      }
+      
       const msg = e instanceof Error ? e.message : "Failed to load messages";
       const dt = Math.round(performance.now() - t0);
 
