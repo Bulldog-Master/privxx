@@ -289,6 +289,7 @@
   .animate-pulse-glow,
   .animate-connecting,
   .animate-status-dot,
+  .animate-glow-pulse,
   .hero-ambient-dot {
     animation: none !important;
   }
@@ -298,10 +299,14 @@
     animation: none !important;
   }
 
-  /* Disable glow effects that may cause discomfort */
+  /* Disable glow effects that may cause discomfort, but keep static glow for visibility */
   .glow-primary,
   .glow-primary-subtle {
     box-shadow: none !important;
+  }
+
+  .animate-glow-pulse {
+    box-shadow: 0 0 8px hsl(172 60% 50% / 0.6), 0 0 16px hsl(172 60% 50% / 0.3) !important;
   }
 
   /* Ensure focus states remain visible */
