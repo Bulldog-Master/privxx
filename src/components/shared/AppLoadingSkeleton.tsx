@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 
 const PROGRESS_STEPS = [
-  { key: "statusInitializing", fallback: "Initializing..." },
-  { key: "statusLoadingModules", fallback: "Loading secure modules..." },
-  { key: "statusPreparingInterface", fallback: "Preparing tunnel interface..." },
+  { key: "statusInitializing", fallback: "Initializing...", progress: 15 },
+  { key: "statusLoadingModules", fallback: "Loading secure modules...", progress: 50 },
+  { key: "statusPreparingInterface", fallback: "Preparing tunnel interface...", progress: 85 },
 ];
 
 /**
@@ -48,9 +48,17 @@ export function AppLoadingSkeleton() {
       {/* Spinner */}
       <div className="w-10 h-10 border-[3px] border-white/10 border-t-primary rounded-full animate-spin" />
       
+      {/* Progress bar */}
+      <div className="mt-6 w-44 h-1 bg-white/10 rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-300 ease-out"
+          style={{ width: `${currentStep.progress}%` }}
+        />
+      </div>
+      
       {/* Loading text with fade transition */}
       <p 
-        className="mt-6 text-white/60 text-sm tracking-wide transition-opacity duration-150"
+        className="mt-4 text-white/60 text-sm tracking-wide transition-opacity duration-150"
         style={{ opacity: isTransitioning ? 0 : 1 }}
       >
         {statusText}
