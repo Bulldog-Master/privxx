@@ -109,13 +109,13 @@ export function useInbox() {
       console.debug("[inbox] ok", { count: incoming.length, ms: dt });
     } catch (e: unknown) {
       // Handle 404/NOT_FOUND gracefully - endpoint may not exist yet
-      // Treat as empty inbox rather than error
+      // Treat as empty inbox rather than error (but NOT server errors - those should show)
       const isBridgeError = e && typeof e === "object" && "code" in e;
       const errorCode = isBridgeError ? (e as { code: string }).code : undefined;
       
-      if (errorCode === "NOT_FOUND" || errorCode === "SERVER_ERROR") {
+      if (errorCode === "NOT_FOUND") {
         // Endpoint not implemented - show empty state, not error
-        console.debug("[inbox] endpoint not available, showing empty state");
+        console.debug("[inbox] endpoint not available (404), showing empty state");
         setState((s) => ({
           ...s,
           isLoading: false,
