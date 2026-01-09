@@ -35,17 +35,17 @@
  * Returns the current tunnel connection state.
  * 
  * @example
- * { "state": "idle" }
- * { "state": "connecting" }
- * { "state": "secure", "connectedAt": "2026-01-07T18:00:00Z", "targetUrl": "http://127.0.0.1:8090" }
+ * { "state": "secure", "targetUrl": "https://example.com", "sessionId": "sim-...", "latency": 123 }
  */
 export type StatusResponse = {
   /** Current connection state */
   state: "idle" | "connecting" | "secure";
-  /** ISO 8601 timestamp when connection was established */
-  connectedAt?: string;
   /** Target URL being routed through tunnel */
   targetUrl?: string;
+  /** Session identifier */
+  sessionId?: string;
+  /** Latency in milliseconds */
+  latency?: number;
 };
 
 // =============================================================================
@@ -67,14 +67,14 @@ export type ConnectRequest = {
  * POST /connect - Response
  * 
  * @example
- * { "state": "connecting" }
- * { "state": "secure", "message": "Tunnel established" }
+ * { "success": true }
+ * 
+ * If locked → HTTP 403:
+ * { "code": "session_locked", "error": "forbidden", "message": "Identity session is locked. Call POST /unlock first." }
  */
 export type ConnectResponse = {
-  /** New connection state after connect request */
-  state: "connecting" | "secure";
-  /** Optional status message */
-  message?: string;
+  /** True if connect succeeded */
+  success: boolean;
 };
 
 /**
@@ -98,17 +98,15 @@ export type DisconnectResponse = {
  * GET /health - Bridge health check (no auth required)
  * 
  * @example
- * { "ok": true, "service": "privxx-bridge", "version": "1.0.0", "time": "2026-01-07T18:00:00Z" }
+ * { "status": "ok", "version": "0.4.0", "xxdkReady": false }
  */
 export type HealthResponse = {
-  /** True if bridge is healthy */
-  ok: boolean;
-  /** Service identifier */
-  service: string;
+  /** "ok" if bridge is healthy */
+  status: string;
   /** Bridge version */
   version: string;
-  /** Server time (ISO 8601) */
-  time: string;
+  /** True if xxDK is ready */
+  xxdkReady: boolean;
 };
 
 // =============================================================================
@@ -119,14 +117,16 @@ export type HealthResponse = {
  * GET /unlock/status - Lock state
  * 
  * @example
- * { "locked": true }
- * { "locked": false, "expiresAt": "2026-01-07T19:00:00Z" }
+ * { "unlocked": true, "expiresAt": "...", "ttlRemainingSeconds": 899 }
+ * { "unlocked": false }
  */
 export type UnlockStatusResponse = {
-  /** True if bridge is locked */
-  locked: boolean;
+  /** True if bridge is unlocked */
+  unlocked: boolean;
   /** ISO 8601 expiry when unlocked */
   expiresAt?: string;
+  /** TTL remaining in seconds */
+  ttlRemainingSeconds?: number;
 };
 
 /**
@@ -140,14 +140,15 @@ export type UnlockRequest = {
  * POST /unlock - Response
  * 
  * @example
- * { "success": true, "expiresAt": "2026-01-07T19:00:00Z" }
- * { "success": false }
+ * { "success": true, "expiresAt": "...", "ttlSeconds": 899 }
  */
 export type UnlockResponse = {
   /** True if unlock succeeded */
   success: boolean;
   /** ISO 8601 unlock expiry */
   expiresAt?: string;
+  /** TTL in seconds */
+  ttlSeconds?: number;
 };
 
 /**

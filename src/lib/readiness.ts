@@ -23,7 +23,7 @@ export async function checkReadiness(): Promise<ReadinessResult> {
   try {
     // Use /health (public) instead of /status to avoid rate-limit conflicts
     const h = await bridgeClient.health();
-    bridgeReachable = h?.ok === true;
+    bridgeReachable = h?.status === "ok";
     // backendReady requires status check - leave as false here
     // The actual status is shown via useBackendStatus in the UI
     backendReady = bridgeReachable; // Approximate: if health passes, backend is reachable

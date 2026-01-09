@@ -392,14 +392,20 @@ const BridgeLiveStatusCard = () => {
           ) : (
             <>
               <StatusRow
-                label={t("service")}
-                value={health?.service || "—"}
+                label={t("status")}
+                value={health?.status || "—"}
                 icon={<Server className="h-3.5 w-3.5" />}
               />
               <StatusRow
                 label={t("version")}
                 value={health?.version || "—"}
                 icon={<Activity className="h-3.5 w-3.5" />}
+              />
+              <StatusRow
+                label={t("xxdkReady", "xxDK Ready")}
+                value={health?.xxdkReady ? "Yes" : "No"}
+                icon={<Shield className="h-3.5 w-3.5" />}
+                valueColor={health?.xxdkReady ? "text-emerald-500" : "text-muted-foreground"}
               />
             </>
           )}

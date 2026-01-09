@@ -198,7 +198,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
       
       // Call bridge health endpoint (public, no rate limit risk)
       const result = await bridgeClient.health();
-      if (result.ok) {
+      if (result.status === "ok") {
         setAuthTestState("success");
         setAuthTestMessage("Bridge reachable");
       } else {
@@ -357,7 +357,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
               
               {showAdvanced && (
                 <div className="mt-2 bg-muted/20 rounded p-2 text-xs font-mono text-muted-foreground">
-                  <div>Health: {bridgeHealth.healthData?.service ?? "—"}</div>
+                  <div>Health: {bridgeHealth.healthData?.status ?? "—"} (v{bridgeHealth.healthData?.version ?? "?"})</div>
                   <div>Status: {bridgeHealth.statusData?.state ?? "—"}</div>
                 </div>
               )}
