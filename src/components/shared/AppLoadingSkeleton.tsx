@@ -51,7 +51,7 @@ export function AppLoadingSkeleton() {
       {/* Progress bar */}
       <div className="mt-6 w-44 h-1 bg-white/10 rounded-full overflow-hidden">
         <div 
-          className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-300 ease-out"
+          className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-300 ease-out shadow-[0_0_8px_hsl(172_60%_50%/0.6),0_0_16px_hsl(172_60%_50%/0.3)]"
           style={{ width: `${currentStep.progress}%` }}
         />
       </div>
