@@ -73,7 +73,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
     try {
       const response: UnlockStatusResponse = await bridgeClient.getUnlockStatus();
 
-      if (response.locked) {
+      if (!response.unlocked) {
         setState("locked");
         setUnlockExpiresAt(null);
       } else {
@@ -148,7 +148,7 @@ export function IdentityProvider({ children }: { children: ReactNode }) {
       // Bridge unlock responses may omit TTL; always re-check authoritative status.
       const status: UnlockStatusResponse = await bridgeClient.getUnlockStatus();
 
-      if (status.locked) {
+      if (!status.unlocked) {
         setState("locked");
         setUnlockExpiresAt(null);
         return false;

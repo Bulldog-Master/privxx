@@ -132,12 +132,11 @@ async function realConnection(
 
   const latency = Math.round(performance.now() - startTime);
 
-  // Check if response indicates connection is in progress or secure
-  if (response.state === "connecting" || response.state === "secure") {
+  // Check if response indicates success
+  if (response.success) {
     console.debug("[Connection] Real: Connected via Bridge", {
       requestId: intent.requestId,
       sessionId: intent.sessionId,
-      state: response.state,
       latency,
     });
 
@@ -149,10 +148,9 @@ async function realConnection(
     };
   }
 
-  // Unexpected state
-  console.warn("[Connection] Bridge returned unexpected state", {
+  // Connection failed
+  console.warn("[Connection] Bridge returned failure", {
     requestId: intent.requestId,
-    state: response.state,
   });
 
   return {
@@ -161,7 +159,7 @@ async function realConnection(
     requestId: intent.requestId,
     latency,
     errorCode: "NETWORK_ERROR",
-    errorMessage: response.message || "Unexpected connection state",
+    errorMessage: "Connection failed",
   };
 }
 

@@ -30,10 +30,9 @@ export class MockBridgeClient implements IBridgeClient {
   async health(): Promise<HealthResponse> {
     await sleep(50);
     return {
-      ok: true,
-      service: "privxx-bridge-mock",
-      version: "phase-d-mock",
-      time: new Date().toISOString(),
+      status: "ok",
+      version: "0.4.0-mock",
+      xxdkReady: false,
     };
   }
 
@@ -42,7 +41,9 @@ export class MockBridgeClient implements IBridgeClient {
     await sleep(100);
     return {
       state: this.connectionState,
-      connectedAt: this.connectionState === "secure" ? new Date().toISOString() : undefined,
+      targetUrl: this.connectionState === "secure" ? "https://example.com" : undefined,
+      sessionId: this.connectionState === "secure" ? `sim-${Date.now()}` : undefined,
+      latency: this.connectionState === "secure" ? Math.floor(Math.random() * 200) + 50 : undefined,
     };
   }
 
@@ -51,8 +52,7 @@ export class MockBridgeClient implements IBridgeClient {
     await sleep(500);
     this.connectionState = "secure";
     return {
-      state: "secure",
-      message: "Mock connection established",
+      success: true,
     };
   }
 
@@ -68,9 +68,13 @@ export class MockBridgeClient implements IBridgeClient {
   // Unlock endpoints (mock)
   async getUnlockStatus(): Promise<UnlockStatusResponse> {
     await sleep(100);
+    const ttlRemainingSeconds = this.unlockExpiresAt 
+      ? Math.max(0, Math.floor((new Date(this.unlockExpiresAt).getTime() - Date.now()) / 1000))
+      : undefined;
     return {
-      locked: this.locked,
+      unlocked: !this.locked,
       expiresAt: this.unlockExpiresAt || undefined,
+      ttlRemainingSeconds,
     };
   }
 

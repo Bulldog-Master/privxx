@@ -52,7 +52,7 @@ export function useBridgeHealthStatus(): BridgeHealthStatus {
 
   return {
     // Legacy boolean fields
-    health: healthQuery.isError ? false : healthQuery.data?.ok ?? null,
+    health: healthQuery.isError ? false : (healthQuery.data?.status === "ok" ? true : null),
     status: null, // Derived from useBackendStatus, not here
     isLoading: healthQuery.isLoading,
     
