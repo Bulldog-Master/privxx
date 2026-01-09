@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 import { useBackendStatusContext } from "@/contexts/BackendStatusContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/features/identity";
-import { IdentityUnlockForm } from "@/features/identity/components/IdentityUnlockForm";
 import type { DemoMessage } from "./types";
 
 interface InboxProps {
@@ -137,15 +136,12 @@ export function Inbox({
         </h3>
         <p className="text-xs text-primary/60 mb-4">
           {isAuthenticated
-            ? t("inboxLockedBody", "Unlock your identity to view messages")
+            ? t("inboxLockedBody", "Unlock your identity above to view messages")
             : t("authRequiredBody", "Sign in to unlock your identity and view messages")}
         </p>
 
-        {isAuthenticated ? (
-          <div className="w-full max-w-xs">
-            <IdentityUnlockForm />
-          </div>
-        ) : (
+        {/* Only show Sign In button when not authenticated - unlock form is shown in Index.tsx */}
+        {!isAuthenticated && (
           <Button asChild variant="outline" size="sm">
             <Link to="/auth">{t("common.signIn", "Sign In")}</Link>
           </Button>
