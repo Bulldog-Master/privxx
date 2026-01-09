@@ -16,3 +16,10 @@ export type { UseOfflineDetectionReturn } from "./useOfflineDetection";
 
 export { useConnectionQualityMonitor } from "./useConnectionQualityMonitor";
 export type { QualityAlertConfig } from "./useConnectionQualityMonitor";
+
+export { useConnectWithPolling } from "./useConnectWithPolling";
+export type { 
+  ConnectPollingState, 
+  ConnectPollingResult, 
+  UseConnectWithPollingReturn 
+} from "./useConnectWithPolling";

@@ -41,11 +41,26 @@ export class BridgeError extends Error {
   }
 }
 
+/**
+ * SessionLockedError - thrown when Bridge returns 403 with code "session_locked"
+ * UI layer should catch this and redirect to Unlock screen
+ */
+export class SessionLockedError extends Error {
+  public readonly code = "session_locked" as const;
+  public readonly statusCode = 403;
+  
+  constructor(message: string) {
+    super(message);
+    this.name = "SessionLockedError";
+  }
+}
+
 export type BridgeErrorCode = 
   | "NETWORK_ERROR"      // Connection failed, timeout, etc.
   | "TIMEOUT"            // Request timed out
   | "UNAUTHORIZED"       // 401 - token expired/invalid
   | "FORBIDDEN"          // 403 - access denied
+  | "SESSION_LOCKED"     // 403 with code "session_locked"
   | "NOT_FOUND"          // 404 - resource not found
   | "RATE_LIMITED"       // 429 - too many requests
   | "SERVER_ERROR"       // 5xx errors
@@ -192,15 +207,23 @@ export class BridgeClient implements IBridgeClient {
           // Parse error body
           let errorMessage: string;
           let retryAfterSec: number | undefined;
+          let sessionLockedCode: string | undefined;
           try {
             const errorBody = await res.json();
-            const body = errorBody as { error?: string; message?: string; retryAfter?: number };
+            const body = errorBody as { error?: string; message?: string; retryAfter?: number; code?: string };
             errorMessage = body.message || body.error || `HTTP ${res.status}`;
+            sessionLockedCode = body.code;
             if (typeof body.retryAfter === "number" && body.retryAfter > 0) {
               retryAfterSec = Math.ceil(body.retryAfter);
             }
           } catch {
             errorMessage = `HTTP ${res.status}`;
+          }
+
+          // Special handling: 403 with code "session_locked" throws SessionLockedError
+          if (res.status === 403 && sessionLockedCode === "session_locked") {
+            console.debug(`[Bridge] ${path} session_locked (${latency}ms) [${correlationId}]`);
+            throw new SessionLockedError(errorMessage);
           }
 
           const error = new BridgeError(
