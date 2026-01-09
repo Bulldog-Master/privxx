@@ -132,6 +132,18 @@
         .loader-fade-out {
           animation: fadeOut 0.4s ease-out forwards;
         }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+          #initial-loader * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
+          #loader-progress {
+            box-shadow: 0 0 8px hsl(172 60% 50% / 0.6), 0 0 16px hsl(172 60% 50% / 0.3) !important;
+          }
+        }
       </style>
       
       <script>
