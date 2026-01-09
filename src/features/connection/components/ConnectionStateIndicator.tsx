@@ -19,11 +19,12 @@ export function ConnectionStateIndicator({ className }: ConnectionStateIndicator
   const { status, isLoading, isAuthenticated } = useBackendStatusContext();
 
   const getIndicatorConfig = () => {
-    // Only show "checking" on first load when there's no prior health data
-    // This prevents flashing between states during regular polling
-    const isInitialCheck = isLoading && status.lastCheckAt === null && status.health === "checking";
+    // During auth initialization or initial status check, show "Checking..." 
+    // This prevents flash of "Sign In Required" before auth state settles
+    const isAuthInitializing = isLoading && status.lastCheckAt === null;
+    const isInitialCheck = isAuthInitializing && status.health === "checking";
     
-    if (isInitialCheck) {
+    if (isInitialCheck || isAuthInitializing) {
       return {
         icon: Loader2,
         label: t("connection.checking", "Checking..."),
@@ -36,7 +37,7 @@ export function ConnectionStateIndicator({ className }: ConnectionStateIndicator
       };
     }
     
-    // Not authenticated - show login prompt state
+    // Not authenticated - show login prompt state (only after auth has initialized)
     if (!isAuthenticated) {
       return {
         icon: Shield,
