@@ -2,7 +2,8 @@
  * useConnectWithPolling
  * 
  * Handles the connect flow with /status polling after success.
- * Polls every 1s, max 10 attempts, stops when state === "secure" or SessionLockedError.
+ * Uses setTimeout loop to prevent overlapping async calls.
+ * Polls every 1s, EXACTLY 10 attempts max, stops when state === "secure" or SessionLockedError.
  */
 
 import { useState, useCallback, useRef } from "react";
@@ -49,13 +50,13 @@ export function useConnectWithPolling(
     pollAttempt: 0,
   });
 
-  const pollingRef = useRef<NodeJS.Timeout | null>(null);
   const abortRef = useRef(false);
+  const pollingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const stopPolling = useCallback(() => {
-    if (pollingRef.current) {
-      clearInterval(pollingRef.current);
-      pollingRef.current = null;
+    if (pollingTimeoutRef.current) {
+      clearTimeout(pollingTimeoutRef.current);
+      pollingTimeoutRef.current = null;
     }
   }, []);
 
@@ -95,46 +96,47 @@ export function useConnectWithPolling(
         return;
       }
 
-      // Step 2: Start polling /status
-      setResult(prev => ({ ...prev, state: "polling", pollAttempt: 1 }));
+      // Step 2: Start polling /status using setTimeout loop
+      // Attempt 1 = immediate poll after /connect
+      // Attempts 2..10 = every 1000ms
+      // Stop at EXACTLY 10 attempts
+      let attemptCount = 0;
 
-      let attemptCount = 1;
+      const pollOnce = async (): Promise<void> => {
+        if (abortRef.current) return;
 
-      const pollStatus = async (): Promise<boolean> => {
-        if (abortRef.current) return true; // Stop if aborted
+        attemptCount++;
+        setResult(prev => ({ ...prev, state: "polling", pollAttempt: attemptCount }));
 
         try {
           const status = await bridgeClient.status();
           
           if (status.state === "secure") {
-            stopPolling();
             setResult({
               state: "secure",
               statusData: status,
               error: null,
               pollAttempt: attemptCount,
             });
-            return true;
+            return;
           }
 
-          attemptCount++;
-          setResult(prev => ({ ...prev, pollAttempt: attemptCount }));
-
-          if (attemptCount > MAX_POLL_ATTEMPTS) {
-            stopPolling();
+          // Check if we've reached max attempts
+          if (attemptCount >= MAX_POLL_ATTEMPTS) {
             setResult({
               state: "timeout",
               statusData: status,
               error: "Connection pending — try again",
               pollAttempt: attemptCount,
             });
-            return true;
+            return;
           }
 
-          return false;
+          // Schedule next poll with setTimeout (prevents overlapping)
+          pollingTimeoutRef.current = setTimeout(pollOnce, POLL_INTERVAL_MS);
+
         } catch (err) {
           if (err instanceof SessionLockedError) {
-            stopPolling();
             setResult({
               state: "session_locked",
               statusData: null,
@@ -142,25 +144,10 @@ export function useConnectWithPolling(
               pollAttempt: attemptCount,
             });
             onSessionLocked?.();
-            return true;
+            return;
           }
-          throw err;
-        }
-      };
 
-      // First poll immediately
-      const done = await pollStatus();
-      if (done) return;
-
-      // Then poll every 1s
-      pollingRef.current = setInterval(async () => {
-        try {
-          const isDone = await pollStatus();
-          if (isDone) {
-            stopPolling();
-          }
-        } catch (err) {
-          stopPolling();
+          // Other errors
           const message = err instanceof Error ? err.message : "Polling failed";
           setResult(prev => ({
             ...prev,
@@ -168,7 +155,10 @@ export function useConnectWithPolling(
             error: message,
           }));
         }
-      }, POLL_INTERVAL_MS);
+      };
+
+      // Start first poll immediately
+      await pollOnce();
 
     } catch (err) {
       stopPolling();

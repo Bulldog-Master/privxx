@@ -81,8 +81,8 @@ describe("useConnectWithPolling", () => {
     });
   });
 
-  describe("timeout after 10 attempts", () => {
-    it("stops polling and shows timeout after 10 attempts", async () => {
+  describe("timeout after EXACTLY 10 attempts", () => {
+    it("stops polling after exactly 10 attempts", async () => {
       const mockConnect = vi.mocked(bridgeClient.connect);
       const mockStatus = vi.mocked(bridgeClient.status);
       
@@ -97,8 +97,14 @@ describe("useConnectWithPolling", () => {
         result.current.connect("https://example.com");
       });
 
-      // Advance through 11 poll cycles to trigger timeout
-      for (let i = 0; i < 12; i++) {
+      // Wait for all polls (first immediate, then 9 more at 1s intervals)
+      await act(async () => {
+        // First poll is immediate after connect
+        await vi.advanceTimersByTimeAsync(100);
+      });
+
+      // 9 more polls at 1s intervals
+      for (let i = 0; i < 9; i++) {
         await act(async () => {
           await vi.advanceTimersByTimeAsync(1000);
         });
@@ -106,7 +112,10 @@ describe("useConnectWithPolling", () => {
 
       expect(result.current.isTimeout).toBe(true);
       expect(result.current.result.error).toBe("Connection pending — try again");
-      expect(result.current.result.pollAttempt).toBeGreaterThanOrEqual(10);
+      // Should be exactly 10 attempts
+      expect(result.current.result.pollAttempt).toBe(10);
+      // Verify status was called exactly 10 times
+      expect(mockStatus).toHaveBeenCalledTimes(10);
     });
   });
 

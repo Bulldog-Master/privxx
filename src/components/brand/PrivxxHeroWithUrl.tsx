@@ -23,18 +23,21 @@ const PrivxxHeroWithUrl = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { isLocked, isUnlocked, checkStatus: refreshIdentity } = useIdentity();
+  const { isLocked, isUnlocked, checkStatus: refreshIdentity, forceSetLocked } = useIdentity();
   const [url, setUrl] = useState("https://example.com");
   const [disconnecting, setDisconnecting] = useState(false);
 
-  // Use the centralized backend status context - SINGLE source for /status calls
+  // Use the centralized backend status context for rate limiting and initial state only
+  // Do NOT use it for /status polling during connect flow - useConnectWithPolling handles that
   const { status, isLoading: statusLoading, refetch: fetchStatus, rateLimit } = useBackendStatusContext();
 
-  // Handle session_locked: set identity to locked and show unlock screen
+  // Handle session_locked: immediately set identity to locked and show unlock screen
   const handleSessionLocked = useCallback(() => {
+    // Force identity to locked state immediately (don't wait for checkStatus)
+    forceSetLocked?.();
+    // Also trigger a refresh to sync with backend
     refreshIdentity();
-    // Navigate to unlock flow if needed (identity context will show unlock form)
-  }, [refreshIdentity]);
+  }, [forceSetLocked, refreshIdentity]);
 
   // Connect with polling hook
   const {

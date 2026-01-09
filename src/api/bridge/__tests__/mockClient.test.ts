@@ -43,12 +43,12 @@ describe("MockBridgeClient", () => {
   });
 
   describe("unlock endpoint", () => {
-    it("returns success: true with expiresAt and ttlSeconds", async () => {
+    it("returns success: true with expiresAt and ttlSeconds: 899", async () => {
       const result = await client.unlock("test-password");
       
       expect(result.success).toBe(true);
       expect(result.expiresAt).toBeDefined();
-      // Mock doesn't return ttlSeconds, but real API does
+      expect(result.ttlSeconds).toBe(899);
     });
 
     it("changes status from locked to unlocked", async () => {
