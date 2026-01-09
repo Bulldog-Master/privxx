@@ -129,15 +129,7 @@ const PrivxxHeroWithUrl = () => {
         </div>
       )}
 
-      {/* Unlock Required Banner */}
-      {showUnlockRequired && !showRateLimited && (
-        <div className="w-full flex items-center gap-2 px-4 py-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
-          <Lock className="h-5 w-5 text-amber-500" />
-          <p className="text-sm text-amber-600 dark:text-amber-400">
-            {t("unlockRequired", "Identity locked — unlock to connect")}
-          </p>
-        </div>
-      )}
+      {/* Unlock Required Banner - removed, handled by Index.tsx IdentityUnlockForm */}
 
       {/* Session Locked Banner (from 403 response) */}
       {isSessionLocked && (
