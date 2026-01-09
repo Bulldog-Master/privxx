@@ -262,10 +262,26 @@ export class BridgeClient implements IBridgeClient {
         console.debug(`[Bridge] ${path} ok (${latency}ms) [${correlationId}]`);
         
         try {
-          return await res.json();
-        } catch {
+          const text = await res.text();
+          // Try to parse as JSON
+          try {
+            return JSON.parse(text);
+          } catch {
+            // Log what we actually received for debugging
+            const preview = text.slice(0, 200);
+            console.error(`[Bridge] ${path} response not JSON [${correlationId}]:`, preview);
+            throw new BridgeError(
+              `Server returned non-JSON response (${text.length} bytes)`,
+              "PARSE_ERROR",
+              res.status,
+              correlationId,
+              false
+            );
+          }
+        } catch (parseErr) {
+          if (parseErr instanceof BridgeError) throw parseErr;
           throw new BridgeError(
-            "Failed to parse response",
+            "Failed to read response body",
             "PARSE_ERROR",
             res.status,
             correlationId,
