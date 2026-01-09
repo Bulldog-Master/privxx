@@ -213,6 +213,11 @@ function AppRoutes() {
   );
 }
 
+// Trigger fade-out of initial HTML loader when React mounts
+if (typeof window !== 'undefined' && typeof (window as unknown as { hideInitialLoader?: () => void }).hideInitialLoader === 'function') {
+  (window as unknown as { hideInitialLoader: () => void }).hideInitialLoader();
+}
+
 const App = () => (
   <AppErrorBoundary>
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>

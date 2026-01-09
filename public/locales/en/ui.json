@@ -181,7 +181,9 @@
   "statusConnectingSubtext": "Establishing private route",
   "statusSecure": "Secure",
   "statusSecureSubtext": "Private routing active",
-  "statusInitializing": "Initializing secure tunnel...",
+  "statusInitializing": "Initializing...",
+  "statusLoadingModules": "Loading secure modules...",
+  "statusPreparingInterface": "Preparing tunnel interface...",
   
   "requestedUrl": "Requested URL",
   "simulatedLatency": "Simulated latency",
