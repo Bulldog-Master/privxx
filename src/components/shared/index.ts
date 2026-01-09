@@ -11,3 +11,4 @@ export { default as PrivacyDrawer } from "./PrivacyDrawer";
 export { BuildVersionBadge } from "./BuildVersionBadge";
 export { StaleBuildWarning } from "./StaleBuildWarning";
 export { default as UserProfileCard } from "./UserProfileCard";
+export { AppLoadingSkeleton } from "./AppLoadingSkeleton";

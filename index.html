@@ -33,7 +33,69 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Initial loading skeleton - replaced when React mounts -->
+      <div id="initial-loader" style="
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, hsl(215 25% 20%) 0%, hsl(215 25% 27%) 50%, hsl(172 25% 22%) 100%);
+        font-family: system-ui, -apple-system, sans-serif;
+      ">
+        <!-- Logo skeleton -->
+        <div style="
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 2rem;
+          animation: pulse 2s ease-in-out infinite;
+        ">
+          <span style="
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          ">Priv</span>
+          <span style="
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: hsl(172 60% 50%);
+          ">xx</span>
+        </div>
+        
+        <!-- Spinner -->
+        <div style="
+          width: 40px;
+          height: 40px;
+          border: 3px solid rgba(255,255,255,0.1);
+          border-top-color: hsl(172 60% 50%);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        "></div>
+        
+        <!-- Loading text -->
+        <p style="
+          margin-top: 1.5rem;
+          color: rgba(255,255,255,0.6);
+          font-size: 0.875rem;
+          letter-spacing: 0.05em;
+        ">Initializing secure tunnel...</p>
+      </div>
+      
+      <style>
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+        }
+      </style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
