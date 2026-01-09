@@ -196,6 +196,19 @@
   .animate-status-dot {
     animation: status-pulse 1.5s ease-in-out infinite;
   }
+
+  .animate-glow-pulse {
+    animation: glow-pulse 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px hsl(172 60% 50% / 0.6), 0 0 16px hsl(172 60% 50% / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px hsl(172 60% 50% / 0.8), 0 0 24px hsl(172 60% 50% / 0.5);
+  }
 }
 
 /* Hero ambient dot */
