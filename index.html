@@ -43,6 +43,7 @@
         justify-content: center;
         background: linear-gradient(135deg, hsl(215 25% 20%) 0%, hsl(215 25% 27%) 50%, hsl(172 25% 22%) 100%);
         font-family: system-ui, -apple-system, sans-serif;
+        transition: opacity 0.4s ease-out;
       ">
         <!-- Logo skeleton -->
         <div style="
@@ -77,13 +78,21 @@
           animation: spin 1s linear infinite;
         "></div>
         
-        <!-- Loading text -->
-        <p style="
+        <!-- Progress steps -->
+        <div id="loader-steps" style="
           margin-top: 1.5rem;
-          color: rgba(255,255,255,0.6);
-          font-size: 0.875rem;
-          letter-spacing: 0.05em;
-        ">Initializing secure tunnel...</p>
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.25rem;
+        ">
+          <p id="loader-status" style="
+            color: rgba(255,255,255,0.6);
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            transition: opacity 0.3s ease;
+          ">Initializing...</p>
+        </div>
       </div>
       
       <style>
@@ -94,7 +103,53 @@
           0%, 100% { opacity: 1; }
           50% { opacity: 0.7; }
         }
+        @keyframes fadeOut {
+          to { opacity: 0; pointer-events: none; }
+        }
+        .loader-fade-out {
+          animation: fadeOut 0.4s ease-out forwards;
+        }
       </style>
+      
+      <script>
+        // Progress simulation for initial loader
+        (function() {
+          var steps = [
+            'Initializing...',
+            'Loading secure modules...',
+            'Preparing tunnel interface...'
+          ];
+          var stepIndex = 0;
+          var statusEl = document.getElementById('loader-status');
+          
+          function nextStep() {
+            if (stepIndex < steps.length && statusEl) {
+              statusEl.style.opacity = '0';
+              setTimeout(function() {
+                statusEl.textContent = steps[stepIndex];
+                statusEl.style.opacity = '1';
+                stepIndex++;
+                if (stepIndex < steps.length) {
+                  setTimeout(nextStep, 800);
+                }
+              }, 150);
+            }
+          }
+          
+          setTimeout(nextStep, 600);
+          
+          // Fade out when React takes over
+          window.hideInitialLoader = function() {
+            var loader = document.getElementById('initial-loader');
+            if (loader) {
+              loader.classList.add('loader-fade-out');
+              setTimeout(function() {
+                loader.remove();
+              }, 400);
+            }
+          };
+        })();
+      </script>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
