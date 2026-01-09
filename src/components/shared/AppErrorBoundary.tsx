@@ -20,7 +20,7 @@ export class AppErrorBoundary extends React.Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Privacy-first: no external error reporting
     // Only log to console for debugging in development
-    if (process.env.NODE_ENV === "development") {
+    if (import.meta.env.DEV) {
       console.error("AppErrorBoundary caught:", error, errorInfo);
     }
   }
