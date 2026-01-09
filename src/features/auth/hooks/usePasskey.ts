@@ -92,13 +92,13 @@ export function usePasskey() {
    * Authenticate with a passkey
    * If email is omitted, uses discoverable (usernameless) credentials.
    */
-  const authenticateWithPasskey = useCallback(async (email?: string | null) => {
+  const authenticateWithPasskey = useCallback(async (inputEmail?: string | null) => {
     setState({ isLoading: true, error: null });
 
     try {
       // Get authentication options
       const { data: optionsData, error: optionsError } = await supabase.functions.invoke('passkey-auth', {
-        body: { action: 'authentication-options', ...(email ? { email } : {}) },
+        body: { action: 'authentication-options', ...(inputEmail ? { email: inputEmail } : {}) },
       });
 
       // IMPORTANT: throw the original invoke error to preserve status/body context
@@ -117,7 +117,7 @@ export function usePasskey() {
       const { data: verifyData, error: verifyError } = await supabase.functions.invoke('passkey-auth', {
         body: {
           action: 'authentication-verify',
-          ...(email ? { email } : {}),
+          ...(inputEmail ? { email: inputEmail } : {}),
           credential: {
             id: credential.id,
             rawId: credential.rawId,
@@ -134,14 +134,31 @@ export function usePasskey() {
         throw verifyError || new Error('Authentication failed');
       }
 
-      // Use the token to sign in
-      if (verifyData.token) {
+      // Use the token to sign in - handle both tokenHash and token formats
+      const tokenHash = verifyData.tokenHash || verifyData.token;
+      const resolvedEmail = verifyData.email;
+      
+      if (tokenHash && resolvedEmail) {
+        // Use verifyOtp with email + token_hash for proper session creation
         const { error: sessionError } = await supabase.auth.verifyOtp({
-          token_hash: verifyData.token,
+          email: resolvedEmail,
+          token_hash: tokenHash,
           type: 'magiclink',
         });
 
         if (sessionError) {
+          console.error('[usePasskey] Session creation failed:', sessionError);
+          throw new Error(sessionError.message);
+        }
+      } else if (tokenHash) {
+        // Fallback: try without email (less reliable)
+        const { error: sessionError } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: 'magiclink',
+        });
+
+        if (sessionError) {
+          console.error('[usePasskey] Session creation failed (no email):', sessionError);
           throw new Error(sessionError.message);
         }
       }

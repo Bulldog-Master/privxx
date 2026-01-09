@@ -608,10 +608,41 @@ serve(async (req) => {
           });
         }
 
-        // Extract token from link
-        const url = new URL(linkData.properties.action_link);
-        const token = url.searchParams.get('token');
-        const tokenType = url.searchParams.get('type');
+        // Extract token_hash from link properties (this is the correct format for verifyOtp)
+        // The hashed_token property is what verifyOtp expects
+        const tokenHash = linkData.properties?.hashed_token;
+        
+        if (!tokenHash) {
+          // Fallback: extract from action_link URL if hashed_token not available
+          const url = new URL(linkData.properties.action_link);
+          const urlToken = url.searchParams.get('token');
+          if (!urlToken) {
+            console.error('[passkey-auth] No token found in generated link');
+            return new Response(JSON.stringify({ error: 'Failed to create session' }), {
+              status: 500,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            });
+          }
+          
+          // Log successful authentication
+          await logAuditEvent(supabase, {
+            userId: storedCred.user_id,
+            eventType: 'passkey_auth_success',
+            success: true,
+            ...auditContext,
+            metadata: { email: resolvedEmail },
+          });
+
+          console.log('[passkey-auth] Authentication successful with cryptographic verification for:', storedCred.user_id);
+          return new Response(JSON.stringify({
+            success: true,
+            token: urlToken,
+            email: resolvedEmail,
+            userId: storedCred.user_id,
+          }), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
 
         // Log successful authentication
         await logAuditEvent(supabase, {
@@ -625,8 +656,8 @@ serve(async (req) => {
         console.log('[passkey-auth] Authentication successful with cryptographic verification for:', storedCred.user_id);
         return new Response(JSON.stringify({
           success: true,
-          token,
-          tokenType,
+          tokenHash,
+          email: resolvedEmail,
           userId: storedCred.user_id,
         }), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
