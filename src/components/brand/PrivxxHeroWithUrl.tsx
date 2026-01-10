@@ -6,7 +6,7 @@
  * Handles 403 session_locked by redirecting to unlock screen.
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PrivxxLogo from "./PrivxxLogo";
@@ -26,6 +26,10 @@ const PrivxxHeroWithUrl = () => {
   const { isLocked, isUnlocked, checkStatus: refreshIdentity, forceSetLocked } = useIdentity();
   const [url, setUrl] = useState("https://example.com");
   const [disconnecting, setDisconnecting] = useState(false);
+
+  // If the user explicitly clicked Disconnect but status polling is stale/flaky,
+  // keep the UI editable (don’t immediately lock the URL input again).
+  const [manualDisconnectRequested, setManualDisconnectRequested] = useState(false);
 
   // Use the centralized backend status context for rate limiting and initial state only
   // Do NOT use it for /status polling during connect flow - useConnectWithPolling handles that
@@ -55,34 +59,46 @@ const PrivxxHeroWithUrl = () => {
   const isConnectedFromStatus = currentState === "secure";
   const isIdle = currentState === "idle";
   const isError = currentState === "error";
-  
+
+  // If the backend status reflects we're NOT secure anymore, clear the manual override.
+  useEffect(() => {
+    if (currentState !== "secure") {
+      setManualDisconnectRequested(false);
+    }
+  }, [currentState]);
+
+  const effectiveConnected = !manualDisconnectRequested && (isConnectedFromStatus || isSecure);
+
   // Determine display states
   const showRateLimited = rateLimit.isRateLimited;
   const showLoginRequired = status.lastErrorCode === "UNAUTHORIZED" && !user;
   const showTokenExpired = status.lastErrorCode === "UNAUTHORIZED" && user;
   const showError = isError && !showLoginRequired && !showTokenExpired && !showRateLimited;
-  
+
   // Show unlock required if session is locked
   const showUnlockRequired = isLocked && user && !showRateLimited;
-  
+
   const canConnect = url.trim().length > 8 && isIdle && !showRateLimited && user && isUnlocked && !isConnecting && !isPolling;
-  const canDisconnect = (isConnectedFromStatus || isSecure) && !showRateLimited;
+  const canDisconnect = effectiveConnected && !showRateLimited;
 
   const onConnect = async () => {
     if (!canConnect) return;
+    setManualDisconnectRequested(false);
     await connect(url.trim());
   };
 
   const onDisconnect = async () => {
     if (!canDisconnect) return;
+    setManualDisconnectRequested(true);
     setDisconnecting(true);
     try {
       await bridgeClient.disconnect();
-      resetConnect();
-      await fetchStatus();
     } catch (err) {
       console.error("[Bridge] Disconnect failed:", err);
     } finally {
+      // Always reset local connect/polling UI so the URL field becomes editable.
+      resetConnect();
+      await fetchStatus().catch(() => {});
       setDisconnecting(false);
     }
   };
@@ -215,12 +231,12 @@ const PrivxxHeroWithUrl = () => {
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
-            disabled={isConnectedFromStatus || isSecure || isConnecting || isPolling || showRateLimited}
+            disabled={effectiveConnected || isConnecting || isPolling || showRateLimited}
           />
         </div>
 
         {/* Primary action area (kept layout-stable to prevent flashing) */}
-        {!isConnectedFromStatus && !isSecure && (
+        {!effectiveConnected && (
           <Button
             className="min-h-[48px] w-full text-base font-medium px-6"
             disabled={!canConnect || statusLoading || isConnecting || isPolling}
@@ -242,7 +258,7 @@ const PrivxxHeroWithUrl = () => {
         )}
 
         {/* Connected State */}
-        {(isConnectedFromStatus || isSecure) && !statusLoading && (
+        {effectiveConnected && !statusLoading && (
           <div className="space-y-3">
             <div className="rounded-lg border border-primary/30 bg-primary/10 p-4 space-y-2">
               <div className="flex items-center justify-center gap-2 text-primary font-semibold">
