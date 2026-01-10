@@ -369,12 +369,23 @@ export class BridgeClient implements IBridgeClient {
   // Connection (requires auth)
   /**
    * Connect through the Privxx tunnel to a target URL.
+   * Sends Phase-D connect_intent envelope as required by backend.
    * @param targetUrl - The destination URL to route through cMixx
    */
   async connect(targetUrl: string): Promise<ConnectResponse> {
+    // Phase-D connect_intent envelope format
+    const connectIntent = {
+      v: 1,
+      type: "connect_intent",
+      requestId: `req_${crypto.randomUUID().slice(0, 8)}`,
+      sessionId: `sess_${crypto.randomUUID().slice(0, 8)}`,
+      targetUrl,
+      clientTime: new Date().toISOString(),
+    };
+    
     return this.request("/connect", {
       method: "POST",
-      body: JSON.stringify({ targetUrl }),
+      body: JSON.stringify(connectIntent),
     });
   }
 
