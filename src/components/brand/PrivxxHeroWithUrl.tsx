@@ -60,12 +60,12 @@ const PrivxxHeroWithUrl = () => {
   const isIdle = currentState === "idle";
   const isError = currentState === "error";
 
-  // If the backend status reflects we're NOT secure anymore, clear the manual override.
+  // Only clear the manual override once the backend confirms we're no longer secure.
   useEffect(() => {
-    if (currentState !== "secure") {
+    if (manualDisconnectRequested && currentState !== "secure") {
       setManualDisconnectRequested(false);
     }
-  }, [currentState]);
+  }, [manualDisconnectRequested, currentState]);
 
   const effectiveConnected = !manualDisconnectRequested && (isConnectedFromStatus || isSecure);
 
