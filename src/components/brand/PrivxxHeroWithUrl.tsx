@@ -24,7 +24,7 @@ const PrivxxHeroWithUrl = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { isLocked, isUnlocked, checkStatus: refreshIdentity, forceSetLocked } = useIdentity();
-  const [url, setUrl] = useState("https://example.com");
+  const [url, setUrl] = useState("");
   const [disconnecting, setDisconnecting] = useState(false);
 
   // If the user explicitly clicked Disconnect but status polling is stale/flaky,
