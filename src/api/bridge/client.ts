@@ -190,11 +190,15 @@ export class BridgeClient implements IBridgeClient {
 
     let lastError: Error | null = null;
     let attempt = 0;
+    
+    // Debug: Log the full URL being called
+    const fullUrl = `${this.baseUrl}${path}`;
+    console.log(`[Bridge Request] ${method} ${fullUrl} [${correlationId}]`);
 
     while (attempt <= this.retryConfig.maxRetries) {
       try {
         const res = await this.fetchWithTimeout(
-          `${this.baseUrl}${path}`,
+          fullUrl,
           requestOptions,
           this.timeoutMs
         );
@@ -318,8 +322,16 @@ export class BridgeClient implements IBridgeClient {
 
         // Handle network errors
         if (err instanceof TypeError && err.message.includes("fetch")) {
+          // Log detailed network error info for debugging
+          console.error(`[Bridge Network Error] ${method} ${fullUrl}`, {
+            errorName: err.name,
+            errorMessage: err.message,
+            correlationId,
+            attempt,
+          });
+          
           const networkError = new BridgeError(
-            "Network connection failed",
+            `Network connection failed: ${err.message}`,
             "NETWORK_ERROR",
             undefined,
             correlationId,
@@ -332,6 +344,34 @@ export class BridgeClient implements IBridgeClient {
               `[Bridge] ${path} network error (${latency}ms) [${correlationId}], ` +
               `retrying in ${backoff}ms (attempt ${attempt + 1}/${this.retryConfig.maxRetries})`
             );
+            await this.sleep(backoff);
+            attempt++;
+            lastError = networkError;
+            continue;
+          }
+          
+          throw networkError;
+        }
+        
+        // Catch-all for other fetch failures (CORS, blocked, etc.)
+        if (err instanceof Error) {
+          console.error(`[Bridge Fetch Error] ${method} ${fullUrl}`, {
+            errorName: err.name,
+            errorMessage: err.message,
+            correlationId,
+            attempt,
+          });
+          
+          const networkError = new BridgeError(
+            `Fetch failed: ${err.name} - ${err.message}`,
+            "NETWORK_ERROR",
+            undefined,
+            correlationId,
+            isIdempotent
+          );
+          
+          if (isIdempotent && attempt < this.retryConfig.maxRetries) {
+            const backoff = this.calculateBackoff(attempt);
             await this.sleep(backoff);
             attempt++;
             lastError = networkError;

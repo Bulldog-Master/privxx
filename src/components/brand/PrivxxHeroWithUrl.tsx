@@ -78,8 +78,7 @@ const PrivxxHeroWithUrl = () => {
   // Show unlock required if session is locked
   const showUnlockRequired = isLocked && user && !showRateLimited;
 
-  // Allow connect attempts when idle OR error (let the connect call fail with proper error)
-  const canConnect = url.trim().length > 8 && (isIdle || isError) && !showRateLimited && user && isUnlocked && !isConnecting && !isPolling;
+  const canConnect = url.trim().length > 8 && isIdle && !showRateLimited && user && isUnlocked && !isConnecting && !isPolling;
   const canDisconnect = effectiveConnected && !showRateLimited;
 
   const onConnect = async () => {
