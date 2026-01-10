@@ -1120,5 +1120,20 @@
     "simulated": "routing simulated"
   },
   
+  "prodStatus": {
+    "api": "API",
+    "online": "Online",
+    "offline": "Offline",
+    "ready": "Ready",
+    "notReady": "Not Ready",
+    "session": "Session",
+    "secure": "Secure",
+    "unlocked": "Unlocked",
+    "locked": "Locked",
+    "idle": "Idle",
+    "noAuth": "No Auth",
+    "version": "Version"
+  },
+  
   "optional": "optional"
 }
