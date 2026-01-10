@@ -286,7 +286,7 @@ const PrivxxHeroWithUrl = () => {
                 )}
                 {displayLatency != null && (
                   <div className="flex justify-between">
-                    <span>{t("latency", "Latency")}:</span>
+                    <span>{t("tunnelLatency", "Latency")}:</span>
                     <span className="font-mono">{displayLatency}ms</span>
                   </div>
                 )}
