@@ -60,12 +60,14 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
   onDiscoveredIdsRef.current = onDiscoveredIds;
 
   const fetchInbox = useCallback(async () => {
-    // Phase-1: poll even while locked (ciphertext-only, no decryption needed)
-    // But require auth to prevent 401 spam
+    // Phase-1: poll even while locked (ciphertext-only), but require auth to prevent 401 spam
+    if (!isAuthenticated) return;
     if (inFlightRef.current) return;
-    inFlightRef.current = true;
     
+    inFlightRef.current = true;
     setError(null);
+    
+    // Show spinner only until we get the first successful payload
     if (!didFirstLoadRef.current) {
       setIsLoading(true);
     }
@@ -104,16 +106,18 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
       });
       
       setUndeliveredByConv(countsByConv);
+      
+      // ✅ Mark first successful load only on success
+      didFirstLoadRef.current = true;
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Failed to load inbox";
       setError(msg);
       console.error("[useInboxPoll] Fetch error:", e);
     } finally {
       setIsLoading(false);
-      didFirstLoadRef.current = true;
       inFlightRef.current = false;
     }
-  }, [limit]); // Minimal deps — uses refs for callbacks
+  }, [isAuthenticated, limit]); // Minimal deps — uses refs for callbacks
 
   // Polling lifecycle — simplified cleanup via effect return
   useEffect(() => {
@@ -121,14 +125,14 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
     const canPoll = isAuthenticated && isInitialized && tabVisible;
     if (!canPoll) return;
     
-    // Initial fetch on activation
-    fetchInbox();
+    // Define focus handler before adding listener
+    const handleFocus = () => fetchInbox();
+    
+    // One initial fetch on activation (async tick avoids racing focus event)
+    setTimeout(() => fetchInbox(), 0);
     
     // Set up polling interval
     const timerId = window.setInterval(fetchInbox, intervalMs);
-    
-    // One-shot refresh on focus restore
-    const handleFocus = () => fetchInbox();
     window.addEventListener("focus", handleFocus);
     
     // Cleanup handles all stop conditions
