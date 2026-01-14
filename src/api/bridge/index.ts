@@ -120,4 +120,14 @@ export type {
   HealthResponse,
   ConnectResponse,
   DisconnectResponse,
+  // Phase-1 message types
+  InboxRequest,
+  InboxResponse,
+  ThreadRequest,
+  ThreadResponse,
+  SendMessageRequest,
+  MessageItem,
 } from "./types";
+
+// Re-export message types from dedicated file
+export type { SendMessageResponse } from "./messageTypes";
