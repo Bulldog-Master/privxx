@@ -1,32 +1,28 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Send, Loader2, AlertCircle, User, AlertTriangle } from "lucide-react";
+import { Send, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { bridgeClient } from "@/api/bridge";
 import { toast } from "sonner";
 import { useIdentity } from "@/features/identity";
-import { ContactPicker } from "./components/ContactPicker";
-import { QRCodeDialog } from "./components/QRCodeDialog";
-import { getCmixxIdError, isValidCmixxId } from "./types";
 import type { DemoMessage } from "./types";
 
 interface ComposeProps {
+  /** The selected conversation ID (bridge-assigned) — required for sending */
+  conversationId: string;
   onOptimistic: (message: DemoMessage) => void;
   onOptimisticRemove: (messageId: string) => void;
 }
 
-export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
+export function Compose({ conversationId, onOptimistic, onOptimisticRemove }: ComposeProps) {
   const { t } = useTranslation();
   const { isUnlocked } = useIdentity();
   
-  const [recipient, setRecipient] = useState("self");
   const [body, setBody] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState<string | undefined>();
-  const [showValidation, setShowValidation] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // Focus textarea when unlocked
@@ -36,40 +32,12 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     }
   }, [isUnlocked]);
 
-  // Validate recipient ID
-  const recipientError = useMemo(() => {
-    if (!showValidation) return null;
-    const errorKey = getCmixxIdError(recipient);
-    if (!errorKey) return null;
-    return t(errorKey, errorKey);
-  }, [recipient, showValidation, t]);
-
-  const isRecipientValid = useMemo(() => {
-    return isValidCmixxId(recipient);
-  }, [recipient]);
-
   const canSend = useMemo(() => {
-    return isUnlocked && !isSending && isRecipientValid && body.trim().length > 0;
-  }, [isUnlocked, isSending, isRecipientValid, body]);
-
-  const handleRecipientBlur = () => {
-    if (recipient.trim() && recipient !== "self") {
-      setShowValidation(true);
-    }
-  };
-
-  const handleRecipientChange = (value: string) => {
-    setRecipient(value);
-    if (showValidation) {
-      setShowValidation(false);
-    }
-  };
+    return isUnlocked && !isSending && conversationId && body.trim().length > 0;
+  }, [isUnlocked, isSending, conversationId, body]);
 
   const handleSend = async () => {
-    if (!canSend) {
-      setShowValidation(true);
-      return;
-    }
+    if (!canSend) return;
     setError(undefined);
     setIsSending(true);
 
@@ -87,10 +55,10 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     onOptimistic(optimistic);
 
     try {
-      // Use new Phase-1 contract: sendMessage handles session issuance internally
+      // Phase-1 contract: conversationId + plaintextB64 (base64-encoded)
       await bridgeClient.sendMessage({
-        recipient: recipient.trim(),
-        message: body.trim(),
+        conversationId,
+        plaintextB64: btoa(body.trim()),
       });
       setBody("");
       toast.success(t("messageSent", "Message sent"));
@@ -106,9 +74,6 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     }
   };
 
-  // Generate a demo public ID for QR code
-  const myPublicId = "demo-" + (crypto.randomUUID?.()?.slice(0, 8) || "user");
-
   // Locked state hint
   if (!isUnlocked) {
     return (
@@ -122,57 +87,7 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
   }
 
   return (
-    <div className="border-t border-primary/20 p-4 space-y-4">
-      {/* Recipient */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="recipient" className="text-xs text-primary/80">
-            {t("composeRecipient", "Recipient")}
-          </Label>
-          <div className="flex items-center gap-1">
-            <ContactPicker
-              currentRecipient={recipient}
-              onSelect={(id) => {
-                setRecipient(id);
-                setShowValidation(false);
-              }}
-            />
-            <QRCodeDialog
-              myId={myPublicId}
-              onScan={(id) => {
-                setRecipient(id);
-                setShowValidation(false);
-              }}
-            />
-          </div>
-        </div>
-        <div className="relative">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary/60" />
-          <Input
-            id="recipient"
-            value={recipient}
-            onChange={(e) => handleRecipientChange(e.target.value)}
-            onBlur={handleRecipientBlur}
-            placeholder={t("composeRecipientPlaceholder", "Enter recipient ID or 'self'")}
-            disabled={isSending}
-            className={`pl-9 h-10 border-primary/40 text-primary placeholder:text-primary/50 font-mono text-sm ${
-              recipientError ? "border-destructive" : ""
-            }`}
-          />
-        </div>
-        {recipientError && (
-          <div className="flex items-center gap-1.5 text-xs text-destructive">
-            <AlertTriangle className="h-3 w-3" />
-            {recipientError}
-          </div>
-        )}
-        {!recipientError && recipient !== "self" && recipient.length > 0 && (
-          <p className="text-xs text-muted-foreground">
-            {t("recipientIdHint", "cMixx ID: 44-character base64 string ending with '='")}
-          </p>
-        )}
-      </div>
-
+    <div className="border-t border-primary/20 p-4 space-y-3">
       {/* Message */}
       <div className="space-y-2">
         <Label htmlFor="message" className="text-xs text-primary/80">
@@ -188,7 +103,7 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
           }}
           placeholder={t("composeMessagePlaceholder", "Type your message...")}
           disabled={isSending}
-          className="min-h-[100px] resize-none border-primary/40 text-primary placeholder:text-primary/50"
+          className="min-h-[80px] resize-none border-primary/40 text-primary placeholder:text-primary/50"
           maxLength={2000}
         />
         <div className="flex items-center justify-between text-xs text-primary/60">
