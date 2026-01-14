@@ -213,8 +213,12 @@ function ConversationRow({
 }) {
   const { t } = useTranslation();
   const rowRef = useRef<HTMLDivElement>(null);
+  
+  // Stable ref to avoid observer churn when parent re-renders
+  const onVisibleRef = useRef(onVisible);
+  onVisibleRef.current = onVisible;
 
-  // Intersection observer for lazy preview fetching
+  // Intersection observer for lazy preview fetching (stable deps)
   useEffect(() => {
     const element = rowRef.current;
     if (!element) return;
@@ -222,7 +226,7 @@ function ConversationRow({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          onVisible(conversation.conversationId);
+          onVisibleRef.current(conversation.conversationId);
         }
       },
       { threshold: 0.1 }
@@ -230,14 +234,14 @@ function ConversationRow({
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [conversation.conversationId, onVisible]);
+  }, [conversation.conversationId]); // ✅ no onVisible dep - uses ref
 
   // Also fetch preview if undelivered
   useEffect(() => {
     if (conversation.undeliveredCount > 0) {
-      onVisible(conversation.conversationId);
+      onVisibleRef.current(conversation.conversationId);
     }
-  }, [conversation.undeliveredCount, conversation.conversationId, onVisible]);
+  }, [conversation.undeliveredCount, conversation.conversationId]);
 
   const formatTime = (unixSeconds?: number): string => {
     if (!unixSeconds) return "";
