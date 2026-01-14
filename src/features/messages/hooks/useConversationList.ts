@@ -109,12 +109,15 @@ export function useConversationList(): UseConversationListReturn {
   }, [knownConversationIds, undeliveredByConv, getPreview]);
 
   // Eagerly fetch previews for top 20 conversations on initial load
+  // Use topKey to trigger on order changes, not just length
+  const topKey = conversations.slice(0, 20).map((c) => c.conversationId).join("|");
+  
   useEffect(() => {
-    if (conversations.length > 0 && !isLoading) {
-      const topIds = conversations.slice(0, 20).map((c) => c.conversationId);
+    if (topKey && !isLoading) {
+      const topIds = topKey.split("|");
       fetchTopN(topIds, 20);
     }
-  }, [conversations.length, isLoading, fetchTopN]);
+  }, [topKey, isLoading, fetchTopN]);
 
   // Wrapper to request preview with priority refresh for undelivered
   const fetchPreview = useCallback((conversationId: string) => {
