@@ -51,7 +51,6 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  const pollTimerRef = useRef<number | null>(null);
   const inFlightRef = useRef(false);
   const didFirstLoadRef = useRef(false);
   
