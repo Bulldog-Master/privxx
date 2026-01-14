@@ -5,21 +5,29 @@
  * - Undelivered badge (New/Undelivered — NOT "Unread")
  * - Lazy preview fetching via intersection observer
  * - Sorted: undelivered first, then by recency
+ * - Nickname support with edit dialog
  */
 
-import { useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { RefreshCw, MessageSquare, Lock, AlertCircle, Mail } from "lucide-react";
+import { RefreshCw, MessageSquare, Lock, AlertCircle, Mail, MoreVertical, Edit2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useConversationList } from "../hooks/useConversationList";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/features/identity";
 import type { ConvMeta } from "../conversationTypes";
 import { Link } from "react-router-dom";
+import { NicknameDialog } from "./NicknameDialog";
 
 interface ConversationListProps {
   /** Called when a conversation is selected */
@@ -40,7 +48,30 @@ export function ConversationList({ onSelectConversation, className }: Conversati
     fetchPreview,
     totalUndelivered,
     getNickname,
+    setNickname,
+    clearNickname,
   } = useConversationList();
+
+  // Nickname dialog state
+  const [nicknameDialogOpen, setNicknameDialogOpen] = useState(false);
+  const [editingConversationId, setEditingConversationId] = useState<string | null>(null);
+
+  const handleEditNickname = useCallback((conversationId: string) => {
+    setEditingConversationId(conversationId);
+    setNicknameDialogOpen(true);
+  }, []);
+
+  const handleSaveNickname = useCallback((nickname: string) => {
+    if (editingConversationId) {
+      setNickname(editingConversationId, nickname);
+    }
+  }, [editingConversationId, setNickname]);
+
+  const handleClearNickname = useCallback(() => {
+    if (editingConversationId) {
+      clearNickname(editingConversationId);
+    }
+  }, [editingConversationId, clearNickname]);
 
   // Show skeleton during initialization
   if (!identityInitialized || identityLoading || isSettling) {
@@ -145,10 +176,21 @@ export function ConversationList({ onSelectConversation, className }: Conversati
               nickname={getNickname(conv.conversationId)}
               onSelect={onSelectConversation}
               onVisible={fetchPreview}
+              onEditNickname={handleEditNickname}
             />
           ))}
         </div>
       </ScrollArea>
+
+      {/* Nickname edit dialog */}
+      <NicknameDialog
+        open={nicknameDialogOpen}
+        onOpenChange={setNicknameDialogOpen}
+        conversationId={editingConversationId ?? ""}
+        currentNickname={editingConversationId ? getNickname(editingConversationId) : undefined}
+        onSave={handleSaveNickname}
+        onClear={handleClearNickname}
+      />
     </div>
   );
 }
@@ -161,14 +203,16 @@ function ConversationRow({
   nickname,
   onSelect,
   onVisible,
+  onEditNickname,
 }: {
   conversation: ConvMeta;
   nickname?: string;
   onSelect: (id: string) => void;
   onVisible: (id: string) => void;
+  onEditNickname: (id: string) => void;
 }) {
   const { t } = useTranslation();
-  const rowRef = useRef<HTMLButtonElement>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
 
   // Intersection observer for lazy preview fetching
   useEffect(() => {
@@ -208,18 +252,20 @@ function ConversationRow({
   };
 
   return (
-    <button
+    <div
       ref={rowRef}
-      onClick={() => onSelect(conversation.conversationId)}
       className={cn(
-        "w-full text-left p-3 rounded-lg transition-colors",
-        "hover:bg-primary/5 focus:bg-primary/10 focus:outline-none",
+        "w-full text-left p-3 rounded-lg transition-colors group",
+        "hover:bg-primary/5 focus-within:bg-primary/10",
         conversation.undeliveredCount > 0 && "bg-primary/5 border border-primary/20"
       )}
     >
       <div className="flex items-start justify-between gap-2">
-        {/* Left: Icon + ID */}
-        <div className="flex items-center gap-2 min-w-0 flex-1">
+        {/* Left: Icon + ID (clickable area) */}
+        <button
+          onClick={() => onSelect(conversation.conversationId)}
+          className="flex items-center gap-2 min-w-0 flex-1 text-left focus:outline-none"
+        >
           <div className={cn(
             "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center",
             conversation.undeliveredCount > 0 
@@ -245,26 +291,50 @@ function ConversationRow({
               {t("messages.encryptedPlaceholder", "Encrypted message (Phase-1)")}
             </p>
           </div>
-        </div>
+        </button>
 
-        {/* Right: Time + Badge */}
-        <div className="flex flex-col items-end gap-1 flex-shrink-0">
-          {conversation.lastSeenAtUnix && (
-            <span className="text-xs text-muted-foreground">
-              {formatTime(conversation.lastSeenAtUnix)}
-            </span>
-          )}
-          {conversation.undeliveredCount > 0 && (
-            <Badge 
-              variant="default" 
-              className="text-xs min-w-[1.5rem] justify-center"
-            >
-              {conversation.undeliveredCount > 99 ? "99+" : conversation.undeliveredCount}
-            </Badge>
-          )}
+        {/* Right: Time + Badge + Menu */}
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <div className="flex flex-col items-end gap-1">
+            {conversation.lastSeenAtUnix && (
+              <span className="text-xs text-muted-foreground">
+                {formatTime(conversation.lastSeenAtUnix)}
+              </span>
+            )}
+            {conversation.undeliveredCount > 0 && (
+              <Badge 
+                variant="default" 
+                className="text-xs min-w-[1.5rem] justify-center"
+              >
+                {conversation.undeliveredCount > 99 ? "99+" : conversation.undeliveredCount}
+              </Badge>
+            )}
+          </div>
+          
+          {/* Actions menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <MoreVertical className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => onEditNickname(conversation.conversationId)}>
+                <Edit2 className="h-4 w-4 mr-2" />
+                {nickname 
+                  ? t("nickname.edit", "Edit Nickname")
+                  : t("nickname.set", "Set Nickname")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
-    </button>
+    </div>
   );
 }
 
