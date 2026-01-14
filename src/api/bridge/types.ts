@@ -237,6 +237,9 @@ import type {
   ThreadResponse,
   SendMessageRequest,
   SendMessageResponse as NewSendMessageResponse,
+  IssueSessionRequest,
+  IssueSessionResponse,
+  SessionPurpose,
 } from "./messageTypes";
 
 export type {
@@ -246,6 +249,9 @@ export type {
   ThreadRequest,
   ThreadResponse,
   SendMessageRequest,
+  IssueSessionRequest,
+  IssueSessionResponse,
+  SessionPurpose,
 };
 
 export interface IBridgeClient {
@@ -264,13 +270,17 @@ export interface IBridgeClient {
   unlock(password: string): Promise<UnlockResponse>;
   lock(): Promise<LockResponse>;
   
+  // Session issuance (Phase-1 messaging)
+  /** POST /session/issue - obtain sessionId for messaging operations */
+  issueSession(req: IssueSessionRequest): Promise<IssueSessionResponse>;
+  
   // Messages (Phase-1 contract)
   /** POST /message/inbox - queue view (available messages only) */
-  fetchInbox(req: InboxRequest): Promise<InboxResponse>;
+  fetchInbox(req?: { limit?: number }): Promise<InboxResponse>;
   /** POST /message/thread - history view for a conversation */
-  fetchThread(req: ThreadRequest): Promise<ThreadResponse>;
+  fetchThread(req: { conversationId: string; limit?: number }): Promise<ThreadResponse>;
   /** POST /message/send - queue outbound message */
-  sendMessage(req: SendMessageRequest): Promise<NewSendMessageResponse>;
+  sendMessage(req: { recipient: string; message: string; conversationId?: string }): Promise<NewSendMessageResponse>;
   
   // Legacy methods (deprecated)
   /** @deprecated Use fetchInbox instead */

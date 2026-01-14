@@ -12,17 +12,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Lock, RefreshCw, MessageSquare } from "lucide-react";
-import type { MessageItem, ThreadResponse } from "@/api/bridge/messageTypes";
+import { bridgeClient } from "@/api/bridge";
+import type { MessageItem } from "@/api/bridge/messageTypes";
 import { cn } from "@/lib/utils";
 
 interface ThreadViewProps {
   conversationId: string;
-  sessionId: string;
-  fetchThread: (req: { sessionId: string; conversationId: string; limit?: number }) => Promise<ThreadResponse>;
   className?: string;
 }
 
-export function ThreadView({ conversationId, sessionId, fetchThread, className }: ThreadViewProps) {
+export function ThreadView({ conversationId, className }: ThreadViewProps) {
   const { t } = useTranslation();
   const [messages, setMessages] = useState<MessageItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,14 +29,14 @@ export function ThreadView({ conversationId, sessionId, fetchThread, className }
   const [serverTime, setServerTime] = useState<string | null>(null);
 
   const loadThread = useCallback(async () => {
-    if (!sessionId || !conversationId) return;
+    if (!conversationId) return;
     
     setIsLoading(true);
     setError(null);
     
     try {
-      const response = await fetchThread({
-        sessionId,
+      // BridgeClient handles session issuance internally
+      const response = await bridgeClient.fetchThread({
         conversationId,
         limit: 50,
       });
@@ -50,7 +49,7 @@ export function ThreadView({ conversationId, sessionId, fetchThread, className }
     } finally {
       setIsLoading(false);
     }
-  }, [sessionId, conversationId, fetchThread]);
+  }, [conversationId]);
 
   useEffect(() => {
     loadThread();

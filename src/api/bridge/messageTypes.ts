@@ -2,6 +2,7 @@
  * Privxx Bridge Messaging API Types (Phase-1 Contract)
  * 
  * ARCHITECTURE:
+ * - POST /session/issue = obtain sessionId for messaging operations
  * - POST /message/inbox = queue view (available-only)
  * - POST /message/thread = history view (includes consumed by default)
  * 
@@ -11,7 +12,40 @@
  * - payloadCiphertextB64 is OPAQUE in Phase-1 (no client-side decryption)
  * - conversationId is bridge-assigned (do not derive client-side)
  * - Items are returned newest-first
+ * - sessionId must be issued via /session/issue (not hardcoded)
  */
+
+// =============================================================================
+// SESSION ISSUANCE (POST /session/issue)
+// =============================================================================
+
+export type SessionPurpose = "message_receive" | "message_send";
+
+/**
+ * POST /session/issue — Request body
+ * 
+ * Obtain a sessionId for messaging operations.
+ * 
+ * @example For inbox: { purpose: "message_receive", conversationId: null }
+ * @example For thread: { purpose: "message_receive", conversationId: "conv_123" }
+ * @example For send: { purpose: "message_send", conversationId: "conv_123" }
+ */
+export interface IssueSessionRequest {
+  /** Purpose of the session */
+  purpose: SessionPurpose;
+  /** Conversation ID (null for inbox, required for thread/send) */
+  conversationId: string | null;
+}
+
+/**
+ * POST /session/issue — Response
+ */
+export interface IssueSessionResponse {
+  /** Issued session ID to use in subsequent calls */
+  sessionId: string;
+  /** Server time (ISO 8601) */
+  serverTime?: string;
+}
 
 // =============================================================================
 // MESSAGE ITEM (shared response shape)
@@ -52,13 +86,10 @@ export interface MessageItem {
 // =============================================================================
 
 /**
- * POST /message/inbox — Request body
- * 
- * Returns ONLY messages where state == "available"
- * Use for: badge counts, delivery queue processing
+ * POST /message/inbox — Request body (internal use)
  */
 export interface InboxRequest {
-  /** Session identifier (from unlock) */
+  /** Session identifier (from /session/issue) */
   sessionId: string;
   /** Max items to return (default: 10) */
   limit?: number;
@@ -79,13 +110,10 @@ export interface InboxResponse {
 // =============================================================================
 
 /**
- * POST /message/thread — Request body
- * 
- * Returns conversation history (both available + consumed by default)
- * Use for: rendering full chat history in UI
+ * POST /message/thread — Request body (internal use)
  */
 export interface ThreadRequest {
-  /** Session identifier (from unlock) */
+  /** Session identifier (from /session/issue) */
   sessionId: string;
   /** Conversation identifier */
   conversationId: string;
@@ -106,14 +134,14 @@ export interface ThreadResponse {
 }
 
 // =============================================================================
-// SEND ENDPOINT (POST /message/send) — kept for compatibility
+// SEND ENDPOINT (POST /message/send)
 // =============================================================================
 
 /**
- * POST /message/send — Request body
+ * POST /message/send — Request body (internal use)
  */
 export interface SendMessageRequest {
-  /** Session identifier */
+  /** Session identifier (from /session/issue with purpose: "message_send") */
   sessionId: string;
   /** Recipient cMixx ID */
   recipient: string;

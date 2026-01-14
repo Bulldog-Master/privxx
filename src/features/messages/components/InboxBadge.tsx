@@ -6,20 +6,19 @@
  */
 
 import { useEffect, useState, useCallback } from "react";
+import { bridgeClient } from "@/api/bridge";
 import { cn } from "@/lib/utils";
-import type { InboxResponse } from "@/api/bridge/messageTypes";
 
 interface InboxBadgeProps {
-  sessionId: string;
-  fetchInbox: (req: { sessionId: string; limit?: number }) => Promise<InboxResponse>;
+  /** Whether the badge should poll for updates */
+  enabled?: boolean;
   /** Polling interval in ms (default: 30000) */
   pollInterval?: number;
   className?: string;
 }
 
 export function InboxBadge({ 
-  sessionId, 
-  fetchInbox, 
+  enabled = true,
   pollInterval = 30000,
   className 
 }: InboxBadgeProps) {
@@ -27,14 +26,15 @@ export function InboxBadge({
   const [isLoading, setIsLoading] = useState(true);
 
   const loadCount = useCallback(async () => {
-    if (!sessionId) {
+    if (!enabled) {
       setCount(0);
       setIsLoading(false);
       return;
     }
     
     try {
-      const response = await fetchInbox({ sessionId, limit: 100 });
+      // BridgeClient handles session issuance internally
+      const response = await bridgeClient.fetchInbox({ limit: 100 });
       // Count only available messages
       const availableCount = response.items?.filter(m => m.state === "available").length ?? 0;
       setCount(availableCount);
@@ -44,17 +44,17 @@ export function InboxBadge({
     } finally {
       setIsLoading(false);
     }
-  }, [sessionId, fetchInbox]);
+  }, [enabled]);
 
   useEffect(() => {
     loadCount();
     
     // Set up polling
-    if (pollInterval > 0 && sessionId) {
+    if (pollInterval > 0 && enabled) {
       const interval = setInterval(loadCount, pollInterval);
       return () => clearInterval(interval);
     }
-  }, [loadCount, pollInterval, sessionId]);
+  }, [loadCount, pollInterval, enabled]);
 
   // Don't show badge if no messages or still loading initially
   if (isLoading || count === 0) {

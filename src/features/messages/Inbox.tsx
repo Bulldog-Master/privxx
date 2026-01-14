@@ -25,6 +25,7 @@ interface InboxProps {
   error?: string;
   onRefresh: () => void;
   isUnlocked: boolean;
+  onSelectConversation?: (conversationId: string) => void;
 }
 
 function formatTimestamp(ts: number): string {

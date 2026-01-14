@@ -14,14 +14,11 @@ import type {
   HealthResponse,
   ConnectResponse,
   DisconnectResponse,
-  InboxRequest,
   InboxResponse,
-  ThreadRequest,
   ThreadResponse,
-  SendMessageRequest,
   MessageItem,
 } from "./types";
-import type { SendMessageResponse } from "./messageTypes";
+import type { SendMessageResponse, IssueSessionResponse } from "./messageTypes";
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -33,7 +30,7 @@ export class MockBridgeClient implements IBridgeClient {
   private locked = true;
   private unlockExpiresAt: string | null = null;
   private connectionState: "idle" | "connecting" | "secure" = "idle";
-  private sessionId: string | null = null;
+  private sessionCounter = 0;
 
   // Health (public, no auth)
   async health(): Promise<HealthResponse> {
@@ -90,7 +87,6 @@ export class MockBridgeClient implements IBridgeClient {
   async unlock(_password: string): Promise<UnlockResponse> {
     await sleep(300);
     this.locked = false;
-    this.sessionId = `sess_mock_${Date.now()}`;
     // Mock 15-minute session (899 seconds to match live bridge)
     const expiresAt = new Date(Date.now() + 899 * 1000).toISOString();
     this.unlockExpiresAt = expiresAt;
@@ -128,17 +124,27 @@ export class MockBridgeClient implements IBridgeClient {
     await sleep(100);
     this.locked = true;
     this.unlockExpiresAt = null;
-    this.sessionId = null;
     this.mockMessages = [];
     this.legacyMessages = [];
     return { success: true };
   }
 
-  // Phase-1 Message endpoints
+  // Phase-1 Session and Message endpoints
 
-  async fetchInbox(req: InboxRequest): Promise<InboxResponse> {
+  /** POST /session/issue - obtain sessionId for messaging operations */
+  async issueSession(req: { purpose: "message_receive" | "message_send"; conversationId: string | null }): Promise<IssueSessionResponse> {
+    await sleep(50);
+    this.sessionCounter++;
+    return {
+      sessionId: `sess_mock_${req.purpose}_${this.sessionCounter}_${Date.now()}`,
+      serverTime: new Date().toISOString(),
+    };
+  }
+
+  /** POST /message/inbox - internally issues session */
+  async fetchInbox(req?: { limit?: number }): Promise<InboxResponse> {
     await sleep(100);
-    const limit = req.limit ?? 10;
+    const limit = req?.limit ?? 10;
     const availableMessages = this.mockMessages
       .filter(m => m.state === "available")
       .slice(0, limit);
@@ -149,32 +155,31 @@ export class MockBridgeClient implements IBridgeClient {
     };
   }
 
-  async fetchThread(req: ThreadRequest): Promise<ThreadResponse> {
+  /** POST /message/thread - internally issues session */
+  async fetchThread(req: { conversationId: string; limit?: number }): Promise<ThreadResponse> {
     await sleep(100);
     const limit = req.limit ?? 10;
-    const includeConsumed = req.includeConsumed ?? true;
     
-    let threadMessages = this.mockMessages
-      .filter(m => m.conversationId === req.conversationId);
-    
-    if (!includeConsumed) {
-      threadMessages = threadMessages.filter(m => m.state === "available");
-    }
+    const threadMessages = this.mockMessages
+      .filter(m => m.conversationId === req.conversationId)
+      .slice(0, limit);
     
     return {
-      items: threadMessages.length > 0 ? threadMessages.slice(0, limit) : null,
+      items: threadMessages.length > 0 ? threadMessages : null,
       serverTime: new Date().toISOString(),
     };
   }
 
-  async sendMessage(req: SendMessageRequest): Promise<SendMessageResponse> {
+  /** POST /message/send - internally issues session */
+  async sendMessage(req: { recipient: string; message: string; conversationId?: string }): Promise<SendMessageResponse> {
     await sleep(150);
     const now = Math.floor(Date.now() / 1000);
     const messageId = `msg_mock_${now}`;
+    const conversationId = req.conversationId ?? `conv_${req.recipient}`;
     
     // Add to mock messages
     const newMessage: MessageItem = {
-      conversationId: `conv_${req.recipient}`,
+      conversationId,
       payloadCiphertextB64: btoa(req.message),
       envelopeFingerprint: `fp_${messageId}`,
       createdAtUnix: now,
@@ -188,7 +193,7 @@ export class MockBridgeClient implements IBridgeClient {
     if (req.recipient === "self" || req.recipient === "me") {
       setTimeout(() => {
         const echoMessage: MessageItem = {
-          conversationId: `conv_${req.recipient}`,
+          conversationId,
           payloadCiphertextB64: btoa(`Echo: ${req.message}`),
           envelopeFingerprint: `fp_echo_${Date.now()}`,
           createdAtUnix: Math.floor(Date.now() / 1000),
