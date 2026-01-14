@@ -128,8 +128,8 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
     // Define focus handler before adding listener
     const handleFocus = () => fetchInbox();
     
-    // One initial fetch on activation (async tick avoids racing focus event)
-    setTimeout(() => fetchInbox(), 0);
+    // One immediate fetch on activation (no setTimeout to avoid duplicate)
+    fetchInbox();
     
     // Set up polling interval
     const timerId = window.setInterval(fetchInbox, intervalMs);
