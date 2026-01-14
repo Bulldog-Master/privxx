@@ -129,18 +129,10 @@ export function useConversationList(): UseConversationListReturn {
       });
       
     } catch (e) {
-      // Handle 404 gracefully (endpoint not implemented)
-      const isBridgeError = e && typeof e === "object" && "code" in e;
-      const errorCode = isBridgeError ? (e as { code: string }).code : undefined;
-      
-      if (errorCode === "NOT_FOUND") {
-        // Empty state, not an error
-        console.debug("[ConversationList] Inbox endpoint not available");
-      } else {
-        const msg = e instanceof Error ? e.message : "Failed to load conversations";
-        setError(msg);
-        console.error("[ConversationList] Inbox fetch error:", e);
-      }
+      // Surface errors for initial inbox load - no special-casing
+      const msg = e instanceof Error ? e.message : "Failed to load conversations";
+      setError(msg);
+      console.error("[ConversationList] Inbox fetch error:", e);
     } finally {
       setIsLoading(false);
       inFlightRef.current = false;

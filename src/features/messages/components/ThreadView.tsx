@@ -168,8 +168,8 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
     );
   }
 
-  // Messages are newest-first from API, reverse for chronological display
-  const chronologicalMessages = [...messages].reverse();
+  // Sort by createdAtUnix ascending for chronological display (ordering is best-effort)
+  const chronologicalMessages = [...messages].sort((a, b) => a.createdAtUnix - b.createdAtUnix);
 
   return (
     <ScrollArea className={cn("h-[400px]", className)}>
