@@ -9,6 +9,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useIdentity } from "@/features/identity";
+import { useAuth } from "@/contexts/AuthContext";
 import { bridgeClient } from "@/api/bridge";
 import { useTabVisibility } from "./useTabVisibility";
 
@@ -42,6 +43,7 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
   const { intervalMs = DEFAULT_POLL_INTERVAL_MS, limit = 100, onDiscoveredIds } = options;
   
   const { isInitialized } = useIdentity();
+  const { isAuthenticated } = useAuth();
   const tabVisible = useTabVisibility();
   
   const [undeliveredByConv, setUndeliveredByConv] = useState<Record<string, number>>({});
@@ -51,47 +53,52 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
   
   const pollTimerRef = useRef<number | null>(null);
   const inFlightRef = useRef(false);
+  
+  // Stable refs to avoid interval churn from closing over changing state
+  const onDiscoveredIdsRef = useRef(onDiscoveredIds);
+  onDiscoveredIdsRef.current = onDiscoveredIds;
 
   const fetchInbox = useCallback(async () => {
     // Phase-1: poll even while locked (ciphertext-only, no decryption needed)
+    // But require auth to prevent 401 spam
     if (inFlightRef.current) return;
     inFlightRef.current = true;
     
     setError(null);
-    if (Object.keys(undeliveredByConv).length === 0) {
-      setIsLoading(true);
-    }
+    setIsLoading((prev) => prev || true); // Only set true on first load
     
     try {
       const response = await bridgeClient.fetchInbox({ limit });
       const items = response.items ?? [];
       
-      // Group by conversationId
+      // Group by conversationId using functional setState to avoid stale closures
       const countsByConv: Record<string, number> = {};
-      const newIds: string[] = [];
+      const allConvIds: string[] = [];
       
       items.forEach((item) => {
         countsByConv[item.conversationId] = (countsByConv[item.conversationId] ?? 0) + 1;
-        
-        // Track newly discovered IDs
-        if (!discoveredIds.has(item.conversationId)) {
-          newIds.push(item.conversationId);
-        }
+        allConvIds.push(item.conversationId);
       });
       
-      // Update discovered IDs
-      if (newIds.length > 0) {
-        setDiscoveredIds((prev) => {
-          const next = new Set(prev);
-          newIds.forEach((id) => next.add(id));
-          return next;
+      // Update discovered IDs using functional setState
+      setDiscoveredIds((prev) => {
+        const newIds: string[] = [];
+        allConvIds.forEach((id) => {
+          if (!prev.has(id)) {
+            newIds.push(id);
+          }
         });
         
-        // Notify callback
-        if (onDiscoveredIds) {
-          onDiscoveredIds(newIds);
+        // Notify callback with new IDs
+        if (newIds.length > 0 && onDiscoveredIdsRef.current) {
+          onDiscoveredIdsRef.current(newIds);
         }
-      }
+        
+        if (newIds.length === 0) return prev;
+        const next = new Set(prev);
+        newIds.forEach((id) => next.add(id));
+        return next;
+      });
       
       setUndeliveredByConv(countsByConv);
     } catch (e) {
@@ -102,11 +109,20 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
       setIsLoading(false);
       inFlightRef.current = false;
     }
-  }, [limit, discoveredIds, onDiscoveredIds, undeliveredByConv]);
+  }, [limit]); // Minimal deps — uses refs for callbacks
 
-  // Polling lifecycle
+  // Polling lifecycle — minimal deps to prevent interval churn
   useEffect(() => {
-    // Stop polling only when identity context not ready
+    // Gate: require auth to prevent 401 spam
+    if (!isAuthenticated) {
+      if (pollTimerRef.current) {
+        window.clearInterval(pollTimerRef.current);
+        pollTimerRef.current = null;
+      }
+      return;
+    }
+    
+    // Gate: wait for identity context initialization
     if (!isInitialized) {
       if (pollTimerRef.current) {
         window.clearInterval(pollTimerRef.current);
@@ -124,13 +140,13 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
       return;
     }
     
-    // Initial fetch
+    // Initial fetch on activation
     fetchInbox();
     
-    // Set up polling
+    // Set up polling interval
     pollTimerRef.current = window.setInterval(fetchInbox, intervalMs);
     
-    // Focus-based refresh
+    // One-shot refresh on focus restore
     const handleFocus = () => {
       fetchInbox();
     };
@@ -143,7 +159,7 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
       }
       window.removeEventListener("focus", handleFocus);
     };
-  }, [isInitialized, tabVisible, intervalMs, fetchInbox]);
+  }, [isAuthenticated, isInitialized, tabVisible, intervalMs, fetchInbox]);
 
   // Calculate total undelivered
   const totalUndelivered = Object.values(undeliveredByConv).reduce((sum, c) => sum + c, 0);
