@@ -41,7 +41,7 @@ interface UseInboxPollReturn {
 export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn {
   const { intervalMs = DEFAULT_POLL_INTERVAL_MS, limit = 100, onDiscoveredIds } = options;
   
-  const { isUnlocked, isInitialized } = useIdentity();
+  const { isInitialized } = useIdentity();
   const tabVisible = useTabVisibility();
   
   const [undeliveredByConv, setUndeliveredByConv] = useState<Record<string, number>>({});
@@ -53,7 +53,8 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
   const inFlightRef = useRef(false);
 
   const fetchInbox = useCallback(async () => {
-    if (!isUnlocked || inFlightRef.current) return;
+    // Phase-1: poll even while locked (ciphertext-only, no decryption needed)
+    if (inFlightRef.current) return;
     inFlightRef.current = true;
     
     setError(null);
@@ -101,12 +102,12 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
       setIsLoading(false);
       inFlightRef.current = false;
     }
-  }, [isUnlocked, limit, discoveredIds, onDiscoveredIds, undeliveredByConv]);
+  }, [limit, discoveredIds, onDiscoveredIds, undeliveredByConv]);
 
   // Polling lifecycle
   useEffect(() => {
-    // Stop polling when locked or not initialized
-    if (!isInitialized || !isUnlocked) {
+    // Stop polling only when identity context not ready
+    if (!isInitialized) {
       if (pollTimerRef.current) {
         window.clearInterval(pollTimerRef.current);
         pollTimerRef.current = null;
@@ -142,7 +143,7 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
       }
       window.removeEventListener("focus", handleFocus);
     };
-  }, [isInitialized, isUnlocked, tabVisible, intervalMs, fetchInbox]);
+  }, [isInitialized, tabVisible, intervalMs, fetchInbox]);
 
   // Calculate total undelivered
   const totalUndelivered = Object.values(undeliveredByConv).reduce((sum, c) => sum + c, 0);
