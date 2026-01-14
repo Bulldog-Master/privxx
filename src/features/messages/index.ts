@@ -26,6 +26,7 @@ export {
   useThread,
   useConversationPreviews,
   useKnownConversations,
+  useNicknames,
   useConversationList,
   useVisibilityGate,
   useTabVisibility,

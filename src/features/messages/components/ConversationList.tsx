@@ -39,6 +39,7 @@ export function ConversationList({ onSelectConversation, className }: Conversati
     refreshInbox,
     fetchPreview,
     totalUndelivered,
+    getNickname,
   } = useConversationList();
 
   // Show skeleton during initialization
@@ -141,6 +142,7 @@ export function ConversationList({ onSelectConversation, className }: Conversati
             <ConversationRow
               key={conv.conversationId}
               conversation={conv}
+              nickname={getNickname(conv.conversationId)}
               onSelect={onSelectConversation}
               onVisible={fetchPreview}
             />
@@ -156,10 +158,12 @@ export function ConversationList({ onSelectConversation, className }: Conversati
  */
 function ConversationRow({
   conversation,
+  nickname,
   onSelect,
   onVisible,
 }: {
   conversation: ConvMeta;
+  nickname?: string;
   onSelect: (id: string) => void;
   onVisible: (id: string) => void;
 }) {
@@ -229,8 +233,13 @@ function ConversationRow({
               "text-sm truncate",
               conversation.undeliveredCount > 0 ? "font-medium text-foreground" : "text-muted-foreground"
             )}>
-              {conversation.conversationId}
+              {nickname || conversation.conversationId}
             </p>
+            {nickname && (
+              <p className="text-xs text-muted-foreground/60 truncate font-mono">
+                {conversation.conversationId.slice(0, 12)}…
+              </p>
+            )}
             {/* Preview placeholder */}
             <p className="text-xs text-muted-foreground truncate">
               {t("messages.encryptedPlaceholder", "Encrypted message (Phase-1)")}
