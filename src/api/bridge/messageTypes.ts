@@ -160,3 +160,32 @@ export interface SendMessageResponse {
   /** Server time (ISO 8601) */
   serverTime?: string;
 }
+
+// =============================================================================
+// ACK ENDPOINT (POST /message/ack)
+// =============================================================================
+
+/**
+ * POST /message/ack — Request body
+ * 
+ * Marks messages as consumed (delivery bookkeeping only — NOT read receipts).
+ * Must use a session issued with purpose: "message_receive" and matching conversationId.
+ */
+export interface AckRequest {
+  /** Session identifier (from /session/issue with purpose: "message_receive") */
+  sessionId: string;
+  /** Conversation identifier (must match session scope) */
+  conversationId: string;
+  /** Array of envelope fingerprints to mark as consumed */
+  envelopeFingerprints: string[];
+}
+
+/**
+ * POST /message/ack — Response
+ */
+export interface AckResponse {
+  /** Number of fingerprints successfully transitioned to consumed */
+  acked: number;
+  /** Server time (ISO 8601) */
+  serverTime?: string;
+}
