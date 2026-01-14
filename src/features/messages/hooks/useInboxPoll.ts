@@ -53,6 +53,7 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
   
   const pollTimerRef = useRef<number | null>(null);
   const inFlightRef = useRef(false);
+  const didFirstLoadRef = useRef(false);
   
   // Stable refs to avoid interval churn from closing over changing state
   const onDiscoveredIdsRef = useRef(onDiscoveredIds);
@@ -65,7 +66,9 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
     inFlightRef.current = true;
     
     setError(null);
-    setIsLoading((prev) => prev || true); // Only set true on first load
+    if (!didFirstLoadRef.current) {
+      setIsLoading(true);
+    }
     
     try {
       const response = await bridgeClient.fetchInbox({ limit });
@@ -107,56 +110,30 @@ export function useInboxPoll(options: InboxPollOptions = {}): UseInboxPollReturn
       console.error("[useInboxPoll] Fetch error:", e);
     } finally {
       setIsLoading(false);
+      didFirstLoadRef.current = true;
       inFlightRef.current = false;
     }
   }, [limit]); // Minimal deps — uses refs for callbacks
 
-  // Polling lifecycle — minimal deps to prevent interval churn
+  // Polling lifecycle — simplified cleanup via effect return
   useEffect(() => {
-    // Gate: require auth to prevent 401 spam
-    if (!isAuthenticated) {
-      if (pollTimerRef.current) {
-        window.clearInterval(pollTimerRef.current);
-        pollTimerRef.current = null;
-      }
-      return;
-    }
-    
-    // Gate: wait for identity context initialization
-    if (!isInitialized) {
-      if (pollTimerRef.current) {
-        window.clearInterval(pollTimerRef.current);
-        pollTimerRef.current = null;
-      }
-      return;
-    }
-    
-    // Pause polling when tab is backgrounded
-    if (!tabVisible) {
-      if (pollTimerRef.current) {
-        window.clearInterval(pollTimerRef.current);
-        pollTimerRef.current = null;
-      }
-      return;
-    }
+    // Gates: all must be true to poll
+    const canPoll = isAuthenticated && isInitialized && tabVisible;
+    if (!canPoll) return;
     
     // Initial fetch on activation
     fetchInbox();
     
     // Set up polling interval
-    pollTimerRef.current = window.setInterval(fetchInbox, intervalMs);
+    const timerId = window.setInterval(fetchInbox, intervalMs);
     
     // One-shot refresh on focus restore
-    const handleFocus = () => {
-      fetchInbox();
-    };
+    const handleFocus = () => fetchInbox();
     window.addEventListener("focus", handleFocus);
     
+    // Cleanup handles all stop conditions
     return () => {
-      if (pollTimerRef.current) {
-        window.clearInterval(pollTimerRef.current);
-        pollTimerRef.current = null;
-      }
+      window.clearInterval(timerId);
       window.removeEventListener("focus", handleFocus);
     };
   }, [isAuthenticated, isInitialized, tabVisible, intervalMs, fetchInbox]);
