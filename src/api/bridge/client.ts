@@ -504,26 +504,25 @@ export class BridgeClient implements IBridgeClient {
     });
   }
 
-  /** 
+  /**
    * POST /message/send - queue outbound message
-   * Internally issues a session with purpose: "message_send", conversationId
+   * Session issuance is handled internally
+   * @param conversationId - MUST be provided (bridge-assigned thread ID)
+   * @param plaintextB64 - Base64-encoded plaintext message
    */
-  async sendMessage(req: { recipient: string; message: string; conversationId?: string }): Promise<NewSendMessageResponse> {
-    // For send, conversationId is derived from recipient if not provided
-    const conversationId = req.conversationId ?? `conv_${req.recipient}`;
-    
-    // Issue session for sending
+  async sendMessage(req: { conversationId: string; plaintextB64: string }): Promise<NewSendMessageResponse> {
+    // Issue session for sending to this conversation
     const { sessionId } = await this.issueSession({
       purpose: "message_send",
-      conversationId,
+      conversationId: req.conversationId,
     });
     
-    return this.request("/message/send", {
+    return this.request<NewSendMessageResponse>("/message/send", {
       method: "POST",
       body: JSON.stringify({
         sessionId,
-        recipient: req.recipient,
-        message: req.message,
+        conversationId: req.conversationId,
+        plaintextB64: req.plaintextB64,
       }),
     });
   }

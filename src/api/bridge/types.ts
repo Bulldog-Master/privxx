@@ -280,7 +280,7 @@ export interface IBridgeClient {
   /** POST /message/thread - history view for a conversation */
   fetchThread(req: { conversationId: string; limit?: number }): Promise<ThreadResponse>;
   /** POST /message/send - queue outbound message */
-  sendMessage(req: { recipient: string; message: string; conversationId?: string }): Promise<NewSendMessageResponse>;
+  sendMessage(req: { conversationId: string; plaintextB64: string }): Promise<NewSendMessageResponse>;
   
   // Legacy methods (deprecated)
   /** @deprecated Use fetchInbox instead */

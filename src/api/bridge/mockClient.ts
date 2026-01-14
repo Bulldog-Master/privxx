@@ -170,31 +170,30 @@ export class MockBridgeClient implements IBridgeClient {
     };
   }
 
-  /** POST /message/send - internally issues session */
-  async sendMessage(req: { recipient: string; message: string; conversationId?: string }): Promise<SendMessageResponse> {
+  /** POST /message/send - Phase-1 contract: conversationId + plaintextB64 */
+  async sendMessage(req: { conversationId: string; plaintextB64: string }): Promise<SendMessageResponse> {
     await sleep(150);
     const now = Math.floor(Date.now() / 1000);
     const messageId = `msg_mock_${now}`;
-    const conversationId = req.conversationId ?? `conv_${req.recipient}`;
     
     // Add to mock messages
     const newMessage: MessageItem = {
-      conversationId,
-      payloadCiphertextB64: btoa(req.message),
+      conversationId: req.conversationId,
+      payloadCiphertextB64: req.plaintextB64, // Already base64
       envelopeFingerprint: `fp_${messageId}`,
       createdAtUnix: now,
       expiresAtUnix: now + 86400 * 30, // 30 days
-      state: "available",
+      state: "consumed", // Sent messages are immediately consumed
     };
     
     this.mockMessages.unshift(newMessage);
     
-    // Simulate echo for "self" recipient
-    if (req.recipient === "self" || req.recipient === "me") {
+    // Simulate echo for "conv_self" conversation
+    if (req.conversationId === "conv_self") {
       setTimeout(() => {
         const echoMessage: MessageItem = {
-          conversationId,
-          payloadCiphertextB64: btoa(`Echo: ${req.message}`),
+          conversationId: req.conversationId,
+          payloadCiphertextB64: btoa(`Echo: ${atob(req.plaintextB64)}`),
           envelopeFingerprint: `fp_echo_${Date.now()}`,
           createdAtUnix: Math.floor(Date.now() / 1000),
           expiresAtUnix: Math.floor(Date.now() / 1000) + 86400 * 30,
@@ -204,7 +203,7 @@ export class MockBridgeClient implements IBridgeClient {
       }, 500);
     }
     
-    console.debug("[MockBridge] Send:", { recipient: req.recipient, messageId });
+    console.debug("[MockBridge] Send:", { conversationId: req.conversationId, messageId });
     
     return {
       messageId,

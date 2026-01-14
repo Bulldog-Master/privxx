@@ -89,6 +89,12 @@ export function MessagesPanel() {
                 conversationId={selectedConversation}
                 className="flex-1"
               />
+              {/* Compose within thread context */}
+              <Compose 
+                conversationId={selectedConversation}
+                onOptimistic={addOptimistic}
+                onOptimisticRemove={removeOptimistic}
+              />
             </div>
           ) : (
             // Show inbox list
@@ -105,10 +111,10 @@ export function MessagesPanel() {
         </TabsContent>
 
         <TabsContent value="compose" className="mt-0">
-          <Compose 
-            onOptimistic={addOptimistic}
-            onOptimisticRemove={removeOptimistic}
-          />
+          {/* Compose tab requires selecting a conversation first in Phase-1 */}
+          <div className="p-4 text-center text-sm text-muted-foreground">
+            {t("composeSelectConversation", "Select a conversation from the Inbox to send a message.")}
+          </div>
         </TabsContent>
 
         <TabsContent value="browser" className="mt-0">

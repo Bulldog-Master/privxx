@@ -143,10 +143,10 @@ export interface ThreadResponse {
 export interface SendMessageRequest {
   /** Session identifier (from /session/issue with purpose: "message_send") */
   sessionId: string;
-  /** Recipient cMixx ID */
-  recipient: string;
-  /** Plaintext message (will be encrypted by bridge) */
-  message: string;
+  /** Conversation ID (MUST be provided — bridge-assigned, not derived) */
+  conversationId: string;
+  /** Plaintext message Base64-encoded (will be encrypted by bridge) */
+  plaintextB64: string;
 }
 
 /**
