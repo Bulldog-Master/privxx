@@ -10,6 +10,7 @@ export { useInboxPoll, type InboxPollOptions } from "./useInboxPoll";
 export { useThread } from "./useThread";
 export { useConversationPreviews, type PreviewData } from "./useConversationPreviews";
 export { useKnownConversations } from "./useKnownConversations";
+export { useNicknames } from "./useNicknames";
 
 // Legacy hook (wraps the above for backward compatibility)
 export { useConversationList } from "./useConversationList";

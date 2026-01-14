@@ -5,6 +5,7 @@
  * - useKnownConversations: persistent ID storage
  * - useInboxPoll: undelivered counts + discovery
  * - useConversationPreviews: lazy preview fetching
+ * - useNicknames: local nickname storage
  * 
  * Phase-1 compatible: No protocol changes, frontend-only optimization.
  */
@@ -13,6 +14,7 @@ import { useMemo, useCallback, useEffect } from "react";
 import { useKnownConversations } from "./useKnownConversations";
 import { useInboxPoll } from "./useInboxPoll";
 import { useConversationPreviews } from "./useConversationPreviews";
+import { useNicknames } from "./useNicknames";
 import type { ConvMeta } from "../conversationTypes";
 import { sortConversations } from "../conversationTypes";
 
@@ -31,6 +33,12 @@ interface UseConversationListReturn {
   clearUndelivered: (conversationId: string) => void;
   /** Total undelivered across all conversations */
   totalUndelivered: number;
+  /** Get nickname for a conversation */
+  getNickname: (conversationId: string) => string | undefined;
+  /** Set nickname for a conversation */
+  setNickname: (conversationId: string, nickname: string) => void;
+  /** Clear nickname for a conversation */
+  clearNickname: (conversationId: string) => void;
 }
 
 export function useConversationList(): UseConversationListReturn {
@@ -56,6 +64,12 @@ export function useConversationList(): UseConversationListReturn {
     fetchTopN,
     clearPreview,
   } = useConversationPreviews();
+
+  const {
+    getNickname,
+    setNickname,
+    clearNickname,
+  } = useNicknames();
 
   // Build conversation metadata from known IDs + inbox counts + previews
   const conversations = useMemo(() => {
@@ -122,5 +136,8 @@ export function useConversationList(): UseConversationListReturn {
     fetchPreview,
     clearUndelivered,
     totalUndelivered,
+    getNickname,
+    setNickname,
+    clearNickname,
   };
 }
