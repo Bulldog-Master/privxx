@@ -189,6 +189,7 @@ export type IdentityLockResponse = {
   state: "locked";
 };
 
+// Legacy message type (deprecated - use MessageItem from messageTypes.ts)
 export type Message = {
   from: string;
   message: string;
@@ -227,6 +228,26 @@ export interface BridgeClientConfig {
   anonKey?: string;
 }
 
+// Import new message types
+import type {
+  MessageItem,
+  InboxRequest,
+  InboxResponse,
+  ThreadRequest,
+  ThreadResponse,
+  SendMessageRequest,
+  SendMessageResponse as NewSendMessageResponse,
+} from "./messageTypes";
+
+export type {
+  MessageItem,
+  InboxRequest,
+  InboxResponse,
+  ThreadRequest,
+  ThreadResponse,
+  SendMessageRequest,
+};
+
 export interface IBridgeClient {
   // Health (public, no auth)
   health(): Promise<HealthResponse>;
@@ -243,7 +264,15 @@ export interface IBridgeClient {
   unlock(password: string): Promise<UnlockResponse>;
   lock(): Promise<LockResponse>;
   
-  // Messages (future)
-  sendMessage(recipient: string, message: string): Promise<string>;
+  // Messages (Phase-1 contract)
+  /** POST /message/inbox - queue view (available messages only) */
+  fetchInbox(req: InboxRequest): Promise<InboxResponse>;
+  /** POST /message/thread - history view for a conversation */
+  fetchThread(req: ThreadRequest): Promise<ThreadResponse>;
+  /** POST /message/send - queue outbound message */
+  sendMessage(req: SendMessageRequest): Promise<NewSendMessageResponse>;
+  
+  // Legacy methods (deprecated)
+  /** @deprecated Use fetchInbox instead */
   getInbox(): Promise<Message[]>;
 }

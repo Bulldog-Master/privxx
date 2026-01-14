@@ -87,7 +87,13 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     onOptimistic(optimistic);
 
     try {
-      await bridgeClient.sendMessage(recipient.trim(), body.trim());
+      // Use new Phase-1 contract: sendMessage({ sessionId, recipient, message })
+      // sessionId is handled by the bridge via unlock status
+      await bridgeClient.sendMessage({
+        sessionId: "current", // Bridge resolves this from unlock state
+        recipient: recipient.trim(),
+        message: body.trim(),
+      });
       setBody("");
       toast.success(t("messageSent", "Message sent"));
       // Optimistic message stays until real message arrives via polling

@@ -23,7 +23,13 @@ import type {
   HealthResponse,
   ConnectResponse,
   DisconnectResponse,
+  InboxRequest,
+  InboxResponse,
+  ThreadRequest,
+  ThreadResponse,
+  SendMessageRequest,
 } from "./types";
+import type { SendMessageResponse as NewSendMessageResponse } from "./messageTypes";
 
 // Error types for better handling
 export class BridgeError extends Error {
@@ -447,15 +453,34 @@ export class BridgeClient implements IBridgeClient {
     return this.request("/lock", { method: "POST" });
   }
 
-  // Messages (future - kept for interface compatibility)
-  async sendMessage(recipient: string, message: string): Promise<string> {
-    const res = await this.request<MessageSendResponse>("/messages/send", {
+  // Messages (Phase-1 contract)
+  
+  /** POST /message/inbox - queue view (available messages only) */
+  async fetchInbox(req: InboxRequest): Promise<InboxResponse> {
+    return this.request("/message/inbox", {
       method: "POST",
-      body: JSON.stringify({ recipient, message }),
+      body: JSON.stringify(req),
     });
-    return res.msg_id;
   }
 
+  /** POST /message/thread - history view for a conversation */
+  async fetchThread(req: ThreadRequest): Promise<ThreadResponse> {
+    return this.request("/message/thread", {
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+  }
+
+  /** POST /message/send - queue outbound message */
+  async sendMessage(req: SendMessageRequest): Promise<NewSendMessageResponse> {
+    return this.request("/message/send", {
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+  }
+
+  // Legacy method (deprecated)
+  /** @deprecated Use fetchInbox instead */
   async getInbox(): Promise<Message[]> {
     const res = await this.request<{ messages: Message[] }>("/messages/inbox");
     return res.messages;

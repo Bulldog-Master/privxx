@@ -1112,7 +1112,17 @@
   },
 
   "common": {
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "retry": "Retry"
+  },
+
+  "messages": {
+    "emptyThread": "No messages in this conversation",
+    "serverTime": "Server time",
+    "encryptedPlaceholder": "Encrypted message (Phase-1)",
+    "consumed": "delivered",
+    "thread": "Conversation",
+    "inbox": "Inbox"
   },
 
   "demoMode": {
