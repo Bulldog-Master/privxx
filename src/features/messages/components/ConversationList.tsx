@@ -231,6 +231,7 @@ function ConversationRow({
       (entries) => {
         if (entries[0].isIntersecting) {
           onVisibleRef.current(conversation.conversationId);
+          observer.unobserve(element); // ✅ stop after first intersect
         }
       },
       { threshold: 0.1 }
