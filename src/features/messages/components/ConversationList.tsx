@@ -227,19 +227,34 @@ function ConversationRow({
     const element = rowRef.current;
     if (!element) return;
 
+    let didFire = false;
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          onVisibleRef.current(conversation.conversationId);
-          observer.unobserve(element); // ✅ stop after first intersect
-        }
+        const entry = entries[0];
+        if (!entry?.isIntersecting) return;
+        if (didFire) return;
+
+        didFire = true;
+        onVisibleRef.current(conversation.conversationId);
+
+        // ✅ stop after first intersect
+        observer.unobserve(element);
       },
       { threshold: 0.1 }
     );
 
     observer.observe(element);
-    return () => observer.disconnect();
-  }, [conversation.conversationId]); // ✅ no onVisible dep - uses ref
+
+    return () => {
+      try {
+        observer.unobserve(element);
+      } catch {
+        // ignore
+      }
+      observer.disconnect();
+    };
+  }, [conversation.conversationId]); // ✅ no onVisible dep; uses ref
 
   // Also fetch preview if undelivered
   useEffect(() => {
