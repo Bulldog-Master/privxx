@@ -455,27 +455,76 @@ export class BridgeClient implements IBridgeClient {
 
   // Messages (Phase-1 contract)
   
-  /** POST /message/inbox - queue view (available messages only) */
-  async fetchInbox(req: InboxRequest): Promise<InboxResponse> {
+  /** POST /session/issue - obtain sessionId for messaging operations */
+  async issueSession(req: { purpose: "message_receive" | "message_send"; conversationId: string | null }): Promise<{ sessionId: string; serverTime?: string }> {
+    return this.request("/session/issue", {
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+  }
+
+  /** 
+   * POST /message/inbox - queue view (available messages only)
+   * Internally issues a session with purpose: "message_receive", conversationId: null
+   */
+  async fetchInbox(req?: { limit?: number }): Promise<InboxResponse> {
+    // Issue session for inbox (no conversationId)
+    const { sessionId } = await this.issueSession({
+      purpose: "message_receive",
+      conversationId: null,
+    });
+    
     return this.request("/message/inbox", {
       method: "POST",
-      body: JSON.stringify(req),
+      body: JSON.stringify({
+        sessionId,
+        limit: req?.limit,
+      }),
     });
   }
 
-  /** POST /message/thread - history view for a conversation */
-  async fetchThread(req: ThreadRequest): Promise<ThreadResponse> {
+  /** 
+   * POST /message/thread - history view for a conversation
+   * Internally issues a session with purpose: "message_receive", conversationId
+   */
+  async fetchThread(req: { conversationId: string; limit?: number }): Promise<ThreadResponse> {
+    // Issue session for this conversation
+    const { sessionId } = await this.issueSession({
+      purpose: "message_receive",
+      conversationId: req.conversationId,
+    });
+    
     return this.request("/message/thread", {
       method: "POST",
-      body: JSON.stringify(req),
+      body: JSON.stringify({
+        sessionId,
+        conversationId: req.conversationId,
+        limit: req.limit,
+      }),
     });
   }
 
-  /** POST /message/send - queue outbound message */
-  async sendMessage(req: SendMessageRequest): Promise<NewSendMessageResponse> {
+  /** 
+   * POST /message/send - queue outbound message
+   * Internally issues a session with purpose: "message_send", conversationId
+   */
+  async sendMessage(req: { recipient: string; message: string; conversationId?: string }): Promise<NewSendMessageResponse> {
+    // For send, conversationId is derived from recipient if not provided
+    const conversationId = req.conversationId ?? `conv_${req.recipient}`;
+    
+    // Issue session for sending
+    const { sessionId } = await this.issueSession({
+      purpose: "message_send",
+      conversationId,
+    });
+    
     return this.request("/message/send", {
       method: "POST",
-      body: JSON.stringify(req),
+      body: JSON.stringify({
+        sessionId,
+        recipient: req.recipient,
+        message: req.message,
+      }),
     });
   }
 

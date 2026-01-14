@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 import { Inbox } from "./Inbox";
@@ -7,6 +8,8 @@ import { useIdentity } from "@/features/identity";
 import { useAuth } from "@/contexts/AuthContext";
 import { PaymentsPanel } from "@/features/payments";
 import { BrowserPanel } from "@/features/browser";
+import { ThreadView } from "./components/ThreadView";
+import { InboxBadge } from "./components/InboxBadge";
 
 export function MessagesPanel() {
   const { t } = useTranslation();
@@ -22,8 +25,16 @@ export function MessagesPanel() {
     removeOptimistic
   } = useInbox();
 
+  // Track selected conversation for ThreadView
+  const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
+
   // Tabs are muted when bridge is offline OR user isn't signed in
   const tabsMuted = isOffline || !isAuthenticated;
+
+  // Handle selecting a conversation from inbox
+  const handleSelectConversation = (conversationId: string) => {
+    setSelectedConversation(conversationId);
+  };
 
   return (
     <div role="region" aria-label={t("messagingPanel", "Messaging panel")}>
@@ -43,13 +54,15 @@ export function MessagesPanel() {
               : t("inboxTab", "Inbox")
             }
             disabled={tabsMuted}
+            className="relative"
           >
             {t("inboxTab", "Inbox")}
-            {messages.length > 0 && !tabsMuted && (
-              <span className="ml-1.5 text-xs text-primary/60" aria-hidden="true">
-                ({messages.length})
-              </span>
-            )}
+            {/* Phase-1 InboxBadge for available message count */}
+            <InboxBadge 
+              enabled={isUnlocked && !tabsMuted} 
+              pollInterval={30000}
+              className="ml-1.5"
+            />
           </TabsTrigger>
           <TabsTrigger value="compose" disabled={tabsMuted}>
             {t("composeTab", "Compose")}
@@ -63,14 +76,32 @@ export function MessagesPanel() {
         </TabsList>
 
         <TabsContent value="inbox" className="mt-0">
-          <Inbox
-            messages={messages}
-            isLoading={isLoading}
-            isWarmingUp={isWarmingUp}
-            error={error}
-            onRefresh={refresh}
-            isUnlocked={isUnlocked}
-          />
+          {selectedConversation ? (
+            // Show ThreadView when a conversation is selected
+            <div className="flex flex-col">
+              <button 
+                onClick={() => setSelectedConversation(null)}
+                className="text-sm text-primary/70 hover:text-primary p-2 text-left"
+              >
+                ← {t("backToInbox", "Back to inbox")}
+              </button>
+              <ThreadView 
+                conversationId={selectedConversation}
+                className="flex-1"
+              />
+            </div>
+          ) : (
+            // Show inbox list
+            <Inbox
+              messages={messages}
+              isLoading={isLoading}
+              isWarmingUp={isWarmingUp}
+              error={error}
+              onRefresh={refresh}
+              isUnlocked={isUnlocked}
+              onSelectConversation={handleSelectConversation}
+            />
+          )}
         </TabsContent>
 
         <TabsContent value="compose" className="mt-0">

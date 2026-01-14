@@ -121,12 +121,12 @@ export type {
   ConnectResponse,
   DisconnectResponse,
   // Phase-1 message types
-  InboxRequest,
   InboxResponse,
-  ThreadRequest,
   ThreadResponse,
-  SendMessageRequest,
   MessageItem,
+  IssueSessionRequest,
+  IssueSessionResponse,
+  SessionPurpose,
 } from "./types";
 
 // Re-export message types from dedicated file

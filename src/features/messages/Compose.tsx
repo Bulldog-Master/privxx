@@ -87,10 +87,8 @@ export function Compose({ onOptimistic, onOptimisticRemove }: ComposeProps) {
     onOptimistic(optimistic);
 
     try {
-      // Use new Phase-1 contract: sendMessage({ sessionId, recipient, message })
-      // sessionId is handled by the bridge via unlock status
+      // Use new Phase-1 contract: sendMessage handles session issuance internally
       await bridgeClient.sendMessage({
-        sessionId: "current", // Bridge resolves this from unlock state
         recipient: recipient.trim(),
         message: body.trim(),
       });
