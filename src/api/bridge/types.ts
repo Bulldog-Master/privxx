@@ -281,6 +281,8 @@ export interface IBridgeClient {
   fetchThread(req: { conversationId: string; limit?: number }): Promise<ThreadResponse>;
   /** POST /message/send - queue outbound message */
   sendMessage(req: { conversationId: string; plaintextB64: string }): Promise<NewSendMessageResponse>;
+  /** POST /message/ack - mark messages as consumed (delivery bookkeeping, NOT read receipts) */
+  ackMessages(req: { conversationId: string; envelopeFingerprints: string[] }): Promise<{ acked: number; serverTime?: string }>;
   
   // Legacy methods (deprecated)
   /** @deprecated Use fetchInbox instead */

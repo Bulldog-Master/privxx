@@ -1,29 +1,20 @@
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
-import { Inbox } from "./Inbox";
 import { Compose } from "./Compose";
-import { useInbox } from "./useInbox";
 import { useIdentity } from "@/features/identity";
 import { useAuth } from "@/contexts/AuthContext";
 import { PaymentsPanel } from "@/features/payments";
 import { BrowserPanel } from "@/features/browser";
 import { ThreadView } from "./components/ThreadView";
-import { InboxBadge } from "./components/InboxBadge";
+import { ConversationList } from "./components/ConversationList";
+import { useConversationList } from "./hooks/useConversationList";
 
 export function MessagesPanel() {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
   const { isUnlocked, isOffline } = useIdentity();
-  const {
-    messages,
-    isLoading,
-    isWarmingUp,
-    error,
-    refresh,
-    addOptimistic,
-    removeOptimistic
-  } = useInbox();
+  const { totalUndelivered, clearUndelivered } = useConversationList();
 
   // Track selected conversation for ThreadView
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
@@ -31,9 +22,14 @@ export function MessagesPanel() {
   // Tabs are muted when bridge is offline OR user isn't signed in
   const tabsMuted = isOffline || !isAuthenticated;
 
-  // Handle selecting a conversation from inbox
+  // Handle selecting a conversation from list
   const handleSelectConversation = (conversationId: string) => {
     setSelectedConversation(conversationId);
+  };
+
+  // Handle ack callback from ThreadView
+  const handleMessagesAcked = (conversationId: string) => {
+    clearUndelivered(conversationId);
   };
 
   return (
@@ -49,20 +45,20 @@ export function MessagesPanel() {
           `}</style>
           <TabsTrigger 
             value="inbox"
-            aria-label={messages.length > 0 
-              ? t("inboxTabWithCount", "Inbox, {{count}} messages", { count: messages.length })
+            aria-label={totalUndelivered > 0 
+              ? t("inboxTabWithCount", "Inbox, {{count}} messages", { count: totalUndelivered })
               : t("inboxTab", "Inbox")
             }
             disabled={tabsMuted}
             className="relative"
           >
             {t("inboxTab", "Inbox")}
-            {/* Phase-1 InboxBadge for available message count */}
-            <InboxBadge 
-              enabled={isUnlocked && !tabsMuted} 
-              pollInterval={30000}
-              className="ml-1.5"
-            />
+            {/* Badge for undelivered count */}
+            {isUnlocked && totalUndelivered > 0 && (
+              <span className="ml-1.5 inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 text-xs font-medium bg-primary text-primary-foreground rounded-full">
+                {totalUndelivered > 99 ? "99+" : totalUndelivered}
+              </span>
+            )}
           </TabsTrigger>
           <TabsTrigger value="compose" disabled={tabsMuted}>
             {t("composeTab", "Compose")}
@@ -87,26 +83,19 @@ export function MessagesPanel() {
               </button>
               <ThreadView 
                 conversationId={selectedConversation}
+                onMessagesAcked={handleMessagesAcked}
                 className="flex-1"
               />
               {/* Compose within thread context */}
               <Compose 
                 conversationId={selectedConversation}
-                onOptimistic={addOptimistic}
-                onOptimisticRemove={removeOptimistic}
+                onOptimistic={() => {}}
+                onOptimisticRemove={() => {}}
               />
             </div>
           ) : (
-            // Show inbox list
-            <Inbox
-              messages={messages}
-              isLoading={isLoading}
-              isWarmingUp={isWarmingUp}
-              error={error}
-              onRefresh={refresh}
-              isUnlocked={isUnlocked}
-              onSelectConversation={handleSelectConversation}
-            />
+            // Show conversation list
+            <ConversationList onSelectConversation={handleSelectConversation} />
           )}
         </TabsContent>
 

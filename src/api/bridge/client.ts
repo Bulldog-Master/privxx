@@ -527,6 +527,31 @@ export class BridgeClient implements IBridgeClient {
     });
   }
 
+  /**
+   * POST /message/ack - mark messages as consumed (delivery bookkeeping)
+   * Session issuance is handled internally
+   * 
+   * @param conversationId - Conversation ID (must match session scope)
+   * @param envelopeFingerprints - Array of fingerprints to mark consumed
+   * @returns Number of fingerprints successfully acked
+   */
+  async ackMessages(req: { conversationId: string; envelopeFingerprints: string[] }): Promise<{ acked: number; serverTime?: string }> {
+    // Issue session for this conversation (message_receive scope)
+    const { sessionId } = await this.issueSession({
+      purpose: "message_receive",
+      conversationId: req.conversationId,
+    });
+    
+    return this.request("/message/ack", {
+      method: "POST",
+      body: JSON.stringify({
+        sessionId,
+        conversationId: req.conversationId,
+        envelopeFingerprints: req.envelopeFingerprints,
+      }),
+    });
+  }
+
   // Legacy method (deprecated)
   /** @deprecated Use fetchInbox instead */
   async getInbox(): Promise<Message[]> {

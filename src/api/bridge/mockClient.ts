@@ -212,6 +212,31 @@ export class MockBridgeClient implements IBridgeClient {
     };
   }
 
+  /** POST /message/ack - mark messages as consumed */
+  async ackMessages(req: { conversationId: string; envelopeFingerprints: string[] }): Promise<{ acked: number; serverTime?: string }> {
+    await sleep(50);
+    let ackedCount = 0;
+    
+    this.mockMessages = this.mockMessages.map((msg) => {
+      if (
+        msg.conversationId === req.conversationId &&
+        msg.state === "available" &&
+        req.envelopeFingerprints.includes(msg.envelopeFingerprint)
+      ) {
+        ackedCount++;
+        return { ...msg, state: "consumed" as const };
+      }
+      return msg;
+    });
+    
+    console.debug("[MockBridge] Ack:", { conversationId: req.conversationId, acked: ackedCount });
+    
+    return {
+      acked: ackedCount,
+      serverTime: new Date().toISOString(),
+    };
+  }
+
   // Legacy method (deprecated)
   async getInbox(): Promise<Message[]> {
     await sleep(100);
