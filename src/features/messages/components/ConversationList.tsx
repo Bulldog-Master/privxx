@@ -56,21 +56,25 @@ export function ConversationList({ onSelectConversation, className }: Conversati
   const [nicknameDialogOpen, setNicknameDialogOpen] = useState(false);
   const [editingConversationId, setEditingConversationId] = useState<string | null>(null);
 
+  // Close dialog and reset editing state to prevent stale actions
+  const closeNicknameDialog = useCallback(() => {
+    setNicknameDialogOpen(false);
+    setEditingConversationId(null);
+  }, []);
+
   const handleEditNickname = useCallback((conversationId: string) => {
     setEditingConversationId(conversationId);
     setNicknameDialogOpen(true);
   }, []);
 
   const handleSaveNickname = useCallback((nickname: string) => {
-    if (editingConversationId) {
-      setNickname(editingConversationId, nickname);
-    }
+    if (!editingConversationId) return;
+    setNickname(editingConversationId, nickname);
   }, [editingConversationId, setNickname]);
 
   const handleClearNickname = useCallback(() => {
-    if (editingConversationId) {
-      clearNickname(editingConversationId);
-    }
+    if (!editingConversationId) return;
+    clearNickname(editingConversationId);
   }, [editingConversationId, clearNickname]);
 
   // Show skeleton during initialization
@@ -185,7 +189,7 @@ export function ConversationList({ onSelectConversation, className }: Conversati
       {/* Nickname edit dialog */}
       <NicknameDialog
         open={nicknameDialogOpen}
-        onOpenChange={setNicknameDialogOpen}
+        onOpenChange={(open) => (open ? setNicknameDialogOpen(true) : closeNicknameDialog())}
         conversationId={editingConversationId ?? ""}
         currentNickname={editingConversationId ? getNickname(editingConversationId) : undefined}
         onSave={handleSaveNickname}
@@ -327,8 +331,13 @@ function ConversationRow({
                 <MoreVertical className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onEditNickname(conversation.conversationId)}>
+            <DropdownMenuContent align="end" className="z-50">
+              <DropdownMenuItem 
+                onSelect={(e) => {
+                  e.preventDefault();
+                  onEditNickname(conversation.conversationId);
+                }}
+              >
                 <Edit2 className="h-4 w-4 mr-2" />
                 {nickname 
                   ? t("nickname.edit", "Edit Nickname")
