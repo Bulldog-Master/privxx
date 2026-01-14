@@ -256,11 +256,19 @@ function ConversationRow({
     };
   }, [conversation.conversationId]); // ✅ no onVisible dep; uses ref
 
-  // Also fetch preview if undelivered
+  // Also fetch preview when undelivered becomes > 0 (guarded to reduce repeats)
+  const prevUndeliveredRef = useRef<number>(conversation.undeliveredCount);
+
   useEffect(() => {
-    if (conversation.undeliveredCount > 0) {
+    const prev = prevUndeliveredRef.current;
+    const curr = conversation.undeliveredCount;
+
+    // Fire only on transition to having undelivered (or increases)
+    if (curr > 0 && curr !== prev) {
       onVisibleRef.current(conversation.conversationId);
     }
+
+    prevUndeliveredRef.current = curr;
   }, [conversation.undeliveredCount, conversation.conversationId]);
 
   const formatTime = (unixSeconds?: number): string => {
