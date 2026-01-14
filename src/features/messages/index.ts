@@ -10,18 +10,36 @@
  * - POST /message/ack = delivery bookkeeping (consumed ≠ read)
  */
 
+// Components
 export { MessagesPanel } from "./MessagesPanel";
 export { Inbox } from "./Inbox";
 export { Compose } from "./Compose";
-export { useInbox } from "./useInbox";
-export { mergeMessages } from "./merge";
 export { ContactPicker } from "./components/ContactPicker";
 export { QRCodeDialog } from "./components/QRCodeDialog";
 export { ThreadView } from "./components/ThreadView";
 export { InboxBadge } from "./components/InboxBadge";
 export { ConversationList } from "./components/ConversationList";
-export { useConversationList } from "./hooks/useConversationList";
-export { useContacts } from "./hooks/useContacts";
+
+// Hooks (modular)
+export {
+  useInboxPoll,
+  useThread,
+  useConversationPreviews,
+  useKnownConversations,
+  useConversationList,
+  useVisibilityGate,
+  useTabVisibility,
+  useContacts,
+} from "./hooks";
+
+// Legacy hook
+export { useInbox } from "./useInbox";
+
+// Utilities
+export { mergeMessages } from "./merge";
+
+// Types
 export type { DemoMessage, InboxState, Contact } from "./types";
 export type { ConvMeta } from "./conversationTypes";
+export type { PreviewData } from "./hooks/useConversationPreviews";
 export { isValidCmixxId, getCmixxIdError } from "./types";
