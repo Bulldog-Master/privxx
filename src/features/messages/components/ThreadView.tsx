@@ -4,6 +4,11 @@
  * Renders full conversation history using POST /message/thread.
  * Acks available messages when thread is opened (delivery bookkeeping only).
  * Shows encrypted message placeholders in Phase-1.
+ * 
+ * Performance optimizations (Phase-1 compatible):
+ * - IntersectionObserver: Only loads thread when visible
+ * - Tab visibility: Pauses fetching when tab is backgrounded
+ * - Deduplication: Prevents duplicate loads per conversation
  */
 
 import { useEffect, useState, useCallback, useRef } from "react";
@@ -16,6 +21,8 @@ import { Lock, RefreshCw, MessageSquare, CheckCheck } from "lucide-react";
 import { bridgeClient } from "@/api/bridge";
 import type { MessageItem } from "@/api/bridge/messageTypes";
 import { cn } from "@/lib/utils";
+import { useVisibilityGate } from "../hooks/useVisibilityGate";
+import { useTabVisibility } from "../hooks/useTabVisibility";
 
 interface ThreadViewProps {
   conversationId: string;
@@ -32,7 +39,13 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
   const [serverTime, setServerTime] = useState<string | null>(null);
   const [ackInProgress, setAckInProgress] = useState(false);
   
-  // Track which conversation we've already acked to avoid duplicate acks
+  // Visibility gating refs and hooks
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isVisible = useVisibilityGate(containerRef, 0.2);
+  const tabVisible = useTabVisibility();
+  
+  // Track which conversation we've already loaded/acked to avoid duplicates
+  const loadedConvRef = useRef<string | null>(null);
   const ackedConvRef = useRef<string | null>(null);
 
   const loadThread = useCallback(async () => {
@@ -108,13 +121,28 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
     }
   };
 
+  // Reset refs when conversation changes
   useEffect(() => {
-    // Reset acked ref when conversation changes
-    if (conversationId !== ackedConvRef.current) {
+    if (conversationId !== loadedConvRef.current) {
+      loadedConvRef.current = null;
       ackedConvRef.current = null;
     }
-    loadThread();
-  }, [loadThread, conversationId]);
+  }, [conversationId]);
+
+  // Load thread only when visible + tab is active + not already loaded
+  useEffect(() => {
+    // Pause when tab is backgrounded
+    if (!tabVisible) return;
+    
+    // Wait until element is visible in viewport
+    if (!isVisible) return;
+    
+    // Only load once per conversation per mount
+    if (loadedConvRef.current === conversationId) return;
+    
+    loadedConvRef.current = conversationId;
+    void loadThread();
+  }, [tabVisible, isVisible, conversationId, loadThread]);
 
   // Format Unix timestamp to readable time
   const formatTime = (unixSeconds: number): string => {
@@ -172,7 +200,8 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
   const chronologicalMessages = [...messages].sort((a, b) => a.createdAtUnix - b.createdAtUnix);
 
   return (
-    <ScrollArea className={cn("h-[400px]", className)}>
+    <div ref={containerRef}>
+      <ScrollArea className={cn("h-[400px]", className)}>
       <div className="space-y-4 p-4">
         {/* Ack indicator */}
         {ackInProgress && (
@@ -226,5 +255,6 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
         ))}
       </div>
     </ScrollArea>
+    </div>
   );
 }
