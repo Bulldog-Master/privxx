@@ -28,7 +28,7 @@ async function isBridgeAvailable(url: string): Promise<boolean> {
 }
 
 // Test configuration
-const BRIDGE_URL = import.meta.env.VITE_BRIDGE_URL || "http://127.0.0.1:8090";
+const BRIDGE_URL = import.meta.env.VITE_BRIDGE_URL || "https://privxx.app";
 const IS_MOCK_MODE = import.meta.env.VITE_MOCK !== "false";
 
 describe("Bridge Integration (requires real bridge)", () => {

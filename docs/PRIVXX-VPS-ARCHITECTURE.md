@@ -139,8 +139,8 @@ CryptographicIdentity.save() → JSON marshal of RSA key material → large.Int 
 
 The frontend uses `src/api/bridge/index.ts` to determine the API base URL:
 
-1. `VITE_BRIDGE_URL` environment variable (highest priority)
-2. VPS Proxy URL: `http://66.94.109.237:8090` (default)
+1. `VITE_BRIDGE_URL` environment variable (local dev override only)
+2. Canonical URL: `https://privxx.app` (production default - per API contract)
 3. Mock mode: When `VITE_MOCK=true`
 
 ---
