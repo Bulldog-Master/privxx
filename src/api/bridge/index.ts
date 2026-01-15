@@ -33,9 +33,10 @@ export { SessionLockedError } from "./client";
 // Set VITE_MOCK=true to enable mock mode for local development
 const USE_MOCK = import.meta.env.VITE_MOCK === "true";
 
-// Production API URL via Cloudflare Tunnel
-// Override with VITE_BRIDGE_URL if needed
-const DEFAULT_BRIDGE_URL = "https://api.privxx.app";
+// Production API URL (Cloudflare handles routing)
+// Per API contract: https://privxx.app is the ONLY valid base URL
+// Override with VITE_BRIDGE_URL only for local development
+const DEFAULT_BRIDGE_URL = "https://privxx.app";
 
 // Determine effective bridge URL
 function getEffectiveBridgeUrl(): string {
