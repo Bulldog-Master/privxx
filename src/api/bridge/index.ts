@@ -14,8 +14,8 @@
  * - Automatically attaches Supabase session JWT to all requests
  * - Bridge verifies JWT via Supabase /auth/v1/user endpoint
  * 
- * VPS PUBLIC BRIDGE: http://66.94.109.237:8090 (default, override with VITE_BRIDGE_URL)
- * LOCAL DEV BRIDGE: http://127.0.0.1:8090
+ * CANONICAL URL: https://privxx.app (per API contract - the ONLY valid base URL)
+ * LOCAL DEV: Override with VITE_BRIDGE_URL for local testing only
  * 
  * Environment Variables:
  * - VITE_BRIDGE_URL: Override the default bridge URL (e.g., https://bridge.privxx.app for TLS)

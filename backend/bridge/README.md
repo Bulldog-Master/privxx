@@ -174,8 +174,7 @@ CORS is enabled for all origins to allow the Lovable-hosted UI to call the Proxy
 ## Frontend Connection
 
 The frontend connects via:
-1. `VITE_BRIDGE_URL` environment variable (if set)
-2. VPS Proxy: `http://66.94.109.237:8090` (default)
-3. Local Bridge: `http://127.0.0.1:8787` (VPS testing only)
+1. `VITE_BRIDGE_URL` environment variable (local dev override only)
+2. Canonical URL: `https://privxx.app` (production default - per API contract)
 
 The frontend diagnostics show which path is active.
