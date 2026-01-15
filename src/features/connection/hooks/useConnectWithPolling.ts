@@ -1,14 +1,16 @@
 /**
  * useConnectWithPolling
  * 
- * Handles the connect flow with /status polling after success.
- * Uses setTimeout loop to prevent overlapping async calls.
- * Polls every 1s, EXACTLY 10 attempts max, stops when state === "secure" or SessionLockedError.
+ * Phase 1: Uses /health endpoint ONLY for polling.
+ * /status endpoint does not exist in Phase 1 (returns 404).
+ * 
+ * Polls /health every 1s, EXACTLY 10 attempts max.
+ * In Phase 1, success means xxdkReady === true.
  */
 
 import { useState, useCallback, useRef } from "react";
 import { bridgeClient, SessionLockedError } from "@/api/bridge";
-import type { StatusResponse } from "@/api/bridge/types";
+import type { HealthResponse } from "@/api/bridge/types";
 
 const POLL_INTERVAL_MS = 1000;
 const MAX_POLL_ATTEMPTS = 10;
@@ -22,9 +24,21 @@ export type ConnectPollingState =
   | "session_locked"
   | "error";
 
+// Phase 1: Simplified status derived from /health
+// Includes optional fields for backwards compatibility with UI components
+export interface Phase1StatusData {
+  state: "idle" | "connecting" | "secure";
+  xxdkReady: boolean;
+  version: string;
+  // Optional fields for UI compatibility (not available in Phase 1)
+  targetUrl?: string;
+  sessionId?: string;
+  latency?: number;
+}
+
 export interface ConnectPollingResult {
   state: ConnectPollingState;
-  statusData: StatusResponse | null;
+  statusData: Phase1StatusData | null;
   error: string | null;
   pollAttempt: number;
 }
@@ -96,10 +110,9 @@ export function useConnectWithPolling(
         return;
       }
 
-      // Step 2: Start polling /status using setTimeout loop
-      // Attempt 1 = immediate poll after /connect
-      // Attempts 2..10 = every 1000ms
-      // Stop at EXACTLY 10 attempts
+      // Step 2: Poll /health (Phase 1 - /status doesn't exist)
+      // In Phase 1, we consider connection "secure" after connect succeeds
+      // and /health shows xxdkReady === true
       let attemptCount = 0;
 
       const pollOnce = async (): Promise<void> => {
@@ -109,12 +122,20 @@ export function useConnectWithPolling(
         setResult(prev => ({ ...prev, state: "polling", pollAttempt: attemptCount }));
 
         try {
-          const status = await bridgeClient.status();
+          // Phase 1: Use /health instead of /status
+          const health: HealthResponse = await bridgeClient.health();
           
-          if (status.state === "secure") {
+          const statusData: Phase1StatusData = {
+            state: health.xxdkReady ? "secure" : "connecting",
+            xxdkReady: health.xxdkReady,
+            version: health.version,
+          };
+
+          if (health.xxdkReady) {
+            // In Phase 1, xxdkReady after connect = success
             setResult({
               state: "secure",
-              statusData: status,
+              statusData,
               error: null,
               pollAttempt: attemptCount,
             });
@@ -125,7 +146,7 @@ export function useConnectWithPolling(
           if (attemptCount >= MAX_POLL_ATTEMPTS) {
             setResult({
               state: "timeout",
-              statusData: status,
+              statusData,
               error: "Connection pending — try again",
               pollAttempt: attemptCount,
             });

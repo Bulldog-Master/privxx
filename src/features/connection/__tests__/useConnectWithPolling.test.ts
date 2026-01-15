@@ -1,7 +1,7 @@
 /**
  * Connect Flow Integration Tests
  * 
- * Tests for the connect flow with status polling.
+ * Phase 1: Tests use /health endpoint (not /status).
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -14,7 +14,7 @@ import { SessionLockedError } from "@/api/bridge/client";
 vi.mock("@/api/bridge", () => ({
   bridgeClient: {
     connect: vi.fn(),
-    status: vi.fn(),
+    health: vi.fn(), // Phase 1: uses /health instead of /status
   },
   SessionLockedError: class SessionLockedError extends Error {
     code = "session_locked";
@@ -37,22 +37,17 @@ describe("useConnectWithPolling", () => {
   });
 
   describe("happy path", () => {
-    it("connects successfully and polls until secure", async () => {
+    it("connects successfully and polls until xxdkReady", async () => {
       const mockConnect = vi.mocked(bridgeClient.connect);
-      const mockStatus = vi.mocked(bridgeClient.status);
+      const mockHealth = vi.mocked(bridgeClient.health);
       
       // Connect returns success
       mockConnect.mockResolvedValue({ success: true });
       
-      // First poll returns connecting, second returns secure
-      mockStatus
-        .mockResolvedValueOnce({ state: "connecting" })
-        .mockResolvedValueOnce({ 
-          state: "secure", 
-          targetUrl: "https://example.com",
-          sessionId: "sim-12345",
-          latency: 150
-        });
+      // First poll returns not ready, second returns ready
+      mockHealth
+        .mockResolvedValueOnce({ status: "ok", version: "0.4.0", xxdkReady: false })
+        .mockResolvedValueOnce({ status: "ok", version: "0.4.0", xxdkReady: true });
 
       const { result } = renderHook(() => useConnectWithPolling());
 
@@ -64,7 +59,7 @@ describe("useConnectWithPolling", () => {
       // Should be in connecting state first
       expect(result.current.isConnecting).toBe(true);
 
-      // Wait for first status poll
+      // Wait for first health poll
       await act(async () => {
         await vi.advanceTimersByTimeAsync(100);
       });
@@ -74,22 +69,22 @@ describe("useConnectWithPolling", () => {
         await vi.advanceTimersByTimeAsync(1000);
       });
 
-      // Should be secure now
+      // Should be secure now (xxdkReady === true)
       expect(result.current.result.statusData?.state).toBe("secure");
-      expect(result.current.result.statusData?.sessionId).toBe("sim-12345");
-      expect(result.current.result.statusData?.latency).toBe(150);
+      expect(result.current.result.statusData?.xxdkReady).toBe(true);
+      expect(result.current.result.statusData?.version).toBe("0.4.0");
     });
   });
 
   describe("timeout after EXACTLY 10 attempts", () => {
     it("stops polling after exactly 10 attempts", async () => {
       const mockConnect = vi.mocked(bridgeClient.connect);
-      const mockStatus = vi.mocked(bridgeClient.status);
+      const mockHealth = vi.mocked(bridgeClient.health);
       
       mockConnect.mockResolvedValue({ success: true });
       
-      // Status always returns connecting (never secure)
-      mockStatus.mockResolvedValue({ state: "connecting" });
+      // Health always returns xxdkReady: false (never becomes ready)
+      mockHealth.mockResolvedValue({ status: "ok", version: "0.4.0", xxdkReady: false });
 
       const { result } = renderHook(() => useConnectWithPolling());
 
@@ -113,8 +108,8 @@ describe("useConnectWithPolling", () => {
       expect(result.current.result.error).toBe("Connection pending — try again");
       // Should be exactly 10 attempts
       expect(result.current.result.pollAttempt).toBe(10);
-      // Verify status was called exactly 10 times
-      expect(mockStatus).toHaveBeenCalledTimes(10);
+      // Verify health was called exactly 10 times
+      expect(mockHealth).toHaveBeenCalledTimes(10);
     });
   });
 
@@ -139,14 +134,14 @@ describe("useConnectWithPolling", () => {
 
     it("calls onSessionLocked when 403 session_locked is received during polling", async () => {
       const mockConnect = vi.mocked(bridgeClient.connect);
-      const mockStatus = vi.mocked(bridgeClient.status);
+      const mockHealth = vi.mocked(bridgeClient.health);
       const onSessionLocked = vi.fn();
       
       mockConnect.mockResolvedValue({ success: true });
       
       // First poll succeeds, second throws SessionLockedError
-      mockStatus
-        .mockResolvedValueOnce({ state: "connecting" })
+      mockHealth
+        .mockResolvedValueOnce({ status: "ok", version: "0.4.0", xxdkReady: false })
         .mockRejectedValueOnce(new SessionLockedError("Session locked"));
 
       const { result } = renderHook(() => useConnectWithPolling(onSessionLocked));
