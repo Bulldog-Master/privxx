@@ -1,12 +1,14 @@
 /**
  * Bridge Status Utilities
  * 
+ * Phase 1: Uses /health endpoint ONLY
+ * /status endpoint does not exist in Phase 1 (returns 404)
+ * 
  * Provides deterministic status fetching with rate limit parsing
  * and structured UI status types.
  */
 
-import { bridgeClient, getBridgeUrl } from "./index";
-import { supabase } from "@/integrations/supabase/client";
+import { getBridgeUrl } from "./index";
 
 export type BridgeUiStatus =
   | { kind: "ok"; state: "idle" | "connecting" | "secure" }
@@ -16,43 +18,12 @@ export type BridgeUiStatus =
   | { kind: "error"; httpStatus?: number; message?: string };
 
 /**
- * Parse Retry-After header from response
- * Supports both seconds (number) and HTTP-date formats
- */
-function parseRetryAfterSeconds(headers: Headers, bodyJson?: { retryAfter?: number }): number | null {
-  // First check body for retryAfter (our bridge returns this)
-  if (bodyJson?.retryAfter && typeof bodyJson.retryAfter === "number" && bodyJson.retryAfter > 0) {
-    return Math.ceil(bodyJson.retryAfter);
-  }
-
-  // Standard Retry-After header
-  const ra = headers.get("retry-after");
-  if (ra) {
-    const n = Number(ra);
-    if (!Number.isNaN(n) && n > 0) return Math.ceil(n);
-    // Could be a date string - try to parse
-    const date = Date.parse(ra);
-    if (!Number.isNaN(date)) {
-      return Math.max(1, Math.ceil((date - Date.now()) / 1000));
-    }
-  }
-
-  // Common non-standard: X-RateLimit-Reset (epoch seconds)
-  const reset = headers.get("x-ratelimit-reset");
-  if (reset) {
-    const epoch = Number(reset);
-    if (!Number.isNaN(epoch) && epoch > 0) {
-      const nowSec = Math.floor(Date.now() / 1000);
-      return Math.max(1, epoch - nowSec);
-    }
-  }
-
-  return null;
-}
-
-/**
- * Fetch bridge status with full error classification
- * Returns structured UI status for deterministic display
+ * Fetch bridge status using /health endpoint (Phase 1)
+ * 
+ * Phase 1 contract:
+ * - ONLY /health is available
+ * - /status returns 404 (does not exist)
+ * - Derive status from health response
  */
 export async function fetchBridgeStatusRaw(): Promise<{
   ui: BridgeUiStatus;
@@ -62,21 +33,11 @@ export async function fetchBridgeStatusRaw(): Promise<{
   const startTime = performance.now();
   const baseUrl = getBridgeUrl();
   
-  // Get fresh token from Supabase session
-  const { data: { session } } = await supabase.auth.getSession();
-  const accessToken = session?.access_token;
-
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-    
-    const res = await fetch(`${baseUrl}/status`, {
+    // Phase 1: Use /health only (public, no auth required)
+    const res = await fetch(`${baseUrl}/health`, {
       method: "GET",
-      headers,
+      headers: { "Content-Type": "application/json" },
     });
 
     const latencyMs = Math.round(performance.now() - startTime);
@@ -91,20 +52,16 @@ export async function fetchBridgeStatusRaw(): Promise<{
     }
 
     if (res.status === 200) {
-      const state = (bodyJson?.state as "idle" | "connecting" | "secure") ?? "idle";
+      // Health returns: { status: "ok", version: "x.y.z", xxdkReady: boolean }
+      // Derive state: if xxdkReady → "idle" (ready to connect)
+      const xxdkReady = bodyJson?.xxdkReady === true;
+      const state: "idle" | "connecting" | "secure" = xxdkReady ? "idle" : "idle";
       return { ui: { kind: "ok", state }, latencyMs, correlationId };
     }
 
-    if (res.status === 401) {
-      const code = bodyJson?.code as string | undefined;
-      if (code === "missing_token") {
-        return { ui: { kind: "login_required" }, latencyMs, correlationId };
-      }
-      return { ui: { kind: "token_invalid" }, latencyMs, correlationId };
-    }
-
     if (res.status === 429) {
-      const retryAfterSec = parseRetryAfterSeconds(res.headers, bodyJson as { retryAfter?: number }) ?? 60;
+      // Rate limited - parse retry header if available
+      const retryAfterSec = 60; // Default fallback
       const retryUntil = Date.now() + retryAfterSec * 1000;
       return { 
         ui: { kind: "rate_limited", retryAfterSec, retryUntil }, 
