@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIdentity } from "@/features/identity";
 import { IdentityUnlockForm } from "@/features/identity/components/IdentityUnlockForm";
 import MinimalFooter from "@/components/shared/MinimalFooter";
+import { BridgeStatus } from "@/components/BridgeStatus";
 
 // Lazy load the diagnostics drawer - only loaded when user interacts
 const DiagnosticsDrawer = lazy(() => import("@/components/diagnostics/DiagnosticsDrawer"));
@@ -49,6 +50,11 @@ const Index = () => {
           className="flex-1 flex flex-col items-center pt-44 sm:pt-52 px-4 sm:px-6 gap-5 pb-20"
           tabIndex={-1}
         >
+          {/* Phase 1 Bridge Status - shows /health result */}
+          <div className="w-full max-w-md">
+            <BridgeStatus />
+          </div>
+
           {/* Bridge connectivity warning - shows when bridge unreachable */}
           <div className="w-full max-w-md">
             <BridgeConnectivityWarning minFailures={2} />
