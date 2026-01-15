@@ -17,7 +17,7 @@ export function BridgeStatus() {
 
     (async () => {
       try {
-        const data = await fetchHealth("https://privxx.app");
+        const data = await fetchHealth("https://api.privxx.app");
         if (alive) setState({ kind: "ok", data });
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : "unknown error";

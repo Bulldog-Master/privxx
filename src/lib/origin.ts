@@ -20,8 +20,9 @@ export const ALLOWED_ORIGINS = [
   /^https:\/\/[a-z0-9-]+\.lovableproject\.com$/,
 ];
 
-// Bridge API URL (canonical origin - per API contract, routes like /health are at root)
-export const BRIDGE_BASE_URL = import.meta.env.VITE_BRIDGE_URL || CANONICAL_ORIGIN;
+// Bridge API URL (api.privxx.app serves JSON API, privxx.app serves frontend)
+export const BRIDGE_API_URL = 'https://api.privxx.app';
+export const BRIDGE_BASE_URL = import.meta.env.VITE_BRIDGE_URL || BRIDGE_API_URL;
 
 /**
  * Check if an origin is allowed for CORS

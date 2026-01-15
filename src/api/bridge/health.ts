@@ -7,7 +7,7 @@ export type HealthResponse = {
   xxdkReady: boolean;
 };
 
-export async function fetchHealth(baseUrl = "https://privxx.app"): Promise<HealthResponse> {
+export async function fetchHealth(baseUrl = "https://api.privxx.app"): Promise<HealthResponse> {
   const res = await fetch(`${baseUrl}/health`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
