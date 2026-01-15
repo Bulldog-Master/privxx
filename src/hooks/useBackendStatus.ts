@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from "react";
-import { bridgeClient, isMockMode, type StatusResponse } from "@/api/bridge";
+import { bridgeClient, isMockMode, type StatusResponse, type HealthResponse } from "@/api/bridge";
 import { BridgeError, type BridgeErrorCode } from "@/api/bridge/client";
 import { useRateLimitCountdown } from "@/features/diagnostics/hooks/useRateLimitCountdown";
 
@@ -265,7 +265,9 @@ export function useBackendStatus(pollMs = 30000) {
     const checkTime = new Date();
 
     try {
-      const s = await bridgeClient.status();
+      // Phase 1: Use /health endpoint (the only available endpoint)
+      // /status endpoint doesn't exist in Phase 1 and returns 404
+      const h: HealthResponse = await bridgeClient.health();
       const latencyMs = Math.round(performance.now() - startTime);
 
       // Reset failure count and auto-retry on success
@@ -273,10 +275,14 @@ export function useBackendStatus(pollMs = 30000) {
       clearCountdownRef.current();
       resetAutoRetry();
 
-      const health = calculateHealth(s.state, latencyMs, 0);
+      // Derive state from health response
+      // xxdkReady: true means the backend is ready to accept connections
+      // In Phase 1, we show "idle" (ready to connect) when healthy
+      const derivedState: StatusResponse["state"] = h.xxdkReady ? "idle" : "idle";
+      const health = calculateHealth(derivedState, latencyMs, 0);
 
       setData({
-        state: s.state,
+        state: derivedState,
         isMock: isMockMode(),
         health,
         latencyMs,
