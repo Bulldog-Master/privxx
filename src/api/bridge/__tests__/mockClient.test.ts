@@ -82,9 +82,12 @@ describe("MockBridgeClient", () => {
   });
 
   describe("connect endpoint", () => {
-    it("returns success: true", async () => {
+    it("returns ack: true with connect_ack envelope", async () => {
       const result = await client.connect("https://example.com");
-      expect(result.success).toBe(true);
+      expect(result.ack).toBe(true);
+      expect(result.type).toBe("connect_ack");
+      expect(result.v).toBe(1);
+      expect(result.status).toBe("connected");
     });
   });
 

@@ -21,7 +21,6 @@ import type {
   IBridgeClient,
   BridgeClientConfig,
   HealthResponse,
-  ConnectResponse,
   DisconnectResponse,
   InboxRequest,
   InboxResponse,
@@ -29,6 +28,18 @@ import type {
   ThreadResponse,
   SendMessageRequest,
 } from "./types";
+
+// Connect envelope types (Phase-D)
+export type ConnectAck = {
+  v: number;
+  type: "connect_ack";
+  requestId: string;
+  sessionId?: string;
+  ack: boolean;
+  status: string;
+  serverTime?: string;
+  errorCode?: string;
+};
 import type { SendMessageResponse as NewSendMessageResponse } from "./messageTypes";
 
 // Error types for better handling
@@ -418,12 +429,16 @@ export class BridgeClient implements IBridgeClient {
    * Sends Phase-D connect_intent envelope as required by backend.
    * @param targetUrl - The destination URL to route through cMixx
    */
-  async connect(targetUrl: string): Promise<any> {
+  async connect(targetUrl: string): Promise<ConnectAck> {
+    const requestId =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `cli-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
+
     const connectIntent = {
       v: 1,
-      type: "connect_intent",
-      requestId: `cli-${Date.now()}`,
-      sessionId: `sim-${Date.now()}${Math.floor(Math.random() * 1e6)}`,
+      type: "connect_intent" as const,
+      requestId,
       targetUrl,
     };
 
