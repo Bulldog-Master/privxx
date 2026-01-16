@@ -33,12 +33,13 @@
 ## Architecture (Locked)
 
 ```
-Frontend (https://privxx.app) → HTTPS → Bridge API (https://api.privxx.app) → localhost → Backend (xxDK owner)
+Frontend (https://privxx.app) → HTTPS → Bridge API (https://api.privxx.app) → localhost → xxDK Backend (external)
 ```
 
 - Frontend NEVER talks to backend directly
-- Backend NEVER exposed publicly (127.0.0.1:8790)
-- Bridge is the ONLY public API surface (127.0.0.1:8090 via Cloudflare)
+- **privxx-bridge** is the ONLY server-side artifact in this repo (127.0.0.1:8090 via Cloudflare)
+- **xxdk-backend** (xx-backend.service) is EXTERNAL — not part of this repo
+- Bridge proxies to external backend via localhost RPC
 
 ## Domains (Locked)
 
@@ -133,21 +134,27 @@ Phase 3 ends at **implementation-ready** state. Phase 4 is **deployment & rollou
 ```
 Frontend (Lovable)
        ↓ HTTPS (JWT)
-Bridge (Public API)
+privxx-bridge (Public API) ← ONLY server-side artifact in this repo
        ↓ Local RPC
-Backend (xxDK owner)
+xxdk-backend (external service, xx-backend.service) ← NOT in this repo
        ↓ cMixx
 xx Network
 ```
 
 ### Ownership Rules
 
-| Component | Owns |
-|-----------|------|
-| Frontend | UI, polling, envelopes |
-| Bridge | Auth, validation, rate-limit |
-| Backend | xxDK, crypto, queues, storage |
-| Network | Delivery |
+| Component | Owns | In This Repo? |
+|-----------|------|---------------|
+| Frontend | UI, polling, envelopes | ✅ Yes |
+| privxx-bridge | Auth, validation, rate-limit, proxy | ✅ Yes |
+| xxdk-backend | xxDK, crypto, queues, storage | ❌ External |
+| xx Network | Delivery | ❌ External |
+
+### Critical Architecture Note
+
+⚠️ **There is NO Go `privxx-backend` in this repo.**  
+The engine backend is **external** (`xxdk-backend` / `xx-backend.service`).  
+The repo's only server-side build artifact is **privxx-bridge**.
 
 ---
 
@@ -255,10 +262,10 @@ Accepted type: `connect_intent` ONLY
 
 ---
 
-## Phase 3.1 — Conversation Model (COMPLETE ✅)
+## Phase 3.1 — Conversation Model (SPECIFICATION LOCKED)
 
-**Status:** COMPLETE  
-**Files:** `backend/conversations/model.go`, `backend/conversations/repo.go`
+**Status:** SPECIFICATION LOCKED  
+**Implementation:** External (`xxdk-backend`, not in this repo)
 
 **Purpose:**
 - Deterministic conversation identity
@@ -266,20 +273,20 @@ Accepted type: `connect_intent` ONLY
 - No plaintext
 - No xxDK usage
 
+⚠️ The Go code shown below is a **reference specification** for the external backend, NOT code in this repo.
+
 🔒 LOCKED
 
 ---
 
-## Phase 3.2 — Message Envelope + Store (COMPLETE ✅)
+## Phase 3.2 — Message Envelope + Store (SPECIFICATION LOCKED)
+
+**Status:** SPECIFICATION LOCKED  
+**Implementation:** External (`xxdk-backend`, not in this repo)
 
 **Purpose:** Define how messages are stored and tracked, without handling encryption or transport yet.
 
-**Files:**
-```
-backend/messages/
-├── model.go
-├── store.go
-```
+⚠️ The Go code shown below is a **reference specification** for the external backend, NOT code in this repo.
 
 ### model.go
 
@@ -341,18 +348,17 @@ func (s *Store) List(conversationID string) []*Message {
 
 ---
 
-## Phase 3.3 — Message Orchestrator (COMPLETE ✅)
+## Phase 3.3 — Message Orchestrator (SPECIFICATION LOCKED)
+
+**Status:** SPECIFICATION LOCKED  
+**Implementation:** External (`xxdk-backend`, not in this repo)
 
 **Purpose:** Central brain that:
 - Builds encrypted envelopes
 - Routes incoming messages
 - Updates conversation state
 
-**Files:**
-```
-backend/orchestrator/
-└── orchestrator.go
-```
+⚠️ The Go code shown below is a **reference specification** for the external backend, NOT code in this repo.
 
 ### orchestrator.go
 
@@ -423,11 +429,14 @@ func generateMessageID() string {
 
 ---
 
-## Phase 3.4 — Backend Wiring (COMPLETE ✅)
+## Phase 3.4 — Backend Wiring (SPECIFICATION LOCKED)
 
-**Purpose:** Instantiate and wire all Phase 3 components.
+**Status:** SPECIFICATION LOCKED  
+**Implementation:** External (`xxdk-backend`, not in this repo)
 
-**Add to `backend/main.go`:**
+**Purpose:** Instantiate and wire all Phase 3 components in the external backend.
+
+⚠️ The Go code shown below is a **reference specification** for the external backend, NOT code in this repo.
 
 ```go
 convoRepo := conversations.NewRepo()
@@ -545,14 +554,20 @@ Frontend NEVER:
 
 ## Phase 3 Backend Lock Note (AUTHORITATIVE)
 
-Phase 3 Backend is **COMPLETE and LOCKED**.
+Phase 3 Backend **SPECIFICATION** is **LOCKED**.
 
-✔ Conversation model  
-✔ Message envelope  
-✔ Storage  
-✔ Orchestration logic  
-✔ Backend wiring  
+### Architecture Clarification
 
+⚠️ **There is NO Go `privxx-backend` in this repo.**  
+- The engine backend is **external** (`xxdk-backend` / `xx-backend.service`)
+- The repo's only server-side build artifact is **privxx-bridge**
+- The Go code in Phase 3.1-3.4 is a **reference specification**, not repo code
+
+### Current State
+
+✔ Messaging foundation specification locked on VPS  
+✔ `/connect` requires `type=connect_intent`  
+❌ Browsing routes NOT available yet — do not assume them  
 ❌ No plaintext anywhere  
 ❌ No frontend assumptions  
 ❌ No protocol guessing  
@@ -565,7 +580,6 @@ Phase 4 will cover:
 - Bridge endpoints for `/conversations`, `/messages`
 - JWT-gated API surface
 - Frontend hooks + rendering
-- Live xxDK transport swap-in
 
 ---
 
