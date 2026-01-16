@@ -27,19 +27,8 @@ import type {
   ThreadRequest,
   ThreadResponse,
   SendMessageRequest,
+  ConnectAck,
 } from "./types";
-
-// Connect envelope types (Phase-D)
-export type ConnectAck = {
-  v: number;
-  type: "connect_ack";
-  requestId: string;
-  sessionId?: string;
-  ack: boolean;
-  status: string;
-  serverTime?: string;
-  errorCode?: string;
-};
 import type { SendMessageResponse as NewSendMessageResponse } from "./messageTypes";
 
 // Error types for better handling
