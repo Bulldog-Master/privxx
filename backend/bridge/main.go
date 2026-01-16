@@ -9,8 +9,18 @@
 package main
 
 import (
+	"context"
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/Bulldog-Master/privxx/backend/bridge/internal/backend"
+	"github.com/Bulldog-Master/privxx/backend/bridge/internal/conversations"
+	"github.com/Bulldog-Master/privxx/backend/bridge/internal/handlers"
+	"github.com/Bulldog-Master/privxx/backend/bridge/internal/messages"
+	"github.com/Bulldog-Master/privxx/backend/bridge/internal/store"
+	"github.com/Bulldog-Master/privxx/backend/bridge/internal/transport"
 	"io"
 	"log"
 	"net/http"
@@ -45,6 +55,13 @@ type Session struct {
 }
 
 var session = &Session{State: StateIdle}
+
+// Phase-1 Backend Core components (build-only wiring)
+var (
+	fileKV           *store.FileKV
+	conversationRepo *conversations.Repo
+	messageStore     *messages.Store
+)
 
 // ConnectIntent is the payload for POST /connect (Phase D schema)
 type ConnectIntent struct {
@@ -491,13 +508,16 @@ type JWTError struct {
 
 // Backend configuration (provided at runtime via environment variables)
 var (
-	supabaseURL     string
-	supabaseAnonKey string
+	supabaseURL       string
+	supabaseAnonKey   string
+	supabaseJWTSecret string
 )
 
 func init() {
 	supabaseURL = strings.TrimSpace(os.Getenv("SUPABASE_URL"))
 	supabaseAnonKey = strings.TrimSpace(os.Getenv("SUPABASE_ANON_KEY"))
+
+	supabaseJWTSecret = strings.TrimSpace(os.Getenv("SUPABASE_JWT_SECRET"))
 
 	if supabaseURL == "" {
 		log.Fatal("[CONFIG] SUPABASE_URL is required")
@@ -515,6 +535,11 @@ var httpClient = &http.Client{
 // validateJWTViaEndpoint validates a JWT by calling Supabase /auth/v1/user
 // This is the endpoint-based verification approach that doesn't require the JWT secret
 func validateJWTViaEndpoint(token string) (*JWTClaims, *JWTError) {
+	if os.Getenv("AUTH_MODE") == "local" {
+		// local dev: accept X-User-Id without JWT
+		return &JWTClaims{Sub: "local-dev"}, nil
+	}
+
 	// Build request to Supabase auth endpoint
 	authURL := supabaseURL + "/auth/v1/user"
 
@@ -603,6 +628,52 @@ func validateJWTViaEndpoint(token string) (*JWTClaims, *JWTError) {
 		Email: user.Email,
 		Aud:   user.Aud,
 	}, nil
+}
+
+// validateJWTHS256Local validates a JWT locally using SUPABASE_JWT_SECRET.
+// Build/test mode only. Enable by setting AUTH_MODE=local.
+func validateJWTHS256Local(token string) (*JWTClaims, *JWTError) {
+	if os.Getenv("SUPABASE_JWT_SECRET") == "" {
+		return nil, &JWTError{Error: "server_error", Code: "missing_jwt_secret", Message: "SUPABASE_JWT_SECRET not configured"}
+	}
+	parts := strings.Split(token, ".")
+	if len(parts) != 3 {
+		return nil, &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Token is invalid"}
+	}
+	signingInput := parts[0] + "." + parts[1]
+	sig, err := base64.RawURLEncoding.DecodeString(parts[2])
+	if err != nil {
+		return nil, &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Token is invalid"}
+	}
+	mac := hmac.New(sha256.New, []byte(os.Getenv("SUPABASE_JWT_SECRET")))
+	mac.Write([]byte(signingInput))
+	expected := mac.Sum(nil)
+	if !hmac.Equal(sig, expected) {
+		return nil, &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Token is invalid or expired"}
+	}
+	payload, err := base64.RawURLEncoding.DecodeString(parts[1])
+	if err != nil {
+		return nil, &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Token is invalid"}
+	}
+	var raw map[string]any
+	if err := json.Unmarshal(payload, &raw); err != nil {
+		return nil, &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Token is invalid"}
+	}
+	sub, _ := raw["sub"].(string)
+	if sub == "" {
+		return nil, &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Token missing sub"}
+	}
+	if expv, ok := raw["exp"]; ok {
+		switch t := expv.(type) {
+		case float64:
+			if time.Now().Unix() > int64(t) {
+				return nil, &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Token is invalid or expired"}
+			}
+		}
+	}
+	email, _ := raw["email"].(string)
+	aud, _ := raw["aud"].(string)
+	return &JWTClaims{Sub: sub, Email: email, Aud: aud}, nil
 }
 
 // validateJWT validates the JWT token from the Authorization header
@@ -840,6 +911,38 @@ func handleUnlockStatus(w http.ResponseWriter, r *http.Request) {
 }
 
 // handleHealth returns bridge health status
+// backendStatusResponse is the minimal shape we need from the local backend.
+// Example: {"detail":"xxDK unlocked","ready":true,"state":"unlocked"}
+type backendStatusResponse struct {
+	Ready bool `json:"ready"`
+}
+
+// getBackendXXDKReady checks the local backend status endpoint and returns ready=true/false.
+// Fails closed (false) on any error to keep /health safe and predictable.
+func getBackendXXDKReady() bool {
+	client := &http.Client{Timeout: 800 * time.Millisecond}
+	req, err := http.NewRequest("GET", "http://127.0.0.1:8790/status", nil)
+	if err != nil {
+		return false
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return false
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return false
+	}
+
+	var st backendStatusResponse
+	if err := json.NewDecoder(resp.Body).Decode(&st); err != nil {
+		return false
+	}
+	return st.Ready
+}
+
 func handleHealth(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -849,7 +952,7 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 	resp := HealthResponse{
 		Status:    "ok",
 		Version:   "0.4.0",
-		XXDKReady: false, // TODO: Check actual xxDK status
+		XXDKReady: getBackendXXDKReady(), // TODO: Check actual xxDK status
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -1072,6 +1175,36 @@ func handleAdminResetRatelimit(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// Phase-1: initialize local store + conversation repo (no endpoints yet)
+	var err error
+	fileKV, err = store.NewFileKV("./data")
+	if err != nil {
+		log.Fatalf("[FATAL] failed to init local store: %v", err)
+	}
+	conversationRepo = conversations.NewRepo(fileKV)
+	messageStore, err = messages.NewStore("./data")
+	if err != nil {
+		log.Fatalf("[FATAL] failed to init message store: %v", err)
+	}
+
+	// Phase-1: transport + orchestrator wiring (mock adapter for build)
+	txAdapter := transport.NewMockAdapter(4096)
+	msgOrch, err := messages.NewOrchestrator(conversationRepo, messageStore, txAdapter, 4096)
+	if err != nil {
+		log.Fatalf("[FATAL] failed to init orchestrator: %v", err)
+	}
+	if err := txAdapter.SetReceiveHandler(func(ctx context.Context, env []byte) error {
+		return msgOrch.OnReceiveEnvelope(ctx, env)
+	}); err != nil {
+		log.Fatalf("[FATAL] failed to set receive handler: %v", err)
+	}
+	if err := txAdapter.Start(context.Background()); err != nil {
+		log.Fatalf("[FATAL] failed to start transport adapter: %v", err)
+	}
+
+	// Phase-1 endpoints (strict scope)
+	registerPhase1Endpoints(conversationRepo, messageStore, txAdapter, msgOrch)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8090"
@@ -1109,9 +1242,14 @@ func main() {
 	http.HandleFunc("/lock", corsMiddleware(authMiddleware(handleLock)))
 
 	// Protected routes require both auth AND unlocked session
-	http.HandleFunc("/connect", corsMiddleware(authMiddlewareWithContext(unlockRequiredMiddleware(handleConnectREST))))
-	http.HandleFunc("/status", corsMiddleware(authMiddlewareWithContext(handleStatusREST))) // Status doesn't require unlock
-	http.HandleFunc("/disconnect", corsMiddleware(authMiddlewareWithContext(unlockRequiredMiddleware(handleDisconnectREST))))
+	http.HandleFunc("/connect", corsMiddleware(authMiddleware(unlockRequiredMiddleware(handleConnect))))
+	http.HandleFunc("/status", corsMiddleware(authMiddleware(handleStatus))) // Status doesn't require unlock
+	http.HandleFunc("/disconnect", corsMiddleware(authMiddleware(unlockRequiredMiddleware(handleDisconnect))))
+
+	// Messaging (Phase-1 in-memory)
+	// DISABLED (Phase-1 canonical): legacy HTTP peer messaging route
+	// http.HandleFunc("/messages/inbox", corsMiddleware(authMiddleware(handleMessagesInbox)))
+	// http.HandleFunc("/messages/send", corsMiddleware(authMiddleware(handleMessagesSend)))
 
 	// Admin endpoints (protected by ADMIN_SECRET)
 	http.HandleFunc("/admin/reset-ratelimit", corsMiddleware(handleAdminResetRatelimit))
@@ -1119,6 +1257,13 @@ func main() {
 	listenAddr := fmt.Sprintf("%s:%s", bindAddr, port)
 
 	log.Printf("Privxx Bridge v0.4.0 starting on %s", listenAddr)
+	// === Phase 3.3.3: Backend health endpoint (opt-in; off by default) ===
+	backendCfg, _ := backend.LoadConfig()
+	if os.Getenv("ENABLE_BACKEND_HEALTH") == "1" {
+		http.HandleFunc("/admin/backend/health", handlers.BackendHealthHandler(backendCfg))
+		log.Printf("[BACKEND] /admin/backend/health enabled")
+	}
+
 	log.Printf("Endpoints: /health, /unlock, /unlock/status, /lock, /connect, /status, /disconnect, /admin/reset-ratelimit")
 	log.Printf("CORS: Canonical origin %s", CanonicalOrigin)
 	log.Printf("Allowed origins: %v", allowedOrigins)
