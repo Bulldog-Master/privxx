@@ -12,8 +12,7 @@
 ## Table of Contents
 
 1. [Phase 2 — Bridge Integration & Protocol](#phase-2--bridge-integration--protocol)
-2. [Phase 3.1 — Backend Messaging Core](#phase-31--backend-messaging-core)
-3. [Phase 3.2 — Bridge Messaging API](#phase-32--bridge-messaging-api)
+2. [Phase 3 (Full) — Messaging Design + Implementation](#phase-3-full--messaging-design--implementation)
 
 ---
 
@@ -100,134 +99,321 @@ LOCKED → POST /unlock → UNLOCKED (TTL) → POST /connect → CONNECTING → 
 
 ---
 
-# Phase 3.1 — Backend Messaging Core
+# Phase 3 (Full) — Messaging Design + Implementation
 
 **Status:** LOCKED ✅  
 **Date Locked:** 2026-01-16  
-**Phase:** 3.1 — Backend Messaging Core (DESIGN ONLY)
+**Owner:** Bulldog  
+**Scope:** Phase 3.1 → Phase 3.6  
 
-## What is Locked
-
-**Phase 3.1 = Backend Messaging Core (DESIGN ONLY)** is FINAL and will not be re-litigated.
-
-## Non-Negotiable Rules
-
-1. Backend is the **sole xxDK owner**
-2. Bridge never decrypts / never handles plaintext
-3. Frontend never encrypts / never handles xxDK
-4. Backend APIs to Bridge are **local-only**
-5. Network format is **MessageEnvelope v1** only
-6. No extra metadata fields beyond defined schema
-7. Storage is local, append-only, ciphertext-at-rest
-
-## Locked Schemas
-
-### Network Message (sent over cMixx)
-
-```
-MessageEnvelope {
-  v: 1
-  messageId: UUIDv7
-  conversationId: SHA256(sorted(senderID+peerID))
-  senderId: xxID
-  timestamp: unixMillis
-  ciphertext: bytes
-}
-```
-
-### Internal Plaintext (never leaves backend memory)
-
-```
-MessagePayload {
-  type: "text"
-  body: string
-}
-```
-
-### Local Storage Records
-
-```
-StoredMessage {
-  messageId
-  conversationId
-  senderId
-  timestamp
-  ciphertext
-  direction
-}
-
-Conversation {
-  conversationId
-  peerId
-  lastMessageAt
-  unreadCount
-}
-```
-
-## Locked Backend Interfaces (local-only)
-
-```
-SendMessage(ctx, recipientID, payload)
-ListConversations(ctx)
-GetMessages(ctx, conversationID, sinceTimestamp)
-MarkRead(ctx, conversationID)
-```
-
-## Explicitly Out of Scope (Phase 4+)
-
-- Group chats
-- Attachments
-- Edits/deletes
-- Multi-device sync
-- Push notifications
-
-## Phase 3.1 Lock Statement
-
-> "Phase 3.1 backend messaging design is final. No changes without explicit Phase 4 approval."
+> This section replaces **all prior Phase 3 notes**.  
+> If something is not written here, it is **not part of Phase 3**.
 
 ---
 
-# Phase 3.2 — Bridge Messaging API
+## Phase 3 Goal (Definitive)
 
-**Status:** LOCKED ✅  
-**Date Locked:** 2026-01-16  
-**Phase:** 3.2 — Bridge Messaging API (DESIGN ONLY)
+Introduce **secure messaging** into Privxx while preserving:
 
-## Purpose
+- Backend-only xxDK ownership
+- Bridge as hardened policy gate
+- Frontend as stateless renderer
+- Zero plaintext persistence
+- Zero crypto in browser
+- Clear Phase 3 → Phase 4 boundary
 
-Define the **public Bridge API contract** that exposes **messaging functionality** to the frontend while preserving Privxx's core guarantees:
+Phase 3 ends at **implementation-ready** state. Phase 4 is **deployment & rollout**.
 
-- Zero plaintext exposure outside backend
-- Bridge as **policy + auth gate only**
-- Backend as **sole xxDK + crypto owner**
-- Frontend as **dumb client** (no crypto, no keys)
+---
 
-This phase defines **WHAT exists**, not how it is implemented yet.
+## Phase 3.1 — Architecture (Locked)
 
-## Global Rules (Non-Negotiable)
+### System Topology
 
-1. All Phase 3.2 endpoints **require Supabase JWT**
-2. Bridge NEVER:
-   - decrypts messages
-   - constructs ciphertext
-   - touches xxDK
-3. Bridge forwards requests **locally** to backend only
-4. All message content handled by Bridge is **opaque**
-5. JSON schemas are **versioned** (`v`)
-6. Any endpoint not listed here **does not exist**
-
-## Authentication
-
-### Required Header (ALL endpoints)
-
-```http
-Authorization: Bearer <supabase_jwt>
-Content-Type: application/json
+```
+Frontend (Lovable)
+       ↓ HTTPS (JWT)
+Bridge (Public API)
+       ↓ Local RPC
+Backend (xxDK owner)
+       ↓ cMixx
+xx Network
 ```
 
-## Phase 3.2 Lock Statement
+### Ownership Rules
 
-> "Phase 3.2 bridge messaging API design is final. No changes without explicit Phase 4 approval."
+| Component | Owns |
+|-----------|------|
+| Frontend | UI, polling, envelopes |
+| Bridge | Auth, validation, rate-limit |
+| Backend | xxDK, crypto, queues, storage |
+| Network | Delivery |
+
+---
+
+## Phase 3.2 — Bridge API Contracts (Locked)
+
+All Phase 3 endpoints:
+- Require **Supabase JWT**
+- Require **unlocked session**
+- Use **envelope format**
+- Reject unknown fields strictly
+
+### Envelope (Mandatory)
+
+```json
+{
+  "v": 1,
+  "type": "<string>",
+  "requestId": "<uuid>",
+  "sessionId": "<optional>",
+  "...": "payload"
+}
+```
+
+### GET /status
+
+- **Auth:** Required
+- **Purpose:** Messaging readiness
+- **Response 200:** `{ "state": "idle" | "connecting" | "secure" }`
+
+### POST /unlock
+
+- **Request:** `{ "password": "…" }`
+- **Response:** `{ "success": true, "expiresAt": "RFC3339", "ttlSeconds": 900 }`
+- **Errors:** `403 session_locked`, `401 invalid_password`
+
+### POST /connect
+
+Accepted type: `connect_intent` ONLY
+
+- **Request:**
+```json
+{
+  "v": 1,
+  "type": "connect_intent",
+  "requestId": "uuid",
+  "targetUrl": "https://example.com"
+}
+```
+
+- **Response:**
+```json
+{
+  "v": 1,
+  "type": "connect_ack",
+  "requestId": "uuid",
+  "ack": true,
+  "status": "connected",
+  "serverTime": "RFC3339"
+}
+```
+
+- **Errors:** `INVALID_MESSAGE`, `SESSION_LOCKED`, `INVALID_URL`
+
+### GET /conversations
+
+```json
+{
+  "conversations": [
+    { "id": "convId", "unread": 2, "lastMessageAt": "RFC3339" }
+  ]
+}
+```
+
+### GET /messages?conversationId=…&since=…
+
+```json
+{
+  "messages": [
+    {
+      "id": "msgId",
+      "direction": "inbound" | "outbound",
+      "ciphertext": "base64",
+      "status": "queued" | "sent" | "failed",
+      "timestamp": "RFC3339"
+    }
+  ],
+  "cursor": "nextCursor"
+}
+```
+
+### POST /messages/send
+
+- **Request:**
+```json
+{
+  "v": 1,
+  "type": "send_message",
+  "requestId": "uuid",
+  "conversationId": "convId",
+  "ciphertext": "base64"
+}
+```
+
+- **Response:** `{ "ok": true }`
+
+---
+
+## Phase 3.3 — Backend Design (Locked)
+
+### Backend Responsibilities
+
+Backend is the **only component** that:
+- Owns xxDK identity
+- Encrypts / decrypts
+- Talks to cMixx
+- Stores ciphertext
+- Queues outbound messages
+
+**Bridge NEVER touches plaintext.**
+
+### Backend Modules (Required)
+
+```
+backend/
+├─ conversations/
+├─ messages/
+├─ transport/
+│  ├─ adapter.go
+│  ├─ cmixx.go
+│  └─ mock.go
+├─ orchestrator/
+└─ api/bridge_rpc.go
+```
+
+### Message Flow
+
+**Send:**
+```
+Bridge → Backend RPC → Encrypt → Queue → cMixx send
+```
+
+**Receive:**
+```
+cMixx receive → Decrypt → Store ciphertext → Notify bridge
+```
+
+### Storage Rules
+
+- Ciphertext only
+- No plaintext at rest
+- Deterministic conversation IDs
+- Message deduplication enforced
+
+---
+
+## Phase 3.4 — Bridge Design (Locked)
+
+### Bridge Role
+
+Bridge:
+- Verifies JWT
+- Enforces session lock
+- Validates schema
+- Rate-limits
+- Proxies to backend
+
+Bridge does NOT:
+- Encrypt
+- Decrypt
+- Persist messages
+
+### Bridge Modules
+
+```
+bridge/
+├─ handlers/
+├─ auth/
+├─ ratelimit/
+├─ rpc/
+└─ schema/
+```
+
+### Enforcement Rules
+
+| Condition | Response |
+|-----------|----------|
+| Unknown type | 400 |
+| Invalid v | 400 |
+| Locked session | 403 |
+| Rate exceeded | 429 |
+| Backend down | 503 |
+
+---
+
+## Phase 3.5 — Frontend Design (Locked)
+
+Frontend:
+- Sends envelopes
+- Polls APIs
+- Renders messages
+- Handles session lock UX
+
+Frontend NEVER:
+- Encrypts
+- Decrypts
+- Touches xxDK
+- Stores plaintext long-term
+
+### Required Hooks
+
+- `useConversations()`
+- `useMessages(conversationId)`
+- `useSendMessage()`
+- `useSessionStatus()`
+
+### Rules
+
+- Server is source of truth
+- Message states: `queued | sent | failed`
+- Stop polling on session lock
+
+---
+
+## Phase 3.6 — Failure + Operations (Locked)
+
+### Failure Handling
+
+| Failure | Action |
+|---------|--------|
+| Session locked | Stop all polling |
+| cMixx down | Queue + retry |
+| Encrypt fail | Reject send |
+| Backend down | 503 |
+
+### Logging Rules
+
+**Allowed:**
+- requestId
+- endpoint
+- userId
+- result code
+
+**Forbidden:**
+- plaintext
+- ciphertext
+- message bodies
+- recipients
+
+---
+
+## Phase 3 Completion Criteria ✅
+
+- [x] APIs frozen
+- [x] Backend responsibilities frozen
+- [x] Bridge responsibilities frozen
+- [x] Frontend hooks frozen
+- [x] Failure handling defined
+- [x] Logging rules defined
+
+---
+
+## Phase 3 Lock Statement
+
+> **🔒 Phase 3 (Messaging) is fully specified and frozen.**  
+> No design changes permitted.  
+> Phase 4 is deployment & rollout.
 
 ---
 
@@ -236,10 +422,9 @@ Content-Type: application/json
 | Phase | Scope | Status |
 |-------|-------|--------|
 | Phase 2 | Bridge Integration & Protocol | ✅ LOCKED |
-| Phase 3.1 | Backend Messaging Core (Design) | ✅ LOCKED |
-| Phase 3.2 | Bridge Messaging API (Design) | ✅ LOCKED |
-| Phase 3.3 | Implementation | 🔲 NOT STARTED |
-| Phase 4 | Extensions (Groups, Attachments, etc.) | 🔲 FUTURE |
+| Phase 3 | Messaging (Full: 3.1–3.6) | ✅ LOCKED |
+| Phase 4 | Deployment & Rollout | 🔲 FUTURE |
+| Phase 5+ | Extensions (Groups, Attachments, etc.) | 🔲 FUTURE |
 
 ---
 
