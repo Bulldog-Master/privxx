@@ -41,8 +41,8 @@ describe("useConnectWithPolling", () => {
       const mockConnect = vi.mocked(bridgeClient.connect);
       const mockHealth = vi.mocked(bridgeClient.health);
       
-      // Connect returns success
-      mockConnect.mockResolvedValue({ success: true });
+      // Connect returns success (Phase-D envelope)
+      mockConnect.mockResolvedValue({ v: 1, type: "connect_ack", requestId: "test-1", ack: true, status: "connected" });
       
       // First poll returns not ready, second returns ready
       mockHealth
@@ -81,7 +81,7 @@ describe("useConnectWithPolling", () => {
       const mockConnect = vi.mocked(bridgeClient.connect);
       const mockHealth = vi.mocked(bridgeClient.health);
       
-      mockConnect.mockResolvedValue({ success: true });
+      mockConnect.mockResolvedValue({ v: 1, type: "connect_ack", requestId: "test-2", ack: true, status: "connected" });
       
       // Health always returns xxdkReady: false (never becomes ready)
       mockHealth.mockResolvedValue({ status: "ok", version: "0.4.0", xxdkReady: false });
@@ -137,7 +137,7 @@ describe("useConnectWithPolling", () => {
       const mockHealth = vi.mocked(bridgeClient.health);
       const onSessionLocked = vi.fn();
       
-      mockConnect.mockResolvedValue({ success: true });
+      mockConnect.mockResolvedValue({ v: 1, type: "connect_ack", requestId: "test-3", ack: true, status: "connected" });
       
       // First poll succeeds, second throws SessionLockedError
       mockHealth

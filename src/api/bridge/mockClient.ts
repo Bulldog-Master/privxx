@@ -12,7 +12,7 @@ import type {
   Message,
   IBridgeClient,
   HealthResponse,
-  ConnectResponse,
+  ConnectAck,
   DisconnectResponse,
   InboxResponse,
   ThreadResponse,
@@ -54,11 +54,16 @@ export class MockBridgeClient implements IBridgeClient {
   }
 
   // Connection (mock)
-  async connect(_targetUrl: string): Promise<ConnectResponse> {
+  async connect(targetUrl: string): Promise<ConnectAck> {
     await sleep(500);
     this.connectionState = "secure";
     return {
-      success: true,
+      v: 1,
+      type: "connect_ack",
+      requestId: `mock-${Date.now()}`,
+      sessionId: `sim-${Date.now()}`,
+      ack: true,
+      status: "connected",
     };
   }
 

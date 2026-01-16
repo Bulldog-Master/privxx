@@ -57,20 +57,34 @@ export type StatusResponse = {
  * 
  * @example
  * { "targetUrl": "http://127.0.0.1:8090" }
+/**
+ * Connect Intent Envelope (Phase-D)
+ * Sent by frontend to initiate connection
  */
-export type ConnectRequest = {
-  /** Target URL - always local VPS address behind Cloudflare */
+export type ConnectIntent = {
+  v: number;
+  type: "connect_intent";
+  requestId: string;
   targetUrl: string;
 };
 
 /**
- * POST /connect - Response
- * 
- * @example
- * { "success": true }
- * 
- * If locked → HTTP 403:
- * { "code": "session_locked", "error": "forbidden", "message": "Identity session is locked. Call POST /unlock first." }
+ * Connect Ack Envelope (Phase-D)
+ * Response from bridge confirming connection attempt
+ */
+export type ConnectAck = {
+  v: number;
+  type: "connect_ack";
+  requestId: string;
+  sessionId?: string;
+  ack: boolean;
+  status: string;
+  serverTime?: string;
+  errorCode?: string;
+};
+
+/**
+ * @deprecated Use ConnectAck instead
  */
 export type ConnectResponse = {
   /** True if connect succeeded */
@@ -262,7 +276,7 @@ export interface IBridgeClient {
   status(): Promise<StatusResponse>;
   
   // Connection (requires auth)
-  connect(targetUrl: string): Promise<ConnectResponse>;
+  connect(targetUrl: string): Promise<ConnectAck>;
   disconnect(): Promise<DisconnectResponse>;
   
   // Unlock/Lock (requires auth)

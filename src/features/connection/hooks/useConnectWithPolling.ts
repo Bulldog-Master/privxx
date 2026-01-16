@@ -100,11 +100,11 @@ export function useConnectWithPolling(
       // Step 1: POST /connect
       const connectResponse = await bridgeClient.connect(targetUrl);
       
-      if (!connectResponse.success) {
+      if (!connectResponse.ack) {
         setResult({
           state: "error",
           statusData: null,
-          error: "Connection failed",
+          error: connectResponse.errorCode || "Connection failed",
           pollAttempt: 0,
         });
         return;

@@ -132,18 +132,18 @@ async function realConnection(
 
   const latency = Math.round(performance.now() - startTime);
 
-  // Check if response indicates success
-  if (response.success) {
+  // Check if response indicates success (use ack field from ConnectAck)
+  if (response.ack) {
     console.debug("[Connection] Real: Connected via Bridge", {
-      requestId: intent.requestId,
-      sessionId: intent.sessionId,
+      requestId: response.requestId,
+      sessionId: response.sessionId,
       latency,
     });
 
     return {
       success: true,
-      sessionId: intent.sessionId,
-      requestId: intent.requestId,
+      sessionId: response.sessionId || intent.sessionId,
+      requestId: response.requestId || intent.requestId,
       latency,
     };
   }
