@@ -1,0 +1,10 @@
+
+# Local artifacts (do not commit)
+data/
+bridge
+conversationId
+sessionID
+_local_quarantine/
+*.BAK*
+*.BROKEN*
+*.bak.*
