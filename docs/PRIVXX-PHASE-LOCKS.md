@@ -616,6 +616,125 @@ Phase 4 will cover:
 
 ---
 
+# Phase 3 — Frontend Orchestration Lock (AUTHORITATIVE)
+
+**Status:** ✅ COMPLETE AND LOCKED  
+**Date Locked:** 2026-01-18  
+**Owner:** Bulldog
+
+Phase-3 covers frontend orchestration, performance, and UX correctness.
+All Phase-3 work is finished and must not be refactored, re-designed, or "cleaned up" unless a new feature is explicitly introduced.
+
+---
+
+## ✅ WHAT IS LOCKED (DO NOT CHANGE)
+
+### 1️⃣ Conversation List Derivation
+
+Conversations are derived only from:
+- `POST /message/inbox` → available-only queue
+- `POST /message/thread` → history view (`includeConsumed` default true)
+- There is **no** "list conversations" endpoint
+- Client-persisted `knownConversationIds` is canonical
+
+**Sorting rules (Phase-1 safe):**
+1. Conversations with `undeliveredCount > 0`
+2. Best-effort recency (`lastSeenAtUnix`)
+3. Stable fallback: `conversationId`
+
+---
+
+### 2️⃣ Inbox Polling (Final & Correct)
+
+- Auth-gated (prevents 401 spam)
+- Identity-initialization gated
+- Tab-visibility gated
+- In-flight request dedupe
+- Single fetch on activation (no duplicates)
+- Interval polling + focus refresh
+- Ciphertext-only (Phase-1 compliant)
+- No timers leak, no redundant refs
+
+---
+
+### 3️⃣ Preview Fetching (N+1 Safe)
+
+- Lazy loading via `IntersectionObserver`
+- TTL cache (~30s)
+- Per-conversation in-flight dedupe
+- Top-N eager prefetch using order key, not list length
+- Undelivered-trigger refresh is intentional
+
+**Observer:**
+- Stable `onVisibleRef` pattern
+- Unobserves after first intersect
+- `didFire` guard prevents double execution
+
+---
+
+### 4️⃣ Thread View Behavior
+
+- Visibility-gated loading
+- Best-effort chronological ordering (no assumptions)
+- `ack` = delivery bookkeeping only
+  - `consumed ≠ read`
+  - Ack happens post-fetch, non-fatal
+- No client-side crypto
+- No plaintext persistence
+
+---
+
+### 5️⃣ Nicknames (Frontend-Only)
+
+- Local-only (per user, per device)
+- Stored in `localStorage`
+- Not identity, not verified, not synced
+- Safe edit / clear
+- Dialog state cleans up correctly
+
+---
+
+### 6️⃣ SEMANTICS GUARDRAILS (ABSOLUTE)
+
+- ❌ No read receipts
+- ❌ No presence / typing indicators
+- ❌ No recipient → conversation mapping
+- ❌ No new endpoints
+- ❌ No frontend decryption
+- ❌ No refactors "for cleanliness"
+- ✅ Phase-1 contract preserved exactly
+
+---
+
+## 🚫 DO NOT DO (GOING FORWARD)
+
+- Do not refactor hooks
+- Do not rework polling
+- Do not change conversation derivation
+- Do not rename or reinterpret states
+- Do not add crypto to frontend
+- Do not reopen Phase-2 or Phase-3 discussions
+
+---
+
+## ✅ WHAT COMES NEXT
+
+**Phase-4 ONLY — Backend Core execution:**
+- Decryption implemented in Backend Core
+- Capability-gated
+- Bridge remains a thin control plane
+- Frontend is already compatible
+
+---
+
+## Frontend Lock Statement
+
+> **🔒 Phase-3 frontend is complete and locked.**  
+> No refactors or semantic changes.  
+> All further work proceeds to Phase-4 backend execution only.
+
+---
+
 # Summary
 
 | Phase | Scope | Status |
