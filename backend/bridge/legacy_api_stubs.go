@@ -45,6 +45,7 @@ func writeJWTError(w http.ResponseWriter, code int, e *JWTError) {
 		e = &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Unauthorized"}
 	}
 	w.Header().Set("Content-Type", "application/json")
+  w.Header().Set("Cache-Control", "no-store")
 	w.WriteHeader(code)
 	_ = json.NewEncoder(w).Encode(e)
 }
@@ -59,6 +60,7 @@ type healthResp struct {
 
 func handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+  w.Header().Set("Cache-Control", "no-store")
 	_ = json.NewEncoder(w).Encode(healthResp{
 		Status:    "ok",
 		Version:   "0.4.0",
