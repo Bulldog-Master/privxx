@@ -735,6 +735,66 @@ Conversations are derived only from:
 
 ---
 
+# Phase 4 — Backend Core + Bridge Hardening (COMPLETE)
+
+**Status:** ✅ LOCKED  
+**Date Locked:** 2026-01-19  
+**Owner:** Bulldog  
+
+## Architecture (Locked)
+
+```
+Frontend (Lovable) → Bridge (public :8090) → Backend Core (localhost :8091)
+```
+
+### Key Guarantees
+
+- Frontend ONLY talks to Bridge
+- Backend Core is NOT internet-facing
+- Bridge does NOT expose backend-only routes
+
+## Bridge /health Endpoint
+
+```
+GET https://api.privxx.app/health
+Headers: Cache-Control: no-store
+Response: {
+  "status": "ok",
+  "version": "0.4.0",
+  "xxdkReady": false
+}
+```
+
+## Backend Core /health (Internal Only)
+
+```
+GET http://127.0.0.1:8091/health
+Headers: Cache-Control: no-store
+Response: {
+  "status": "ok",
+  "version": "0.4.0",
+  "capabilities": {
+    "messaging": true,
+    "decrypt": true,
+    "tunnel": false
+  }
+}
+```
+
+## Frontend Rules (Locked)
+
+- ❌ Do NOT cache health responses
+- ❌ Do NOT call `/xxdk/*` or `/cmixx/*` (expect 404)
+- ✅ Health is informational only, not readiness gating
+- ✅ No frontend changes required for Phase 4
+
+## Phase 4 Lock Statement
+
+> **🔒 Phase 4 (Backend Core + Bridge Hardening) is complete.**  
+> Architecture is locked. Frontend integration unchanged.
+
+---
+
 # Summary
 
 | Phase | Scope | Status |
@@ -747,7 +807,7 @@ Conversations are derived only from:
 | Phase 3.5 | Bridge Design | ✅ LOCKED |
 | Phase 3.6 | Frontend Design | ✅ LOCKED |
 | Phase 3.7 | Failure + Operations | ✅ LOCKED |
-| Phase 4 | Deployment & Rollout | 🔲 FUTURE |
+| Phase 4 | Backend Core + Bridge Hardening | ✅ LOCKED |
 | Phase 5+ | Extensions (Groups, Attachments, etc.) | 🔲 FUTURE |
 
 ---
