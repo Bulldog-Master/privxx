@@ -55,7 +55,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr:         ":8090",
-		Handler:      mux,
+		Handler:      cors(mux),
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}

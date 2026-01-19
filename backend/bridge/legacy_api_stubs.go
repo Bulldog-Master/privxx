@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -70,11 +69,8 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 func handleUnlock(w http.ResponseWriter, r *http.Request)       { writeOK(w) }
 func handleUnlockStatus(w http.ResponseWriter, r *http.Request) { writeOK(w) }
 func handleLock(w http.ResponseWriter, r *http.Request)         { writeOK(w) }
-func handleStatus(w http.ResponseWriter, r *http.Request)       { writeOK(w) }
-func handleDisconnect(w http.ResponseWriter, r *http.Request)   { writeOK(w) }
 
-// Frontend expects an envelope for /connect.
-type ConnectAck struct {
+type connectAck struct {
 	V          int    `json:"v"`
 	Type       string `json:"type"`
 	RequestID  string `json:"requestId"`
@@ -85,37 +81,30 @@ type ConnectAck struct {
 }
 
 func handleConnect(w http.ResponseWriter, r *http.Request) {
-	reqID := getRequestID(r)
-	resp := ConnectAck{
+	// Best-effort correlation fields (frontend can supply these).
+	reqID := strings.TrimSpace(r.Header.Get("X-Request-Id"))
+	if reqID == "" {
+		reqID = strings.TrimSpace(r.URL.Query().Get("requestId"))
+	}
+	sessID := strings.TrimSpace(r.Header.Get("X-Session-Id"))
+	if sessID == "" {
+		sessID = "stub-session"
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(connectAck{
 		V:          1,
 		Type:       "connect_ack",
 		RequestID:  reqID,
-		SessionID:  "stub-session",
+		SessionID:  sessID,
 		Ack:        true,
 		Status:     "connected",
 		ServerTime: time.Now().UTC().Format(time.RFC3339),
-	}
-	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(resp)
+	})
 }
 
-func getRequestID(r *http.Request) string {
-	// Try common places first
-	if v := strings.TrimSpace(r.Header.Get("X-Request-Id")); v != "" {
-		return v
-	}
-	if v := strings.TrimSpace(r.Header.Get("X-Request-ID")); v != "" {
-		return v
-	}
-	if v := strings.TrimSpace(r.URL.Query().Get("requestId")); v != "" {
-		return v
-	}
-	if v := strings.TrimSpace(r.URL.Query().Get("request_id")); v != "" {
-		return v
-	}
-	// Fallback deterministic-ish
-	return fmt.Sprintf("req-%d", time.Now().UnixNano())
-}
+func handleStatus(w http.ResponseWriter, r *http.Request)     { writeOK(w) }
+func handleDisconnect(w http.ResponseWriter, r *http.Request) { writeOK(w) }
 
 func writeOK(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")

@@ -23,15 +23,15 @@ type Resp struct {
 	Message   *string `json:"message,omitempty"`
 
 	// Optional fields used by some responses:
-	ExpiresAt   *string `json:"expiresAt,omitempty"`
-	TTLSeconds  *int    `json:"ttlSeconds,omitempty"`
-	Unlocked    *bool   `json:"unlocked,omitempty"`
-	UnlockedAt  *string `json:"unlockedAt,omitempty"`
-	Status      *string `json:"status,omitempty"`
-	SessionID   *string `json:"sessionId,omitempty"`
-	Bridge      any     `json:"bridge,omitempty"`
-	Backend     any     `json:"backend,omitempty"`
-	Identity    any     `json:"identity,omitempty"`
+	ExpiresAt  *string `json:"expiresAt,omitempty"`
+	TTLSeconds *int    `json:"ttlSeconds,omitempty"`
+	Unlocked   *bool   `json:"unlocked,omitempty"`
+	UnlockedAt *string `json:"unlockedAt,omitempty"`
+	Status     *string `json:"status,omitempty"`
+	SessionID  *string `json:"sessionId,omitempty"`
+	Bridge     any     `json:"bridge,omitempty"`
+	Backend    any     `json:"backend,omitempty"`
+	Identity   any     `json:"identity,omitempty"`
 }
 
 type UnlockReq struct {
@@ -158,10 +158,20 @@ func (s *Server) clearSession(userID string) {
 }
 
 func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
-	writeJSON(w, http.StatusOK, map[string]any{
-		"status": "ok",
-		"stub":   true,
-	})
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Cache-Control", "no-store")
+
+	resp := map[string]interface{}{
+		"status":  "ok",
+		"version": "0.4.0",
+		"capabilities": map[string]bool{
+			"messaging": true,
+			"tunnel":    false,
+			"decrypt":   true,
+		},
+	}
+
+	_ = json.NewEncoder(w).Encode(resp)
 }
 
 func (s *Server) handleUnlock(w http.ResponseWriter, r *http.Request) {
@@ -259,13 +269,13 @@ func (s *Server) handleIdentityStatus(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusOK, Resp{
-		V:         v1,
-		Type:      "identity_status",
-		RequestID: reqID,
-		Ok:        true,
-		Unlocked:  &unlocked,
+		V:          v1,
+		Type:       "identity_status",
+		RequestID:  reqID,
+		Ok:         true,
+		Unlocked:   &unlocked,
 		UnlockedAt: unlockedAt,
-		ExpiresAt: expiresAt,
+		ExpiresAt:  expiresAt,
 		TTLSeconds: func() *int {
 			return &ttl
 		}(),
