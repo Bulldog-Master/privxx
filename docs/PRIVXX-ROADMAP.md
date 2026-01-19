@@ -1,126 +1,141 @@
 # Privxx Roadmap (Full Project Timeline)
 
-Privxx is structured into five phases, moving from simulation → real mixnet integration → full private payments functionality.
+Privxx is structured into six phases, moving from simulation → hardened backend → full private messaging/payments functionality.
 
 ---
 
-## PHASE 1 — Simulation Prototype (NOW)
+## PHASE 0 — Foundation ✅ LOCKED
 
-**Status:** ✅ Completed / Under refinement
+**Status:** ✅ Complete
+
+### Deliverables
+
+- UI Shell (React + Lovable)
+- Status states: Idle → Connecting → Connected
+- PWA install support
+- 16-language i18n support
+- Bridge-only architecture lock
+- Diagnostics foundation
+- Privacy Laws document
+- Architecture Spec
+
+---
+
+## PHASE 1 — Demo Messaging ✅ LOCKED
+
+**Status:** ✅ Complete
+
+### Deliverables
+
+- Identity create/unlock/lock UX
+- Inbox polling and deduplication
+- Compose panel with send-to-self roundtrip
+- Demo script and diagnostics copy
+
+---
+
+## PHASE 2 — Intent + Policy ✅ LOCKED
+
+**Status:** ✅ Complete
+
+### Deliverables
+
+- Browser anomaly signals (diagnostic only)
+- Policy engine stub (allow-all)
+- Payment intent abstraction stub
+- Documentation and diagrams
+
+---
+
+## PHASE 3 — Messaging Design ✅ LOCKED
+
+**Status:** ✅ Complete
+
+### Deliverables
+
+- Frontend orchestration locked
+- Conversation derivation from inbox/thread queues
+- Auth-gated inbox polling with tab-visibility
+- Preview fetching (N+1 safe, lazy loading)
+- Thread view behavior (visibility-gated)
+- Nicknames (frontend-only, localStorage)
+
+### Semantic Guardrails
+
+- ❌ No read receipts
+- ❌ No presence/typing indicators
+- ❌ No frontend decryption
+- ✅ Phase-1 contract preserved
+
+---
+
+## PHASE 4 — Backend Hardening ✅ LOCKED
+
+**Status:** ✅ Complete (2026-01-19)
+
+### Architecture
+
+```
+Frontend (Lovable) → Bridge (public :8090) → Backend Core (localhost :8091)
+```
+
+### Key Guarantees
+
+- Frontend ONLY talks to Bridge (same-origin: https://privxx.app)
+- Backend Core is NOT internet-facing (127.0.0.1:8091 only)
+- Bridge does NOT expose backend-only routes
+
+### Deliverables
+
+- Bridge /health endpoint hardened
+- Backend Core /health with capabilities
+- Cache-Control: no-store on health responses
+- /xxdk/* and /cmixx/* return 404 by design
+
+### Lock Rules
+
+- No edits to /health handlers
+- No bridge route expansion
+- No backend exposure
+- All changes require Phase 5 branch
+
+---
+
+## PHASE 5 — Messaging + Tunnel Enablement 📋 NEXT
+
+**Status:** ⚪ Planned
 
 ### Goals
 
-- Validate product concept
-- Validate UI/UX
-- Enable demos and internal review
-- Avoid unnecessary backend development until validated
-
-### Deliverables (Complete)
-
-- UI Shell (React + Lovable)
-- Status states: Idle → Connecting → Connected (simulated)
-- Simulated latency (500–2500 ms)
-- URL echo + placeholder for proxied content
-- Privacy Laws document
-- Architecture Spec
-- Visual Walkthrough
-- Backend folder + specs for future integration
-- Multi-language support structure (i18n)
-
-### Future Enhancements
-
-- More realistic simulated responses
-- Fake merchant checkout simulation
-- Simulated "privacy score" or metadata breakdown
-
----
-
-## PHASE 2 — Real Mixnet Integration (cMixx + xxDK)
-
-**Status:** 🔵 Not started
-
-### Overview
-
-Privxx transitions from UI simulation to a real, privacy-preserving network layer using cMixx.
+- Enable messaging on hardened foundation
+- Activate tunnel capability
+- Implement decryption in Backend Core
+- Capability-gated feature rollout
 
 ### Tasks
 
-#### 2.1 Privxx Client Integration
-
-- Integrate xxDK WebAssembly/native bindings
-- Generate PQ-safe ephemeral keypairs
-- Encode/Encrypt outbound requests
-- Decrypt inbound responses
-- Implement request/response envelope formats
-
-#### 2.2 Privxx Proxy (Backend)
-
-- Implement xxDK client in backend
-- Decrypt requests received via cMixx
-- Forward HTTPS requests
-- Sanitize headers
-- Remove identifiers
-- Repackage responses
-- Enforce zero-logging guarantees
-
-#### 2.3 Security Testing
-
-- Metadata leak testing
-- Timing analysis
-- Traffic correlation testing
-- Endpoint sanitization review
-
-### Milestones
-
-- [ ] First real cMixx-routed request
-- [ ] First real website rendered inside Privxx
-- [ ] Reproducible clean anonymous browsing flow
+- [ ] Messaging endpoints enabled
+- [ ] Tunnel routing enabled
+- [ ] Backend Core decryption implemented
+- [ ] Frontend unchanged (already compatible)
 
 ---
 
-## PHASE 3 — Private Payments (Optional Advanced Phase)
+## PHASE 6 — Native Mobile Apps 📋 FUTURE
 
-**Status:** ⚪ Future
-
-Once private browsing is stable, Privxx extends into private financial flows, including:
-
-### 3.1 Private Checkout Flow
-
-- Merchant checkout through Privxx
-- Bank/E-transfer tunnels
-- xx Coin payments
-- Multi-rail privacy abstraction layer
-
-### 3.2 Private Wallet Module
-
-- Local secure-element keys
-- xx coin + optional EVM wallet
-- Proxxy-style RPC privacy
-- Onboard-without-KYC flows
-- Transaction metadata elimination
-
-### 3.3 Private Identity Layer (Optional)
-
-- Zero-knowledge login tokens
-- Anonymous merchant tokens
-- Private receipts
-
----
-
-## PHASE 4 — Native Mobile Apps
-
-**Status:** ⚪ Future
+**Status:** ⚪ Planned
 
 - Capacitor or native Swift/Kotlin
 - Local secure enclave wallet
 - Push notifications (privacy-preserving)
 - Private QR payments
+- PWA polish for app store readiness
 
 ---
 
-## PHASE 5 — Commercialization Options
+## PHASE 7 — Commercialization Options 📋 FUTURE
 
-**Status:** ⚪ Future
+**Status:** ⚪ Planned
 
 - Freemium + Premium private rails
 - B2B: Privacy-as-a-service for merchants
