@@ -86,6 +86,9 @@ func main() {
 	mux.HandleFunc("/v1/connect", s.handleConnect)
 	mux.HandleFunc("/v1/disconnect", s.handleDisconnect)
 	mux.HandleFunc("/v1/status", s.handleStatus)
+	mux.HandleFunc("/v1/message/send", s.handleMessageSend)
+	mux.HandleFunc("/v1/message/inbox", s.handleMessageInbox)
+	mux.HandleFunc("/v1/message/thread", s.handleMessageThread)
 
 	srv := &http.Server{
 		Addr:              *addr,
@@ -155,6 +158,71 @@ func (s *Server) clearSession(userID string) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	delete(s.sessions, userID)
+}
+
+// ---------------- Phase-5 Messaging (stubs) ----------------
+
+func (s *Server) handleMessageSend(w http.ResponseWriter, r *http.Request) {
+	userID, reqID, ok := s.requireHeaders(w, r)
+	if !ok {
+		return
+	}
+	_ = userID
+
+	if r.Method != "POST" {
+		w.WriteHeader(405)
+		return
+	}
+
+	// Phase-5 stub: accept request, do not send yet
+	writeJSON(w, 200, Resp{
+		V:         v1,
+		Type:      "message_send_ack",
+		RequestID: reqID,
+		Ok:        true,
+	})
+}
+
+func (s *Server) handleMessageInbox(w http.ResponseWriter, r *http.Request) {
+	userID, reqID, ok := s.requireHeaders(w, r)
+	if !ok {
+		return
+	}
+	_ = userID
+
+	if r.Method != "GET" {
+		w.WriteHeader(405)
+		return
+	}
+
+	// Phase-5 stub: return empty inbox
+	writeJSON(w, 200, Resp{
+		V:         v1,
+		Type:      "message_inbox",
+		RequestID: reqID,
+		Ok:        true,
+	})
+}
+
+func (s *Server) handleMessageThread(w http.ResponseWriter, r *http.Request) {
+	userID, reqID, ok := s.requireHeaders(w, r)
+	if !ok {
+		return
+	}
+	_ = userID
+
+	if r.Method != "GET" {
+		w.WriteHeader(405)
+		return
+	}
+
+	// Phase-5 stub: return empty thread
+	writeJSON(w, 200, Resp{
+		V:         v1,
+		Type:      "message_thread",
+		RequestID: reqID,
+		Ok:        true,
+	})
 }
 
 func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
