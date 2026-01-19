@@ -28,25 +28,26 @@ Privxx does **not**:
 
 ---
 
-## 🚧 Current Status: Preview Mode
+## 🚧 Current Status: Phase 4 Complete (Backend Hardened)
 
-Privxx is currently running in **preview (demo) mode**.
+Privxx has completed **Phase 4 — Backend Core + Bridge Hardening**.
 
 What this means:
 
 - The user interface and connection flow are fully implemented
-- Backend network routing is still being finalized
-- Messaging and full cryptographic routing are not yet enabled
+- Backend architecture is hardened and locked (Bridge + Backend Core)
+- Frontend → Bridge → Backend Core topology is production-ready
+- Messaging and tunnel features remain disabled until Phase 5
 
-You may see labels such as **"Demo"**, **"Preview"**, or **"Network initializing"** — these are intentional and indicate that backend integration is in progress.
+You may see labels such as **"Demo"** or **"Network initializing"** — these indicate that full mixnet routing is not yet enabled at the product level.
 
 ---
 
-## 🌐 Network Integration (Coming Next)
+## 🌐 Network Integration (Phase 5)
 
-Privxx will integrate full cryptographic routing via the **XX Network mixnet** in a future update.
+Privxx will enable full cryptographic routing via the **XX Network mixnet** in Phase 5.
 
-This routing layer is designed to further reduce metadata correlation at the network level. Once enabled, the frontend will transition seamlessly from preview to live mode.
+The hardened foundation (Phase 4) is complete. Phase 5 will enable messaging and tunnel capabilities on top of the locked architecture.
 
 ---
 
@@ -76,11 +77,13 @@ The application is privacy-first by design.
 
 ## 📌 Roadmap (High Level)
 
-- ✅ Frontend UI & UX complete
-- ✅ PWA install support (16 languages)
-- ⏳ Backend routing integration
-- ⏳ Messaging enablement
-- ⏳ Native mobile apps (future phase)
+- ✅ Phase 0: Foundation (UI/UX, i18n, PWA)
+- ✅ Phase 1: Demo Messaging (Identity UX, Inbox polling)
+- ✅ Phase 2: Intent + Policy (Browser signals, stubs)
+- ✅ Phase 3: Messaging Design (Frontend orchestration locked)
+- ✅ Phase 4: Backend Hardening (Bridge + Core locked)
+- ⏳ Phase 5: Messaging + Tunnel Enablement
+- ⏳ Phase 6: Native Mobile Apps
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) for the full roadmap with Mermaid diagram.
 
@@ -159,4 +162,4 @@ See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
 
 ---
 
-**Status:** Frontend complete, backend integration in progress
+**Status:** Phase 4 complete — Backend hardened, messaging/tunnel pending Phase 5

@@ -1,6 +1,8 @@
 # Phase 2
 
-Phase 2 adds **Intent + Policy** (no enforcement initially).
+Phase 2 added **Intent + Policy** (no enforcement initially).
+
+**Status:** ✅ LOCKED
 
 ## Components
 
@@ -36,10 +38,14 @@ A stub for payment intents that:
 1. ✅ Establish intent/policy architecture
 2. ✅ Add diagnostic signals
 3. ✅ Create stubs for future enforcement
-4. ⏳ Document decision flow
+4. ✅ Document decision flow
 
 ## What's NOT in Phase 2
 
 - Real payment processing
 - Policy enforcement (warn/reauth/deny)
 - Rate limiting enforcement
+
+## Next Phase
+
+Phase 2 is complete. See [Phase 3](./phase-3.md) for Messaging Design and [Phase 4](./phase-4.md) for Backend Hardening.
