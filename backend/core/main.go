@@ -163,65 +163,76 @@ func (s *Server) clearSession(userID string) {
 // ---------------- Phase-5 Messaging (stubs) ----------------
 
 func (s *Server) handleMessageSend(w http.ResponseWriter, r *http.Request) {
-	userID, reqID, ok := s.requireHeaders(w, r)
+	_, reqID, ok := s.requireHeaders(w, r)
 	if !ok {
 		return
 	}
-	_ = userID
-
-	if r.Method != "POST" {
-		w.WriteHeader(405)
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
 
-	// Phase-5 stub: accept request, do not send yet
-	writeJSON(w, 200, Resp{
+	var body MessageSendReq
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		writeJSON(w, http.StatusBadRequest, MessageSendAck{
+			V:         v1,
+			Type:      "message_send_ack",
+			RequestID: reqID,
+			Ok:        false,
+		})
+		return
+	}
+
+	// Phase-5 stub: accept request, return fake messageId (no persistence)
+	writeJSON(w, http.StatusOK, MessageSendAck{
 		V:         v1,
 		Type:      "message_send_ack",
 		RequestID: reqID,
 		Ok:        true,
+		MessageID: MessageID("msg-stub-1"),
 	})
 }
 
 func (s *Server) handleMessageInbox(w http.ResponseWriter, r *http.Request) {
-	userID, reqID, ok := s.requireHeaders(w, r)
+	_, reqID, ok := s.requireHeaders(w, r)
 	if !ok {
 		return
 	}
-	_ = userID
-
-	if r.Method != "GET" {
-		w.WriteHeader(405)
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
 
-	// Phase-5 stub: return empty inbox
-	writeJSON(w, 200, Resp{
+	// Phase-5 stub: empty inbox
+	writeJSON(w, http.StatusOK, MessageInboxResp{
 		V:         v1,
 		Type:      "message_inbox",
 		RequestID: reqID,
 		Ok:        true,
+		Messages:  []Message{},
 	})
 }
 
 func (s *Server) handleMessageThread(w http.ResponseWriter, r *http.Request) {
-	userID, reqID, ok := s.requireHeaders(w, r)
+	_, reqID, ok := s.requireHeaders(w, r)
 	if !ok {
 		return
 	}
-	_ = userID
-
-	if r.Method != "GET" {
-		w.WriteHeader(405)
+	if r.Method != http.MethodGet {
+		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
 
-	// Phase-5 stub: return empty thread
-	writeJSON(w, 200, Resp{
-		V:         v1,
-		Type:      "message_thread",
-		RequestID: reqID,
-		Ok:        true,
+	conv := r.URL.Query().Get("conversationId")
+
+	// Phase-5 stub: empty thread for requested conversationId
+	writeJSON(w, http.StatusOK, MessageThreadResp{
+		V:              v1,
+		Type:           "message_thread",
+		RequestID:      reqID,
+		Ok:             true,
+		ConversationID: ConversationID(conv),
+		Messages:       []Message{},
 	})
 }
 
