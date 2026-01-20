@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+    "strconv"
 	"sync"
 	"time"
 )
@@ -63,6 +64,7 @@ type IdentitySession struct {
 type Server struct {
 	mu       sync.Mutex
 	sessions map[string]IdentitySession
+        msgStore *MsgStore
 	ttl      time.Duration
 }
 
@@ -75,6 +77,7 @@ func main() {
 
 	s := &Server{
 		sessions: make(map[string]IdentitySession),
+		msgStore: NewMsgStore(),
 		ttl:      *ttl,
 	}
 
@@ -160,10 +163,24 @@ func (s *Server) clearSession(userID string) {
 	delete(s.sessions, userID)
 }
 
-// ---------------- Phase-5 Messaging (stubs) ----------------
+// ---------------- Phase-5 Messaging (in-memory) ----------------
+
+func parseLimit(s string, def int) int {
+	if s == "" {
+		return def
+	}
+	n, err := strconv.Atoi(s)
+	if err != nil || n <= 0 {
+		return def
+	}
+	if n > 500 {
+		return 500
+	}
+	return n
+}
 
 func (s *Server) handleMessageSend(w http.ResponseWriter, r *http.Request) {
-	_, reqID, ok := s.requireHeaders(w, r)
+	userID, reqID, ok := s.requireHeaders(w, r)
 	if !ok {
 		return
 	}
@@ -174,27 +191,32 @@ func (s *Server) handleMessageSend(w http.ResponseWriter, r *http.Request) {
 
 	var body MessageSendReq
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		writeJSON(w, http.StatusBadRequest, MessageSendAck{
-			V:         v1,
-			Type:      "message_send_ack",
-			RequestID: reqID,
-			Ok:        false,
-		})
+		writeJSON(w, http.StatusBadRequest, MessageSendAck{V: v1, Type: "message_send_ack", RequestID: reqID, Ok: false})
+		return
+	}
+	if body.V != v1 || body.Type != "message_send" {
+		writeJSON(w, http.StatusBadRequest, MessageSendAck{V: v1, Type: "message_send_ack", RequestID: reqID, Ok: false})
 		return
 	}
 
-	// Phase-5 stub: accept request, return fake messageId (no persistence)
+	conv := strings.TrimSpace(r.URL.Query().Get("conversationId"))
+	if conv == "" {
+		conv = "conv-demo"
+	}
+
+	msg := s.msgStore.Add(userID, ConversationID(conv), body.Message)
+
 	writeJSON(w, http.StatusOK, MessageSendAck{
 		V:         v1,
 		Type:      "message_send_ack",
 		RequestID: reqID,
 		Ok:        true,
-		MessageID: MessageID("msg-stub-1"),
+		MessageID: msg.ID,
 	})
 }
 
 func (s *Server) handleMessageInbox(w http.ResponseWriter, r *http.Request) {
-	_, reqID, ok := s.requireHeaders(w, r)
+	userID, reqID, ok := s.requireHeaders(w, r)
 	if !ok {
 		return
 	}
@@ -202,14 +224,14 @@ func (s *Server) handleMessageInbox(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
+	msgs := s.msgStore.Inbox(userID)
 
-	// Phase-5 stub: empty inbox
 	writeJSON(w, http.StatusOK, MessageInboxResp{
 		V:         v1,
 		Type:      "message_inbox",
 		RequestID: reqID,
 		Ok:        true,
-		Messages:  []Message{},
+		Messages:  msgs,
 	})
 }
 
@@ -223,19 +245,22 @@ func (s *Server) handleMessageThread(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	conv := r.URL.Query().Get("conversationId")
+	conv := strings.TrimSpace(r.URL.Query().Get("conversationId"))
+	if conv == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	msgs := s.msgStore.Thread(ConversationID(conv))
 
-	// Phase-5 stub: empty thread for requested conversationId
 	writeJSON(w, http.StatusOK, MessageThreadResp{
 		V:              v1,
 		Type:           "message_thread",
 		RequestID:      reqID,
 		Ok:             true,
 		ConversationID: ConversationID(conv),
-		Messages:       []Message{},
+		Messages:       msgs,
 	})
 }
-
 func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
