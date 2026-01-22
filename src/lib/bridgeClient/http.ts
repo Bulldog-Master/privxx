@@ -27,7 +27,7 @@ export async function bridgeFetch<T>(
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  const correlationId = res.headers.get("X-Correlation-Id") ?? undefined;
+  const requestId = res.headers.get("X-Request-Id") ?? undefined;
 
   if (!res.ok) {
     let err: BridgeError = { error: "unknown", message: "Request failed" };
@@ -37,8 +37,8 @@ export async function bridgeFetch<T>(
       // ignore parse errors
     }
 
-    const msg = correlationId
-      ? `${err.message} (ref: ${correlationId})`
+    const msg = requestId
+      ? `${err.message} (ref: ${requestId})`
       : err.message;
 
     throw new Error(msg);

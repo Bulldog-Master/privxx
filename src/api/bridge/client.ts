@@ -8,7 +8,7 @@
  * - Automatic retry with exponential backoff
  * - Request timeout handling
  * - Error classification (network vs server vs client)
- * - Correlation IDs for debugging
+ * - Request IDs for debugging (X-Request-Id header)
  */
 
 import type {
@@ -37,7 +37,7 @@ export class BridgeError extends Error {
     message: string,
     public readonly code: BridgeErrorCode,
     public readonly statusCode?: number,
-    public readonly correlationId?: string,
+    public readonly requestId?: string,
     public readonly retryable: boolean = false,
     /** Seconds until retry is allowed (only meaningful for RATE_LIMITED) */
     public readonly retryAfterSec?: number
