@@ -28,7 +28,7 @@ export type BridgeUiStatus =
 export async function fetchBridgeStatusRaw(): Promise<{
   ui: BridgeUiStatus;
   latencyMs: number;
-  correlationId?: string;
+  requestId?: string;
 }> {
   const startTime = performance.now();
   const baseUrl = getBridgeUrl();
@@ -41,7 +41,7 @@ export async function fetchBridgeStatusRaw(): Promise<{
     });
 
     const latencyMs = Math.round(performance.now() - startTime);
-    const correlationId = res.headers.get("x-correlation-id") || undefined;
+    const requestId = res.headers.get("x-request-id") || undefined;
     
     let bodyJson: Record<string, unknown> | null = null;
     try {
@@ -56,7 +56,7 @@ export async function fetchBridgeStatusRaw(): Promise<{
       // Derive state: if xxdkReady → "idle" (ready to connect)
       const xxdkReady = bodyJson?.xxdkReady === true;
       const state: "idle" | "connecting" | "secure" = xxdkReady ? "idle" : "idle";
-      return { ui: { kind: "ok", state }, latencyMs, correlationId };
+      return { ui: { kind: "ok", state }, latencyMs, requestId };
     }
 
     if (res.status === 429) {
@@ -66,7 +66,7 @@ export async function fetchBridgeStatusRaw(): Promise<{
       return { 
         ui: { kind: "rate_limited", retryAfterSec, retryUntil }, 
         latencyMs, 
-        correlationId 
+        requestId 
       };
     }
 
@@ -77,7 +77,7 @@ export async function fetchBridgeStatusRaw(): Promise<{
         message: (bodyJson?.message as string) || (bodyJson?.error as string) || `HTTP ${res.status}` 
       },
       latencyMs,
-      correlationId,
+      requestId,
     };
   } catch (err) {
     const latencyMs = Math.round(performance.now() - startTime);

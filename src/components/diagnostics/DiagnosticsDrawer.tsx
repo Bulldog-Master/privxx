@@ -256,7 +256,7 @@ const DiagnosticsDrawer = forwardRef<HTMLDivElement>(function DiagnosticsDrawer(
     latencyMs: null, // Latency not exposed in current API
     lastCheck: bridgeHealth.isLoading ? null : new Date().toLocaleTimeString(),
     errorCount: [bridgeHealth.healthError, bridgeHealth.statusError].filter(Boolean).length,
-    correlationId: null, // Not implemented yet
+    requestId: null, // X-Request-Id tracking
   }), [bridgeHealth]);
   
   // Build copy text
