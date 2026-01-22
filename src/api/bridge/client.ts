@@ -98,6 +98,7 @@ export class BridgeClient implements IBridgeClient {
   private retryConfig: RetryConfig;
   private timeoutMs: number;
   private getAccessToken?: () => Promise<string | null>;
+  private getUserId?: () => Promise<string | null>;
   private anonKey?: string;
 
   constructor(config: BridgeClientConfig | string) {
@@ -110,6 +111,7 @@ export class BridgeClient implements IBridgeClient {
       this.retryConfig = config.retry ?? DEFAULT_RETRY_CONFIG;
       this.timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
       this.getAccessToken = config.getAccessToken;
+      this.getUserId = config.getUserId;
       this.anonKey = config.anonKey;
     }
   }
@@ -163,13 +165,13 @@ export class BridgeClient implements IBridgeClient {
     options: RequestInit = {}
   ): Promise<T> {
     const startTime = performance.now();
-    const correlationId = crypto.randomUUID().slice(0, 8);
+    const requestId = `web-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
     const method = options.method || "GET";
     const isIdempotent = IDEMPOTENT_METHODS.has(method.toUpperCase());
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      "X-Correlation-Id": correlationId,
+      "X-Request-Id": requestId,
     };
 
     // Always fetch fresh token from getAccessToken - never use cached tokens
@@ -179,6 +181,15 @@ export class BridgeClient implements IBridgeClient {
     
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    // Add X-User-Id header (required by bridge for protected endpoints)
+    const userId = this.getUserId
+      ? await this.getUserId()
+      : null;
+    
+    if (userId) {
+      headers["X-User-Id"] = userId;
     }
 
     // Add apikey header (required for all authenticated requests per handoff doc)
@@ -199,7 +210,7 @@ export class BridgeClient implements IBridgeClient {
     
     // Debug: Log the full URL being called
     const fullUrl = `${this.baseUrl}${path}`;
-    console.log(`[Bridge Request] ${method} ${fullUrl} [${correlationId}]`);
+    console.log(`[Bridge Request] ${method} ${fullUrl} [${requestId}]`);
 
     while (attempt <= this.retryConfig.maxRetries) {
       try {
@@ -232,7 +243,7 @@ export class BridgeClient implements IBridgeClient {
 
           // Special handling: 403 with code "session_locked" throws SessionLockedError
           if (res.status === 403 && sessionLockedCode === "session_locked") {
-            console.debug(`[Bridge] ${path} session_locked (${latency}ms) [${correlationId}]`);
+            console.debug(`[Bridge] ${path} session_locked (${latency}ms) [${requestId}]`);
             throw new SessionLockedError(errorMessage);
           }
 
@@ -240,7 +251,7 @@ export class BridgeClient implements IBridgeClient {
             errorMessage,
             code,
             res.status,
-            correlationId,
+            requestId,
             retryable,
             retryAfterSec
           );
@@ -253,7 +264,7 @@ export class BridgeClient implements IBridgeClient {
           if (shouldRetry) {
             const backoff = this.calculateBackoff(attempt);
             console.debug(
-              `[Bridge] ${path} failed (${latency}ms) [${correlationId}], ` +
+              `[Bridge] ${path} failed (${latency}ms) [${requestId}], ` +
               `retrying in ${backoff}ms (attempt ${attempt + 1}/${this.retryConfig.maxRetries}):`,
               errorMessage
             );
@@ -263,13 +274,13 @@ export class BridgeClient implements IBridgeClient {
           }
 
           console.debug(
-            `[Bridge] ${path} failed (${latency}ms) [${correlationId}]:`,
+            `[Bridge] ${path} failed (${latency}ms) [${requestId}]:`,
             errorMessage
           );
           throw error;
         }
 
-        console.debug(`[Bridge] ${path} ok (${latency}ms) [${correlationId}]`);
+        console.debug(`[Bridge] ${path} ok (${latency}ms) [${requestId}]`);
         
         try {
           const text = await res.text();
@@ -279,12 +290,12 @@ export class BridgeClient implements IBridgeClient {
           } catch {
             // Log what we actually received for debugging
             const preview = text.slice(0, 200);
-            console.error(`[Bridge] ${path} response not JSON [${correlationId}]:`, preview);
+            console.error(`[Bridge] ${path} response not JSON [${requestId}]:`, preview);
             throw new BridgeError(
               `Server returned non-JSON response (${text.length} bytes)`,
               "PARSE_ERROR",
               res.status,
-              correlationId,
+              requestId,
               false
             );
           }
@@ -294,7 +305,7 @@ export class BridgeClient implements IBridgeClient {
             "Failed to read response body",
             "PARSE_ERROR",
             res.status,
-            correlationId,
+            requestId,
             false
           );
         }
@@ -307,14 +318,14 @@ export class BridgeClient implements IBridgeClient {
             `Request timed out after ${this.timeoutMs}ms`,
             "TIMEOUT",
             undefined,
-            correlationId,
+            requestId,
             isIdempotent
           );
           
           if (isIdempotent && attempt < this.retryConfig.maxRetries) {
             const backoff = this.calculateBackoff(attempt);
             console.debug(
-              `[Bridge] ${path} timeout (${latency}ms) [${correlationId}], ` +
+              `[Bridge] ${path} timeout (${latency}ms) [${requestId}], ` +
               `retrying in ${backoff}ms (attempt ${attempt + 1}/${this.retryConfig.maxRetries})`
             );
             await this.sleep(backoff);
@@ -332,7 +343,7 @@ export class BridgeClient implements IBridgeClient {
           console.error(`[Bridge Network Error] ${method} ${fullUrl}`, {
             errorName: err.name,
             errorMessage: err.message,
-            correlationId,
+            requestId,
             attempt,
           });
           
@@ -340,14 +351,14 @@ export class BridgeClient implements IBridgeClient {
             `Network connection failed: ${err.message}`,
             "NETWORK_ERROR",
             undefined,
-            correlationId,
+            requestId,
             isIdempotent
           );
           
           if (isIdempotent && attempt < this.retryConfig.maxRetries) {
             const backoff = this.calculateBackoff(attempt);
             console.debug(
-              `[Bridge] ${path} network error (${latency}ms) [${correlationId}], ` +
+              `[Bridge] ${path} network error (${latency}ms) [${requestId}], ` +
               `retrying in ${backoff}ms (attempt ${attempt + 1}/${this.retryConfig.maxRetries})`
             );
             await this.sleep(backoff);
@@ -364,7 +375,7 @@ export class BridgeClient implements IBridgeClient {
           console.error(`[Bridge Fetch Error] ${method} ${fullUrl}`, {
             errorName: err.name,
             errorMessage: err.message,
-            correlationId,
+            requestId,
             attempt,
           });
           
@@ -372,7 +383,7 @@ export class BridgeClient implements IBridgeClient {
             `Fetch failed: ${err.name} - ${err.message}`,
             "NETWORK_ERROR",
             undefined,
-            correlationId,
+            requestId,
             isIdempotent
           );
           
@@ -393,7 +404,7 @@ export class BridgeClient implements IBridgeClient {
         }
 
         // Unknown error
-        console.debug(`[Bridge] ${path} error (${latency}ms) [${correlationId}]:`, err);
+        console.debug(`[Bridge] ${path} error (${latency}ms) [${requestId}]:`, err);
         throw err;
       }
     }

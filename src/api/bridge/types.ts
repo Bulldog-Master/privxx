@@ -236,6 +236,12 @@ export interface BridgeClientConfig {
    */
   getAccessToken?: () => Promise<string | null>;
   /**
+   * Optional async function to fetch the current user ID.
+   * When provided, the client will call this before each request
+   * to automatically attach X-User-Id headers.
+   */
+  getUserId?: () => Promise<string | null>;
+  /**
    * Supabase anon key - REQUIRED for all authenticated requests.
    * Sent as `apikey` header alongside Authorization.
    */

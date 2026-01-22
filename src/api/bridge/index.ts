@@ -77,6 +77,15 @@ async function getSupabaseAccessToken(): Promise<string | null> {
   return null;
 }
 
+/**
+ * Get the current user ID from the Supabase session.
+ * Required by bridge for X-User-Id header.
+ */
+async function getSupabaseUserId(): Promise<string | null> {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session?.user?.id ?? null;
+}
+
 function createBridgeClient(): IBridgeClient {
   if (USE_MOCK) {
     console.debug("[Bridge] Using mock client (preview mode)");
@@ -91,6 +100,7 @@ function createBridgeClient(): IBridgeClient {
   const config: BridgeClientConfig = {
     baseUrl: effectiveUrl,
     getAccessToken: getSupabaseAccessToken,
+    getUserId: getSupabaseUserId,
     anonKey, // Required for all authenticated Bridge requests
   };
 
