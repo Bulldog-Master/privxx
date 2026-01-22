@@ -44,13 +44,16 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	// Messaging API (bridge -> backend core)
+	registerMessageRoutes(mux)
+
 	// Core operational endpoints ONLY
 	mux.HandleFunc("/health", handleHealth)
 	mux.HandleFunc("/unlock", handleUnlock)
 	mux.HandleFunc("/unlock/status", handleUnlockStatus)
 	mux.HandleFunc("/lock", handleLock)
 	mux.HandleFunc("/connect", handleConnect)
-	mux.HandleFunc("/status", handleStatus)
+	mux.HandleFunc("/status", authMiddleware(handleStatus))
 	mux.HandleFunc("/disconnect", handleDisconnect)
 
 	srv := &http.Server{

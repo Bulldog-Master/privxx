@@ -40,7 +40,7 @@ func (r *Repo) CreateOrGetConversation(ownerSubject string, peerFingerprint stri
 	}
 
 	conv := &Conversation{
-		OwnerSubject:    ownerSubject,
+		OwnerSubject:     ownerSubject,
 		ConversationID:   convID,
 		PeerFingerprint:  peerFingerprint,
 		PeerRefEncrypted: append([]byte(nil), peerRefEncrypted...),

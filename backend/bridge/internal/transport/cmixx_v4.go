@@ -31,7 +31,7 @@ func NewCmixxV4Adapter(c *xxdk.Cmix, maxEnvelopeBytes int) (*CmixxV4Adapter, err
 	}
 	return &CmixxV4Adapter{
 		c:                c,
-		maxEnvelopeBytes:  maxEnvelopeBytes,
+		maxEnvelopeBytes: maxEnvelopeBytes,
 	}, nil
 }
 

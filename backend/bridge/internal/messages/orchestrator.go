@@ -4,8 +4,8 @@ import (
 	"context"
 	"crypto/rand"
 	"crypto/sha256"
-	"encoding/hex"
 	"encoding/base64"
+	"encoding/hex"
 	"errors"
 	"time"
 
@@ -40,10 +40,10 @@ func NewOrchestrator(convRepo *conversations.Repo, store *Store, tx transport.Ad
 		maxEnvelopeBytes = 4096
 	}
 	o := &Orchestrator{
-		convRepo:          convRepo,
-		store:             store,
-		tx:                tx,
-		maxEnvelopeBytes:  maxEnvelopeBytes,
+		convRepo:         convRepo,
+		store:            store,
+		tx:               tx,
+		maxEnvelopeBytes: maxEnvelopeBytes,
 	}
 	// Build-only key (random per process). Do not persist.
 	_, _ = rand.Read(o.key[:])

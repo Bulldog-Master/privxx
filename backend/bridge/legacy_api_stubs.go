@@ -30,7 +30,7 @@ func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		token := strings.TrimSpace(strings.TrimPrefix(authz, "Bearer "))
 
 		// Local verify (Phase-1). If not configured, treat as unauthorized.
-		claims, jerr := verifyJWTLocal(token, os.Getenv("SUPABASE_ANON_KEY"))
+		claims, jerr := verifyJWTWithSupabase(token)
 		if jerr != nil || claims == nil || claims.Sub == "" {
 			writeJWTError(w, http.StatusUnauthorized, jerr)
 			return
@@ -45,7 +45,7 @@ func writeJWTError(w http.ResponseWriter, code int, e *JWTError) {
 		e = &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Unauthorized"}
 	}
 	w.Header().Set("Content-Type", "application/json")
-  w.Header().Set("Cache-Control", "no-store")
+	w.Header().Set("Cache-Control", "no-store")
 	w.WriteHeader(code)
 	_ = json.NewEncoder(w).Encode(e)
 }
@@ -60,7 +60,7 @@ type healthResp struct {
 
 func handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-  w.Header().Set("Cache-Control", "no-store")
+	w.Header().Set("Cache-Control", "no-store")
 	_ = json.NewEncoder(w).Encode(healthResp{
 		Status:    "ok",
 		Version:   "0.4.0",

@@ -9,11 +9,11 @@ import (
 )
 
 var (
-	ErrSessionNotFound   = errors.New("session not found")
-	ErrSessionExpired    = errors.New("session expired")
-	ErrSessionRevoked    = errors.New("session revoked")
-	ErrSessionForbidden  = errors.New("session forbidden for caller")
-	ErrInvalidPurpose    = errors.New("invalid session purpose")
+	ErrSessionNotFound  = errors.New("session not found")
+	ErrSessionExpired   = errors.New("session expired")
+	ErrSessionRevoked   = errors.New("session revoked")
+	ErrSessionForbidden = errors.New("session forbidden for caller")
+	ErrInvalidPurpose   = errors.New("invalid session purpose")
 )
 
 // Manager owns all active Phase-1 sessions.
