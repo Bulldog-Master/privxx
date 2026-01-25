@@ -359,11 +359,11 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
 
     // Get user from auth header
     const authHeader = req.headers.get('authorization');
-    if (!authHeader) {
+    if (!authHeader?.startsWith('Bearer ')) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -371,14 +371,31 @@ serve(async (req) => {
     }
 
     const token = authHeader.replace('Bearer ', '');
-    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
     
-    if (userError || !user) {
+    // Create client with user's token for auth validation
+    const userClient = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+    
+    // Validate JWT and get claims
+    const { data: claimsData, error: claimsError } = await userClient.auth.getClaims(token);
+    
+    if (claimsError || !claimsData?.claims?.sub) {
+      console.error('[totp-auth] Token validation failed:', claimsError?.message);
       return new Response(JSON.stringify({ error: 'Invalid token' }), {
         status: 401,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
+    
+    // Extract user info from claims
+    const user = {
+      id: claimsData.claims.sub as string,
+      email: claimsData.claims.email as string | undefined,
+    };
+    
+    // Use service role client for database operations
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const { action, code } = await req.json();
     const clientIP = getClientIP(req);
