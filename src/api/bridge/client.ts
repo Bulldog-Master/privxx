@@ -192,10 +192,8 @@ export class BridgeClient implements IBridgeClient {
       headers["X-User-Id"] = userId;
     }
 
-    // Add apikey header (required for all authenticated requests per handoff doc)
-    if (this.anonKey) {
-      headers["apikey"] = this.anonKey;
-    }
+    // NOTE: apikey header is NOT sent to Bridge - it's only for Supabase Edge Functions
+    // Bridge uses Authorization + X-User-Id + X-Request-Id (Phase 5 contract)
 
     const requestOptions: RequestInit = {
       ...options,
