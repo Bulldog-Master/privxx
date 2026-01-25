@@ -160,9 +160,14 @@ export class BridgeClient implements IBridgeClient {
     }
   }
 
+  /**
+   * Internal request helper
+   * @param skipAuth - If true, skip auth headers (for public endpoints like /health)
+   */
   private async request<T>(
     path: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    skipAuth: boolean = false
   ): Promise<T> {
     const startTime = performance.now();
     const requestId = `web-${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
@@ -171,25 +176,29 @@ export class BridgeClient implements IBridgeClient {
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      "X-Request-Id": requestId,
     };
 
-    // Always fetch fresh token from getAccessToken - never use cached tokens
-    const token = this.getAccessToken 
-      ? await this.getAccessToken() 
-      : null;
-    
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
+    // Only add auth headers for protected endpoints (not public ones like /health)
+    if (!skipAuth) {
+      headers["X-Request-Id"] = requestId;
+      
+      // Always fetch fresh token from getAccessToken - never use cached tokens
+      const token = this.getAccessToken 
+        ? await this.getAccessToken() 
+        : null;
+      
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
 
-    // Add X-User-Id header (required by bridge for protected endpoints)
-    const userId = this.getUserId
-      ? await this.getUserId()
-      : null;
-    
-    if (userId) {
-      headers["X-User-Id"] = userId;
+      // Add X-User-Id header (required by bridge for protected endpoints)
+      const userId = this.getUserId
+        ? await this.getUserId()
+        : null;
+      
+      if (userId) {
+        headers["X-User-Id"] = userId;
+      }
     }
 
     // NOTE: apikey header is NOT sent to Bridge - it's only for Supabase Edge Functions
@@ -411,9 +420,9 @@ export class BridgeClient implements IBridgeClient {
     throw lastError || new Error("Request failed after retries");
   }
 
-  // Health (public, no auth required)
+  // Health (public, no auth required - skip auth headers to avoid CORS preflight)
   async health(): Promise<HealthResponse> {
-    return this.request("/health");
+    return this.request("/health", {}, true); // skipAuth = true
   }
 
   // Status (requires auth - returns connection state)
