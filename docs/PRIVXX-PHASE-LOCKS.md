@@ -808,7 +808,91 @@ Response: {
 | Phase 3.6 | Frontend Design | ✅ LOCKED |
 | Phase 3.7 | Failure + Operations | ✅ LOCKED |
 | Phase 4 | Backend Core + Bridge Hardening | ✅ LOCKED |
-| Phase 5+ | Extensions (Groups, Attachments, etc.) | 🔲 FUTURE |
+| Phase 5 | Session Model & Capability Gates | ✅ LOCKED |
+| Phase 6+ | Extensions (Groups, Attachments, etc.) | 🔲 FUTURE |
+
+---
+
+# Phase 5 — Canonical Session Model (LOCKED)
+
+**Status:** ✅ LOCKED  
+**Date Locked:** 2026-01-27  
+**Owner:** Bulldog  
+
+## Core Principles
+
+Privxx uses a **single, canonical, server-enforced session authority**.
+
+- Sessions are **NOT** logins
+- Sessions are **short-lived capability grants**
+- There is **NO** client-side trust
+- There is **NO** ambient authority
+- There is **NO** session reuse across scopes
+
+---
+
+## Session Capabilities
+
+### 1) message_receive (INBOX)
+
+| Property | Value |
+|----------|-------|
+| Scope | Inbox only |
+| conversationId | NOT allowed |
+| Allowed | Fetch inbox, ack inbox messages |
+| Forbidden | Any conversation access |
+
+### 2) message_receive (CONVERSATION)
+
+| Property | Value |
+|----------|-------|
+| Scope | Single conversation |
+| conversationId | REQUIRED |
+| Allowed | Fetch conversation thread, ack conversation messages |
+| Forbidden | Inbox access, other conversations |
+
+### 3) message_send (CONVERSATION)
+
+| Property | Value |
+|----------|-------|
+| Scope | Single conversation |
+| conversationId | REQUIRED |
+| Allowed | Send messages only |
+| Forbidden | Receiving, inbox access |
+
+---
+
+## Enforcement Rules
+
+| Rule | Result |
+|------|--------|
+| Inbox scope ≠ Conversation scope | 401 Unauthorized |
+| Receive ≠ Send | 401 Unauthorized |
+| Capability mismatch | 401 Unauthorized |
+| Scope mismatch | 401 Unauthorized |
+
+**All checks enforced server-side.**
+
+---
+
+## Why This Model
+
+- Prevents metadata leakage
+- Prevents session confusion
+- Eliminates ambient authority
+- Aligns with long-term privacy & security contract
+- Scales cleanly into future Phase-6+ features
+
+---
+
+## Phase 5 Lock Statement
+
+> **🔒 Phase 5 (Session Model) is fully implemented and frozen.**  
+> ✓ Implemented  
+> ✓ Production verified  
+> ✓ GitHub locked  
+> ✓ Canonical Phase-5 behavior  
+> No changes without version bump.
 
 ---
 
