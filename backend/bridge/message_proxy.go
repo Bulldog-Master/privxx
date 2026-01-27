@@ -12,9 +12,10 @@ var backendHTTP = &http.Client{Timeout: 5 * time.Second}
 
 // registerMessageRoutes wires /v1/message/* on the bridge and forwards to backend core.
 func registerMessageRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("/v1/message/send", authMiddleware(proxyToBackend))
-	mux.HandleFunc("/v1/message/inbox", authMiddleware(proxyToBackend))
-	mux.HandleFunc("/v1/message/thread", authMiddleware(proxyToBackend))
+	mux.HandleFunc("/v1/message/send", proxyToBackend)
+	mux.HandleFunc("/v1/message/inbox", proxyToBackend)
+	mux.HandleFunc("/v1/message/thread", proxyToBackend)
+	mux.HandleFunc("/v1/message/ack", proxyToBackend)
 }
 
 // proxyToBackend forwards the incoming request to BACKEND_ADDR (default http://127.0.0.1:8091).

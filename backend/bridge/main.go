@@ -47,6 +47,18 @@ func main() {
 	// Messaging API (bridge -> backend core)
 	registerMessageRoutes(mux)
 
+        // Phase-1 session issuance (single canonical)
+        mux.HandleFunc("/session/issue", authMiddleware(handleSessionIssue))
+
+
+        // Phase-1 message endpoints (ACK, etc)
+        registerPhase1Endpoints(conversationRepo, messageStore, nil, nil)
+
+        // Mount Phase-1 handlers (registered on DefaultServeMux)
+        mux.Handle("/", http.DefaultServeMux)
+
+
+
 	// Core operational endpoints ONLY
 	mux.HandleFunc("/health", handleHealth)
 	mux.HandleFunc("/unlock", handleUnlock)

@@ -5,14 +5,14 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 	"time"
 )
 
-// Minimal auth middleware used by Phase-1 routes.
-// For now: require Bearer token unless BRIDGE_API_ONLY=true (then allow).
+// Minimal auth middleware used by Phase-5 routes.
+// Require Bearer token unless BRIDGE_API_ONLY=true (then allow).
 func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// If running in API-only/dev mode, allow (keeps Phase-1 compile/run simple).
 		if strings.EqualFold(os.Getenv("BRIDGE_API_ONLY"), "true") {
 			next(w, r)
 			return
@@ -29,8 +29,7 @@ func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		}
 		token := strings.TrimSpace(strings.TrimPrefix(authz, "Bearer "))
 
-		// Local verify (Phase-1). If not configured, treat as unauthorized.
-		claims, jerr := verifyJWTWithSupabase(token)
+		claims, jerr := verifyJWTLocal(token, os.Getenv("SUPABASE_ANON_KEY"))
 		if jerr != nil || claims == nil || claims.Sub == "" {
 			writeJWTError(w, http.StatusUnauthorized, jerr)
 			return
@@ -45,12 +44,11 @@ func writeJWTError(w http.ResponseWriter, code int, e *JWTError) {
 		e = &JWTError{Error: "unauthorized", Code: "invalid_token", Message: "Unauthorized"}
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Cache-Control", "no-store")
 	w.WriteHeader(code)
 	_ = json.NewEncoder(w).Encode(e)
 }
 
-// ---- Legacy v0.4.0 endpoints (compile-safe stubs) ----
+// ---- Phase-5 compatibility responses ----
 
 type healthResp struct {
 	Status    string `json:"status"`
@@ -60,7 +58,6 @@ type healthResp struct {
 
 func handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Cache-Control", "no-store")
 	_ = json.NewEncoder(w).Encode(healthResp{
 		Status:    "ok",
 		Version:   "0.4.0",
@@ -68,9 +65,120 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func handleUnlock(w http.ResponseWriter, r *http.Request)       { writeOK(w) }
-func handleUnlockStatus(w http.ResponseWriter, r *http.Request) { writeOK(w) }
-func handleLock(w http.ResponseWriter, r *http.Request)         { writeOK(w) }
+// ---- Unlock/Lock (in-memory TTL) ----
+
+var (
+	unlockMu      sync.Mutex
+	unlockedUntil time.Time
+	unlockTTL     = 15 * time.Minute
+)
+
+type unlockStatusResp struct {
+	Unlocked            bool   `json:"unlocked"`
+	ExpiresAt           string `json:"expiresAt,omitempty"`
+	TTLRemainingSeconds int64  `json:"ttlRemainingSeconds,omitempty"`
+}
+
+type unlockReq struct {
+	Password string `json:"password"`
+}
+
+type unlockResp struct {
+	Success    bool   `json:"success"`
+	ExpiresAt  string `json:"expiresAt,omitempty"`
+	TTLSeconds int64  `json:"ttlSeconds,omitempty"`
+	Error      string `json:"error,omitempty"`
+}
+
+type lockResp struct {
+	Success bool `json:"success"`
+}
+
+func isUnlockedNow() (bool, time.Time) {
+	unlockMu.Lock()
+	defer unlockMu.Unlock()
+	if unlockedUntil.IsZero() {
+		return false, time.Time{}
+	}
+	if time.Now().Before(unlockedUntil) {
+		return true, unlockedUntil
+	}
+	// expired
+	unlockedUntil = time.Time{}
+	return false, time.Time{}
+}
+
+func handleUnlockStatus(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	ok, exp := isUnlockedNow()
+	if !ok {
+		_ = json.NewEncoder(w).Encode(unlockStatusResp{Unlocked: false})
+		return
+	}
+
+	ttl := int64(time.Until(exp).Seconds())
+	if ttl < 0 {
+		ttl = 0
+	}
+	_ = json.NewEncoder(w).Encode(unlockStatusResp{
+		Unlocked:            true,
+		ExpiresAt:           exp.UTC().Format(time.RFC3339),
+		TTLRemainingSeconds: ttl,
+	})
+}
+
+func handleUnlock(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		_ = json.NewEncoder(w).Encode(unlockResp{Success: false, Error: "method_not_allowed"})
+		return
+	}
+
+	var req unlockReq
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(unlockResp{Success: false, Error: "bad_json"})
+		return
+	}
+	if strings.TrimSpace(req.Password) == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		_ = json.NewEncoder(w).Encode(unlockResp{Success: false, Error: "missing_password"})
+		return
+	}
+
+	// Phase-5 stub behavior: any non-empty password unlocks for TTL.
+	unlockMu.Lock()
+	unlockedUntil = time.Now().Add(unlockTTL)
+	exp := unlockedUntil
+	unlockMu.Unlock()
+
+	_ = json.NewEncoder(w).Encode(unlockResp{
+		Success:    true,
+		ExpiresAt:  exp.UTC().Format(time.RFC3339),
+		TTLSeconds: int64(unlockTTL.Seconds()),
+	})
+}
+
+func handleLock(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		_ = json.NewEncoder(w).Encode(lockResp{Success: false})
+		return
+	}
+
+	unlockMu.Lock()
+	unlockedUntil = time.Time{}
+	unlockMu.Unlock()
+
+	_ = json.NewEncoder(w).Encode(lockResp{Success: true})
+}
+
+// ---- Connect + status/disconnect (phase-5 safe stubs) ----
 
 type connectAck struct {
 	V          int    `json:"v"`
@@ -83,7 +191,6 @@ type connectAck struct {
 }
 
 func handleConnect(w http.ResponseWriter, r *http.Request) {
-	// Best-effort correlation fields (frontend can supply these).
 	reqID := strings.TrimSpace(r.Header.Get("X-Request-Id"))
 	if reqID == "" {
 		reqID = strings.TrimSpace(r.URL.Query().Get("requestId"))
@@ -105,14 +212,16 @@ func handleConnect(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func handleStatus(w http.ResponseWriter, r *http.Request)     { writeOK(w) }
-func handleDisconnect(w http.ResponseWriter, r *http.Request) { writeOK(w) }
-
-func writeOK(w http.ResponseWriter) {
+func handleStatus(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(map[string]any{
-		"ok":      true,
-		"ts_unix": time.Now().Unix(),
-		"note":    "stub",
+		"state": "idle",
+	})
+}
+
+func handleDisconnect(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(map[string]any{
+		"state": "idle",
 	})
 }

@@ -1,19 +1,17 @@
 package main
 
 import (
-	"crypto/rand"
 	"encoding/base64"
-	"encoding/hex"
 	"encoding/json"
 	"net/http"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/Bulldog-Master/privxx/backend/bridge/internal/conversations"
 	"github.com/Bulldog-Master/privxx/backend/bridge/internal/messages"
 	"github.com/Bulldog-Master/privxx/backend/bridge/internal/transport"
 )
+
 
 type phase1SessionPurpose string
 
@@ -28,36 +26,9 @@ type phase1SessionKey struct {
 	ConversationID string // empty = inbox scope (allowed only for message_receive)
 }
 
-type phase1SessionStore struct {
-	mu    sync.Mutex
-	byKey map[phase1SessionKey]string // sessionKey -> sessionID
-}
 
-func newPhase1SessionStore() *phase1SessionStore {
-	return &phase1SessionStore{byKey: map[phase1SessionKey]string{}}
-}
 
-func (s *phase1SessionStore) issue(key phase1SessionKey) (string, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
 
-	var b [16]byte
-	if _, err := rand.Read(b[:]); err != nil {
-		return "", err
-	}
-	id := "sess_" + hex.EncodeToString(b[:])
-	s.byKey[key] = id
-	return id, nil
-}
-
-func (s *phase1SessionStore) require(key phase1SessionKey, sessionID string) bool {
-	if key.OwnerSubject == "" || key.Purpose == "" || sessionID == "" {
-		return false
-	}
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	return s.byKey[key] == sessionID
-}
 
 // Cache-Control: no-store (required)
 func noStore(w http.ResponseWriter) {
@@ -109,9 +80,7 @@ func registerPhase1Endpoints(
 	orch *messages.Orchestrator,
 ) {
 	_ = tx
-
-	sessions := newPhase1SessionStore()
-
+        sessMgr := phase1SessionMgr
 	// ---- POST /session/issue (purpose-scoped) ----
 	type sessionIssueRequest struct {
 		Purpose        string `json:"purpose"`
@@ -123,63 +92,6 @@ func registerPhase1Endpoints(
 		ConversationID string `json:"conversationId,omitempty"`
 		ServerTime     string `json:"serverTime"`
 	}
-
-	http.HandleFunc("/session/issue", authMiddleware(func(w http.ResponseWriter, r *http.Request) {
-		noStore(w)
-		if r.Method != http.MethodPost {
-			writeJSONP1(w, http.StatusMethodNotAllowed, map[string]any{"error": "method_not_allowed"})
-			return
-		}
-
-		ownerSubject, ok := mustAuthSubject(r)
-		if !ok {
-			writeJSONP1(w, http.StatusUnauthorized, map[string]any{"error": "unauthorized"})
-			return
-		}
-
-		var req sessionIssueRequest
-		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			writeJSONP1(w, http.StatusBadRequest, map[string]any{"error": "bad_request", "detail": "invalid_json"})
-			return
-		}
-
-		p := phase1SessionPurpose(req.Purpose)
-		if p != purposeMessageSend && p != purposeMessageReceive {
-			writeJSONP1(w, http.StatusBadRequest, map[string]any{"error": "bad_request", "detail": "invalid_purpose"})
-			return
-		}
-
-		convID := req.ConversationID
-		if p == purposeMessageSend {
-			// message_send => conversationId REQUIRED
-			if convID == "" {
-				writeJSONP1(w, http.StatusBadRequest, map[string]any{"error": "bad_request", "detail": "conversationId_required"})
-				return
-			}
-		}
-		// message_receive => conversationId OPTIONAL ("" = inbox scope)
-
-		key := phase1SessionKey{
-			OwnerSubject:   ownerSubject,
-			Purpose:        string(p),
-			ConversationID: convID,
-		}
-
-		sessID, err := sessions.issue(key)
-		if err != nil {
-			writeJSONP1(w, http.StatusInternalServerError, map[string]any{"error": "session_issue_failed"})
-			return
-		}
-
-		resp := sessionIssueResponse{
-			SessionID:      sessID,
-			Purpose:        string(p),
-			ConversationID: req.ConversationID,
-			ServerTime:     time.Now().UTC().Format(time.RFC3339),
-		}
-		writeJSONP1(w, http.StatusOK, resp)
-	}))
-
 	// ---- POST /conversation/create ----
 	// Creates or returns a conversation by peerFingerprint (idempotent).
 	type convCreateReq struct {
@@ -274,7 +186,7 @@ func registerPhase1Endpoints(
 
 		// Validate session (purpose-scoped)
 		key := phase1SessionKey{OwnerSubject: ownerSubject, Purpose: string(purposeMessageSend), ConversationID: req.ConversationID}
-		if !sessions.require(key, req.SessionID) {
+		if !requirePhase1Session(sessMgr, key, req.SessionID) {
 			writeJSONP1(w, http.StatusUnauthorized, map[string]any{"error": "unauthorized", "detail": "invalid_session"})
 			return
 		}
@@ -336,7 +248,7 @@ func registerPhase1Endpoints(
 
 		// inbox scope requires conversationId="" in session key
 		key := phase1SessionKey{OwnerSubject: ownerSubject, Purpose: string(purposeMessageReceive), ConversationID: ""}
-		if !sessions.require(key, req.SessionID) {
+		if !requirePhase1Session(sessMgr, key, req.SessionID) {
 			writeJSONP1(w, http.StatusUnauthorized, map[string]any{"error": "unauthorized", "detail": "invalid_session"})
 			return
 		}
@@ -402,7 +314,7 @@ func registerPhase1Endpoints(
 		}
 
 		key := phase1SessionKey{OwnerSubject: ownerSubject, Purpose: string(purposeMessageReceive), ConversationID: req.ConversationID}
-		if !sessions.require(key, req.SessionID) {
+		if !requirePhase1Session(sessMgr, key, req.SessionID) {
 			writeJSONP1(w, http.StatusUnauthorized, map[string]any{"error": "unauthorized", "detail": "invalid_session"})
 			return
 		}
@@ -476,13 +388,13 @@ func registerPhase1Endpoints(
 		// - If conversationId empty    => must be inbox-scoped receive session
 		if strings.TrimSpace(req.ConversationID) != "" {
 			key := phase1SessionKey{OwnerSubject: ownerSubject, Purpose: string(purposeMessageReceive), ConversationID: req.ConversationID}
-			if !sessions.require(key, req.SessionID) {
+			if !requirePhase1Session(sessMgr, key, req.SessionID) {
 				writeJSONP1(w, http.StatusUnauthorized, map[string]any{"error": "unauthorized", "detail": "invalid_session"})
 				return
 			}
 		} else {
 			key := phase1SessionKey{OwnerSubject: ownerSubject, Purpose: string(purposeMessageReceive), ConversationID: ""}
-			if !sessions.require(key, req.SessionID) {
+			if !requirePhase1Session(sessMgr, key, req.SessionID) {
 				writeJSONP1(w, http.StatusUnauthorized, map[string]any{"error": "unauthorized", "detail": "invalid_session"})
 				return
 			}
