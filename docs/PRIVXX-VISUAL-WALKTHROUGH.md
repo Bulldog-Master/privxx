@@ -11,7 +11,7 @@ Even though Privxx will eventually route traffic through the xx Network (cMixx),
 When you open Privxx, you see:
 - A dark privacy-themed interface
 - The title **Privxx**
-- Subtitle: *Private Browsing & Payments Tunnel*
+- Subtitle: *Private Tunnel*
 - A single URL input field
 - A large "Connect through Privxx" button
 
