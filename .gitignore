@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# --- build artifacts ---
+backend/bridge/privxx-bridge
+backend/xx-backend/
