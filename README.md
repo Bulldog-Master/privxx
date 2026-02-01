@@ -160,3 +160,18 @@ See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
 ---
 
 **Status:** Frontend complete, backend integration in progress
+
+## Phase 6 — COMPLETE (LOCKED)
+
+Phase 6 establishes real xxDK and cMixx readiness using a
+server-owned identity model (Option A).
+
+Completed:
+- Backend-owned xxDK identity
+- cMixx follower active
+- Bridge reflects backend readiness
+- Frontend visibility via /health
+- No xxDK material exposed to frontend
+
+This phase is LOCKED.
+All future work begins at Phase 7.

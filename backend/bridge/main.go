@@ -1,3 +1,16 @@
+// ============================================================
+// PHASE 6 — LOCKED
+//
+// This file is part of Phase 6 (Real xxDK + cMixx readiness).
+// DO NOT modify identity, auth, xxDK init, or health logic.
+//
+// Allowed changes only:
+// - Phase 7+ features that CALL existing interfaces
+//
+// Architecture: Option A (server-owned xxDK identity)
+//
+// ============================================================
+
 // Privxx Bridge - Phase D Local Companion Service
 // This service wraps xxDK and exposes HTTP endpoints for the UI.
 //
@@ -9,9 +22,9 @@
 package main
 
 import (
+	"io"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -77,6 +90,7 @@ type StatusResponse struct {
 	TargetURL string       `json:"targetUrl,omitempty"`
 	SessionID string       `json:"sessionId,omitempty"`
 	Latency   int64        `json:"latency,omitempty"` // milliseconds
+	XXDKReady bool         `json:"xxdkReady"`
 	Error     string       `json:"error,omitempty"`
 }
 
@@ -830,7 +844,28 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	
+        // Option B: backend-owned xxDK readiness (health)
+        // Best-effort only: /health must still work if backend is down.
+        backendAddr := os.Getenv("BACKEND_ADDR")
+        if backendAddr == "" { backendAddr = "127.0.0.1" }
+        backendPort := os.Getenv("BACKEND_PORT")
+        if backendPort == "" { backendPort = "8790" }
+
+        backendURL := fmt.Sprintf("http://%s:%s/health", backendAddr, backendPort)
+        if req, err := http.NewRequest("GET", backendURL, nil); err == nil {
+                if r2, err := httpClient.Do(req); err == nil {
+                        defer r2.Body.Close()
+                        if r2.StatusCode == http.StatusOK {
+                                var tmp struct { XXDKReady bool `json:"xxdkReady"` }
+                                if json.NewDecoder(r2.Body).Decode(&tmp) == nil {
+                                        resp.XXDKReady = tmp.XXDKReady
+                                }
+                        }
+                }
+        }
+
+        json.NewEncoder(w).Encode(resp)
 }
 
 // handleConnect processes Phase D connect_intent and returns connect_ack
@@ -954,6 +989,33 @@ func handleStatus(w http.ResponseWriter, r *http.Request) {
 		resp.Latency = time.Since(*session.StartedAt).Milliseconds()
 	}
 	session.mu.RUnlock()
+
+	// Option B: backend-owned xxDK readiness (local-only).
+	// Best-effort only: /status must still work if backend is down.
+	backendAddr := os.Getenv("BACKEND_ADDR")
+	if backendAddr == "" {
+		backendAddr = "127.0.0.1"
+	}
+	backendPort := os.Getenv("BACKEND_PORT")
+	if backendPort == "" {
+		backendPort = "8790"
+	}
+
+	backendURL := fmt.Sprintf("http://%s:%s/health", backendAddr, backendPort)
+	req, err := http.NewRequest("GET", backendURL, nil)
+	if err == nil {
+		r2, err := httpClient.Do(req)
+		if err == nil {
+			defer r2.Body.Close()
+			if r2.StatusCode == http.StatusOK {
+				body, _ := io.ReadAll(r2.Body)
+				var tmp struct { XXDKReady bool `json:"xxdkReady"` }
+				if json.Unmarshal(body, &tmp) == nil {
+					resp.XXDKReady = tmp.XXDKReady
+				}
+			}
+		}
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
