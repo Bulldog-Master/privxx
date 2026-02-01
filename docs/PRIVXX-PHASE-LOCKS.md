@@ -810,7 +810,7 @@ Response: {
 | Phase 4 | Backend Core + Bridge Hardening | ✅ LOCKED |
 | Phase 5 | Session Model & Capability Gates | ✅ LOCKED |
 | Phase 6 | Server-Owned xxDK Identity | ✅ LOCKED |
-| Phase 7 | Messaging Implementation | 🔲 NEXT |
+| Phase 7 | Messaging + Browsing MVP | 🔲 READY |
 | Phase 8+ | Extensions (Groups, Attachments, etc.) | 🔲 FUTURE |
 
 ---
@@ -937,7 +937,85 @@ Privxx uses a **single, canonical, server-enforced session authority**.
 > **🔒 Phase 6 (Server-Owned xxDK Identity) is locked.**  
 > Architecture Option A is final.  
 > Frontend has no identity role.  
-> Phase 7 (Messaging) is next.
+> Phase 7 (Messaging + Browsing MVP) is next.
+
+---
+
+# Phase 7 — Messaging + Browsing MVP (READY)
+
+**Status:** 🔲 READY  
+**Prerequisites:** Phase 6 LOCKED ✅  
+**Owner:** Bulldog  
+
+## Absolute Rules (Non-Negotiable)
+
+1. ONE STEP AT A TIME
+2. NO JUMPING AHEAD
+3. NO ASSUMPTIONS
+4. NO RE-ARCHITECTING
+5. BRIDGE IS THE ONLY PUBLIC API
+6. BACKEND IS NEVER PUBLIC
+7. BACKEND OWNS xxDK + DECRYPT
+8. BRIDGE NEVER HOLDS PLAINTEXT
+9. JWT + UNLOCK REQUIRED FOR SENSITIVE ACTIONS
+10. IF CONFUSED → STOP, ASK, DO NOT PROCEED
+
+## Phase 7 Scope
+
+Phase 7 = Messaging + Browsing Integration (MVP)
+
+This phase:
+- **BUILDS ON** Phase 6 (does not replace)
+- **DOES NOT** change architecture
+- **DOES NOT** expose new public surfaces
+- **DOES NOT** bypass unlock rules
+
+Focus areas:
+- Wiring real messaging/browsing flows THROUGH existing gates
+- Tight schemas
+- Predictable lifecycle
+- Zero ambiguity for future work
+
+## Security Gates (Enforced)
+
+| Action | JWT Required | Unlock Required |
+|--------|--------------|-----------------|
+| /unlock | ✅ | ❌ |
+| /unlock/status | ✅ | ❌ |
+| /lock | ✅ | ❌ |
+| /connect | ✅ | ✅ |
+| /status | ✅ | ❌ |
+| /disconnect | ✅ | ✅ |
+| messaging actions | ✅ | ✅ |
+| browsing actions | ✅ | ✅ |
+
+## Expected Failures (NOT Bugs)
+
+These are correct behavior:
+- Backend "/" returning 404
+- Backend "/status" returning 404
+- Bridge returning `session_locked` when TTL expired
+- Bridge returning `missing_token` without Authorization
+- Unlock TTL expiring automatically
+- Need to re-unlock after TTL
+
+## Actual Bugs (Must Fix)
+
+These indicate real problems:
+- Bridge shows `xxdkReady:false` while backend is ready
+- Backend exposed publicly
+- Bridge accepting connect without unlock
+- Frontend talking directly to backend
+
+## Phase 7 Entry Criteria ✅
+
+- [x] Phase 6 locked
+- [x] Real xxDK running in backend
+- [x] Backend /health returns `xxdkReady:true`
+- [x] Bridge /health reflects backend readiness
+- [x] JWT verification working
+- [x] Unlock/lock TTL enforced
+- [x] Connect flow validated
 
 ---
 
