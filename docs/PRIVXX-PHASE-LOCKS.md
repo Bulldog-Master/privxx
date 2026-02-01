@@ -809,7 +809,9 @@ Response: {
 | Phase 3.7 | Failure + Operations | ✅ LOCKED |
 | Phase 4 | Backend Core + Bridge Hardening | ✅ LOCKED |
 | Phase 5 | Session Model & Capability Gates | ✅ LOCKED |
-| Phase 6+ | Extensions (Groups, Attachments, etc.) | 🔲 FUTURE |
+| Phase 6 | Server-Owned xxDK Identity | ✅ LOCKED |
+| Phase 7 | Messaging Implementation | 🔲 NEXT |
+| Phase 8+ | Extensions (Groups, Attachments, etc.) | 🔲 FUTURE |
 
 ---
 
@@ -893,6 +895,49 @@ Privxx uses a **single, canonical, server-enforced session authority**.
 > ✓ GitHub locked  
 > ✓ Canonical Phase-5 behavior  
 > No changes without version bump.
+
+---
+
+# Phase 6 — Server-Owned xxDK Identity (LOCKED)
+
+**Status:** ✅ LOCKED  
+**Date Locked:** 2026-02-01  
+**Owner:** Bulldog  
+
+## Architecture Decision
+
+**Selected:** Option A — Server-owned xxDK identity
+
+## Key Principles
+
+| Principle | Rule |
+|-----------|------|
+| Frontend Auth | Supabase only |
+| JWT Validation | Bridge-enforced |
+| xxDK Ownership | Backend ONLY |
+| Frontend Access | `/health` and `/status` only |
+| Identity State | `xxdkReady` from backend is authoritative |
+
+## What Is Forbidden
+
+- ❌ No frontend identity management
+- ❌ No frontend keys or key derivation
+- ❌ No mock state in frontend
+- ❌ No client-side xxDK interaction
+
+## What Is Required
+
+- ✅ All xxDK operations in backend
+- ✅ All cMixx routing in backend
+- ✅ Frontend relies on backend status only
+- ✅ `xxdkReady` boolean is single source of truth
+
+## Phase 6 Lock Statement
+
+> **🔒 Phase 6 (Server-Owned xxDK Identity) is locked.**  
+> Architecture Option A is final.  
+> Frontend has no identity role.  
+> Phase 7 (Messaging) is next.
 
 ---
 
