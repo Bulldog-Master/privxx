@@ -22,9 +22,9 @@
 package main
 
 import (
-	"io"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -61,24 +61,24 @@ var session = &Session{State: StateIdle}
 
 // ConnectIntent is the payload for POST /connect (Phase D schema)
 type ConnectIntent struct {
-	V         int    `json:"v"`               // Schema version (Phase D: 1)
-	Type      string `json:"type"`            // Must be "connect_intent"
-	RequestID string `json:"requestId"`       // Unique request identifier
-	SessionID string `json:"sessionId"`       // Session identifier
-	TargetURL string `json:"targetUrl"`       // URL entered by user
-	ClientTime string `json:"clientTime"`     // ISO timestamp
+	V          int    `json:"v"`          // Schema version (Phase D: 1)
+	Type       string `json:"type"`       // Must be "connect_intent"
+	RequestID  string `json:"requestId"`  // Unique request identifier
+	SessionID  string `json:"sessionId"`  // Session identifier
+	TargetURL  string `json:"targetUrl"`  // URL entered by user
+	ClientTime string `json:"clientTime"` // ISO timestamp
 }
 
 // ConnectAck is returned from POST /connect (Phase D schema)
 type ConnectAck struct {
-	V          int    `json:"v"`                       // Schema version (Phase D: 1)
-	Type       string `json:"type"`                    // Always "connect_ack"
-	RequestID  string `json:"requestId"`               // Must match intent
-	SessionID  string `json:"sessionId"`               // Must match intent
-	Ack        bool   `json:"ack"`                     // true = success
-	Status     string `json:"status"`                  // "connected" or "error"
-	ServerTime string `json:"serverTime,omitempty"`    // ISO timestamp
-	ErrorCode  string `json:"errorCode,omitempty"`     // Error code if ack=false
+	V          int    `json:"v"`                    // Schema version (Phase D: 1)
+	Type       string `json:"type"`                 // Always "connect_ack"
+	RequestID  string `json:"requestId"`            // Must match intent
+	SessionID  string `json:"sessionId"`            // Must match intent
+	Ack        bool   `json:"ack"`                  // true = success
+	Status     string `json:"status"`               // "connected" or "error"
+	ServerTime string `json:"serverTime,omitempty"` // ISO timestamp
+	ErrorCode  string `json:"errorCode,omitempty"`  // Error code if ack=false
 }
 
 // Phase D schema version
@@ -198,7 +198,7 @@ func (im *IdentityManager) unlock(userID string) *IdentitySession {
 		// Create new session
 		// TODO: In real implementation, create or retrieve XX identity here
 		xxIdentityID := fmt.Sprintf("xx-id-%s-%d", userID[:8], now.UnixNano())
-		
+
 		session = &IdentitySession{
 			UserID:       userID,
 			XXIdentityID: xxIdentityID,
@@ -207,7 +207,7 @@ func (im *IdentityManager) unlock(userID string) *IdentitySession {
 			LastActivity: now,
 		}
 		im.sessions[userID] = session
-		log.Printf("[IDENTITY] New session created for user %s (XX ID: %s, expires %s)", 
+		log.Printf("[IDENTITY] New session created for user %s (XX ID: %s, expires %s)",
 			userID, xxIdentityID, expiresAt.Format(time.RFC3339))
 	}
 
@@ -284,14 +284,14 @@ type SupabaseUserResponse struct {
 
 // RateLimitConfig holds rate limiting configuration
 type RateLimitConfig struct {
-	MaxAttempts    int           // Max failed attempts before lockout
-	WindowDuration time.Duration // Time window for counting attempts
+	MaxAttempts     int           // Max failed attempts before lockout
+	WindowDuration  time.Duration // Time window for counting attempts
 	LockoutDuration time.Duration // How long to block after exceeding limit
 }
 
 // RateLimitEntry tracks attempts for a single IP
 type RateLimitEntry struct {
-	Attempts    int
+	Attempts     int
 	FirstAttempt time.Time
 	LockedUntil  time.Time
 }
@@ -386,7 +386,7 @@ func (rl *RateLimiter) recordFailedAttempt(ip string) (blocked bool, remaining t
 	// Check if we should lock out
 	if entry.Attempts >= rl.config.MaxAttempts {
 		entry.LockedUntil = now.Add(rl.config.LockoutDuration)
-		log.Printf("[RATE-LIMIT] IP %s locked out until %s (%d attempts)", 
+		log.Printf("[RATE-LIMIT] IP %s locked out until %s (%d attempts)",
 			ip, entry.LockedUntil.Format(time.RFC3339), entry.Attempts)
 		return true, rl.config.LockoutDuration
 	}
@@ -411,7 +411,7 @@ func (rl *RateLimiter) cleanup() {
 		// Remove if window expired and not locked
 		windowExpired := now.Sub(entry.FirstAttempt) > rl.config.WindowDuration
 		lockExpired := entry.LockedUntil.IsZero() || now.After(entry.LockedUntil)
-		
+
 		if windowExpired && lockExpired {
 			delete(rl.entries, ip)
 		}
@@ -508,7 +508,7 @@ var httpClient = &http.Client{
 func validateJWTViaEndpoint(token string) (*JWTClaims, *JWTError) {
 	// Build request to Supabase auth endpoint
 	authURL := supabaseURL + "/auth/v1/user"
-	
+
 	req, err := http.NewRequest("GET", authURL, nil)
 	if err != nil {
 		log.Printf("[JWT] Failed to create request: %v", err)
@@ -550,7 +550,7 @@ func validateJWTViaEndpoint(token string) (*JWTClaims, *JWTError) {
 	// Handle non-200 responses
 	if resp.StatusCode != http.StatusOK {
 		log.Printf("[JWT] Supabase returned %d: %s", resp.StatusCode, string(body))
-		
+
 		if resp.StatusCode == http.StatusUnauthorized {
 			return nil, &JWTError{
 				Error:   "unauthorized",
@@ -558,7 +558,7 @@ func validateJWTViaEndpoint(token string) (*JWTClaims, *JWTError) {
 				Message: "Token is invalid or expired",
 			}
 		}
-		
+
 		return nil, &JWTError{
 			Error:   "unauthorized",
 			Code:    "verification_failed",
@@ -588,7 +588,7 @@ func validateJWTViaEndpoint(token string) (*JWTClaims, *JWTError) {
 	}
 
 	log.Printf("[JWT] Token verified via Supabase endpoint for user: %s (%s)", user.ID, user.Email)
-	
+
 	return &JWTClaims{
 		Sub:   user.ID,
 		Email: user.Email,
@@ -649,9 +649,9 @@ func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			w.Header().Set("Retry-After", fmt.Sprintf("%d", int(remaining.Seconds())))
 			w.WriteHeader(http.StatusTooManyRequests)
 			json.NewEncoder(w).Encode(map[string]interface{}{
-				"error":   "rate_limited",
-				"code":    "too_many_requests",
-				"message": fmt.Sprintf("Too many failed attempts. Try again in %d seconds.", int(remaining.Seconds())),
+				"error":      "rate_limited",
+				"code":       "too_many_requests",
+				"message":    fmt.Sprintf("Too many failed attempts. Try again in %d seconds.", int(remaining.Seconds())),
 				"retryAfter": int(remaining.Seconds()),
 			})
 			return
@@ -844,28 +844,34 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	
-        // Option B: backend-owned xxDK readiness (health)
-        // Best-effort only: /health must still work if backend is down.
-        backendAddr := os.Getenv("BACKEND_ADDR")
-        if backendAddr == "" { backendAddr = "127.0.0.1" }
-        backendPort := os.Getenv("BACKEND_PORT")
-        if backendPort == "" { backendPort = "8790" }
 
-        backendURL := fmt.Sprintf("http://%s:%s/health", backendAddr, backendPort)
-        if req, err := http.NewRequest("GET", backendURL, nil); err == nil {
-                if r2, err := httpClient.Do(req); err == nil {
-                        defer r2.Body.Close()
-                        if r2.StatusCode == http.StatusOK {
-                                var tmp struct { XXDKReady bool `json:"xxdkReady"` }
-                                if json.NewDecoder(r2.Body).Decode(&tmp) == nil {
-                                        resp.XXDKReady = tmp.XXDKReady
-                                }
-                        }
-                }
-        }
+	// Option B: backend-owned xxDK readiness (health)
+	// Best-effort only: /health must still work if backend is down.
+	backendAddr := os.Getenv("BACKEND_ADDR")
+	if backendAddr == "" {
+		backendAddr = "127.0.0.1"
+	}
+	backendPort := os.Getenv("BACKEND_PORT")
+	if backendPort == "" {
+		backendPort = "8790"
+	}
 
-        json.NewEncoder(w).Encode(resp)
+	backendURL := fmt.Sprintf("http://%s:%s/health", backendAddr, backendPort)
+	if req, err := http.NewRequest("GET", backendURL, nil); err == nil {
+		if r2, err := httpClient.Do(req); err == nil {
+			defer r2.Body.Close()
+			if r2.StatusCode == http.StatusOK {
+				var tmp struct {
+					XXDKReady bool `json:"xxdkReady"`
+				}
+				if json.NewDecoder(r2.Body).Decode(&tmp) == nil {
+					resp.XXDKReady = tmp.XXDKReady
+				}
+			}
+		}
+	}
+
+	json.NewEncoder(w).Encode(resp)
 }
 
 // handleConnect processes Phase D connect_intent and returns connect_ack
@@ -880,13 +886,13 @@ func handleConnect(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(ConnectAck{
-			V:         PhaseDSchemaVersion,
-			Type:      "connect_ack",
-			RequestID: "",
-			SessionID: "",
-			Ack:       false,
-			Status:    "error",
-			ErrorCode: "INVALID_MESSAGE",
+			V:          PhaseDSchemaVersion,
+			Type:       "connect_ack",
+			RequestID:  "",
+			SessionID:  "",
+			Ack:        false,
+			Status:     "error",
+			ErrorCode:  "INVALID_MESSAGE",
 			ServerTime: time.Now().UTC().Format(time.RFC3339),
 		})
 		return
@@ -897,13 +903,13 @@ func handleConnect(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(ConnectAck{
-			V:         PhaseDSchemaVersion,
-			Type:      "connect_ack",
-			RequestID: intent.RequestID,
-			SessionID: intent.SessionID,
-			Ack:       false,
-			Status:    "error",
-			ErrorCode: "INVALID_MESSAGE",
+			V:          PhaseDSchemaVersion,
+			Type:       "connect_ack",
+			RequestID:  intent.RequestID,
+			SessionID:  intent.SessionID,
+			Ack:        false,
+			Status:     "error",
+			ErrorCode:  "INVALID_MESSAGE",
 			ServerTime: time.Now().UTC().Format(time.RFC3339),
 		})
 		return
@@ -914,13 +920,13 @@ func handleConnect(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(ConnectAck{
-			V:         PhaseDSchemaVersion,
-			Type:      "connect_ack",
-			RequestID: intent.RequestID,
-			SessionID: intent.SessionID,
-			Ack:       false,
-			Status:    "error",
-			ErrorCode: "INVALID_URL",
+			V:          PhaseDSchemaVersion,
+			Type:       "connect_ack",
+			RequestID:  intent.RequestID,
+			SessionID:  intent.SessionID,
+			Ack:        false,
+			Status:     "error",
+			ErrorCode:  "INVALID_URL",
 			ServerTime: time.Now().UTC().Format(time.RFC3339),
 		})
 		return
@@ -948,7 +954,7 @@ func handleConnect(w http.ResponseWriter, r *http.Request) {
 	// 1. Send connect_intent via cMixx
 	// 2. Wait for connect_ack from server
 	// 3. Return the ack to frontend
-	
+
 	// Simulated cMixx handshake delay (in production, this would be async)
 	time.Sleep(500 * time.Millisecond)
 
@@ -961,12 +967,12 @@ func handleConnect(w http.ResponseWriter, r *http.Request) {
 	// Return successful connect_ack
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(ConnectAck{
-		V:         PhaseDSchemaVersion,
-		Type:      "connect_ack",
-		RequestID: intent.RequestID,
-		SessionID: intent.SessionID,
-		Ack:       true,
-		Status:    "connected",
+		V:          PhaseDSchemaVersion,
+		Type:       "connect_ack",
+		RequestID:  intent.RequestID,
+		SessionID:  intent.SessionID,
+		Ack:        true,
+		Status:     "connected",
 		ServerTime: time.Now().UTC().Format(time.RFC3339),
 	})
 }
@@ -1009,7 +1015,9 @@ func handleStatus(w http.ResponseWriter, r *http.Request) {
 			defer r2.Body.Close()
 			if r2.StatusCode == http.StatusOK {
 				body, _ := io.ReadAll(r2.Body)
-				var tmp struct { XXDKReady bool `json:"xxdkReady"` }
+				var tmp struct {
+					XXDKReady bool `json:"xxdkReady"`
+				}
 				if json.Unmarshal(body, &tmp) == nil {
 					resp.XXDKReady = tmp.XXDKReady
 				}
@@ -1064,7 +1072,7 @@ func main() {
 	// Start cleanup routines
 	rateLimiter.startCleanupRoutine()
 	identityManager.startCleanupRoutine()
-	
+
 	log.Printf("Rate limiter initialized: %d attempts per %v, %v lockout",
 		rateLimiter.config.MaxAttempts,
 		rateLimiter.config.WindowDuration,
@@ -1073,16 +1081,20 @@ func main() {
 
 	// /health is public (no auth required)
 	http.HandleFunc("/health", corsMiddleware(handleHealth))
-	
+
 	// Unlock/lock endpoints require auth but not unlock status
 	http.HandleFunc("/unlock", corsMiddleware(authMiddleware(handleUnlock)))
 	http.HandleFunc("/unlock/status", corsMiddleware(authMiddleware(handleUnlockStatus)))
 	http.HandleFunc("/lock", corsMiddleware(authMiddleware(handleLock)))
-	
+
 	// Protected routes require both auth AND unlocked session
 	http.HandleFunc("/connect", corsMiddleware(authMiddleware(unlockRequiredMiddleware(handleConnect))))
 	http.HandleFunc("/status", corsMiddleware(authMiddleware(handleStatus))) // Status doesn't require unlock
 	http.HandleFunc("/disconnect", corsMiddleware(authMiddleware(unlockRequiredMiddleware(handleDisconnect))))
+	http.HandleFunc("/message/send", corsMiddleware(devBypassAuthAndUnlock(handleMessageSend)))
+	http.HandleFunc("/message/inbox", corsMiddleware(devBypassAuthAndUnlock(handleMessageInbox)))
+	http.HandleFunc("/browse/preview", corsMiddleware(devBypassAuthAndUnlock(handleBrowsePreview)))
+	http.HandleFunc("/browse/fetch", corsMiddleware(devBypassAuthAndUnlock(handleBrowseFetch)))
 
 	listenAddr := fmt.Sprintf("%s:%s", bindAddr, port)
 
