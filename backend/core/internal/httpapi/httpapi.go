@@ -1,6 +1,7 @@
 package httpapi
 
 import (
+        "time"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -10,7 +11,7 @@ import (
 	"github.com/Bulldog-Master/privxx/backend/core/internal/p7browse"
 )
 
-var phase7Store = p7store.New()
+var phase7Store = p7store.NewMemStore()
 
 type Server struct {
 	mux *http.ServeMux
@@ -117,7 +118,7 @@ func (s *Server) handleSendMessage(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Printf("[BACKEND] send message user=%s conv=%s bytes=%d", req.UserID, req.ConversationID, len(req.Payload))
 		// Phase 7B MVP: store message in memory (Phase 8 will replace storage)
-		phase7Store.Add(req.UserID, req.ConversationID, "user", string(req.Payload), time.Now().UTC(), 200)
+		phase7Store.AppendMessage(req.ConversationID, "user", string(req.Payload))
 	writeJSON(w, http.StatusOK, contracts.SendMessageResult{Accepted: true})
 }
 
@@ -150,7 +151,7 @@ func (s *Server) handleMessagesInbox(w http.ResponseWriter, r *http.Request) {
                 req.Limit = 50
         }
 
-        msgs := phase7Store.Inbox(req.UserID, req.ConversationID, req.Limit)
+        msgs := phase7Store.ListMessages(req.UserID, req.ConversationID, req.Limit)
 
         // map to response shape expected by Phase7 MVP (compatible with earlier bridge demo)
         out := make([]map[string]any, 0, len(msgs))

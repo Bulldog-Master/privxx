@@ -3,73 +3,89 @@ package p7store
 import (
 	"sync"
 	"time"
+
+	"github.com/Bulldog-Master/privxx/backend/core/contracts"
 )
 
-type Message struct {
-	ID         string    `json:"id"`
-	From       string    `json:"from"`
-	Payload    string    `json:"payload"`
-	ReceivedAt time.Time `json:"receivedAt"`
+type messageRecord struct {
+	contracts.MessageV1
 }
 
-type Store struct {
-	mu   sync.RWMutex
-	data map[string]map[string][]Message // userID -> conversationID -> []Message (newest last)
+type MemStore struct {
+	mu       sync.Mutex
+	messages map[string][]messageRecord // conversationID -> messages
 }
 
-func New() *Store {
-	return &Store{
-		data: make(map[string]map[string][]Message),
+func NewMemStore() *MemStore {
+	return &MemStore{
+		messages: make(map[string][]messageRecord),
 	}
 }
 
-// Add appends a message and enforces a max history per conversation.
-func (s *Store) Add(userID, conversationID, from, payload string, receivedAt time.Time, maxPerConv int) Message {
+// AppendMessage stores a message in-memory.
+// Phase 7B: payload stored inline; Phase 8 will externalize storage.
+func (s *MemStore) AppendMessage(conversationID, from, payload string) contracts.MessageV1 {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	if _, ok := s.data[userID]; !ok {
-		s.data[userID] = make(map[string][]Message)
-	}
-
-	msg := Message{
-		ID:         receivedAt.UTC().Format("20060102T150405.000000000Z07:00"),
+	msg := contracts.MessageV1{
+		ID:         generateID(),
 		From:       from,
 		Payload:    payload,
-		ReceivedAt: receivedAt.UTC(),
+		ReceivedAt: time.Now().UTC(),
 	}
 
-	s.data[userID][conversationID] = append(s.data[userID][conversationID], msg)
-
-	// trim oldest if over cap
-	if maxPerConv > 0 && len(s.data[userID][conversationID]) > maxPerConv {
-		excess := len(s.data[userID][conversationID]) - maxPerConv
-		s.data[userID][conversationID] = s.data[userID][conversationID][excess:]
-	}
+	s.messages[conversationID] = append(
+		s.messages[conversationID],
+		messageRecord{MessageV1: msg},
+	)
 
 	return msg
 }
 
-func (s *Store) Inbox(userID, conversationID string, limit int) []Message {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+// ListMessages returns messages ordered oldest -> newest.
+func (s *MemStore) ListMessages(conversationID, sinceID string, limit int) []contracts.MessageV1 {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
-	convMap, ok := s.data[userID]
-	if !ok {
-		return nil
-	}
-	msgs, ok := convMap[conversationID]
-	if !ok || len(msgs) == 0 {
-		return nil
+	const maxLimit = 100
+	if limit <= 0 || limit > maxLimit {
+		limit = maxLimit
 	}
 
-	// return up to last N
-	if limit <= 0 || limit >= len(msgs) {
-		out := make([]Message, len(msgs))
-		copy(out, msgs)
-		return out
+	recs := s.messages[conversationID]
+	if len(recs) == 0 {
+		return nil
 	}
-	out := make([]Message, limit)
-	copy(out, msgs[len(msgs)-limit:])
+
+	start := 0
+	if sinceID != "" {
+		found := false
+		for i, r := range recs {
+			if r.ID == sinceID {
+				start = i + 1
+				found = true
+				break
+			}
+		}
+		if !found {
+			return nil
+		}
+	}
+
+	end := start + limit
+	if end > len(recs) {
+		end = len(recs)
+	}
+
+	out := make([]contracts.MessageV1, 0, end-start)
+	for _, r := range recs[start:end] {
+		out = append(out, r.MessageV1)
+	}
+
 	return out
+}
+
+func generateID() string {
+	return time.Now().UTC().Format("20060102T150405.000000000Z")
 }
