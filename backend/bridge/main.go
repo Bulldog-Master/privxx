@@ -34,6 +34,13 @@ import (
 	"time"
 )
 
+func safeUserPrefix(userID string) string {
+	if len(userID) > 8 {
+		return userID[:8]
+	}
+	return userID
+}
+
 // Canonical origin for production
 const CanonicalOrigin = "https://privxx.app"
 
@@ -197,7 +204,7 @@ func (im *IdentityManager) unlock(userID string) *IdentitySession {
 	} else {
 		// Create new session
 		// TODO: In real implementation, create or retrieve XX identity here
-		xxIdentityID := fmt.Sprintf("xx-id-%s-%d", userID[:8], now.UnixNano())
+		xxIdentityID := fmt.Sprintf("xx-id-%s-%d", safeUserPrefix(userID), now.UnixNano())
 
 		session = &IdentitySession{
 			UserID:       userID,
