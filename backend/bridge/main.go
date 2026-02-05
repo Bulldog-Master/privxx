@@ -1106,7 +1106,6 @@ func main() {
 		log.Printf("WARNING: Running in development mode (all origins allowed)")
 	}
 
-	log.Printf("NOTE: xxDK integration is simulated. Replace TODO sections with real xxDK calls.")
 
 	if err := http.ListenAndServe(listenAddr, nil); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
