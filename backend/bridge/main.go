@@ -309,7 +309,6 @@ type RateLimiter struct {
 var rateLimiter = &RateLimiter{
 	entries: make(map[string]*RateLimitEntry),
 	config: RateLimitConfig{
-		MaxAttempts:     10,
 		WindowDuration:  15 * time.Minute,
 		LockoutDuration: 30 * time.Minute,
 	},
