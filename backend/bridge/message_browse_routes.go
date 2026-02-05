@@ -95,23 +95,53 @@ func handleMessageSend(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	proxyJSONPost(w, backendBase()+"/message/send", out)
+	proxyJSONPost(w, backendBase()+"/v1/messages/send", out)
 }
 
 func handleMessageInbox(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
+	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
 
-	since := r.URL.Query().Get("since")
-
-	backendURL := backendBase() + "/message/inbox"
-	if since != "" {
-		backendURL = backendURL + "?since=" + since
+	userID := r.Header.Get("X-User-Id")
+	if userID == "" {
+		http.Error(w, "unauthorized", http.StatusUnauthorized)
+		return
 	}
 
-	proxyJSONGet(w, backendURL)
+	raw, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "invalid_request_body", http.StatusBadRequest)
+		return
+	}
+
+	// Accept either an empty body or a JSON body from the client.
+	// We always enforce v=1 and userId from auth.
+	var m map[string]any
+	if len(bytes.TrimSpace(raw)) > 0 {
+		if err := json.Unmarshal(raw, &m); err != nil {
+			http.Error(w, "invalid_json", http.StatusBadRequest)
+			return
+		}
+	} else {
+		m = make(map[string]any)
+	}
+
+	m["v"] = 1
+	m["userId"] = userID
+	if _, ok := m["conversationId"]; !ok {
+		http.Error(w, "missing_conversation_id", http.StatusBadRequest)
+		return
+	}
+
+	out, err := json.Marshal(m)
+	if err != nil {
+		http.Error(w, "invalid_json", http.StatusBadRequest)
+		return
+	}
+
+	proxyJSONPost(w, backendBase()+"/v1/messages/inbox", out)
 }
 
 // ============================
@@ -130,7 +160,7 @@ func handleBrowsePreview(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	proxyJSONPost(w, backendBase()+"/browse/preview", body)
+	proxyJSONPost(w, backendBase()+"/v1/browse/preview", body)
 }
 
 // ============================
@@ -149,5 +179,5 @@ func handleBrowseFetch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	proxyJSONPost(w, backendBase()+"/browse/fetch", body)
+	proxyJSONPost(w, backendBase()+"/v1/browse/fetch", body)
 }

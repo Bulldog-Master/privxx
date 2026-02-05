@@ -34,6 +34,13 @@ import (
 	"time"
 )
 
+func safeUserPrefix(userID string) string {
+	if len(userID) > 8 {
+		return userID[:8]
+	}
+	return userID
+}
+
 // Canonical origin for production
 const CanonicalOrigin = "https://privxx.app"
 
@@ -197,7 +204,7 @@ func (im *IdentityManager) unlock(userID string) *IdentitySession {
 	} else {
 		// Create new session
 		// TODO: In real implementation, create or retrieve XX identity here
-		xxIdentityID := fmt.Sprintf("xx-id-%s-%d", userID[:8], now.UnixNano())
+		xxIdentityID := fmt.Sprintf("xx-id-%s-%d", safeUserPrefix(userID), now.UnixNano())
 
 		session = &IdentitySession{
 			UserID:       userID,
@@ -267,11 +274,6 @@ func (im *IdentityManager) startCleanupRoutine() {
 }
 
 // JWTClaims represents the user data returned from Supabase /auth/v1/user
-type JWTClaims struct {
-	Sub   string `json:"id"`    // User ID (mapped from "id" in response)
-	Email string `json:"email"` // User email
-	Aud   string `json:"aud"`   // Audience
-}
 
 // SupabaseUserResponse represents the full response from /auth/v1/user
 type SupabaseUserResponse struct {
@@ -474,11 +476,6 @@ func isAllowedOrigin(origin string) bool {
 }
 
 // JWTError response for auth failures
-type JWTError struct {
-	Error   string `json:"error"`
-	Code    string `json:"code"`
-	Message string `json:"message,omitempty"`
-}
 
 // Backend configuration (provided at runtime via environment variables)
 var (
