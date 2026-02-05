@@ -309,7 +309,6 @@ type RateLimiter struct {
 var rateLimiter = &RateLimiter{
 	entries: make(map[string]*RateLimitEntry),
 	config: RateLimitConfig{
-		MaxAttempts:     10,
 		WindowDuration:  15 * time.Minute,
 		LockoutDuration: 30 * time.Minute,
 	},
@@ -1106,7 +1105,6 @@ func main() {
 		log.Printf("WARNING: Running in development mode (all origins allowed)")
 	}
 
-	log.Printf("NOTE: xxDK integration is simulated. Replace TODO sections with real xxDK calls.")
 
 	if err := http.ListenAndServe(listenAddr, nil); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
