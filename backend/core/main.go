@@ -1,3 +1,7 @@
+// NOTE: THIS IS PRODUCTION BACKEND CORE
+// Stub behavior has been permanently removed.
+// DO NOT reintroduce stub startup logic.
+
 package main
 
 import (
@@ -99,7 +103,7 @@ func main() {
 		ReadHeaderTimeout: 5 * time.Second,
 	}
 
-	log.Printf("[BACKEND] stub starting on %s (ttl=%s)", *addr, s.ttl)
+	log.Printf("[BACKEND] backend core starting on %s (ttl=%s)", *addr, s.ttl)
 	log.Fatal(srv.ListenAndServe())
 }
 
