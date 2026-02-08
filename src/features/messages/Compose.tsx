@@ -62,11 +62,18 @@ export function Compose({ conversationId, onOptimistic, onOptimisticRemove }: Co
       });
       setBody("");
       toast.success(t("messageSent", "Message sent"));
-      // Optimistic message stays until real message arrives via polling
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Send failed";
-      setError(msg);
-      toast.error(t("messageSendFailed", "Failed to send message"));
+      // Detect missing messaging endpoints (404 = not wired yet)
+      const is404 = msg.includes("404") || msg.includes("Not Found");
+      const isNetworkFail = msg.includes("Load failed") || msg.includes("Fetch failed") || msg.includes("Network");
+      if (is404 || isNetworkFail) {
+        setError(t("messagingNotAvailable", "Messaging endpoints not live yet — message drafted locally"));
+        toast.info(t("messagingNotAvailableToast", "Messaging not available yet. Your message has been drafted."));
+      } else {
+        setError(msg);
+        toast.error(t("messageSendFailed", "Failed to send message"));
+      }
       // Remove optimistic message on failure
       onOptimisticRemove(optimisticId);
     } finally {
