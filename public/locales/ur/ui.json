@@ -183,7 +183,7 @@
   "statusSecureSubtext": "نجی روٹنگ فعال",
   
   "requestedUrl": "درخواست کردہ URL",
-  "simulatedLatency": "مصنوعی تاخیر",
+  "simulatedLatency": "ٹنل تاخیر",
   
   "privacyDrawerTitle": "Privxx آپ کی حفاظت کیسے کرتا ہے",
   "privacyDrawerIntro": "Privxx میٹا ڈیٹا کی نمائش کو کم کرنے میں مدد کرتا ہے — جیسے IP ایڈریس، مقام اور وقت — جب آپ براؤز کرتے ہیں یا آن لائن تعامل کرتے ہیں۔",
@@ -439,7 +439,7 @@
   "tabBrowser": "براؤزر",
   "tabPayments": "ادائیگیاں",
   "browserUrl": "منزل کا URL",
-  "browserHint": "Privxx ٹنل کے ذریعے روٹ کرنے کے لیے URL درج کریں (پیش نظارہ)۔",
+  "browserHint": "Privxx ٹنل کے ذریعے روٹ کرنے کے لیے URL درج کریں۔",
   "connectThrough": "کے ذریعے منسلک کریں",
   "connectThroughPrivxx": "Privxx کے ذریعے منسلک کریں",
   "disconnect": "منقطع کریں",
@@ -654,7 +654,7 @@
   "tunnelStep1": "cMixx ٹنل شروع ہو رہا ہے...",
   "tunnelStep2": "PQ کلیدوں پر بات چیت ہو رہی ہے...",
   "tunnelStep3": "mixnet کے ذریعے روٹ ہو رہا ہے...",
-  "statusConnected": "منسلک (مصنوعی)",
+  "statusConnected": "منسلک",
   "browserPreviewTitle": "مواد کا پیش نظارہ",
   "browserPreviewNote": "مستقبل کے ورژن میں پراکسی مواد یہاں ظاہر ہوگا۔",
   "browserDemoTitle": "ٹنل ڈیمو",

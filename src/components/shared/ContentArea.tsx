@@ -20,7 +20,7 @@ const ContentArea = ({ url, latency }: ContentAreaProps) => {
           <span className="font-mono">{url}</span>
         </p>
         <p className="text-muted-foreground">
-          <span className="text-foreground font-medium">{t("simulatedLatency")}: </span>
+          <span className="text-foreground font-medium">{t("tunnelLatency")}: </span>
           <span className="font-mono">{latency}ms</span>
         </p>
       </div>

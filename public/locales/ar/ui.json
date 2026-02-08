@@ -183,7 +183,7 @@
   "statusSecureSubtext": "التوجيه الخاص نشط",
   
   "requestedUrl": "الرابط المطلوب",
-  "simulatedLatency": "زمن الاستجابة المحاكى",
+  "simulatedLatency": "زمن استجابة النفق",
   
   "privacyDrawerTitle": "كيف يحميك Privxx",
   "privacyDrawerIntro": "يساعد Privxx على تقليل تعرض البيانات الوصفية — مثل عنوان IP والموقع والتوقيت — عند تصفحك أو تفاعلك عبر الإنترنت.",
@@ -439,7 +439,7 @@
   "tabBrowser": "المتصفح",
   "tabPayments": "المدفوعات",
   "browserUrl": "عنوان URL الوجهة",
-  "browserHint": "أدخل عنوان URL للتوجيه عبر نفق Privxx (معاينة).",
+  "browserHint": "أدخل عنوان URL للتوجيه عبر نفق Privxx.",
   "connectThrough": "الاتصال عبر",
   "connectThroughPrivxx": "الاتصال عبر Privxx",
   "disconnect": "قطع الاتصال",
@@ -654,7 +654,7 @@
   "tunnelStep1": "جاري تهيئة نفق cMixx...",
   "tunnelStep2": "جاري التفاوض على مفاتيح PQ...",
   "tunnelStep3": "جاري التوجيه عبر mixnet...",
-  "statusConnected": "متصل (محاكى)",
+  "statusConnected": "متصل",
   "browserPreviewTitle": "معاينة المحتوى",
   "browserPreviewNote": "سيظهر المحتوى المُوَكَّل هنا في إصدار مستقبلي.",
   "browserDemoTitle": "عرض النفق",

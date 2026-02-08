@@ -183,7 +183,7 @@
   "statusSecureSubtext": "Prywatne trasowanie aktywne",
   
   "requestedUrl": "Żądany URL",
-  "simulatedLatency": "Symulowane opóźnienie",
+  "simulatedLatency": "Opóźnienie tunelu",
   
   "privacyDrawerTitle": "Jak Privxx Cię chroni",
   "privacyDrawerIntro": "Privxx pomaga zmniejszyć ekspozycję metadanych — takich jak adres IP, lokalizacja i timing — podczas przeglądania lub interakcji online.",
@@ -429,7 +429,7 @@
   "tabBrowser": "Przeglądarka",
   "tabPayments": "Płatności",
   "browserUrl": "URL Docelowy",
-  "browserHint": "Wprowadź URL do trasowania przez tunel Privxx (Podgląd).",
+  "browserHint": "Wprowadź URL do trasowania przez tunel Privxx.",
   "connectThrough": "Połącz przez",
   "connectThroughPrivxx": "Połącz przez Privxx",
   "disconnect": "Rozłącz",
@@ -437,7 +437,7 @@
   "tunnelStep1": "Inicjalizacja tunelu cMixx...",
   "tunnelStep2": "Negocjacja kluczy PQ...",
   "tunnelStep3": "Trasowanie przez mixnet...",
-  "statusConnected": "Połączono (symulowane)",
+  "statusConnected": "Połączono",
   "tunnelConnecting": "Trasowanie przez mixnet…",
   "tunnelConnected": "Tunel Aktywny",
   "tunnelLatency": "Opóźnienie",

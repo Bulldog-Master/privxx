@@ -183,7 +183,7 @@
   "statusSecureSubtext": "개인 라우팅 활성화됨",
   
   "requestedUrl": "요청된 URL",
-  "simulatedLatency": "시뮬레이션 지연",
+  "simulatedLatency": "터널 지연",
   
   "privacyDrawerTitle": "Privxx가 당신을 보호하는 방법",
   "privacyDrawerIntro": "Privxx는 브라우징하거나 온라인에서 상호작용할 때 IP 주소, 위치, 타이밍과 같은 메타데이터 노출을 줄이는 데 도움을 줍니다.",
@@ -439,7 +439,7 @@
   "tabBrowser": "브라우저",
   "tabPayments": "결제",
   "browserUrl": "대상 URL",
-  "browserHint": "Privxx 터널을 통해 라우팅할 URL을 입력하세요 (미리보기).",
+  "browserHint": "Privxx 터널을 통해 라우팅할 URL을 입력하세요.",
   "connectThrough": "를 통해 연결",
   "connectThroughPrivxx": "Privxx를 통해 연결",
   "disconnect": "연결 해제",
@@ -654,7 +654,7 @@
   "tunnelStep1": "cMixx 터널 초기화 중...",
   "tunnelStep2": "PQ 키 협상 중...",
   "tunnelStep3": "믹스넷을 통해 라우팅 중...",
-  "statusConnected": "연결됨 (시뮬레이션)",
+  "statusConnected": "연결됨",
   "browserPreviewTitle": "콘텐츠 미리보기",
   "browserPreviewNote": "프록시 콘텐츠는 향후 버전에서 여기에 표시됩니다.",
   "browserDemoTitle": "터널 데모",

@@ -183,7 +183,7 @@
   "statusSecureSubtext": "Privates Routing aktiv",
   
   "requestedUrl": "Angeforderte URL",
-  "simulatedLatency": "Simulierte Latenz",
+  "simulatedLatency": "Tunnel-Latenz",
   
   "privacyDrawerTitle": "Wie Privxx Sie schützt",
   "privacyDrawerIntro": "Privxx hilft, die Exposition von Metadaten — wie IP-Adresse, Standort und Timing — zu reduzieren, wenn Sie surfen oder online interagieren.",
@@ -509,7 +509,7 @@
   "tunnelStep1": "Initialisiere cMixx-Tunnel...",
   "tunnelStep2": "Verhandle PQ-Schlüssel...",
   "tunnelStep3": "Routing über Mixnet...",
-  "statusConnected": "Verbunden (simuliert)",
+  "statusConnected": "Verbunden",
   "tunnelConnecting": "Routing über Mixnet…",
   "tunnelConnected": "Tunnel Aktiv",
   "tunnelLatency": "Latenz",
@@ -527,7 +527,7 @@
   "tabBrowser": "Browser",
   "tabPayments": "Zahlungen",
   "browserUrl": "Ziel-URL",
-  "browserHint": "Geben Sie eine URL ein, um sie durch den Privxx-Tunnel zu leiten (Vorschau).",
+  "browserHint": "Geben Sie eine URL ein, um sie durch den Privxx-Tunnel zu leiten.",
   "connectThrough": "Verbinden über",
   "connectThroughPrivxx": "Verbinden über Privxx",
   "disconnect": "Trennen",

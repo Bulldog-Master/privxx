@@ -183,7 +183,7 @@
   "statusSecureSubtext": "ניתוב פרטי פעיל",
   
   "requestedUrl": "כתובת מבוקשת",
-  "simulatedLatency": "השהיה מדומה",
+  "simulatedLatency": "השהיית מנהרה",
   
   "privacyDrawerTitle": "כיצד Privxx מגן עליך",
   "privacyDrawerIntro": "Privxx מסייע בהפחתת חשיפת מטא-נתונים — כגון כתובת IP, מיקום ותזמון — כאשר אתה גולש או מתקשר באינטרנט.",
@@ -429,7 +429,7 @@
   "tabBrowser": "דפדפן",
   "tabPayments": "תשלומים",
   "browserUrl": "כתובת יעד",
-  "browserHint": "הזן כתובת URL לניתוב דרך מנהרת Privxx (תצוגה מקדימה).",
+  "browserHint": "הזן כתובת URL לניתוב דרך מנהרת Privxx.",
   "connectThrough": "התחבר דרך",
   "connectThroughPrivxx": "התחבר דרך Privxx",
   "disconnect": "נתק",
@@ -437,7 +437,7 @@
   "tunnelStep1": "מאתחל מנהרת cMixx...",
   "tunnelStep2": "מנהל משא ומתן על מפתחות PQ...",
   "tunnelStep3": "מנתב דרך mixnet...",
-  "statusConnected": "מחובר (מדומה)",
+  "statusConnected": "מחובר",
   "tunnelConnecting": "מנתב דרך mixnet…",
   "tunnelConnected": "מנהרה פעילה",
   "tunnelLatency": "השהיה",

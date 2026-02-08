@@ -183,7 +183,7 @@
   "statusSecureSubtext": "Roteamento privado ativo",
   
   "requestedUrl": "URL solicitada",
-  "simulatedLatency": "Latência simulada",
+  "simulatedLatency": "Latência do túnel",
   
   "privacyDrawerTitle": "Como o Privxx te protege",
   "privacyDrawerIntro": "O Privxx ajuda a reduzir a exposição de metadados — como endereço IP, localização e tempo — quando você navega ou interage online.",
@@ -439,7 +439,7 @@
   "tabBrowser": "Navegador",
   "tabPayments": "Pagamentos",
   "browserUrl": "URL de destino",
-  "browserHint": "Digite uma URL para rotear pelo túnel Privxx (Prévia).",
+  "browserHint": "Digite uma URL para rotear pelo túnel Privxx.",
   "connectThrough": "Conectar via",
   "connectThroughPrivxx": "Conectar via Privxx",
   "disconnect": "Desconectar",
@@ -654,7 +654,7 @@
   "tunnelStep1": "Inicializando túnel cMixx...",
   "tunnelStep2": "Negociando chaves PQ...",
   "tunnelStep3": "Roteando pela mixnet...",
-  "statusConnected": "Conectado (simulado)",
+  "statusConnected": "Conectado",
   "browserPreviewTitle": "Prévia do Conteúdo",
   "browserPreviewNote": "O conteúdo do proxy aparecerá aqui em uma versão futura.",
   "browserDemoTitle": "Demo do Túnel",
