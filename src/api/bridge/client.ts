@@ -574,13 +574,6 @@ export class BridgeClient implements IBridgeClient {
     });
   }
 
-  // Legacy method (deprecated)
-  /** @deprecated Use fetchInbox instead */
-  async getInbox(): Promise<Message[]> {
-    const res = await this.request<{ messages: Message[] }>("/messages/inbox");
-    return res.messages;
-  }
-
 }
 
 // Re-export types

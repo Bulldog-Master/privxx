@@ -9,7 +9,6 @@ import type {
   UnlockStatusResponse,
   UnlockResponse,
   LockResponse,
-  Message,
   IBridgeClient,
   HealthResponse,
   ConnectAck,
@@ -26,7 +25,6 @@ function sleep(ms: number): Promise<void> {
 
 export class MockBridgeClient implements IBridgeClient {
   private mockMessages: MessageItem[] = [];
-  private legacyMessages: Message[] = [];
   private locked = true;
   private unlockExpiresAt: string | null = null;
   private connectionState: "idle" | "connecting" | "secure" = "idle";
@@ -99,15 +97,6 @@ export class MockBridgeClient implements IBridgeClient {
     // Seed realistic test conversations with mixed states
     this.mockMessages = this.seedMockConversations();
     
-    // Also keep legacy messages for backward compat
-    this.legacyMessages = [
-      {
-        from: "system",
-        message: "Welcome to Privxx (demo mode). Your identity is now unlocked.",
-        timestamp: new Date().toISOString(),
-      },
-    ];
-    
     return {
       success: true,
       expiresAt,
@@ -167,7 +156,6 @@ export class MockBridgeClient implements IBridgeClient {
     this.locked = true;
     this.unlockExpiresAt = null;
     this.mockMessages = [];
-    this.legacyMessages = [];
     return { success: true };
   }
 
@@ -279,9 +267,4 @@ export class MockBridgeClient implements IBridgeClient {
     };
   }
 
-  // Legacy method (deprecated)
-  async getInbox(): Promise<Message[]> {
-    await sleep(100);
-    return [...this.legacyMessages];
-  }
 }

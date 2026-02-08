@@ -33,9 +33,6 @@ export {
   useContacts,
 } from "./hooks";
 
-// Legacy hook
-export { useInbox } from "./useInbox";
-
 // Utilities
 export { mergeMessages } from "./merge";
 
