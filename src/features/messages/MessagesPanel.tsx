@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from "react-i18next";
 import { Compose } from "./Compose";
+import { ComposeTab } from "./components/ComposeTab";
 import { useIdentity } from "@/features/identity";
 import { useAuth } from "@/contexts/AuthContext";
 import { PaymentsPanel } from "@/features/payments";
@@ -100,10 +101,7 @@ export function MessagesPanel() {
         </TabsContent>
 
         <TabsContent value="compose" className="mt-0">
-          {/* Compose tab requires selecting a conversation first in Phase-1 */}
-          <div className="p-4 text-center text-sm text-muted-foreground">
-            {t("composeSelectConversation", "Select a conversation from the Inbox to send a message.")}
-          </div>
+          <ComposeTab />
         </TabsContent>
 
         <TabsContent value="browser" className="mt-0">
