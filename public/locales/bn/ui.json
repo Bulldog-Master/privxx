@@ -183,7 +183,7 @@
   "statusSecureSubtext": "প্রাইভেট রাউটিং সক্রিয়",
   
   "requestedUrl": "অনুরোধ করা URL",
-  "simulatedLatency": "সিমুলেটেড বিলম্ব",
+  "simulatedLatency": "টানেল বিলম্ব",
   
   "privacyDrawerTitle": "Privxx কীভাবে আপনাকে রক্ষা করে",
   "privacyDrawerIntro": "Privxx মেটাডেটা এক্সপোজার কমাতে সাহায্য করে — যেমন IP ঠিকানা, অবস্থান এবং সময় — যখন আপনি ব্রাউজ করেন বা অনলাইনে ইন্টারঅ্যাক্ট করেন।",
@@ -429,7 +429,7 @@
   "tabBrowser": "ব্রাউজার",
   "tabPayments": "পেমেন্ট",
   "browserUrl": "গন্তব্য URL",
-  "browserHint": "Privxx টানেলের মাধ্যমে রাউট করতে একটি URL লিখুন (প্রিভিউ)।",
+  "browserHint": "Privxx টানেলের মাধ্যমে রাউট করতে একটি URL লিখুন।",
   "connectThrough": "এর মাধ্যমে সংযুক্ত করুন",
   "connectThroughPrivxx": "Privxx এর মাধ্যমে সংযুক্ত করুন",
   "disconnect": "সংযোগ বিচ্ছিন্ন",
@@ -437,7 +437,7 @@
   "tunnelStep1": "cMixx টানেল শুরু হচ্ছে...",
   "tunnelStep2": "PQ কী নেগোশিয়েট হচ্ছে...",
   "tunnelStep3": "মিক্সনেটে রাউটিং হচ্ছে...",
-  "statusConnected": "সংযুক্ত (সিমুলেটেড)",
+  "statusConnected": "সংযুক্ত",
   "tunnelConnecting": "মিক্সনেটে রাউটিং হচ্ছে…",
   "tunnelConnected": "টানেল সক্রিয়",
   "tunnelLatency": "বিলম্ব",

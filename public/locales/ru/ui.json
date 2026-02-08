@@ -183,7 +183,7 @@
   "statusSecureSubtext": "Приватная маршрутизация активна",
   
   "requestedUrl": "Запрошенный URL",
-  "simulatedLatency": "Симулированная задержка",
+  "simulatedLatency": "Задержка туннеля",
   
   "privacyDrawerTitle": "Как Privxx защищает вас",
   "privacyDrawerIntro": "Privxx помогает снизить раскрытие метаданных — таких как IP-адрес, местоположение и время — когда вы просматриваете или взаимодействуете онлайн.",
@@ -439,7 +439,7 @@
   "tabBrowser": "Браузер",
   "tabPayments": "Платежи",
   "browserUrl": "URL назначения",
-  "browserHint": "Введите URL для маршрутизации через туннель Privxx (Предпросмотр).",
+  "browserHint": "Введите URL для маршрутизации через туннель Privxx.",
   "connectThrough": "Подключиться через",
   "connectThroughPrivxx": "Подключиться через Privxx",
   "disconnect": "Отключить",
@@ -654,7 +654,7 @@
   "tunnelStep1": "Инициализация туннеля cMixx...",
   "tunnelStep2": "Согласование PQ ключей...",
   "tunnelStep3": "Маршрутизация через миксерную сеть...",
-  "statusConnected": "Подключено (симуляция)",
+  "statusConnected": "Подключено",
   "browserPreviewTitle": "Предпросмотр контента",
   "browserPreviewNote": "Прокси-контент появится здесь в будущей версии.",
   "browserDemoTitle": "Демо туннеля",

@@ -183,7 +183,7 @@
   "statusSecureSubtext": "פּריוואַטע רוטינג אַקטיוו",
   
   "requestedUrl": "געבעטענע URL",
-  "simulatedLatency": "סימולירטע לאַטענסי",
+  "simulatedLatency": "טונעל לאַטענסי",
   
   "privacyDrawerTitle": "ווי Privxx באַשיצט אײַך",
   "privacyDrawerIntro": "Privxx העלפֿט רעדוצירן מעטאַדאַטאַ עקספּאָזיציע — ווי IP אַדרעס, לאָקאַציע און טײַמינג — ווען איר בלעטערט אָדער אינטעראַקטירט אָנלײַן.",
@@ -429,7 +429,7 @@
   "tabBrowser": "בלעטערער",
   "tabPayments": "צאָלונגען",
   "browserUrl": "ציל URL",
-  "browserHint": "אײַנגעבן אַ URL צו רוטן דורך דעם Privxx טונעל (פֿאָרויסשויע).",
+  "browserHint": "אײַנגעבן אַ URL צו רוטן דורך דעם Privxx טונעל.",
   "connectThrough": "פֿאַרבינדן דורך",
   "connectThroughPrivxx": "פֿאַרבינדן דורך Privxx",
   "disconnect": "אָפּשיידן",
@@ -437,7 +437,7 @@
   "tunnelStep1": "אינישיאַליזירן cMixx טונעל...",
   "tunnelStep2": "פֿאַרהאַנדלען PQ שליסלען...",
   "tunnelStep3": "רוטן דורך mixnet...",
-  "statusConnected": "פֿאַרבונדן (סימולירט)",
+  "statusConnected": "פֿאַרבונדן",
   "tunnelConnecting": "רוטן דורך mixnet…",
   "tunnelConnected": "טונעל אַקטיוו",
   "tunnelLatency": "לאַטענסי",

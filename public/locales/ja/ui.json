@@ -183,7 +183,7 @@
   "statusSecureSubtext": "プライベートルーティング有効",
   
   "requestedUrl": "リクエストURL",
-  "simulatedLatency": "シミュレート遅延",
+  "simulatedLatency": "トンネル遅延",
   
   "privacyDrawerTitle": "Privxxがあなたを守る方法",
   "privacyDrawerIntro": "Privxxは、ブラウジングやオンラインでのやり取り中に、IPアドレス、位置情報、タイミングなどのメタデータの露出を軽減します。",
@@ -439,7 +439,7 @@
   "tabBrowser": "ブラウザ",
   "tabPayments": "支払い",
   "browserUrl": "宛先URL",
-  "browserHint": "Privxxトンネルを経由するURLを入力してください（プレビュー）。",
+  "browserHint": "Privxxトンネルを経由するURLを入力してください。",
   "connectThrough": "経由で接続",
   "connectThroughPrivxx": "Privxx経由で接続",
   "disconnect": "切断",
@@ -654,7 +654,7 @@
   "tunnelStep1": "cMixxトンネルを初期化中...",
   "tunnelStep2": "PQ鍵をネゴシエーション中...",
   "tunnelStep3": "ミックスネット経由でルーティング中...",
-  "statusConnected": "接続済み（シミュレート）",
+  "statusConnected": "接続済み",
   "browserPreviewTitle": "コンテンツプレビュー",
   "browserPreviewNote": "将来のバージョンでプロキシコンテンツがここに表示されます。",
   "browserDemoTitle": "トンネルデモ",

@@ -183,7 +183,7 @@
   "statusSecureSubtext": "निजी रूटिंग सक्रिय",
   
   "requestedUrl": "अनुरोधित URL",
-  "simulatedLatency": "सिम्युलेटेड विलंबता",
+  "simulatedLatency": "टनल विलंबता",
   
   "privacyDrawerTitle": "Privxx आपकी कैसे रक्षा करता है",
   "privacyDrawerIntro": "Privxx मेटाडेटा एक्सपोज़र को कम करने में मदद करता है — जैसे IP पता, स्थान और समय — जब आप ब्राउज़ करते हैं या ऑनलाइन इंटरैक्ट करते हैं।",
@@ -439,7 +439,7 @@
   "tabBrowser": "ब्राउज़र",
   "tabPayments": "भुगतान",
   "browserUrl": "गंतव्य URL",
-  "browserHint": "Privxx टनल के माध्यम से रूट करने के लिए URL दर्ज करें (पूर्वावलोकन)।",
+  "browserHint": "Privxx टनल के माध्यम से रूट करने के लिए URL दर्ज करें।",
   "connectThrough": "के माध्यम से कनेक्ट करें",
   "connectThroughPrivxx": "Privxx के माध्यम से कनेक्ट करें",
   "disconnect": "डिस्कनेक्ट",
@@ -654,7 +654,7 @@
   "tunnelStep1": "cMixx टनल आरंभ हो रहा है...",
   "tunnelStep2": "PQ कुंजियों का समझौता हो रहा है...",
   "tunnelStep3": "मिक्सनेट के माध्यम से रूटिंग...",
-  "statusConnected": "कनेक्टेड (सिम्युलेटेड)",
+  "statusConnected": "कनेक्टेड",
   "browserPreviewTitle": "सामग्री पूर्वावलोकन",
   "browserPreviewNote": "प्रॉक्सी सामग्री भविष्य के संस्करण में यहाँ दिखाई देगी।",
   "browserDemoTitle": "टनल डेमो",

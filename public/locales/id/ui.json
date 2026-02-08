@@ -183,7 +183,7 @@
   "statusSecureSubtext": "Routing privat aktif",
   
   "requestedUrl": "URL diminta",
-  "simulatedLatency": "Latensi simulasi",
+  "simulatedLatency": "Latensi tunnel",
   
   "privacyDrawerTitle": "Bagaimana Privxx melindungi Anda",
   "privacyDrawerIntro": "Privxx membantu mengurangi paparan metadata — seperti alamat IP, lokasi, dan waktu — saat Anda menjelajah atau berinteraksi online.",
@@ -439,7 +439,7 @@
   "tabBrowser": "Browser",
   "tabPayments": "Pembayaran",
   "browserUrl": "URL Tujuan",
-  "browserHint": "Masukkan URL untuk dirouting melalui tunnel Privxx (Pratinjau).",
+  "browserHint": "Masukkan URL untuk dirouting melalui tunnel Privxx.",
   "connectThrough": "Hubungkan melalui",
   "connectThroughPrivxx": "Hubungkan melalui Privxx",
   "disconnect": "Putuskan",
@@ -654,7 +654,7 @@
   "tunnelStep1": "Menginisialisasi tunnel cMixx...",
   "tunnelStep2": "Menegosiasikan kunci PQ...",
   "tunnelStep3": "Routing melalui mixnet...",
-  "statusConnected": "Terhubung (simulasi)",
+  "statusConnected": "Terhubung",
   "browserPreviewTitle": "Pratinjau Konten",
   "browserPreviewNote": "Konten proxy akan muncul di sini di versi mendatang.",
   "browserDemoTitle": "Demo Tunnel",

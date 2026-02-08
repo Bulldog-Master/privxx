@@ -183,7 +183,7 @@
   "statusSecureSubtext": "Özel yönlendirme aktif",
   
   "requestedUrl": "İstenen URL",
-  "simulatedLatency": "Simüle edilmiş gecikme",
+  "simulatedLatency": "Tünel gecikmesi",
   
   "privacyDrawerTitle": "Privxx sizi nasıl korur",
   "privacyDrawerIntro": "Privxx, gezinirken veya çevrimiçi etkileşimde bulunurken IP adresi, konum ve zamanlama gibi üstveri maruziyetini azaltmaya yardımcı olur.",
@@ -439,7 +439,7 @@
   "tabBrowser": "Tarayıcı",
   "tabPayments": "Ödemeler",
   "browserUrl": "Hedef URL",
-  "browserHint": "Privxx tüneli üzerinden yönlendirmek için bir URL girin (Önizleme).",
+  "browserHint": "Privxx tüneli üzerinden yönlendirmek için bir URL girin.",
   "connectThrough": "Üzerinden bağlan",
   "connectThroughPrivxx": "Privxx üzerinden bağlan",
   "disconnect": "Bağlantıyı kes",
@@ -654,7 +654,7 @@
   "tunnelStep1": "cMixx tüneli başlatılıyor...",
   "tunnelStep2": "PQ anahtarları müzakere ediliyor...",
   "tunnelStep3": "Mixnet üzerinden yönlendiriliyor...",
-  "statusConnected": "Bağlandı (simüle)",
+  "statusConnected": "Bağlandı",
   "browserPreviewTitle": "İçerik Önizlemesi",
   "browserPreviewNote": "Proxy içeriği gelecek bir sürümde burada görünecek.",
   "browserDemoTitle": "Tünel Demosu",

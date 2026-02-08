@@ -183,7 +183,7 @@
   "statusSecureSubtext": "私密路由已启用",
   
   "requestedUrl": "请求的 URL",
-  "simulatedLatency": "模拟延迟",
+  "simulatedLatency": "隧道延迟",
   
   "privacyDrawerTitle": "Privxx 如何保护您",
   "privacyDrawerIntro": "Privxx 帮助减少元数据暴露 — 例如 IP 地址、位置和时间 — 当您浏览或在线互动时。",
@@ -439,7 +439,7 @@
   "tabBrowser": "浏览器",
   "tabPayments": "支付",
   "browserUrl": "目标URL",
-  "browserHint": "输入要通过Privxx隧道路由的URL（预览）。",
+  "browserHint": "输入要通过Privxx隧道路由的URL。",
   "connectThrough": "通过连接",
   "connectThroughPrivxx": "通过Privxx连接",
   "disconnect": "断开连接",
@@ -654,7 +654,7 @@
   "tunnelStep1": "正在初始化 cMixx 隧道...",
   "tunnelStep2": "正在协商 PQ 密钥...",
   "tunnelStep3": "通过混合网络路由...",
-  "statusConnected": "已连接（模拟）",
+  "statusConnected": "已连接",
   "browserPreviewTitle": "内容预览",
   "browserPreviewNote": "代理内容将在未来版本中显示在此处。",
   "browserDemoTitle": "隧道演示",

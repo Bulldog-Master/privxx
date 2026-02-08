@@ -183,7 +183,7 @@
   "statusSecureSubtext": "Privéroutering actief",
   
   "requestedUrl": "Aangevraagde URL",
-  "simulatedLatency": "Gesimuleerde latentie",
+  "simulatedLatency": "Tunnel latentie",
   
   "privacyDrawerTitle": "Hoe Privxx u beschermt",
   "privacyDrawerIntro": "Privxx helpt metadata-blootstelling te verminderen — zoals IP-adres, locatie en timing — wanneer u surft of online interacteert.",
@@ -439,7 +439,7 @@
   "tabBrowser": "Browser",
   "tabPayments": "Betalingen",
   "browserUrl": "Doel-URL",
-  "browserHint": "Voer een URL in om te routeren via de Privxx-tunnel (Voorbeeld).",
+  "browserHint": "Voer een URL in om te routeren via de Privxx-tunnel.",
   "connectThrough": "Verbinden via",
   "connectThroughPrivxx": "Verbinden via Privxx",
   "disconnect": "Verbreken",
@@ -654,7 +654,7 @@
   "tunnelStep1": "cMixx-tunnel initialiseren...",
   "tunnelStep2": "PQ-sleutels onderhandelen...",
   "tunnelStep3": "Routeren via mixnet...",
-  "statusConnected": "Verbonden (gesimuleerd)",
+  "statusConnected": "Verbonden",
   "browserPreviewTitle": "Content Voorbeeld",
   "browserPreviewNote": "Proxy-inhoud verschijnt hier in een toekomstige versie.",
   "browserDemoTitle": "Tunnel Demo",
