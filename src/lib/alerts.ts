@@ -42,7 +42,7 @@ export function vibrate(pattern: keyof typeof VIBRATION_PATTERNS | number[] = "s
       ? pattern 
       : VIBRATION_PATTERNS[pattern];
     
-    navigator.vibrate(vibrationPattern);
+    navigator.vibrate([...vibrationPattern]);
     return true;
   } catch (e) {
     console.debug("[Alert] Vibration failed:", e);
