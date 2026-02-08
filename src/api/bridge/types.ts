@@ -303,8 +303,4 @@ export interface IBridgeClient {
   sendMessage(req: { conversationId: string; plaintextB64: string }): Promise<NewSendMessageResponse>;
   /** POST /message/ack - mark messages as consumed (delivery bookkeeping, NOT read receipts) */
   ackMessages(req: { conversationId: string; envelopeFingerprints: string[] }): Promise<{ acked: number; serverTime?: string }>;
-  
-  // Legacy methods (deprecated)
-  /** @deprecated Use fetchInbox instead */
-  getInbox(): Promise<Message[]>;
 }
