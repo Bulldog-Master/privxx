@@ -55,9 +55,18 @@ export function Compose({ conversationId, onOptimistic, onOptimisticRemove }: Co
     onOptimistic(optimistic);
 
     try {
+      // Resolve real conversationId — "self" means loopback, need to create via bridge first
+      let resolvedConversationId = conversationId;
+      if (conversationId === "self") {
+        const { conversationId: bridgeConvId } = await bridgeClient.createConversation({
+          peerFingerprint: "self",
+        });
+        resolvedConversationId = bridgeConvId;
+      }
+
       // Phase-1 contract: conversationId + plaintextB64 (base64-encoded)
       await bridgeClient.sendMessage({
-        conversationId,
+        conversationId: resolvedConversationId,
         plaintextB64: btoa(body.trim()),
       });
       setBody("");
