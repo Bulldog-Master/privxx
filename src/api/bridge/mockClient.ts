@@ -16,6 +16,7 @@ import type {
   InboxResponse,
   ThreadResponse,
   MessageItem,
+  CreateConversationResponse,
 } from "./types";
 import type { SendMessageResponse, IssueSessionResponse } from "./messageTypes";
 
@@ -159,14 +160,24 @@ export class MockBridgeClient implements IBridgeClient {
     return { success: true };
   }
 
-  // Phase-1 Session and Message endpoints
+  // Phase-1 Conversation + Session + Message endpoints
+
+  /** POST /conversation/create - create or get conversation (idempotent) */
+  async createConversation(req: { peerFingerprint: string; peerRefEncryptedB64?: string }): Promise<CreateConversationResponse> {
+    await sleep(50);
+    return {
+      conversationId: `conv_${req.peerFingerprint.slice(0, 8)}`,
+      serverTime: new Date().toISOString(),
+    };
+  }
 
   /** POST /session/issue - obtain sessionId for messaging operations */
-  async issueSession(req: { purpose: "message_receive" | "message_send"; conversationId: string | null }): Promise<IssueSessionResponse> {
+  async issueSession(req: { purpose: "message_receive" | "message_send"; conversationId?: string }): Promise<IssueSessionResponse> {
     await sleep(50);
     this.sessionCounter++;
     return {
       sessionId: `sess_mock_${req.purpose}_${this.sessionCounter}_${Date.now()}`,
+      purpose: req.purpose,
       serverTime: new Date().toISOString(),
     };
   }
@@ -233,11 +244,10 @@ export class MockBridgeClient implements IBridgeClient {
       }, 500);
     }
     
-    console.debug("[MockBridge] Send:", { conversationId: req.conversationId, messageId });
+    console.debug("[MockBridge] Send:", { conversationId: req.conversationId });
     
     return {
-      messageId,
-      status: "queued",
+      status: "Sent",
       serverTime: new Date().toISOString(),
     };
   }
