@@ -28,8 +28,10 @@ import type {
   ThreadResponse,
   SendMessageRequest,
   ConnectAck,
+  CreateConversationRequest,
+  CreateConversationResponse,
 } from "./types";
-import type { SendMessageResponse as NewSendMessageResponse } from "./messageTypes";
+import type { SendMessageResponse as NewSendMessageResponse, IssueSessionResponse } from "./messageTypes";
 
 // Error types for better handling
 export class BridgeError extends Error {
@@ -477,8 +479,16 @@ export class BridgeClient implements IBridgeClient {
 
   // Messages (Phase-1 contract)
   
+  /** POST /conversation/create - create or get conversation (idempotent) */
+  async createConversation(req: CreateConversationRequest): Promise<CreateConversationResponse> {
+    return this.request("/conversation/create", {
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+  }
+
   /** POST /session/issue - obtain sessionId for messaging operations */
-  async issueSession(req: { purpose: "message_receive" | "message_send"; conversationId: string | null }): Promise<{ sessionId: string; serverTime?: string }> {
+  async issueSession(req: { purpose: "message_receive" | "message_send"; conversationId?: string }): Promise<IssueSessionResponse> {
     return this.request("/session/issue", {
       method: "POST",
       body: JSON.stringify(req),
@@ -493,7 +503,6 @@ export class BridgeClient implements IBridgeClient {
     // Issue session for inbox (no conversationId)
     const { sessionId } = await this.issueSession({
       purpose: "message_receive",
-      conversationId: null,
     });
     
     return this.request("/message/inbox", {

@@ -260,6 +260,8 @@ import type {
   IssueSessionRequest,
   IssueSessionResponse,
   SessionPurpose,
+  CreateConversationRequest,
+  CreateConversationResponse,
 } from "./messageTypes";
 
 export type {
@@ -272,6 +274,8 @@ export type {
   IssueSessionRequest,
   IssueSessionResponse,
   SessionPurpose,
+  CreateConversationRequest,
+  CreateConversationResponse,
 };
 
 export interface IBridgeClient {
@@ -289,6 +293,10 @@ export interface IBridgeClient {
   getUnlockStatus(): Promise<UnlockStatusResponse>;
   unlock(password: string): Promise<UnlockResponse>;
   lock(): Promise<LockResponse>;
+  
+  // Conversation (Phase-1 messaging)
+  /** POST /conversation/create - create or get conversation (idempotent) */
+  createConversation(req: CreateConversationRequest): Promise<CreateConversationResponse>;
   
   // Session issuance (Phase-1 messaging)
   /** POST /session/issue - obtain sessionId for messaging operations */

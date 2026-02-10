@@ -2,9 +2,12 @@
  * Privxx Bridge Messaging API Types (Phase-1 Contract)
  * 
  * ARCHITECTURE:
+ * - POST /conversation/create = create/get conversation (idempotent)
  * - POST /session/issue = obtain sessionId for messaging operations
  * - POST /message/inbox = queue view (available-only)
  * - POST /message/thread = history view (includes consumed by default)
+ * - POST /message/send = queue outbound message
+ * - POST /message/ack = delivery bookkeeping
  * 
  * KEY CONCEPTS:
  * - "consumed" is NOT a read receipt — it's internal delivery bookkeeping only
@@ -13,7 +16,34 @@
  * - conversationId is bridge-assigned (do not derive client-side)
  * - Items are returned newest-first
  * - sessionId must be issued via /session/issue (not hardcoded)
+ * - Sessions are short-lived (~15 min); re-issue on invalid_session
  */
+
+// =============================================================================
+// CONVERSATION CREATE (POST /conversation/create)
+// =============================================================================
+
+/**
+ * POST /conversation/create — Request body
+ * 
+ * Idempotent: returns existing conversation if one already exists for the peer.
+ */
+export interface CreateConversationRequest {
+  /** Stable peer fingerprint string */
+  peerFingerprint: string;
+  /** Optional opaque base64 peer reference */
+  peerRefEncryptedB64?: string;
+}
+
+/**
+ * POST /conversation/create — Response
+ */
+export interface CreateConversationResponse {
+  /** Bridge-assigned conversation ID */
+  conversationId: string;
+  /** Server time (ISO 8601) */
+  serverTime: string;
+}
 
 // =============================================================================
 // SESSION ISSUANCE (POST /session/issue)
@@ -24,17 +54,15 @@ export type SessionPurpose = "message_receive" | "message_send";
 /**
  * POST /session/issue — Request body
  * 
- * Obtain a sessionId for messaging operations.
- * 
- * @example For inbox: { purpose: "message_receive", conversationId: null }
+ * @example For inbox: { purpose: "message_receive" }
  * @example For thread: { purpose: "message_receive", conversationId: "conv_123" }
  * @example For send: { purpose: "message_send", conversationId: "conv_123" }
  */
 export interface IssueSessionRequest {
   /** Purpose of the session */
   purpose: SessionPurpose;
-  /** Conversation ID (null for inbox, required for thread/send) */
-  conversationId: string | null;
+  /** Conversation ID (omit for inbox, required for thread/send) */
+  conversationId?: string;
 }
 
 /**
@@ -43,6 +71,8 @@ export interface IssueSessionRequest {
 export interface IssueSessionResponse {
   /** Issued session ID to use in subsequent calls */
   sessionId: string;
+  /** Echoed purpose */
+  purpose?: SessionPurpose;
   /** Server time (ISO 8601) */
   serverTime?: string;
 }
@@ -145,7 +175,7 @@ export interface SendMessageRequest {
   sessionId: string;
   /** Conversation ID (MUST be provided — bridge-assigned, not derived) */
   conversationId: string;
-  /** Plaintext message Base64-encoded (will be encrypted by bridge) */
+  /** Plaintext message Base64-encoded (Phase-1 test mode; transport mocked server-side) */
   plaintextB64: string;
 }
 
@@ -153,10 +183,8 @@ export interface SendMessageRequest {
  * POST /message/send — Response
  */
 export interface SendMessageResponse {
-  /** Message ID assigned by bridge */
-  messageId: string;
-  /** Always "queued" on success */
-  status: "queued";
+  /** Status string from bridge */
+  status: "Sent" | "queued";
   /** Server time (ISO 8601) */
   serverTime?: string;
 }
@@ -184,6 +212,8 @@ export interface AckRequest {
  * POST /message/ack — Response
  */
 export interface AckResponse {
+  /** Status string */
+  status?: "ok";
   /** Number of fingerprints successfully transitioned to consumed */
   acked: number;
   /** Server time (ISO 8601) */
