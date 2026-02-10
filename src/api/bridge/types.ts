@@ -5,7 +5,8 @@
  * - Frontend → Bridge (https://privxx.app) → Backend (private localhost)
  * - All authenticated requests require:
  *   - Authorization: Bearer <SUPABASE_ACCESS_TOKEN>
- *   - apikey: <SUPABASE_ANON_KEY>
+ *   - X-User-Id: <SUPABASE_USER_ID>
+ *   - X-Request-Id: web-<timestamp>-<uuid>
  * 
  * ENDPOINTS:
  * ┌─────────────────────┬────────┬──────────────────────────────────────────┐
