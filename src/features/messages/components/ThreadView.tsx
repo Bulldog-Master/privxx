@@ -221,12 +221,22 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
                 : "bg-primary/10 border border-primary/20"
             )}
           >
-            {/* Encrypted message placeholder */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Lock className="h-3 w-3" />
-              <span className="font-mono text-xs truncate">
-                {t("messages.encryptedPlaceholder", "Encrypted message (Phase-1)")}
-              </span>
+          {/* Message content — decode base64 payload */}
+            <div className="text-sm text-foreground whitespace-pre-wrap break-words">
+              {(() => {
+                try {
+                  return atob(msg.payloadCiphertextB64);
+                } catch {
+                  return (
+                    <span className="flex items-center gap-2 text-muted-foreground">
+                      <Lock className="h-3 w-3" />
+                      <span className="font-mono text-xs">
+                        {t("messages.encryptedPlaceholder", "Encrypted message (Phase-1)")}
+                      </span>
+                    </span>
+                  );
+                }
+              })()}
             </div>
             
             {/* Metadata */}
