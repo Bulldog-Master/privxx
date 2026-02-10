@@ -14,7 +14,7 @@
  * - Automatically attaches Supabase session JWT to all requests
  * - Bridge verifies JWT via Supabase /auth/v1/user endpoint
  * 
- * CANONICAL URL: https://privxx.app (per API contract - the ONLY valid base URL)
+ * CANONICAL URL: https://api.privxx.app (per API contract - the ONLY valid base URL)
  * LOCAL DEV: Override with VITE_BRIDGE_URL for local testing only
  * 
  * Environment Variables:
