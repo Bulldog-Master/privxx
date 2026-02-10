@@ -220,35 +220,14 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
                 : "bg-primary/10 border border-primary/20"
             )}
           >
-          {/* Message content — decode base64 payload */}
+            {/* Message content — Phase-1: encrypted server-side, show placeholder */}
             <div className="text-sm text-foreground whitespace-pre-wrap break-words">
-              {(() => {
-                try {
-                  const decoded = atob(msg.payloadCiphertextB64);
-                  // Bridge may wrap plaintext in an envelope JSON — try to extract
-                  try {
-                    const envelope = JSON.parse(decoded);
-                    // Look for the actual message in common fields
-                    const text = envelope.plaintext ?? envelope.message ?? envelope.body ?? envelope.text ?? envelope.content;
-                    if (typeof text === "string" && text.length > 0) {
-                      // If the extracted text is itself base64, decode it
-                      try { return atob(text); } catch { return text; }
-                    }
-                  } catch {
-                    // Not JSON — raw decoded string IS the message
-                  }
-                  return decoded;
-                } catch {
-                  return (
-                    <span className="flex items-center gap-2 text-muted-foreground">
-                      <Lock className="h-3 w-3" />
-                      <span className="font-mono text-xs">
-                        {t("messages.encryptedPlaceholder", "Encrypted message (Phase-1)")}
-                      </span>
-                    </span>
-                  );
-                }
-              })()}
+              <span className="flex items-center gap-2 text-muted-foreground">
+                <Lock className="h-3 w-3" />
+                <span className="font-mono text-xs">
+                  {t("messages.encryptedPlaceholder", "Encrypted message")}
+                </span>
+              </span>
             </div>
             
             {/* Metadata */}
@@ -259,7 +238,6 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
               <div className="flex items-center gap-2">
                 <span>{formatDate(msg.createdAtUnix)}</span>
                 <span>{formatTime(msg.createdAtUnix)}</span>
-                {/* Phase-1 honest wording: "Delivered" not "Read" */}
                 {msg.state === "consumed" && (
                   <span className="text-xs bg-muted px-1.5 py-0.5 rounded flex items-center gap-1">
                     <CheckCheck className="h-3 w-3" />
