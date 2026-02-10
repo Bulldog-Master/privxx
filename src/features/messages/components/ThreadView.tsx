@@ -224,7 +224,20 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
             <div className="text-sm text-foreground whitespace-pre-wrap break-words">
               {(() => {
                 try {
-                  return atob(msg.payloadCiphertextB64);
+                  const decoded = atob(msg.payloadCiphertextB64);
+                  // Bridge may wrap plaintext in an envelope JSON — try to extract
+                  try {
+                    const envelope = JSON.parse(decoded);
+                    // Look for the actual message in common fields
+                    const text = envelope.plaintext ?? envelope.message ?? envelope.body ?? envelope.text ?? envelope.content;
+                    if (typeof text === "string" && text.length > 0) {
+                      // If the extracted text is itself base64, decode it
+                      try { return atob(text); } catch { return text; }
+                    }
+                  } catch {
+                    // Not JSON — raw decoded string IS the message
+                  }
+                  return decoded;
                 } catch {
                   return (
                     <span className="flex items-center gap-2 text-muted-foreground">
