@@ -129,20 +129,19 @@ export function ThreadView({ conversationId, onMessagesAcked, className }: Threa
     }
   }, [conversationId]);
 
-  // Load thread only when visible + tab is active + not already loaded
+  // Load thread when tab is active + not already loaded
+  // Note: visibility gate removed — it caused a deadlock where loading skeleton
+  // had no containerRef, so IntersectionObserver never fired, so thread never loaded.
   useEffect(() => {
     // Pause when tab is backgrounded
     if (!tabVisible) return;
-    
-    // Wait until element is visible in viewport
-    if (!isVisible) return;
     
     // Only load once per conversation per mount
     if (loadedConvRef.current === conversationId) return;
     
     loadedConvRef.current = conversationId;
     void loadThread();
-  }, [tabVisible, isVisible, conversationId, loadThread]);
+  }, [tabVisible, conversationId, loadThread]);
 
   // Format Unix timestamp to readable time
   const formatTime = (unixSeconds: number): string => {
