@@ -2,7 +2,7 @@
  * Bridge API Types (Production Model)
  * 
  * ARCHITECTURE:
- * - Frontend → Bridge (https://privxx.app) → Backend (private localhost)
+ * - Frontend → Bridge (https://api.privxx.app) → Backend (private localhost)
  * - All authenticated requests require:
  *   - Authorization: Bearer <SUPABASE_ACCESS_TOKEN>
  *   - X-User-Id: <SUPABASE_USER_ID>
